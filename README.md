@@ -1,4 +1,4 @@
-![banner github](https://user-images.githubusercontent.com/15714409/161229901-840f95a3-1619-4801-b4df-a95e5f9b1151.jpg)
+![banner github](https://github.com/aulaenlanube/aulaenlanube/assets/15714409/68f8e060-a3df-47c7-bdb7-fb8c25e34ccb)
 
 
 - 👋 Hola, soy aulaenlanube...

@@ -2,7 +2,7 @@
 
 
 - 👋 Hola, soy aulaenlanube...
-- 👀 Estoy interesado en hacerte aprender a programar...
+- 👀 Me dedico a la docencia en desarrollo de videojuegos y realidad virtual en IES LLuís Simarro de Xàtiva. Tengo un canal de YouTube donde subo contenido de los módulos que imparto.
 - 🌱 Actualmente estoy mejorando mis habilidades en el desarrollo de videojuegos. Patrones, arquitecturas limpias, optimización de GPU, shaders, bebugging a nivel de memoria, etc.
 - 📫 Si quieres saber más cosas sobre mí, puedes consultar mi web más personal https://edutorregrosa.com/
 
@@ -13,4 +13,3 @@
 - https://aulaenlanube.com/
 - https://insignias.org/
 
-👾 'El código no es solo código. Es una forma de arte que desafía la lógica y la creatividad'. 

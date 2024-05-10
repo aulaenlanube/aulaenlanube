@@ -10,7 +10,6 @@
 - https://www.youtube.com/aulaenlanube/c
 
 ## 💚 Mis otras webs:
-- https://edutorregrosa.com/
 - https://aulaenlanube.com/
 - https://insignias.org/
 

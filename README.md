@@ -14,6 +14,7 @@
 ## 💚 Mis otras webs:
 - https://aulaenlanube.com/
 - https://ia-para-docentes.com/
+- https://apps-educativas.com/
 - https://pepezgames.com/
 - https://insignias.org/
 

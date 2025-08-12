@@ -3,7 +3,7 @@
 
 - 👋 Hola, soy Edu Torregrosa ...
 - 👀 Me dedico a la docencia en desarrollo de videojuegos y realidad virtual en IES LLuís Simarro de Xàtiva. Tengo un canal de YouTube donde subo todo tipo de contenido relacionado con la programación, la IA y el desarrollo de videojuegos.
-- 🌱 Actualmente estoy mejorando mis habilidades en el desarrollo de videojuegos, patrones, arquitecturas limpias, optimización de GPU, shaders, debugging a nivel de memoria, etc.
+- 🌱 Actualmente estoy enfocado en mi nuevo canal de Youtube y en un proyecto de aplicaciones educativas: https://apps-educativas.com/
 - 📫 Si quieres saber más cosas sobre mí, puedes consultar mi web más personal https://edutorregrosa.com/
 
 ## ❤ Mis canales de YouTube:

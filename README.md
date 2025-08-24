@@ -34,8 +34,8 @@
 
 ## 📫 Contacto
 - 🌍 Instagram: [@edutorregrosa](https://www.instagram.com/edutorregrosa)  
-- 🐦 Twitter / X: [@edutorregrosa](https://x.com/_edu_torregrosa)  
-- 💼 LinkedIn: [Edu Torregrosa](https://www.linkedin.com/in/edu-torregrosa-llacer/)  
+- 🐦 Twitter / X: [@_edu_torregrosa](https://x.com/_edu_torregrosa)  
+- 💼 LinkedIn: [edu-torregrosa-llacer](https://www.linkedin.com/in/edu-torregrosa-llacer/)  
 
 ---
 

@@ -1,20 +1,42 @@
 ![banner github](https://github.com/aulaenlanube/aulaenlanube/assets/15714409/68f8e060-a3df-47c7-bdb7-fb8c25e34ccb)
 
+# 👋 Hola, soy **Edu Torregrosa**
 
-- 👋 Hola, soy Edu Torregrosa ...
-- 👀 Me dedico a la docencia en desarrollo de videojuegos y realidad virtual en IES LLuís Simarro de Xàtiva. Tengo un canal de YouTube donde subo todo tipo de contenido relacionado con la programación, la IA y el desarrollo de videojuegos.
-- 🌱 Actualmente estoy enfocado en mi nuevo canal de Youtube y en un proyecto de aplicaciones educativas: https://apps-educativas.com/
-- 📫 Si quieres saber más cosas sobre mí, puedes consultar mi web más personal https://edutorregrosa.com/
+🎓 Profesor de desarrollo de videojuegos y realidad virtual en el **IES Lluís Simarro de Xàtiva (València)**.  
+💻 Apasionado de la programación, la IA aplicada a la educación y la creación de contenido didáctico.  
+📹 Creador de varios canales de YouTube donde comparto tutoriales, proyectos y recursos para docentes y desarrolladores.  
 
-## ❤ Mis canales de YouTube:
-- Aula en la nube: https://www.youtube.com/@aulaenlanube
-- PEPEZ Games: https://www.youtube.com/@pepezgames
-- IA para docentes: https://www.youtube.com/@ia-para-docentes
+---
 
-## 💚 Mis otras webs:
-- https://aulaenlanube.com/
-- https://ia-para-docentes.com/
-- https://apps-educativas.com/
-- https://pepezgames.com/
-- https://insignias.org/
+## 📌 Actualmente
+- 🎥 Enfocado en mi nuevo canal de YouTube **IA para docentes**  
+- 🧩 Desarrollando el proyecto [**Apps Educativas**](https://apps-educativas.com/), con juegos interactivos para primaria y secundaria  
+- 🌍 Explorando el potencial de la IA en la educación  
 
+---
+
+## ❤ Mis canales de YouTube
+- [📺 Aula en la nube](https://www.youtube.com/@aulaenlanube) → Tutoriales de programación, informática y desarrollo de videojuegos  
+- [🤖 IA para docentes](https://www.youtube.com/@ia-para-docentes) → Cómo aplicar la IA en la enseñanza
+- [🎮 PEPEZ Games](https://www.youtube.com/@pepezgames) → Videojuego indie aplicado al mundo cripto y de las memecoins en particular 
+
+---
+
+## 💚 Mis webs y proyectos
+- 🌐 [Mi web personal](https://edutorregrosa.com/)
+- 🌐 [Aula en la nube](https://aulaenlanube.com/)  
+- 🌐 [IA para docentes](https://ia-para-docentes.com/)  
+- 🌐 [Apps Educativas](https://apps-educativas.com/)  
+- 🌐 [PEPEZ Games](https://pepezgames.com/)  
+- 🌐 [Insignias](https://insignias.org/)  
+
+---
+
+## 📫 Contacto
+- 🌍 Instagram: [@edutorregrosa](https://www.instagram.com/edutorregrosa)  
+- 🐦 Twitter / X: [@edutorregrosa](https://x.com/_edu_torregrosa)  
+- 💼 LinkedIn: [Edu Torregrosa](https://www.linkedin.com/in/edu-torregrosa-llacer/)  
+
+---
+
+✨ _"La mejor forma de aprender es crear y compartir conocimiento."_  

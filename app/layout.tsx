@@ -95,7 +95,8 @@ export default function RootLayout({
           Saltar al contenido
         </a>
 
-        <SiteHeader menu={getMenu()} logo={LOGO} />
+        {/* Orden de redes como en la cabecera original: IG, LinkedIn, YouTube, GitHub */}
+        <SiteHeader menu={getMenu()} logo={LOGO} social={[SOCIAL[0], SOCIAL[3], SOCIAL[1], SOCIAL[2]]} />
 
         <main id="main" className="flex-1">{children}</main>
 

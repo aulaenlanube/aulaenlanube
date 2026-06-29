@@ -1,14 +1,18 @@
 import Link from "@/components/Link";
 import SearchBox from "./SearchBox";
+import OposicionesIaBanner from "./OposicionesIaBanner";
 import { getRecentPosts } from "@/lib/content";
 
-// Barra lateral de las páginas de artículo: buscador + "Últimas publicaciones"
-// (posts recientes con su miniatura), como en el WordPress original.
+// Barra lateral de las páginas de artículo: buscador + banner del autor +
+// "Últimas publicaciones" (posts recientes con su miniatura), como en el
+// WordPress original.
 export default function ArticleSidebar({ currentPath }: { currentPath?: string }) {
   const recent = getRecentPosts(6).filter((p) => p.path !== currentPath).slice(0, 5);
   return (
     <div className="space-y-8 lg:sticky lg:top-20">
       <SearchBox />
+
+      <OposicionesIaBanner />
 
       {recent.length > 0 && (
         <div>

@@ -102,6 +102,13 @@ const postByPath = new Map(posts.map((p) => [normKey(p.path), p]));
 const landingByPath = new Map(landings.map((l) => [normKey(l.path), l]));
 const lessonById = new Map(lessons.map((l) => [l.id, l]));
 
+// Mapa ruta → portada (thumb), de cualquier tipo de página.
+const thumbByPath = new Map<string, string>();
+for (const x of [...lessons, ...posts, ...landings]) {
+  if (x.thumb) thumbByPath.set(normKey(x.path), x.thumb);
+}
+const thumbOf = (path: string) => thumbByPath.get(normKey(path));
+
 /* ---------- arbol unificado (para navegacion e indices) ---------- */
 type Kind = "lesson" | "post" | "landing";
 interface Node {
@@ -269,9 +276,12 @@ export interface ArticleEntry {
   intro?: string; cards?: ProductCard[];
   subzones?: { path: string; title: string; image?: string }[];
 }
+export interface CourseCard { path: string; title: string; image?: string }
 export interface CourseIndexEntry {
   kind: "courseIndex"; path: string; title: string; description?: string; image?: string;
   head?: Head; intro?: string; items: { path: string; title: string; videoId?: string; isSection: boolean }[]; parent?: NavLink;
+  // Solo para la portada de cursos (/cursos/): rejillas de portadas + advertencia + FAQ.
+  coursesGrid?: CourseCard[]; otherCourses?: CourseCard[]; advertencia?: string; faqs?: { q: string; a: string }[];
 }
 export interface HomeContent {
   welcomeHtml: string; frikiHtml: string;
@@ -333,6 +343,32 @@ function articleFromLanding(l: Landing): ArticleEntry {
     ...(subzones.length ? { subzones } : {}),
   };
 }
+// FAQ compartida (inicio y /cursos/ usan la misma): se parsea del inicio.
+let _faqs: { q: string; a: string }[] | null = null;
+function sharedFaqs(): { q: string; a: string }[] {
+  if (_faqs) return _faqs;
+  const home = landingByPath.get("/");
+  _faqs = (home && parseHomeContent(home.content)?.faqs) || [];
+  return _faqs;
+}
+// Texto de la caja "ADVERTENCIA" del contenido de /cursos/.
+function parseAdvertencia(content: string): string {
+  const c = (content || "").replace(/\s+/g, " ");
+  const i = c.indexOf("ADVERTENCIA");
+  if (i < 0) return "";
+  const rest = c.slice(i + "ADVERTENCIA".length);
+  const end = rest.search(/<button|Descartar|Preguntas frecuentes/i);
+  return stripHtml(end > 0 ? rest.slice(0, end) : rest).trim();
+}
+// "Otros cursos" = subgrupo "Otros cursos" del menú, con su portada.
+function otherCoursesList(): CourseCard[] {
+  const cursos = menu.find((m) => /^cursos$/i.test(m.title));
+  const otros = cursos?.children?.find((c) => /otros cursos/i.test(c.title));
+  return (otros?.children ?? [])
+    .filter((k) => k.url)
+    .map((k) => ({ path: k.url, title: k.title, image: thumbOf(k.url) }));
+}
+
 function courseIndexEntry(l: Landing): CourseIndexEntry {
   const node = nodeById.get(l.id)!;
   const kids = childrenOf(l.id);
@@ -341,10 +377,21 @@ function courseIndexEntry(l: Landing): CourseIndexEntry {
     return { path: k.path, title: k.title, videoId: les?.videoId, isSection: childrenOf(k.id).length > 0 };
   });
   const intro = l.yoastDesc || (l.elementorTexts[0] ? stripHtml(l.elementorTexts[0]) : "");
+  // La portada de cursos (/cursos/) se maqueta como el original: rejilla de
+  // portadas propias + "Otros cursos" + advertencia + FAQ.
+  const isCursos = normKey(l.path) === normKey("/cursos/");
   return {
     kind: "courseIndex", path: l.path, title: l.title,
     description: l.yoastDesc || clip(intro || l.title), image: l.thumb || undefined,
     head: headByPath.get(l.path), intro: intro || undefined, items, parent: parentLinkOf(node),
+    ...(isCursos
+      ? {
+          coursesGrid: kids.map((k) => ({ path: k.path, title: k.title, image: thumbOf(k.path) })),
+          otherCourses: otherCoursesList(),
+          advertencia: parseAdvertencia(l.content),
+          faqs: sharedFaqs(),
+        }
+      : {}),
   };
 }
 const landingById = new Map(landings.map((x) => [x.id, x]));

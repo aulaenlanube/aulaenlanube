@@ -171,26 +171,97 @@ const CITE_HOST =
   /^(?:https?:\/\/)?(?:www\.)?(?:[a-z0-9-]+\.)+(?:com|org|net|es|io|dev|ai|edu|gov|co|info|tv|me|news|tech|app|gg|xyz)(?:[/?#][^\s]*)?$/i;
 const WORD = "A-Za-z0-9áéíóúüñçÁÉÍÓÚÜÑÇ";
 // Sentinels en el Área de Uso Privado Unicode: jamás aparecen en el contenido.
+// (Se localizan con indexOf, no dentro de regex, para evitar rarezas del motor.)
 const CS = "";
 const CE = "";
+// Fronteras de "ámbito" de una cita: la frase-ancla no las cruza.
+const CITE_BOUNDARY = /[<>.,;:!?()[\]{}«»¿¡–—"“”…]/;
+// Conectores que pueden ir dentro de un término ("ATI Radeon", "GeForce de la serie").
+const CITE_JOIN = new Set(["de", "del", "la", "el", "los", "las", "y", "e", "o", "con", "para"]);
+// Palabras vacías: por sí solas no merecen ser el ancla de una cita.
+const CITE_STOP = new Set([
+  "de","del","la","las","el","los","y","e","o","u","con","para","por","en","a","al","un","una",
+  "su","sus","que","como","más","muy","solo","sólo","ya","fue","son","era","ser","han","ha","se",
+  "lo","le","les","este","esta","esto","ese","esa","sobre","entre","desde","hasta","cada","tan","menos",
+]);
+// Palabra "significativa": nombre propio, sigla/modelo o con dígitos (términos técnicos).
+function citeIsSig(w: string): boolean {
+  return /^[A-ZÁÉÍÓÚÜÑ]/.test(w) || /^[A-Z0-9]+$/.test(w) || /\d/.test(w);
+}
+// Elige cuántas palabras finales (índice de inicio) forman el ancla del término.
+function pickCiteAnchor(toks: string[]): number {
+  let start = toks.length - 1; // la última palabra siempre va dentro
+  while (start - 1 >= 0) {
+    const prev = toks[start - 1];
+    if (citeIsSig(prev)) { start--; continue; }                                  // racha de nombres/modelos
+    const lp = prev.toLowerCase();
+    if (CITE_JOIN.has(lp) && start - 2 >= 0 && citeIsSig(toks[start - 2])) {       // sig + conector + sig
+      start -= 2; continue;
+    }
+    break;
+  }
+  // Término llano de dos palabras ("shaders unificados", "tiempo real").
+  if (start === toks.length - 1 && start - 1 >= 0) {
+    const prev = toks[start - 1].toLowerCase();
+    if (!citeIsSig(toks[start]) && !CITE_STOP.has(prev)) start--;
+  }
+  if (toks.length - start > 6) start = toks.length - 6;                           // tope de seguridad
+  return start;
+}
+// Índice (en `before`) donde empieza la frase-ancla; -1 si no hay palabra previa.
+function citeAnchorStart(before: string): number {
+  const segStart = before.lastIndexOf(">") + 1; // solo el nodo de texto final (no cruza etiquetas)
+  let clauseStart = segStart;
+  for (let k = before.length - 1; k >= segStart; k--) {
+    if (CITE_BOUNDARY.test(before[k])) { clauseStart = k + 1; break; }
+  }
+  const clause = before.slice(clauseStart);
+  const tokRe = new RegExp("[" + WORD + "]+(?:[-‑/.][" + WORD + "]+)*", "g");
+  const toks: { w: string; i: number }[] = [];
+  let t: RegExpExecArray | null;
+  while ((t = tokRe.exec(clause))) toks.push({ w: t[0], i: t.index });
+  if (!toks.length) return -1;
+  return clauseStart + toks[pickCiteAnchor(toks.map((x) => x.w))].i;
+}
 function tidyCitations(html: string): string {
   if (!html || !html.includes("<a")) return html;
-  // 1) Marca cada enlace-cita con un sentinel que conserva su href.
-  let out = html.replace(/<a\b[^>]*\bhref="([^"]*)"[^>]*>([\s\S]*?)<\/a>/gi, (m, href, inner) =>
+  // 1) Sentinela cada enlace-cita (texto visible = dominio/URL).
+  const s = html.replace(/<a\b[^>]*\bhref="([^"]*)"[^>]*>([\s\S]*?)<\/a>/gi, (m, href, inner) =>
     CITE_HOST.test(inner.replace(/<[^>]+>/g, "").trim()) ? CS + href + CE : m
   );
-  // 2) Colapsa citas consecutivas (solo espacios entre ellas): se queda la 1ª.
-  out = out.replace(new RegExp("(" + CS + "[^" + CE + "]*" + CE + ")(?:\\s*" + CS + "[^" + CE + "]*" + CE + ")+", "g"), "$1");
-  // 3) La cita subraya la palabra anterior (>=2 caracteres).
-  out = out.replace(
-    new RegExp("([" + WORD + "]{2,})(\\s*)" + CS + "([^" + CE + "]*)" + CE, "g"),
-    (_m, word, sp, href) => '<a href="' + href + '" target="_blank" rel="nofollow noopener">' + word + "</a>" + sp
-  );
-  // 4) Citas sin palabra previa (tras etiqueta o signo): marca discreta.
-  out = out.replace(
-    new RegExp(CS + "([^" + CE + "]*)" + CE, "g"),
-    (_m, href) => '<sup class="aeln-cite"><a href="' + href + '" target="_blank" rel="nofollow noopener">↗</a></sup>'
-  );
+  if (!s.includes(CS)) return html;
+  // 2) Procesa cada cita: la frase-ancla previa pasa a ser el enlace; si no hay
+  //    palabra delante, queda una marca discreta «↗». Citas consecutivas (solo
+  //    espacios entre medias) se colapsan en una.
+  const link = (href: string, text: string) =>
+    '<a href="' + href + '" target="_blank" rel="nofollow noopener">' + text + "</a>";
+  let out = "";
+  let i = 0;
+  for (;;) {
+    const a = s.indexOf(CS, i);
+    if (a < 0) { out += s.slice(i); break; }
+    const b0 = s.indexOf(CE, a);
+    if (b0 < 0) { out += s.slice(i); break; }
+    const href = s.slice(a + 1, b0);
+    let j = b0 + 1;
+    for (;;) {
+      let k = j;
+      while (k < s.length && /\s/.test(s[k])) k++;
+      if (s[k] === CS) { const e = s.indexOf(CE, k); if (e < 0) break; j = e + 1; }
+      else break;
+    }
+    const before = s.slice(i, a);
+    const at = citeAnchorStart(before);
+    if (at >= 0) {
+      const tail = before.slice(at);
+      const trail = (tail.match(/\s+$/) || [""])[0];
+      const core = tail.slice(0, tail.length - trail.length);
+      out += before.slice(0, at) + link(href, core) + trail;
+    } else {
+      out += before + '<sup class="aeln-cite">' + link(href, "↗") + "</sup>";
+    }
+    i = j;
+  }
   return out;
 }
 

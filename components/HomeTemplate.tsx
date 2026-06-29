@@ -65,14 +65,14 @@ export default function HomeTemplate({ entry }: { entry: HomeEntry }) {
       {/* Bienvenida (hero oscuro) */}
       <section className="bg-slate-700 text-white">
         <div
-          className="mx-auto max-w-3xl px-4 py-14 text-center text-lg leading-8 text-sky-50 [&_p]:mt-4 [&_p:first-child]:mt-0"
+          className="mx-auto max-w-6xl px-4 py-14 text-center text-lg leading-8 text-sky-50 [&_p]:mt-4 [&_p:first-child]:mt-0"
           dangerouslySetInnerHTML={{ __html: c.welcomeHtml }}
         />
       </section>
 
       {/* Teaser Zona friki */}
       <section className="bg-sky-50">
-        <div className="mx-auto max-w-3xl px-4 py-10 text-center">
+        <div className="mx-auto max-w-6xl px-4 py-10 text-center">
           <div
             className="text-zinc-600 [&_p]:leading-7"
             dangerouslySetInnerHTML={{ __html: c.frikiHtml }}
@@ -102,7 +102,7 @@ export default function HomeTemplate({ entry }: { entry: HomeEntry }) {
       </section>
 
       {/* Programas gratuitos */}
-      <section className="mx-auto max-w-3xl px-4 pb-6">
+      <section className="mx-auto max-w-6xl px-4 pb-6">
         <h2 className="text-center text-3xl font-semibold text-slate-600">Programas gratuitos</h2>
         <div
           className="prose prose-zinc mt-6 max-w-none text-zinc-700 prose-a:text-blue-600"
@@ -130,7 +130,7 @@ export default function HomeTemplate({ entry }: { entry: HomeEntry }) {
       </section>
 
       {/* ¿Dónde está la trampa? + donación */}
-      <section className="mx-auto max-w-3xl px-4 py-14">
+      <section className="mx-auto max-w-6xl px-4 py-14">
         <h2 className="text-center text-3xl font-semibold text-slate-600">{c.trampaTitle}</h2>
         <div
           className="prose prose-zinc mt-6 max-w-none text-zinc-700 prose-a:text-blue-600"
@@ -150,7 +150,7 @@ export default function HomeTemplate({ entry }: { entry: HomeEntry }) {
 
       {/* Otros cursos */}
       <section className="bg-zinc-100 py-14">
-        <div className="mx-auto max-w-3xl px-4 text-center">
+        <div className="mx-auto max-w-6xl px-4 text-center">
           <h2 className="text-3xl font-semibold uppercase tracking-wide text-slate-600">Otros cursos</h2>
           <div
             className="mt-6 text-zinc-600 [&_p]:leading-7"
@@ -164,7 +164,7 @@ export default function HomeTemplate({ entry }: { entry: HomeEntry }) {
 
       {/* Preguntas frecuentes */}
       {c.faqs.length > 0 && (
-        <section className="mx-auto max-w-3xl px-4 py-14">
+        <section className="mx-auto max-w-6xl px-4 py-14">
           <h2 className="text-center text-3xl font-semibold text-slate-600">Preguntas frecuentes</h2>
           <div className="mt-8 divide-y divide-zinc-200 overflow-hidden rounded-xl border border-zinc-200">
             {c.faqs.map((f, i) => (

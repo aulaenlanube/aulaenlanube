@@ -8,7 +8,7 @@ import type { CourseIndexEntry } from "@/lib/content";
 export default function CourseIndexTemplate({ entry }: { entry: CourseIndexEntry }) {
   const crumbs = getBreadcrumbs(entry.path);
   return (
-    <div className="mx-auto w-full max-w-3xl px-4 py-8 sm:py-12">
+    <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:py-12">
       <Breadcrumbs items={crumbs} />
       <h1 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
         {entry.title}

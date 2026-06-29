@@ -175,6 +175,7 @@ export interface LessonEntry {
   kind: "lesson"; path: string; title: string; description?: string; image?: string;
   head?: Head; lesson: Lesson; bodyHtml: string; prev?: NavLink; next?: NavLink; parent?: NavLink;
   siblingCount: number; siblings: { path: string; title: string; videoId?: string }[];
+  courseList: { n: number; path: string; title: string; current: boolean }[];
 }
 export interface ArticleEntry {
   kind: "article"; path: string; title: string; description?: string; image?: string;
@@ -194,15 +195,17 @@ export type Entry = LessonEntry | ArticleEntry | CourseIndexEntry | HomeEntry;
 function lessonEntry(l: Lesson): LessonEntry {
   const node = nodeById.get(l.id)!;
   const { prev, next } = prevNextOf(node);
-  const siblings = childrenOf(node.parent)
+  const kids = childrenOf(node.parent);
+  const siblings = kids
     .filter((s) => s.id !== l.id)
     .map((s) => ({ path: s.path, title: s.title, videoId: lessonById.get(s.id)?.videoId }));
+  const courseList = kids.map((s, i) => ({ n: i + 1, path: s.path, title: s.title, current: s.id === l.id }));
   return {
     kind: "lesson", path: l.path, title: l.title,
     description: l.yoastDesc || clip(l.desc), image: l.thumb || ytThumb(l.videoId),
     head: headByPath.get(l.path), lesson: l, bodyHtml: sanitize(l.desc),
     prev, next, parent: parentLinkOf(node),
-    siblingCount: childrenOf(node.parent).length, siblings,
+    siblingCount: kids.length, siblings, courseList,
   };
 }
 function articleFromPost(p: Post): ArticleEntry {

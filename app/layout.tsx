@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Link from "next/link";
+import SiteHeader from "@/components/SiteHeader";
+import { getMenu } from "@/lib/content";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], display: "swap", variable: "--font-inter" });
@@ -70,26 +72,7 @@ export default function RootLayout({
           Saltar al contenido
         </a>
 
-        <header className="sticky top-0 z-40 border-b border-zinc-200 bg-white/90 backdrop-blur">
-          <div className="mx-auto flex w-full max-w-5xl items-center justify-between px-4 py-3">
-            <Link href="/" aria-label="Inicio" className="flex items-center">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={LOGO} alt="Aula en la nube" className="h-9 w-auto" />
-            </Link>
-            <nav className="flex items-center gap-5 text-sm font-medium text-zinc-600">
-              <Link href="/cursos/" className="hover:text-blue-600">Cursos</Link>
-              <Link href="/zona-programacion/" className="hover:text-blue-600">Programación</Link>
-              <a
-                href="https://www.youtube.com/@aulaenlanube"
-                target="_blank"
-                rel="noopener"
-                className="rounded-full bg-red-600 px-3 py-1.5 text-white transition hover:bg-red-700"
-              >
-                YouTube
-              </a>
-            </nav>
-          </div>
-        </header>
+        <SiteHeader menu={getMenu()} logo={LOGO} />
 
         <main id="main" className="flex-1">{children}</main>
 

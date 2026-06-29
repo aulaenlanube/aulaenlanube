@@ -1,0 +1,61 @@
+[
+  { "title": "Inicio", "url": "/" },
+  { "title": "Cursos", "url": "/cursos/", "children": [
+    { "title": "GOOGLE", "url": "/cursos/curso-google/", "children": [
+      { "title": "Google Apps", "url": "/cursos/curso-aplicaciones-principales-google/" },
+      { "title": "Google Docs", "url": "/cursos/curso-google-documentos/" },
+      { "title": "Google Sheets Básico", "url": "/cursos/curso-google-sheets-basico/" },
+      { "title": "Google Sheets Avanzado", "url": "/cursos/curso-google-sheets-avanzado/" },
+      { "title": "Google Slides", "url": "/cursos/curso-google-slides-presentaciones/" },
+      { "title": "Google Forms", "url": "/cursos/curso-google-forms/" },
+      { "title": "Google Sites", "url": "/cursos/curso-google-sites/" },
+      { "title": "Google Apps Script", "url": "/cursos/curso-google-apps-script/" },
+      { "title": "Google Apps Script Avanzado", "url": "/cursos/curso-google-apps-script-avanzado/" }
+    ]},
+    { "title": "GIMP", "url": "/cursos/curso-gimp/", "children": [
+      { "title": "Básico", "url": "/cursos/curso-gimp-basico/" },
+      { "title": "Intermedio", "url": "/cursos/curso-gimp-intermedio/" },
+      { "title": "Avanzado", "url": "/cursos/curso-gimp-avanzado/" },
+      { "title": "Efectos de texto", "url": "/cursos/curso-gimp-efectos-de-texto/" }
+    ]},
+    { "title": "OBS Studio", "url": "/cursos/mega-curso-obs-studio/" },
+    { "title": "Otros cursos", "url": "", "children": [
+      { "title": "Krita", "url": "/curso-krita/" },
+      { "title": "Inkscape", "url": "/curso-inkscape/" },
+      { "title": "Audacity", "url": "/curso-audacity/" },
+      { "title": "Redes informáticas", "url": "/curso-redes-informaticas/" },
+      { "title": "OBS Studio", "url": "/curso-obs-studio/" },
+      { "title": "Darktable", "url": "/curso-darktable/" },
+      { "title": "Davinci Resolve 15", "url": "/curso-davinci-resolve/" },
+      { "title": "Wordpress", "url": "/curso-wordpress/" },
+      { "title": "Blender", "url": "/curso-blender/" },
+      { "title": "Javascript", "url": "/curso-javascript/" },
+      { "title": "PHP y MySQL", "url": "/curso-php/" },
+      { "title": "JAVA", "url": "/curso-programacion-en-java/" }
+    ]}
+  ]},
+  { "title": "Programación e IA", "url": "/zona-programacion/", "children": [
+    { "title": "JAVA", "url": "/zona-programacion/java/" },
+    { "title": "JAVATutor IA", "url": "/excelencia-simarro-javatutor/web/index.html" },
+    { "title": "PP1-Simarro", "url": "/pp1-simarro/web/index.html" },
+    { "title": "PIAR 2ESO", "url": "/piar/piar2esoapuntes.htm" },
+    { "title": "Cadenas de PROMPTS", "url": "/cadenas-de-prompts/" },
+    { "title": "Semana informática 26", "url": "/simarro-semana-informatica-26/" }
+  ]},
+  { "title": "Zona Hardware", "url": "/hardware/", "children": [
+    { "title": "El mejor Hardware para IA en local", "url": "/el-mejor-hardware-para-ia-en-local/" },
+    { "title": "El microprocesador (CPU)", "url": "/microprocesador-explicacion-definitiva/" },
+    { "title": "Tarjetas Gráficas (GPU)", "url": "/tarjetas-graficas-gpu-de-los-origenes-a-la-era-de-la-ia/" },
+    { "title": "La PLACA BASE", "url": "/la-placa-base-a-fondo-historia-evolucion-y-futuro/" },
+    { "title": "Memoria RAM", "url": "/memoria-ram-la-explicacion-definitiva/" },
+    { "title": "Fuentes de alimentación", "url": "/fuentes-de-alimentacion-para-pc-de-los-inicios-a-las-nuevas-generaciones/" }
+  ]},
+  { "title": "Zona friki", "url": "/zona-friki/", "children": [
+    { "title": "Regalos", "url": "/zona-friki/" },
+    { "title": "Tazas", "url": "/zona-friki/tazas-originales-geeks-frikis-anime/" },
+    { "title": "Funko Pops", "url": "/zona-friki/funko-pops-geeks-frikis-anime-videojuegos/" },
+    { "title": "Camisetas", "url": "/zona-friki/%e2%96%b7-moda-para-geeks-frikis-y-fans-del-anime/" }
+  ]},
+  { "title": "Donaciones", "url": "https://www.paypal.com/donate/?hosted_button_id=BHP6VTDH58YNL", "external": true },
+  { "title": "Quién soy?", "url": "https://edutorregrosa.com/", "external": true }
+]

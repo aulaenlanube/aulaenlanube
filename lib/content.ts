@@ -48,6 +48,12 @@ export function getProducts(limit?: number): Product[] {
   return typeof limit === "number" ? products.slice(0, limit) : products;
 }
 
+// Menú principal (réplica del de WordPress). Tolerante si no existe.
+export interface MenuItem { title: string; url: string; external?: boolean; children?: MenuItem[]; }
+let menu: MenuItem[] = [];
+try { menu = read<MenuItem[]>("menu.json"); } catch { menu = []; }
+export function getMenu(): MenuItem[] { return menu; }
+
 // El <title> del crawl puede traer entidades HTML (&#038;, &#8230;, ...).
 // Las decodificamos para que React no las doble-escape y el título sea fiel.
 function decodeEntities(s: string): string {

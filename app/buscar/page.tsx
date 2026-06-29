@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function BuscarPage() {
   const index = getSearchIndex();
   return (
-    <div className="mx-auto w-full max-w-3xl px-4 py-10 sm:py-12">
+    <div className="mx-auto w-full max-w-6xl px-4 py-10 sm:py-12">
       <h1 className="text-3xl font-bold tracking-tight text-zinc-900">Buscar en la web</h1>
       <Suspense fallback={null}>
         <SearchResults index={index} />

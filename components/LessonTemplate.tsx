@@ -60,8 +60,8 @@ export default function LessonTemplate({ entry }: { entry: LessonEntry }) {
       <Breadcrumbs items={crumbs} />
       <div className={hasSidebar ? "lg:grid lg:grid-cols-[minmax(0,1fr)_18rem] lg:gap-8" : ""}>
         <article className="min-w-0">
-          {/* Sin barra de curso, el contenido se centra (no se va a la izquierda). */}
-          <div className={hasSidebar ? "" : "mx-auto max-w-3xl"}>
+          {/* El contenido ocupa todo el ancho disponible (con o sin barra). */}
+          <div>
             <h1 className="text-2xl font-bold tracking-tight text-zinc-900 sm:text-3xl">{l.title}</h1>
             {entry.parent && (
               <p className="mt-2 text-sm text-zinc-500">

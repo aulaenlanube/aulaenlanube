@@ -24,7 +24,7 @@ export default function ProductGridTemplate({ entry }: { entry: ArticleEntry }) 
 
       {entry.intro && (
         <div
-          className="prose prose-zinc mt-4 max-w-3xl prose-a:text-blue-600"
+          className="prose prose-zinc mt-4 max-w-none prose-a:text-blue-600"
           dangerouslySetInnerHTML={{ __html: entry.intro }}
         />
       )}

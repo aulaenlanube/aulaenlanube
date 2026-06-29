@@ -15,6 +15,7 @@ export default function NewsletterForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [terms, setTerms] = useState(false);
+  const [hp, setHp] = useState(""); // honeypot anti-bots (oculto)
   const [status, setStatus] = useState<Status>("idle");
 
   const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -29,7 +30,7 @@ export default function NewsletterForm() {
         const res = await fetch(ENDPOINT, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name: name.trim(), email: email.trim() }),
+          body: JSON.stringify({ name: name.trim(), email: email.trim(), website: hp }),
         });
         if (!res.ok) throw new Error();
       }
@@ -61,6 +62,16 @@ export default function NewsletterForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+      {/* Honeypot anti-bots: oculto para humanos */}
+      <input
+        type="text"
+        tabIndex={-1}
+        autoComplete="off"
+        value={hp}
+        onChange={(e) => setHp(e.target.value)}
+        className="hidden"
+        aria-hidden="true"
+      />
       <input
         type="text"
         value={name}

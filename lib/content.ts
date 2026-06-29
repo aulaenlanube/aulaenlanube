@@ -166,6 +166,37 @@ function clip(s: string, n = 158): string {
   const t = stripHtml(s);
   return t.length > n ? t.slice(0, n - 1).trimEnd() + "…" : t;
 }
+
+// Las landings "friki" del original eran rejillas Elementor de productos de
+// afiliado: cada ficha = una imagen + un título + un enlace (amzn/amazon) con el
+// texto "VER PRODUCTO". El contenido migrado conserva esa secuencia en plano;
+// aquí la reconstruimos como tarjetas para maquetarla igual que el original.
+const PRODUCT_CARD_RE =
+  /<img[^>]*\bsrc="([^"]+)"[^>]*>([\s\S]*?)<a\s+[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/gi;
+
+// Emojis e iconos SVG decorativos (p.ej. los emoji de WordPress en los títulos)
+// no son imágenes de producto: se descartan antes de emparejar fichas.
+const isDecorativeImg = (src: string) => /emoji|s\.w\.org|\.svg(\?|$)|\/svg\//i.test(src);
+
+function parseProductCards(content: string): { intro: string; cards: ProductCard[] } {
+  const c = (content || "").replace(/<img[^>]*>/gi, (tag) => {
+    const m = tag.match(/\bsrc="([^"]*)"/);
+    return m && isDecorativeImg(m[1]) ? "" : tag;
+  });
+  const first = c.search(/<figure|<img/i);
+  const intro = first > 0 ? sanitize(c.slice(0, first)).trim() : "";
+  const body = first >= 0 ? c.slice(first) : "";
+  const cards: ProductCard[] = [];
+  PRODUCT_CARD_RE.lastIndex = 0;
+  let m: RegExpExecArray | null;
+  while ((m = PRODUCT_CARD_RE.exec(body))) {
+    const href = m[3];
+    if (!/amzn\.to|amazon\./i.test(href)) continue; // solo fichas de afiliado
+    const title = decodeEntities(stripHtml(m[2])).replace(/^▷\s*/, "").trim();
+    cards.push({ src: m[1], title, href });
+  }
+  return { intro, cards };
+}
 function ytThumb(id: string): string {
   return `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
 }
@@ -177,9 +208,12 @@ export interface LessonEntry {
   siblingCount: number; siblings: { path: string; title: string; videoId?: string }[];
   courseList: { n: number; path: string; title: string; current: boolean }[];
 }
+export interface ProductCard { src: string; title: string; href: string; }
 export interface ArticleEntry {
   kind: "article"; path: string; title: string; description?: string; image?: string;
   head?: Head; html: string; date?: string; categories?: { name: string; slug: string }[]; parent?: NavLink;
+  intro?: string; cards?: ProductCard[];
+  subzones?: { path: string; title: string; image?: string }[];
 }
 export interface CourseIndexEntry {
   kind: "courseIndex"; path: string; title: string; description?: string; image?: string;
@@ -221,11 +255,19 @@ function articleFromPost(p: Post): ArticleEntry {
 function articleFromLanding(l: Landing): ArticleEntry {
   const node = nodeById.get(l.id)!;
   const html = sanitize(l.content) || `<p>${l.elementorTexts.join("</p><p>")}</p>`;
+  const { intro, cards } = parseProductCards(l.content);
+  // Subzonas: hijas de la landing (p.ej. /zona-friki/ enlaza tazas/funko/moda).
+  const subzones = childrenOf(l.id).map((k) => ({
+    path: k.path, title: k.title, image: landingById.get(k.id)?.thumb || undefined,
+  }));
   return {
     kind: "article", path: l.path, title: l.title,
     description: l.yoastDesc || clip(l.content || l.elementorTexts.join(" ")),
     image: l.thumb || undefined, head: headByPath.get(l.path), html, date: l.date,
     parent: parentLinkOf(node),
+    // Si hay ≥3 fichas de afiliado, la landing se maqueta como rejilla de productos.
+    ...(cards.length >= 3 ? { intro, cards } : {}),
+    ...(subzones.length ? { subzones } : {}),
   };
 }
 function courseIndexEntry(l: Landing): CourseIndexEntry {
@@ -284,7 +326,14 @@ export function getByPath(p: string): Entry | undefined {
   const post = postByPath.get(k);
   if (post) return articleFromPost(post);
   const land = landingByPath.get(k);
-  if (land) return childrenOf(land.id).length > 0 ? courseIndexEntry(land) : articleFromLanding(land);
+  if (land) {
+    // Con hijos se usa el índice de sección, salvo que sea una landing de
+    // productos (≥3 fichas de afiliado, p.ej. /zona-friki/): entonces, rejilla.
+    if (childrenOf(land.id).length > 0 && parseProductCards(land.content).cards.length < 3) {
+      return courseIndexEntry(land);
+    }
+    return articleFromLanding(land);
+  }
   return undefined;
 }
 

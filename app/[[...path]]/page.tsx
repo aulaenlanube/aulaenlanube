@@ -9,6 +9,7 @@ import {
 } from "@/lib/content";
 import LessonTemplate from "@/components/LessonTemplate";
 import ArticleTemplate from "@/components/ArticleTemplate";
+import ProductGridTemplate from "@/components/ProductGridTemplate";
 import CourseIndexTemplate from "@/components/CourseIndexTemplate";
 import HomeTemplate from "@/components/HomeTemplate";
 
@@ -89,6 +90,10 @@ export default async function Page({ params }: { params: Promise<Params> }) {
     case "courseIndex":
       return <CourseIndexTemplate entry={entry} />;
     case "article":
-      return <ArticleTemplate entry={entry} />;
+      return entry.cards?.length ? (
+        <ProductGridTemplate entry={entry} />
+      ) : (
+        <ArticleTemplate entry={entry} />
+      );
   }
 }

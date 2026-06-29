@@ -279,8 +279,9 @@ export default function SiteHeader({
         </div>
       </div>
 
-      {/* Banner: redes sociales + logo grande (se desplaza al hacer scroll) */}
-      <div className="bg-slate-700 text-white">
+      {/* Banner: redes sociales + logo grande. Solo en escritorio: en móvil la
+          barra superior ya muestra el logo, así que aquí sería redundante. */}
+      <div className="hidden bg-slate-700 text-white lg:block">
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-5 px-4 pb-8 pt-3">
           <SocialRow social={social} />
           <Link href="/" aria-label="Inicio" className="block">

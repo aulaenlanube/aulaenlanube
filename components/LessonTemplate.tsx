@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/Link";
 import YouTubeLite from "./YouTubeLite";
 import Breadcrumbs from "./Breadcrumbs";
 import CourseNav from "./CourseNav";

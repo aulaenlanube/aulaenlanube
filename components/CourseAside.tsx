@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/Link";
 import SearchBox from "./SearchBox";
 import { getLatestCourses } from "@/lib/content";
 import { SOCIAL } from "@/lib/social";

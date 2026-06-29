@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/Link";
 import type { NavLink } from "@/lib/content";
 
 export default function CourseNav({ prev, next }: { prev?: NavLink; next?: NavLink }) {

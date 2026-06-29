@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/Link";
 import type { HomeEntry } from "@/lib/content";
 
 const PAYPAL = "https://www.paypal.com/donate/?hosted_button_id=BHP6VTDH58YNL";

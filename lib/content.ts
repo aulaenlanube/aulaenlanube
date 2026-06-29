@@ -289,6 +289,13 @@ export interface CourseIndexEntry {
   head?: Head; intro?: string; items: { path: string; title: string; videoId?: string; isSection: boolean }[]; parent?: NavLink;
   // Solo para la portada de cursos (/cursos/): rejillas de portadas + advertencia + FAQ.
   coursesGrid?: CourseCard[]; otherCourses?: CourseCard[]; advertencia?: string; faqs?: { q: string; a: string }[];
+  // Landing de sección (p.ej. /zona-programacion/): hero + intro + cursos + aviso + últimas entradas.
+  section?: {
+    heroImage?: string; introHtml: string;
+    coursesTitle: string; courseCards: CourseCard[];
+    notice: string;
+    recentTitle: string; recentPosts: { path: string; title: string; image?: string }[];
+  };
 }
 export interface HomeContent {
   welcomeHtml: string; frikiHtml: string;
@@ -376,6 +383,21 @@ function otherCoursesList(): CourseCard[] {
     .map((k) => ({ path: k.url, title: k.title, image: thumbOf(k.url) }));
 }
 
+// Landing de sección "en construcción" (p.ej. /zona-programacion/): intro + aviso.
+function parseSectionLanding(content: string): { introHtml: string; notice: string } {
+  const c = (content || "").replace(/\s+/g, " ");
+  const iCursos = c.search(/Cursos de programaci[oó]n/i);
+  const introHtml = paraHtml(iCursos > 0 ? c.slice(0, iCursos) : c);
+  let notice = "";
+  const iCons = c.search(/\.\.\.en construcci[oó]n/i);
+  if (iCons >= 0) {
+    const rest = c.slice(iCons).replace(/^\.\.\.en construcci[oó]n/i, "");
+    const end = rest.search(/<button|Descartar|<ins\b|Últimas entradas/i);
+    notice = stripHtml(end > 0 ? rest.slice(0, end) : rest).trim();
+  }
+  return { introHtml, notice };
+}
+
 function courseIndexEntry(l: Landing): CourseIndexEntry {
   const node = nodeById.get(l.id)!;
   const kids = childrenOf(l.id);
@@ -387,6 +409,8 @@ function courseIndexEntry(l: Landing): CourseIndexEntry {
   // La portada de cursos (/cursos/) se maqueta como el original: rejilla de
   // portadas propias + "Otros cursos" + advertencia + FAQ.
   const isCursos = normKey(l.path) === normKey("/cursos/");
+  const isZonaProg = normKey(l.path) === normKey("/zona-programacion/");
+  const sl = isZonaProg ? parseSectionLanding(l.content) : null;
   return {
     kind: "courseIndex", path: l.path, title: l.title,
     description: l.yoastDesc || clip(intro || l.title), image: l.thumb || undefined,
@@ -397,6 +421,19 @@ function courseIndexEntry(l: Landing): CourseIndexEntry {
           otherCourses: otherCoursesList(),
           advertencia: parseAdvertencia(l.content),
           faqs: sharedFaqs(),
+        }
+      : {}),
+    ...(sl
+      ? {
+          section: {
+            heroImage: l.thumb || undefined,
+            introHtml: sl.introHtml,
+            coursesTitle: "Cursos de programación",
+            courseCards: kids.map((k) => ({ path: k.path, title: k.title, image: thumbOf(k.path) })),
+            notice: sl.notice,
+            recentTitle: "Últimas entradas programación",
+            recentPosts: getRecentPosts(6),
+          },
         }
       : {}),
   };

@@ -89,6 +89,63 @@ function CoursesLanding({ entry }: { entry: CourseIndexEntry }) {
   );
 }
 
+// Landing de sección (p.ej. /zona-programacion/): hero + intro + cursos + aviso + últimas entradas.
+function SectionLanding({ entry }: { entry: CourseIndexEntry }) {
+  const s = entry.section!;
+  return (
+    <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:py-10">
+      {s.heroImage && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={s.heroImage} alt="" className="w-full rounded-xl object-cover" />
+      )}
+      <h1 className="mt-8 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">{entry.title}</h1>
+      {s.introHtml && (
+        <div
+          className="prose prose-zinc mt-4 max-w-none text-zinc-700 prose-a:text-blue-600"
+          dangerouslySetInnerHTML={{ __html: s.introHtml }}
+        />
+      )}
+
+      {s.courseCards.length > 0 && (
+        <section className="mt-10">
+          <h2 className="text-2xl font-semibold text-slate-600">{s.coursesTitle}</h2>
+          <div className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3">
+            {s.courseCards.map((c) => (
+              <PortadaCard key={c.path} c={c} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {s.notice && (
+        <div className="mt-8 rounded-lg border border-red-200 bg-red-50 p-6 text-red-800">
+          <h3 className="text-lg font-bold">…en construcción</h3>
+          <p className="mt-2 leading-7">{s.notice}</p>
+        </div>
+      )}
+
+      {s.recentPosts.length > 0 && (
+        <section className="mt-12">
+          <h2 className="text-2xl font-semibold text-slate-600">{s.recentTitle}</h2>
+          <div className="mt-6 grid gap-6 sm:grid-cols-2">
+            {s.recentPosts.map((p) => (
+              <Link key={p.path} href={p.path} className="group block">
+                {p.image ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={p.image} alt="" loading="lazy" className="aspect-video w-full rounded-lg object-cover" />
+                ) : (
+                  <div className="aspect-video w-full rounded-lg bg-gradient-to-br from-sky-500 to-blue-700" />
+                )}
+                <h3 className="mt-2 font-semibold text-blue-700 group-hover:underline">{clean(p.title)}</h3>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+    </div>
+  );
+}
+
 export default function CourseIndexTemplate({ entry }: { entry: CourseIndexEntry }) {
   const crumbs = getBreadcrumbs(entry.path);
 
@@ -97,6 +154,16 @@ export default function CourseIndexTemplate({ entry }: { entry: CourseIndexEntry
     return (
       <>
         <CoursesLanding entry={entry} />
+        <JsonLd data={breadcrumbLd(crumbs)} />
+      </>
+    );
+  }
+
+  // Landing de sección "en construcción" (zona programación).
+  if (entry.section) {
+    return (
+      <>
+        <SectionLanding entry={entry} />
         <JsonLd data={breadcrumbLd(crumbs)} />
       </>
     );

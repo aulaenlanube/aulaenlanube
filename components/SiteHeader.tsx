@@ -138,11 +138,12 @@ export default function SiteHeader({
             ))}
           </nav>
 
-          {/* Barra móvil: logo pequeño + hamburguesa */}
-          <div className="flex items-center justify-between py-2 lg:hidden">
-            <Link href="/" aria-label="Inicio" className="flex items-center">
+          {/* Barra móvil: logo grande + hamburguesa. Altura fija (48px) para que
+              el logo crezca al máximo sin alargar la cabecera. */}
+          <div className="flex h-12 items-center justify-between lg:hidden">
+            <Link href="/" aria-label="Inicio" className="flex h-full items-center">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={logo} alt="Aula en la nube" className="h-8 w-auto" />
+              <img src={logo} alt="Aula en la nube" className="h-11 w-auto" />
             </Link>
             <button
               className="rounded p-2 text-white"

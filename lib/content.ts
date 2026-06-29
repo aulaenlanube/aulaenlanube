@@ -379,6 +379,21 @@ function countDescendants(id: number): number {
   return total;
 }
 
+/* ---------- barra lateral de artículos: últimas publicaciones + búsqueda ---------- */
+export interface RecentPost { path: string; title: string; image?: string }
+export function getRecentPosts(limit = 5): RecentPost[] {
+  return [...posts]
+    .sort((a, b) => String(b.date).localeCompare(String(a.date)))
+    .slice(0, limit)
+    .map((p) => ({ path: p.path, title: decodeEntities(p.title), image: p.thumb || undefined }));
+}
+export interface SearchItem { t: string; p: string }
+export function getSearchIndex(): SearchItem[] {
+  return nodes
+    .filter((n) => n.path !== "/")
+    .map((n) => ({ t: decodeEntities(n.title), p: n.path }));
+}
+
 export function getByPath(p: string): Entry | undefined {
   const k = normKey(p);
   if (k === "/") {

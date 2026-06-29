@@ -177,12 +177,8 @@ export default function SiteHeader({
           open ? "translate-x-0" : "pointer-events-none translate-x-full"
         }`}
       >
-        {/* Cabecera del drawer */}
-        <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
-          <Link href="/" aria-label="Inicio" onClick={() => setOpen(false)}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={logo} alt="Aula en la nube" className="h-9 w-auto" />
-          </Link>
+        {/* Cabecera del drawer: solo el botón de cerrar (sin logo) */}
+        <div className="flex items-center justify-end border-b border-white/10 px-5 py-4">
           <button
             onClick={() => setOpen(false)}
             aria-label="Cerrar menú"

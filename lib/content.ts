@@ -167,6 +167,13 @@ function sanitize(html: string): string {
     .replace(/<script[\s\S]*?<\/script>/gi, "")
     .replace(/<style[\s\S]*?<\/style>/gi, "")
     .replace(/<ins\b[^>]*adsbygoogle[\s\S]*?<\/ins>/gi, "") // quita unidades AdSense
+    // Los emoji de WordPress vienen como <img class="emoji" .../> y, sin el CSS
+    // de WP, se renderizan enormes. Los sustituimos por su carácter unicode (alt).
+    .replace(/<img\b[^>]*>/gi, (tag) =>
+      /class="[^"]*\bemoji\b|s\.w\.org\/images\/core\/emoji|\/emoji\//i.test(tag)
+        ? (tag.match(/\balt="([^"]*)"/)?.[1] ?? "")
+        : tag
+    )
     .replace(/ on[a-z]+="[^"]*"/gi, "");
 }
 function clip(s: string, n = 158): string {

@@ -15,3 +15,15 @@ body {
   color: var(--foreground);
   font-family: var(--font-inter), system-ui, -apple-system, "Segoe UI", sans-serif;
 }
+
+/* Red de seguridad: cualquier emoji-imagen (de WordPress) que se cuele se
+   muestra a tamaño de texto, no enorme. */
+img.emoji,
+img.wp-smiley,
+img[src*="s.w.org/images/core/emoji"] {
+  display: inline-block !important;
+  width: 1.2em !important;
+  height: 1.2em !important;
+  margin: 0 0.05em 0 0.1em !important;
+  vertical-align: -0.2em;
+}

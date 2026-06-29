@@ -48,9 +48,9 @@ export default function CourseAside() {
             rel="noopener"
             aria-label={s.name}
             title={s.name}
-            className="flex h-9 w-9 items-center justify-center rounded-md bg-zinc-100 text-zinc-600 transition hover:bg-blue-600 hover:text-white"
+            className="flex h-9 w-9 items-center justify-center text-zinc-500 transition hover:text-blue-600"
           >
-            <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current" aria-hidden="true">
+            <svg viewBox="0 0 24 24" className="h-6 w-6 fill-current" aria-hidden="true">
               <path d={s.d} />
             </svg>
           </a>

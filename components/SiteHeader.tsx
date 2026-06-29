@@ -38,9 +38,9 @@ function SocialRow({ social, className = "" }: { social: Social[]; className?: s
           rel="noopener"
           aria-label={s.name}
           title={s.name}
-          className="flex h-9 w-9 items-center justify-center rounded-md bg-white/10 text-white transition hover:bg-white/25"
+          className="flex h-9 w-9 items-center justify-center text-white/85 transition hover:text-white"
         >
-          <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current" aria-hidden="true">
+          <svg viewBox="0 0 24 24" className="h-6 w-6 fill-current" aria-hidden="true">
             <path d={s.d} />
           </svg>
         </a>

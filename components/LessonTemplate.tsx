@@ -53,12 +53,15 @@ export default function LessonTemplate({ entry }: { entry: LessonEntry }) {
   const l = entry.lesson;
   const crumbs = getBreadcrumbs(l.path);
 
+  const hasSidebar = entry.courseList.length >= 2;
+
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:py-10">
       <Breadcrumbs items={crumbs} />
-      <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_18rem] lg:gap-8">
+      <div className={hasSidebar ? "lg:grid lg:grid-cols-[minmax(0,1fr)_18rem] lg:gap-8" : ""}>
         <article className="min-w-0">
-          <div className="mx-auto max-w-3xl">
+          {/* Sin barra de curso, el contenido se centra (no se va a la izquierda). */}
+          <div className={hasSidebar ? "" : "mx-auto max-w-3xl"}>
             <h1 className="text-2xl font-bold tracking-tight text-zinc-900 sm:text-3xl">{l.title}</h1>
             {entry.parent && (
               <p className="mt-2 text-sm text-zinc-500">
@@ -81,14 +84,18 @@ export default function LessonTemplate({ entry }: { entry: LessonEntry }) {
             )}
 
             <CourseNav prev={entry.prev} next={entry.next} />
-            <ProductBlock products={getProducts(2)} title="También te puede interesar" compact />
           </div>
         </article>
 
-        <aside className="mt-10 lg:mt-0">
-          <CourseSidebar entry={entry} />
-        </aside>
+        {hasSidebar && (
+          <aside className="mt-10 lg:mt-0">
+            <CourseSidebar entry={entry} />
+          </aside>
+        )}
       </div>
+
+      {/* Proyectos del autor: a todo el ancho para darles protagonismo. */}
+      <ProductBlock products={getProducts(2)} />
 
       <JsonLd data={[videoLd(l), breadcrumbLd(crumbs)]} />
     </div>

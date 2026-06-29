@@ -187,7 +187,8 @@ export interface CourseIndexEntry {
 }
 export interface HomeEntry {
   kind: "home"; path: "/"; title: string; description?: string;
-  hubs: { path: string; title: string; count: number }[];
+  courses: { path: string; title: string; image?: string; count: number }[];
+  sections: { path: string; title: string; image?: string; count: number }[];
   recentPosts: { path: string; title: string; date: string }[];
 }
 export type Entry = LessonEntry | ArticleEntry | CourseIndexEntry | HomeEntry;
@@ -241,12 +242,21 @@ function courseIndexEntry(l: Landing): CourseIndexEntry {
     head: headByPath.get(l.path), intro: intro || undefined, items, parent: parentLinkOf(node),
   };
 }
+const landingById = new Map(landings.map((x) => [x.id, x]));
 function homeEntry(l: Landing): HomeEntry {
-  // hubs = paginas de primer nivel (parent 0) que son indice de curso (tienen hijos)
-  const topLandings = landings.filter((x) => x.parent === 0 && x.path !== "/");
-  const hubs = topLandings
-    .filter((x) => childrenOf(x.id).length > 0)
-    .map((x) => ({ path: x.path, title: x.title, count: countDescendants(x.id) }))
+  // cursos = hijos directos de /cursos/ (con su portada)
+  const cursos = landingByPath.get(normKey("/cursos/"));
+  const courses = cursos
+    ? childrenOf(cursos.id).map((c) => ({
+        path: c.path, title: c.title,
+        image: landingById.get(c.id)?.thumb || undefined,
+        count: countDescendants(c.id),
+      }))
+    : [];
+  // secciones = otras zonas de primer nivel con hijos (Programación, Hardware, Zona friki)
+  const sections = landings
+    .filter((x) => x.parent === 0 && x.path !== "/" && x.path !== "/cursos/" && childrenOf(x.id).length > 0)
+    .map((x) => ({ path: x.path, title: x.title, image: x.thumb || undefined, count: countDescendants(x.id) }))
     .sort((a, b) => b.count - a.count);
   const recentPosts = [...posts]
     .sort((a, b) => b.date.localeCompare(a.date))
@@ -254,7 +264,7 @@ function homeEntry(l: Landing): HomeEntry {
     .map((p) => ({ path: p.path, title: p.title, date: p.date }));
   return {
     kind: "home", path: "/", title: l.title || SITE_NAME,
-    description: headByPath.get("/")?.description || undefined, hubs, recentPosts,
+    description: headByPath.get("/")?.description || undefined, courses, sections, recentPosts,
   };
 }
 function countDescendants(id: number): number {
@@ -267,7 +277,7 @@ export function getByPath(p: string): Entry | undefined {
   const k = normKey(p);
   if (k === "/") {
     const home = landingByPath.get("/");
-    return home ? homeEntry(home) : { kind: "home", path: "/", title: SITE_NAME, hubs: [], recentPosts: [] };
+    return home ? homeEntry(home) : { kind: "home", path: "/", title: SITE_NAME, courses: [], sections: [], recentPosts: [] };
   }
   const les = lessonByPath.get(k);
   if (les) return lessonEntry(les);

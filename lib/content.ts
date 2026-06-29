@@ -286,7 +286,7 @@ export interface ArticleEntry {
 export interface CourseCard { path: string; title: string; image?: string }
 export interface CourseIndexEntry {
   kind: "courseIndex"; path: string; title: string; description?: string; image?: string;
-  head?: Head; intro?: string; items: { path: string; title: string; videoId?: string; isSection: boolean }[]; parent?: NavLink;
+  head?: Head; intro?: string; introHtml?: string; items: { path: string; title: string; videoId?: string; image?: string; isSection: boolean }[]; parent?: NavLink;
   // Solo para la portada de cursos (/cursos/): rejillas de portadas + advertencia + FAQ.
   coursesGrid?: CourseCard[]; otherCourses?: CourseCard[]; advertencia?: string; faqs?: { q: string; a: string }[];
   // Landing de sección (p.ej. /zona-programacion/): hero + intro + cursos + aviso + últimas entradas.
@@ -403,9 +403,10 @@ function courseIndexEntry(l: Landing): CourseIndexEntry {
   const kids = childrenOf(l.id);
   const items = kids.map((k) => {
     const les = lessonById.get(k.id);
-    return { path: k.path, title: k.title, videoId: les?.videoId, isSection: childrenOf(k.id).length > 0 };
+    return { path: k.path, title: k.title, videoId: les?.videoId, image: thumbOf(k.path), isSection: childrenOf(k.id).length > 0 };
   });
   const intro = l.yoastDesc || (l.elementorTexts[0] ? stripHtml(l.elementorTexts[0]) : "");
+  const introHtml = sanitize(l.content) || undefined;
   // La portada de cursos (/cursos/) se maqueta como el original: rejilla de
   // portadas propias + "Otros cursos" + advertencia + FAQ.
   const isCursos = normKey(l.path) === normKey("/cursos/");
@@ -414,7 +415,7 @@ function courseIndexEntry(l: Landing): CourseIndexEntry {
   return {
     kind: "courseIndex", path: l.path, title: l.title,
     description: l.yoastDesc || clip(intro || l.title), image: l.thumb || undefined,
-    head: headByPath.get(l.path), intro: intro || undefined, items, parent: parentLinkOf(node),
+    head: headByPath.get(l.path), intro: intro || undefined, introHtml, items, parent: parentLinkOf(node),
     ...(isCursos
       ? {
           coursesGrid: kids.map((k) => ({ path: k.path, title: k.title, image: thumbOf(k.path) })),
@@ -477,6 +478,17 @@ export function getRecentPosts(limit = 5): RecentPost[] {
     .sort((a, b) => String(b.date).localeCompare(String(a.date)))
     .slice(0, limit)
     .map((p) => ({ path: p.path, title: decodeEntities(p.title), image: p.thumb || undefined }));
+}
+// Cursos recientes (hijos de /cursos/ con portada), para la barra lateral.
+export function getLatestCourses(limit = 4): { path: string; title: string; image?: string }[] {
+  const cursos = landingByPath.get(normKey("/cursos/"));
+  if (!cursos) return [];
+  return childrenOf(cursos.id)
+    .filter((c) => thumbOf(c.path))
+    .slice()
+    .sort((a, b) => String(b.date).localeCompare(String(a.date)))
+    .slice(0, limit)
+    .map((c) => ({ path: c.path, title: c.title, image: thumbOf(c.path) }));
 }
 export interface SearchItem { t: string; p: string }
 export function getSearchIndex(): SearchItem[] {

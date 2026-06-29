@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Breadcrumbs from "./Breadcrumbs";
 import JsonLd from "./JsonLd";
+import CourseAside from "./CourseAside";
 import { getBreadcrumbs } from "@/lib/content";
 import { breadcrumbLd } from "@/lib/seo";
 import type { CourseIndexEntry, CourseCard } from "@/lib/content";
@@ -169,38 +170,62 @@ export default function CourseIndexTemplate({ entry }: { entry: CourseIndexEntry
     );
   }
 
-  // Resto de índices de curso: lista de lecciones (con miniatura de YouTube).
+  // Resto de índices de curso: rejilla de portadas + barra lateral.
+  const allVideos = entry.items.length > 0 && entry.items.every((it) => it.videoId);
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:py-12">
+    <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:py-10">
       <Breadcrumbs items={crumbs} />
-      <h1 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">{entry.title}</h1>
-      {entry.intro && <p className="mt-3 text-zinc-600">{entry.intro}</p>}
-      <p className="mt-2 text-sm text-zinc-400">{entry.items.length} elementos</p>
+      <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_19rem] lg:gap-10">
+        <div className="min-w-0">
+          <h1 className="text-center text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
+            {entry.title}
+          </h1>
+          {entry.introHtml ? (
+            <div
+              className="prose prose-zinc mt-4 max-w-none text-zinc-700 prose-a:text-blue-600"
+              dangerouslySetInnerHTML={{ __html: entry.introHtml }}
+            />
+          ) : entry.intro ? (
+            <p className="mt-4 text-zinc-700">{entry.intro}</p>
+          ) : null}
 
-      <ul className="mt-6 divide-y divide-zinc-200 overflow-hidden rounded-xl border border-zinc-200">
-        {entry.items.map((it) => (
-          <li key={it.path}>
-            <Link href={it.path} className="flex items-center gap-4 p-3 transition hover:bg-zinc-50">
-              {it.videoId ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={`https://i.ytimg.com/vi/${it.videoId}/hqdefault.jpg`}
-                  alt=""
-                  className="h-12 w-20 flex-none rounded object-cover"
-                />
-              ) : (
-                <span className="flex h-12 w-20 flex-none items-center justify-center rounded bg-zinc-100 text-lg">
-                  {it.isSection ? "📚" : "📄"}
-                </span>
-              )}
-              <span className="min-w-0">
-                <span className="block truncate font-medium text-zinc-900">{it.title}</span>
-                {it.isSection && <span className="text-xs text-zinc-400">Sección</span>}
-              </span>
-            </Link>
-          </li>
-        ))}
-      </ul>
+          <h2 className="mt-8 text-center text-2xl font-semibold text-slate-600">
+            {allVideos ? "El curso se divide en los siguientes vídeos" : "Contenido del curso"}
+          </h2>
+
+          <div className="mt-6 grid gap-6 sm:grid-cols-2">
+            {entry.items.map((it, i) => (
+              <div key={it.path}>
+                <Link
+                  href={it.path}
+                  className="group block overflow-hidden rounded-lg ring-1 ring-zinc-200 transition hover:-translate-y-0.5 hover:shadow-lg hover:ring-blue-300"
+                >
+                  {it.image ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={it.image} alt={clean(it.title)} loading="lazy" className="aspect-video w-full object-cover" />
+                  ) : it.videoId ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={`https://i.ytimg.com/vi/${it.videoId}/hqdefault.jpg`} alt={clean(it.title)} loading="lazy" className="aspect-video w-full object-cover" />
+                  ) : (
+                    <div className="flex aspect-video w-full items-center justify-center bg-gradient-to-br from-sky-500 to-blue-700 p-3 text-center font-semibold text-white">
+                      {clean(it.title)}
+                    </div>
+                  )}
+                </Link>
+                <Link href={it.path} className="mt-2 flex items-start gap-1 font-medium text-blue-700 hover:underline">
+                  <span aria-hidden="true">▷</span>
+                  <span>{clean(it.title)}</span>
+                  {it.isSection && <span className="ml-1 text-xs text-zinc-400">(sección)</span>}
+                </Link>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <aside className="mt-12 lg:mt-0">
+          <CourseAside />
+        </aside>
+      </div>
 
       <JsonLd data={breadcrumbLd(crumbs)} />
     </div>

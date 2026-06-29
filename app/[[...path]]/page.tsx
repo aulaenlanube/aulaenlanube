@@ -8,6 +8,7 @@ import {
   SITE_URL,
 } from "@/lib/content";
 import LessonTemplate from "@/components/LessonTemplate";
+import HubTemplate from "@/components/HubTemplate";
 import ArticleTemplate from "@/components/ArticleTemplate";
 import ProductGridTemplate from "@/components/ProductGridTemplate";
 import CourseIndexTemplate from "@/components/CourseIndexTemplate";
@@ -86,7 +87,7 @@ export default async function Page({ params }: { params: Promise<Params> }) {
     case "home":
       return <HomeTemplate entry={entry} />;
     case "lesson":
-      return <LessonTemplate entry={entry} />;
+      return entry.hub ? <HubTemplate entry={entry} /> : <LessonTemplate entry={entry} />;
     case "courseIndex":
       return <CourseIndexTemplate entry={entry} />;
     case "article":

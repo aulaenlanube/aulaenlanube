@@ -174,7 +174,16 @@ function sanitize(html: string): string {
         ? (tag.match(/\balt="([^"]*)"/)?.[1] ?? "")
         : tag
     )
+    // Estilos rotos de Elementor (variables CSS sin valor): sin el CSS de
+    // WordPress dejarían el texto sin formato o, peor, invisible.
+    .replace(/\sstyle="[^"]*(?:var\(|--e-global)[^"]*"/gi, "")
     .replace(/ on[a-z]+="[^"]*"/gi, "");
+}
+
+// URL interna absoluta (https://aulaenlanube.com/...) → relativa, para que las
+// imágenes funcionen igual en staging (/preview-next) y tras el cutover.
+function relUrl(u: string): string {
+  return (u || "").replace(/^https?:\/\/(?:www\.)?aulaenlanube\.com/i, "");
 }
 function clip(s: string, n = 158): string {
   const t = stripHtml(s);
@@ -275,6 +284,9 @@ export interface LessonEntry {
   head?: Head; lesson: Lesson; bodyHtml: string; prev?: NavLink; next?: NavLink; parent?: NavLink;
   siblingCount: number; siblings: { path: string; title: string; videoId?: string }[];
   courseList: { n: number; path: string; title: string; current: boolean }[];
+  // Si la página es un "hub" Elementor (índice de curso con vídeo, slides y
+  // rejillas de tarjetas), sus bloques reconstruidos; si no, ausente.
+  hub?: HubBlock[];
 }
 export interface ProductCard { src: string; title: string; href: string; }
 export interface ArticleEntry {
@@ -284,6 +296,16 @@ export interface ArticleEntry {
   subzones?: { path: string; title: string; image?: string }[];
 }
 export interface CourseCard { path: string; title: string; image?: string }
+// Bloques de una página "hub" (índice de curso tipo Elementor), reconstruidos en
+// orden desde el JSON de Elementor del crawl.
+export type HubBlock =
+  | { t: "image"; src: string; alt: string }
+  | { t: "html"; html: string; boxed: boolean }
+  | { t: "heading"; text: string }
+  | { t: "slides"; url: string }
+  | { t: "video"; videoId: string }
+  | { t: "alert"; title: string; desc: string; variant: string }
+  | { t: "cards"; columns: number; items: CourseCard[] };
 export interface CourseIndexEntry {
   kind: "courseIndex"; path: string; title: string; description?: string; image?: string;
   head?: Head; intro?: string; introHtml?: string; items: { path: string; title: string; videoId?: string; image?: string; isSection: boolean }[]; parent?: NavLink;
@@ -314,6 +336,104 @@ export interface HomeEntry {
 }
 export type Entry = LessonEntry | ArticleEntry | CourseIndexEntry | HomeEntry;
 
+/* ---------- páginas "hub" (índices de curso Elementor) ----------
+   Algunas páginas (p.ej. /zona-programacion/java/) son índices ricos hechos con
+   Elementor: imagen, texto, presentación en Google Slides, vídeo y rejillas de
+   tarjetas que enlazan a las páginas hijas. El contenido plano migrado pierde
+   esos widgets dinámicos; aquí los reconstruimos leyendo el JSON de Elementor
+   del crawl (content.jsonl) para replicar el original 1:1. */
+let _elementor: Map<number, string> | null = null;
+function elementorOf(id: number): string | undefined {
+  if (!_elementor) {
+    _elementor = new Map();
+    try {
+      const raw = fs.readFileSync(path.join(DATA, "content.jsonl"), "utf8");
+      for (const ln of raw.split(/\r?\n/)) {
+        if (!ln.trim()) continue;
+        try {
+          const o = JSON.parse(ln);
+          if (o.id && typeof o.elementor === "string" && o.elementor) _elementor.set(o.id, o.elementor);
+        } catch { /* línea corrupta: se ignora */ }
+      }
+    } catch { /* sin crawl disponible: no habrá hubs */ }
+  }
+  return _elementor.get(id);
+}
+function ytId(url: string): string {
+  return url.match(/(?:youtu\.be\/|[?&]v=|\/embed\/)([\w-]{11})/)?.[1] ?? "";
+}
+function hubCard(id: number): CourseCard | null {
+  const n = nodeById.get(id);
+  return n ? { path: n.path, title: decodeEntities(n.title), image: thumbOf(n.path) } : null;
+}
+function temaNum(t: string): number | null {
+  const m = t.match(/tema\s*(\d+)/i);
+  return m ? parseInt(m[1], 10) : null;
+}
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function parseHubBlocks(id: number): HubBlock[] {
+  const raw = elementorOf(id);
+  // Solo las páginas con widget "posts" (rejillas) se tratan como hub.
+  if (!raw || !raw.includes('"posts"')) return [];
+  let tree: unknown;
+  try { tree = JSON.parse(raw); } catch { return []; }
+  const blocks: HubBlock[] = [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const walk = (el: any): void => {
+    if (Array.isArray(el)) { el.forEach(walk); return; }
+    if (!el || typeof el !== "object") return;
+    const s = el.settings || {};
+    switch (el.widgetType) {
+      case "image":
+        if (s.image?.url) blocks.push({ t: "image", src: relUrl(s.image.url), alt: s.image.alt || "" });
+        break;
+      case "text-editor":
+        if (s.editor && stripHtml(s.editor)) {
+          const html = sanitize(s.editor).trim();
+          blocks.push({ t: "html", html, boxed: /^<(?:ol|ul)\b/i.test(html) });
+        }
+        break;
+      case "heading":
+        if (s.title) blocks.push({ t: "heading", text: decodeEntities(stripHtml(s.title)) });
+        break;
+      case "video": {
+        const v = ytId(s.youtube_url || "");
+        if (v) blocks.push({ t: "video", videoId: v });
+        break;
+      }
+      case "html": {
+        const src = (s.html || "").match(/<iframe[^>]*\bsrc="([^"]+)"/i)?.[1];
+        if (src && /docs\.google|drive\.google/i.test(src)) blocks.push({ t: "slides", url: src });
+        break;
+      }
+      case "alert":
+        blocks.push({
+          t: "alert",
+          title: decodeEntities(stripHtml(s.alert_title || "")),
+          desc: decodeEntities(stripHtml(s.alert_description || "")),
+          variant: s.alert_type || "info",
+        });
+        break;
+      case "posts": {
+        const ids: number[] = (s.posts_posts_ids || [])
+          .map((x: string) => parseInt(x, 10))
+          .filter((n: number) => n > 0);
+        let items = ids.map(hubCard).filter(Boolean) as CourseCard[];
+        // El original muestra los temas ordenados 1..N: si todos llevan "Tema N",
+        // los ordenamos por ese número.
+        if (items.length && items.every((c) => temaNum(c.title) !== null)) {
+          items = [...items].sort((a, b) => temaNum(a.title)! - temaNum(b.title)!);
+        }
+        if (items.length) blocks.push({ t: "cards", columns: parseInt(s.classic_columns, 10) || 2, items });
+        break;
+      }
+    }
+    if (el.elements) walk(el.elements);
+  };
+  walk(tree);
+  return blocks;
+}
+
 function lessonEntry(l: Lesson): LessonEntry {
   const node = nodeById.get(l.id)!;
   const { prev, next } = prevNextOf(node);
@@ -322,12 +442,14 @@ function lessonEntry(l: Lesson): LessonEntry {
     .filter((s) => s.id !== l.id)
     .map((s) => ({ path: s.path, title: s.title, videoId: lessonById.get(s.id)?.videoId }));
   const courseList = kids.map((s, i) => ({ n: i + 1, path: s.path, title: s.title, current: s.id === l.id }));
+  const hub = parseHubBlocks(l.id);
   return {
     kind: "lesson", path: l.path, title: l.title,
     description: l.yoastDesc || clip(l.desc), image: l.thumb || ytThumb(l.videoId),
     head: headByPath.get(l.path), lesson: l, bodyHtml: sanitize(l.desc),
     prev, next, parent: parentLinkOf(node),
     siblingCount: kids.length, siblings, courseList,
+    ...(hub.some((b) => b.t === "cards") ? { hub } : {}),
   };
 }
 function articleFromPost(p: Post): ArticleEntry {

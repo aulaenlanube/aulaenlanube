@@ -197,6 +197,60 @@ function parseProductCards(content: string): { intro: string; cards: ProductCard
   }
   return { intro, cards };
 }
+
+// La home original es una página Elementor con secciones fijas (bienvenida,
+// teaser friki, tarjetas, "programas gratuitos", rejilla de cursos, "¿dónde
+// está la trampa?", "otros cursos" y FAQ). El contenido migrado conserva el
+// texto en plano; aquí lo troceamos por sus titulares conocidos para
+// reconstruir el inicio igual que el original.
+function paraHtml(region: string): string {
+  return [...region.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/gi)]
+    .map((m) => m[1].trim())
+    .filter((t) => stripHtml(t).length > 0)
+    .map((t) => `<p>${sanitize(t)}</p>`)
+    .join("");
+}
+function parseHomeContent(raw: string): HomeContent | undefined {
+  if (!raw) return undefined;
+  const c = raw.replace(/\s+/g, " ");
+  const iH1 = c.indexOf("100% GRATIS");
+  const iProg = c.indexOf("Programas gratuitos");
+  const iCursos = c.indexOf("CURSOS AULAENLANUBE");
+  const iTrampa = c.indexOf("Dónde está la trampa");
+  const iOtros = c.indexOf("OTROS CURSOS");
+  const iFaq = c.indexOf("Preguntas frecuentes");
+  if ([iH1, iProg, iCursos, iTrampa, iOtros, iFaq].some((i) => i < 0)) return undefined;
+
+  // Bienvenida + teaser friki (antes del <h1> "...100% GRATIS").
+  const pre = c.slice(0, c.lastIndexOf("<h1", iH1));
+  const preParas = [...pre.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/gi)]
+    .map((m) => m[1].trim())
+    .filter((t) => stripHtml(t).length > 0);
+  const frikiIdx = preParas.findIndex((t) => /Lo s[eé]/i.test(stripHtml(t)));
+  const wrap = (arr: string[]) => arr.map((t) => `<p>${sanitize(t)}</p>`).join("");
+  const welcomeHtml = wrap(frikiIdx >= 0 ? preParas.slice(0, frikiIdx) : preParas);
+  const frikiHtml = wrap(frikiIdx >= 0 ? preParas.slice(frikiIdx) : []);
+
+  // Tarjetas (h3 + p) entre el h1 y "Programas gratuitos".
+  const features = [...c.slice(iH1, iProg).matchAll(/<h3\b[^>]*>([\s\S]*?)<\/h3>\s*<p\b[^>]*>([\s\S]*?)<\/p>/gi)]
+    .map((m) => ({ title: stripHtml(m[1]), text: stripHtml(m[2]) }));
+
+  const trampaMatch = c.slice(c.lastIndexOf("<h3", iTrampa)).match(/<h3\b[^>]*>([\s\S]*?)<\/h3>/i);
+
+  // FAQ: pares <a tabindex>Pregunta</a> <p>Respuesta</p>.
+  const faqs = [...c.slice(iFaq).matchAll(/<a\b[^>]*tabindex[^>]*>([\s\S]*?)<\/a>\s*<p\b[^>]*>([\s\S]*?)<\/p>/gi)]
+    .map((m) => ({ q: decodeEntities(stripHtml(m[1])), a: sanitize(m[2].trim()) }))
+    .filter((f) => f.q);
+
+  return {
+    welcomeHtml, frikiHtml, features,
+    programasHtml: paraHtml(c.slice(iProg, iCursos)),
+    trampaTitle: trampaMatch ? decodeEntities(stripHtml(trampaMatch[1])) : "¿Dónde está la trampa?",
+    trampaHtml: paraHtml(c.slice(iTrampa, iOtros)),
+    otrosHtml: paraHtml(c.slice(iOtros, iFaq)),
+    faqs,
+  };
+}
 function ytThumb(id: string): string {
   return `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
 }
@@ -219,8 +273,17 @@ export interface CourseIndexEntry {
   kind: "courseIndex"; path: string; title: string; description?: string; image?: string;
   head?: Head; intro?: string; items: { path: string; title: string; videoId?: string; isSection: boolean }[]; parent?: NavLink;
 }
+export interface HomeContent {
+  welcomeHtml: string; frikiHtml: string;
+  features: { title: string; text: string }[];
+  programasHtml: string;
+  trampaTitle: string; trampaHtml: string;
+  otrosHtml: string;
+  faqs: { q: string; a: string }[];
+}
 export interface HomeEntry {
   kind: "home"; path: "/"; title: string; description?: string;
+  content?: HomeContent;
   courses: { path: string; title: string; image?: string; count: number }[];
   sections: { path: string; title: string; image?: string; count: number }[];
   recentPosts: { path: string; title: string; date: string }[];
@@ -306,7 +369,8 @@ function homeEntry(l: Landing): HomeEntry {
     .map((p) => ({ path: p.path, title: p.title, date: p.date }));
   return {
     kind: "home", path: "/", title: l.title || SITE_NAME,
-    description: headByPath.get("/")?.description || undefined, courses, sections, recentPosts,
+    description: headByPath.get("/")?.description || undefined,
+    content: parseHomeContent(l.content), courses, sections, recentPosts,
   };
 }
 function countDescendants(id: number): number {

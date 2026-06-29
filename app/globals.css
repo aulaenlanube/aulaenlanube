@@ -27,3 +27,18 @@ img[src*="s.w.org/images/core/emoji"] {
   margin: 0 0.05em 0 0.1em !important;
   vertical-align: -0.2em;
 }
+
+/* Marca de cita discreta (enlaces de referencia sin palabra delante): un
+   pequeño «↗» en superíndice gris, en lugar de mostrar la URL pegada al texto. */
+.aeln-cite {
+  font-size: 0.7em;
+  line-height: 0;
+}
+.aeln-cite a {
+  color: #94a3b8;
+  text-decoration: none;
+  padding: 0 1px;
+}
+.aeln-cite a:hover {
+  color: #2563eb;
+}

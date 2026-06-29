@@ -162,8 +162,40 @@ function parentLinkOf(n: Node): NavLink | undefined {
 function stripHtml(s: string): string {
   return (s || "").replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").replace(/\s+/g, " ").trim();
 }
+// Enlaces de "cita" cuyo texto visible es solo un dominio/URL (típico del
+// contenido con referencias). Migrados, quedan pegados a la palabra anterior y
+// se ven como un error ("simples" + "es.wikipedia.org"). Aquí los reconvertimos:
+// el enlace pasa a subrayar la palabra previa (sin mostrar la URL) y, si no hay
+// palabra delante, queda una marca discreta. Citas consecutivas se colapsan.
+const CITE_HOST =
+  /^(?:https?:\/\/)?(?:www\.)?(?:[a-z0-9-]+\.)+(?:com|org|net|es|io|dev|ai|edu|gov|co|info|tv|me|news|tech|app|gg|xyz)(?:[/?#][^\s]*)?$/i;
+const WORD = "A-Za-z0-9áéíóúüñçÁÉÍÓÚÜÑÇ";
+// Sentinels en el Área de Uso Privado Unicode: jamás aparecen en el contenido.
+const CS = "";
+const CE = "";
+function tidyCitations(html: string): string {
+  if (!html || !html.includes("<a")) return html;
+  // 1) Marca cada enlace-cita con un sentinel que conserva su href.
+  let out = html.replace(/<a\b[^>]*\bhref="([^"]*)"[^>]*>([\s\S]*?)<\/a>/gi, (m, href, inner) =>
+    CITE_HOST.test(inner.replace(/<[^>]+>/g, "").trim()) ? CS + href + CE : m
+  );
+  // 2) Colapsa citas consecutivas (solo espacios entre ellas): se queda la 1ª.
+  out = out.replace(new RegExp("(" + CS + "[^" + CE + "]*" + CE + ")(?:\\s*" + CS + "[^" + CE + "]*" + CE + ")+", "g"), "$1");
+  // 3) La cita subraya la palabra anterior (>=2 caracteres).
+  out = out.replace(
+    new RegExp("([" + WORD + "]{2,})(\\s*)" + CS + "([^" + CE + "]*)" + CE, "g"),
+    (_m, word, sp, href) => '<a href="' + href + '" target="_blank" rel="nofollow noopener">' + word + "</a>" + sp
+  );
+  // 4) Citas sin palabra previa (tras etiqueta o signo): marca discreta.
+  out = out.replace(
+    new RegExp(CS + "([^" + CE + "]*)" + CE, "g"),
+    (_m, href) => '<sup class="aeln-cite"><a href="' + href + '" target="_blank" rel="nofollow noopener">↗</a></sup>'
+  );
+  return out;
+}
+
 function sanitize(html: string): string {
-  return (html || "")
+  const cleaned = (html || "")
     .replace(/<script[\s\S]*?<\/script>/gi, "")
     .replace(/<style[\s\S]*?<\/style>/gi, "")
     .replace(/<ins\b[^>]*adsbygoogle[\s\S]*?<\/ins>/gi, "") // quita unidades AdSense
@@ -178,6 +210,7 @@ function sanitize(html: string): string {
     // WordPress dejarían el texto sin formato o, peor, invisible.
     .replace(/\sstyle="[^"]*(?:var\(|--e-global)[^"]*"/gi, "")
     .replace(/ on[a-z]+="[^"]*"/gi, "");
+  return tidyCitations(cleaned);
 }
 
 // URL interna absoluta (https://aulaenlanube.com/...) → relativa, para que las

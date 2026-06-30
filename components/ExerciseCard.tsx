@@ -23,7 +23,7 @@ export default function ExerciseCard({
   const hasCode = !!(code && lines && lines.length > 0);
 
   return (
-    <section className="mt-8 scroll-mt-24 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm transition-shadow duration-200 hover:shadow-md sm:p-7">
+    <section className="mt-8 scroll-mt-24 rounded-2xl border border-sky-100 bg-gradient-to-br from-sky-50/80 via-white to-indigo-50/50 p-5 shadow-sm ring-1 ring-white/50 transition-all duration-200 hover:border-sky-200 hover:shadow-md motion-reduce:transition-none sm:p-7">
       <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
         <h2 className="text-xl font-bold tracking-tight text-zinc-900 sm:text-2xl">{title}</h2>
         {hasCode && (
@@ -31,7 +31,7 @@ export default function ExerciseCard({
             type="button"
             onClick={() => setOpen((o) => !o)}
             aria-expanded={open}
-            className="group inline-flex min-h-[38px] items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-1.5 text-sm font-semibold text-blue-700 shadow-sm transition-all duration-200 hover:border-blue-300 hover:bg-blue-100 hover:shadow active:scale-[0.98] motion-reduce:transition-none motion-reduce:active:scale-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2"
+            className="group inline-flex min-h-[38px] items-center gap-2 rounded-full border border-blue-200 bg-white px-4 py-1.5 text-sm font-semibold text-blue-700 shadow-sm transition-all duration-200 hover:border-blue-300 hover:bg-blue-50 hover:shadow active:scale-[0.98] motion-reduce:transition-none motion-reduce:active:scale-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2"
           >
             <svg
               viewBox="0 0 20 20"

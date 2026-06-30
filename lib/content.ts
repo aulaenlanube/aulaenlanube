@@ -232,6 +232,31 @@ const CITE_REF_TITLE =
 function isCitationLink(href: string, text: string): boolean {
   return /#:~:text=/.test(href) || CITE_HOST.test(text) || CITE_REF_TITLE.test(text);
 }
+// Frases-ancla elegidas a mano (vía revisión) para citas de artículos clave
+// (hardware): mapa "href¦cola-normalizada-del-texto-previo" → frase literal.
+// Permite anclar el término con sentido en vez de una palabra genérica.
+let _citeOv: Record<string, string> | null = null;
+function citeOverrides(): Record<string, string> {
+  if (_citeOv) return _citeOv;
+  try { _citeOv = read<Record<string, string>>("citation-anchors.json"); }
+  catch { _citeOv = {}; }
+  return _citeOv;
+}
+function citeDecodeEnt(s: string): string {
+  return s.replace(/&amp;/g, "&").replace(/&nbsp;/g, " ")
+    .replace(/&#0?39;|&#x27;|&apos;|&#8217;|&rsquo;/g, "'").replace(/&quot;|&#8220;|&#8221;|&ldquo;|&rdquo;/g, '"')
+    .replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&ndash;/g, "–").replace(/&mdash;/g, "—").replace(/&hellip;/g, "…");
+}
+// Clave estable: href + últimos 40 alfanuméricos del texto previo (decodificado).
+function citeKey(href: string, beforeRaw: string): string {
+  const n = citeDecodeEnt(beforeRaw.replace(/<[^>]+>/g, "")).toLowerCase().replace(/[^a-z0-9áéíóúñü]/gi, "");
+  return href + "¦" + n.slice(-40);
+}
+// Elemento en línea (negrita/cursiva…) justo antes de la cita: cuando no queda
+// texto suelto que anclar, se enlaza ese elemento entero (su término clave).
+// Solo el ÚLTIMO elemento en línea con TEXTO PLANO dentro (sin etiquetas), para
+// no abarcar varios elementos/párrafos por error.
+const CITE_INLINE_EL = /<(strong|em|b|i|code|span|mark|abbr)\b[^>]*>([^<]+)<\/\1>\s*$/i;
 function tidyCitations(html: string): string {
   if (!html || !html.includes("<a")) return html;
   // 1) Sentinela cada enlace-cita (dominio, fragmento #:~:text= o título de referencia).
@@ -259,6 +284,7 @@ function tidyCitations(html: string): string {
       if (s[k] === CS) { const e = s.indexOf(CE, k); if (e < 0) break; j = e + 1; }
       else break;
     }
+    const ovKey = citeKey(href, s.slice(i, a)); // clave antes de desenvolver el "("
     let before = s.slice(i, a);
     // Cita entre paréntesis "( … )": quitamos los paréntesis y enlazamos la
     // frase previa (p.ej. "…1.0 GHz en 2000 (Clock rate - Wikipedia)").
@@ -266,14 +292,50 @@ function tidyCitations(html: string): string {
       before = before.replace(/\s*\(\s*$/, "");
       j += 1;
     }
+    // 1) Frase-ancla elegida a mano (override): se enlaza esa frase literal
+    //    dentro del nodo de texto final.
+    const ov = citeOverrides()[ovKey];
+    const seg = before.lastIndexOf(">") + 1;
+    let pos = ov ? before.lastIndexOf(ov) : -1;
+    if (ov && pos >= seg) {
+      out += before.slice(0, pos) + link(href, ov) + before.slice(pos + ov.length);
+      i = j;
+      continue;
+    }
+    // 2) Heurística: frase-ancla en el nodo de texto final.
     const at = citeAnchorStart(before);
+    // Ancla "débil": un número/año/unidad suelto o una palabra vacía. En ese
+    // caso, si justo antes hay un término en negrita/cursiva, lo enlazamos a él
+    // (p.ej. "…<strong>1.0 GHz</strong> en 2000 (cita)" → enlace en "1.0 GHz").
+    const isWeak = (c: string) =>
+      /^[\d.,]+\s*[a-zA-Z%º°]{0,4}$/.test(c) || (!/\s/.test(c) && CITE_STOP.has(c.toLowerCase()));
     if (at >= 0) {
       const tail = before.slice(at);
       const trail = (tail.match(/\s+$/) || [""])[0];
       const core = tail.slice(0, tail.length - trail.length);
-      out += before.slice(0, at) + link(href, core) + trail;
+      const head = before.slice(0, seg);
+      const elH = isWeak(core) ? head.match(CITE_INLINE_EL) : null;
+      if (elH && stripHtml(elH[2]).trim()) {
+        const elTrail = (elH[0].match(/\s+$/) || [""])[0];
+        const elHtml = elH[0].slice(0, elH[0].length - elTrail.length);
+        out += head.slice(0, head.length - elH[0].length) +
+          '<a href="' + href + '" target="_blank" rel="nofollow noopener">' + elHtml + "</a>" +
+          elTrail + before.slice(seg);
+      } else {
+        out += before.slice(0, at) + link(href, core) + trail;
+      }
     } else {
-      out += before + '<sup class="aeln-cite">' + link(href, "↗") + "</sup>";
+      // 3) Sin texto suelto: enlazar el elemento en línea previo (negrita…).
+      const el = before.match(CITE_INLINE_EL);
+      if (el && stripHtml(el[2]).trim()) {
+        const trail = (el[0].match(/\s+$/) || [""])[0];
+        const elHtml = el[0].slice(0, el[0].length - trail.length);
+        out += before.slice(0, before.length - el[0].length) +
+          '<a href="' + href + '" target="_blank" rel="nofollow noopener">' + elHtml + "</a>" + trail;
+      } else {
+        // 4) Último recurso: marca discreta «↗».
+        out += before + '<sup class="aeln-cite">' + link(href, "↗") + "</sup>";
+      }
     }
     i = j;
   }

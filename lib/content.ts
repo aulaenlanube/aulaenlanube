@@ -562,11 +562,44 @@ function elementorBlocks(id: number): HubBlock[] {
   walk(tree);
   return blocks;
 }
+// Tarjetas extra a añadir a la rejilla de un hub (por id de página). Útil para
+// completar índices a los que les faltan cursos respecto al original.
+const HUB_EXTRA_CARDS: Record<number, string[]> = {
+  // /cursos/curso-google/: añadir Sites, Apps Script y Apps Script Avanzado (→ 8 bloques).
+  2432: [
+    "/cursos/curso-google-sites/",
+    "/cursos/curso-google-apps-script/",
+    "/cursos/curso-google-apps-script-avanzado/",
+  ],
+};
+function pathToCard(p: string): CourseCard | null {
+  const k = normKey(p);
+  const x = lessonByPath.get(k) || landingByPath.get(k) || postByPath.get(k);
+  return x ? { path: x.path, title: decodeEntities(x.title), image: x.thumb || thumbOf(x.path) } : null;
+}
+// Añade las tarjetas extra a la rejilla y actualiza el "N bloques" del encabezado.
+function augmentHub(id: number, blocks: HubBlock[]): HubBlock[] {
+  const extra = (HUB_EXTRA_CARDS[id] || []).map(pathToCard).filter(Boolean) as CourseCard[];
+  if (!extra.length) return blocks;
+  let total = 0;
+  const withCards = blocks.map((b) => {
+    if (b.t === "cards") {
+      const items = [...b.items, ...extra.filter((c) => !b.items.some((x) => x.path === c.path))];
+      total = items.length;
+      return { ...b, items };
+    }
+    return b;
+  });
+  if (!total) return blocks;
+  return withCards.map((b) =>
+    b.t === "heading" ? { ...b, text: b.text.replace(/\b\d+\s+bloques/i, `${total} bloques`) } : b
+  );
+}
 // Una página es "hub" si su Elementor incluye un widget de rejilla ("posts").
 function parseHubBlocks(id: number): HubBlock[] {
   const raw = elementorOf(id);
   if (!raw || !raw.includes('"posts"')) return [];
-  return elementorBlocks(id);
+  return augmentHub(id, elementorBlocks(id));
 }
 
 /* ---------- páginas fusionadas ----------

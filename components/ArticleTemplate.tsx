@@ -3,6 +3,7 @@ import JsonLd from "./JsonLd";
 import ProductBlock from "./ProductBlock";
 import ArticleSidebar from "./ArticleSidebar";
 import CodeBlock from "./CodeBlock";
+import YouTubeLite from "./YouTubeLite";
 import { getBreadcrumbs, getProducts } from "@/lib/content";
 import { articleLd, breadcrumbLd } from "@/lib/seo";
 import type { ArticleEntry } from "@/lib/content";
@@ -38,6 +39,8 @@ export default function ArticleTemplate({ entry }: { entry: ArticleEntry }) {
               {entry.parts.map((part, i) =>
                 part.t === "code" ? (
                   <CodeBlock key={i} code={part.code} lines={part.lines} lang={part.lang} />
+                ) : part.t === "video" ? (
+                  <YouTubeLite key={i} id={part.videoId} title={entry.title} />
                 ) : (
                   <div key={i} className={proseCls} dangerouslySetInnerHTML={{ __html: part.html }} />
                 )

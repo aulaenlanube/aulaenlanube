@@ -417,7 +417,8 @@ export interface ProductCard { src: string; title: string; href: string; }
 // con CodeBlock (resaltado + botón de copiar) en lugar de texto crudo.
 export type ArticlePart =
   | { t: "html"; html: string }
-  | { t: "code"; code: string; lines: string[]; lang: string };
+  | { t: "code"; code: string; lines: string[]; lang: string }
+  | { t: "video"; videoId: string };
 export interface ArticleEntry {
   kind: "article"; path: string; title: string; description?: string; image?: string;
   head?: Head; html: string; date?: string; categories?: { name: string; slug: string }[]; parent?: NavLink;
@@ -768,16 +769,23 @@ function parseExercises(content: string): { intro: string; exercises: Exercise[]
 // (<pre>…<xmp>código</xmp>…</pre>) del texto. Cada trozo de texto se sanea como
 // siempre; cada bloque de código se resalta. Si no hay código, devuelve null y
 // el artículo se pinta como antes (un solo bloque de HTML).
+// URL de vídeo de YouTube "suelta" (en su propia línea, como las auto-incrusta
+// WordPress), no dentro de un <a href>. Se reconoce porque va precedida de salto
+// de línea o de un cierre de etiqueta ('>'), nunca de la comilla de un href.
+const STANDALONE_VIDEO =
+  /(?:^|[\n>])[ \t]*(https?:\/\/(?:www\.)?(?:youtu\.be\/[\w-]{11}|youtube\.com\/(?:watch\?v=|embed\/)[\w-]{11})[^\s<]*)/gi;
+
 function parseArticleParts(content: string): ArticlePart[] | null {
-  const c = content || "";
-  if (!/<pre\b/i.test(c)) return null;
-  const re = /<pre\b[^>]*>[\s\S]*?<\/pre>/gi;
-  const parts: ArticlePart[] = [];
-  let last = 0;
+  // Algunas entradas traen dos URLs de YouTube pegadas sin separador
+  // (…youtu.be/IDhttps://youtu.be/ID2); las separamos para incrustar ambas.
+  const c = (content || "").replace(/(youtu\.be\/[\w-]{11})(https?:\/\/)/gi, "$1\n$2");
+  type Block = { start: number; end: number; part: ArticlePart };
+  const blocks: Block[] = [];
+
+  // Bloques de código <pre>…<xmp>código</xmp>…</pre>.
+  const preRe = /<pre\b[^>]*>[\s\S]*?<\/pre>/gi;
   let m: RegExpExecArray | null;
-  while ((m = re.exec(c))) {
-    const before = c.slice(last, m.index);
-    if (stripHtml(before).trim() || /<img|<iframe/i.test(before)) parts.push({ t: "html", html: sanitize(before) });
+  while ((m = preRe.exec(c))) {
     const block = m[0];
     const xmp = block.match(/<xmp>([\s\S]*?)<\/xmp>/i);
     const codeTag = block.match(/<code\b[^>]*>([\s\S]*?)<\/code>/i);
@@ -788,12 +796,34 @@ function parseArticleParts(content: string): ArticlePart[] | null {
         : decodeEntities(block.replace(/<\/?pre[^>]*>/gi, ""));
     const lang = detectCodeLang(raw);
     const hl = highlightCode(raw, lang.toLowerCase());
-    parts.push({ t: "code", code: hl.code, lines: hl.lines, lang });
-    last = re.lastIndex;
+    blocks.push({ start: m.index, end: preRe.lastIndex, part: { t: "code", code: hl.code, lines: hl.lines, lang } });
+  }
+
+  // Vídeos de YouTube sueltos → reproductor incrustado.
+  const vidRe = new RegExp(STANDALONE_VIDEO.source, "gi");
+  while ((m = vidRe.exec(c))) {
+    const url = m[1];
+    const id = ytId(url);
+    if (!id) continue;
+    const start = m.index + m[0].indexOf(url);
+    blocks.push({ start, end: start + url.length, part: { t: "video", videoId: id } });
+  }
+
+  if (!blocks.some((b) => b.part.t !== "html")) return null;
+  blocks.sort((a, b) => a.start - b.start);
+
+  const parts: ArticlePart[] = [];
+  let last = 0;
+  for (const b of blocks) {
+    if (b.start < last) continue; // descarta solapamientos (p.ej. URL dentro de <pre>)
+    const before = c.slice(last, b.start);
+    if (stripHtml(before).trim() || /<img|<iframe/i.test(before)) parts.push({ t: "html", html: sanitize(before) });
+    parts.push(b.part);
+    last = b.end;
   }
   const tail = c.slice(last);
   if (stripHtml(tail).trim() || /<img|<iframe/i.test(tail)) parts.push({ t: "html", html: sanitize(tail) });
-  return parts.some((p) => p.t === "code") ? parts : null;
+  return parts.some((p) => p.t !== "html") ? parts : null;
 }
 
 // Heurística de lenguaje para la etiqueta de la caja (todo el contenido actual

@@ -223,11 +223,19 @@ function citeAnchorStart(before: string): number {
   if (!toks.length) return -1;
   return clauseStart + toks[pickCiteAnchor(toks.map((x) => x.w))].i;
 }
+// ¿El enlace es una "cita"/referencia? Señales: fragmento de texto (#:~:text=,
+// generado al "copiar enlace al fragmento" — casi siempre una cita), el texto
+// visible es un dominio, o es un título de referencia (" - Wikipedia", "| Renesas").
+const CITE_REF_TITLE =
+  /\s[-–—|]\s*(?:Wikipedia|[A-Z][\w.&]+)\s*$|Wikipedia,?\s+la enciclopedia/i;
+function isCitationLink(href: string, text: string): boolean {
+  return /#:~:text=/.test(href) || CITE_HOST.test(text) || CITE_REF_TITLE.test(text);
+}
 function tidyCitations(html: string): string {
   if (!html || !html.includes("<a")) return html;
-  // 1) Sentinela cada enlace-cita (texto visible = dominio/URL).
+  // 1) Sentinela cada enlace-cita (dominio, fragmento #:~:text= o título de referencia).
   const s = html.replace(/<a\b[^>]*\bhref="([^"]*)"[^>]*>([\s\S]*?)<\/a>/gi, (m, href, inner) =>
-    CITE_HOST.test(inner.replace(/<[^>]+>/g, "").trim()) ? CS + href + CE : m
+    isCitationLink(href, inner.replace(/<[^>]+>/g, "").trim()) ? CS + href + CE : m
   );
   if (!s.includes(CS)) return html;
   // 2) Procesa cada cita: la frase-ancla previa pasa a ser el enlace; si no hay
@@ -250,7 +258,13 @@ function tidyCitations(html: string): string {
       if (s[k] === CS) { const e = s.indexOf(CE, k); if (e < 0) break; j = e + 1; }
       else break;
     }
-    const before = s.slice(i, a);
+    let before = s.slice(i, a);
+    // Cita entre paréntesis "( … )": quitamos los paréntesis y enlazamos la
+    // frase previa (p.ej. "…1.0 GHz en 2000 (Clock rate - Wikipedia)").
+    if (/\(\s*$/.test(before) && s[j] === ")") {
+      before = before.replace(/\s*\(\s*$/, "");
+      j += 1;
+    }
     const at = citeAnchorStart(before);
     if (at >= 0) {
       const tail = before.slice(at);
@@ -263,6 +277,13 @@ function tidyCitations(html: string): string {
     i = j;
   }
   return out;
+}
+// Citas en TEXTO PLANO (sin enlace) tipo "(Título - Wikipedia)" o "(… | Renesas)":
+// las quitamos, ya que no aportan nada (no hay enlace que conservar).
+const CITE_PLAIN =
+  /\s*\([^()]*?(?:\s[-–—|]\s*Wikipedia|Wikipedia,?\s+la enciclopedia|\s\|\s*[A-Z][\w.&]+)[^()]*?\)/g;
+function removePlainRefs(html: string): string {
+  return html.replace(CITE_PLAIN, "");
 }
 
 function sanitize(html: string): string {
@@ -281,7 +302,7 @@ function sanitize(html: string): string {
     // WordPress dejarían el texto sin formato o, peor, invisible.
     .replace(/\sstyle="[^"]*(?:var\(|--e-global)[^"]*"/gi, "")
     .replace(/ on[a-z]+="[^"]*"/gi, "");
-  return tidyCitations(cleaned);
+  return removePlainRefs(tidyCitations(cleaned));
 }
 
 // URL interna absoluta (https://aulaenlanube.com/...) → relativa, para que las

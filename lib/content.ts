@@ -499,11 +499,11 @@ function temaNum(t: string): number | null {
   const m = t.match(/tema\s*(\d+)/i);
   return m ? parseInt(m[1], 10) : null;
 }
+// Extrae los bloques de Elementor de una página (sin exigir widget "posts").
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function parseHubBlocks(id: number): HubBlock[] {
+function elementorBlocks(id: number): HubBlock[] {
   const raw = elementorOf(id);
-  // Solo las páginas con widget "posts" (rejillas) se tratan como hub.
-  if (!raw || !raw.includes('"posts"')) return [];
+  if (!raw) return [];
   let tree: unknown;
   try { tree = JSON.parse(raw); } catch { return []; }
   const blocks: HubBlock[] = [];
@@ -561,6 +561,45 @@ function parseHubBlocks(id: number): HubBlock[] {
   };
   walk(tree);
   return blocks;
+}
+// Una página es "hub" si su Elementor incluye un widget de rejilla ("posts").
+function parseHubBlocks(id: number): HubBlock[] {
+  const raw = elementorOf(id);
+  if (!raw || !raw.includes('"posts"')) return [];
+  return elementorBlocks(id);
+}
+
+/* ---------- páginas fusionadas ----------
+   Algunos cursos están partidos en dos URLs: una con la presentación (intro +
+   vídeo) y otra con el índice de lecciones. Las unimos: ambas URLs muestran el
+   contenido combinado (cada una conserva su <head> para la paridad SEO). */
+const MERGE_GROUPS: { ids: number[]; intro: number; lessons: number; lessonsTitle: string }[] = [
+  // Curso OBS Studio: mega-curso-obs-studio (intro+vídeo) + curso-obs-studio (12 lecciones).
+  { ids: [4448, 4474], intro: 4448, lessons: 4474, lessonsTitle: "El curso se divide en los siguientes vídeos" },
+];
+function mergedHubEntry(reqId: number, g: { intro: number; lessons: number; lessonsTitle: string }): HubEntry {
+  const node = nodeById.get(reqId)!;
+  const introLesson = lessonById.get(g.intro);
+  // Bloques de la página de presentación (intro + secciones + vídeo).
+  const blocks = elementorBlocks(g.intro);
+  // Rejilla con las lecciones de la página índice.
+  const items = childrenOf(g.lessons).map((k) => {
+    const les = lessonById.get(k.id);
+    return { path: k.path, title: k.title, image: thumbOf(k.path) || (les ? ytThumb(les.videoId) : undefined) };
+  });
+  if (items.length) {
+    blocks.push({ t: "heading", text: g.lessonsTitle });
+    blocks.push({ t: "cards", columns: 2, items });
+  }
+  const head = headByPath.get(node.path);
+  return {
+    kind: "hub", path: node.path, title: node.title,
+    description: head?.description || introLesson?.yoastDesc || undefined,
+    image: introLesson?.thumb || undefined,
+    head, hub: blocks, parent: parentLinkOf(node),
+    // vídeo-LD solo en la página que es realmente una lección con vídeo propio.
+    lesson: reqId === g.intro ? introLesson : undefined,
+  };
 }
 
 function lessonEntry(l: Lesson): LessonEntry {
@@ -769,6 +808,13 @@ export function getByPath(p: string): Entry | undefined {
   if (k === "/") {
     const home = landingByPath.get("/");
     return home ? homeEntry(home) : { kind: "home", path: "/", title: SITE_NAME, courses: [], sections: [], recentPosts: [] };
+  }
+  // Páginas fusionadas (p.ej. las dos URLs del curso de OBS): ambas muestran el
+  // contenido combinado, cada una con su propio <head>.
+  const mergeNode = lessonByPath.get(k) || landingByPath.get(k);
+  if (mergeNode) {
+    const g = MERGE_GROUPS.find((x) => x.ids.includes(mergeNode.id));
+    if (g) return mergedHubEntry(mergeNode.id, g);
   }
   const les = lessonByPath.get(k);
   if (les) {

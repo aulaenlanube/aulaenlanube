@@ -18,7 +18,7 @@ export function videoLd(l: Lesson) {
   };
 }
 
-export function articleLd(e: ArticleEntry) {
+export function articleLd(e: Pick<ArticleEntry, "title" | "date" | "image" | "path">) {
   return {
     "@context": "https://schema.org",
     "@type": "Article",

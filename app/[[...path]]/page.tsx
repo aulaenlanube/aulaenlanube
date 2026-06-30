@@ -10,6 +10,7 @@ import {
 import LessonTemplate from "@/components/LessonTemplate";
 import HubTemplate from "@/components/HubTemplate";
 import ArticleTemplate from "@/components/ArticleTemplate";
+import ExercisesTemplate from "@/components/ExercisesTemplate";
 import ProductGridTemplate from "@/components/ProductGridTemplate";
 import CourseIndexTemplate from "@/components/CourseIndexTemplate";
 import HomeTemplate from "@/components/HomeTemplate";
@@ -72,7 +73,7 @@ export async function generateMetadata({
       description,
       url: SITE_URL + entry.path,
       siteName: SITE_NAME,
-      type: entry.kind === "article" ? "article" : "website",
+      type: entry.kind === "article" || entry.kind === "exercises" ? "article" : "website",
       images: image ? [{ url: image }] : undefined,
     },
   };
@@ -90,6 +91,8 @@ export default async function Page({ params }: { params: Promise<Params> }) {
       return <LessonTemplate entry={entry} />;
     case "hub":
       return <HubTemplate entry={entry} />;
+    case "exercises":
+      return <ExercisesTemplate entry={entry} />;
     case "courseIndex":
       return <CourseIndexTemplate entry={entry} />;
     case "article":

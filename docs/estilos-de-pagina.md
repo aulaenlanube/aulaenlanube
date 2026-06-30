@@ -18,9 +18,10 @@ de diseño que deben aplicarse con coherencia. El enrutado vive en
 | 6a | **Portada de cursos** | `courseIndex` ruta `/cursos/` | `CourseIndexTemplate` → `CoursesLanding` | 1 col, secciones a sangre | — | `/cursos/` |
 | 6b | **Índice de sección** | `courseIndex` ruta `/zona-programacion/` | `CourseIndexTemplate` → `SectionLanding` | 1 col | — | `/zona-programacion/` |
 | 6c | **Índice de curso (defecto)** | `courseIndex` con hijos y <3 afiliados | `CourseIndexTemplate` | 2 col (`1fr / 19rem`) | `CourseAside` | `/cursos/curso-google-apps-script-avanzado/` |
+| 7 | **Ejercicios resueltos** | landing con `OCULTAR` + `<xmp>` + ≥2 encabezados `Ejercicio N` | `ExercisesTemplate` | 2 col (`1fr / 19rem`) | `ArticleSidebar` | `/zona-programacion/java/ejercicios-recursividad-java/` |
 
 Inventario aproximado: ~508 lecciones · ~23 posts · ~21 índices · ~5 rejillas de
-productos · 1 home.
+productos · 2 ejercicios · 1 home.
 
 ## Reglas de coherencia
 
@@ -49,3 +50,22 @@ vídeo, rejillas de tarjetas). El contenido plano migrado pierde esos widgets;
 `parseHubBlocks` (en `lib/content.ts`) los reconstruye desde
 `tools/data/content.jsonl` y se pintan con `HubTemplate`. Se activan cuando el
 Elementor de la página contiene un widget `posts`.
+
+## Páginas de "ejercicios resueltos" (zona de programación)
+
+Páginas tipo lista de ejercicios con solución (el WordPress original usaba un
+botón muerto "MOSTRAR / OCULTAR SOLUCIÓN" y código en `<xmp>`). `parseExercises`
+(en `lib/content.ts`) trocea el contenido en intro + ejercicios; cada uno se
+pinta como tarjeta (`ExerciseCard`) con enunciado e imagen de ejemplo visibles y
+una solución desplegable (`ExerciseSolution` → `CodeBlock`):
+
+- **Resaltado de sintaxis**: `lib/highlight.ts` tokeniza el código en tiempo de
+  compilación (paleta tipo VS Code Dark+) y emite spans `.tok-*` ya escapados y
+  troceados por líneas. El HTML coloreado va en el DOM (bueno para SEO).
+- **Mostrar/Ocultar**: animación `grid-rows 0fr→1fr` + opacidad. El código se
+  queda en el DOM pero con `inert`/`aria-hidden` mientras está plegado (fuera del
+  orden de tabulación y del árbol de accesibilidad).
+- **Copiar**: botón con `navigator.clipboard` (reserva `execCommand`) y aviso
+  `aria-live` para lectores de pantalla; copia el código limpio, no el HTML.
+- Se activan solo si la landing tiene `OCULTAR` + `<xmp>` + ≥2 encabezados
+  `Ejercicio N` (`isExercisesContent`), para no afectar a otras páginas.

@@ -10,6 +10,21 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Respeta la preferencia del sistema de "reducir movimiento": desactiva el
+   desplazamiento suave y acorta cualquier transición/animación. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
@@ -42,3 +57,24 @@ img[src*="s.w.org/images/core/emoji"] {
 .aeln-cite a:hover {
   color: #2563eb;
 }
+
+/* Resaltado de sintaxis de los bloques de código (paleta tipo VS Code Dark+).
+   Las clases las pinta lib/highlight.ts en tiempo de compilación. */
+.aeln-code .tok-com { color: #6a9955; font-style: italic; }
+.aeln-code .tok-kw { color: #569cd6; }
+.aeln-code .tok-ctrl { color: #c586c0; }
+.aeln-code .tok-type { color: #4ec9b0; }
+.aeln-code .tok-fn { color: #dcdcaa; }
+.aeln-code .tok-str { color: #ce9178; }
+.aeln-code .tok-num { color: #b5cea8; }
+.aeln-code .tok-lit { color: #569cd6; }
+.aeln-code .tok-ann { color: #dcdcaa; }
+
+/* Barra de desplazamiento del código, fina y a juego con el tema oscuro. */
+.aeln-code-scroll::-webkit-scrollbar { height: 8px; }
+.aeln-code-scroll::-webkit-scrollbar-track { background: transparent; }
+.aeln-code-scroll::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 4px;
+}
+.aeln-code-scroll::-webkit-scrollbar-thumb:hover { background: #475569; }

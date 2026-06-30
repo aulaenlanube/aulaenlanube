@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { highlightCode } from "./highlight";
 
 export const SITE_NAME = "Aula en la nube";
 export const SITE_URL = "https://aulaenlanube.com";
@@ -435,6 +436,16 @@ export interface HubEntry {
   kind: "hub"; path: string; title: string; description?: string; image?: string;
   head?: Head; hub: HubBlock[]; parent?: NavLink; lesson?: Lesson;
 }
+// Página de "ejercicios resueltos" (zona de programación): intro + lista de
+// ejercicios, cada uno con enunciado y solución desplegable (código resaltado).
+export interface Exercise {
+  n: number; title: string; statementHtml: string;
+  code?: string; lines?: string[]; lang: string;
+}
+export interface ExerciseEntry {
+  kind: "exercises"; path: string; title: string; description?: string; image?: string;
+  head?: Head; date?: string; intro?: string; exercises: Exercise[]; parent?: NavLink;
+}
 export interface CourseIndexEntry {
   kind: "courseIndex"; path: string; title: string; description?: string; image?: string;
   head?: Head; intro?: string; introHtml?: string; items: { path: string; title: string; videoId?: string; image?: string; isSection: boolean }[]; parent?: NavLink;
@@ -463,7 +474,7 @@ export interface HomeEntry {
   sections: { path: string; title: string; image?: string; count: number }[];
   recentPosts: { path: string; title: string; date: string }[];
 }
-export type Entry = LessonEntry | HubEntry | ArticleEntry | CourseIndexEntry | HomeEntry;
+export type Entry = LessonEntry | HubEntry | ArticleEntry | ExerciseEntry | CourseIndexEntry | HomeEntry;
 
 /* ---------- páginas "hub" (índices de curso Elementor) ----------
    Algunas páginas (p.ej. /zona-programacion/java/) son índices ricos hechos con
@@ -696,6 +707,64 @@ function articleFromLanding(l: Landing): ArticleEntry {
     ...(subzones.length ? { subzones } : {}),
   };
 }
+// ¿Es una página de ejercicios resueltos al estilo del WordPress original?
+// (encabezados "Ejercicio N" + botón "MOSTRAR / OCULTAR SOLUCIÓN" + código en
+// <xmp>). p.ej. /zona-programacion/java/ejercicios-recursividad-java/.
+function isExercisesContent(content: string): boolean {
+  const c = content || "";
+  if (!/OCULTAR/i.test(c) || !/<xmp>/i.test(c)) return false;
+  return (c.match(/<h[1-6][^>]*>\s*Ejercicio\s+\d+/gi) || []).length >= 2;
+}
+
+// Trocea el contenido en intro + ejercicios. Cada ejercicio = encabezado
+// "Ejercicio N" → enunciado (texto e imagen de ejemplo, sin el botón ni anuncios)
+// → código (dentro de <xmp>), que se resalta en tiempo de compilación.
+function parseExercises(content: string): { intro: string; exercises: Exercise[] } {
+  const c = content || "";
+  const headRe = /<h([1-6])\b[^>]*>([\s\S]*?)<\/h\1>/gi;
+  const bounds: { start: number; headEnd: number; title: string }[] = [];
+  let m: RegExpExecArray | null;
+  while ((m = headRe.exec(c))) {
+    const title = stripHtml(m[2]).replace(/\s+/g, " ").trim();
+    if (/^Ejercicio\s+\d+/i.test(title)) bounds.push({ start: m.index, headEnd: headRe.lastIndex, title });
+  }
+  const intro = bounds.length ? sanitize(c.slice(0, bounds[0].start)).trim() : "";
+  const exercises: Exercise[] = bounds.map((b, idx) => {
+    const blockEnd = idx + 1 < bounds.length ? bounds[idx + 1].start : c.length;
+    const body = c.slice(b.headEnd, blockEnd);
+    const xmp = body.match(/<xmp>([\s\S]*?)<\/xmp>/i);
+    const hl = xmp ? highlightCode(xmp[1], "java") : null;
+    // Enunciado: todo lo previo al <pre>, quitando el botón y los anuncios.
+    const preIdx = body.search(/<pre\b/i);
+    const stmt = (preIdx >= 0 ? body.slice(0, preIdx) : body)
+      // El "punto moderado" (?!<\/a>) confina la coincidencia a un único enlace
+      // (el botón muerto), sin tragarse un enlace previo y su texto.
+      .replace(/<a\b[^>]*>(?:(?!<\/a>)[\s\S])*?OCULTAR(?:(?!<\/a>)[\s\S])*?<\/a>/gi, "")
+      .replace(/<ins\b[\s\S]*?<\/ins>/gi, "")
+      .replace(/<!--[\s\S]*?-->/g, "");
+    return {
+      n: parseInt((b.title.match(/\d+/) || ["0"])[0], 10),
+      title: b.title,
+      statementHtml: sanitize(stmt).trim(),
+      code: hl?.code,
+      lines: hl?.lines,
+      lang: "Java",
+    };
+  });
+  return { intro, exercises };
+}
+
+function exerciseEntryFromLanding(l: Landing): ExerciseEntry {
+  const node = nodeById.get(l.id)!;
+  const { intro, exercises } = parseExercises(l.content);
+  return {
+    kind: "exercises", path: l.path, title: l.title,
+    description: l.yoastDesc || clip(l.content), image: l.thumb || undefined,
+    head: headByPath.get(l.path), date: l.date,
+    intro: intro || undefined, exercises, parent: parentLinkOf(node),
+  };
+}
+
 // FAQ compartida (inicio y /cursos/ usan la misma): se parsea del inicio.
 let _faqs: { q: string; a: string }[] | null = null;
 function sharedFaqs(): { q: string; a: string }[] {
@@ -860,6 +929,9 @@ export function getByPath(p: string): Entry | undefined {
   if (post) return articleFromPost(post);
   const land = landingByPath.get(k);
   if (land) {
+    // Páginas de ejercicios resueltos (zona de programación): enunciado +
+    // solución desplegable con código resaltado.
+    if (isExercisesContent(land.content)) return exerciseEntryFromLanding(land);
     const hasChildren = childrenOf(land.id).length > 0;
     const isProductGrid = parseProductCards(land.content).cards.length >= 3;
     // Hub Elementor para landings tipo "índice de sub-cursos" (intro + "X

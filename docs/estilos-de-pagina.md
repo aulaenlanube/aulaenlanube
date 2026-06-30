@@ -69,3 +69,12 @@ una solución desplegable (`ExerciseSolution` → `CodeBlock`):
   `aria-live` para lectores de pantalla; copia el código limpio, no el HTML.
 - Se activan solo si la landing tiene `OCULTAR` + `<xmp>` + ≥2 encabezados
   `Ejercicio N` (`isExercisesContent`), para no afectar a otras páginas.
+- El botón **Mostrar/Ocultar solución** va en la cabecera, a la derecha del
+  título "Ejercicio N" (sin insignia numerada).
+
+Los **artículos/posts con ejemplos de código** (p.ej. los de algoritmos)
+reutilizan la misma caja `CodeBlock` (resaltado + copiar), pero **siempre
+visible** (sin desplegable): `parseArticleParts` (en `lib/content.ts`) trocea el
+HTML separando los `<pre><xmp>…</xmp></pre>` del texto y `ArticleTemplate` los
+intercala. Ejemplos: `/que-es-la-recursividad-la-explicacion-definitiva/`,
+`/los-mejores-algoritmos-ordenacion-quicksort-mergesort-heapsort/`.

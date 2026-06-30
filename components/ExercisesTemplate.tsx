@@ -44,7 +44,6 @@ export default function ExercisesTemplate({ entry }: { entry: ExerciseEntry }) {
           {entry.exercises.map((ex) => (
             <ExerciseCard
               key={ex.n}
-              n={ex.n}
               title={ex.title}
               statementHtml={ex.statementHtml}
               code={ex.code}

@@ -2,9 +2,13 @@ import Breadcrumbs from "./Breadcrumbs";
 import JsonLd from "./JsonLd";
 import ProductBlock from "./ProductBlock";
 import ArticleSidebar from "./ArticleSidebar";
+import CodeBlock from "./CodeBlock";
 import { getBreadcrumbs, getProducts } from "@/lib/content";
 import { articleLd, breadcrumbLd } from "@/lib/seo";
 import type { ArticleEntry } from "@/lib/content";
+
+const proseCls =
+  "prose prose-zinc max-w-none prose-a:text-blue-600 prose-img:rounded-lg";
 
 function fmt(d?: string): string {
   if (!d) return "";
@@ -28,10 +32,20 @@ export default function ArticleTemplate({ entry }: { entry: ArticleEntry }) {
             // eslint-disable-next-line @next/next/no-img-element
             <img src={entry.image} alt="" className="mt-6 w-full rounded-xl object-cover" />
           )}
-          <div
-            className="prose prose-zinc mt-8 max-w-none prose-a:text-blue-600 prose-img:rounded-lg"
-            dangerouslySetInnerHTML={{ __html: entry.html }}
-          />
+          {entry.parts ? (
+            // Artículo con ejemplos de código: texto + cajas de código resaltado.
+            <div className="mt-8 space-y-6">
+              {entry.parts.map((part, i) =>
+                part.t === "code" ? (
+                  <CodeBlock key={i} code={part.code} lines={part.lines} lang={part.lang} />
+                ) : (
+                  <div key={i} className={proseCls} dangerouslySetInnerHTML={{ __html: part.html }} />
+                )
+              )}
+            </div>
+          ) : (
+            <div className={`${proseCls} mt-8`} dangerouslySetInnerHTML={{ __html: entry.html }} />
+          )}
           <ProductBlock products={getProducts(3)} />
         </article>
 

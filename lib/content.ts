@@ -412,10 +412,16 @@ export interface LessonEntry {
   courseList: { n: number; path: string; title: string; current: boolean }[];
 }
 export interface ProductCard { src: string; title: string; href: string; }
+// Artículo troceado en HTML normal + bloques de código resaltado. Se usa cuando
+// el contenido lleva ejemplos de código (<pre><xmp>…</xmp></pre>), para pintarlos
+// con CodeBlock (resaltado + botón de copiar) en lugar de texto crudo.
+export type ArticlePart =
+  | { t: "html"; html: string }
+  | { t: "code"; code: string; lines: string[]; lang: string };
 export interface ArticleEntry {
   kind: "article"; path: string; title: string; description?: string; image?: string;
   head?: Head; html: string; date?: string; categories?: { name: string; slug: string }[]; parent?: NavLink;
-  intro?: string; cards?: ProductCard[];
+  intro?: string; cards?: ProductCard[]; parts?: ArticlePart[];
   subzones?: { path: string; title: string; image?: string }[];
 }
 export interface CourseCard { path: string; title: string; image?: string }
@@ -682,11 +688,13 @@ function hubEntry(
 }
 function articleFromPost(p: Post): ArticleEntry {
   const node = nodeById.get(p.id)!;
+  const parts = parseArticleParts(p.content);
   return {
     kind: "article", path: p.path, title: p.title,
     description: p.yoastDesc || clip(p.content), image: p.thumb || undefined,
     head: headByPath.get(p.path), html: sanitize(p.content), date: p.date,
     categories: p.categories, parent: parentLinkOf(node),
+    ...(parts ? { parts } : {}),
   };
 }
 function articleFromLanding(l: Landing): ArticleEntry {
@@ -697,6 +705,7 @@ function articleFromLanding(l: Landing): ArticleEntry {
   const subzones = childrenOf(l.id).map((k) => ({
     path: k.path, title: k.title, image: landingById.get(k.id)?.thumb || undefined,
   }));
+  const parts = cards.length >= 3 ? null : parseArticleParts(l.content);
   return {
     kind: "article", path: l.path, title: l.title,
     description: l.yoastDesc || clip(l.content || l.elementorTexts.join(" ")),
@@ -704,6 +713,7 @@ function articleFromLanding(l: Landing): ArticleEntry {
     parent: parentLinkOf(node),
     // Si hay ≥3 fichas de afiliado, la landing se maqueta como rejilla de productos.
     ...(cards.length >= 3 ? { intro, cards } : {}),
+    ...(parts ? { parts } : {}),
     ...(subzones.length ? { subzones } : {}),
   };
 }
@@ -752,6 +762,45 @@ function parseExercises(content: string): { intro: string; exercises: Exercise[]
     };
   });
   return { intro, exercises };
+}
+
+// Trocea el HTML de un artículo separando los bloques de código
+// (<pre>…<xmp>código</xmp>…</pre>) del texto. Cada trozo de texto se sanea como
+// siempre; cada bloque de código se resalta. Si no hay código, devuelve null y
+// el artículo se pinta como antes (un solo bloque de HTML).
+function parseArticleParts(content: string): ArticlePart[] | null {
+  const c = content || "";
+  if (!/<pre\b/i.test(c)) return null;
+  const re = /<pre\b[^>]*>[\s\S]*?<\/pre>/gi;
+  const parts: ArticlePart[] = [];
+  let last = 0;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(c))) {
+    const before = c.slice(last, m.index);
+    if (stripHtml(before).trim() || /<img|<iframe/i.test(before)) parts.push({ t: "html", html: sanitize(before) });
+    const block = m[0];
+    const xmp = block.match(/<xmp>([\s\S]*?)<\/xmp>/i);
+    const codeTag = block.match(/<code\b[^>]*>([\s\S]*?)<\/code>/i);
+    const raw = xmp
+      ? xmp[1]
+      : codeTag
+        ? decodeEntities(codeTag[1].replace(/<[^>]+>/g, ""))
+        : decodeEntities(block.replace(/<\/?pre[^>]*>/gi, ""));
+    const lang = detectCodeLang(raw);
+    const hl = highlightCode(raw, lang.toLowerCase());
+    parts.push({ t: "code", code: hl.code, lines: hl.lines, lang });
+    last = re.lastIndex;
+  }
+  const tail = c.slice(last);
+  if (stripHtml(tail).trim() || /<img|<iframe/i.test(tail)) parts.push({ t: "html", html: sanitize(tail) });
+  return parts.some((p) => p.t === "code") ? parts : null;
+}
+
+// Heurística de lenguaje para la etiqueta de la caja (todo el contenido actual
+// es Java; solo se marca Python ante señales claras).
+function detectCodeLang(code: string): string {
+  const py = /^\s*def\s+\w+\s*\(|^\s*(?:elif|print)\b|:\s*$/m.test(code) && !/;\s*$/m.test(code);
+  return py ? "Python" : "Java";
 }
 
 function exerciseEntryFromLanding(l: Landing): ExerciseEntry {

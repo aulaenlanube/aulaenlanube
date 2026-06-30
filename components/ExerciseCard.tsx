@@ -23,7 +23,7 @@ export default function ExerciseCard({
   const hasCode = !!(code && lines && lines.length > 0);
 
   return (
-    <section className="mt-8 scroll-mt-24 rounded-2xl border border-sky-100 bg-gradient-to-br from-sky-50/80 via-white to-indigo-50/50 p-5 shadow-sm ring-1 ring-white/50 transition-all duration-200 hover:border-sky-200 hover:shadow-md motion-reduce:transition-none sm:p-7">
+    <section className="mt-8 scroll-mt-24 rounded-2xl border border-sky-200 bg-gradient-to-br from-sky-100 via-blue-50 to-indigo-100 p-5 shadow-sm transition-all duration-200 hover:border-sky-300 hover:shadow-md motion-reduce:transition-none sm:p-7">
       <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
         <h2 className="text-xl font-bold tracking-tight text-zinc-900 sm:text-2xl">{title}</h2>
         {hasCode && (

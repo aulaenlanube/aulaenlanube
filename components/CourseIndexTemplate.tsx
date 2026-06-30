@@ -102,7 +102,7 @@ function SectionLanding({ entry }: { entry: CourseIndexEntry }) {
       <h1 className="mt-8 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">{entry.title}</h1>
       {s.introHtml && (
         <div
-          className="prose prose-zinc mt-4 max-w-none text-zinc-700 prose-a:text-blue-600"
+          className="prose prose-zinc mt-4 max-w-none text-zinc-700 prose-a:text-blue-600 [&_iframe]:aspect-video [&_iframe]:h-auto [&_iframe]:w-full [&_iframe]:rounded-lg [&_iframe]:ring-1 [&_iframe]:ring-zinc-200"
           dangerouslySetInnerHTML={{ __html: s.introHtml }}
         />
       )}
@@ -182,7 +182,7 @@ export default function CourseIndexTemplate({ entry }: { entry: CourseIndexEntry
           </h1>
           {entry.introHtml ? (
             <div
-              className="prose prose-zinc mt-4 max-w-none text-zinc-700 prose-a:text-blue-600"
+              className="prose prose-zinc mt-4 max-w-none text-zinc-700 prose-a:text-blue-600 [&_iframe]:aspect-video [&_iframe]:h-auto [&_iframe]:w-full [&_iframe]:rounded-lg [&_iframe]:ring-1 [&_iframe]:ring-zinc-200"
               dangerouslySetInnerHTML={{ __html: entry.introHtml }}
             />
           ) : entry.intro ? (

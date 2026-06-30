@@ -291,7 +291,7 @@ function sanitize(html: string): string {
   const cleaned = (html || "")
     .replace(/<script[\s\S]*?<\/script>/gi, "")
     .replace(/<style[\s\S]*?<\/style>/gi, "")
-    .replace(/<ins\b[^>]*adsbygoogle[\s\S]*?<\/ins>/gi, "") // quita unidades AdSense
+    .replace(/<ins\b[^>]*(?:adsbygoogle|data-ad-)[\s\S]*?<\/ins>/gi, "") // quita unidades AdSense (por clase o por data-ad-*)
     // Los emoji de WordPress vienen como <img class="emoji" .../> y, sin el CSS
     // de WP, se renderizan enormes. Los sustituimos por su carácter unicode (alt).
     .replace(/<img\b[^>]*>/gi, (tag) =>

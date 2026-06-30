@@ -87,7 +87,9 @@ export default async function Page({ params }: { params: Promise<Params> }) {
     case "home":
       return <HomeTemplate entry={entry} />;
     case "lesson":
-      return entry.hub ? <HubTemplate entry={entry} /> : <LessonTemplate entry={entry} />;
+      return <LessonTemplate entry={entry} />;
+    case "hub":
+      return <HubTemplate entry={entry} />;
     case "courseIndex":
       return <CourseIndexTemplate entry={entry} />;
     case "article":

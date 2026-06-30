@@ -5,7 +5,7 @@ import Breadcrumbs from "./Breadcrumbs";
 import JsonLd from "./JsonLd";
 import { getBreadcrumbs } from "@/lib/content";
 import { videoLd, breadcrumbLd } from "@/lib/seo";
-import type { LessonEntry, HubBlock } from "@/lib/content";
+import type { HubEntry, HubBlock } from "@/lib/content";
 
 const clean = (t: string) => t.replace(/^▷\s*/, "").trim();
 
@@ -104,9 +104,10 @@ function Block({ block }: { block: HubBlock }) {
 
 // Plantilla para páginas "hub" (índices de curso ricos al estilo Elementor):
 // contenido reconstruido en orden + barra lateral, fiel al WordPress original.
-export default function HubTemplate({ entry }: { entry: LessonEntry }) {
-  const blocks = entry.hub ?? [];
+export default function HubTemplate({ entry }: { entry: HubEntry }) {
+  const blocks = entry.hub;
   const crumbs = getBreadcrumbs(entry.path);
+  const hadTriangle = /^▷/.test(entry.title); // solo algunos títulos llevan "▷"
 
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:py-10">
@@ -114,7 +115,7 @@ export default function HubTemplate({ entry }: { entry: LessonEntry }) {
       <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_19rem] lg:gap-10">
         <article className="min-w-0">
           <h1 className="flex items-baseline gap-2 text-2xl font-bold tracking-tight text-zinc-900 sm:text-3xl">
-            <span className="text-blue-500">▷</span>
+            {hadTriangle && <span className="text-blue-500">▷</span>}
             <span>{clean(entry.title)}</span>
           </h1>
           {blocks.map((b, i) => (
@@ -127,7 +128,7 @@ export default function HubTemplate({ entry }: { entry: LessonEntry }) {
         </aside>
       </div>
 
-      <JsonLd data={[videoLd(entry.lesson), breadcrumbLd(crumbs)]} />
+      <JsonLd data={entry.lesson ? [videoLd(entry.lesson), breadcrumbLd(crumbs)] : breadcrumbLd(crumbs)} />
     </div>
   );
 }

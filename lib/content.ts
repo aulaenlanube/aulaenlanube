@@ -409,9 +409,6 @@ export interface LessonEntry {
   head?: Head; lesson: Lesson; bodyHtml: string; prev?: NavLink; next?: NavLink; parent?: NavLink;
   siblingCount: number; siblings: { path: string; title: string; videoId?: string }[];
   courseList: { n: number; path: string; title: string; current: boolean }[];
-  // Si la página es un "hub" Elementor (índice de curso con vídeo, slides y
-  // rejillas de tarjetas), sus bloques reconstruidos; si no, ausente.
-  hub?: HubBlock[];
 }
 export interface ProductCard { src: string; title: string; href: string; }
 export interface ArticleEntry {
@@ -431,6 +428,13 @@ export type HubBlock =
   | { t: "video"; videoId: string }
   | { t: "alert"; title: string; desc: string; variant: string }
   | { t: "cards"; columns: number; items: CourseCard[] };
+// Página "hub": índice de curso rico hecho con Elementor (intro + presentación +
+// vídeo + rejillas de tarjetas). La produce tanto una lección (p.ej. zona Java)
+// como una landing (p.ej. /cursos/curso-google/).
+export interface HubEntry {
+  kind: "hub"; path: string; title: string; description?: string; image?: string;
+  head?: Head; hub: HubBlock[]; parent?: NavLink; lesson?: Lesson;
+}
 export interface CourseIndexEntry {
   kind: "courseIndex"; path: string; title: string; description?: string; image?: string;
   head?: Head; intro?: string; introHtml?: string; items: { path: string; title: string; videoId?: string; image?: string; isSection: boolean }[]; parent?: NavLink;
@@ -459,7 +463,7 @@ export interface HomeEntry {
   sections: { path: string; title: string; image?: string; count: number }[];
   recentPosts: { path: string; title: string; date: string }[];
 }
-export type Entry = LessonEntry | ArticleEntry | CourseIndexEntry | HomeEntry;
+export type Entry = LessonEntry | HubEntry | ArticleEntry | CourseIndexEntry | HomeEntry;
 
 /* ---------- páginas "hub" (índices de curso Elementor) ----------
    Algunas páginas (p.ej. /zona-programacion/java/) son índices ricos hechos con
@@ -567,14 +571,30 @@ function lessonEntry(l: Lesson): LessonEntry {
     .filter((s) => s.id !== l.id)
     .map((s) => ({ path: s.path, title: s.title, videoId: lessonById.get(s.id)?.videoId }));
   const courseList = kids.map((s, i) => ({ n: i + 1, path: s.path, title: s.title, current: s.id === l.id }));
-  const hub = parseHubBlocks(l.id);
   return {
     kind: "lesson", path: l.path, title: l.title,
     description: l.yoastDesc || clip(l.desc), image: l.thumb || ytThumb(l.videoId),
     head: headByPath.get(l.path), lesson: l, bodyHtml: sanitize(l.desc),
     prev, next, parent: parentLinkOf(node),
     siblingCount: kids.length, siblings, courseList,
-    ...(hub.some((b) => b.t === "cards") ? { hub } : {}),
+  };
+}
+
+// Construye una entrada "hub" a partir de una lección o landing con widgets
+// Elementor (intro + presentación + rejillas de tarjetas). `lesson` solo se pasa
+// para lecciones (habilita el JSON-LD de vídeo).
+function hubEntry(
+  base: { id: number; path: string; title: string; yoastDesc?: string; thumb?: string },
+  descSrc: string,
+  blocks: HubBlock[],
+  lesson?: Lesson
+): HubEntry {
+  const node = nodeById.get(base.id)!;
+  return {
+    kind: "hub", path: base.path, title: base.title,
+    description: base.yoastDesc || clip(descSrc),
+    image: base.thumb || undefined,
+    head: headByPath.get(base.path), hub: blocks, parent: parentLinkOf(node), lesson,
   };
 }
 function articleFromPost(p: Post): ArticleEntry {
@@ -751,14 +771,29 @@ export function getByPath(p: string): Entry | undefined {
     return home ? homeEntry(home) : { kind: "home", path: "/", title: SITE_NAME, courses: [], sections: [], recentPosts: [] };
   }
   const les = lessonByPath.get(k);
-  if (les) return lessonEntry(les);
+  if (les) {
+    // Hub Elementor (rejillas de tarjetas): p.ej. /zona-programacion/java/.
+    const blocks = parseHubBlocks(les.id);
+    if (blocks.some((b) => b.t === "cards")) return hubEntry(les, les.desc, blocks, les);
+    return lessonEntry(les);
+  }
   const post = postByPath.get(k);
   if (post) return articleFromPost(post);
   const land = landingByPath.get(k);
   if (land) {
+    const hasChildren = childrenOf(land.id).length > 0;
+    const isProductGrid = parseProductCards(land.content).cards.length >= 3;
+    // Hub Elementor para landings tipo "índice de sub-cursos" (intro + "X
+    // bloques" + rejilla de tarjetas de posts), p.ej. /cursos/curso-google/.
+    // Solo si NO tiene hijos directos (si los tiene, el índice ya los muestra) y
+    // no es una rejilla de productos de afiliado (zona friki).
+    if (!hasChildren && !isProductGrid) {
+      const blocks = parseHubBlocks(land.id);
+      if (blocks.some((b) => b.t === "cards")) return hubEntry(land, land.content, blocks);
+    }
     // Con hijos se usa el índice de sección, salvo que sea una landing de
     // productos (≥3 fichas de afiliado, p.ej. /zona-friki/): entonces, rejilla.
-    if (childrenOf(land.id).length > 0 && parseProductCards(land.content).cards.length < 3) {
+    if (hasChildren && !isProductGrid) {
       return courseIndexEntry(land);
     }
     return articleFromLanding(land);

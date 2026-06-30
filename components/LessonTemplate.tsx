@@ -14,11 +14,13 @@ function clean(t: string): string {
 }
 
 // Barra lateral de las páginas de vídeo: SIEMPRE muestra el banner de
-// OposicionesIA; el listado de lecciones del curso solo si hay ≥2.
+// OposicionesIA arriba; el listado de lecciones del curso debajo, solo si hay ≥2.
 function LessonSidebar({ entry }: { entry: LessonEntry }) {
   const hasList = entry.courseList.length >= 2;
   return (
     <div className="space-y-7 lg:sticky lg:top-20">
+      <OposicionesIaBanner />
+
       {hasList && (
         <div className="rounded-xl border border-zinc-200">
           <div className="border-b border-zinc-100 p-3">
@@ -52,8 +54,6 @@ function LessonSidebar({ entry }: { entry: LessonEntry }) {
           </ol>
         </div>
       )}
-
-      <OposicionesIaBanner />
     </div>
   );
 }

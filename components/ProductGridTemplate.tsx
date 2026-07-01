@@ -1,5 +1,4 @@
 import Link from "@/components/Link";
-import Breadcrumbs from "./Breadcrumbs";
 import JsonLd from "./JsonLd";
 import ProductBlock from "./ProductBlock";
 import { getBreadcrumbs, getProducts } from "@/lib/content";
@@ -17,7 +16,6 @@ export default function ProductGridTemplate({ entry }: { entry: ArticleEntry }) 
 
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:py-10">
-      <Breadcrumbs items={crumbs} />
       <h1 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
         {entry.title}
       </h1>
@@ -51,29 +49,56 @@ export default function ProductGridTemplate({ entry }: { entry: ArticleEntry }) 
         {cards.map((c, i) => (
           <div
             key={i}
-            className="group flex flex-col overflow-hidden rounded-xl border border-zinc-200 bg-white transition hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-md"
+            className={
+              "group flex flex-col overflow-hidden rounded-xl border bg-white transition " +
+              (c.unavailable
+                ? "border-zinc-200 opacity-95"
+                : "border-zinc-200 hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-md")
+            }
           >
-            <div className="flex aspect-square items-center justify-center bg-white p-3">
+            <div className="relative flex aspect-square items-center justify-center bg-white p-3">
+              {c.unavailable && (
+                <span className="absolute left-2 top-2 z-10 rounded-full bg-zinc-800/90 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-white shadow-sm">
+                  No disponible
+                </span>
+              )}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={c.src}
                 alt={c.title}
                 loading="lazy"
-                className="max-h-full max-w-full object-contain"
+                className={
+                  "max-h-full max-w-full object-contain" +
+                  (c.unavailable ? " opacity-40 grayscale" : "")
+                }
               />
             </div>
             <div className="flex flex-1 flex-col gap-3 border-t border-zinc-100 p-3">
-              <h3 className="line-clamp-2 min-h-[2.5rem] text-sm font-semibold text-zinc-800">
+              <h3
+                className={
+                  "line-clamp-2 min-h-[2.5rem] text-sm font-semibold " +
+                  (c.unavailable ? "text-zinc-400" : "text-zinc-800")
+                }
+              >
                 {c.title}
               </h3>
-              <a
-                href={c.href}
-                target="_blank"
-                rel="nofollow noopener sponsored"
-                className="mt-auto rounded-lg bg-amber-400 px-3 py-2 text-center text-sm font-bold text-zinc-900 shadow-sm transition hover:bg-amber-300"
-              >
-                VER PRODUCTO
-              </a>
+              {c.unavailable ? (
+                <span
+                  aria-disabled="true"
+                  className="mt-auto cursor-not-allowed select-none rounded-lg bg-zinc-100 px-3 py-2 text-center text-sm font-bold text-zinc-400"
+                >
+                  No disponible
+                </span>
+              ) : (
+                <a
+                  href={c.href}
+                  target="_blank"
+                  rel="nofollow noopener sponsored"
+                  className="mt-auto rounded-lg bg-amber-400 px-3 py-2 text-center text-sm font-bold text-zinc-900 shadow-sm transition hover:bg-amber-300"
+                >
+                  VER PRODUCTO
+                </a>
+              )}
             </div>
           </div>
         ))}

@@ -1,4 +1,3 @@
-import Breadcrumbs from "./Breadcrumbs";
 import JsonLd from "./JsonLd";
 import ProductBlock from "./ProductBlock";
 import ArticleSidebar from "./ArticleSidebar";
@@ -22,7 +21,6 @@ export default function ArticleTemplate({ entry }: { entry: ArticleEntry }) {
   const crumbs = getBreadcrumbs(entry.path);
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:py-10">
-      <Breadcrumbs items={crumbs} />
       <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_19rem] lg:gap-10">
         <article className="min-w-0">
           <h1 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">

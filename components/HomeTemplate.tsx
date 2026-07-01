@@ -1,4 +1,6 @@
 import Link from "@/components/Link";
+import JsonLd from "@/components/JsonLd";
+import { faqLd } from "@/lib/seo";
 import type { HomeEntry } from "@/lib/content";
 
 const PAYPAL = "https://www.paypal.com/donate/?hosted_button_id=BHP6VTDH58YNL";
@@ -180,6 +182,7 @@ export default function HomeTemplate({ entry }: { entry: HomeEntry }) {
               </details>
             ))}
           </div>
+          <JsonLd data={faqLd(c.faqs)} />
         </section>
       )}
     </div>

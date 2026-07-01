@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { highlightCode } from "./highlight";
+import { LEGAL_PAGES, LEGAL_PATHS } from "./legal";
 
 export const SITE_NAME = "Aula en la nube";
 export const SITE_URL = "https://aulaenlanube.com";
@@ -54,6 +55,18 @@ export interface MenuItem { title: string; url: string; external?: boolean; chil
 let menu: MenuItem[] = [];
 try { menu = read<MenuItem[]>("menu.json"); } catch { menu = []; }
 export function getMenu(): MenuItem[] { return menu; }
+
+// Enlaces de afiliado de Amazon marcados como NO disponibles (agotados o
+// retirados del catálogo). La lista la genera el verificador de disponibilidad
+// (node tools/check-amazon.mjs) y se referencia por su URL amzn.to. Tolerante si no existe.
+let unavailableHrefs = new Set<string>();
+try {
+  const u = read<{ hrefs?: string[] }>("unavailable-products.json");
+  unavailableHrefs = new Set((u.hrefs || []).map((h) => h.trim()));
+} catch { unavailableHrefs = new Set(); }
+export function isUnavailable(href: string): boolean {
+  return unavailableHrefs.has((href || "").trim());
+}
 
 // El <title> del crawl puede traer entidades HTML (&#038;, &#8230;, ...).
 // Las decodificamos para que React no las doble-escape y el título sea fiel.
@@ -404,7 +417,7 @@ function parseProductCards(content: string): { intro: string; cards: ProductCard
     const href = m[3];
     if (!/amzn\.to|amazon\./i.test(href)) continue; // solo fichas de afiliado
     const title = decodeEntities(stripHtml(m[2])).replace(/^▷\s*/, "").trim();
-    cards.push({ src: m[1], title, href });
+    cards.push({ src: m[1], title, href, ...(isUnavailable(href) ? { unavailable: true } : {}) });
   }
   return { intro, cards };
 }
@@ -473,7 +486,7 @@ export interface LessonEntry {
   siblingCount: number; siblings: { path: string; title: string; videoId?: string }[];
   courseList: { n: number; path: string; title: string; current: boolean }[];
 }
-export interface ProductCard { src: string; title: string; href: string; }
+export interface ProductCard { src: string; title: string; href: string; unavailable?: boolean; }
 // Artículo troceado en HTML normal + bloques de código resaltado. Se usa cuando
 // el contenido lleva ejemplos de código (<pre><xmp>…</xmp></pre>), para pintarlos
 // con CodeBlock (resaltado + botón de copiar) en lugar de texto crudo.
@@ -543,7 +556,13 @@ export interface HomeEntry {
   sections: { path: string; title: string; image?: string; count: number }[];
   recentPosts: { path: string; title: string; date: string }[];
 }
-export type Entry = LessonEntry | HubEntry | ArticleEntry | ExerciseEntry | CourseIndexEntry | HomeEntry;
+// Páginas legales (privacidad, condiciones, cookies): contenido redactado a mano
+// para la plataforma actual, con plantilla propia (sin bloque de productos).
+export interface LegalEntry {
+  kind: "legal"; path: string; title: string; description: string;
+  html: string; updated: string; head?: Head; parent?: NavLink;
+}
+export type Entry = LessonEntry | HubEntry | ArticleEntry | ExerciseEntry | CourseIndexEntry | HomeEntry | LegalEntry;
 
 /* ---------- páginas "hub" (índices de curso Elementor) ----------
    Algunas páginas (p.ej. /zona-programacion/java/) son índices ricos hechos con
@@ -955,7 +974,14 @@ function courseIndexEntry(l: Landing): CourseIndexEntry {
     return { path: k.path, title: k.title, videoId: les?.videoId, image: thumbOf(k.path), isSection: childrenOf(k.id).length > 0 };
   });
   const intro = l.yoastDesc || (l.elementorTexts[0] ? stripHtml(l.elementorTexts[0]) : "");
-  const introHtml = sanitize(l.content) || undefined;
+  // Quita el encabezado "…se divide en los siguientes vídeos" que trae el
+  // contenido migrado (a veces con la errata "cuso"): la plantilla ya añade su
+  // propio h2 antes de la rejilla de vídeos, así que aparecía duplicado.
+  const introHtml =
+    ((sanitize(l.content) || "").replace(
+      /<(h[1-6])\b[^>]*>(?:(?!<\/\1>)[\s\S])*?se divide en los siguientes(?:(?!<\/\1>)[\s\S])*?<\/\1>/gi,
+      ""
+    ).trim()) || undefined;
   // La portada de cursos (/cursos/) se maqueta como el original: rejilla de
   // portadas propias + "Otros cursos" + advertencia + FAQ.
   const isCursos = normKey(l.path) === normKey("/cursos/");
@@ -1052,6 +1078,17 @@ export function getByPath(p: string): Entry | undefined {
     const home = landingByPath.get("/");
     return home ? homeEntry(home) : { kind: "home", path: "/", title: SITE_NAME, courses: [], sections: [], recentPosts: [] };
   }
+  // Páginas legales (privacidad/condiciones/cookies): contenido propio y al día.
+  // Se interceptan aquí para sustituir el texto migrado del WordPress antiguo.
+  const legal = LEGAL_PAGES[k];
+  if (legal) {
+    const node = nodeByPath.get(k);
+    return {
+      kind: "legal", path: k, title: legal.title, description: legal.description,
+      html: legal.html, updated: legal.updated, head: headByPath.get(k),
+      parent: node?.parent ? parentLinkOf(node) : undefined,
+    };
+  }
   // Páginas fusionadas (p.ej. las dos URLs del curso de OBS): ambas muestran el
   // contenido combinado, cada una con su propio <head>.
   const mergeNode = lessonByPath.get(k) || landingByPath.get(k);
@@ -1098,11 +1135,18 @@ export function segsToPath(segs?: string[]): string {
   if (!segs || segs.length === 0) return "/";
   return "/" + segs.join("/") + "/";
 }
+// Rutas legales que NO existen como nodo migrado (p.ej. la nueva de cookies) y
+// que hay que añadir a la generación estática y al sitemap.
+const nodePathSet = new Set(nodes.map((n) => n.path));
+const extraLegalPaths = LEGAL_PATHS.filter((p) => !nodePathSet.has(p));
 export function getAllPaths(): string[] {
-  return nodes.map((n) => n.path);
+  return [...nodes.map((n) => n.path), ...extraLegalPaths];
 }
 export function getAllForSitemap(): { path: string; lastmod: string }[] {
-  return nodes.map((n) => ({ path: n.path, lastmod: (n.date || "").slice(0, 10) || "2024-01-01" }));
+  return [
+    ...nodes.map((n) => ({ path: n.path, lastmod: (n.date || "").slice(0, 10) || "2024-01-01" })),
+    ...extraLegalPaths.map((p) => ({ path: p, lastmod: LEGAL_PAGES[p].updated })),
+  ];
 }
 
 const nodeByPath = new Map(nodes.map((n) => [n.path, n]));

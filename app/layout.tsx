@@ -3,14 +3,17 @@ import { Inter } from "next/font/google";
 import Link from "@/components/Link";
 import SiteHeader from "@/components/SiteHeader";
 import NewsletterForm from "@/components/NewsletterForm";
+import CookieNotice from "@/components/CookieNotice";
+import JsonLd from "@/components/JsonLd";
 import { getMenu } from "@/lib/content";
+import { organizationLd, websiteLd } from "@/lib/seo";
 import { SOCIAL } from "@/lib/social";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], display: "swap", variable: "--font-inter" });
 
-const LOGO = "/wp-content/uploads/2021/03/Logo-CABECERA-web-1-1024x280.png";
-const FOOTER_LOGO = "/wp-content/uploads/2021/03/Logo-aulaenlanube-2-768x570.png";
+const LOGO = "/wp-content/uploads/2021/03/Logo-CABECERA-web-1-1024x280.webp";
+const FOOTER_LOGO = "/wp-content/uploads/2021/03/Logo-aulaenlanube-2-768x570.webp";
 const FAVICON =
   "https://aulaenlanube.com/wp-content/uploads/2022/10/cropped-favicon-aulaenlanube-1-192x192.webp";
 
@@ -26,11 +29,13 @@ export const metadata: Metadata = {
   icons: { icon: FAVICON, apple: FAVICON },
 };
 
-// Enlaces de la barra inferior, como en el pie original.
-const FOOTER_LINKS = [
-  { t: "Contacto", u: "/contacto/" },
+// Enlaces de la barra inferior, como en el pie original. "Contacto" ya no es una
+// página propia: enlaza al perfil de LinkedIn del autor (external -> nueva pestaña).
+const FOOTER_LINKS: { t: string; u: string; external?: boolean }[] = [
+  { t: "Contacto", u: "https://www.linkedin.com/in/edutorregrosa/", external: true },
   { t: "Política de privacidad", u: "/politica-de-privacidad/" },
   { t: "Condiciones de uso", u: "/condiciones-de-uso/" },
+  { t: "Política de cookies", u: "/politica-de-cookies/" },
 ];
 
 export default function RootLayout({
@@ -39,6 +44,13 @@ export default function RootLayout({
   return (
     <html lang="es" className={`${inter.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col bg-white text-zinc-900">
+        {/* Acelera miniaturas/reproductor de YouTube (React 19 eleva estos <link>
+            al <head>). */}
+        <link rel="preconnect" href="https://i.ytimg.com" />
+        <link rel="preconnect" href="https://www.youtube-nocookie.com" />
+        <link rel="dns-prefetch" href="https://i.ytimg.com" />
+        {/* Grafo de conocimiento del sitio (Organización + WebSite con búsqueda). */}
+        <JsonLd data={[organizationLd(), websiteLd()]} />
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-white focus:px-4 focus:py-2 focus:shadow focus:ring-2 focus:ring-blue-600"
@@ -84,11 +96,23 @@ export default function RootLayout({
                 <img src={FOOTER_LOGO} alt="Aula en la nube" className="h-14 w-auto" />
               </Link>
               <nav className="flex flex-wrap justify-center gap-x-8 gap-y-2">
-                {FOOTER_LINKS.map((l) => (
-                  <Link key={l.u} href={l.u} className="text-zinc-300 transition hover:text-white">
-                    {l.t}
-                  </Link>
-                ))}
+                {FOOTER_LINKS.map((l) =>
+                  l.external ? (
+                    <a
+                      key={l.u}
+                      href={l.u}
+                      target="_blank"
+                      rel="noopener me"
+                      className="text-zinc-300 transition hover:text-white"
+                    >
+                      {l.t}
+                    </a>
+                  ) : (
+                    <Link key={l.u} href={l.u} className="text-zinc-300 transition hover:text-white">
+                      {l.t}
+                    </Link>
+                  )
+                )}
               </nav>
               <div className="flex flex-none gap-3">
                 {SOCIAL.map((s) => (
@@ -115,6 +139,8 @@ export default function RootLayout({
             aulaenlanube {new Date().getFullYear()} <span className="text-red-500">❤</span> web de Edu Torregrosa Llácer
           </div>
         </footer>
+
+        <CookieNotice />
       </body>
     </html>
   );

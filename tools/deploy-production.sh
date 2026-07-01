@@ -52,8 +52,19 @@ ssh -p "$SSH_PORT" -o BatchMode=yes "$HOST" "
   tar xzf ~/aeln-prod.tgz -C ~/aeln-prod-tmp
   # rsync SIN --delete: añade/actualiza nuestras páginas, no toca ficheros de WP
   rsync -a --exclude='.htaccess' ~/aeln-prod-tmp/ \"\$ROOT/\"
-  # .htaccess de producción: servir estático, con index.php de respaldo (wp-admin)
-  printf 'Options +FollowSymLinks\nDirectoryIndex index.html index.php\nRewriteEngine Off\n' > \"\$ROOT/.htaccess\"
+  # .htaccess de producción: servir estático (index.html primero), con index.php
+  # de respaldo (wp-admin) y PRESERVANDO el handler PHP de LiteSpeed para que
+  # wp-admin y subscribe.php sigan ejecutando PHP.
+  {
+    printf 'Options +FollowSymLinks\nDirectoryIndex index.html index.php\nRewriteEngine Off\n'
+    printf '<FilesMatch \"\\\\.(php4|php5|php3|php2|php|phtml)\$\">\n    SetHandler application/x-lsphp82\n</FilesMatch>\n'
+    # Redirecciones 301 (SEO): slugs limpiados. mod_alias funciona con RewriteEngine Off.
+    # El patron captura el prefijo antiguo (caracter decorativo) pero NO la URL nueva (evita bucle).
+    printf '\n# Redirecciones 301 (SEO)\n'
+    printf 'RedirectMatch 301 \"^/zona-friki/[^/]+-moda-para-geeks-frikis-y-fans-del-anime/?\$\" \"https://aulaenlanube.com/zona-friki/moda-para-geeks-frikis-y-fans-del-anime/\"\n'
+    # Página de contacto eliminada: el contacto ahora es el LinkedIn del autor.
+    printf 'RedirectMatch 301 \"^/contacto/?\$\" \"https://www.linkedin.com/in/edutorregrosa/\"\n'
+  } > \"\$ROOT/.htaccess\"
   rm -rf ~/aeln-prod.tgz ~/aeln-prod-tmp
   echo -n '   Ficheros en la raíz: '; find \"\$ROOT\" -maxdepth 1 -type d | wc -l
   echo '   robots.txt -> '; head -3 \"\$ROOT/robots.txt\" 2>/dev/null

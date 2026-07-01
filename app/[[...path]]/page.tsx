@@ -14,8 +14,12 @@ import ExercisesTemplate from "@/components/ExercisesTemplate";
 import ProductGridTemplate from "@/components/ProductGridTemplate";
 import CourseIndexTemplate from "@/components/CourseIndexTemplate";
 import HomeTemplate from "@/components/HomeTemplate";
+import LegalTemplate from "@/components/LegalTemplate";
 
 export const dynamicParams = false;
+
+const AUTHOR_URL = "https://www.linkedin.com/in/edutorregrosa/";
+const DEFAULT_OG = `${SITE_URL}/wp-content/uploads/2021/03/Logo-CABECERA-web-1-1024x280.webp`;
 
 type Params = { path?: string[] };
 
@@ -63,18 +67,38 @@ export async function generateMetadata({
       : `${entry.title} – ${SITE_NAME}`);
   const description = entry.description;
   const image = (entry as { image?: string }).image;
+  const isArticle = entry.kind === "article" || entry.kind === "exercises";
+  const date = (entry as { date?: string }).date;
+  const ogImage = image || DEFAULT_OG;
 
   return {
     title: { absolute: title },
     description,
     alternates: { canonical: entry.path },
+    authors: [{ name: "Edu Torregrosa", url: AUTHOR_URL }],
+    creator: "Edu Torregrosa",
+    publisher: SITE_NAME,
     openGraph: {
       title,
       description,
       url: SITE_URL + entry.path,
       siteName: SITE_NAME,
-      type: entry.kind === "article" || entry.kind === "exercises" ? "article" : "website",
-      images: image ? [{ url: image }] : undefined,
+      locale: "es_ES",
+      type: isArticle ? "article" : "website",
+      images: [{ url: ogImage }],
+      ...(isArticle && date
+        ? {
+            publishedTime: date.replace(" ", "T"),
+            modifiedTime: date.replace(" ", "T"),
+            authors: [AUTHOR_URL],
+          }
+        : {}),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [ogImage],
     },
   };
 }
@@ -95,6 +119,8 @@ export default async function Page({ params }: { params: Promise<Params> }) {
       return <ExercisesTemplate entry={entry} />;
     case "courseIndex":
       return <CourseIndexTemplate entry={entry} />;
+    case "legal":
+      return <LegalTemplate entry={entry} />;
     case "article":
       return entry.cards?.length ? (
         <ProductGridTemplate entry={entry} />

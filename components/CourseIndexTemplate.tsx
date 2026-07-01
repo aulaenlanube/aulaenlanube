@@ -1,9 +1,8 @@
 import Link from "@/components/Link";
-import Breadcrumbs from "./Breadcrumbs";
 import JsonLd from "./JsonLd";
 import CourseAside from "./CourseAside";
-import { getBreadcrumbs } from "@/lib/content";
-import { breadcrumbLd } from "@/lib/seo";
+import { getBreadcrumbs, SITE_URL } from "@/lib/content";
+import { breadcrumbLd, courseLd, faqLd } from "@/lib/seo";
 import type { CourseIndexEntry, CourseCard } from "@/lib/content";
 
 const clean = (t: string) => t.replace(/^▷\s*/, "").trim();
@@ -155,7 +154,13 @@ export default function CourseIndexTemplate({ entry }: { entry: CourseIndexEntry
     return (
       <>
         <CoursesLanding entry={entry} />
-        <JsonLd data={breadcrumbLd(crumbs)} />
+        <JsonLd
+          data={
+            entry.faqs && entry.faqs.length > 0
+              ? [breadcrumbLd(crumbs), faqLd(entry.faqs)]
+              : breadcrumbLd(crumbs)
+          }
+        />
       </>
     );
   }
@@ -174,7 +179,6 @@ export default function CourseIndexTemplate({ entry }: { entry: CourseIndexEntry
   const allVideos = entry.items.length > 0 && entry.items.every((it) => it.videoId);
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:py-10">
-      <Breadcrumbs items={crumbs} />
       <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_19rem] lg:gap-10">
         <div className="min-w-0">
           <h1 className="text-center text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
@@ -227,7 +231,17 @@ export default function CourseIndexTemplate({ entry }: { entry: CourseIndexEntry
         </aside>
       </div>
 
-      <JsonLd data={breadcrumbLd(crumbs)} />
+      <JsonLd
+        data={[
+          breadcrumbLd(crumbs),
+          courseLd({
+            name: entry.title,
+            description: entry.description,
+            url: SITE_URL + entry.path,
+            image: entry.image,
+          }),
+        ]}
+      />
     </div>
   );
 }

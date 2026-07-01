@@ -1,10 +1,9 @@
 import Link from "@/components/Link";
 import CourseAside from "./CourseAside";
 import YouTubeLite from "./YouTubeLite";
-import Breadcrumbs from "./Breadcrumbs";
 import JsonLd from "./JsonLd";
-import { getBreadcrumbs } from "@/lib/content";
-import { videoLd, breadcrumbLd } from "@/lib/seo";
+import { getBreadcrumbs, SITE_URL } from "@/lib/content";
+import { videoLd, breadcrumbLd, courseLd } from "@/lib/seo";
 import type { HubEntry, HubBlock } from "@/lib/content";
 
 const clean = (t: string) => t.replace(/^▷\s*/, "").trim();
@@ -111,7 +110,6 @@ export default function HubTemplate({ entry }: { entry: HubEntry }) {
 
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:py-10">
-      <Breadcrumbs items={crumbs} />
       <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_19rem] lg:gap-10">
         <article className="min-w-0">
           <h1 className="flex items-baseline gap-2 text-2xl font-bold tracking-tight text-zinc-900 sm:text-3xl">
@@ -128,7 +126,18 @@ export default function HubTemplate({ entry }: { entry: HubEntry }) {
         </aside>
       </div>
 
-      <JsonLd data={entry.lesson ? [videoLd(entry.lesson), breadcrumbLd(crumbs)] : breadcrumbLd(crumbs)} />
+      <JsonLd
+        data={[
+          breadcrumbLd(crumbs),
+          courseLd({
+            name: clean(entry.title),
+            description: entry.description,
+            url: SITE_URL + entry.path,
+            image: entry.image,
+          }),
+          ...(entry.lesson ? [videoLd(entry.lesson)] : []),
+        ]}
+      />
     </div>
   );
 }

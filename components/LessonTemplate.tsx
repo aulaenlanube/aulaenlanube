@@ -1,6 +1,5 @@
 import Link from "@/components/Link";
 import YouTubeLite from "./YouTubeLite";
-import Breadcrumbs from "./Breadcrumbs";
 import CourseNav from "./CourseNav";
 import JsonLd from "./JsonLd";
 import ProductBlock from "./ProductBlock";
@@ -64,7 +63,6 @@ export default function LessonTemplate({ entry }: { entry: LessonEntry }) {
 
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:py-10">
-      <Breadcrumbs items={crumbs} />
       {/* Siempre 2 columnas: contenido + barra lateral (banner + lecciones). */}
       <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_19rem] lg:gap-10">
         <article className="min-w-0">

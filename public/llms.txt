@@ -1,0 +1,47 @@
+# Aula en la nube
+
+> Aula en la nube (aulaenlanube.com) es una plataforma española y gratuita de cursos y tutoriales de informática, programación y edición multimedia, creada por Edu Torregrosa Llácer. Todo el contenido es de acceso libre, sin registro y en español, con vídeos explicativos alojados en YouTube y artículos escritos.
+
+Datos clave del sitio:
+
+- Idioma: español (España).
+- Autor y responsable: Edu Torregrosa Llácer.
+- Modelo: 100% gratuito, sin necesidad de cuenta ni suscripción de pago.
+- Formato: tutoriales en vídeo (YouTube) + artículos y guías escritas.
+- Contacto: info@aulaenlanube.com
+
+## Programación
+
+- [Zona de programación](https://aulaenlanube.com/zona-programacion/): índice de cursos de programación.
+- [Curso de programación en Java](https://aulaenlanube.com/curso-programacion-en-java/): curso completo de Java desde cero.
+- [Java (zona de programación)](https://aulaenlanube.com/zona-programacion/java/): temario de Java (estructuras, POO, interfaces gráficas, ejercicios resueltos).
+- [Curso de JavaScript](https://aulaenlanube.com/curso-javascript/): fundamentos de JavaScript.
+- [Curso de PHP](https://aulaenlanube.com/curso-php/): programación web con PHP.
+- [Curso de Visual Studio Code para Java](https://aulaenlanube.com/curso-visual-studio-code-java/): configurar y usar VS Code para Java.
+- [Curso de redes informáticas](https://aulaenlanube.com/curso-redes-informaticas/): conceptos de redes.
+
+## Ofimática y Google
+
+- [Todos los cursos](https://aulaenlanube.com/cursos/): catálogo completo de cursos.
+
+## Edición y multimedia
+
+- [Curso de GIMP](https://aulaenlanube.com/cursos/curso-gimp/): edición de imagen con GIMP.
+- [Curso de OBS Studio](https://aulaenlanube.com/curso-obs-studio/): grabación y streaming con OBS.
+- [Curso de Blender](https://aulaenlanube.com/curso-blender/): modelado y 3D con Blender.
+- [Curso de DaVinci Resolve](https://aulaenlanube.com/curso-davinci-resolve/): edición de vídeo.
+- [Curso de Krita](https://aulaenlanube.com/curso-krita/), [Inkscape](https://aulaenlanube.com/curso-inkscape/), [Darktable](https://aulaenlanube.com/curso-darktable/), [Audacity](https://aulaenlanube.com/curso-audacity/).
+
+## Hardware
+
+- [Zona hardware](https://aulaenlanube.com/hardware/): artículos sobre componentes de PC.
+- [Diccionario de hardware](https://aulaenlanube.com/diccionario-hardware/): términos de hardware explicados.
+- [El mejor hardware para IA en local](https://aulaenlanube.com/el-mejor-hardware-para-ia-en-local/): guía de equipos para inteligencia artificial local.
+
+## Información
+
+- [Contacto (LinkedIn)](https://www.linkedin.com/in/edutorregrosa/)
+- [Política de privacidad](https://aulaenlanube.com/politica-de-privacidad/)
+- [Condiciones de uso](https://aulaenlanube.com/condiciones-de-uso/)
+- [Política de cookies](https://aulaenlanube.com/politica-de-cookies/)
+- [Mapa del sitio (sitemap.xml)](https://aulaenlanube.com/sitemap.xml)

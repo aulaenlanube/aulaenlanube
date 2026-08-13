@@ -1,3 +1,5 @@
+
+
 ![banner github](https://github.com/aulaenlanube/aulaenlanube/assets/15714409/68f8e060-a3df-47c7-bdb7-fb8c25e34ccb)
 
 # 👋 Hola, soy **Edu Torregrosa**
@@ -32,6 +34,13 @@
 
 ---
 
+## 💻 Desarrollo local
+1. Instala las dependencias: `npm install`
+2. Arranca el servidor: `npm run dev`
+3. Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
+
+---
+
 ## 📫 Contacto
 - 🌍 Instagram: [@edutorregrosa](https://www.instagram.com/edutorregrosa)  
 - 🐦 Twitter / X: [@_edu_torregrosa](https://x.com/_edu_torregrosa)  
@@ -39,4 +48,4 @@
 
 ---
 
-✨ _"La mejor forma de aprender es crear y compartir conocimiento."_  
+✨ _"La mejor forma de aprender es crear y compartir conocimiento."_

@@ -1,0 +1,6 @@
+# Marca admin/ como proyecto pnpm independiente del de la raíz.
+#
+# Sin este fichero, pnpm subiría hasta /pnpm-workspace.yaml, trataría la raíz
+# como workspace y un `pnpm install` aquí no instalaría nada (admin/ no es
+# miembro de ese workspace). El panel se instala y arranca por su cuenta.
+packages: []

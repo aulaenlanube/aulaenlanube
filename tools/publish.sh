@@ -40,7 +40,7 @@ if [ "$TARGET" = "prod" ]; then
   bash "$DIR/deploy-production.sh"
 else
   echo "==> 3/3 Build staging + deploy a /preview-next/ ..."
-  ( cd "$PROJ" && BASE_PATH=/preview-next STAGING=1 npm run build > /tmp/aeln-build.log 2>&1 ) \
+  ( cd "$PROJ" && BASE_PATH=/preview-next STAGING=1 pnpm build > /tmp/aeln-build.log 2>&1 ) \
     || { echo "BUILD FALLÓ:"; tail -25 /tmp/aeln-build.log; exit 1; }
   bash "$DIR/deploy-staging.sh" "$DOCROOT"
   echo "==> LISTO ✅  https://aulaenlanube.com/preview-next/"

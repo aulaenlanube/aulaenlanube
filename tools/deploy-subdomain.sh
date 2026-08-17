@@ -27,7 +27,7 @@ case "$DOCROOT" in
 esac
 
 echo "==> Compilando para subdominio (sin basePath, noindex) ..."
-( cd "$PROJ" && BASE_PATH="" STAGING=1 npx next build >/dev/null )
+( cd "$PROJ" && BASE_PATH="" STAGING=1 pnpm exec next build >/dev/null )
 
 echo "==> Empaquetando out/ ..."
 tar czf /tmp/aeln-sub.tgz -C "$PROJ/out" .

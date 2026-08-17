@@ -1,0 +1,16 @@
+# Configuración de pnpm (en pnpm 11 los ajustes viven aquí, no en package.json).
+#
+# pnpm bloquea por defecto los scripts de instalación (postinstall, etc.), que
+# son el vector habitual de los ataques de cadena de suministro en npm. Cada
+# paquete que los pida debe decidirse aquí de forma explícita.
+#
+# Estos dos NO los necesitan: su binario nativo llega ya compilado como paquete
+# propio de plataforma (@img/sharp-linux-x64,
+# @unrs/resolver-binding-linux-x64-gnu) y el script solo es un fallback.
+#
+#   - sharp: optimización de imágenes de Next. Este sitio usa
+#     `images: { unoptimized: true }` con `output: "export"`, así que ni se carga.
+#   - unrs-resolver: resolutor de imports de eslint-config-next.
+allowBuilds:
+  sharp: false
+  unrs-resolver: false

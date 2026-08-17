@@ -29,7 +29,7 @@ case "$ROOT" in
 esac
 
 echo "==> 1/4 Compilando PRODUCCIÓN (sin basePath, indexable) ..."
-( cd "$PROJ" && BASE_PATH="" STAGING="" npx next build >/tmp/aeln-prod-build.log 2>&1 ) \
+( cd "$PROJ" && BASE_PATH="" STAGING="" pnpm exec next build >/tmp/aeln-prod-build.log 2>&1 ) \
   || { echo "BUILD FALLÓ:"; tail -25 /tmp/aeln-prod-build.log; exit 1; }
 echo "    build OK"
 

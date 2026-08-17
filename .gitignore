@@ -10,6 +10,12 @@
 !.yarn/releases
 !.yarn/versions
 
+# El gestor de paquetes es pnpm (ver "packageManager" en package.json).
+# Estos lockfiles no deben volver al repo: si aparecen, es que alguien ha
+# ejecutado npm/yarn por error y el árbol de dependencias ya no es el fijado.
+package-lock.json
+yarn.lock
+
 # testing
 /coverage
 

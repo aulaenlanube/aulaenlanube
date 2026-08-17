@@ -2,6 +2,7 @@
   "name": "aulaenlanube-admin",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@11.22.0",
   "description": "Panel de administración local de aulaenlanube (Express + MySQL por túnel SSH)",
   "scripts": {
     "start": "node server.js"

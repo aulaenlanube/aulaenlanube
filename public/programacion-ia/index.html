@@ -4,15 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Curso de Programación con IA (DAM · DAW) — Aula en la nube</title>
-<meta name="description" content="Curso de Programación con IA para DAM y DAW (IES Simarro (Xàtiva) / Simarro): proyectos individuales y en grupo construidos con agentes de IA. Sesiones paso a paso.">
+<meta name="description" content="Curso de Programación con IA para DAM y DAW (IES Simarro): una serie de proyectos reales construidos con agentes de IA, de la web personal al SaaS. Sesiones paso a paso.">
 <style>
-:root{--slate:#334155;--slate7:#314158;--ink:#18181b;--mut:#52525b;--line:#e4e4e7;--blue:#1d4ed8;--bluebg:#eff6ff;--amber:#fbbf24;--green:#047857;--greenbg:#ecfdf5;--red:#b91c1c;--redbg:#fef2f2}
+:root{--slate:#334155;--slate7:#314158;--ink:#18181b;--mut:#52525b;--line:#e4e4e7;--blue:#1d4ed8;--bluebg:#eff6ff;--green:#047857;--greenbg:#ecfdf5;--s2:#f4f4f5}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased}
-a{color:var(--blue);text-decoration:none}
-a:hover{text-decoration:underline}
-/* barra de cabecera estilo sitio */
-.topbar{background:#314158;color:#fff;position:sticky;top:0;z-index:50;box-shadow:0 1px 3px rgba(0,0,0,.15)}
+a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
+.topbar{background:var(--slate7);color:#fff;position:sticky;top:0;z-index:50;box-shadow:0 1px 3px rgba(0,0,0,.15)}
 .topbar .in{max-width:1100px;margin:auto;padding:0 16px;height:60px;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .topbar img{height:38px;width:auto;display:block}
 .topbar .links{display:flex;gap:4px;font-size:14px;font-weight:500}
@@ -21,39 +19,45 @@ a:hover{text-decoration:underline}
 .breadcrumb{max-width:1100px;margin:auto;padding:14px 16px 0;font-size:13px;color:var(--mut)}
 .breadcrumb a{color:var(--mut)}
 main{max-width:1100px;margin:auto;padding:18px 16px 60px}
-/* hero */
-.hero{padding:34px 0 10px;text-align:left}
+.hero{padding:34px 0 10px}
 .chip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;background:var(--bluebg);color:var(--blue);border:1px solid #bfdbfe;padding:5px 11px;border-radius:999px;margin-bottom:14px}
 h1{font-size:clamp(28px,4.5vw,42px);font-weight:800;letter-spacing:-.02em;line-height:1.12}
-h1 .hl{position:relative;display:inline-block;white-space:nowrap}
-h1 .hl svg{position:absolute;left:-8%;top:-6%;width:116%;height:116%;pointer-events:none}
-h1 .hl text{font:inherit}
-.hero p.lead{color:var(--mut);font-size:18px;max-width:720px;margin-top:14px}
-/* secciones */
-h2{font-size:24px;font-weight:800;letter-spacing:-.01em;margin:40px 0 14px}
+.hero p.lead{color:var(--mut);font-size:18px;max-width:760px;margin-top:14px}
+h2{font-size:24px;font-weight:800;letter-spacing:-.01em;margin:40px 0 6px}
+h2+p.intro{color:var(--mut);font-size:15px;margin-bottom:16px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
 .card{border:1px solid var(--line);border-radius:14px;padding:20px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.04)}
 .card h3{font-size:17px;font-weight:700;margin-bottom:6px}
-.card .num{display:inline-flex;width:30px;height:30px;border-radius:50%;background:var(--slate7);color:#fff;align-items:center;justify-content:center;font-weight:800;font-size:14px;margin-right:8px;vertical-align:-6px}
+.card .tag{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:999px;margin-bottom:9px}
+.t-ini{background:var(--bluebg);color:var(--blue);border:1px solid #bfdbfe}
+.t-med{background:#f1f5f9;color:#334155;border:1px solid #cbd5e1}
+.t-fin{background:var(--greenbg);color:var(--green);border:1px solid #a7f3d0}
 .card p{color:var(--mut);font-size:14.5px}
 .card ul{margin:8px 0 0 2px;list-style:none;font-size:14px;color:var(--mut)}
 .card li{padding-left:20px;position:relative;margin-top:5px}
 .card li::before{content:"✓";position:absolute;left:0;color:var(--green);font-weight:800}
-/* sesiones */
-.sesiones{display:flex;flex-direction:column;gap:12px}
-.sesion{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;border:1px solid var(--line);border-radius:14px;padding:18px 20px;background:#fff;transition:box-shadow .15s,transform .15s}
+.sesion{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;border:1px solid var(--line);border-radius:14px;padding:18px 20px;background:#fff;transition:box-shadow .15s,transform .15s;margin-bottom:12px}
 .sesion:not(.prox):hover{box-shadow:0 6px 18px rgba(0,0,0,.07);transform:translateY(-1px)}
 .sesion h3{font-size:16.5px;margin-bottom:3px}
 .sesion .sub{font-size:13.5px;color:var(--mut)}
 .sesion .n{font-weight:800;color:var(--mut)}
 .est{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:5px 11px;border-radius:999px;white-space:nowrap}
-.e-hoy{background:#fef3c7;color:#92400e;border:1px solid #fde68a}
-.e-lista{background:var(--greenbg);color:var(--green);border:1px solid #a7f3d0}
-.e-prox{background:#f4f4f5;color:#71717a;border:1px solid var(--line)}
-/* callouts */
+.e-curso{background:var(--bluebg);color:var(--blue);border:1px solid #bfdbfe}
+.e-prox{background:var(--s2);color:#71717a;border:1px solid var(--line)}
+.anatomia{border:1px solid var(--line);border-radius:14px;overflow:hidden;margin:16px 0}
+.anatomia table{border-collapse:collapse;width:100%;font-size:14px}
+.anatomia th,.anatomia td{border-bottom:1px solid var(--line);padding:11px 14px;text-align:left;vertical-align:top}
+.anatomia tr:last-child td{border-bottom:none}
+.anatomia th{background:var(--s2);font-weight:700}
+.anatomia td b{color:var(--slate7)}
+.anatomia .q{color:var(--mut);font-size:13px;font-style:italic}
+.trio{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:16px 0}
+.trio .card{text-align:left}
+.trio .code-name{font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:15px;color:var(--slate7)}
 .note{background:var(--bluebg);border:1px solid #bfdbfe;border-radius:14px;padding:16px 20px;font-size:14.5px;color:#1e3a8a;margin:18px 0}
 .note b{color:#1e40af}
-/* footer estilo sitio */
+.metodo{background:var(--s2);border:1px solid var(--line);border-radius:14px;padding:16px 20px;font-size:14.5px;margin:18px 0}
 footer{background:#0f172a;color:#d4d4d8;margin-top:70px}
 footer .in{max-width:1100px;margin:auto;padding:26px 16px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px}
 footer img{height:44px}
@@ -62,7 +66,7 @@ footer nav a{color:#d4d4d8}
 footer nav a:hover{color:#fff}
 footer .c{width:100%;text-align:center;font-size:13px;border-top:1px solid rgba(255,255,255,.1);padding-top:14px;color:#a1a1aa}
 footer .c .heart{color:#ef4444}
-@media(max-width:760px){.grid2{grid-template-columns:1fr}.sesion{grid-template-columns:auto 1fr}.est{grid-column:2;justify-self:start}.topbar .links{display:none}}
+@media(max-width:860px){.grid2,.grid3,.trio{grid-template-columns:1fr}.sesion{grid-template-columns:auto 1fr}.est{grid-column:2;justify-self:start}.topbar .links{display:none}}
 </style>
 </head>
 <body>
@@ -77,50 +81,85 @@ footer .c .heart{color:#ef4444}
 <nav class="breadcrumb"><a href="https://aulaenlanube.com/">Inicio</a> › <a href="https://aulaenlanube.com/zona-programacion/">Programación e IA</a> › Curso de Programación con IA</nav>
 <main>
 <header class="hero">
-<span class="chip">IES Simarro (Xàtiva) · Programación · 1º DAM/DAW</span>
-<h1>Curso de Programación con <span class="hl">IA
-<svg viewBox="0 0 220 60" preserveAspectRatio="none" aria-hidden="true"><ellipse cx="110" cy="31" rx="103" ry="25" fill="none" stroke="#fbbf24" stroke-width="4"/></svg></span></h1>
-<p class="lead">Aprender a programar <b>con</b> IA, no gracias a la IA. Una asignatura experimental donde el alumno dirige y la IA ejecuta: proyectos reales, código que sabes explicar, criterio propio.</p>
+<span class="chip">1º DAM/DAW · IES Simarro · Programación</span>
+<h1>Curso de Programación con IA</h1>
+<p class="lead">Aprender a programar <b>con</b> IA, no gracias a la IA. Una asignatura experimental donde el alumno dirige y la IA ejecuta. Se aprende haciendo <b>una serie de proyectos reales que van a más</b>, con código que sabes explicar y criterio propio.</p>
 </header>
 
-<h2>Los dos proyectos del curso</h2>
-<div class="grid2">
+<h2>Los proyectos: una serie que va a más</h2>
+<p class="intro">No hay un único trabajo final: el curso son proyectos pequeños según avanzan las clases, más dos proyectos grandes al final. Hoy arrancamos con el primero de la serie.</p>
+<div class="grid3">
 <div class="card">
-<h3><span class="num">1</span>Proyecto individual — tu marca personal</h3>
-<p>Una web personal tuya: quién eres, qué haces, qué te gusta. Primera entrega esta misma semana (sesión 1). Es tu carta de presentación y tu primer despliegue real.</p>
+<span class="tag t-ini">Proyecto de iniciación · ahora</span>
+<h3>Web personal (todos)</h3>
+<p>Una landing de marca personal: quién eres, qué haces, qué te gusta. Lo hacemos <b>fichero a fichero</b> (HTML, CSS y JS por separado) para que entiendas cómo funciona una web por dentro antes de que una herramienta lo haga por ti.</p>
 <ul>
-<li>HTML + CSS + JS que tú controlas</li>
-<li>Publicada en tu propio espacio de la web del curso</li>
-<li>Evaluada por criterio: funciona + lo sabes explicar</li>
+<li>Se construye entero en clase, con el chat del centro</li>
+<li>Lo público: te sirve ya como carta de presentación</li>
+<li>Objetivo: entender el ciclo pensar → pedir → entender → arreglar → publicar</li>
 </ul>
 </div>
 <div class="card">
-<h3><span class="num">2</span>Proyecto en grupo — vuestra startup</h3>
-<p>Grupos de 4-5. Producto con base de datos, roles y entregas por sprints. Arranca en la sesión 3. El reto no es que "funcione con IA": es que <b>funcione cuando tú no estás delante</b>.</p>
+<span class="tag t-med">Serie · durante el curso</span>
+<h3>Proyectos pequeños</h3>
+<p>A medida que avancemos, proyectos cortos por parejas o individuales: herramientas, minijuegos, apps con datos… Ya no fichero a fichero, sino <b>con agentes de código</b> (OpenCode y similares), subiendo el nivel de autonomía y de control.</p>
 <ul>
-<li>Producto con sentido + BD real (SQLite/Postgres)</li>
-<li>Roles tipo startup + repositorio compartido</li>
-<li>Revisado y defendido en clase</li>
+<li>Cada proyecto introduce una técnica o herramienta nueva</li>
+<li>Se trabaja más rápido, pero se sigue defendiendo en voz alta</li>
+<li>Los mejores se publican y salen en esta web</li>
+</ul>
+</div>
+<div class="card">
+<span class="tag t-fin">Proyectos grandes · finales de curso</span>
+<h3>Individual + en grupo</h3>
+<p>Dos piezas mayores que cada alumno y cada grupo eligen: a nivel individual, algo ambicioso y personal (un SaaS, un videojuego, una app con IA…); en grupo, una <b>startup</b> tipo empresa: producto con base de datos, roles y entregas por sprints.</p>
+<ul>
+<li>Delimitación y plan propios: tú eliges el qué, tú respondes del cómo</li>
+<li>Defensa oral: la IA no te salva en el examen</li>
+<li>Criterio: funciona + lo sabes explicar + se ve tu cabeza al volante</li>
 </ul>
 </div>
 </div>
-<div class="note"><b>Norma de oro:</b> usa todos los agentes IA que quieras —el del centro, los que tengas—, pero <b>entiende cada línea que entregas</b>. En la defensa oral la IA no te salva. El que dirige el código eres tú.</div>
+<div class="note"><b>Norma de oro:</b> usa todos los agentes IA que quieras —el chat del centro, OpenCode, los que tengas—, pero <b>entiende cada línea que entregas</b>. En la defensa oral la IA no te salva. El que dirige el código eres tú.</div>
+
+<h2>Anatomía de una web de marca personal</h2>
+<p class="intro">Antes de tocar una línea, entiende qué vas a construir y por qué va cada bloque. Una landing de marca personal responde en 10 segundos a las preguntas de quien llega:</p>
+<div class="anatomia">
+<table>
+<tr><th style="width:30%">Bloque</th><th>Qué contiene</th><th style="width:26%">Qué responde</th></tr>
+<tr><td><b>1 · Cabecera / hero</b></td><td>Tu nombre, una frase que te defina (titular), y una llamada a la acción («ver mis proyectos» o «contáctame»). Es lo que decide si siguen leyendo.</td><td class="q">¿Quién es este y por qué debería importarme?</td></tr>
+<tr><td><b>2 · Sobre mí</b></td><td>2-4 líneas: de dónde vienes, qué estudias, qué te motiva. En primera persona, sin postureo.</td><td class="q">¿Quién eres de verdad?</td></tr>
+<tr><td><b>3 · Lo que he hecho</b></td><td>Pruebas: cursos, proyectos, deportes, colaboraciones, lo que sea con fecha o contexto. Hechos, no adjetivos.</td><td class="q">¿Qué sabes hacer?</td></tr>
+<tr><td><b>4 · Me gusta / skills</b></td><td>3-6 cosas que te interesan o técnicas que manejas. Es tu diferenciador y da pistas de tu forma de ser.</td><td class="q">¿Cómo piensas, qué te quema dentro?</td></tr>
+<tr><td><b>5 · Contacto</b></td><td>Correo + enlaces (GitHub, LinkedIn…). Sin fricción: un clic y apareces.</td><td class="q">¿Cómo te escribo?</td></tr>
+<tr><td><b>6 · Pie de página</b></td><td>Tu nombre, año, algo de personalidad (una frase, un corazón).</td><td class="q">Cierre profesional.</td></tr>
+</table>
+</div>
+
+<h2>La parte técnica: el trío (y lo que vendrá)</h2>
+<div class="trio">
+<div class="card"><span class="code-name">index.html</span><p><b>Estructura y contenido.</b> Qué hay en la página y en qué orden. Es el esqueleto: etiquetas semánticas, encabezados, párrafos, imágenes, enlaces. Sin estilos todavía.</p></div>
+<div class="card"><span class="code-name">style.css</span><p><b>Presentación.</b> Cómo se ve: colores, tipografías, espaciados, rejillas, responsive. No añade contenido: lo viste. Aquí es donde tu web se vuelve <em>tuya</em>.</p></div>
+<div class="card"><span class="code-name">script.js</span><p><b>Comportamiento.</b> Qué hace: modo oscuro que se recuerda, menú responsive, animaciones… La página deja de ser un folio y empieza a reaccionar.</p></div>
+</div>
+<p style="color:var(--mut);font-size:14.5px">Cuando los proyectos crezcan se añade el cuarto elemento: <b>base de datos</b> (guardar usuarios, partidas, pedidos). Ese será el salto del proyecto grupal — y el corazón de cualquier SaaS.</p>
+<div class="metodo"><b>Cómo trabajaremos:</b> el primer proyecto se construye <b>fichero a fichero</b>, pidiendo al chat del centro cada pieza, entendiéndola y revisándola — así aprendes a leer HTML/CSS/JS. A partir de ahí, cada pocos días subimos de nivel: agentes de código tipo OpenCode, versionado con Git, despliegue real. Mismo criterio siempre: lo que entregas, lo sabes explicar.</div>
 
 <h2>Sesiones</h2>
 <div class="sesiones">
 <a class="sesion" href="sesion-01.html">
 <span class="n">01</span>
-<span><h3>Tu web personal con IA — primer proyecto</h3><span class="sub">17 sep 2026 · Crea HTML, CSS y JS desde cero con el chat del centro, paso a paso, con prompts listos para copiar.</span></span>
-<span class="est e-hoy">HOY 15:00</span>
+<span><h3>Proyecto de iniciación: tu web personal con IA</h3><span class="sub">Primer proyecto, para toda la clase. Crea HTML, CSS y JS desde cero con el chat del centro, paso a paso, con prompts listos para copiar.</span></span>
+<span class="est e-curso">PRIMER PROYECTO</span>
 </a>
 <div class="sesion prox">
 <span class="n">02</span>
-<span><h3>Mi web, versión 2 · Git</h3><span class="sub">Mejoramos el diseño con un plan (no con suertes) y aprendemos a versionar el proyecto con Git. Tu historia de commits vale como evidencia.</span></span>
+<span><h3>Mi web v2 · Git</h3><span class="sub">Mejoramos el diseño con un plan (no con suertes) y versionamos el proyecto con Git. Tu historia de commits vale como evidencia.</span></span>
 <span class="est e-prox">PRÓXIMAMENTE</span>
 </div>
 <div class="sesion prox">
 <span class="n">03</span>
-<span><h3>Startup: producto con base de datos</h3><span class="sub">Formación de grupos, idea, primer sprint. De la web estática a la aplicación con datos.</span></span>
+<span><h3>Primer proyecto con agente: OpenCode</h3><span class="sub">Pasamos de «pedir fragmentos al chat» a dirigir un agente que escribe ficheros. Tu control, otra dimensión.</span></span>
 <span class="est e-prox">PRÓXIMAMENTE</span>
 </div>
 <div class="sesion prox">

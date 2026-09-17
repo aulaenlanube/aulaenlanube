@@ -59,25 +59,62 @@ footer img{height:44px}
 footer .c{width:100%;text-align:center;font-size:13px;border-top:1px solid rgba(255,255,255,.1);padding-top:14px;color:#a1a1aa}
 footer .c .heart{color:#ef4444}
 @media(max-width:640px){.step{padding:16px}.step h3 em{margin-left:0}.topbar .links{display:none}}
+
+.topbar{background:var(--slate7);color:#fff;position:sticky;top:0;z-index:50;box-shadow:0 1px 3px rgba(0,0,0,.15)}
+.topbar .in{max-width:1100px;margin:auto;padding:0 12px 0 16px;height:60px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.topbar img{height:38px;width:auto;display:block}
+.mainnav{display:none}
+.mainnav ul{display:flex;list-style:none;gap:2px}
+.mainnav .it{position:relative}
+.mainnav .it>a{display:flex;align-items:center;gap:4px;color:rgba(255,255,255,.9);font-size:14px;font-weight:500;padding:8px 11px;border-radius:8px}
+.mainnav .it>a:hover{color:#fff;background:rgba(255,255,255,.1);text-decoration:none}
+.cv{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.panel{visibility:hidden;opacity:0;position:absolute;left:0;top:100%;z-index:60;min-width:230px;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 28px rgba(0,0,0,.14);padding:8px;transform:translateY(4px);transition:.15s}
+.has:hover .panel,.has:focus-within .panel{visibility:visible;opacity:1;transform:translateY(0)}
+.panel ul{display:block;list-style:none}
+.panel li a{display:block;color:#3f3f46;font-size:13.5px;padding:7px 11px;border-radius:8px}
+.panel li a:hover{background:var(--bluebg);color:var(--blue);text-decoration:none}
+.ham{display:inline-flex;background:none;border:0;color:#fff;cursor:pointer;padding:6px}
+.ham svg{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round}
+#ovl{position:fixed;inset:0;background:rgba(2,6,23,.55);opacity:0;pointer-events:none;transition:opacity .3s;z-index:70}
+#ovl.on{opacity:1;pointer-events:auto}
+#drawer{position:fixed;top:0;right:0;bottom:0;width:min(86vw,380px);background:linear-gradient(180deg,#1e293b,#0f172a);color:#fff;z-index:80;transform:translateX(105%);transition:transform .3s ease-out;overflow-y:auto}
+#drawer.open{transform:translateX(0)}
+.dh{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.12)}
+.dh img{height:30px}
+.dh button{background:none;border:0;color:#fff;cursor:pointer;padding:6px}
+.dh button svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round}
+#drawer nav ul{list-style:none;padding:6px 0}
+#drawer nav>ul>li>a{display:block;padding:14px 20px;font-size:16px;font-weight:600;color:#fff;border-bottom:1px solid rgba(255,255,255,.07)}
+#drawer .acc button{display:flex;width:100%;justify-content:space-between;align-items:center;background:none;border:0;border-bottom:1px solid rgba(255,255,255,.07);color:#fff;font:inherit;font-size:16px;font-weight:600;padding:14px 20px;cursor:pointer}
+#drawer .acc .cv{transition:transform .3s}
+#drawer .acc.open .cv{transform:rotate(180deg)}
+#drawer .acc ul{max-height:0;overflow:hidden;transition:max-height .35s;background:rgba(0,0,0,.22)}
+#drawer .acc.open ul{max-height:460px}
+#drawer .acc li a{display:block;color:rgba(255,255,255,.78);font-size:14.5px;padding:10px 26px}
+#drawer .acc li a:hover{color:#fff;background:rgba(255,255,255,.07);text-decoration:none}
+@media(min-width:1024px){.mainnav{display:block}.ham{display:none}}
+/*x*/document.querySelectorAll('.acc>button').forEach(b=>b.addEventListener('click',()=>b.parentElement.classList.toggle('open')));
+@media(max-width:860px){.codewrap pre{font-size:12.5px}.step{padding:14px}}
 </style>
 </head>
 <body>
 <div class="topbar"><div class="in">
-<a href="https://aulaenlanube.com/"><img src="/wp-content/uploads/2021/03/Logo-CABECERA-web-1-1024x280.webp" alt="Aula en la nube"></a>
-<div class="links">
-<a href="index.html">Curso</a>
-<a href="https://aulaenlanube.com/zona-programacion/">Programación e IA</a>
-<a href="https://aulaenlanube.com/">Inicio</a>
-</div>
+<a href="https://aulaenlanube.com/"><img src="https://aulaenlanube.com/wp-content/uploads/2021/03/Logo-CABECERA-web-1-1024x280.webp" alt="Aula en la nube"></a>
+<nav class="mainnav"><ul><li class="it"><a href="https://aulaenlanube.com/">Inicio</a></li><li class="it has"><a href="https://aulaenlanube.com/cursos/">Cursos<svg viewBox="0 0 24 24" class="cv"><path d="M6 9l6 6 6-6"/></svg></a><div class="panel"><ul><li><a href="https://aulaenlanube.com/cursos/curso-google/">GOOGLE</a></li><li><a href="https://aulaenlanube.com/cursos/curso-gimp/">GIMP</a></li><li><a href="https://aulaenlanube.com/cursos/mega-curso-obs-studio/">OBS Studio</a></li><li><a href="https://aulaenlanube.com/cursos/curso-google-apps-script/">Apps Script</a></li></ul></div></li><li class="it has"><a href="https://aulaenlanube.com/zona-programacion/">Programación e IA<svg viewBox="0 0 24 24" class="cv"><path d="M6 9l6 6 6-6"/></svg></a><div class="panel"><ul><li><a href="https://aulaenlanube.com/programacion-ia/">Curso Programación con IA</a></li><li><a href="https://aulaenlanube.com/zona-programacion/java/">JAVA</a></li><li><a href="https://aulaenlanube.com/excelencia-simarro-javatutor/web/index.html">JAVATutor IA</a></li><li><a href="https://aulaenlanube.com/pp1-simarro/web/index.html">PP1-Simarro</a></li><li><a href="https://aulaenlanube.com/piar/piar2esoapuntes.htm">PIAR 2ESO</a></li><li><a href="https://aulaenlanube.com/cadenas-de-prompts/">Cadenas de PROMPTS</a></li><li><a href="https://aulaenlanube.com/simarro-semana-informatica-26/">Semana informática 26</a></li></ul></div></li><li class="it has"><a href="https://aulaenlanube.com/hardware/">Zona Hardware<svg viewBox="0 0 24 24" class="cv"><path d="M6 9l6 6 6-6"/></svg></a><div class="panel"><ul><li><a href="https://aulaenlanube.com/el-mejor-hardware-para-ia-en-local/">Hardware para IA local</a></li><li><a href="https://aulaenlanube.com/microprocesador-explicacion-definitiva/">CPU</a></li><li><a href="https://aulaenlanube.com/tarjetas-graficas-gpu-de-los-origenes-a-la-era-de-la-ia/">GPU</a></li><li><a href="https://aulaenlanube.com/la-placa-base-a-fondo-historia-evolucion-y-futuro/">Placa base</a></li><li><a href="https://aulaenlanube.com/memoria-ram-la-explicacion-definitiva/">RAM</a></li></ul></div></li><li class="it has"><a href="https://aulaenlanube.com/zona-friki/">Zona friki<svg viewBox="0 0 24 24" class="cv"><path d="M6 9l6 6 6-6"/></svg></a><div class="panel"><ul><li><a href="https://aulaenlanube.com/zona-friki/">Regalos</a></li><li><a href="https://aulaenlanube.com/zona-friki/tazas-originales-geeks-frikis-anime-videojuegos/">Tazas</a></li><li><a href="https://aulaenlanube.com/zona-friki/funko-pops-geeks-frikis-anime-videojuegos/">Funko Pops</a></li><li><a href="https://aulaenlanube.com/zona-friki/moda-para-geeks-frikis-y-fans-del-anime/">Camisetas</a></li></ul></div></li><li class="it"><a href="https://www.paypal.com/donate/?hosted_button_id=BHP6VTDH58YNL" target="_blank" rel="noopener">Donaciones</a></li><li class="it"><a href="https://edutorregrosa.com/" target="_blank" rel="noopener">Quién soy?</a></li></ul></nav>
+<button class="ham" aria-label="Abrir menú" onclick="document.getElementById('drawer').classList.add('open');document.getElementById('ovl').classList.add('on')"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
 </div></div>
-<nav class="breadcrumb"><a href="https://aulaenlanube.com/">Inicio</a> › <a href="index.html">Curso de Programación con IA</a> › Sesión 1</nav>
+<div id="ovl" onclick="document.getElementById('drawer').classList.remove('open');this.classList.remove('on')"></div>
+<aside id="drawer" aria-label="Menú"><div class="dh"><img src="https://aulaenlanube.com/wp-content/uploads/2021/03/Logo-CABECERA-web-1-1024x280.webp" alt="Aula en la nube"><button aria-label="Cerrar menú" onclick="document.getElementById('drawer').classList.remove('open');document.getElementById('ovl').classList.remove('on')"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+<nav><ul><li><a href="https://aulaenlanube.com/">Inicio</a></li><li class="acc"><button type="button">Cursos<svg viewBox="0 0 24 24" class="cv"><path d="M6 9l6 6 6-6"/></svg></button><ul><li><a href="https://aulaenlanube.com/cursos/curso-google/">GOOGLE</a></li><li><a href="https://aulaenlanube.com/cursos/curso-gimp/">GIMP</a></li><li><a href="https://aulaenlanube.com/cursos/mega-curso-obs-studio/">OBS Studio</a></li><li><a href="https://aulaenlanube.com/cursos/curso-google-apps-script/">Apps Script</a></li></ul></li><li class="acc"><button type="button">Programación e IA<svg viewBox="0 0 24 24" class="cv"><path d="M6 9l6 6 6-6"/></svg></button><ul><li><a href="https://aulaenlanube.com/programacion-ia/">Curso Programación con IA</a></li><li><a href="https://aulaenlanube.com/zona-programacion/java/">JAVA</a></li><li><a href="https://aulaenlanube.com/excelencia-simarro-javatutor/web/index.html">JAVATutor IA</a></li><li><a href="https://aulaenlanube.com/pp1-simarro/web/index.html">PP1-Simarro</a></li><li><a href="https://aulaenlanube.com/piar/piar2esoapuntes.htm">PIAR 2ESO</a></li><li><a href="https://aulaenlanube.com/cadenas-de-prompts/">Cadenas de PROMPTS</a></li><li><a href="https://aulaenlanube.com/simarro-semana-informatica-26/">Semana informática 26</a></li></ul></li><li class="acc"><button type="button">Zona Hardware<svg viewBox="0 0 24 24" class="cv"><path d="M6 9l6 6 6-6"/></svg></button><ul><li><a href="https://aulaenlanube.com/el-mejor-hardware-para-ia-en-local/">Hardware para IA local</a></li><li><a href="https://aulaenlanube.com/microprocesador-explicacion-definitiva/">CPU</a></li><li><a href="https://aulaenlanube.com/tarjetas-graficas-gpu-de-los-origenes-a-la-era-de-la-ia/">GPU</a></li><li><a href="https://aulaenlanube.com/la-placa-base-a-fondo-historia-evolucion-y-futuro/">Placa base</a></li><li><a href="https://aulaenlanube.com/memoria-ram-la-explicacion-definitiva/">RAM</a></li></ul></li><li class="acc"><button type="button">Zona friki<svg viewBox="0 0 24 24" class="cv"><path d="M6 9l6 6 6-6"/></svg></button><ul><li><a href="https://aulaenlanube.com/zona-friki/">Regalos</a></li><li><a href="https://aulaenlanube.com/zona-friki/tazas-originales-geeks-frikis-anime-videojuegos/">Tazas</a></li><li><a href="https://aulaenlanube.com/zona-friki/funko-pops-geeks-frikis-anime-videojuegos/">Funko Pops</a></li><li><a href="https://aulaenlanube.com/zona-friki/moda-para-geeks-frikis-y-fans-del-anime/">Camisetas</a></li></ul></li><li><a href="https://www.paypal.com/donate/?hosted_button_id=BHP6VTDH58YNL" target="_blank" rel="noopener">Donaciones</a></li><li><a href="https://edutorregrosa.com/" target="_blank" rel="noopener">Quién soy?</a></li></ul></nav></aside>
+<nav class="breadcrumb"><a href="https://aulaenlanube.com/">Inicio</a> › <a href="https://aulaenlanube.com/zona-programacion/">Programación e IA</a> › <a href="index.html">Curso de Programación con IA</a> › <a href="proyecto-web-personal.html">Web personal</a> › Sesión 1</nav>
 <main>
 <header>
-<span class="chip">1º DAM · Sesión 1 · Jueves 17 de septiembre</span>
+<span class="chip">1º DAM · Proyecto web personal · Sesión 1</span>
 <h1>Tu web personal con IA</h1>
 <p class="lead">Primer proyecto del curso: una web de marca personal. La construyes <b>directamente desde el chat</b> con los modelos del centro, gestionando tú los ficheros. Sin API todavía: tú diriges, la IA ejecuta.</p>
 <div class="meta">
-<span>🎯 Web personal</span><span>📁 HTML + CSS + JS</span><span>💬 Chat del centro</span><span>⏱ 45-60 min</span><span>📤 Entrega: carpeta + defensa</span>
+<span>🎯 Web personal</span><span>📁 HTML + CSS + JS</span><span>💬 Chat del centro</span><span>⏱ 45-60 min</span><span>📤 Entrega: carpeta + se enseña en clase</span>
 </div>
 </header>
 <div class="warn"><b>Antes de empezar:</b> crea una carpeta llamada <code>mi-web</code> en tu cuenta. Ahí irán los tres ficheros. Todo lo que te responda la IA lo <b>tú copias, pegas, guardas y revisas</b>. Si sale raro, no es culpa de la IA: vuelve a pedirlo mejor. Eso también es programar.</div>
@@ -113,14 +150,12 @@ Colores/estilo: ___
 
 Haz el index.html con: cabecera (nombre + frase), "Sobre mí", "Lo que he hecho",
 "Me gusta", un pie de página con contacto. HTML semántico, etiquetas comentadas.</pre></div>
-<div class="note"><b>El truco del profesional:</b> pide, pega, guarda… y <b>lee lo que te ha dado</b>. ¿Etiquetas semánticas? ¿Comentarios? ¿Hay algo que no entiendes? Pregunta: <i>«explícame la línea N de lo que me has dado»</i>. No entregues nada que no serías capaz de explicar.</div>
+<div class="note"><b>El truco del profesional:</b> pide, pega, guarda… y <b>ábrela en el navegador</b>. Comprueba que están todos los bloques, pruébala estrecha (como en el móvil) y, si algo no se ve como lo pediste, pídele a la IA el cambio concreto: eso también es programar.</div>
 </div>
 <div class="step">
-<h3><span class="n">3</span>Mini-test: explícalo tú <em>5 min</em></h3>
-<p>Antes de seguir, cambia de rol: <b>tú eres el revisor</b>. Escribe en el chat:</p>
-<div class="codewrap"><button class="copy">copiar</button><pre class="code">Actúa como profesor revisor. Hazme 4 preguntas sobre el index.html que me has dado
-(etiquetas, estructura, semántica). Yo respondo y me corriges.</pre></div>
-<p>Si respondes a las 4, pasas el filtro. Si fallas, vuelve al paso 2 y pide aclaración.</p>
+<h3><span class="n">3</span>Compruébala antes de seguir <em>5 min</em></h3>
+<p>Abre el <code>index.html</code> en el navegador. ¿Están los bloques en orden? ¿Se ve tu nombre? ¿Y al achicar la ventana (modo móvil)? Si algo no cuadra, se lo describes a la IA y pides el arreglo concreto.</p>
+<div class="codewrap"><button class="copy">copiar</button><pre class="code">En mi web falta / se ve mal: ___ (describe lo que ves, no lo que crees). Dame el HTML corregido de ese bloque y por qué pasaba.</pre></div>
 </div>
 <div class="step">
 <h3><span class="n">4</span>CSS: que se vea <em>tuyo</em> <em>10 min</em></h3>
@@ -132,7 +167,7 @@ Haz el index.html con: cabecera (nombre + frase), "Sobre mí", "Lo que he hecho"
 - Cuadrícula de 2 columnas para "Me gusta", adaptada a móvil (1 columna)
 - Estilo de enlaces y botones coherente con la marca
 Sin frameworks. Solo CSS puro, comentado.</pre></div>
-<p>Regla: <b>pruébalo, mira, cambia algo tú directamente</b> (un color, una medida). Lo que editas a mano te lo aprendes doble.</p>
+<p>Regla: <b>pruébalo, mira, cambia algo tú directamente</b> (un color, una medida). Prueba a cambiar un color o una medida tú directamente: lo que editas a mano lo entiendes doble.</p>
 </div>
 <div class="step">
 <h3><span class="n">5</span>JS: interactividad a elegir <em>10 min</em></h3>
@@ -166,11 +201,11 @@ Dame solo el CSS que lo arregla y por qué pasaba.</pre></div>
 <label><input type="checkbox"> Tiene mis datos reales (nombre, hechos, gustos)</label>
 <label><input type="checkbox"> He editado al menos una cosa a mano y lo sé explicar</label>
 <label><input type="checkbox"> Al menos una interacción JS funciona</label>
-<label><input type="checkbox"> Sé qué hace cualquier línea que el profe me señale</label>
+<label><input type="checkbox"> Sé contar qué bloques tiene mi web y cómo cambiarlos</label>
 </div>
 </div>
 <div class="note"><b>Para casa (10 min, opcional pero te hará mejor):</b> pide a la IA: <i>«explícame 3 formas de publicar gratis esta web en Internet»</i>. Piensa cuál usarías tú y por qué. Lo comentamos al inicio de la sesión 2 (Git y despliegue).</div>
-<div class="warn"><b>Criterio de evaluación:</b> no vale «me lo hizo la IA». Vale: funciona, lo sabes explicar y se ve tu cabeza al volante. La defensa oral de la web es parte de la nota.</div>
+<div class="warn"><b>Criterio:</b> no vale «me lo hizo la IA». Vale: la web funciona, sabes contar qué tiene y qué cambiarías, y se ve que decides tú. En clase la enseñarás y responderás 2-3 preguntas sobre ella (sin leer el código línea a línea: entendiendo cómo funciona).</div>
 <h2>Kit de rescate</h2>
 <details><summary>«No sé cómo pedir lo que quiero»</summary><div class="d">Prompt: <i>«Quiero que mi web se parezca a ___ (describe sensaciones: sobria, colorida, tipo portfolio…). Pregúntame 5 cosas una por una y luego diséñame el estilo.»</i> — que la IA te entreviste.</div></details>
 <details><summary>«La IA me da el código en trozos y no sé dónde va»</summary><div class="d">Prompt: <i>«Dame el fichero completo, no fragmentos, e indica con comentarios qué parte es nueva.»</i> Y si no: <i>«dime exactamente la línea donde insertar esto»</i>.</div></details>
@@ -183,6 +218,7 @@ Dame solo el CSS que lo arregla y por qué pasaba.</pre></div>
 <div class="c">aulaenlanube 2026 <span class="heart">❤</span> web de Edu Torregrosa Llácer · Curso de Programación con IA · IES Simarro (Xàtiva)</div>
 </div></footer>
 <script>
+document.querySelectorAll('.acc>button').forEach(b=>b.addEventListener('click',()=>b.parentElement.classList.toggle('open')));
 document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',()=>{navigator.clipboard.writeText(b.parentElement.querySelector('pre').innerText).then(()=>{b.textContent='copiado ✓';setTimeout(()=>b.textContent='copiar',1500)})}));
 document.querySelectorAll('.check input').forEach(c=>c.addEventListener('change',()=>{c.style.textDecoration=c.checked?'line-through':'none'}));
 </script>

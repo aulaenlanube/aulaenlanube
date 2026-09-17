@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Curso de Programación con IA (DAM · DAW) — Aula en la nube</title>
+<meta name="description" content="Curso de Programación con IA para DAM y DAW (IES Joan Coromines / Simarro): proyectos individuales y en grupo construidos con agentes de IA. Sesiones paso a paso.">
+<style>
+:root{--slate:#334155;--slate7:#314158;--ink:#18181b;--mut:#52525b;--line:#e4e4e7;--blue:#1d4ed8;--bluebg:#eff6ff;--amber:#fbbf24;--green:#047857;--greenbg:#ecfdf5;--red:#b91c1c;--redbg:#fef2f2}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--blue);text-decoration:none}
+a:hover{text-decoration:underline}
+/* barra de cabecera estilo sitio */
+.topbar{background:#314158;color:#fff;position:sticky;top:0;z-index:50;box-shadow:0 1px 3px rgba(0,0,0,.15)}
+.topbar .in{max-width:1100px;margin:auto;padding:0 16px;height:60px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.topbar img{height:38px;width:auto;display:block}
+.topbar .links{display:flex;gap:4px;font-size:14px;font-weight:500}
+.topbar .links a{color:rgba(255,255,255,.9);padding:6px 10px;border-radius:8px}
+.topbar .links a:hover{color:#fff;background:rgba(255,255,255,.1);text-decoration:none}
+.breadcrumb{max-width:1100px;margin:auto;padding:14px 16px 0;font-size:13px;color:var(--mut)}
+.breadcrumb a{color:var(--mut)}
+main{max-width:1100px;margin:auto;padding:18px 16px 60px}
+/* hero */
+.hero{padding:34px 0 10px;text-align:left}
+.chip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;background:var(--bluebg);color:var(--blue);border:1px solid #bfdbfe;padding:5px 11px;border-radius:999px;margin-bottom:14px}
+h1{font-size:clamp(28px,4.5vw,42px);font-weight:800;letter-spacing:-.02em;line-height:1.12}
+h1 .hl{position:relative;display:inline-block;white-space:nowrap}
+h1 .hl svg{position:absolute;left:-8%;top:-6%;width:116%;height:116%;pointer-events:none}
+h1 .hl text{font:inherit}
+.hero p.lead{color:var(--mut);font-size:18px;max-width:720px;margin-top:14px}
+/* secciones */
+h2{font-size:24px;font-weight:800;letter-spacing:-.01em;margin:40px 0 14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.card{border:1px solid var(--line);border-radius:14px;padding:20px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.card h3{font-size:17px;font-weight:700;margin-bottom:6px}
+.card .num{display:inline-flex;width:30px;height:30px;border-radius:50%;background:var(--slate7);color:#fff;align-items:center;justify-content:center;font-weight:800;font-size:14px;margin-right:8px;vertical-align:-6px}
+.card p{color:var(--mut);font-size:14.5px}
+.card ul{margin:8px 0 0 2px;list-style:none;font-size:14px;color:var(--mut)}
+.card li{padding-left:20px;position:relative;margin-top:5px}
+.card li::before{content:"✓";position:absolute;left:0;color:var(--green);font-weight:800}
+/* sesiones */
+.sesiones{display:flex;flex-direction:column;gap:12px}
+.sesion{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;border:1px solid var(--line);border-radius:14px;padding:18px 20px;background:#fff;transition:box-shadow .15s,transform .15s}
+.sesion:not(.prox):hover{box-shadow:0 6px 18px rgba(0,0,0,.07);transform:translateY(-1px)}
+.sesion h3{font-size:16.5px;margin-bottom:3px}
+.sesion .sub{font-size:13.5px;color:var(--mut)}
+.sesion .n{font-weight:800;color:var(--mut)}
+.est{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:5px 11px;border-radius:999px;white-space:nowrap}
+.e-hoy{background:#fef3c7;color:#92400e;border:1px solid #fde68a}
+.e-lista{background:var(--greenbg);color:var(--green);border:1px solid #a7f3d0}
+.e-prox{background:#f4f4f5;color:#71717a;border:1px solid var(--line)}
+/* callouts */
+.note{background:var(--bluebg);border:1px solid #bfdbfe;border-radius:14px;padding:16px 20px;font-size:14.5px;color:#1e3a8a;margin:18px 0}
+.note b{color:#1e40af}
+/* footer estilo sitio */
+footer{background:#0f172a;color:#d4d4d8;margin-top:70px}
+footer .in{max-width:1100px;margin:auto;padding:26px 16px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px}
+footer img{height:44px}
+footer nav{display:flex;gap:20px;font-size:14px}
+footer nav a{color:#d4d4d8}
+footer nav a:hover{color:#fff}
+footer .c{width:100%;text-align:center;font-size:13px;border-top:1px solid rgba(255,255,255,.1);padding-top:14px;color:#a1a1aa}
+footer .c .heart{color:#ef4444}
+@media(max-width:760px){.grid2{grid-template-columns:1fr}.sesion{grid-template-columns:auto 1fr}.est{grid-column:2;justify-self:start}.topbar .links{display:none}}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="in">
+<a href="https://aulaenlanube.com/"><img src="/wp-content/uploads/2021/03/Logo-CABECERA-web-1-1024x280.webp" alt="Aula en la nube"></a>
+<div class="links">
+<a href="https://aulaenlanube.com/zona-programacion/">Programación e IA</a>
+<a href="https://www.youtube.com/@aulaenlanube" target="_blank" rel="noopener">YouTube</a>
+<a href="https://aulaenlanube.com/">Inicio</a>
+</div>
+</div></div>
+<nav class="breadcrumb"><a href="https://aulaenlanube.com/">Inicio</a> › <a href="https://aulaenlanube.com/zona-programacion/">Programación e IA</a> › Curso de Programación con IA</nav>
+<main>
+<header class="hero">
+<span class="chip">IES Joan Coromines · Programación · 1º DAM/DAW</span>
+<h1>Curso de Programación con <span class="hl">IA
+<svg viewBox="0 0 220 60" preserveAspectRatio="none" aria-hidden="true"><ellipse cx="110" cy="31" rx="103" ry="25" fill="none" stroke="#fbbf24" stroke-width="4"/></svg></span></h1>
+<p class="lead">Aprender a programar <b>con</b> IA, no gracias a la IA. Una asignatura experimental donde el alumno dirige y la IA ejecuta: proyectos reales, código que sabes explicar, criterio propio.</p>
+</header>
+
+<h2>Los dos proyectos del curso</h2>
+<div class="grid2">
+<div class="card">
+<h3><span class="num">1</span>Proyecto individual — tu marca personal</h3>
+<p>Una web personal tuya: quién eres, qué haces, qué te gusta. Primera entrega esta misma semana (sesión 1). Es tu carta de presentación y tu primer despliegue real.</p>
+<ul>
+<li>HTML + CSS + JS que tú controlas</li>
+<li>Publicada en tu propio espacio de la web del curso</li>
+<li>Evaluada por criterio: funciona + lo sabes explicar</li>
+</ul>
+</div>
+<div class="card">
+<h3><span class="num">2</span>Proyecto en grupo — vuestra startup</h3>
+<p>Grupos de 4-5. Producto con base de datos, roles y entregas por sprints. Arranca en la sesión 3. El reto no es que "funcione con IA": es que <b>funcione cuando tú no estás delante</b>.</p>
+<ul>
+<li>Producto con sentido + BD real (SQLite/Postgres)</li>
+<li>Roles tipo startup + repositorio compartido</li>
+<li>Revisado y defendido en clase</li>
+</ul>
+</div>
+</div>
+<div class="note"><b>Norma de oro:</b> usa todos los agentes IA que quieras —el del centro, los que tengas—, pero <b>entiende cada línea que entregas</b>. En la defensa oral la IA no te salva. El que dirige el código eres tú.</div>
+
+<h2>Sesiones</h2>
+<div class="sesiones">
+<a class="sesion" href="sesion-01.html">
+<span class="n">01</span>
+<span><h3>Tu web personal con IA — primer proyecto</h3><span class="sub">17 sep 2026 · Crea HTML, CSS y JS desde cero con el chat del centro, paso a paso, con prompts listos para copiar.</span></span>
+<span class="est e-hoy">HOY 15:00</span>
+</a>
+<div class="sesion prox">
+<span class="n">02</span>
+<span><h3>Mi web, versión 2 · Git</h3><span class="sub">Mejoramos el diseño con un plan (no con suertes) y aprendemos a versionar el proyecto con Git. Tu historia de commits vale como evidencia.</span></span>
+<span class="est e-prox">PRÓXIMAMENTE</span>
+</div>
+<div class="sesion prox">
+<span class="n">03</span>
+<span><h3>Startup: producto con base de datos</h3><span class="sub">Formación de grupos, idea, primer sprint. De la web estática a la aplicación con datos.</span></span>
+<span class="est e-prox">PRÓXIMAMENTE</span>
+</div>
+<div class="sesion prox">
+<span class="n">04</span>
+<span><h3>Despliegue: tu web en Internet</h3><span class="sub">De tu carpeta a una URL pública con nombre. La web de tu marca, accesible desde cualquier sitio.</span></span>
+<span class="est e-prox">PRÓXIMAMENTE</span>
+</div>
+</div>
+<p style="color:var(--mut);font-size:13.5px;margin-top:14px">El temario se construye en clase, sin plan largo impuesto: experimentamos, documentamos y ajustamos cada semana. Esta guía la escribe el profesor y la podéis consultar siempre.</p>
+</main>
+<footer><div class="in">
+<img src="/wp-content/uploads/2021/03/Logo-aulaenlanube-2-768x570.webp" alt="Aula en la nube">
+<nav>
+<a href="https://aulaenlanube.com/">Inicio</a>
+<a href="https://aulaenlanube.com/zona-programacion/">Programación e IA</a>
+<a href="https://edutorregrosa.com/" target="_blank" rel="noopener">Quién soy</a>
+</nav>
+<div class="c">aulaenlanube 2026 <span class="heart">❤</span> web de Edu Torregrosa Llácer</div>
+</div></footer>
+</body>
+</html>

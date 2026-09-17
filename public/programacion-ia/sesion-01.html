@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sesión 1 · Tu web personal con IA — Curso de Programación con IA</title>
+<meta name="description" content="Primera sesión del Curso de Programación con IA (1º DAM): crea tu web personal de marca con HTML, CSS y JS usando el chat con IA del centro. Paso a paso, con prompts listos para copiar.">
+<style>
+:root{--slate:#334155;--slate7:#314158;--ink:#18181b;--mut:#52525b;--line:#e4e4e7;--blue:#1d4ed8;--bluebg:#eff6ff;--amber:#fbbf24;--green:#047857;--greenbg:#ecfdf5;--red:#b91c1c;--redbg:#fef2f2;--s2:#f4f4f5}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
+b{color:var(--slate7)}
+code{background:var(--s2);border:1px solid var(--line);padding:1.5px 6px;border-radius:5px;font-size:.9em;font-family:ui-monospace,Menlo,Consolas,monospace}
+.topbar{background:var(--slate7);color:#fff;position:sticky;top:0;z-index:50;box-shadow:0 1px 3px rgba(0,0,0,.15)}
+.topbar .in{max-width:1100px;margin:auto;padding:0 16px;height:60px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.topbar img{height:38px;width:auto;display:block}
+.topbar .links{display:flex;gap:4px;font-size:14px;font-weight:500}
+.topbar .links a{color:rgba(255,255,255,.9);padding:6px 10px;border-radius:8px}
+.topbar .links a:hover{color:#fff;background:rgba(255,255,255,.1);text-decoration:none}
+.breadcrumb{max-width:1100px;margin:auto;padding:14px 16px 0;font-size:13px;color:var(--mut)}
+.breadcrumb a{color:var(--mut)}
+main{max-width:840px;margin:auto;padding:18px 16px 70px}
+.chip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;background:var(--bluebg);color:var(--blue);border:1px solid #bfdbfe;padding:5px 11px;border-radius:999px;margin-bottom:14px}
+h1{font-size:clamp(26px,4.2vw,38px);font-weight:800;letter-spacing:-.02em;line-height:1.15}
+h1 .hl{position:relative;display:inline-block;white-space:nowrap}
+h1 .hl svg{position:absolute;left:-6%;top:-4%;width:112%;height:112%;pointer-events:none}
+.lead{color:var(--mut);font-size:17px;margin-top:14px}
+.meta{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 8px}
+.meta span{background:var(--s2);border:1px solid var(--line);border-radius:999px;padding:5px 13px;font-size:12.5px;font-weight:600;color:#3f3f46}
+h2{font-size:22px;font-weight:800;letter-spacing:-.01em;margin:38px 0 12px}
+p{margin:.55em 0}
+.note{background:var(--bluebg);border:1px solid #bfdbfe;border-radius:14px;padding:15px 19px;font-size:14.5px;color:#1e3a8a;margin:18px 0}.note b{color:#1e40af}
+.warn{background:#fffbeb;border:1px solid #fde68a;border-radius:14px;padding:15px 19px;font-size:14.5px;color:#92400e;margin:18px 0}.warn b{color:#92400e}
+.check{background:var(--greenbg);border:1px solid #a7f3d0;border-radius:14px;padding:15px 19px;margin:18px 0;font-size:14.5px}
+.check label{display:block;padding:5px 0;cursor:pointer}
+.step{border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin:18px 0;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.step h3{display:flex;align-items:center;gap:12px;margin-bottom:10px;font-size:17px}
+.step .n{flex:none;width:32px;height:32px;border-radius:50%;background:var(--slate7);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:15px}
+.step h3 em{font-style:normal;margin-left:auto;font-size:11.5px;font-weight:700;background:var(--s2);color:#71717a;border:1px solid var(--line);border-radius:999px;padding:4px 10px}
+.codewrap{position:relative;margin:12px 0}
+.code,pre.code{background:#18181b;color:#e4e4e7;padding:14px 16px;border-radius:12px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13.5px;line-height:1.55;overflow:auto;white-space:pre-wrap}
+.copy{position:absolute;top:8px;right:8px;background:#3f3f46;color:#fff;border:none;border-radius:8px;padding:5px 11px;font-size:12px;cursor:pointer;font-weight:600}
+.copy:hover{background:#52525b}
+ul.puntos{margin:8px 0 0 22px;font-size:14.5px;color:var(--mut)}
+ul.puntos li{margin:4px 0}
+.tree{background:var(--s2);border:1px solid var(--line);border-radius:12px;padding:13px 15px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13.5px;white-space:pre;line-height:1.55;overflow:auto}
+table{border-collapse:collapse;width:100%;font-size:14px;margin:12px 0}
+th,td{border:1px solid var(--line);padding:9px 12px;text-align:left}
+th{background:var(--s2);font-weight:700}
+details{border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:10px 0;background:#fff}
+details summary{cursor:pointer;font-weight:700;font-size:14.5px;color:var(--slate7)}
+details .d{font-size:14px;color:#3f3f46}
+.navbot{display:flex;justify-content:space-between;gap:10px;margin-top:44px;padding-top:20px;border-top:1px solid var(--line)}
+.btn{display:inline-block;background:var(--slate7);color:#fff;padding:11px 19px;border-radius:10px;font-weight:600;font-size:14px}
+.btn:hover{background:#1e293b;text-decoration:none}
+.btn.ghost{background:#fff;color:var(--slate);border:1px solid var(--line)}
+footer{background:#0f172a;color:#d4d4d8;margin-top:70px}
+footer .in{max-width:1100px;margin:auto;padding:26px 16px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px}
+footer img{height:44px}
+footer .c{width:100%;text-align:center;font-size:13px;border-top:1px solid rgba(255,255,255,.1);padding-top:14px;color:#a1a1aa}
+footer .c .heart{color:#ef4444}
+@media(max-width:640px){.step{padding:16px}.step h3 em{margin-left:0}.topbar .links{display:none}}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="in">
+<a href="https://aulaenlanube.com/"><img src="/wp-content/uploads/2021/03/Logo-CABECERA-web-1-1024x280.webp" alt="Aula en la nube"></a>
+<div class="links">
+<a href="index.html">Curso</a>
+<a href="https://aulaenlanube.com/zona-programacion/">Programación e IA</a>
+<a href="https://aulaenlanube.com/">Inicio</a>
+</div>
+</div></div>
+<nav class="breadcrumb"><a href="https://aulaenlanube.com/">Inicio</a> › <a href="index.html">Curso de Programación con IA</a> › Sesión 1</nav>
+<main>
+<header>
+<span class="chip">1º DAM · Sesión 1 · Jueves 17 de septiembre</span>
+<h1>Tu <span class="hl">web personal
+<svg viewBox="0 0 200 44" preserveAspectRatio="none" aria-hidden="true"><ellipse cx="100" cy="23" rx="94" ry="18" fill="none" stroke="#fbbf24" stroke-width="4"/></svg></span> con IA</h1>
+<p class="lead">Primer proyecto del curso: una web de marca personal. La construyes <b>directamente desde el chat</b> con los modelos del centro, gestionando tú los ficheros. Sin API todavía: tú diriges, la IA ejecuta.</p>
+<div class="meta">
+<span>🎯 Web personal</span><span>📁 HTML + CSS + JS</span><span>💬 Chat del centro</span><span>⏱ 45-60 min</span><span>📤 Entrega: carpeta + defensa</span>
+</div>
+</header>
+<div class="warn"><b>Antes de empezar:</b> crea una carpeta llamada <code>mi-web</code> en tu cuenta. Ahí irán los tres ficheros. Todo lo que te responda la IA lo <b>tú copias, pegas, guardas y revisas</b>. Si sale raro, no es culpa de la IA: vuelve a pedirlo mejor. Eso también es programar.</div>
+<h2>¿Qué vamos a montar?</h2>
+<p>Una web real = una carpeta con ficheros. Lo mínimo:</p>
+<div class="tree">mi-web/
+├── index.html   ← la estructura (qué hay)
+├── style.css    ← el estilo (cómo se ve)
+└── script.js    ← la interacción (qué hace)</div>
+<p>Una web compleja, además, base de datos. Eso llegará en el proyecto en grupo. Hoy dominan el trío: estructura, estilo, comportamiento.</p>
+<div class="step">
+<h3><span class="n">1</span>Pensar antes de pedir <em>5 min</em></h3>
+<p>La IA no sabe quién eres. Rellena esta ficha en un <code>notas.txt</code> dentro de <code>mi-web</code> (esto se paga en el paso 6):</p>
+<ul class="puntos">
+<li>Nombre y apellidos + <b>una frase</b> que diga quién eres</li>
+<li>3-5 «cosas que he hecho» (curso, hobby, proyecto, viaje, deporte)</li>
+<li>3 cosas que me gustan (música, series, videojuegos, tecnología…)</li>
+<li>Qué quiero ser / qué me interesa de la programación</li>
+<li>3 colores o estilo que te va (minimalista, gamer, retro, oscuro…)</li>
+</ul>
+</div>
+<div class="step">
+<h3><span class="n">2</span>El HTML: pedirlo con condiciones <em>10 min</em></h3>
+<p>Copia este prompt, pégalo en el chat del centro y <b>complétalo con tu ficha</b> (eso es lo que lo convierte en tu web, no en la de nadie):</p>
+<div class="codewrap"><button class="copy">copiar</button><pre class="code">Quiero crear mi web personal de marca con HTML, CSS y JS puros. Voy a gestionar yo los ficheros,
+así que dame el código completo de cada fichero en un bloque, sin explicaciones largas.
+
+Ficha: soy ___, del ciclo de 1º DAM del IES Joan Coromines.
+Cosas que he hecho: ___
+Me gusta: ___
+Quiero ser / me interesa: ___
+Colores/estilo: ___
+
+Haz el index.html con: cabecera (nombre + frase), "Sobre mí", "Lo que he hecho",
+"Me gusta", un pie de página con contacto. HTML semántico, etiquetas comentadas.</pre></div>
+<div class="note"><b>El truco del profesional:</b> pide, pega, guarda… y <b>lee lo que te ha dado</b>. ¿Etiquetas semánticas? ¿Comentarios? ¿Hay algo que no entiendes? Pregunta: <i>«explícame la línea N de lo que me has dado»</i>. No entregues nada que no serías capaz de explicar.</div>
+</div>
+<div class="step">
+<h3><span class="n">3</span>Mini-test: explícalo tú <em>5 min</em></h3>
+<p>Antes de seguir, cambia de rol: <b>tú eres el revisor</b>. Escribe en el chat:</p>
+<div class="codewrap"><button class="copy">copiar</button><pre class="code">Actúa como profesor revisor. Hazme 4 preguntas sobre el index.html que me has dado
+(etiquetas, estructura, semántica). Yo respondo y me corriges.</pre></div>
+<p>Si respondes a las 4, pasas el filtro. Si fallas, vuelve al paso 2 y pide aclaración.</p>
+</div>
+<div class="step">
+<h3><span class="n">4</span>CSS: que se vea <em>tuyo</em> <em>10 min</em></h3>
+<p>Prompt:</p>
+<div class="codewrap"><button class="copy">copiar</button><pre class="code">Genera el style.css para mi web personal.
+- Paleta basada en los colores que te dije: ___
+- Cabecera con fondo de color, texto legible, tipografía limpia
+- Contenido centrado, ancho máx 900px, espaciado generoso
+- Cuadrícula de 2 columnas para "Me gusta", adaptada a móvil (1 columna)
+- Estilo de enlaces y botones coherente con la marca
+Sin frameworks. Solo CSS puro, comentado.</pre></div>
+<p>Regla: <b>pruébalo, mira, cambia algo tú directamente</b> (un color, una medida). Lo que editas a mano te lo aprendes doble.</p>
+</div>
+<div class="step">
+<h3><span class="n">5</span>JS: interactividad a elegir <em>10 min</em></h3>
+<p>Pide <b>una</b> (luego otra si te sobra tiempo). Elige tú, no la IA:</p>
+<ul class="puntos">
+<li><b>Modo oscuro</b> con botón (guardando la preferencia en <code>localStorage</code>)</li>
+<li><b>Efecto máquina de escribir</b> en tu frase de presentación</li>
+<li><b>Menú responsive</b> (hamburguesa en móvil)</li>
+<li><b>Contador</b> de «cosas que he hecho» que se despliega al hacer clic</li>
+<li><b>Fondo de partículas</b> sutil</li>
+</ul>
+<div class="codewrap"><button class="copy">copiar</button><pre class="code">Añade a mi web personal (tengo index.html y style.css, te pego el HTML):
+[pega aquí tu index.html]
+Quiero ___ (ej: un botón de modo oscuro que recuerde la elección con localStorage).
+Dame el script.js completo y las líneas exactas que debo añadir al HTML y al CSS,
+indicando dónde van. Comenta el código.</pre></div>
+</div>
+<div class="step">
+<h3><span class="n">6</span>Iterar: la parte que te hace programador <em>10 min</em></h3>
+<p>Tu web ya funciona. Ahora la mejoras con <b>3 iteraciones cortas</b> (peticiones concretas, no «arregla todo»):</p>
+<div class="codewrap"><button class="copy">copiar</button><pre class="code">Iteración: en la sección "Sobre mí", añade una foto con estilo ___ y que la frase
+de cabecera use un degradado de mis colores. No cambies nada más.</pre></div>
+<div class="codewrap"><button class="copy">copiar</button><pre class="code">Iteración: en el móvil el menú se apila mal: ___(pégame captura o describe).
+Dame solo el CSS que lo arregla y por qué pasaba.</pre></div>
+</div>
+<div class="step">
+<h3><span class="n">7</span>Entrega <em>5 min</em></h3>
+<p>Sube la carpeta <code>mi-web</code> a ___ (el sitio que indique el profe) o entrégala en el repositorio que montemos en la sesión de Git. Checklist:</p>
+<div class="check">
+<label><input type="checkbox"> Se abre y se ve bien en escritorio y en móvil</label>
+<label><input type="checkbox"> Tiene mis datos reales (nombre, hechos, gustos)</label>
+<label><input type="checkbox"> He editado al menos una cosa a mano y lo sé explicar</label>
+<label><input type="checkbox"> Al menos una interacción JS funciona</label>
+<label><input type="checkbox"> Sé qué hace cualquier línea que el profe me señale</label>
+</div>
+</div>
+<div class="note"><b>Para casa (10 min, opcional pero te hará mejor):</b> pide a la IA: <i>«explícame 3 formas de publicar gratis esta web en Internet»</i>. Piensa cuál usarías tú y por qué. Lo comentamos al inicio de la sesión 2 (Git y despliegue).</div>
+<div class="warn"><b>Criterio de evaluación:</b> no vale «me lo hizo la IA». Vale: funciona, lo sabes explicar y se ve tu cabeza al volante. La defensa oral de la web es parte de la nota.</div>
+<h2>Kit de rescate</h2>
+<details><summary>«No sé cómo pedir lo que quiero»</summary><div class="d">Prompt: <i>«Quiero que mi web se parezca a ___ (describe sensaciones: sobria, colorida, tipo portfolio…). Pregúntame 5 cosas una por una y luego diséñame el estilo.»</i> — que la IA te entreviste.</div></details>
+<details><summary>«La IA me da el código en trozos y no sé dónde va»</summary><div class="d">Prompt: <i>«Dame el fichero completo, no fragmentos, e indica con comentarios qué parte es nueva.»</i> Y si no: <i>«dime exactamente la línea donde insertar esto»</i>.</div></details>
+<details><summary>«Se me ha roto algo al tocar el CSS»</summary><div class="d">Prompt: <i>«Mi web estaba así: [pega el CSS]. Al añadir ___ dejó de funcionar ___. ¿Qué está mal y por qué?»</i> — Pegar el código roto es el 90 % del debugging.</div></details>
+<details><summary>«¿Puedo usar cualquier IA?»</summary><div class="d">Puedes usar la que quieras —incluidos los agentes del centro—, pero el trabajo de revisión, comprensión y decisión es tuyo, no de la herramienta. Si en la defensa no lo sabes explicar, no cuenta.</div></details>
+<div class="navbot"><a class="btn ghost" href="index.html">← Volver al curso</a><button class="btn" onclick="window.print()" style="font:inherit;cursor:pointer;border:none">🖨 Versión imprimible</button></div>
+</main>
+<footer><div class="in">
+<img src="/wp-content/uploads/2021/03/Logo-aulaenlanube-2-768x570.webp" alt="Aula en la nube">
+<div class="c">aulaenlanube 2026 <span class="heart">❤</span> web de Edu Torregrosa Llácer · Curso de Programación con IA · IES Joan Coromines</div>
+</div></footer>
+<script>
+document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',()=>{navigator.clipboard.writeText(b.parentElement.querySelector('pre').innerText).then(()=>{b.textContent='copiado ✓';setTimeout(()=>b.textContent='copiar',1500)})}));
+document.querySelectorAll('.check input').forEach(c=>c.addEventListener('change',()=>{c.style.textDecoration=c.checked?'line-through':'none'}));
+</script>
+</body>
+</html>

@@ -52,27 +52,35 @@ export default function CursoIAInicio() {
           </p>
         </Link>
 
-        <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
+        <Link
+          href="/programacion-ia/proyecto-final-individual/"
+          className="block rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg"
+        >
           <span className={`${tag} border-emerald-200 bg-emerald-50 text-emerald-700`}>
             Proyecto final · individual
           </span>
           <h3 className="text-lg font-bold">Tu proyecto, a tu altura</h3>
           <p className="mt-1 text-sm text-zinc-600">
-            Cada alumno elegirá un proyecto personal más ambicioso, más allá de la web estática: un
-            SaaS, un videojuego, una app con IA… Con plan propio, alcance negociado y defensa oral.
+            Seis familias de proyecto con ideas y ejemplos reales: CLI, apps con IA por API, SaaS,
+            videojuegos, Android, automatizaciones. Con plan para elegirlo bien.
           </p>
-        </div>
+          <p className="mt-3 text-sm font-semibold text-blue-700">Ver ideas y casos reales →</p>
+        </Link>
 
-        <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
+        <Link
+          href="/programacion-ia/proyecto-final-grupo/"
+          className="block rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg"
+        >
           <span className={`${tag} border-emerald-200 bg-emerald-50 text-emerald-700`}>
             Proyecto final · en grupo
           </span>
           <h3 className="text-lg font-bold">Startup de 4-5</h3>
           <p className="mt-1 text-sm text-zinc-600">
-            Grupos como pequeñas empresas: un producto con <b>base de datos</b>, roles, entregas por
-            sprints y presentación final. El salto de la web estática a la aplicación real.
+            Un producto real: publicado en un VPS, con Stripe montado y pensado para <b>sobrevivir al
+            curso</b>. Grupos compactos, roles tipo startup y sprints con PRs de verdad.
           </p>
-        </div>
+          <p className="mt-3 text-sm font-semibold text-blue-700">Ver el plan de startup →</p>
+        </Link>
       </div>
 
       <div className="mt-6 rounded-2xl border border-zinc-200 bg-zinc-100 p-5 text-[15px]">

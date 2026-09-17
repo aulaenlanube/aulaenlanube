@@ -130,6 +130,23 @@ export default function CursoIAWebPersonal() {
             Preparada
           </span>
         </Link>
+
+        <Link
+          href="/programacion-ia/sesion-03/"
+          className="flex flex-col gap-2 rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg sm:flex-row sm:items-center"
+        >
+          <span className="font-extrabold text-zinc-400">03</span>
+          <span className="flex-1">
+            <span className="block text-[16px] font-bold">Por qué programamos así</span>
+            <span className="block text-sm text-zinc-600">
+              Los datos del sector y de la FP, tu nuevo rol como desarrollador con IA, y la justificación
+              del proyecto de innovación: el porqué de este curso, negro sobre blanco.
+            </span>
+          </span>
+          <span className="w-fit rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-blue-700">
+            Preparada
+          </span>
+        </Link>
       </div>
 
       <div className="mt-6 rounded-2xl border border-blue-200 bg-blue-50 p-5 text-[15px] text-blue-900">

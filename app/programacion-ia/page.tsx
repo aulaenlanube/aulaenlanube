@@ -83,6 +83,12 @@ export default function CursoIAInicio() {
         </Link>
       </div>
 
+      <h2 className="mt-9 text-xl font-extrabold tracking-tight">El curso, en vídeo</h2>
+      <p className="mt-1 text-[15px] text-zinc-600">
+        Cada semana, un vídeo corto contando el curso real: método, proyectos y clase aumentada.
+        <Link href="/programacion-ia/video-semana/" className="ml-1 font-semibold">Ver la serie →</Link>
+      </p>
+
       <div className="mt-6 rounded-2xl border border-zinc-200 bg-zinc-100 p-5 text-[15px]">
         <b>Cómo trabajaremos:</b> el primer proyecto se hace pieza a pieza, pidiendo cada fichero al
         chat del centro. Según avancemos, subimos de nivel: agentes de código (OpenCode), versionado

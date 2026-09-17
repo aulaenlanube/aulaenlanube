@@ -15,7 +15,7 @@ const chip =
 const meta =
   "rounded-full border border-zinc-200 bg-zinc-100 px-3 py-1 text-[12px] font-semibold text-zinc-700";
 
-function Paso({ n, t, min, children }: { n: string; t: string; min: string; children: React.ReactNode }) {
+function Paso({ n, t, children }: { n: string; t: string; children: React.ReactNode }) {
   return (
     <section className="my-4 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
       <h3 className="flex flex-wrap items-center gap-3 text-[17px] font-bold">
@@ -23,9 +23,6 @@ function Paso({ n, t, min, children }: { n: string; t: string; min: string; chil
           {n}
         </span>
         {t}
-        <em className="ml-auto rounded-full border border-zinc-200 bg-zinc-100 px-2.5 py-1 text-[11px] font-bold not-italic text-zinc-500">
-          {min}
-        </em>
       </h3>
       <div className="mt-2 space-y-2 text-[15px] text-zinc-700">{children}</div>
     </section>
@@ -42,20 +39,20 @@ export default function CursoIASesion1() {
           { title: "Sesión 1", path: "/programacion-ia/sesion-01/" },
         ]}
       />
-      <span className={chip}>1º DAM · Proyecto web personal · Sesión 1</span>
+      <span className={chip}>1º DAM · Proyecto web personal · Sesión 1 (fase)</span>
       <h1 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
         Tu web personal con IA
       </h1>
       <p className="mt-4 text-lg text-zinc-600">
-        Primer proyecto del curso: una web de marca personal. La construyes <b>directamente desde el
+        Primera fase del proyecto: una <b>landing de marca personal</b>. La construyes <b>directamente desde el
         chat</b> con los modelos del centro, gestionando tú los ficheros. Sin API todavía: tú
-        diriges, la IA ejecuta.
+        diriges, la IA ejecuta. Esta fase puede ocupar más de una clase —la próxima seguimos mejorando
+        la web—: avanzamos a vuestro ritmo.
       </p>
       <div className="mt-4 flex flex-wrap gap-2">
         <span className={meta}>🎯 Web personal</span>
         <span className={meta}>📁 HTML + CSS + JS</span>
         <span className={meta}>💬 Chat del centro</span>
-        <span className={meta}>⏱ 45-60 min</span>
         <span className={meta}>📤 Entrega: carpeta + se enseña en clase</span>
       </div>
 
@@ -79,7 +76,7 @@ export default function CursoIASesion1() {
         dominan el trío: estructura, estilo, comportamiento.
       </p>
 
-      <Paso n="1" t="Pensar antes de pedir" min="5 min">
+      <Paso n="1" t="Pensar antes de pedir">
         <p>La IA no sabe quién eres. Rellena esta ficha en un <code>notas.txt</code> dentro de <code>mi-web</code> (la usarás en el paso 2):</p>
         <ul className="list-disc space-y-1 pl-6 text-sm text-zinc-600">
           <li>Nombre y apellidos + <b>una frase</b> que diga quién eres</li>
@@ -90,7 +87,7 @@ export default function CursoIASesion1() {
         </ul>
       </Paso>
 
-      <Paso n="2" t="El HTML: pedirlo con condiciones" min="10 min">
+      <Paso n="2" t="El HTML: pedirlo con condiciones">
         <p>Copia este prompt, pégalo en el chat del centro y <b>complétalo con tu ficha</b> (eso es lo que lo convierte en tu web, no en la de nadie):</p>
         <PromptBlock text={`Quiero crear mi web personal de marca con HTML, CSS y JS puros. Voy a gestionar yo los ficheros,
 así que dame el código completo de cada fichero en un bloque, sin explicaciones largas.
@@ -110,7 +107,7 @@ Haz el index.html con: cabecera (nombre + frase), "Sobre mí", "Lo que he hecho"
         </div>
       </Paso>
 
-      <Paso n="3" t="Compruébala antes de seguir" min="5 min">
+      <Paso n="3" t="Compruébala antes de seguir">
         <p>
           Abre el <code>index.html</code> en el navegador. ¿Están los bloques en orden? ¿Se ve tu
           nombre? ¿Y al achicar la ventana (modo móvil)? Si algo no cuadra, se lo describes a la IA
@@ -120,7 +117,7 @@ Haz el index.html con: cabecera (nombre + frase), "Sobre mí", "Lo que he hecho"
 Dame el HTML corregido de ese bloque y por qué pasaba.`} />
       </Paso>
 
-      <Paso n="4" t="CSS: que se vea tuyo" min="10 min">
+      <Paso n="4" t="CSS: que se vea tuyo">
         <PromptBlock text={`Genera el style.css para mi web personal.
 - Paleta basada en los colores que te dije: ___
 - Cabecera con fondo de color, texto legible, tipografía limpia
@@ -131,7 +128,7 @@ Sin frameworks. Solo CSS puro, comentado.`} />
         <p>Prueba a cambiar un color o una medida tú directamente: lo que editas a mano lo entiendes doble.</p>
       </Paso>
 
-      <Paso n="5" t="JS: interactividad a elegir" min="10 min">
+      <Paso n="5" t="JS: interactividad a elegir">
         <p>Pide <b>una</b> (luego otra si te sobra tiempo). Elige tú, no la IA:</p>
         <ul className="list-disc space-y-1 pl-6 text-sm text-zinc-600">
           <li><b>Modo oscuro</b> con botón (guardando la preferencia en <code>localStorage</code>)</li>
@@ -147,7 +144,7 @@ Dame el script.js completo y las líneas exactas que debo añadir al HTML y al C
 indicando dónde van. Comenta el código.`} />
       </Paso>
 
-      <Paso n="6" t="Iterar: la parte que te hace programador" min="10 min">
+      <Paso n="6" t="Iterar: la parte que te hace programador">
         <p>Tu web ya funciona. Ahora la mejoras con <b>3 iteraciones cortas</b> (peticiones concretas, no «arregla todo»):</p>
         <PromptBlock text={`Iteración: en la sección "Sobre mí", añade una foto con estilo ___ y que la frase
 de cabecera use un degradado de mis colores. No cambies nada más.`} />
@@ -155,8 +152,8 @@ de cabecera use un degradado de mis colores. No cambies nada más.`} />
 Dame solo el CSS que lo arregla y por qué pasaba.`} />
       </Paso>
 
-      <Paso n="7" t="Entrega" min="5 min">
-        <p>Sube la carpeta <code>mi-web</code> al sitio que indique el profe (o entrégala en el repositorio que montemos en la sesión de Git). Checklist:</p>
+      <Paso n="7" t="Entrega">
+        <p>Sube la carpeta <code>mi-web</code> al sitio que indique el profe. En la <a href="/programacion-ia/sesion-02/" className="font-semibold underline">sesión 2</a> aprenderás a tenerla además en GitHub, tu copia de seguridad del curso. Checklist:</p>
         <ul className="mt-2 space-y-1 text-sm text-zinc-700">
           <li>☐ Se abre y se ve bien en escritorio y en móvil</li>
           <li>☐ Tiene mis datos reales (nombre, hechos, gustos)</li>
@@ -166,12 +163,7 @@ Dame solo el CSS que lo arregla y por qué pasaba.`} />
         </ul>
       </Paso>
 
-      <div className="my-5 rounded-2xl border border-blue-200 bg-blue-50 p-5 text-[15px] text-blue-900">
-        <b>Para casa (10 min, opcional pero te hará mejor):</b> pide a la IA:{" "}
-        <i>«explícame 3 formas de publicar gratis esta web en Internet»</i>. Piensa cuál usarías tú
-        y por qué. Lo comentamos al inicio de la sesión 2.
-      </div>
-      <div className="my-5 rounded-2xl border border-amber-200 bg-amber-50 p-5 text-[15px] text-amber-900">
+            <div className="my-5 rounded-2xl border border-amber-200 bg-amber-50 p-5 text-[15px] text-amber-900">
         <b>Criterio:</b> no vale «me lo hizo la IA». Vale: la web funciona, sabes contar qué tiene y
         qué cambiarías, y se ve que decides tú. En clase la enseñarás y responderás 2-3 preguntas
         sobre ella (sin leer el código línea a línea: entendiendo cómo funciona).

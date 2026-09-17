@@ -106,26 +106,30 @@ export default function CursoIAWebPersonal() {
             </span>
             <span className="block text-sm text-zinc-600">
               Pide tu HTML, tu CSS y tu JS con prompts listos para copiar, únelos, pruébala y
-              publícala. Con checklist de entrega.
+              publícala. Es una fase de trabajo: puede ocupar más de una clase, avanzamos a vuestro
+              ritmo. Con checklist de entrega.
             </span>
           </span>
           <span className="w-fit rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-blue-700">
             Ya disponible
           </span>
         </Link>
-        <div className="flex flex-col gap-2 rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm sm:flex-row sm:items-center">
+        <Link
+          href="/programacion-ia/sesion-02/"
+          className="flex flex-col gap-2 rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg sm:flex-row sm:items-center"
+        >
           <span className="font-extrabold text-zinc-400">02</span>
           <span className="flex-1">
-            <span className="block text-[16px] font-bold">Versión 2: mejorar con plan</span>
+            <span className="block text-[16px] font-bold">Tu proyecto en GitHub (Git sin comandos)</span>
             <span className="block text-sm text-zinc-600">
-              Iteramos el diseño con intención (no a suertes) y ordenamos el proyecto como un
-              profesional.
+              Repositorio, commit, push/pull, rama y PR: los cinco conceptos para trabajar con agentes
+              y no perder nunca tu trabajo. Tu copia de seguridad de todo el curso.
             </span>
           </span>
-          <span className="w-fit rounded-full border border-zinc-200 bg-zinc-100 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-zinc-500">
-            Próximamente
+          <span className="w-fit rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-blue-700">
+            Preparada
           </span>
-        </div>
+        </Link>
       </div>
 
       <div className="mt-6 rounded-2xl border border-blue-200 bg-blue-50 p-5 text-[15px] text-blue-900">

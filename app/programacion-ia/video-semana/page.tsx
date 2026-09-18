@@ -32,13 +32,13 @@ const VIDEOS: Video[] = [
       "Presentación del cambio de método: por qué un curso de Java de 220+ vídeos deja de ser la forma de enseñar en 2026, qué haremos en el curso, y la clase aumentada (transcripción en tiempo real + JARVIS).",
     bloques: [
       {
-        h: "GANCHO (primeros 15s, a cámara, sin introducción)",
-        p: "Tengo un curso de Java en este canal. Más de 220 vídeos. Uno de los más completos que vas a encontrar, no te lo voy a descubrir yo. Y este año he tomado una decisión: no voy a enseñar así a mis alumnos de DAM. No porque esté mal. Porque en 2026 ya no es la forma.",
+        h: "GANCHO (primeros 20s, a cámara, sin saludo, sin intro, sin música. Directo y cortante)",
+        p: "No vas a encontrar un curso de programación como este en ningún sitio. Y no es un curso para programar: es un curso para crear. No necesitas saber programar. No necesitas memorizar una sola coma. Necesitas ganas de crear: una app, una web, un negocio. Te voy a enseñar cómo se programa a partir de ahora. Y te lo enseña un profesor de una titulación oficial, en un instituto público, con 30 alumnos delante.",
       },
       {
-        h: "CONTEXTO",
+        h: "CONTEXTO (aquí entra lo tuyo: lo del curso de Java)",
         dur: "60s",
-        p: "Soy Edu, doy Programación en 1º de DAM en el IES Simarro, y estoy rediseñando la asignatura entera alrededor de una idea: programar con IA, no gracias a la IA. Los datos no dejan mucha salida: el 72% de los desarrolladores profesionales ya programa con IA a diario; el 90% del alumnado de FP Superior ya usa IA generativa para estudiar. La herramienta ya está en la industria y en las mochilas. Lo que no existe es enseñar a usarla como un profesional: dirigir, verificar, decidir. Y no es un experimento de un profe suelto: la UE aprobó este mayo unas conclusiones sobre el profesorado en la era de la IA que van en esta dirección.",
+        p: "Aclaración necesaria antes de que nadie me lo pregunte: yo tengo un curso de Java en este canal. Más de 220 vídeos, de los más completos que vas a encontrar. Y precisamente por eso, atención: este año he tomado la decisión de no enseñar así a mis alumnos de DAM. No porque esté mal, sino porque en 2026 ya no es la forma. Soy Edu, doy Programación en 1º de DAM en el IES Simarro, y estoy rediseñando la asignatura entera alrededor de una idea: programar con IA, no gracias a la IA. Los datos no dejan mucha salida: el 72% de los desarrolladores profesionales ya programa con IA a diario; el 90% del alumnado de FP Superior ya usa IA generativa para estudiar. La herramienta ya está en la industria y en las mochilas. Lo que no existe es enseñar a usarla como un profesional: dirigir, verificar, decidir. Y no es un experimento de un profe suelto: la UE aprobó este mayo unas conclusiones sobre el profesorado en la era de la IA que van en esta dirección.",
       },
       {
         h: "EL CAMBIO: de temas a proyectos",

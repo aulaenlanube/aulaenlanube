@@ -4,7 +4,7 @@ import Link from "@/components/Link";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import PrintButton from "@/components/PrintButton";
 import { chip, n2, n1, n6, n5, tarjeta } from "../../../ui";
-import { LineaH, Icono } from "../../../figuras";
+import { LineaH, Icono, TablaSignos } from "../../../figuras";
 import { APS, ACTS, LABELS } from "../../../datos";
 
 type P = { params: Promise<{ ap: string; act: string }> };
@@ -67,6 +67,7 @@ export default async function ActividadPTE({ params }: P) {
       </div>
 
       {A.ln ? <LineaH desde={A.ln[0]} hasta={A.ln[1]} marcas={A.ln[2].map(([x, label, color]) => ({ x, label, color: color as "rojo" }))} caption="Recta numérica horizontal de apoyo para esta actividad." /> : null}
+      {A.regla ? <TablaSignos /> : null}
 
       {A.nv.map((nv, i) => (
         <section key={i} className={tarjeta}>

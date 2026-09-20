@@ -71,6 +71,33 @@ export function LineaH({
   );
 }
 
+export function TablaSignos() {
+  // Espejo del diagrama del libro: recuadros azul (+) y rojo (−).
+  const sq = (x: number, pos: boolean) => (
+    <rect key={x} x={x} y={10} width={16} height={16} rx={3} fill={pos ? "#bfdbfe" : "#fecaca"} stroke={pos ? "#1d4ed8" : "#dc2626"} strokeWidth="1.5" />
+  );
+  const row = (y: number, a: boolean, b: boolean, r: boolean) => (
+    <g key={y} fontFamily="system-ui" fontSize="12" fontWeight="bold">
+      {sq(10, a)}
+      <text x={33} y={y + 14} fill="#334155">·</text>
+      {sq(40, b)}
+      <text x={63} y={y + 14} fill="#334155">=</text>
+      {sq(74, r)}
+      <text x={100} y={y + 13} fontSize="10.5" fill="#475569">{r ? "positivo (+)" : "negativo (−)"}</text>
+    </g>
+  );
+  return (
+    <Figura caption="Regla de los signos (igual que en tu libro): mismo color = positivo · colores distintos = negativo. Vale igual para dividir.">
+      <svg viewBox="0 0 180 108" className="h-36 w-auto max-w-full" role="img" aria-label="Tabla de signos con recuadros azules y rojos">
+        {row(8, true, true, true)}
+        {row(32, false, false, true)}
+        {row(56, true, false, false)}
+        {row(80, false, true, false)}
+      </svg>
+    </Figura>
+  );
+}
+
 // Iconos-objeto sencillos (40x40) para la cajita de cada actividad.
 export function Icono({ k }: { k: string }) {
   const s = { width: 40, height: 40, viewBox: "0 0 40 40", "aria-hidden": true } as const;

@@ -5,7 +5,7 @@
 
 export type Ln = [number, number, [number, string, string][]];
 export type Nv = { in?: string; p: string[]; s: string[]; ad?: string };
-export type Act = { t: string; d: string; ic: string; ln?: Ln; nv: Nv[] };
+export type Act = { t: string; d: string; ic: string; ln?: Ln; regla?: boolean; nv: Nv[] };
 export type Ap = { slug: string; n: number; t: string; teoria: string[]; ej: string[] };
 
 export const CLS = [
@@ -574,6 +574,40 @@ export const ACTS: Record<string, Act[]> = {
         { p: ["**a)** El profe abre la caja de mago: «(−2) al cuadrado es +4». Levanta la tarjeta VERDE si lo dice bien.", "**b)** Copia la frase buena."],
           s: ["**a)** Verde.", "**b)** Copia correcta."],
           ad: "Verificar oralmente la frase-modelo y copiarla." },
+      ],
+    },
+    {
+      t: "La ficha del libro", d: "Adaptación del ejercicio 19: 5 multiplicaciones y 5 divisiones con la regla de los signos del libro de texto.", ic: "signos", regla: true,
+      nv: [
+        { in: "Ficha calcada del ejercicio del libro (números cambiados, misma estructura). Primero decide el color del signo, luego calcula el número.",
+          p: ["**a)** Multiplica: (−9)·(+3) · (+8)·(+4) · (−7)·(−6) · (+5)·(−8) · (−4)·(−9).",
+              "**b)** Divide: (−14) : (−7) · (+35) : (−5) · (−32) : (+4) · (+24) : (+8) · (−42) : (−6).",
+              "**c)** Ordena los 5 resultados de a) de menor a mayor.",
+              "**d)** Escribe dos operaciones (una multiplicación y una división) que den −8. ¿Son únicas?"],
+          s: ["**a)** −27 · +32 · +42 · −40 · +36.",
+              "**b)** +2 · −7 · −8 · +3 · +7.",
+              "**c)** −40 < −27 < +32 < +36 < +42.",
+              "**d)** No son únicas: p. ej. (−2)·4 = −8 y −16:2 = −8 — hay infinitas parejas."] },
+        { in: "Igual que en el libro: decide primero el signo, luego el número.",
+          p: ["**a)** Multiplica: (−9)·(+3) · (+8)·(+4) · (−7)·(−6).",
+              "**b)** Multiplica: (+5)·(−8) · (−4)·(−9).",
+              "**c)** Divide: (−14) : (−7) · (+35) : (−5) · (−32) : (+4).",
+              "**d)** Divide: (+24) : (+8) · (−42) : (−6)."],
+          s: ["**a)** −27 · +32 · +42.", "**b)** −40 · +36.", "**c)** +2 · −7 · −8.", "**d)** +3 · +7."],
+          ad: "Las 10 cuentas se reparten en 4 grupos pequeños (menos carga visual por línea); mismos números y misma regla que el nivel de referencia." },
+        { in: "Usa la tabla de colores de arriba: mismo color, resultado AZUL (+); colores distintos, ROJO (−).",
+          p: ["**a)** Con los recuadros de la tabla: ¿el resultado de (−9)·3 sale azul o rojo? Rodea. Calcula el número.",
+              "**b)** Haz lo mismo con (−7)·(−6).",
+              "**c)** Completa: 14 : 7 = ___ · −14 : (−7) = ___",
+              "**d)** Rodea las cuentas con resultado negativo: 35:(−5) · 24:8 · −32:4."],
+          s: ["**a)** Rojo · −27.", "**b)** Azul · +42.", "**c)** 2 y +2.", "**d)** 35:(−5) y −32:4."],
+          ad: "La regla entra por el color antes que por el signo escrito; 6 cuentas con la resta ya resuelta en c) como espejo positivo→negativo." },
+        { in: "Fichas de colores: azul es positivo, rojo negativo. El profe dicta la cuenta; tú pones las dos fichas.",
+          p: ["**a)** «−9 por 3»: pon ficha roja y azul. ¿El resultado se pone en la caja AZUL o ROJA?",
+              "**b)** El profe escribe el número: −27. Copia: «(−9) · 3 = −27».",
+              "**c)** Con la calculadora: 36 : 4 = 9. Copia: «(−36) : 4 = −9»."],
+          s: ["**a)** Caja ROJA.", "**b)** Copia correcta.", "**c)** Copia correcta."],
+          ad: "Manipulativo + calculadora: el alumno no ejecuta el cálculo, representa la cuenta y copia el resultado verificado." },
       ],
     },
     {

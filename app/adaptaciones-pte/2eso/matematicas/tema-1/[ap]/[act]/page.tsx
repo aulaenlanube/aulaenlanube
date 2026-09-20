@@ -4,6 +4,7 @@ import Link from "@/components/Link";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import PrintButton from "@/components/PrintButton";
 import { chip, n2, n1, n6, n5, tarjeta } from "../../../ui";
+import { mdTex } from "../../../tex";
 import { LineaH, Icono, TablaSignos } from "../../../figuras";
 import { APS, ACTS, LABELS } from "../../../datos";
 
@@ -26,9 +27,7 @@ export async function generateMetadata({ params }: P): Promise<Metadata> {
   };
 }
 
-function md(s: string) {
-  return s.split("**").map((part, i) => (i % 2 ? <b key={i}>{part}</b> : part));
-}
+const md = mdTex;
 
 const CLSN = [n2, n1, n6, n5];
 

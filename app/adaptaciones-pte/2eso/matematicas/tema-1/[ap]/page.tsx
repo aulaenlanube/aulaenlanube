@@ -5,6 +5,9 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import { chip, tarjeta } from "../../ui";
 import { Icono } from "../../figuras";
 import { APS, ACTS } from "../../datos";
+import { TeoriaBloque } from "../../teoria-bloque";
+import { mdTex } from "../../tex";
+import PdfButton from "../../pdf-button";
 
 type P = { params: Promise<{ ap: string }> };
 
@@ -20,10 +23,6 @@ export async function generateMetadata({ params }: P): Promise<Metadata> {
     title: `${a.n} · ${a.t} — Tema 1 Matemáticas 2.º ESO — Adaptaciones PTE`,
     description: `Teoría, ejemplos resueltos y actividades adaptadas en cuatro niveles del apartado ${a.n} (${a.t}) del Tema 1 de números enteros.`,
   };
-}
-
-function md(s: string) {
-  return s.split("**").map((part, i) => (i % 2 ? <b key={i}>{part}</b> : part));
 }
 
 export default async function ApartadoPTE({ params }: P) {
@@ -54,15 +53,13 @@ export default async function ApartadoPTE({ params }: P) {
 
       <section className="mt-8 rounded-2xl border border-blue-200 bg-blue-50/60 p-5 shadow-sm sm:p-7">
         <h2 className="text-xl font-bold tracking-tight text-zinc-900 sm:text-2xl">📘 Teoría</h2>
-        <div className="mt-3 space-y-3 text-[15px] leading-relaxed text-zinc-700">
-          {a.teoria.map((t, i) => <p key={i}>{md(t)}</p>)}
-        </div>
+        <TeoriaBloque items={a.teoria} />
       </section>
 
       <div className="mt-10">
         <h2 className="text-xl font-bold tracking-tight text-zinc-900 sm:text-2xl">✏️ Ejemplos resueltos</h2>
-        <div className="mt-3 space-y-2 text-[15px] text-zinc-700">
-          {a.ej.map((e, i) => <p key={i}>• {md(e)}</p>)}
+        <div className="pte-ej mt-3 space-y-2 text-[15px] text-zinc-700">
+          {a.ej.map((e, i) => <p key={i}>• <span dangerouslySetInnerHTML={{ __html: mdTex(e) }} /></p>)}
         </div>
       </div>
 
@@ -95,6 +92,13 @@ export default async function ApartadoPTE({ params }: P) {
         <b>Para el profe:</b> las cuatro actividades de este apartado son intercambiables en
         dificultad — comparten objetivo y recta horizontal. Si un alumno acaba una antes de tiempo,
         mándale a la siguiente caja; la 4.ª suele ser la más abierta (crear/verbalizar).
+      </div>
+
+      <div className="mt-8 flex flex-wrap items-center gap-3">
+        <PdfButton label={`PDF de este apartado (${a.n} · ${a.t})`} />
+        <Link href={`${base}/completo/`} className="rounded-xl border border-zinc-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-zinc-50">
+          📄 Ver tema completo imprimible
+        </Link>
       </div>
 
       <div className="mt-6 flex flex-wrap items-center justify-between gap-3">

@@ -25,9 +25,11 @@ export const APS: Ap[] = [
   {
     slug: "01-introduccion", n: 1, t: "Introducción a los números enteros",
     teoria: [
-      "Los números de toda la vida (1, 2, 3…) sirven para **contar**. Hay situaciones que no se pueden contar así: estar **bajo cero**, **deber dinero** o estar en un **sótano**. Para esas situaciones existen los **números negativos**, que se escriben con signo menos: −3, −11, −45.",
-      "Negativos y positivos forman los **números enteros**. El **0** no es ni positivo ni negativo: es la **frontera** entre los dos mundos.",
-      "El signo no dice tamaño, dice **dirección**: +20 °C es calor, −20 °C es frío al otro lado del cero. En el banco, +20 € entra y −20 € falta.",
+      "Los números que usas para contar ($1, 2, 3, \\ldots$) y el $0$ forman los **números naturales**. Pero hay situaciones de la vida real que los naturales no pueden expresar: $-3\\,\\text{°C}$ en Morella a las 6 h, un descubierto de $-11\\,\\text{€}$ en el banco o el sótano $-2$ del parking del centro de salud. Para ellas existen los **números negativos**, que se escriben con un signo menos delante.",
+      "Los negativos, el cero y los positivos juntos forman el conjunto de los **números enteros**, que se escribe $\\mathbb{Z}$. El $0$ no es ni positivo ni negativo: es la **frontera** entre los dos mundos y el único número sin signo.",
+      "RAW:<table><caption>Los enteros en tu día a día</caption><thead><tr><th>Situación real</th><th>Número entero</th><th>Cómo se lee</th></tr></thead><tbody><tr><td>Neblina en Morella a las 6 h</td><td>$-3$ °C</td><td>«tres grados bajo cero»</td></tr><tr><td>Sótano 2 de un parking</td><td>$-2$</td><td>«menos dos»</td></tr><tr><td>Descubierto bancario</td><td>$-11$ €</td><td>«debe once euros»</td></tr><tr><td>Saldo a favor</td><td>$+45$ €</td><td>«cuarenta y cinco a favor»</td></tr><tr><td>Buzo a 18 m de profundidad</td><td>$-18$ m</td><td>«menos dieciocho, bajo el mar»</td></tr></tbody></table>",
+      "La idea clave de todo el tema: el signo **no dice tamaño, dice dirección**. $+20$ y $-20$ están **igual de lejos del $0$** (eso lo mide el valor absoluto), pero uno sube, suma, está por encima… y el otro baja, resta, está por debajo. Fíjate: un termómetro tumbado no miente — $-20\\,\\text{°C}$ y $+20\\,\\text{°C}$ no son «el mismo frío».",
+      "Cómo escribir tú un entero desde una situación real, en 3 pasos: 1) decide la **dirección** (¿bajo cero? ¿deber? ¿debajo?) → eso da el signo; 2) escribe la **cantidad** sin signo; 3) añade la **unidad** (°C, €, m). Así, «un buzo a 18 m bajo el mar» se escribe $-18\\ \\text{m}$.",
     ],
     ej: [
       "El lunes hace −3 °C y el martes +3 °C: **no** es el mismo día; uno está por debajo del cero y el otro por encima.",
@@ -38,9 +40,11 @@ export const APS: Ap[] = [
   {
     slug: "02-recta", n: 2, t: "La recta numérica",
     teoria: [
-      "La **recta numérica** es una línea horizontal donde los números van en orden: a la derecha del 0, los positivos (cada paso vale +1); a la izquierda, los negativos (cada paso vale −1).",
-      "Regla que lo resuelve todo: en la recta, **el que está más a la derecha es mayor**, también entre negativos: −1 > −6 porque −1 está más cerca del 0 por la derecha.",
-      "Moverse por la recta: **andar a la derecha = sumar**, **andar a la izquierda = restar**. Empezar en un negativo no cambia la manera de andar.",
+      "La **recta numérica** es una línea horizontal con el $0$ marcado y distancias iguales entre números consecutivos: cada paso a la derecha **suma** $1$; cada paso a la izquierda, **resta** $1$. Es la herramienta de todo el tema: cuando dudes de un signo, dibújala.",
+      "Fig:termo",
+      "En la recta los enteros son **posiciones**: $-6$ es el punto situado 6 pasos a la izquierda del $0$. Por eso la comparación es inmediata: **el que está más a la derecha siempre es mayor**, también entre negativos — $-1 > -6$ porque $-1$ está más cerca del $0$ por la derecha.",
+      "Moverse por la recta es operar: empezar en un negativo no cambia la forma de andar. Desde $-3$, dar $+5$ pasos te lleva al $+2$ cruzando el cero de camino — ese cruce es justo lo que la recta te deja **ver** y el cálculo a ciegas esconde.",
+      "Tres palabras que debes saber señalar en el dibujo: **origen** (el $0$), **unidad** (la distancia entre dos consecutivos, siempre la misma) y **valor absoluto** (cuántos pasos hay del número al origen, sin mirar la dirección: $|-6| = 6$).",
     ],
     ej: [
       "Situar −4: cuatro pasos a la izquierda del 0. Situar +2: dos a la derecha.",
@@ -51,9 +55,10 @@ export const APS: Ap[] = [
   {
     slug: "03-comparacion", n: 3, t: "Comparación de números enteros",
     teoria: [
-      "Comparar enteros es decidir cuál es mayor ( **>** ) o menor ( **<** ). La regla de la recta manda: **más a la derecha, más grande**. Entre negativos sorprende: −1 > −6.",
-      "El **valor absoluto** |a| es la distancia del número al 0 sin mirar el signo: |−6| = 6. Los **opuestos** tienen el mismo valor absoluto y signo contrario: 5 y −5.",
-      "Traducción de lectura para no fallar: «−8 > −14» significa «debe menos dinero» o «está más cerca del cero».",
+      "Comparar enteros es responder «¿quién es mayor?». La regla de la recta lo resuelve todo: en horizontal, **más a la derecha = mayor**. De ahí salen los tres casos: positivo $>$ $0$ $>$ negativo; entre un positivo y un negativo ni lo dudes; y **entre dos negativos gana el que debe menos**: $-1 > -6$.",
+      "El **valor absoluto** de un número, $|a|$, es su **distancia al $0$** sin mirar el signo: $|7| = 7$, $|-7| = 7$, $|0| = 0$. Dos números son **opuestos** si tienen igual valor absoluto y signos contrarios ($+5$ y $-5$): en la recta son simétricos respecto al $0$, y su suma siempre es $0$: $5 + (-5) = 0$.",
+      "RAW:<table><caption>Los tres errores típicos al comparar (y su antídoto)</caption><thead><tr><th>Lo que parece</th><th>Lo que es</th><th>Antídoto</th></tr></thead><tbody><tr><td>«$-9$ es mayor que $-2$ porque $9>2$»</td><td>$-9 < -2$</td><td>Traduce a dinero: «debe 9 € vs debe 2 €» — está mejor quien debe menos.</td></tr><tr><td>«$|-6| = -6$»</td><td>$|-6| = 6$</td><td>Una distancia nunca es negativa.</td></tr><tr><td>«el $0$ es positivo»</td><td>El $0$ no tiene signo</td><td>Es la frontera: separa, no pertenece a ningún lado.</td></tr></tbody></table>",
+      "Truco para el examen: «$-8 > -14$» se justifica diciendo «porque **debe menos**» o «porque está **más cerca del cero**». Saber justificar vale más que saber memorizar — y es lo que el tribunal escucha.",
     ],
     ej: [
       "−3 < 2: todo negativo es menor que todo positivo.",
@@ -64,9 +69,11 @@ export const APS: Ap[] = [
   {
     slug: "04-suma-resta", n: 4, t: "Suma y resta de enteros",
     teoria: [
-      "En la recta: **sumar = ir a la derecha**, **restar = ir a la izquierda**. Con dos signos seguidos se aplica la regla: +(+)=+, +(−)=−, −(+)=−, **−(−)=+** («quitar una deuda es meter dinero» y, además, se suma).",
-      "Dos negativos seguidos se **unen**: (−4)+(−3) = −7 (mismo signo: se suman los valores y se conserva el signo). Signos distintos: **gana el mayor en valor absoluto** y el resultado lleva su signo: (−7)+4 = −3.",
-      "Truco para restas raras: 2 − (−6) → calcula la distancia −6 → 0 (6 pasos) y 0 → 2 (2 pasos): 6 + 2 = **8**.",
+      "Sumar y restar enteros es **andar por la recta**: $+a$ va a la derecha, $-a$ va a la izquierda. Desde donde estés: $-4 + 6 = 2$ (andas 6 a la derecha desde $-4$). Si el recorrido cruza el cero, la recta te lo enseña sin trampa.",
+      "La regla en tres casos para no depender del dibujo. **Mismo signo** → sumas los valores y repites el signo: $(-7) + (-2) = -9$. **Signos distintos** → restas los valores y gana el signo del que más vale: $(-7) + 4 = -3$ porque $|-7| > |4|$. **Restar es sumar el opuesto**: $a - b = a + (-b)$, así que $5 - 8 = 5 + (-8) = -3$.",
+      "Fig:signos",
+      "El fallo más caro del examen: **restar un negativo**. Quitar deudas mejora: $-3 - (-9) = -3 + 9 = 6$. Regla de oro: cuando veas dos signos seguidos, $-(-\\,)\\;$ o $+(-\\,)$, **reescríbelo primero** como $+$ o $-$ sueltos y solo entonces calcula.",
+      "Comprobación con diferencia de temperaturas, que sale siempre: de $-4$ °C a $9$ °C no suben $13$ °C «a ojo»: del $-4$ al $0$ hay $4$ y del $0$ al $9$ hay $9$, total $4+9=13$ °C. La resta $9-(-4)=13$ dice lo mismo — si la recta y el cálculo no coinciden, el error está en los signos.",
     ],
     ej: [
       "(−7) + 4 = −3 · 5 − 8 = −3 · (−3) − (−9) = −3 + 9 = 6.",
@@ -77,9 +84,11 @@ export const APS: Ap[] = [
   {
     slug: "05-combinadas", n: 5, t: "Operaciones combinadas",
     teoria: [
-      "Varias operaciones seguidas se resuelven **en orden**: primero paréntesis, después productos y cocientes, y al final sumas y restas de izquierda a derecha. Con negativos el orden es el mismo; cada término lleva su signo pegado.",
-      "Consejo anti-fallo: convierte todo en **suma algebraica** (toda resta es «+ un negativo») y agrupa: positivos por un lado, negativos por otro; al final se juntan los dos montantes.",
-      "Comprobación: el recorrido del ascensor en la recta da el mismo resultado que el cálculo agrupado. Si no coinciden, el error está en el orden.",
+      "Con varias operaciones seguidas hace falta un **orden pactado**; si no, cada persona saca un resultado distinto. La jerarquía es siempre la misma:",
+      "Fig:jerarquia",
+      "Con enteros la lista no cambia; lo que cambia es que **cada término lleva su signo pegado**. El truco anti-fallo: reescribir la cadena como **suma algebraica** (toda resta convertida en «$+$ un negativo»), sumar luego los positivos por un lado y los negativos por el otro: $(-2) + 5 - 3 + 4 = (5+4) + (-2-3) = 9 - 5 = +4$.",
+      "Los paréntesis **mandan y protegen**: $12 - (3 + 1) = 12 - 4 = 8$, pero si te los saltas sale $12-3+1 = 10$. Con un signo delante del paréntesis, repártelo: $8 - (-3 + 1) = 8 + 3 - 1 = 10$.",
+      "La comprobación de cualquier recorrido (ascensor, temperatura, cuenta) es el **recorrido directo** en la recta: calcula aparte a cuántas plantas pensabas llegar; si el número no coincide con el punto de la recta, revisa el orden de los signos antes de responder.",
     ],
     ej: [
       "(−2) + 5 − 3 + 4 = (9 positivos) − (5 negativos) = **+4** · y el ascensor: −2 → +3 → 0 → +4.",
@@ -90,9 +99,11 @@ export const APS: Ap[] = [
   {
     slug: "06-problemas", n: 6, t: "Problemas de la vida real",
     teoria: [
-      "Resolver con enteros es **traducir**: «diferencia de temperatura entre a y b» → a − b · «sube/baja X» → ±X al estado anterior · «debe» → negativo. Subrayar datos y pregunta es el paso 0.",
-      "Método de 4 pasos para todo problema: 1) datos y pregunta subrayados · 2) esquema o recta · 3) operación **escrita antes de calcular** · 4) respuesta con frase completa y unidad. El paso 4 es el que más nota salva.",
-      "Contextos que salen siempre: temperaturas, altitudes y profundidades (nivel del mar = 0), cuentas bancarias, ascensores y plantas.",
+      "Resolver problemas con enteros es casi siempre **traducir** el enunciado a números con signo, calcular, y **devolver** el resultado en una frase con unidad. Las traducciones que salen en todos los exámenes:",
+      "RAW:<table><caption>Traductor: enunciado → operación</caption><thead><tr><th>Si el problema dice…</th><th>Operación</th><th>Ojo con…</th></tr></thead><tbody><tr><td>«diferencia de temperatura entre $a$ y $b$»</td><td>$a - b$</td><td>Es una resta, no sumar los dos números sin más.</td></tr><tr><td>«sube $x$ y baja $y$»</td><td>$+x - y$ sobre el estado anterior</td><td>Se parte de donde se está, no del $0$.</td></tr><tr><td>«debe» / «descubierto»</td><td>saldo negativo</td><td>«Debe menos» = está mejor = número MAYOR.</td></tr><tr><td>«bajo el nivel del mar»</td><td>altitud negativa</td><td>El nivel del mar es el $0$ de la recta.</td></tr></tbody></table>",
+      "Fig:fases",
+      "El método de las 4 fases vale para cualquier problema del tema: **subraya** datos y pregunta → **dibuja** la recta o el esquema → **escribe la operación completa antes de calcular** (es el paso que más puntos salva: el tribunal valora el planteamiento) → **responde con frase y unidad**. Sin la fase 4, una calculadora también sabía el número.",
+      "Y antes de dar la respuesta por buena, **comprobación de sentido**: ¿el signo dice lo que debía decir? Si un buzo «sube» y su número baja, hay un error de signo — no de cálculo.",
     ],
     ej: [
       "Dron a +45 m que baja 70 m: 45 − 70 = **−25 m** → 25 m por debajo del suelo del valle.",
@@ -103,9 +114,11 @@ export const APS: Ap[] = [
   {
     slug: "07-multiplicacion", n: 7, t: "Multiplicación y división de enteros",
     teoria: [
-      "Se multiplica **sin signos** y luego se pone el signo con la regla: mismo signo → **+**; distinto signo → **−**. Dividir, igual. Con muchos factores: cuenta los negativos — **par → +, impar → −**.",
-      "Por qué funciona: (−3)·4 es sumar −3 cuatro veces → −12. Y (−3)·(−4): restar un negativo es sumar → +12.",
-      "Peligro de examen con potencias: (−2)² = (−2)·(−2) = **+4**, pero −2² = −(2·2) = **−4**: sin paréntesis, el signo de fuera se aplica al final.",
+      "Multiplicar o dividir enteros se hace en **dos tiempos**: primero multiplicas (o divides) los valores **sin signos**, y después pones el **signo con la regla**:",
+      "Fig:signos",
+      "En símbolos: $(-6) \\cdot 5 = -30$ · $(-6) \\cdot (-5) = +30$ · $(+30) : (-5) = -6$ · $(-30) : (-5) = +6$. La división funciona con la **misma regla** que la multiplicación — por eso en la ficha del libro un solo vistazo a los signos te dice si el resultado llevará $+$ o $-$ antes de calcular nada.",
+      "RAW:<table><caption>Cuidado con los paréntesis y las potencias</caption><thead><tr><th>Se escribe</th><th>Vale</th><th>Por qué</th></tr></thead><tbody><tr><td>$(-2)^2$</td><td>$+4$</td><td>El cuadrado es de TODO el paréntesis: $(-2)\\cdot(-2)$.</td></tr><tr><td>$-2^2$</td><td>$-4$</td><td>Sin paréntesis, el cuadrado va solo al $2$ y el signo menos se aplica después.</td></tr><tr><td>$(-2)^3$</td><td>$-8$</td><td>Tres factores negativos → impar → negativo.</td></tr></tbody></table>",
+      "Propiedad que se usa sin nombrarla en los combinadas: el producto con **cualquier factor $0$** da $0$ — así que en una cadena larga como $(-3) \\cdot 0 \\cdot (+9)$ no hace falta calcular nada. Y recuerda el orden del apartado 5: potencias antes que productos, productos antes que sumas.",
     ],
     ej: [
       "(−6)·5 = −30 · (−6)·(−5) = +30 · (−30):5 = −6.",

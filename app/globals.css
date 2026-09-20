@@ -78,3 +78,21 @@ img[src*="s.w.org/images/core/emoji"] {
   border-radius: 4px;
 }
 .aeln-code-scroll::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+/* Impresión y PDF (Adaptaciones PTE): ocultar cromo, cortes de página limpios */
+@media print {
+  header, footer, .no-print, .fixed { display: none !important; }
+  .print-break { break-before: page; }
+  section { break-inside: avoid; }
+  body { background: #fff !important; }
+}
+
+/* Tablas en la teoría de Adaptaciones PTE */
+.pte-teoria table{width:100%;border-collapse:collapse;font-size:.9rem;margin:.5rem 0}
+.pte-teoria caption{caption-side:top;text-align:left;font-weight:700;color:#334155;padding:.25rem 0}
+.pte-teoria th,.pte-teoria td{border:1px solid #cbd5e1;padding:.4rem .6rem;text-align:left;vertical-align:top}
+.pte-teoria th{background:#f1f5f9}
+@media print{.pte-teoria table{font-size:.8rem}}
+
+.print-head{display:none}
+@media print{.print-head{display:block;margin-bottom:1rem;border-bottom:2px solid #334155;padding-bottom:.4rem}}

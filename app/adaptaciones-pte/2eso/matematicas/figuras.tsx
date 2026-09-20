@@ -234,3 +234,62 @@ export function Icono({ k }: { k: string }) {
       );
   }
 }
+
+// Termómetro HORIZONTAL para teoría (regla de Edu: la recta siempre horizontal).
+export function Termohorizontal() {
+  return (
+    <Figura caption="El termómetro es una recta horizontal: a la izquierda, bajo cero (azul); a la derecha, sobre cero (rojo).">
+      <svg viewBox="0 0 420 120" className="h-32 w-full max-w-full" role="img" aria-label="Termómetro horizontal con la escala de menos diez a más diez">
+        <rect x="10" y="46" width="330" height="26" rx="13" fill="#f1f5f9" stroke="#64748b" strokeWidth="2" />
+        <rect x="10" y="46" width="165" height="26" rx="13" fill="#dbeafe" />
+        <rect x="175" y="46" width="165" height="26" fill="#fee2e2" />
+        <rect x="14" y="50" width="120" height="18" rx="9" fill="#3b82f6" />
+        <circle cx="352" cy="59" r="17" fill="#3b82f6" stroke="#1d4ed8" strokeWidth="2" />
+        <g stroke="#334155" strokeWidth="1.5">
+          {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => <line key={i} x1={20 + i * 40} y1={40} x2={20 + i * 40} y2={46} />)}
+        </g>
+        <g fontSize="11" fill="#334155" fontFamily="system-ui" textAnchor="middle">
+          {[["−10", 20], ["−5", 100], ["0", 180], ["5", 260], ["10", 330]].map(([t, x], i) => <text key={i} x={x} y={32}>{t}</text>)}
+        </g>
+        <line x1="180" y1="38" x2="180" y2="98" stroke="#0f172a" strokeWidth="2" strokeDasharray="4 3" />
+        <text x="90" y="98" fontSize="11" fill="#1d4ed8" fontFamily="system-ui" textAnchor="middle">bajo cero (−)</text>
+        <text x="270" y="98" fontSize="11" fill="#b91c1c" fontFamily="system-ui" textAnchor="middle">sobre cero (+)</text>
+      </svg>
+    </Figura>
+  );
+}
+
+// Tarjeta de jerarquía de operaciones para teoría (apartado 5).
+export function Jerarquia() {
+  return (
+    <Figura caption="Orden fijo: lo de arriba se hace primero. Los enteros no cambian la lista, solo el signo de cada término.">
+      <svg viewBox="0 0 300 120" className="h-32 w-auto max-w-full" role="img" aria-label="Tarjeta con los cuatro niveles de la jerarquía de operaciones">
+        {[["1. Paréntesis ( )", 12, "#6d28d9", "#ede9fe"], ["2. Potencias", 40, "#b45309", "#fef3c7"], ["3. · y :  (izq. → dcha.)", 68, "#0284c7", "#e0f2fe"], ["4. + y −  (izq. → dcha.)", 96, "#16a34a", "#dcfce7"]].map(([t, y, c, f], i) => (
+          <g key={i}>
+            <rect x="8" y={y as number} width="284" height="24" rx="6" fill={f as string} stroke={c as string} strokeWidth="1.5" />
+            <text x="150" y={(y as number) + 16.5} fontSize="12" fontWeight="bold" fill={c as string} fontFamily="system-ui" textAnchor="middle">{t as string}</text>
+          </g>
+        ))}
+      </svg>
+    </Figura>
+  );
+}
+
+// Fases del método de resolución (apartado 6).
+export function Fases() {
+  return (
+    <Figura caption="El método en cuatro fases: traducir, esquematizar, escribir la operación y responder.">
+      <svg viewBox="0 0 320 70" className="h-20 w-full max-w-full" role="img" aria-label="Cuatro fases numeradas con flechas">
+        {[["1", "Subraya\ndatos", "#1d4ed8", "#dbeafe"], ["2", "Dibuja\nla recta", "#6d28d9", "#ede9fe"], ["3", "Escribe la\noperación", "#b45309", "#fef3c7"], ["4", "Responde\ncon unidades", "#15803d", "#dcfce7"]].map(([n, t, c, f], i) => (
+          <g key={i} fontFamily="system-ui">
+            <circle cx={34 + i * 84} cy={26} r={22} fill={f} stroke={c} strokeWidth="2" />
+            <text x={34 + i * 84} y={31} fontSize="15" fontWeight="bold" fill={c} textAnchor="middle">{n}</text>
+            <text x={34 + i * 84} y={62} fontSize="9.5" fill="#334155" textAnchor="middle">{t.split("\n")[0]} {t.split("\n")[1]}</text>
+            {i < 3 && <path d={`M${58 + i * 84} 26 h14`} stroke="#94a3b8" strokeWidth="2" markerEnd="url(#fse)" />}
+          </g>
+        ))}
+        <defs><marker id="fse" markerWidth="7" markerHeight="7" refX="5" refY="2.5" orient="auto"><path d="M0 0L5 2.5L0 5z" fill="#94a3b8" /></marker></defs>
+      </svg>
+    </Figura>
+  );
+}

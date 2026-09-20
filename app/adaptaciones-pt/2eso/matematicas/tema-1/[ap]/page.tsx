@@ -96,7 +96,7 @@ export default async function ApartadoPT({ params }: P) {
       </div>
 
       <div className="mt-8 flex flex-wrap items-center gap-3">
-        <OposPdfButton payload={payloadApartado(a)} />
+        <OposPdfButton payload={payloadApartado(a)} payloadSinSoluciones={payloadApartado(a, { soluciones: false })} />
         <Link href={`${base}/completo/`} className="rounded-xl border border-zinc-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-zinc-50">
           📄 Ver tema completo imprimible
         </Link>

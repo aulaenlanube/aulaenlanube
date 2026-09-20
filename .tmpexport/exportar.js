@@ -116,7 +116,7 @@ function lineaDeActividad(a) {
         caption: "Recta numérica horizontal de apoyo para esta actividad.",
     }));
 }
-function actMd(a) {
+function actMd(a, soluciones = true) {
     const L = [];
     if (a.d) {
         L.push(a.d, "");
@@ -131,8 +131,10 @@ function actMd(a) {
         if (n.in)
             L.push("> " + n.in, "");
         n.p.forEach((x) => L.push(`- ${x}`));
-        L.push("- Solución:");
-        n.s.forEach((x) => L.push(`  ${x}`));
+        if (soluciones) {
+            L.push("- Solución:");
+            n.s.forEach((x) => L.push(`  ${x}`));
+        }
         if (n.ad)
             L.push(`- Adaptación: ${n.ad}`);
         L.push("");
@@ -140,33 +142,33 @@ function actMd(a) {
     return L.join("\n");
 }
 const TEMA = "Tema 1 · Números enteros";
-// Un apartado = teoría + ejemplos, y cada actividad en su propia portadilla
-// (página nueva entera: ninguna actividad se parte entre dos páginas).
-function payloadApartado(ap) {
+function payloadApartado(ap, opts = {}) {
+    const soluciones = opts.soluciones !== false;
     const acts = datos_1.ACTS[ap.slug] || [];
     const cabecera = `# ${ap.t}\n\n${TEMA} — Matemáticas 2.º ESO · Adaptaciones PT\n\n## Teoría\n\n${teoriaMd(ap)}\n\n## Ejemplos resueltos\n\n${ejemplosMd(ap)}`;
     return {
-        filename: `PT-2ESO-Matematicas-T1-${ap.slug}.pdf`,
+        filename: `PT-2ESO-Matematicas-T1-${ap.slug}${soluciones ? "" : "-sin-soluciones"}.pdf`,
         headerTitle: `${ap.n}. ${ap.t}`,
         headerSubtitle: `${TEMA} · Matemáticas 2.º ESO`,
         footerTitle: "aulaenlanube.com",
         sections: [
             { content: cabecera },
-            ...acts.map((a, k) => ({ title: `Actividad ${k + 1} · ${a.t}`, content: actMd(a) })),
+            ...acts.map((a, k) => ({ title: `Actividad ${k + 1} · ${a.t}`, content: actMd(a, soluciones) })),
         ],
     };
 }
 // Tema completo: un bloque por apartado, cada uno en página nueva.
-function payloadTema() {
+function payloadTema(opts = {}) {
+    const soluciones = opts.soluciones !== false;
     return {
-        filename: "PT-2ESO-Matematicas-Tema1-completo.pdf",
+        filename: `PT-2ESO-Matematicas-Tema1-completo${soluciones ? "" : "-sin-soluciones"}.pdf`,
         headerTitle: TEMA,
         headerSubtitle: "Adaptaciones PT · Matemáticas 2.º ESO",
         footerTitle: "aulaenlanube.com",
         sections: datos_1.APS.map((ap) => ({
             title: `${ap.n}. ${ap.t}`,
             content: `## Teoría\n\n${teoriaMd(ap)}\n\n## Ejemplos resueltos\n\n${ejemplosMd(ap)}\n\n## Actividades\n\n${(datos_1.ACTS[ap.slug] || [])
-                .map((a, k) => `### Actividad ${k + 1} — ${a.t}\n\n${actMd(a)}`)
+                .map((a, k) => `### Actividad ${k + 1} — ${a.t}\n\n${actMd(a, soluciones)}`)
                 .join("\n")}`,
         })),
     };

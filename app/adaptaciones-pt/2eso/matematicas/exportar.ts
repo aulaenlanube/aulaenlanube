@@ -128,7 +128,7 @@ function lineaDeActividad(a: Act): string {
   );
 }
 
-function actMd(a: Act): string {
+function actMd(a: Act, soluciones = true): string {
   const L: string[] = [];
   if (a.d) { L.push(a.d, ""); }
   const ln = lineaDeActividad(a);
@@ -138,8 +138,10 @@ function actMd(a: Act): string {
     L.push("**" + LABELS[l] + "**", "");
     if (n.in) L.push("> " + n.in, "");
     n.p.forEach((x) => L.push(`- ${x}`));
-    L.push("- Solución:");
-    n.s.forEach((x) => L.push(`  ${x}`));
+    if (soluciones) {
+      L.push("- Solución:");
+      n.s.forEach((x) => L.push(`  ${x}`));
+    }
     if (n.ad) L.push(`- Adaptación: ${n.ad}`);
     L.push("");
   });
@@ -150,32 +152,36 @@ const TEMA = "Tema 1 · Números enteros";
 
 // Un apartado = teoría + ejemplos, y cada actividad en su propia portadilla
 // (página nueva entera: ninguna actividad se parte entre dos páginas).
-export function payloadApartado(ap: Ap): PdfPayload {
+export type PdfOpts = { soluciones?: boolean };
+
+export function payloadApartado(ap: Ap, opts: PdfOpts = {}): PdfPayload {
+  const soluciones = opts.soluciones !== false;
   const acts = ACTS[ap.slug] || [];
   const cabecera = `# ${ap.t}\n\n${TEMA} — Matemáticas 2.º ESO · Adaptaciones PT\n\n## Teoría\n\n${teoriaMd(ap)}\n\n## Ejemplos resueltos\n\n${ejemplosMd(ap)}`;
   return {
-    filename: `PT-2ESO-Matematicas-T1-${ap.slug}.pdf`,
+    filename: `PT-2ESO-Matematicas-T1-${ap.slug}${soluciones ? "" : "-sin-soluciones"}.pdf`,
     headerTitle: `${ap.n}. ${ap.t}`,
     headerSubtitle: `${TEMA} · Matemáticas 2.º ESO`,
     footerTitle: "aulaenlanube.com",
     sections: [
       { content: cabecera },
-      ...acts.map((a, k) => ({ title: `Actividad ${k + 1} · ${a.t}`, content: actMd(a) })),
+      ...acts.map((a, k) => ({ title: `Actividad ${k + 1} · ${a.t}`, content: actMd(a, soluciones) })),
     ],
   };
 }
 
 // Tema completo: un bloque por apartado, cada uno en página nueva.
-export function payloadTema(): PdfPayload {
+export function payloadTema(opts: PdfOpts = {}): PdfPayload {
+  const soluciones = opts.soluciones !== false;
   return {
-    filename: "PT-2ESO-Matematicas-Tema1-completo.pdf",
+    filename: `PT-2ESO-Matematicas-Tema1-completo${soluciones ? "" : "-sin-soluciones"}.pdf`,
     headerTitle: TEMA,
     headerSubtitle: "Adaptaciones PT · Matemáticas 2.º ESO",
     footerTitle: "aulaenlanube.com",
     sections: APS.map((ap) => ({
       title: `${ap.n}. ${ap.t}`,
       content: `## Teoría\n\n${teoriaMd(ap)}\n\n## Ejemplos resueltos\n\n${ejemplosMd(ap)}\n\n## Actividades\n\n${(ACTS[ap.slug] || [])
-        .map((a, k) => `### Actividad ${k + 1} — ${a.t}\n\n${actMd(a)}`)
+        .map((a, k) => `### Actividad ${k + 1} — ${a.t}\n\n${actMd(a, soluciones)}`)
         .join("\n")}`,
     })),
   };

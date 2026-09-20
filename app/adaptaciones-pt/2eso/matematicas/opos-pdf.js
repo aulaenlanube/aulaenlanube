@@ -1,13 +1,13 @@
 // @ts-nocheck
 /* ======================================================================
-   Motor de exportacion PDF portado VERBATIM del repositorio OposicionesIA
-   (resources/views/partials/document-downloads.blade.php). Formato exacto:
-   A4 595x842 pt, margen 50, cabecera = logo-documentos.jpg + titulo a la
-   derecha + linea; pie = titulo / Generado con IA (Reglamento UE
-   2024/1689 art. 50) / Pagina X de Y; marca de agua OposicionesIA.com
-   al 8%; metricas reales Helvetica (AFM); tablas con cabecera; figuras
-   SVG rasterizadas a JPEG; LaTeX via MathJax. Unica adaptacion: el logo
-   se carga en runtime desde /img/logo-documentos.jpg (antes @json Blade).
+Motor de exportacion PDF con la PLANTILLA OFICIAL DEL IES Dr. Lluís
+   Simarro (repo PP1 de titan: backend/src/services/export.py +
+   assets/branding). Geometria fpdf2: A4, margenes 15 mm, hueco 8 + banda
+   de logos 18 arriba, pie = banner UE/Ministerio/TR/Generalitat/GVANEXT +
+   'Generado con IA' + 'Pagina X de Y'. Sin marca de agua (PP1 no la lleva).
+   Motor de paginacion/medidas portado de OposicionesIA (mismo A4, Helvetica,
+   keep-with-next, tablas, figuras SVG rasterizadas, LaTeX via MathJax).
+   Las 4 imagenes de marca se cargan en runtime desde /branding/*.jpg.
    ====================================================================== */
 (function () {
 if (window.OposDownloads) return;
@@ -746,7 +746,10 @@ const P = BRAND.pdf;
             blocks = [];
             sections.forEach(function (sec) {
                 if (!sec.content || !String(sec.content).trim()) return;
-                if (sec.title) blocks.push({ type: '__cover', title: sec.title });
+                if (sec.title) {
+                    if (blocks.length) blocks.push({ type: 'pagebreak' });
+                    blocks.push({ type: 'heading', level: 1, text: String(sec.title) });
+                }
                 const sub = attachCaptions(parseMarkdownBlocks(String(sec.content)));
                 for (const b of sub) blocks.push(b);
             });
@@ -1139,7 +1142,12 @@ const P = BRAND.pdf;
                     // como si no — antes un item con math se salía del flujo
                     // (sin indent, ancho completo) y quedaba desalineado y sin
                     // aire respecto a sus hermanos sin math.
-                    emitRich(block.text, { size: BODY_SIZE, color: P.ink, indent: 18, bulletText: '•', gap: 6 });
+                    const bm = /^([0-9]{1,2}[.)]|[a-z][.)]|[A-Z][.)])\s+/.exec(block.text);
+                    if (bm) {
+                        emitRich(block.text.slice(bm[0].length), { size: BODY_SIZE, color: P.ink, indent: 18, bulletText: bm[1], gap: 6 });
+                    } else {
+                        emitRich(block.text, { size: BODY_SIZE, color: P.ink, indent: 18, bulletText: '•', gap: 6 });
+                    }
                     break;
                 }
                 case 'oli': {
@@ -1456,8 +1464,8 @@ const P = BRAND.pdf;
         // obtiene de addObj() (dinámico, nunca hardcodeado) y se referencia en el
         // trailer vía infoObjId. Strings ASCII puro (pdfEsc octaliza el resto).
         const infoObjId = addObj((objCount + 1) + ' 0 obj\n<< /Title (' + pdfEsc(String(headerTitle || filename || 'Documento')) + ')'
-            + ' /Producer (' + pdfEsc('OposicionesIA (oposicionesia.com)') + ')'
-            + ' /Creator (' + pdfEsc('OposicionesIA (oposicionesia.com)') + ')'
+            + ' /Producer (' + pdfEsc('IES Dr. Lluís Simarro · aulaenlanube.com') + ')'
+            + ' /Creator (' + pdfEsc('IES Dr. Lluís Simarro · aulaenlanube.com') + ')'
             + ' /Subject (' + pdfEsc('Contenido generado con inteligencia artificial (IA)') + ')'
             + ' /Keywords (' + pdfEsc('AI-generated, IA, Reglamento (UE) 2024/1689') + ') >>\nendobj');
 

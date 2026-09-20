@@ -32,12 +32,13 @@ declare global {
   }
 }
 
-export default function OposPdfButton({ payload, label }: { payload: PdfPayload; label?: string }) {
+export default function OposPdfButton({ payload, payloadSinSoluciones, label }: { payload: PdfPayload; payloadSinSoluciones?: PdfPayload; label?: string }) {
   const [estado, setEstado] = useState<"idle" | "ok" | "err">("idle");
 
   
 
   return (
+    <span className="no-print inline-flex flex-wrap gap-2">
     <button
       type="button"
       onClick={async () => {
@@ -45,7 +46,7 @@ export default function OposPdfButton({ payload, label }: { payload: PdfPayload;
         try {
           if (!window.OposDownloads) {
             const s = document.createElement("script");
-            s.src = "/opos-pdf.js?v=3";
+            s.src = "/opos-pdf.js?v=4";
             await new Promise<void>((res, rej) => {
               s.onload = () => res();
               s.onerror = () => rej(new Error("motor PDF no disponible"));
@@ -69,7 +70,50 @@ export default function OposPdfButton({ payload, label }: { payload: PdfPayload;
       }}
       className="no-print rounded-xl border border-blue-300 bg-white px-5 py-2.5 text-sm font-semibold text-blue-700 shadow-sm transition hover:bg-blue-50"
     >
-      {estado === "ok" ? "✓ Descargado" : estado === "err" ? "No se pudo generar" : "⬇ Descargar PDF"}
+      {estado === "ok" ? "✓ Descargado" : estado === "err" ? "No se pudo generar" : "⬇ Descargar PDF (completo)"}
+    </button>
+    {payloadSinSoluciones ? (
+      <SinSoluciones payload={payloadSinSoluciones} />
+    ) : null}
+    </span>
+  );
+}
+
+function SinSoluciones({ payload }: { payload: PdfPayload }) {
+  const [estado, setEstado] = useState<"idle" | "ok" | "err">("idle");
+  return (
+    <button
+      type="button"
+      onClick={async () => {
+        setEstado("idle");
+        try {
+          if (!window.OposDownloads) {
+            const s = document.createElement("script");
+            s.src = "/opos-pdf.js?v=4";
+            await new Promise<void>((res, rej) => {
+              s.onload = () => res();
+              s.onerror = () => rej(new Error("motor PDF no disponible"));
+              document.head.appendChild(s);
+            });
+          }
+          await window.OposDownloads!.exportPdf(
+            "",
+            payload.filename,
+            (m) => setEstado(m.indexOf("descargado") >= 0 ? "ok" : "idle"),
+            payload.headerTitle,
+            "castellano",
+            payload.sections,
+            payload.headerSubtitle,
+            payload.footerTitle
+          );
+          setEstado("ok");
+        } catch (e) {
+          setEstado("err");
+        }
+      }}
+      className="rounded-xl border border-blue-300 bg-white px-5 py-2.5 text-sm font-semibold text-blue-700 shadow-sm transition hover:bg-blue-50"
+    >
+      {estado === "ok" ? "✓ Descargado" : estado === "err" ? "No se pudo generar" : "⬇ PDF sin soluciones (para el alumnado)"}
     </button>
   );
 }

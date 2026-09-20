@@ -746,7 +746,10 @@ const P = BRAND.pdf;
             blocks = [];
             sections.forEach(function (sec) {
                 if (!sec.content || !String(sec.content).trim()) return;
-                if (sec.title) blocks.push({ type: '__cover', title: sec.title });
+                if (sec.title) {
+                    if (blocks.length) blocks.push({ type: 'pagebreak' });
+                    blocks.push({ type: 'heading', level: 1, text: String(sec.title) });
+                }
                 const sub = attachCaptions(parseMarkdownBlocks(String(sec.content)));
                 for (const b of sub) blocks.push(b);
             });
@@ -1139,7 +1142,12 @@ const P = BRAND.pdf;
                     // como si no — antes un item con math se salía del flujo
                     // (sin indent, ancho completo) y quedaba desalineado y sin
                     // aire respecto a sus hermanos sin math.
-                    emitRich(block.text, { size: BODY_SIZE, color: P.ink, indent: 18, bulletText: '•', gap: 6 });
+                    const bm = /^([0-9]{1,2}[.)]|[a-z][.)]|[A-Z][.)])\s+/.exec(block.text);
+                    if (bm) {
+                        emitRich(block.text.slice(bm[0].length), { size: BODY_SIZE, color: P.ink, indent: 18, bulletText: bm[1], gap: 6 });
+                    } else {
+                        emitRich(block.text, { size: BODY_SIZE, color: P.ink, indent: 18, bulletText: '•', gap: 6 });
+                    }
                     break;
                 }
                 case 'oli': {

@@ -1,4 +1,4 @@
-// Datos del Tema 1 (Números enteros) · Adaptaciones PTE · 2.º ESO
+// Datos del Tema 1 (Números enteros) · Adaptaciones PT · 2.º ESO
 // Estructura: apartado → teoría + ejemplos + actividades (1 caja = 1 página).
 // Los textos admiten **negrita**. Ln = [desde, hasta, marcas[x, etiqueta, color]].
 // Colores de marca: rojo | azul | verde | violeta | ambar.

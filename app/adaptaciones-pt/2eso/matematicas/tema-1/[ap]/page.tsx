@@ -21,12 +21,12 @@ export async function generateMetadata({ params }: P): Promise<Metadata> {
   const a = APS.find((x) => x.slug === ap);
   if (!a) return {};
   return {
-    title: `${a.n} · ${a.t} — Tema 1 Matemáticas 2.º ESO — Adaptaciones PTE`,
+    title: `${a.n} · ${a.t} — Tema 1 Matemáticas 2.º ESO — Adaptaciones PT`,
     description: `Teoría, ejemplos resueltos y actividades adaptadas en cuatro niveles del apartado ${a.n} (${a.t}) del Tema 1 de números enteros.`,
   };
 }
 
-export default async function ApartadoPTE({ params }: P) {
+export default async function ApartadoPT({ params }: P) {
   const { ap } = await params;
   const a = APS.find((x) => x.slug === ap);
   if (!a) notFound();
@@ -34,15 +34,15 @@ export default async function ApartadoPTE({ params }: P) {
   const idx = APS.findIndex((x) => x.slug === ap);
   const prev = APS[idx - 1];
   const next = APS[idx + 1];
-  const base = "/adaptaciones-pte/2eso/matematicas/tema-1";
+  const base = "/adaptaciones-pt/2eso/matematicas/tema-1";
 
   return (
     <div className="mx-auto w-full max-w-4xl px-4 py-6">
       <Breadcrumbs
         items={[
-          { title: "Adaptaciones PTE", path: "/adaptaciones-pte/" },
-          { title: "2.º ESO", path: "/adaptaciones-pte/2eso/" },
-          { title: "Matemáticas", path: "/adaptaciones-pte/2eso/matematicas/" },
+          { title: "Adaptaciones PT", path: "/adaptaciones-pt/" },
+          { title: "2.º ESO", path: "/adaptaciones-pt/2eso/" },
+          { title: "Matemáticas", path: "/adaptaciones-pt/2eso/matematicas/" },
           { title: "Tema 1", path: `${base}/` },
           { title: `Ap. ${a.n}`, path: `${base}/${a.slug}/` },
         ]}

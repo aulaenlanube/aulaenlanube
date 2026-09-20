@@ -4,9 +4,9 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import { chip } from "../ui";
 
 export const metadata: Metadata = {
-  title: "Tema 1 · Números enteros — Matemáticas 2.º ESO — Adaptaciones PTE",
+  title: "Tema 1 · Números enteros — Matemáticas 2.º ESO — Adaptaciones PT",
   description:
-    "Tema 1 de matemáticas de 2.º de ESO con adaptaciones PTE: siete apartados, cada uno con teoría, ejemplos y actividades en cuatro niveles.",
+    "Tema 1 de matemáticas de 2.º de ESO con adaptaciones PT: siete apartados, cada uno con teoría, ejemplos y actividades en cuatro niveles.",
 };
 
 const AP = [
@@ -24,10 +24,10 @@ export default function PteTema1() {
     <div className="mx-auto w-full max-w-4xl px-4 py-6">
       <Breadcrumbs
         items={[
-          { title: "Adaptaciones PTE", path: "/adaptaciones-pte/" },
-          { title: "2.º ESO", path: "/adaptaciones-pte/2eso/" },
-          { title: "Matemáticas", path: "/adaptaciones-pte/2eso/matematicas/" },
-          { title: "Tema 1", path: "/adaptaciones-pte/2eso/matematicas/tema-1/" },
+          { title: "Adaptaciones PT", path: "/adaptaciones-pt/" },
+          { title: "2.º ESO", path: "/adaptaciones-pt/2eso/" },
+          { title: "Matemáticas", path: "/adaptaciones-pt/2eso/matematicas/" },
+          { title: "Tema 1", path: "/adaptaciones-pt/2eso/matematicas/tema-1/" },
         ]}
       />
       <span className={chip}>Tema 1 · Números enteros · 7 apartados</span>
@@ -45,7 +45,7 @@ export default function PteTema1() {
         {AP.map((a) => (
           <Link
             key={a.n}
-            href={`/adaptaciones-pte/2eso/matematicas/tema-1/${a.href}`}
+            href={`/adaptaciones-pt/2eso/matematicas/tema-1/${a.href}`}
             className="group flex gap-4 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm transition hover:border-blue-300 hover:bg-blue-50/40"
           >
             <div className="w-12 flex-none text-2xl font-extrabold tracking-tight text-blue-700">{a.n}</div>

@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-// Piezas compartidas por las páginas de ejercicios de Adaptaciones PTE.
+// Piezas compartidas por las páginas de ejercicios de Adaptaciones PT.
 // Solo reutilizan las clases visuales ya presentes en el blog (tarjetas
 // sky/indigo, chips de nivel, detalles <details> nativos) — sin CSS nuevo.
 

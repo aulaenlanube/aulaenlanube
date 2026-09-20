@@ -4,13 +4,13 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import { chip } from "./ui";
 
 export const metadata: Metadata = {
-  title: "Matemáticas · 2.º ESO — Adaptaciones PTE — Aula en la Nube",
+  title: "Matemáticas · 2.º ESO — Adaptaciones PT — Aula en la Nube",
   description:
-    "Temario de matemáticas de 2.º de ESO con adaptaciones PTE: cada tema con sus apartados de teoría, ejemplos y actividades en cuatro niveles.",
+    "Temario de matemáticas de 2.º de ESO con adaptaciones PT: cada tema con sus apartados de teoría, ejemplos y actividades en cuatro niveles.",
 };
 
 const TEMAS = [
-  { n: "Tema 1", t: "Números enteros", href: "/adaptaciones-pte/2eso/matematicas/tema-1/", listo: true,
+  { n: "Tema 1", t: "Números enteros", href: "/adaptaciones-pt/2eso/matematicas/tema-1/", listo: true,
     d: "7 apartados: introducción, recta numérica, comparación, suma y resta, operaciones combinadas, problemas de la vida real, multiplicación y división. Con los ejercicios adaptados ya publicados." },
   { n: "Tema 2", t: "Divisibilidad y potencias", href: "", listo: false, d: "En preparación." },
   { n: "Tema 3", t: "Fracciones y decimales", href: "", listo: false, d: "En preparación." },
@@ -27,9 +27,9 @@ export default function PteMatematicas() {
       <Breadcrumbs
         items={[
           { title: "Programación e IA", path: "/zona-programacion/" },
-          { title: "Adaptaciones PTE", path: "/adaptaciones-pte/" },
-          { title: "2.º ESO", path: "/adaptaciones-pte/2eso/" },
-          { title: "Matemáticas", path: "/adaptaciones-pte/2eso/matematicas/" },
+          { title: "Adaptaciones PT", path: "/adaptaciones-pt/" },
+          { title: "2.º ESO", path: "/adaptaciones-pt/2eso/" },
+          { title: "Matemáticas", path: "/adaptaciones-pt/2eso/matematicas/" },
         ]}
       />
       <span className={chip}>2.º de ESO · Matemáticas · Temario del curso</span>

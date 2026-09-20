@@ -152,9 +152,9 @@ const TEMA = "Tema 1 · Números enteros";
 // (página nueva entera: ninguna actividad se parte entre dos páginas).
 export function payloadApartado(ap: Ap): PdfPayload {
   const acts = ACTS[ap.slug] || [];
-  const cabecera = `# ${ap.t}\n\n${TEMA} — Matemáticas 2.º ESO · Adaptaciones PTE\n\n## Teoría\n\n${teoriaMd(ap)}\n\n## Ejemplos resueltos\n\n${ejemplosMd(ap)}`;
+  const cabecera = `# ${ap.t}\n\n${TEMA} — Matemáticas 2.º ESO · Adaptaciones PT\n\n## Teoría\n\n${teoriaMd(ap)}\n\n## Ejemplos resueltos\n\n${ejemplosMd(ap)}`;
   return {
-    filename: `PTE-2ESO-Matematicas-T1-${ap.slug}.pdf`,
+    filename: `PT-2ESO-Matematicas-T1-${ap.slug}.pdf`,
     headerTitle: `${ap.n}. ${ap.t}`,
     headerSubtitle: `${TEMA} · Matemáticas 2.º ESO`,
     footerTitle: "aulaenlanube.com",
@@ -168,9 +168,9 @@ export function payloadApartado(ap: Ap): PdfPayload {
 // Tema completo: un bloque por apartado, cada uno en página nueva.
 export function payloadTema(): PdfPayload {
   return {
-    filename: "PTE-2ESO-Matematicas-Tema1-completo.pdf",
+    filename: "PT-2ESO-Matematicas-Tema1-completo.pdf",
     headerTitle: TEMA,
-    headerSubtitle: "Adaptaciones PTE · Matemáticas 2.º ESO",
+    headerSubtitle: "Adaptaciones PT · Matemáticas 2.º ESO",
     footerTitle: "aulaenlanube.com",
     sections: APS.map((ap) => ({
       title: `${ap.n}. ${ap.t}`,

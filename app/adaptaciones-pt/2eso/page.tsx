@@ -3,7 +3,7 @@ import Link from "@/components/Link";
 import Breadcrumbs from "@/components/Breadcrumbs";
 
 export const metadata: Metadata = {
-  title: "2.º de ESO · Adaptaciones PTE — Aula en la Nube",
+  title: "2.º de ESO · Adaptaciones PT — Aula en la Nube",
   description:
     "Adaptaciones de ejercicios para 2.º de ESO con dificultades: matemáticas, valenciano y castellano. Cada ejercicio, en cuatro niveles descendentes (2º ESO → 1º ESO → 6º → 5º de primaria).",
 };
@@ -14,7 +14,7 @@ const chip =
 const MATERIAS = [
   {
     t: "Matemáticas",
-    href: "/adaptaciones-pte/2eso/matematicas/",
+    href: "/adaptaciones-pt/2eso/matematicas/",
     d: "Números enteros: 3 ejercicios típicos de 2.º de ESO adaptados a 1.º ESO, 6.º y 5.º de primaria, con solución en cada nivel.",
     listo: true,
     emoji: "🔢",
@@ -41,8 +41,8 @@ export default function AdaptacionesPte2Eso() {
       <Breadcrumbs
         items={[
           { title: "Programación e IA", path: "/zona-programacion/" },
-          { title: "Adaptaciones PTE", path: "/adaptaciones-pte/" },
-          { title: "2.º ESO", path: "/adaptaciones-pte/2eso/" },
+          { title: "Adaptaciones PT", path: "/adaptaciones-pt/" },
+          { title: "2.º ESO", path: "/adaptaciones-pt/2eso/" },
         ]}
       />
       <span className={chip}>2.º de ESO · Atención a la diversidad · C. Valenciana</span>

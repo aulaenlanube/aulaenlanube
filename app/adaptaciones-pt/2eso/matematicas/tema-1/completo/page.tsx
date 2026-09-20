@@ -9,14 +9,14 @@ import { LineaH, Icono, TablaSignos } from "../../figuras";
 import { APS, ACTS, LABELS } from "../../datos";
 
 export const metadata: Metadata = {
-  title: "Tema 1 completo (imprimible) · Matemáticas · 2.º ESO · Adaptaciones PTE",
+  title: "Tema 1 completo (imprimible) · Matemáticas · 2.º ESO · Adaptaciones PT",
 };
 
 const crumbs = [
-  { title: "Adaptaciones PTE", path: "/adaptaciones-pte/" },
-  { title: "2.º ESO", path: "/adaptaciones-pte/2eso/" },
-  { title: "Matemáticas", path: "/adaptaciones-pte/2eso/matematicas/" },
-  { title: "Tema 1 · Números enteros", path: "/adaptaciones-pte/2eso/matematicas/tema-1/" },
+  { title: "Adaptaciones PT", path: "/adaptaciones-pt/" },
+  { title: "2.º ESO", path: "/adaptaciones-pt/2eso/" },
+  { title: "Matemáticas", path: "/adaptaciones-pt/2eso/matematicas/" },
+  { title: "Tema 1 · Números enteros", path: "/adaptaciones-pt/2eso/matematicas/tema-1/" },
 ];
 
 export default function TemaCompleto() {

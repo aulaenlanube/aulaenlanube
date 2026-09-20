@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: P): Promise<Metadata> {
   const A = a && ACTS[a.slug]?.[Number(act) - 1];
   if (!a || !A) return {};
   return {
-    title: `Actividad ${Number(act)}: ${A.t} — Tema 1 ${a.t} — Adaptaciones PTE`,
+    title: `Actividad ${Number(act)}: ${A.t} — Tema 1 ${a.t} — Adaptaciones PT`,
     description: `${A.d}. Cuatro niveles de adaptación: 2.º ESO, 1.º ESO, 6.º y 5.º de primaria, con soluciones.`,
   };
 }
@@ -31,7 +31,7 @@ const md = mdTex;
 
 const CLSN = [n2, n1, n6, n5];
 
-export default async function ActividadPTE({ params }: P) {
+export default async function ActividadPT({ params }: P) {
   const { ap, act } = await params;
   const ai = APS.findIndex((x) => x.slug === ap);
   const a = APS[ai];
@@ -41,16 +41,16 @@ export default async function ActividadPTE({ params }: P) {
   if (!a || !A) notFound();
   const prev = acts[n - 2];
   const next = acts[n];
-  const base = "/adaptaciones-pte/2eso/matematicas/tema-1";
+  const base = "/adaptaciones-pt/2eso/matematicas/tema-1";
   const me = `${base}/${a.slug}/${String(n).padStart(2, "0")}/`;
 
   return (
     <div className="mx-auto w-full max-w-4xl px-4 py-6">
       <Breadcrumbs
         items={[
-          { title: "Adaptaciones PTE", path: "/adaptaciones-pte/" },
-          { title: "2.º ESO", path: "/adaptaciones-pte/2eso/" },
-          { title: "Matemáticas", path: "/adaptaciones-pte/2eso/matematicas/" },
+          { title: "Adaptaciones PT", path: "/adaptaciones-pt/" },
+          { title: "2.º ESO", path: "/adaptaciones-pt/2eso/" },
+          { title: "Matemáticas", path: "/adaptaciones-pt/2eso/matematicas/" },
           { title: "Tema 1", path: `${base}/` },
           { title: `Ap. ${a.n}`, path: `${base}/${a.slug}/` },
           { title: `Act. ${n}`, path: me },

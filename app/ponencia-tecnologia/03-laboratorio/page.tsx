@@ -4,9 +4,9 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import PromptBlock from "@/components/PromptBlock";
 
 export const metadata: Metadata = {
-  title: "Sección 3 · Laboratorio — Ponencia Tecnología — Aula en la Nube",
+  title: "Sección 3 · Tu laboratorio — Ponencia Tecnología — Aula en la Nube",
   description:
-    "La parte de portátil encendido: construir con GitHub Copilot en VS Code una web interactiva de programación didáctica (quiz o calculadora temática) en 40 minutos, paso a paso.",
+    "Lo que construimos juntos con el portátil: un quiz de autoevaluación como web offline, con todos los prompts copiables, los pasos de verificación y cómo dejarlo publicado en tu GitHub.",
 };
 
 const chip =
@@ -22,31 +22,29 @@ export default function PonenciaS3() {
           { title: "Sección 3", path: "/ponencia-tecnologia/03-laboratorio/" },
         ]}
       />
-      <span className={chip}>Sección 3 · Bloque 10:55-11:35 · El portátil trabaja, el profe pasa por sitios</span>
+      <span className={chip}>Sección 3 · Tu laboratorio</span>
       <h1 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
-        Laboratorio: construimos una herramienta con el portátil
+        Tu proyecto: el quiz de autoevaluación
       </h1>
       <p className="mt-4 text-lg text-zinc-600">
-        Objetivo: en 40 minutos, <b>un mini-programa funcional que puedes enseñar en la oral y que
-        demuestra que sabes programar agéntico</b>. Elegí un proyecto a propósito: no es una app
-        «bonita y hueca», es algo que ya te sirve para tu programación didáctica — un <b>quiz de
-        autoevaluación</b> (o una calculadora de un tema tuyo) como página web única, HTML+CSS+JS,
-        sin frameworks, sin instalaciones: la ejecutas en cualquier PC del tribunal.
+        Esto es lo que hicimos juntos en el bloque de portátil. Si te lo llevaste funcionando,
+        esta página es tu apunte para adaptarlo a TU tema antes del examen. Si te quedaste a
+        medias, <b>todo está aquí con sus prompts para rematarlo desde casa</b>.
       </p>
 
-      <h2 className="mt-8 text-xl font-extrabold tracking-tight">Por qué «web con quiz» y no algo más gordo</h2>
+      <h2 className="mt-8 text-xl font-extrabold tracking-tight">Por qué «quiz web» y no algo más gordo</h2>
       <ul className="mt-3 space-y-2 text-[15px] text-zinc-700">
-        <li>• Encaja <b>literalmente</b> en el temario (TIC, programación, didáctica, sistemas de información).</li>
-        <li>• <b>Funciona offline en cualquier PC</b> — no dependes del proyector del tribunal.</li>
-        <li>• El profe puede demostrar <b>el método</b> (especificar → delegar → verificar) en una sesión, no el framework.</li>
-        <li>• Se puede adaptar a TU tema fuerte: calculadora de energía, conversor de materiales, simulador básico de un circuito…</li>
+        <li>• Encaja literalmente en tu temario (TIC, programación, evaluación, didáctica).</li>
+        <li>• <b>Funciona offline en cualquier PC</b> — sin dependencias del proyector del tribunal.</li>
+        <li>• Demuestra el método (especificar → delegar → verificar) sin que el framework sea el protagonista.</li>
+        <li>• Lo adapta a TU tema fuerte: energía, materiales, circuitos… Cambias el contenido, no el esqueleto.</li>
       </ul>
 
-      <h2 className="mt-8 text-xl font-extrabold tracking-tight">Paso 0 · El escenario (2 min)</h2>
-      <ol className="mt-3 list-decimal space-y-2 text-[15px] text-zinc-700">
-        <li>VS Code → «Open Folder» → crea <code>~/ponencia/quiz</code> (carrucha vacía, 30 seg).</li>
-        <li>En el panel, <b>Chat</b> de Copilot, y el encargo (escribe o copia):</li>
-      </ol>
+      <h2 className="mt-8 text-xl font-extrabold tracking-tight">Paso 0 · Tu encargo (así lo hicimos)</h2>
+      <p className="mt-2 text-[15px] text-zinc-700">
+        Carpeta <code>~/ponencia/quiz</code> abierta en VS Code, chat de Copilot, y este encargo
+        (copia y cambia solo el tema):
+      </p>
       <PromptBlock text={`Crea en esta carpeta un quiz web de autoevaluación sobre [TU TEMA, p. ej. "transformadores y distribución de energía"],
 para la oposición de Tecnología Secundaria.
 
@@ -57,48 +55,62 @@ Requisitos duros:
 3) Al terminar: puntuación sobre 8, y por cada pregunta incorrecta, 1 línea de
    justificación de por qué era la respuesta correcta (la explicación didáctica es
    tan importante como la pregunta).
-4) Diseño digno: 1 sola pregunta visibles, botón "Siguiente", barra de progreso,
+4) Diseño digno: 1 sola pregunta visible, botón "Siguiente", barra de progreso,
    tipografía legible, responsive para pantallas táctiles.
 5) No uses librerías externas ni CDN: si el tribunal no tiene internet, debe funcionar.`}/>
-      <p className="mt-2 text-[15px] text-zinc-700">
-        <b>Mientras genera (2-4 min):</b> todos abriendo en paralelo el <b>Prompt de rol de la
-        sección 2</b> como chat de referencia. Cuando el agente acabe, ya tienes 3 ficheros en el
-        explorador de VS Code.
+      <p className="mt-3 text-sm text-zinc-600">
+        El agente tardó 2–4 min y dejó 3 ficheros en TU carpeta. El tuyo está en{" "}
+        <code>~/ponencia/quiz</code>. No lo borres: es el punto de partida de todo lo que viene.
       </p>
 
-      <h2 className="mt-8 text-xl font-extrabold tracking-tight">Paso 1 · Verificar (10 min) — la parte que marca la diferencia</h2>
+      <h2 className="mt-8 text-xl font-extrabold tracking-tight">Paso 1 · Verificar (lo que separa tus defensas)</h2>
+      <p className="mt-2 text-[15px] text-zinc-700">
+        La parte más importante de toda la sesión. <b>No es opcional</b>: si no verificas, estás
+        defendiendo lo que la IA cree que hace, no lo que hace.
+      </p>
       <ol className="mt-3 list-decimal space-y-2 text-[15px] text-zinc-700">
-        <li><b>Corre el código</b>: terminal de VS Code → <code>npx serve .</code> (o dobleclick al HTML). Abre el navegador, juega el quiz entero.</li>
-        <li><b>Revisa las 8 preguntas</b>: ¿son creíbles? ¿las respuesta es correcta? <b>Si la IA falló alguna, corrígela en el JS y di «esto lo he verificado yo». Esa frase vale un punto en la oral.</b></li>
-        <li><b>Busca el fallo clásico</b>: el distractor «todas las anteriores» que es la correcta, el texto que queda medio cortado en móvil, el botón que se queda a negro tras el reinicio del quiz.</li>
-        <li>Pide al agente el arreglo: <code>«El botón "Reiniciar" no limpia el estado: fíjalo sin tocar el resto»</code>. Verifica otra vez.</li>
+        <li><b>Corre el código</b>: terminal de VS Code → <code>npx serve .</code> (o dobleclick en el <code>index.html</code>). Juega el quiz entero, de principio a fin.</li>
+        <li><b>Revisa las 8 preguntas</b>: ¿son creíbles? ¿la respuesta correcta lo es de verdad? <b>Si la IA falló alguna, corrígela tú en el JS</b> y anótala mentalmente para la defensa: «esto lo he verificado y corregido yo».</li>
+        <li><b>Busca los fallos clásicos</b> (los que vimos juntos): el distractor «todas las anteriores» que resulta correcto, texto cortado en móvil, el botón que se queda negro tras reiniciar.</li>
+        <li>Pide al agente cada arreglo por separado: <i>«El botón Reiniciar no limpia el estado: arrégalo sin tocar el resto»</i>. Verifica otra vez.</li>
       </ol>
 
-      <h2 className="mt-8 text-xl font-extrabold tracking-tight">Paso 2 · Mejorar (15 min) — aquí es donde enseñas a <i>dirigir</i></h2>
-      <p className="mt-2 text-[15px] text-zinc-700">Tres mejoras, en este orden (cada una una petición de chat, con verificación entre medio):</p>
+      <h2 className="mt-8 text-xl font-extrabold tracking-tight">Paso 2 · Mejorar (3 peticiones, en orden)</h2>
+      <p className="mt-2 text-[15px] text-zinc-700">
+        Estas tres mejoras son las que hicimos en la sesión. Si no llegaste, hazlas ahora — cada
+        una es una petición de chat + verificación:
+      </p>
       <ol className="mt-3 list-decimal space-y-2 text-[15px] text-zinc-700">
-        <li><b>«Añade un modo "examen" que oculta las explicaciones hasta el final y guarda el mejor resultado en localStorage»</b> — demuestra que el programa persiste.</li>
-        <li><b>«Cambia la estética: colores sobrios, una cabecera con el nombre del tema y un pie con el logo "IES Simarro · Excelencia IA"»</b> — marca personal en el código, un voto de confianza del tribunal.</li>
-        <li><b>«Añade un botón "Compartir resultado" que genera el texto para WhatsApp/Telegram con la puntuación y el mejor acierto»</b> — 15 líneas de JS, la IA la genera en 10 seg.</li>
+        <li><b>Modo examen</b>: <i>«Añade un modo examen que oculta las explicaciones hasta el final y guarda mi mejor resultado en localStorage»</i> — demuestra que el programa persiste datos.</li>
+        <li><b>Tu marca</b>: <i>«Cambia la estética: sobria, cabecera con el nombre exacto del tema, y al pie mi nombre. Nada de logos ajenos»</i> — tu firma en el código es una señal de autoría.</li>
+        <li><b>Compartir resultado</b>: <i>«Añade un botón Compartir que copia al portapapeles el texto para pegar en WhatsApp con mi puntuación»</i> — 15 líneas de JS, 10 segundos de agente.</li>
       </ol>
       <div className="mt-4 rounded-2xl border border-blue-200 bg-blue-50 p-5 text-[15px] text-blue-900">
-        <b>El truco de oro del laboratorio:</b> cuando te atasques, NO hagas «ayúdame». Haz{" "}
-        <code>«¿por qué hace esto?»</code> o <code>«explica el bug antes de arreglarlo»</code>.
-        La IA te enseña; tú diriges. Si no entiendes la respuesta de la IA, sigue preguntando hasta
-        que lo entiendas. <b>Eso es el criterio del profe.</b>
+        <b>El truco que no debes olvidar:</b> cuando te atques, no escribas «ayúdame». Escribe{" "}
+        <i>«¿por qué hace eso?»</i> o <i>«explícame el bug antes de arreglarlo»</i>. Si no
+        entiendes la explicación, sigue preguntando hasta que la entiendas. <b>Eso es el criterio
+        de opositor, y es lo que el tribunal no puede generarte.</b>
       </div>
 
-      <h2 className="mt-8 text-xl font-extrabold tracking-tight">Paso 3 · Publicar y llevar a casa (10 min)</h2>
+      <h2 className="mt-8 text-xl font-extrabold tracking-tight">Paso 3 · Publicar (que no se quede en el portátil)</h2>
       <ol className="mt-3 list-decimal space-y-2 text-[15px] text-zinc-700">
-        <li><b>GitHub</b>: crea un repo <code>quiz-oposicion</code>, sube los 3 ficheros (3 min, la IA te lo enseña paso a paso en el chat: <code>«sube esta carpeta a mi repo quiz-oposicion, sin .gitignore porque no tiene secretos»</code>).</li>
-        <li><b>GitHub Pages</b>: repo → Settings → Pages → Deploy from branch → index.html. En 1 min tienes <code>https://TUUsuario.github.io/quiz-oposicion/</code> — <b>ese link lo pones en la defensa</b> y se abre desde el PC del vocal sin instalar nada.</li>
-        <li><b>Fotografía</b>: una captura del quiz funcionando en el portátil + una del código en VS Code. Esa imagen en una diapositiva de la práctica oral vende más que diez párrafas de diseño.</li>
+        <li><b>Sube a GitHub</b>: repo <code>quiz-oposicion</code> con los 3 ficheros. En el chat: <i>«sube esta carpeta a mi repo quiz-oposicion; no tiene secretos»</i> — la IA guía el git paso a paso.</li>
+        <li><b>GitHub Pages</b>: repo → Settings → Pages → desde la rama principal. En 1 min tienes <code>https://TUusuario.github.io/quiz-oposicion/</code>. <b>Ese link va en tu defensa</b>: el vocal lo abre desde su PC sin instalar nada.</li>
+        <li><b>Capturas</b>: una del quiz funcionando + una del código en VS Code. Van en la diapositiva de la práctica — venden más que diez párrafos.</li>
       </ol>
 
+      <h2 className="mt-8 text-xl font-extrabold tracking-tight">✏️ Tu material de repaso</h2>
+      <ul className="mt-3 space-y-2 text-[15px] text-zinc-700">
+        <li>• <b>Esta semana:</b> remata el proyecto que te quedaste a medias usando los bloques de arriba. Objetivo: un quiz funcionando, verificado y con link de GitHub Pages.</li>
+        <li>• <b>Adáptalo 100 % a TU tema</b>: 8 preguntas nuevas, tu título, tu nombre. «El quiz de la ponencia sin tocar» = copiado.</li>
+        <li>• <b>Extensión (si te sobra tiempo):</b> pídele <i>«añade un temporizador de 5 minutos por pregunta y un resumen final de mis aciertos por bloque»</i> — dos funciones de examen real, y más material para tu defensa.</li>
+        <li>• <b>Conviértelo en clase:</b> con <a href="https://apps-educativas.com" target="_blank" rel="noopener" className="text-blue-700 underline">apps-educativas.com</a> puedes crear una clase real con ese quiz: un extra que el tribunal de Secundaria valora.</li>
+      </ul>
+
       <div className="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50 p-5 text-[15px] text-emerald-900">
-        <b>Cierre de la sección:</b> en 40 minutos tienes un programa funcional, verificado por
-        vosotros, en GitHub y online. <b>Ya sabes programar agéntico</b>, y en la oral lo enseñas
-        con el portátil abierto — mucho más potente que una diapositiva.
+        <b>Cierre de la sección:</b> ya sabes programar agéntico — especificar, delegar, verificar,
+        dirigir. En la defensa lo enseñas con el portátil abierto; eso no se imita con
+        diapositivas.
       </div>
 
       <div className="mt-10 flex flex-wrap items-center justify-between gap-3 border-t border-zinc-200 pt-5">
@@ -106,7 +118,7 @@ Requisitos duros:
           ← Sección 2
         </Link>
         <Link href="/ponencia-tecnologia/04-evaluacion/" className="rounded-xl bg-slate-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800">
-          Sección 4 · IA en el examen →
+          Sección 4 · La práctica y la defensa →
         </Link>
       </div>
     </div>

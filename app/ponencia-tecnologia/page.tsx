@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Link from "@/components/Link";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import PrintButton from "@/components/PrintButton";
 
 export const metadata: Metadata = {
-  title: "Ponencia: Herramientas de IA para la Oposición de Tecnología (Secundaria) — Aula en la Nube",
+  title: "Tu plataforma · Herramientas de IA para la oposición de Tecnología — Aula en la Nube",
   description:
-    "Guía y soporte de la ponencia de 2 horas para opositores de Tecnología (Secundaria, C. Valenciana): IA y temario, herramientas gratuitas (Copilot), laboratorio con portátil, y evaluación/práctica oral con IA.",
+    "Plataforma de consulta de la sesión práctica de 2 horas para opositores de Tecnología (Secundaria, C. Valenciana): introducir los 71 temas con IA, kit gratuito de Copilot, laboratorio y defensa de la práctica.",
 };
 
 const chip =
@@ -13,33 +14,38 @@ const chip =
 
 const SECTIONS = [
   {
-    n: "01",
-    t: "La oposición de Tecnología y la IA",
-    d: "Qué ha cambiado, qué no, y cómo atacar los 71 temas nacionales con IA de forma seria (sin que te la descubran). Didáctica con IA incluida.",
+    n: "1",
+    t: "Tu examen y la IA",
+    d: "Qué ha cambiado, qué no, y cómo atacar los 71 temas con IA sin que el tribunal te la descubra. Los 4 usos, con sus prompts.",
     href: "/ponencia-tecnologia/01-introduccion/",
-    bloques: "25 min",
   },
   {
-    n: "02",
-    t: "Tu kit gratuito: lo que ya tienes",
-    d: "Lo que ya puedes usar hoy gratis: Copilot de tus licencias, Copilot de Microsoft 365 y GitHub Copilot en VS Code con modo agente. Límites reales y cómo exprimirlos.",
+    n: "2",
+    t: "Tu kit gratuito",
+    d: "Las 3 capas de Copilot que terminas la sesión con ellas funcionando: la de tu licencia Education, la de web y la que programa (VS Code), con instalación paso a paso.",
     href: "/ponencia-tecnologia/02-herramientas-gratuitas/",
-    bloques: "25 min",
   },
   {
-    n: "03",
-    t: "Laboratorio: programa tu herramienta",
-    d: "Con el portátil: construimos juntos un mini-proyecto agéntico — una página interactiva para tu programación didáctica. Paso a paso, con prompts copiables.",
+    n: "3",
+    t: "Tu laboratorio",
+    d: "El quiz de autoevaluación que construimos juntos con el portátil: todos los prompts, los pasos de verificación y cómo publicarlo en tu GitHub.",
     href: "/ponencia-tecnologia/03-laboratorio/",
-    bloques: "40 min",
   },
   {
-    n: "04",
-    t: "IA en el examen: práctica y defensa",
-    d: "Cómo usar IA en la parte práctica sin que te la descuelguen, cómo defender una práctica con un agente delante de los vocales, y la rubrica que te salvó.",
+    n: "4",
+    t: "La práctica y la defensa",
+    d: "Cómo defender una práctica hecha con un agente delante del tribunal, la regla «si te cambian una línea, respondes» y tu lista de control del día del examen.",
     href: "/ponencia-tecnologia/04-evaluacion/",
-    bloques: "25 min",
   },
+];
+
+const LINKS = [
+  { t: "YouTube · Aula en la nube", d: "Mis cursos gratuitos (programación, GIMP, OBS, Google…): más de 800 vídeos donde nada te cuesta.", u: "https://www.youtube.com/@aulaenlanube" },
+  { t: "YouTube · IA para Docentes", d: "Canal de IA aplicada al aula: la herramienta, el método y las clases donde se ve en uso real.", u: "https://www.youtube.com/@iaparadocentes" },
+  { t: "apps-educativas.com", d: "Plataforma gratuita: crea clases, grupos y ejercicios. Convierte el quiz de la sección 3 en una clase real.", u: "https://apps-educativas.com" },
+  { t: "Cadenas de prompts", d: "Mis plantillas de prompt organizadas por uso (temas, supuestos, defensa). Copiar y pegar.", u: "/cadenas-de-prompts/" },
+  { t: "Insignias.org", d: "Mi blog de metodologías y prácticas: material para tus supuestos didácticos.", u: "https://insignias.org" },
+  { t: "OposicionesIA", d: "La plataforma de oposiciones que yo desarrollé: la misma familia de IA, aplicada a estudiar.", u: "https://oposicionesia.com" },
 ];
 
 export default function PonenciaTecnologia() {
@@ -51,23 +57,23 @@ export default function PonenciaTecnologia() {
           { title: "Ponencia Tecnología", path: "/ponencia-tecnologia/" },
         ]}
       />
-      <span className={chip}>Opositores · Tecnología Secundaria · C. Valenciana</span>
+      <span className={chip}>Para opositores · Tecnología Secundaria · C. Valenciana</span>
       <h1 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
-        Herramientas de IA para la oposición de Tecnología
+        Herramientas de IA para tu oposición de Tecnología
       </h1>
       <p className="mt-4 max-w-3xl text-lg text-zinc-600">
-        Ponencia de 2 horas (misma sesión, jueves y viernes) para opositores de <b>Tecnología en
-        Secundaria</b> — Comunidad Valenciana. Pensada con el portátil abierto: una parte para pensar
-        con la IA, otra para <b>programar con ella</b>. Todo lo que se enseña es gratuito y lo puedes
-        tener funcionando antes de salir del aula.
+        Esta es <b>tu plataforma de consulta</b> de la sesión de 2 horas: todo lo que hicimos
+        juntos, aquí — cómo atacar los 71 temas con IA, el kit gratuito que dejaste funcionando en
+        tu portátil, el proyecto del laboratorio y la estrategia de tu defensa. Vuelve antes de
+        cada examen: es el apunte completo, con sus prompts y sus ejercicios de repaso.
       </p>
 
       <div className="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50 p-5 text-[15px] text-emerald-900">
-        <b>El itinerario de la sesión (2:00 h):</b> 10 min de encuadre → <b>Sección 1</b> (la
-        oposición y la IA, 25 min) → <b>Sección 2</b> (tu kit gratuito, 25 min) → pausa breve →{" "}
-        <b>Sección 3</b> (laboratorio con portátil, 40 min) → <b>Sección 4</b> (IA en el examen y la
-        defensa, 25 min) → 5 min de preguntas. Las 4 secciones están escritas aquí, en el orden de la
-        sesión, para que las consultes antes, durante y después.
+        <b>Lo que hicimos en la sesión (itinerario):</b> 10 min de encuadre → <b>Sección 1</b>,
+        tu examen y la IA (25 min) → <b>Sección 2</b>, tu kit gratuito (25 min) → pausa →{" "}
+        <b>Sección 3</b>, laboratorio con tu portátil (40 min) → <b>Sección 4</b>, la práctica y
+        la defensa (25 min) → preguntas. Cada sección de abajo es tu apunte de ese bloque:
+        contenido, los prompts que usamos, enlaces y ejercicios para repasar.
       </div>
 
       <div className="mt-6 space-y-4">
@@ -79,12 +85,7 @@ export default function PonenciaTecnologia() {
           >
             <div className="w-14 flex-none text-3xl font-extrabold tracking-tight text-blue-700">{s.n}</div>
             <div>
-              <div className="flex flex-wrap items-baseline gap-x-3">
-                <h2 className="text-lg font-bold text-zinc-900 group-hover:text-blue-800">{s.t}</h2>
-                <span className="rounded-full border border-zinc-200 bg-zinc-100 px-2 py-0.5 text-[10px] font-bold uppercase text-zinc-500">
-                  {s.bloques}
-                </span>
-              </div>
+              <h2 className="text-lg font-bold text-zinc-900 group-hover:text-blue-800">{s.t}</h2>
               <p className="mt-1 text-sm text-zinc-600">{s.d}</p>
             </div>
             <div className="self-center text-zinc-300 transition group-hover:translate-x-0.5 group-hover:text-blue-600">→</div>
@@ -92,10 +93,36 @@ export default function PonenciaTecnologia() {
         ))}
       </div>
 
+      <h2 className="mt-8 text-xl font-extrabold tracking-tight">Tu material de referencia</h2>
+      <p className="mt-1 text-sm text-zinc-600">
+        Todo gratuito y mío: úsalo antes de la sesión y como apunte entre sesiones.
+      </p>
+      <div className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-2">
+        {LINKS.map((l) => {
+          const interno = l.u.startsWith("/");
+          return interno ? (
+            <Link key={l.u} href={l.u} className="group rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm transition hover:border-blue-300">
+              <div className="text-sm font-bold text-blue-700 group-hover:underline">{l.t} →</div>
+              <p className="mt-1 text-xs text-zinc-500">{l.d}</p>
+            </Link>
+          ) : (
+            <a key={l.u} href={l.u} target="_blank" rel="noopener" className="group rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm transition hover:border-blue-300">
+              <div className="text-sm font-bold text-blue-700 group-hover:underline">{l.t} ↗</div>
+              <p className="mt-1 text-xs text-zinc-500">{l.d}</p>
+            </a>
+          );
+        })}
+      </div>
+
       <div className="mt-8 rounded-2xl border border-zinc-200 bg-zinc-100 p-5 text-sm text-zinc-700">
-        <b>Antes de venir:</b> (1) portátil con VS Code (o capacidad para instalarlo), (2) cuenta de
-        GitHub (gratis, 2 min), (3) si tu centro usa Microsoft 365 para Educación, entra una vez con
-        esa cuenta para ver qué Copilot tienes. El resto te lo montamos en la sesión.
+        <b>Cómo usar esta página:</b> antes del examen, repasa la <b>lista de control</b> de la
+        Sección 4 (está pensada para imprimirla). Si te quedaste a medias en el laboratorio, la
+        Sección 3 tiene cada prompt copiable para rematarlo desde casa. ¿Dudas de un prompt?
+        Míralo también en <Link className="text-blue-700 underline" href="/cadenas-de-prompts/">Cadenas de prompts</Link>.
+      </div>
+
+      <div className="mt-6 flex justify-end">
+        <PrintButton />
       </div>
     </div>
   );

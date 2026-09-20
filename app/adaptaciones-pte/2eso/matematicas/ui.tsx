@@ -71,6 +71,31 @@ export function Adaptacion({ children }: { children: ReactNode }) {
   );
 }
 
+// Bloque «Teoría» de un apartado: explicación corta y accesible, misma tarjeta
+// visual que los ejercicios.
+export function Teoria({ children }: { children: ReactNode }) {
+  return (
+    <section className="mt-8 rounded-2xl border border-blue-200 bg-blue-50/60 p-5 shadow-sm sm:p-7">
+      <h2 className="flex items-center gap-2 text-xl font-bold tracking-tight text-zinc-900 sm:text-2xl">
+        📘 Teoría
+      </h2>
+      <div className="mt-3 space-y-3 text-[15px] leading-relaxed text-zinc-700">{children}</div>
+    </section>
+  );
+}
+
+// Cabecera de sección dentro de un apartado (Ejemplos / Actividades).
+export function SeccionTitulo({ emoji, titulo, subtitulo }: { emoji: string; titulo: string; subtitulo?: string }) {
+  return (
+    <div className="mt-10">
+      <h2 className="flex items-center gap-2 text-xl font-bold tracking-tight text-zinc-900 sm:text-2xl">
+        {emoji} {titulo}
+      </h2>
+      {subtitulo ? <p className="mt-1 text-sm text-zinc-500">{subtitulo}</p> : null}
+    </div>
+  );
+}
+
 export function Nivel({
   cls,
   label,

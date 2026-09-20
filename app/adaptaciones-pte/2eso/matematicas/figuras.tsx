@@ -73,17 +73,17 @@ export function LineaH({
 
 export function TablaSignos() {
   // Espejo del diagrama del libro: recuadros azul (+) y rojo (−).
-  const sq = (x: number, pos: boolean) => (
-    <rect key={x} x={x} y={10} width={16} height={16} rx={3} fill={pos ? "#bfdbfe" : "#fecaca"} stroke={pos ? "#1d4ed8" : "#dc2626"} strokeWidth="1.5" />
+  const sq = (x: number, y: number, pos: boolean) => (
+    <rect key={x} x={x} y={y + 2} width={16} height={16} rx={3} fill={pos ? "#bfdbfe" : "#fecaca"} stroke={pos ? "#1d4ed8" : "#dc2626"} strokeWidth="1.5" />
   );
   const row = (y: number, a: boolean, b: boolean, r: boolean) => (
     <g key={y} fontFamily="system-ui" fontSize="12" fontWeight="bold">
-      {sq(10, a)}
-      <text x={33} y={y + 14} fill="#334155">·</text>
-      {sq(40, b)}
-      <text x={63} y={y + 14} fill="#334155">=</text>
-      {sq(74, r)}
-      <text x={100} y={y + 13} fontSize="10.5" fill="#475569">{r ? "positivo (+)" : "negativo (−)"}</text>
+      {sq(10, y, a)}
+      <text x={33} y={y + 15} fill="#334155">·</text>
+      {sq(40, y, b)}
+      <text x={63} y={y + 15} fill="#334155">=</text>
+      {sq(74, y, r)}
+      <text x={100} y={y + 15} fontSize="10.5" fill="#475569">{r ? "positivo (+)" : "negativo (−)"}</text>
     </g>
   );
   return (
@@ -93,6 +93,43 @@ export function TablaSignos() {
         {row(32, false, false, true)}
         {row(56, true, false, false)}
         {row(80, false, true, false)}
+      </svg>
+    </Figura>
+  );
+}
+
+// Modelo de fichas para SUMAR/RESTAR (apartado 4): azul = +, rojo = −;
+// cada pareja azul+rojo se anula y el color que sobra da el signo del resultado.
+export function FichasColores() {
+  const chips = (x0: number, y0: number, n: number, pos: boolean) =>
+    Array.from({ length: n }, (_, i) => (
+      <rect key={`${x0}-${i}`} x={x0 + i * 20} y={y0} width={16} height={16} rx={3}
+        fill={pos ? "#bfdbfe" : "#fecaca"} stroke={pos ? "#1d4ed8" : "#dc2626"} strokeWidth="1.5" />
+    ));
+  // [y, azules, rojas, sobra: "azul"|"rojo"|null, etiqueta resultado]
+  const filas: [number, number, number, "azul" | "rojo" | null, string][] = [
+    [10, 3, 2, "azul", "= +1"],
+    [40, 2, 5, "rojo", "= −3"],
+    [70, 4, 4, null, "= 0"],
+  ];
+  return (
+    <Figura caption="Sumar con fichas: azul = positivo, rojo = negativo. Cada pareja azul + rojo se anula (vale 0); el color que sobra es el signo del resultado.">
+      <svg viewBox="0 0 300 96" className="h-28 w-auto max-w-full" role="img" aria-label="Tres combinaciones de fichas azules y rojas con su resultado">
+        {filas.map(([y, az, ro, sobra, res]) => (
+          <g key={y}>
+            {chips(10, y - 2, az, true)}
+            <text x={14 + az * 20} y={y + 11} fontSize="12" fontWeight="bold" fill="#334155">+</text>
+            {chips(26 + az * 20, y - 2, ro, false)}
+            <text x={44 + (az + ro) * 20} y={y + 11} fontSize="12" fontWeight="bold" fill="#334155">=</text>
+            {sobra ? (
+              <rect x={60 + (az + ro) * 20} y={y - 2} width={16} height={16} rx={3}
+                fill={sobra === "azul" ? "#bfdbfe" : "#fecaca"} stroke={sobra === "azul" ? "#1d4ed8" : "#dc2626"} strokeWidth="1.5" />
+            ) : (
+              <text x={58 + (az + ro) * 20} y={y + 11} fontSize="13" fontWeight="bold" fill="#64748b">∅</text>
+            )}
+            <text x={84 + (az + ro) * 20} y={y + 11} fontSize="11" fontWeight="bold" fill="#0f172a">{res}</text>
+          </g>
+        ))}
       </svg>
     </Figura>
   );

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import PrintButton from "@/components/PrintButton";
-import PdfButton from "../../pdf-button";
+import OposPdfButton from "../../pdf-button";
+import { payloadTema } from "../../exportar";
 import { TeoriaBloque } from "../../teoria-bloque";
 import { mdTex } from "../../tex";
 import { LineaH, Icono, TablaSignos } from "../../figuras";
@@ -32,7 +33,7 @@ export default function TemaCompleto() {
           <b>Descargar PDF</b> se abren todas las soluciones y podrás guardarlo o imprimirlo en A4.
         </p>
         <div className="no-print mt-4 flex flex-wrap items-center gap-3">
-          <PdfButton />
+          <OposPdfButton payload={payloadTema()} />
           <PrintButton />
         </div>
       </header>

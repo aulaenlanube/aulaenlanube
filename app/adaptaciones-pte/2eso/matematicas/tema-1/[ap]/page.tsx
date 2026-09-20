@@ -7,7 +7,8 @@ import { Icono } from "../../figuras";
 import { APS, ACTS } from "../../datos";
 import { TeoriaBloque } from "../../teoria-bloque";
 import { mdTex } from "../../tex";
-import PdfButton from "../../pdf-button";
+import OposPdfButton from "../../pdf-button";
+import { payloadApartado } from "../../exportar";
 
 type P = { params: Promise<{ ap: string }> };
 
@@ -95,7 +96,7 @@ export default async function ApartadoPTE({ params }: P) {
       </div>
 
       <div className="mt-8 flex flex-wrap items-center gap-3">
-        <PdfButton label={`PDF de este apartado (${a.n} · ${a.t})`} />
+        <OposPdfButton payload={payloadApartado(a)} />
         <Link href={`${base}/completo/`} className="rounded-xl border border-zinc-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-zinc-50">
           📄 Ver tema completo imprimible
         </Link>

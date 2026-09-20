@@ -1,13 +1,13 @@
 // @ts-nocheck
 /* ======================================================================
-Motor de exportacion PDF con la PLANTILLA OFICIAL DEL IES Dr. Lluís
-   Simarro (repo PP1 de titan: backend/src/services/export.py +
-   assets/branding). Geometria fpdf2: A4, margenes 15 mm, hueco 8 + banda
-   de logos 18 arriba, pie = banner UE/Ministerio/TR/Generalitat/GVANEXT +
-   'Generado con IA' + 'Pagina X de Y'. Sin marca de agua (PP1 no la lleva).
-   Motor de paginacion/medidas portado de OposicionesIA (mismo A4, Helvetica,
-   keep-with-next, tablas, figuras SVG rasterizadas, LaTeX via MathJax).
-   Las 4 imagenes de marca se cargan en runtime desde /branding/*.jpg.
+   Motor de exportacion PDF portado VERBATIM del repositorio OposicionesIA
+   (resources/views/partials/document-downloads.blade.php). Formato exacto:
+   A4 595x842 pt, margen 50, cabecera = logo-documentos.jpg + titulo a la
+   derecha + linea; pie = titulo / Generado con IA (Reglamento UE
+   2024/1689 art. 50) / Pagina X de Y; marca de agua OposicionesIA.com
+   al 8%; metricas reales Helvetica (AFM); tablas con cabecera; figuras
+   SVG rasterizadas a JPEG; LaTeX via MathJax. Unica adaptacion: el logo
+   se carga en runtime desde /img/logo-documentos.jpg (antes @json Blade).
    ====================================================================== */
 (function () {
 if (window.OposDownloads) return;
@@ -1456,8 +1456,8 @@ const P = BRAND.pdf;
         // obtiene de addObj() (dinámico, nunca hardcodeado) y se referencia en el
         // trailer vía infoObjId. Strings ASCII puro (pdfEsc octaliza el resto).
         const infoObjId = addObj((objCount + 1) + ' 0 obj\n<< /Title (' + pdfEsc(String(headerTitle || filename || 'Documento')) + ')'
-            + ' /Producer (' + pdfEsc('IES Dr. Lluís Simarro · aulaenlanube.com') + ')'
-            + ' /Creator (' + pdfEsc('IES Dr. Lluís Simarro · aulaenlanube.com') + ')'
+            + ' /Producer (' + pdfEsc('OposicionesIA (oposicionesia.com)') + ')'
+            + ' /Creator (' + pdfEsc('OposicionesIA (oposicionesia.com)') + ')'
             + ' /Subject (' + pdfEsc('Contenido generado con inteligencia artificial (IA)') + ')'
             + ' /Keywords (' + pdfEsc('AI-generated, IA, Reglamento (UE) 2024/1689') + ') >>\nendobj');
 

@@ -45,7 +45,7 @@ export default function OposPdfButton({ payload, label }: { payload: PdfPayload;
         try {
           if (!window.OposDownloads) {
             const s = document.createElement("script");
-            s.src = "/opos-pdf.js";
+            s.src = "/opos-pdf.js?v=3";
             await new Promise<void>((res, rej) => {
               s.onload = () => res();
               s.onerror = () => rej(new Error("motor PDF no disponible"));

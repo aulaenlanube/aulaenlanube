@@ -106,12 +106,57 @@ if (window.OposDownloads) return;
             // lo devuelven a "$" literal justo al escribir el texto final.
             .replace(/`([^`]+)`/g, function (m, inner) { return inner.replace(/\$/g, ''); });
     }
-    function parseMarkdownBlocks(md) {
+    // `inBox` activa el modo dentro-de-caja (:::box … :::): las líneas `@ …`
+    // son de solución ({type:'sol'}) en vez de párrafos. `[[fill]]` y
+    // `[[fill:N]]` (hueco de escritura) se reconocen también fuera de caja.
+    function parseMarkdownBlocks(md, inBox) {
         const blocks = [];
         const lines = md.split('\n');
         let i = 0;
         while (i < lines.length) {
             const line = lines[i];
+            // ── :::box [attrs] … ::: ── caja con atributos en la línea de
+            // apertura: title="…" (comillas dobles), lvl=N, bg=#rrggbb,
+            // accent=#rrggbb. El interior se parsea con esta MISMA función en
+            // modo caja (inBox=true), donde las líneas «@ …» son de solución.
+            const boxM = /^:::box\b(.*)$/.exec(line.trim());
+            if (boxM) {
+                const attrs = boxM[1];
+                const tM = /title\s*=\s*"([^"]*)"/.exec(attrs);
+                const lM = /\blvl\s*=\s*(\d+)/.exec(attrs);
+                const bgM = /\bbg\s*=\s*(#[0-9a-fA-F]{6})/.exec(attrs);
+                const acM = /\baccent\s*=\s*(#[0-9a-fA-F]{6})/.exec(attrs);
+                i++;
+                let innerBox = '';
+                let depthBox = 1;
+                while (i < lines.length) {
+                    const t = lines[i].trim();
+                    if (t === ':::') { depthBox--; if (!depthBox) { i++; break; } }
+                    else if (/^:::box\b/.test(t)) depthBox++;
+                    innerBox += (innerBox ? '\n' : '') + lines[i];
+                    i++;
+                }
+                const bgRgb = hexToRgb(bgM && bgM[1]) || [0.96, 0.975, 0.995];
+                // Sin accent explícito: se deriva un tono oscuro del bg.
+                const acRgb = hexToRgb(acM && acM[1]) || darkenRgb(bgRgb, 0.35);
+                const toHex = function (rgb) { return '#' + rgb.map(function (v) { return Math.round(Math.max(0, Math.min(1, v)) * 255).toString(16).padStart(2, '0'); }).join(''); };
+                blocks.push({ type: 'box', title: tM ? tM[1] : '', lvl: lM ? parseInt(lM[1], 10) : null, bg: bgRgb, bgHex: toHex(bgRgb), accent: acRgb, blocks: parseMarkdownBlocks(innerBox, true) });
+                continue;
+            }
+            if (line.trim() === ':::') { i++; continue; } // cierre suelto: se ignora
+            // [[fill]] / [[fill:N]]: hueco de escritura (N líneas rayadas, por
+            // defecto 2). Válido dentro y fuera de cajas.
+            const fillM = /^\s*\[\[fill(?::(\d+))?\]\]\s*$/.exec(line);
+            if (fillM) {
+                const nf = fillM[1] ? parseInt(fillM[1], 10) : 2;
+                blocks.push({ type: 'fill', lines: Math.max(1, Math.min(24, nf)) });
+                i++; continue;
+            }
+            // Dentro de caja, una línea «@ …» es línea de solución.
+            if (inBox && /^@(\s|$)/.test(line)) {
+                blocks.push({ type: 'sol', text: stripInline(line.replace(/^@\s?/, '')) });
+                i++; continue;
+            }
             if (line.startsWith('```')) {
                 const isSvg = /^```svg\b/i.test(line.trim());
                 let code = '';
@@ -212,6 +257,28 @@ if (window.OposDownloads) return;
         return blocks;
     }
 
+    // Filtra el árbol de bloques según las opciones de exportación (9º parámetro
+    // de exportPdf): cajas cuyo lvl numérico no está en `niveles` se omiten con
+    // todo su interior; las líneas de solución se quitan si soluciones===false;
+    // los huecos [[fill]] SOLO se dibujan en esa versión (con soluciones se
+    // omiten, pues la caja ya lleva la solución escrita).
+    function filterDocBlocks(blocks, conSoluciones, niveles) {
+        const out = [];
+        for (const b of blocks) {
+            if (!b) continue;
+            if (b.type === 'box') {
+                if (niveles && typeof b.lvl === 'number' && niveles.indexOf(b.lvl) === -1) continue;
+                b.blocks = filterDocBlocks(b.blocks || [], conSoluciones, niveles);
+                if (!b.blocks.length && !b.title) continue;
+                out.push(b);
+                continue;
+            }
+            if (b.type === 'sol') { if (conSoluciones) out.push(b); continue; }
+            if (b.type === 'fill') { if (!conSoluciones) out.push(b); continue; }
+            out.push(b);
+        }
+        return out;
+    }
     // Inserta saltos de página antes de secciones clave: la 1ª sección tras
     // el índice (para que el contenido arranque en página nueva), la
     // BIBLIOGRAFÍA (siempre en página nueva, al terminar el contenido) y las
@@ -626,6 +693,28 @@ const P = BRAND.pdf;
     // para alinear el wordmark a la derecha.
     const F = function (n) { return Number(n).toFixed(2); };
     const C3 = function (rgb) { return rgb[0].toFixed(3) + ' ' + rgb[1].toFixed(3) + ' ' + rgb[2].toFixed(3); };
+    // ── Primitivas para cajas (:::box): color y path de rectángulo redondeado ──
+    const hexToRgb = function (h) {
+        if (!h) return null;
+        const m = /^#?([0-9a-fA-F]{6})$/.exec(String(h).trim());
+        if (!m) return null;
+        const n = parseInt(m[1], 16);
+        return [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255];
+    };
+    const darkenRgb = function (rgb, f) { return [rgb[0] * f, rgb[1] * f, rgb[2] * f]; };
+    // Path PDF de un rectángulo redondeado: x = izquierda, top = borde superior
+    // (coordenadas PDF, y crece hacia arriba), h hacia abajo desde top.
+    const roundRectPath = function (x, top, w, h, r) {
+        const k = r * 0.5523, bot = top - h;
+        return F(x + r) + ' ' + F(top) + ' m ' + F(x + w - r) + ' ' + F(top) + ' l ' +
+            F(x + w - k) + ' ' + F(top) + ' ' + F(x + w) + ' ' + F(top - k) + ' ' + F(x + w) + ' ' + F(top - r) + ' c ' +
+            F(x + w) + ' ' + F(bot + r) + ' l ' +
+            F(x + w) + ' ' + F(bot + k) + ' ' + F(x + w - k) + ' ' + F(bot) + ' ' + F(x + w - r) + ' ' + F(bot) + ' c ' +
+            F(x + r) + ' ' + F(bot) + ' l ' +
+            F(x + k) + ' ' + F(bot) + ' ' + F(x) + ' ' + F(bot + k) + ' ' + F(x) + ' ' + F(bot + r) + ' c ' +
+            F(x) + ' ' + F(top - r) + ' l ' +
+            F(x) + ' ' + F(top - k) + ' ' + F(x + k) + ' ' + F(top - r) + ' ' + F(x + r) + ' ' + F(top) + ' c h';
+    };
     const buildLogoVector = function (cx, cy) {
         let s = '';
         // ── Capucha (skull cap) en azul marca ──
@@ -730,8 +819,19 @@ const P = BRAND.pdf;
     // y se dibuja en la cabecera. Si no, cae a un logo vectorial de
     // licenciatura + wordmark "OposicionesIA". headerTitle aparece a
     // la derecha (ej. "Tema 5 · Primaria"); si está vacío no se imprime.
-    async function exportPdf(content, filename, onToast, headerTitle, lang, sections, headerSubtitle, footerTitle) {
+    async function exportPdf(content, filename, onToast, headerTitle, lang, sections, headerSubtitle, footerTitle, opts) {
         const P = BRAND.pdf;
+        // Opciones de exportación (9º parámetro opcional): {niveles:[0,1,2]…,
+        // soluciones:true|false}. Sin opts = comportamiento de siempre: todos
+        // los niveles, soluciones incluidas, [[fill]] omitido.
+        const OPT = (opts && typeof opts === 'object') ? opts : {};
+        const NIVELES = (Array.isArray(OPT.niveles) && OPT.niveles.length) ? OPT.niveles.map(Number) : null;
+        const CON_SOL = OPT.soluciones !== false;
+        // Contexto de sangría/ancho del contenido: fuera de caja vale (margin,
+        // contentWidth); dentro de una :::box se estrecha para dejar sitio a la
+        // barra de acento y al padding interior. CUR_BG: color de fondo sobre el
+        // que se rasteriza la math (para que no salga recuadro blanco).
+        let CUR_X = margin, CUR_W = contentWidth, CUR_BG = '#ffffff';
         const langSample = (sections && sections.length) ? sections.map(function (s) { return s.content || ''; }).join(' ') : content;
         const FL = footerLabel(effectiveLang(langSample, lang));
         await ensureBranding();
@@ -756,16 +856,26 @@ const P = BRAND.pdf;
         } else {
             blocks = insertPageBreaks(attachCaptions(parseMarkdownBlocks(content)));
         }
+        // Filtro por opciones de exportación: niveles de caja y soluciones/fills.
+        blocks = filterDocBlocks(blocks, CON_SOL, NIVELES);
 
         // Pre-rasteriza los diagramas SVG a JPEG (asíncrono) para incrustarlos
         // como imagen. Cada bloque svg guarda en `_img` el índice de su imagen
         // en svgImages, o -1 si la rasterización falló (entonces cae a texto).
         const svgImages = [];
-        for (const b of blocks) {
-            if (b.type === 'svg') {
-                const im = await rasterizeSvg(b.svg, 3);
-                b._img = im ? (svgImages.push(im) - 1) : -1;
+        // Recorre el árbol de bloques incluyendo el interior de las cajas.
+        const eachBlock = function (list, fn) {
+            for (const b of list) {
+                if (!b) continue;
+                fn(b);
+                if (b.type === 'box') eachBlock(b.blocks || [], fn);
             }
+        };
+        const svgBlocks = [];
+        eachBlock(blocks, function (b) { if (b.type === 'svg') svgBlocks.push(b); });
+        for (const b of svgBlocks) {
+            const im = await rasterizeSvg(b.svg, 3);
+            b._img = im ? (svgImages.push(im) - 1) : -1;
         }
 
         // Pre-renderiza la math (en línea $…$ y en bloque $$…$$) de los bloques de
@@ -780,26 +890,29 @@ const P = BRAND.pdf;
         const TABLE_HEADER_FILL_RGB = [0.937, 0.953, 0.984];
         const _mathSegs = [];
         const RICH_TYPES = { paragraph: 1, heading: 1, li: 1, oli: 1, quote: 1 };
-        for (const b of blocks) {
-            if (b.type === 'table' && Array.isArray(b.rows)) {
-                // La math vive también en celdas de tabla; la fila 0 (cabecera) se
-                // rasteriza con el fondo de cabecera.
-                for (let ri = 0; ri < b.rows.length; ri++) {
-                    const bg = ri === 0 ? TABLE_HEADER_FILL : '#ffffff';
-                    for (const cell of b.rows[ri]) {
-                        if (typeof cell === 'string' && cell.indexOf('$') !== -1) {
-                            for (const seg of splitInlineMath(cell)) { if (seg.math !== undefined) _mathSegs.push({ math: seg.math, display: seg.display, bg: bg }); }
-                        }
+        const addMathSeg = function (raw, bg) {
+            if (typeof raw !== 'string' || raw.indexOf('$') === -1) return;
+            for (const seg of splitInlineMath(raw)) { if (seg.math !== undefined) _mathSegs.push({ math: seg.math, display: seg.display, bg: bg }); }
+        };
+        // Recorre el árbol (incluido el interior de las cajas) recogiendo la
+        // math. Dentro de caja la math se rasteriza sobre el fondo de la caja
+        // para que no salga un recuadro blanco sobre el relleno de color.
+        const collectMath = function (list, bgHex) {
+            for (const b of list) {
+                if (!b) continue;
+                if (b.type === 'table' && Array.isArray(b.rows)) {
+                    for (let ri = 0; ri < b.rows.length; ri++) {
+                        const bg = ri === 0 ? TABLE_HEADER_FILL : bgHex;
+                        for (const cell of b.rows[ri]) addMathSeg(cell, bg);
                     }
+                    continue;
                 }
-                continue;
+                if (b.type === 'box') { const bh = b.bgHex || '#ffffff'; addMathSeg(b.title, bh); collectMath(b.blocks || [], bh); continue; }
+                if (!RICH_TYPES[b.type] && b.type !== 'sol') continue;
+                addMathSeg(b.text, bgHex);
             }
-            if (!RICH_TYPES[b.type]) continue; // los bloques de código se dibujan literales, no por emitRich
-            if (typeof b.text !== 'string' || b.text.indexOf('$') === -1) continue;
-            for (const seg of splitInlineMath(b.text)) {
-                if (seg.math !== undefined) _mathSegs.push({ math: seg.math, display: seg.display, bg: '#ffffff' });
-            }
-        }
+        };
+        collectMath(blocks, '#ffffff');
         if (_mathSegs.length) {
             try {
                 await loadMathJax();
@@ -1017,8 +1130,8 @@ const P = BRAND.pdf;
             const bold = !!o.bold, italic = !!o.italic;
             const color = o.color || P.ink;
             const indent = o.indent || 0;
-            const x0 = (o.x || margin) + indent;
-            const maxW = (o.maxW || contentWidth) - indent;
+            const x0 = (o.x || CUR_X) + indent;
+            const maxW = (o.maxW || CUR_W) - indent;
             const spaceW = helvCharWidth(' ', bold) * size / 1000;
 
             // ¿bloque de fórmula en solitario? → imagen centrada. Aire generoso
@@ -1027,7 +1140,7 @@ const P = BRAND.pdf;
             // respiro como una alta, o el párrafo siguiente queda pegado.
             const bm = /^\s*\$\$([\s\S]+?)\$\$\s*$/.exec(raw);
             if (bm) {
-                const idx = mathCache[mathKey(bm[1], true, '#ffffff')];
+                const idx = mathCache[mathKey(bm[1], true, o.bg || '#ffffff')];
                 if (idx !== undefined && idx >= 0) {
                     const im = svgImages[idx];
                     let dW = im.wpt, dH = im.hpt;
@@ -1039,7 +1152,7 @@ const P = BRAND.pdf;
                 }
             }
 
-            const lines = buildRichLines(raw, size, bold, maxW, '#ffffff');
+            const lines = buildRichLines(raw, size, bold, maxW, o.bg || '#ffffff');
             lines.forEach(function (ln, i) {
                 const isLast = i === lines.length - 1;
                 const inst = {
@@ -1080,7 +1193,18 @@ const P = BRAND.pdf;
         let inIndex = false;
 
         const instructions = [];
-        for (const block of blocks) {
+        // Altura de una instrucción (misma regla que `lineH`, declarado más
+        // abajo): necesario dentro de emitBlocks para medir cajas antes de
+        // insertar su fondo.
+        const lineH_local = function (instr) {
+            if (instr.boxBg) return 0;
+            if (instr.rule) return instr.gap || 6;
+            return (instr.gap || (instr.fontSize || 11) * 1.7);
+        };
+        // Emisión recursiva: el interior de las cajas se emite con esta misma
+        // función, con CUR_X/CUR_W/CUR_BG estrechados por el contexto de caja.
+        const emitBlocks = function (list) {
+        for (const block of list) {
             switch (block.type) {
                 case 'heading': {
                     const fs    = block.level === 1 ? H1_SIZE : block.level === 2 ? H2_SIZE : H3_SIZE;
@@ -1334,10 +1458,63 @@ const P = BRAND.pdf;
                 case '__cover':
                     instructions.push({ cover: block.title });
                     break;
+                // ── Línea de solución dentro de caja (@ …) ──
+                case 'sol': {
+                    let solText = block.text || '';
+                    if (!/^soluci[oó]n/i.test(solText.trim())) solText = 'Solución: ' + solText;
+                    emitRich(solText, { size: BODY_SIZE - 1, color: P.ink, bg: CUR_BG, indent: 2, gap: 4 });
+                    break;
+                }
+                // ── Hueco de escritura [[fill:N]]: N líneas rayadas gris claro ──
+                case 'fill': {
+                    const sep = 13;
+                    instructions.push({
+                        fillLines: block.lines, fillW: CUR_W, x: CUR_X,
+                        gap: block.lines * sep + 6, fontSize: sep
+                    });
+                    break;
+                }
+                // ── Caja :::box: fondo redondeado + barra de acento + título.
+                //    Se emite primero el interior (con el contexto estrechado)
+                //    para medir la altura total, y DESPUÉS se inserta delante la
+                //    instrucción del fondo (que se dibuja antes que el texto). El
+                //    grupo entero se marca «kf» (keep) para que no se parta entre
+                //    páginas; si no cabe ni en una página entera, se dibuja igual
+                //    partida y sin fondo (edge case aceptado por la especificación). ──
+                case 'box': {
+                    const PAD = 8, RADIUS = 6, BAR = 3;
+                    const outerX = CUR_X, outerW = CUR_W;
+                    const bxStart = instructions.length;
+                    const savedX = CUR_X, savedW = CUR_W, savedBg = CUR_BG;
+                    CUR_X = outerX + BAR + 9 + 3;   // barra + padding + sangría interior ~12
+                    CUR_W = outerW - (BAR + 9 + 3) - 8;
+                    CUR_BG = block.bgHex || '#ffffff';
+                    if (block.title) {
+                        emitRich(block.title, { size: 13, bold: true, color: block.accent, bg: CUR_BG, gap: 3 });
+                    }
+                    emitBlocks(block.blocks || []);
+                    let contentH = 0;
+                    for (let t = bxStart; t < instructions.length; t++) contentH += lineH_local(instructions[t]);
+                    CUR_X = savedX; CUR_W = savedW; CUR_BG = savedBg;
+                    const boxH = PAD + contentH + PAD;
+                    const fitsPage = boxH <= (contentTop - contentBottom - 4);
+                    instructions.splice(bxStart, 0, { boxBg: 1, boxX: outerX, boxW: outerW, boxH: boxH, boxColor: block.bg, boxAccent: block.accent, boxRadius: RADIUS, boxBar: BAR, boxNoBg: !fitsPage, gap: 0, fontSize: 0 });
+                    instructions.splice(bxStart + 1, 0, { text: '', fontSize: 4, x: outerX, gap: PAD });
+                    instructions.push({ text: '', fontSize: 4, x: outerX, gap: PAD });
+                    // Grupo keep: la caja completa (fondo + interior + paddings)
+                    // no se parte; el cálculo de altura usa lineH y cuadra exacto.
+                    for (let t = bxStart; t < instructions.length; t++) instructions[t].kf = true;
+                    instructions.push({ text: '', fontSize: 6, x: outerX, gap: 6 });
+                    break;
+                }
             }
         }
+        };
+        emitBlocks(blocks);
 
         const lineH = function (instr) {
+            if (instr.boxBg) return 0; // el fondo no consume altura: la caja la
+            // consume entera a través de sus espaciadores e instrucciones internas
             if (instr.rule) return instr.gap || 6;
             return (instr.gap || (instr.fontSize || 11) * 1.7);
         };
@@ -1650,6 +1827,30 @@ const P = BRAND.pdf;
                         }
                         cx += w;
                     }
+                    continue;
+                }
+                // ── Fondo de caja :::box: rect redondeado + barra izquierda de
+                //    acento (recortada a la forma de la caja). Se dibuja ANTES
+                //    que el interior porque la instrucción va primero en la página. ──
+                if (instr.boxBg) {
+                    if (!instr.boxNoBg) {
+                        const bc = instr.boxColor || [0.96, 0.975, 0.995];
+                        stream += 'q ' + C3(bc) + ' rg ' + roundRectPath(instr.boxX, instr.y, instr.boxW, instr.boxH, instr.boxRadius || 6) + ' f Q\n';
+                        const ac = instr.boxAccent || P.primary;
+                        stream += 'q ' + roundRectPath(instr.boxX, instr.y, instr.boxW, instr.boxH, instr.boxRadius || 6) + ' W n '
+                               + C3(ac) + ' rg ' + F(instr.boxX) + ' ' + F(instr.y - instr.boxH) + ' ' + F(instr.boxBar || 3) + ' ' + F(instr.boxH) + ' re f Q\n';
+                    }
+                    continue;
+                }
+                // ── Hueco de escritura [[fill]]: N líneas rayadas gris claro ──
+                if (instr.fillLines) {
+                    const fsep = 13, fW = instr.fillW || contentWidth, fx = instr.x || margin;
+                    stream += 'q ' + C3(P.line) + ' RG 0.8 w\n';
+                    for (let fl = 0; fl < instr.fillLines; fl++) {
+                        const fy = instr.y - 8 - fl * fsep;
+                        stream += F(fx) + ' ' + F(fy) + ' m ' + F(fx + fW) + ' ' + F(fy) + ' l S\n';
+                    }
+                    stream += 'Q\n';
                     continue;
                 }
                 if (!instr.text && !instr.gap) continue;

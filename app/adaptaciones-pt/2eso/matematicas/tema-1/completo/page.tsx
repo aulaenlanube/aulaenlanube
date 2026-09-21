@@ -33,7 +33,7 @@ export default function TemaCompleto() {
           <b>Descargar PDF</b> se abren todas las soluciones y podrás guardarlo o imprimirlo en A4.
         </p>
         <div className="no-print mt-4 flex flex-wrap items-center gap-3">
-          <OposPdfButton payload={payloadTema()} payloadSinSoluciones={payloadTema({ soluciones: false })} />
+          <OposPdfButton payload={payloadTema()} />
           <PrintButton />
         </div>
       </header>

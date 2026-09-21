@@ -116,7 +116,19 @@ function lineaDeActividad(a) {
         caption: "Recta numérica horizontal de apoyo para esta actividad.",
     }));
 }
-function actMd(a, soluciones = true) {
+// Niveles del PDF (los que entiende el motor en opts.niveles): caja lvl 0 =
+// original sin adaptación (a.nv[0]), lvl 1 = 6.º primaria (a.nv[2]),
+// lvl 2 = 5.º primaria (a.nv[3]). Colores del contrato del motor: fondo claro
+// + acento oscuro por nivel.
+const PDF_NIVELES = [
+    { nv: 0, lvl: 0, bg: "#eaf5ea", accent: "#2e7d32" },
+    { nv: 2, lvl: 1, bg: "#e8f1fb", accent: "#1565c0" },
+    { nv: 3, lvl: 2, bg: "#fdf3e0", accent: "#b26a00" },
+];
+// El motor ahora filtra soluciones/niveles con el 9º argumento (opts): este
+// emisor SIEMPRE escribe la sintaxis completa (:::box, [[fill]], líneas @).
+// El parámetro `soluciones` se mantiene por compatibilidad pero se ignora.
+function actMd(a, _soluciones = true) {
     const L = [];
     if (a.d) {
         L.push(a.d, "");
@@ -126,49 +138,56 @@ function actMd(a, soluciones = true) {
         L.push(ln, "");
     if (a.regla)
         L.push(figMd((0, figuras_1.TablaSignos)()), "");
-    a.nv.forEach((n, l) => {
-        L.push("**" + datos_1.LABELS[l] + "**", "");
+    for (const { nv, lvl, bg, accent } of PDF_NIVELES) {
+        const n = a.nv[nv];
+        if (!n)
+            continue;
+        L.push(`:::box title="${datos_1.LABELS[nv]}" lvl=${lvl} bg=${bg} accent=${accent}`);
+        if (lvl === 0 && a.d)
+            L.push(a.d, "");
         if (n.in)
             L.push("> " + n.in, "");
-        n.p.forEach((x) => L.push(`- ${x}`));
-        if (soluciones) {
-            L.push("- Solución:");
-            n.s.forEach((x) => L.push(`  ${x}`));
-        }
+        n.p.forEach((x) => L.push(`- ${x}`, "[[fill]]"));
+        L.push("@ Solución:");
+        n.s.forEach((x) => L.push("@ " + x));
         if (n.ad)
-            L.push(`- Adaptación: ${n.ad}`);
-        L.push("");
-    });
+            L.push(`*Adaptación: ${n.ad}*`);
+        L.push(":::", "");
+    }
     return L.join("\n");
 }
 const TEMA = "Tema 1 · Números enteros";
-function payloadApartado(ap, opts = {}) {
-    const soluciones = opts.soluciones !== false;
+// Un apartado = teoría + ejemplos, y cada actividad en su propia portadilla
+// (página nueva entera: ninguna actividad se parte entre dos páginas).
+// El payload SIEMPRE lleva la sintaxis completa (cajas, huecos [[fill]] y
+// soluciones @): quien filtra niveles y soluciones es el motor con el 9º
+// argumento opts de exportPdf. El filename es la base sin sufijos: el botón
+// compone el nombre final (nivel + con/sin soluciones).
+function payloadApartado(ap) {
     const acts = datos_1.ACTS[ap.slug] || [];
     const cabecera = `# ${ap.t}\n\n${TEMA} — Matemáticas 2.º ESO · Adaptaciones PT\n\n## Teoría\n\n${teoriaMd(ap)}\n\n## Ejemplos resueltos\n\n${ejemplosMd(ap)}`;
     return {
-        filename: `PT-2ESO-Matematicas-T1-${ap.slug}${soluciones ? "" : "-sin-soluciones"}.pdf`,
+        filename: `PT-2ESO-Matematicas-T1-${ap.slug}.pdf`,
         headerTitle: `${ap.n}. ${ap.t}`,
         headerSubtitle: `${TEMA} · Matemáticas 2.º ESO`,
         footerTitle: "aulaenlanube.com",
         sections: [
             { content: cabecera },
-            ...acts.map((a, k) => ({ title: `Actividad ${k + 1} · ${a.t}`, content: actMd(a, soluciones) })),
+            ...acts.map((a, k) => ({ title: `Actividad ${k + 1} · ${a.t}`, content: actMd(a) })),
         ],
     };
 }
 // Tema completo: un bloque por apartado, cada uno en página nueva.
-function payloadTema(opts = {}) {
-    const soluciones = opts.soluciones !== false;
+function payloadTema() {
     return {
-        filename: `PT-2ESO-Matematicas-Tema1-completo${soluciones ? "" : "-sin-soluciones"}.pdf`,
+        filename: `PT-2ESO-Matematicas-Tema1-completo.pdf`,
         headerTitle: TEMA,
         headerSubtitle: "Adaptaciones PT · Matemáticas 2.º ESO",
         footerTitle: "aulaenlanube.com",
         sections: datos_1.APS.map((ap) => ({
             title: `${ap.n}. ${ap.t}`,
             content: `## Teoría\n\n${teoriaMd(ap)}\n\n## Ejemplos resueltos\n\n${ejemplosMd(ap)}\n\n## Actividades\n\n${(datos_1.ACTS[ap.slug] || [])
-                .map((a, k) => `### Actividad ${k + 1} — ${a.t}\n\n${actMd(a, soluciones)}`)
+                .map((a, k) => `### Actividad ${k + 1} — ${a.t}\n\n${actMd(a)}`)
                 .join("\n")}`,
         })),
     };

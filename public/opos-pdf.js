@@ -1591,6 +1591,11 @@ const P = BRAND.pdf;
         // mismas coordenadas con las que se colocó el texto.
         const boxFrags = [];
         const fragEnCurso = {};
+        // Corte de una caja entre dos páginas: se reserva una banda para la
+        // línea discontinua que avisa de que la caja sigue (o viene) de otra
+        // página. CORTE_AIRE separa la línea del texto; CORTE_BORDE, la línea
+        // del borde de la caja.
+        const CORTE_AIRE = 10, CORTE_BORDE = 4, CORTE = CORTE_AIRE + CORTE_BORDE;
         let currentY = contentTop;
         for (let ii = 0; ii < instructions.length; ii++) {
             const instr = instructions[ii];
@@ -1653,20 +1658,28 @@ const P = BRAND.pdf;
                 continue;
             }
             const h = lineH(instr);
-            if (currentY - h < contentBottom) {
+            const enCaja = !!(instr.boxIds && instr.boxIds.length);
+            // Dentro de una caja el suelo sube: esa banda es para la línea de
+            // corte, que si no quedaría pegada a la última línea de texto.
+            const suelo = contentBottom + (enCaja ? CORTE : 0);
+            if (currentY - h < suelo) {
                 pages.push([]);
-                currentY = contentTop;
+                // Si la caja ya venía de antes, el texto arranca más abajo para
+                // dejar sitio a la línea de corte de la página de continuación.
+                const continua = enCaja && instr.boxIds.some(function (b) { return !!fragEnCurso[b]; });
+                currentY = contentTop - (continua ? CORTE : 0);
             }
-            if (instr.boxIds) {
+            if (enCaja) {
                 const pgIdx = pages.length - 1;
                 for (const bid of instr.boxIds) {
                     let f = fragEnCurso[bid];
                     if (!f || f.page !== pgIdx) {
-                        f = { boxId: bid, page: pgIdx, top: currentY, bottom: currentY };
+                        f = { boxId: bid, page: pgIdx, top: currentY, bottom: currentY, visible: false };
                         fragEnCurso[bid] = f;
                         boxFrags.push(f);
                     }
                     f.bottom = currentY - h;
+                    if (isVisible(instr)) f.visible = true;
                 }
             }
             // Para líneas mixtas (rich) la base se baja por su ascenso, de modo que
@@ -1679,18 +1692,28 @@ const P = BRAND.pdf;
         // página (el fondo se dibuja antes que el texto que lleva encima).
         const fondosPorPagina = {};
         const trozosDe = {};
-        for (const f of boxFrags) (trozosDe[f.boxId] || (trozosDe[f.boxId] = [])).push(f);
+        // Un trozo sin nada visible (solo el relleno inferior que se ha ido a
+        // la página siguiente) no pinta caja ni cuenta como continuación.
+        for (const f of boxFrags) if (f.visible) (trozosDe[f.boxId] || (trozosDe[f.boxId] = [])).push(f);
         for (const f of boxFrags) {
             const st = boxStyles[f.boxId];
-            const bh = f.top - f.bottom;
-            if (!st || bh <= 0.5) continue;
             const hermanos = trozosDe[f.boxId];
+            if (!st || !f.visible || !hermanos) continue;
             const pos = hermanos.indexOf(f);
+            const cont = pos > 0, sigue = pos < hermanos.length - 1;
+            // El lado cortado se estira para alojar la línea discontinua y su
+            // aire; el lado entero se queda donde estaba.
+            const arriba = f.top + (cont ? CORTE : 0);
+            const abajo = f.bottom - (sigue ? CORTE : 0);
+            const bh = arriba - abajo;
+            if (bh <= 0.5) continue;
             (fondosPorPagina[f.page] || (fondosPorPagina[f.page] = [])).push({
                 boxBg: 1, boxId: f.boxId, boxX: st.x, boxW: st.w, boxH: bh,
                 boxColor: st.color, boxAccent: st.accent, boxRadius: st.radius,
-                boxBar: st.bar, y: f.top, gap: 0, fontSize: 0,
-                boxCont: pos > 0, boxSigue: pos < hermanos.length - 1
+                boxBar: st.bar, y: arriba, gap: 0, fontSize: 0,
+                boxCont: cont, boxSigue: sigue,
+                boxCorteArriba: cont ? arriba - CORTE_BORDE : null,
+                boxCorteAbajo: sigue ? abajo + CORTE_BORDE : null
             });
         }
         for (const pg in fondosPorPagina) {
@@ -1931,6 +1954,15 @@ const P = BRAND.pdf;
                         const ac = instr.boxAccent || P.primary;
                         stream += 'q ' + roundRectPath(instr.boxX, instr.y, instr.boxW, instr.boxH, rr, rTop, rBot) + ' W n '
                                + C3(ac) + ' rg ' + F(instr.boxX) + ' ' + F(instr.y - instr.boxH) + ' ' + F(instr.boxBar || 3) + ' ' + F(instr.boxH) + ' re f Q\n';
+                        // Línea discontinua del corte: «esto sigue» abajo y
+                        // «esto viene de antes» arriba, del color de la caja.
+                        const cx1 = instr.boxX + (instr.boxBar || 3) + 8;
+                        const cx2 = instr.boxX + instr.boxW - 8;
+                        for (const cy of [instr.boxCorteArriba, instr.boxCorteAbajo]) {
+                            if (cy === null || cy === undefined) continue;
+                            stream += 'q ' + C3(ac) + ' RG 0.9 w [3.2 2.6] 0 d '
+                                   + F(cx1) + ' ' + F(cy) + ' m ' + F(cx2) + ' ' + F(cy) + ' l S Q\n';
+                        }
                     }
                     continue;
                 }

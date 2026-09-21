@@ -6,7 +6,7 @@ import PromptBlock from "@/components/PromptBlock";
 export const metadata: Metadata = {
   title: "Sección 3 · Tu laboratorio — Ponencia Tecnología — Aula en la Nube",
   description:
-    "Lo que construimos juntos con el portátil: un quiz de autoevaluación como web offline, con todos los prompts copiables, los pasos de verificación y cómo dejarlo publicado en tu GitHub.",
+    "Tu guía del bloque de laboratorio: un quiz de autoevaluación como web offline, con todos los prompts copiables, los pasos de verificación y cómo publicarlo en tu GitHub.",
 };
 
 const chip =
@@ -27,9 +27,10 @@ export default function PonenciaS3() {
         Tu proyecto: el quiz de autoevaluación
       </h1>
       <p className="mt-4 text-lg text-zinc-600">
-        Esto es lo que hicimos juntos en el bloque de portátil. Si te lo llevaste funcionando,
-        esta página es tu apunte para adaptarlo a TU tema antes del examen. Si te quedaste a
-        medias, <b>todo está aquí con sus prompts para rematarlo desde casa</b>.
+        Este bloque es el laboratorio con el portátil: en la sesión verás montar un quiz de
+        autoevaluación de principio a fin. Si te lo llevas funcionando, esta página es tu apunte
+        para adaptarlo a TU tema antes del examen. Si te quedas a medias o faltas, <b>todo está
+        aquí con sus prompts para rematarlo desde casa</b>.
       </p>
 
       <h2 className="mt-8 text-xl font-extrabold tracking-tight">Por qué «quiz web» y no algo más gordo</h2>
@@ -40,7 +41,7 @@ export default function PonenciaS3() {
         <li>• Lo adapta a TU tema fuerte: energía, materiales, circuitos… Cambias el contenido, no el esqueleto.</li>
       </ul>
 
-      <h2 className="mt-8 text-xl font-extrabold tracking-tight">Paso 0 · Tu encargo (así lo hicimos)</h2>
+      <h2 className="mt-8 text-xl font-extrabold tracking-tight">Paso 0 · Tu encargo (así lo montas tú)</h2>
       <p className="mt-2 text-[15px] text-zinc-700">
         Carpeta <code>~/ponencia/quiz</code> abierta en VS Code, chat de Copilot, y este encargo
         (copia y cambia solo el tema):
@@ -71,13 +72,13 @@ Requisitos duros:
       <ol className="mt-3 list-decimal space-y-2 text-[15px] text-zinc-700">
         <li><b>Corre el código</b>: terminal de VS Code → <code>npx serve .</code> (o dobleclick en el <code>index.html</code>). Juega el quiz entero, de principio a fin.</li>
         <li><b>Revisa las 8 preguntas</b>: ¿son creíbles? ¿la respuesta correcta lo es de verdad? <b>Si la IA falló alguna, corrígela tú en el JS</b> y anótala mentalmente para la defensa: «esto lo he verificado y corregido yo».</li>
-        <li><b>Busca los fallos clásicos</b> (los que vimos juntos): el distractor «todas las anteriores» que resulta correcto, texto cortado en móvil, el botón que se queda negro tras reiniciar.</li>
+        <li><b>Busca los fallos clásicos</b> (los que se ven en la sesión): el distractor «todas las anteriores» que resulta correcto, texto cortado en móvil, el botón que se queda negro tras reiniciar.</li>
         <li>Pide al agente cada arreglo por separado: <i>«El botón Reiniciar no limpia el estado: arrégalo sin tocar el resto»</i>. Verifica otra vez.</li>
       </ol>
 
       <h2 className="mt-8 text-xl font-extrabold tracking-tight">Paso 2 · Mejorar (3 peticiones, en orden)</h2>
       <p className="mt-2 text-[15px] text-zinc-700">
-        Estas tres mejoras son las que hicimos en la sesión. Si no llegaste, hazlas ahora — cada
+        Estas tres mejoras son las que se hacen en la sesión. Si no llegaste, hazlas ahora — cada
         una es una petición de chat + verificación:
       </p>
       <ol className="mt-3 list-decimal space-y-2 text-[15px] text-zinc-700">
@@ -105,6 +106,17 @@ Requisitos duros:
         <li>• <b>Adáptalo 100 % a TU tema</b>: 8 preguntas nuevas, tu título, tu nombre. «El quiz de la ponencia sin tocar» = copiado.</li>
         <li>• <b>Extensión (si te sobra tiempo):</b> pídele <i>«añade un temporizador de 5 minutos por pregunta y un resumen final de mis aciertos por bloque»</i> — dos funciones de examen real, y más material para tu defensa.</li>
         <li>• <b>Conviértelo en clase:</b> con <a href="https://apps-educativas.com" target="_blank" rel="noopener" className="text-blue-700 underline">apps-educativas.com</a> puedes crear una clase real con ese quiz: un extra que el tribunal de Secundaria valora.</li>
+      </ul>
+
+      <h2 className="mt-8 text-xl font-extrabold tracking-tight">🎧 La sesión, otra vez</h2>
+      <p className="mt-2 text-[15px] text-zinc-700">
+        La sesión se graba íntegra. Al día siguiente tendrás aquí el enlace a la grabación completa
+        y, por bloque, un resumen en audio y un resumen escrito de 10 líneas:
+      </p>
+      <ul className="mt-3 space-y-2 text-[15px] text-zinc-700">
+        <li>• <b>Escucha el audio de este bloque estudiando o andando</b> — repaso sin pantalla, fija el método.</li>
+        <li>• <b>¿Faltaste o te perdiste algo?</b> El resumen en audio sustituye a la clase: escúchalo y vuelve a este apunte.</li>
+        <li>• <b>El resumen escrito de 10 líneas</b> te devuelve el itinerario exacto del bloque antes de que lo remates en casa.</li>
       </ul>
 
       <div className="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50 p-5 text-[15px] text-emerald-900">

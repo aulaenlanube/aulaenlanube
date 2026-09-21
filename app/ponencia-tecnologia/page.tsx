@@ -28,7 +28,7 @@ const SECTIONS = [
   {
     n: "3",
     t: "Tu laboratorio",
-    d: "El quiz de autoevaluación que construimos juntos con el portátil: todos los prompts, los pasos de verificación y cómo publicarlo en tu GitHub.",
+    d: "El quiz de autoevaluación que montas en el laboratorio con tu portátil: todos los prompts, los pasos de verificación y cómo publicarlo en tu GitHub.",
     href: "/ponencia-tecnologia/03-laboratorio/",
   },
   {
@@ -62,18 +62,20 @@ export default function PonenciaTecnologia() {
         Herramientas de IA para tu oposición de Tecnología
       </h1>
       <p className="mt-4 max-w-3xl text-lg text-zinc-600">
-        Esta es <b>tu plataforma de consulta</b> de la sesión de 2 horas: todo lo que hicimos
-        juntos, aquí — cómo atacar los 71 temas con IA, el kit gratuito que dejaste funcionando en
+        Esta es <b>tu guía de la sesión</b> de 2 horas: lo que verás, lo que montas tú y lo que te
+        llevas — cómo atacar los 71 temas con IA, el kit gratuito que dejas funcionando en
         tu portátil, el proyecto del laboratorio y la estrategia de tu defensa. Vuelve antes de
         cada examen: es el apunte completo, con sus prompts y sus ejercicios de repaso.
       </p>
 
       <div className="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50 p-5 text-[15px] text-emerald-900">
-        <b>Lo que hicimos en la sesión (itinerario):</b> 10 min de encuadre → <b>Sección 1</b>,
+        <b>Itinerario de la sesión:</b> 10 min de encuadre → <b>Sección 1</b>,
         tu examen y la IA (25 min) → <b>Sección 2</b>, tu kit gratuito (25 min) → pausa →{" "}
         <b>Sección 3</b>, laboratorio con tu portátil (40 min) → <b>Sección 4</b>, la práctica y
         la defensa (25 min) → preguntas. Cada sección de abajo es tu apunte de ese bloque:
-        contenido, los prompts que usamos, enlaces y ejercicios para repasar.
+        contenido, los prompts que verás, enlaces y ejercicios para repasar. Todo lo que veas aquí
+        queda además grabado: cada bloque tiene su resumen en audio y escrito, publicado al día
+        siguiente — si te pierdes algo, el audio de ese bloque te lo devuelve.
       </div>
 
       <div className="mt-6 space-y-4">

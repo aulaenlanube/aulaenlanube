@@ -78,9 +78,20 @@ export default function PonenciaS4() {
       <ul className="mt-3 space-y-2 text-[15px] text-zinc-700">
         <li>• <b>Tecnologías de moda que no domines</b> (React/Angular/Flutter), a no ser que sepas justificar cada línea.</li>
         <li>• <b>Datos generados al azar</b> para rellenar una gráfica — cualquier vocal de Tecnología nota un dataset inventado a simple vista.</li>
-        <li>• <b>Normativa que hayas leído en el chat</b> sin haberla comprobado en el BOE: la IA cita RD que no existen.</li>
+        <li>• <b>Normativa que hayas leído en el chat</b> sin haberla comprobado en el BOE/DOGV: la IA cita normas que no existen. La tuya, verificada, es esta:</li>
         <li>• <b>El quiz de la sección 3 sin tocar</b> — adáptalo a tu tema; llevar tu propia demo sin variarla es invitar a que lo noten.</li>
       </ul>
+      <div className="mt-4 rounded-2xl border border-zinc-200 bg-zinc-50 p-5 text-sm text-zinc-700">
+        <h3 className="text-[15px] font-bold">Tu marco normativo exacto (cópialo, no lo improvises)</h3>
+        <ul className="mt-2 list-disc space-y-1 pl-5">
+          <li><b>Temario:</b> 71 temas fijados por la <b>Orden de 9 de septiembre de 1993</b>, vigente vía Orden ECD/191/2012 — no es el RD 276/2007, que es solo el reglamento del proceso selectivo.</li>
+          <li><b>Proceso selectivo (cuerpo 0590, C. Valenciana):</b> RD 276/2007 + Orden 1/2025, de 28 de enero (DOGV 30/01/2025), modificada por Orden 4/2025. Tecnología (590019) no estaba convocada en esa orden: ni plazas ni fechas, [COMPROBAR] en la convocatoria del año.</li>
+          <li><b>Parte A (tema):</b> eliges entre cuatro temas, 2 horas, anónimo con etiquetas; criterios ANEXO VI: estructura 10 %, expresión y presentación 10 % (incluido lenguaje inclusivo), conocimiento científico e innovación 80 %.</li>
+          <li><b>Parte B (práctica):</b> lo que traes y el tiempo los fija el <b>ANEXO III</b> de la convocatoria para tu especialidad; los criterios los publican las comisiones antes del inicio. Sin A no hay B.</li>
+          <li><b>Segunda prueba:</b> programación de aula de una materia y nivel para el curso completo, con <b>mínimo 6 situaciones de aprendizaje desarrolladas</b>; defiendes UNA de ellas. Valenciano C1 requisito de acceso; documento no propio = 0 puntos; no entregar en plazo = renuncia.</li>
+          <li><b>Concurso de méritos:</b> ANEXO I. Currículo ESO: Decreto 107/2022 modificado por Decreto 66/2024 (7 competencias específicas propias, no extrapoles las 5 del RD 217/2022).</li>
+        </ul>
+      </div>
 
       <h2 className="mt-8 text-xl font-extrabold tracking-tight">4 · Tu lista de control para el examen (imprime esto)</h2>
       <ol className="mt-3 list-decimal space-y-2 text-[15px] text-zinc-700">
@@ -90,6 +101,17 @@ export default function PonenciaS4() {
         <li><b>Capturas</b> del código y del quiz para la diapositiva de la práctica.</li>
         <li><b>15 min de simulacro</b>: le enseñas tu quiz a alguien y le pides que cambie una línea.</li>
       </ol>
+
+      <h2 className="mt-8 text-xl font-extrabold tracking-tight">🎧 La sesión, otra vez</h2>
+      <p className="mt-2 text-[15px] text-zinc-700">
+        La sesión se graba íntegra. Al día siguiente tendrás aquí el enlace a la grabación completa
+        y, por bloque, un resumen en audio y un resumen escrito de 10 líneas:
+      </p>
+      <ul className="mt-3 space-y-2 text-[15px] text-zinc-700">
+        <li>• <b>Escucha el audio de este bloque estudiando o andando</b> — la estrategia de defensa repasada a pie, sin pantalla.</li>
+        <li>• <b>¿Faltaste o te perdiste algo?</b> El resumen en audio sustituye a la clase: escúchalo y vuelve a este apunte antes de imprimir la lista de control.</li>
+        <li>• <b>El resumen escrito de 10 líneas</b> te devuelve lo esencial del bloque cuando solo tienes un minuto.</li>
+      </ul>
 
       <div className="mt-8 rounded-2xl border border-blue-200 bg-blue-50 p-5 text-[15px] text-blue-900">
         <b>Cierre de la ponencia:</b> no vengas al examen a demostrar que sabes código. Vengas a

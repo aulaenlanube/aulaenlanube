@@ -1,129 +1,258 @@
 import type { Metadata } from "next";
 import Link from "@/components/Link";
-import Breadcrumbs from "@/components/Breadcrumbs";
 import PrintButton from "@/components/PrintButton";
+import { RelojSesion } from "./_svg/proceso";
+import { BLOQUES, RECURSOS } from "./_datos";
+import { Chip, Dentro, ESTILO, Fuera, H2, Lista, Migas, Nota, P } from "./_ui/piezas";
 
 export const metadata: Metadata = {
-  title: "Tu plataforma · Herramientas de IA para la oposición de Tecnología — Aula en la Nube",
+  title: "Del prompt a la plaza · IA para la oposición de Tecnología y para el aula — Aula en la Nube",
   description:
-    "Plataforma de consulta de la sesión práctica de 2 horas para opositores de Tecnología (Secundaria, C. Valenciana): introducir los 71 temas con IA, kit gratuito de Copilot, laboratorio y defensa de la práctica.",
+    "Guía completa de la sesión de dos horas para opositores de Tecnología de Secundaria (Comunitat Valenciana): cómo se escribe un prompt que rinde, el metaprompt, qué te da Copilot gratis con la cuenta del centro, los 71 temas con IA, láminas y materiales de aula, y dos aplicaciones educativas creadas con un agente —con el prompt exacto que las generó—.",
 };
 
-const chip =
-  "inline-block rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-blue-700";
-
-const SECTIONS = [
-  {
-    n: "1",
-    t: "Tu examen y la IA",
-    d: "Qué ha cambiado, qué no, y cómo atacar los 71 temas con IA sin que el tribunal te la descubra. Los 4 usos, con sus prompts.",
-    href: "/ponencia-tecnologia/01-introduccion/",
-  },
-  {
-    n: "2",
-    t: "Tu kit gratuito",
-    d: "Las 3 capas de Copilot que terminas la sesión con ellas funcionando: la de tu licencia Education, la de web y la que programa (VS Code), con instalación paso a paso.",
-    href: "/ponencia-tecnologia/02-herramientas-gratuitas/",
-  },
-  {
-    n: "3",
-    t: "Tu laboratorio",
-    d: "El quiz de autoevaluación que montas en el laboratorio con tu portátil: todos los prompts, los pasos de verificación y cómo publicarlo en tu GitHub.",
-    href: "/ponencia-tecnologia/03-laboratorio/",
-  },
-  {
-    n: "4",
-    t: "La práctica y la defensa",
-    d: "Cómo defender una práctica hecha con un agente delante del tribunal, la regla «si te cambian una línea, respondes» y tu lista de control del día del examen.",
-    href: "/ponencia-tecnologia/04-evaluacion/",
-  },
-];
-
-const LINKS = [
-  { t: "YouTube · Aula en la nube", d: "Mis cursos gratuitos (programación, GIMP, OBS, Google…): más de 800 vídeos donde nada te cuesta.", u: "https://www.youtube.com/@aulaenlanube" },
-  { t: "YouTube · IA para Docentes", d: "Canal de IA aplicada al aula: la herramienta, el método y las clases donde se ve en uso real.", u: "https://www.youtube.com/@iaparadocentes" },
-  { t: "apps-educativas.com", d: "Plataforma gratuita: crea clases, grupos y ejercicios. Convierte el quiz de la sección 3 en una clase real.", u: "https://apps-educativas.com" },
-  { t: "Cadenas de prompts", d: "Mis plantillas de prompt organizadas por uso (temas, supuestos, defensa). Copiar y pegar.", u: "/cadenas-de-prompts/" },
-  { t: "Insignias.org", d: "Mi blog de metodologías y prácticas: material para tus supuestos didácticos.", u: "https://insignias.org" },
-  { t: "OposicionesIA", d: "La plataforma de oposiciones que yo desarrollé: la misma familia de IA, aplicada a estudiar.", u: "https://oposicionesia.com" },
-];
-
-export default function PonenciaTecnologia() {
+export default function PonenciaPortada() {
   return (
-    <div className="mx-auto w-full max-w-4xl px-4 py-6">
-      <Breadcrumbs
-        items={[
-          { title: "Programación e IA", path: "/zona-programacion/" },
-          { title: "Ponencia Tecnología", path: "/ponencia-tecnologia/" },
-        ]}
-      />
-      <span className={chip}>Para opositores · Tecnología Secundaria · C. Valenciana</span>
-      <h1 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
-        Herramientas de IA para tu oposición de Tecnología
-      </h1>
-      <p className="mt-4 max-w-3xl text-lg text-zinc-600">
-        Esta es <b>tu guía de la sesión</b> de 2 horas: lo que verás, lo que montas tú y lo que te
-        llevas — cómo atacar los 71 temas con IA, el kit gratuito que dejas funcionando en
-        tu portátil, el proyecto del laboratorio y la estrategia de tu defensa. Vuelve antes de
-        cada examen: es el apunte completo, con sus prompts y sus ejercicios de repaso.
-      </p>
+    <div className="mx-auto w-full max-w-5xl px-4 py-8">
+      <Migas />
 
-      <div className="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50 p-5 text-[15px] text-emerald-900">
-        <b>Itinerario de la sesión:</b> 10 min de encuadre → <b>Sección 1</b>,
-        tu examen y la IA (25 min) → <b>Sección 2</b>, tu kit gratuito (25 min) → pausa →{" "}
-        <b>Sección 3</b>, laboratorio con tu portátil (40 min) → <b>Sección 4</b>, la práctica y
-        la defensa (25 min) → preguntas. Cada sección de abajo es tu apunte de ese bloque:
-        contenido, los prompts que verás, enlaces y ejercicios para repasar. Todo lo que veas aquí
-        queda además grabado: cada bloque tiene su resumen en audio y escrito, publicado al día
-        siguiente — si te pierdes algo, el audio de ese bloque te lo devuelve.
+      {/* ── Entrada ────────────────────────────────────────────────────── */}
+      <div className="flex flex-wrap items-center gap-2">
+        <Chip>Ponencia · 2 horas</Chip>
+        <Chip tono="verde">Tecnología · Secundaria</Chip>
+        <Chip tono="gris">Comunitat Valenciana</Chip>
       </div>
 
-      <div className="mt-6 space-y-4">
-        {SECTIONS.map((s) => (
-          <Link
-            key={s.n}
-            href={s.href}
-            className="group flex gap-4 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm transition hover:border-blue-300 hover:bg-blue-50/40"
-          >
-            <div className="w-14 flex-none text-3xl font-extrabold tracking-tight text-blue-700">{s.n}</div>
-            <div>
-              <h2 className="text-lg font-bold text-zinc-900 group-hover:text-blue-800">{s.t}</h2>
-              <p className="mt-1 text-sm text-zinc-600">{s.d}</p>
-            </div>
-            <div className="self-center text-zinc-300 transition group-hover:translate-x-0.5 group-hover:text-blue-600">→</div>
-          </Link>
+      <h1 className="mt-4 text-4xl font-extrabold tracking-tight text-zinc-900 sm:text-5xl">
+        Del prompt a la plaza
+      </h1>
+      <p className="mt-2 text-xl font-semibold tracking-tight text-zinc-500">
+        IA para tu oposición de Tecnología — y para las clases que darás cuando la tengas
+      </p>
+
+      <p className="mt-6 max-w-3xl text-lg leading-relaxed text-zinc-600">
+        Dos horas para salir con cuatro cosas funcionando: un <b>método para escribir prompts</b> que
+        aguantan un tribunal, el <b>Copilot que ya tienes pagado</b> con la cuenta del centro, una
+        <b> forma de atacar los 71 temas</b> sin perder criterio, y la capacidad de{" "}
+        <b>encargarle a un agente una aplicación de aula</b> y defenderla después. Esta página es el
+        apunte completo: todo lo que se ve en la sesión está aquí, con sus prompts, para volver
+        antes de cada examen.
+      </p>
+
+      {/* ── Lo que te llevas, en cifras ────────────────────────────────── */}
+      <div className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-4">
+        {[
+          { n: "6", t: "bloques en 2 horas", tono: "azul" as const },
+          { n: "15", t: "prompts copiables, con su explicación", tono: "morado" as const },
+          { n: "2", t: "apps de aula que puedes probar aquí mismo", tono: "ambar" as const },
+          { n: "0 €", t: "de coste: todo con lo que ya tienes", tono: "verde" as const },
+        ].map((d) => (
+          <div key={d.t} className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm">
+            <p className={`text-3xl font-extrabold tracking-tight ${ESTILO[d.tono].texto}`}>{d.n}</p>
+            <p className="mt-1 text-[13px] leading-snug text-zinc-500">{d.t}</p>
+          </div>
         ))}
       </div>
 
-      <h2 className="mt-8 text-xl font-extrabold tracking-tight">Tu material de referencia</h2>
-      <p className="mt-1 text-sm text-zinc-600">
-        Todo gratuito y mío: úsalo antes de la sesión y como apunte entre sesiones.
-      </p>
-      <div className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-2">
-        {LINKS.map((l) => {
-          const interno = l.u.startsWith("/");
+      {/* ── El reloj ───────────────────────────────────────────────────── */}
+      <H2 ante="El itinerario" tono="azul">
+        Dos horas, seis bloques, sin relleno
+      </H2>
+      <P>
+        Cada bloque ocupa en la barra exactamente lo que dura. Los cuatro primeros se ven con el
+        proyector; el quinto es laboratorio con el portátil abierto; el sexto es la estrategia que te
+        llevas escrita. Pulsa cualquier tramo para ver qué pasa dentro.
+      </P>
+      <RelojSesion />
+
+      {/* ── Los bloques ────────────────────────────────────────────────── */}
+      <H2 ante="Los apuntes" tono="verde">
+        El apunte de cada bloque
+      </H2>
+      <P>
+        Uno por bloque, con el contenido completo, los prompts listos para copiar y lo que conviene
+        practicar después. Si te pierdes algo en directo, aquí lo tienes entero.
+      </P>
+
+      <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2">
+        {BLOQUES.map((b) => {
+          const e = ESTILO[b.tono];
+          return (
+            <Link
+              key={b.ruta}
+              href={b.ruta}
+              className={`group flex flex-col rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm transition ${e.tarjeta}`}
+            >
+              <div className="flex items-center gap-3">
+                <span
+                  className={`flex h-9 w-9 flex-none items-center justify-center rounded-lg text-base font-extrabold ${e.numero}`}
+                >
+                  {b.n}
+                </span>
+                <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-400">
+                  {b.min} min
+                </span>
+              </div>
+              <h3 className="mt-3 text-[17px] font-extrabold tracking-tight text-zinc-900">
+                {b.titulo}
+              </h3>
+              <p className="mt-1.5 flex-1 text-[14px] leading-relaxed text-zinc-600">{b.resumen}</p>
+              <p className={`mt-3 text-[13px] font-bold ${e.texto}`}>
+                Abrir el apunte{" "}
+                <span className="inline-block transition-transform group-hover:translate-x-0.5">→</span>
+              </p>
+            </Link>
+          );
+        })}
+      </div>
+
+      {/* ── Las dos apps ───────────────────────────────────────────────── */}
+      <H2 ante="La prueba" tono="ambar">
+        Las dos aplicaciones, funcionando aquí mismo
+      </H2>
+      <P>
+        No son capturas ni un vídeo: son dos aplicaciones de aula reales, cada una nacida de{" "}
+        <b>un solo prompt</b>, que puedes abrir y usar ahora. Debajo de cada una está el encargo
+        exacto que la generó, palabra por palabra, para que veas de dónde sale cada decisión.
+      </P>
+      <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2">
+        {[
+          {
+            ruta: "/ponencia-tecnologia/app-logica-digital/",
+            curso: "4.º de ESO",
+            titulo: "Laboratorio de lógica digital",
+            d: "Puertas lógicas, tablas de verdad y seis retos con enunciado real. El clásico del bloque de electrónica digital, montado para proyectar.",
+            tono: "azul" as const,
+          },
+          {
+            ruta: "/ponencia-tecnologia/app-ensayo-traccion/",
+            curso: "1.º de Bachillerato",
+            titulo: "Banco de ensayo de tracción",
+            d: "Tiras de una probeta y la curva tensión–deformación se dibuja sola. Con cinco materiales reales y el momento clave: soltar la fuerza y ver qué queda.",
+            tono: "ambar" as const,
+          },
+        ].map((a) => {
+          const e = ESTILO[a.tono];
+          return (
+            <Link
+              key={a.ruta}
+              href={a.ruta}
+              className={`group rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm transition ${e.tarjeta}`}
+            >
+              <Chip tono={a.tono}>{a.curso}</Chip>
+              <h3 className="mt-3 text-[17px] font-extrabold tracking-tight text-zinc-900">
+                {a.titulo}
+              </h3>
+              <p className="mt-1.5 text-[14px] leading-relaxed text-zinc-600">{a.d}</p>
+              <p className={`mt-3 text-[13px] font-bold ${e.texto}`}>
+                Probarla y ver su prompt{" "}
+                <span className="inline-block transition-transform group-hover:translate-x-0.5">→</span>
+              </p>
+            </Link>
+          );
+        })}
+      </div>
+
+      {/* ── Qué te llevas ──────────────────────────────────────────────── */}
+      <H2 ante="El resultado" tono="morado">
+        Qué te llevas puesto al salir
+      </H2>
+      <Lista
+        tono="morado"
+        items={[
+          <>
+            <b>Una plantilla de prompt</b> de seis bloques que sirve igual para un tema, para una
+            programación de aula o para encargar una aplicación.
+          </>,
+          <>
+            <b>El metaprompt:</b> la costumbre de pedirle a la IA que te escriba el encargo antes de
+            pedirle el resultado. Es lo que más sube la calidad de todo lo demás.
+          </>,
+          <>
+            <b>Tu Copilot configurado</b> y, sobre todo, saber cuál de los seis abrir para cada cosa
+            — y qué no meter nunca en el chat.
+          </>,
+          <>
+            <b>Una aplicación tuya</b>, hecha con un agente, publicada en internet y con un enlace
+            que el tribunal puede abrir sin instalar nada.
+          </>,
+          <>
+            <b>La respuesta a «¿y si aquí cambiamos esto?»</b>, que es la pregunta que decide la
+            defensa de la parte práctica.
+          </>,
+        ]}
+      />
+
+      <Nota tono="ambar" titulo="La regla que atraviesa toda la sesión">
+        La IA trabaja para que <b>tú</b> entiendas, no para que escriba en tu lugar. Un tribunal no
+        detecta si usaste IA: detecta si puedes defender lo que traes. Todo lo que hay en esta página
+        está pensado para que la respuesta sea siempre que sí.
+      </Nota>
+
+      {/* ── Material ───────────────────────────────────────────────────── */}
+      <H2 ante="Para seguir" tono="gris">
+        El material de referencia
+      </H2>
+      <P>Todo gratuito y de la casa: úsalo antes de la sesión y entre examen y examen.</P>
+      <div className="mt-5 grid grid-cols-1 gap-3 md:grid-cols-2">
+        {RECURSOS.map((r) => {
+          const interno = r.u.startsWith("/");
+          const cuerpo = (
+            <>
+              <div className="flex items-center gap-2">
+                <span className="text-[14px] font-bold text-blue-700 group-hover:underline">
+                  {r.t}
+                </span>
+                <span className="text-blue-400">{interno ? "→" : "↗"}</span>
+              </div>
+              <p className="mt-1 text-[13px] leading-relaxed text-zinc-500">{r.d}</p>
+            </>
+          );
+          const cls =
+            "group rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm transition hover:border-blue-300 hover:bg-blue-50/30";
+          // Se indexa por título: dos fichas distintas pueden apuntar a la
+          // misma página (las cadenas de prompts y su galería de infografías).
           return interno ? (
-            <Link key={l.u} href={l.u} className="group rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm transition hover:border-blue-300">
-              <div className="text-sm font-bold text-blue-700 group-hover:underline">{l.t} →</div>
-              <p className="mt-1 text-xs text-zinc-500">{l.d}</p>
+            <Link key={r.t} href={r.u} className={cls}>
+              {cuerpo}
             </Link>
           ) : (
-            <a key={l.u} href={l.u} target="_blank" rel="noopener" className="group rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm transition hover:border-blue-300">
-              <div className="text-sm font-bold text-blue-700 group-hover:underline">{l.t} ↗</div>
-              <p className="mt-1 text-xs text-zinc-500">{l.d}</p>
+            <a key={r.t} href={r.u} target="_blank" rel="noopener" className={cls}>
+              {cuerpo}
             </a>
           );
         })}
       </div>
 
-      <div className="mt-8 rounded-2xl border border-zinc-200 bg-zinc-100 p-5 text-sm text-zinc-700">
-        <b>Cómo usar esta página:</b> antes del examen, repasa la <b>lista de control</b> de la
-        Sección 4 (está pensada para imprimirla). Si te quedaste a medias en el laboratorio, la
-        Sección 3 tiene cada prompt copiable para rematarlo desde casa. ¿Dudas de un prompt?
-        Míralo también en <Link className="text-blue-700 underline" href="/cadenas-de-prompts/">Cadenas de prompts</Link>.
+      {/* ── Cómo usar esto ─────────────────────────────────────────────── */}
+      <div className="mt-12 rounded-2xl border border-zinc-200 bg-zinc-50 p-5">
+        <h2 className="text-[15px] font-extrabold tracking-tight text-zinc-900">
+          Cómo sacarle partido a esta página
+        </h2>
+        <ul className="mt-3 space-y-2 text-[15px] leading-relaxed text-zinc-600">
+          <li>
+            • <b>Antes del examen:</b> imprime la lista de control del{" "}
+            <Dentro href="/ponencia-tecnologia/04-evaluacion/">bloque 6</Dentro>.
+          </li>
+          <li>
+            • <b>Estudiando un tema:</b> ten abierto el{" "}
+            <Dentro href="/ponencia-tecnologia/temario-con-ia/">bloque 3</Dentro>: la ruta completa,
+            con sus cinco prompts.
+          </li>
+          <li>
+            • <b>Preparando materiales:</b> el{" "}
+            <Dentro href="/ponencia-tecnologia/materiales-visuales/">bloque 4</Dentro> y la galería de{" "}
+            <Fuera href="https://aulaenlanube.com/cadenas-de-prompts/">infografías con su prompt</Fuera>.
+          </li>
+          <li>
+            • <b>Si te quedaste a medias en el laboratorio:</b> el{" "}
+            <Dentro href="/ponencia-tecnologia/03-laboratorio/">bloque 5</Dentro> tiene cada paso
+            copiable para rematarlo desde casa.
+          </li>
+        </ul>
       </div>
 
-      <div className="mt-6 flex justify-end">
+      <div className="mt-8 flex justify-end">
         <PrintButton />
       </div>
     </div>

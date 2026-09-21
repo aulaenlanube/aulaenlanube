@@ -1,197 +1,293 @@
 import type { Metadata } from "next";
-import Link from "@/components/Link";
-import Breadcrumbs from "@/components/Breadcrumbs";
 import PromptBlock from "@/components/PromptBlock";
+import { AnatomiaPrompt, CadenaDePrompts, CicloMetaprompt } from "../_svg/metodo";
+import { vecinos } from "../_datos";
+import {
+  Cierre,
+  Contraste,
+  Dentro,
+  FichaPrompt,
+  Fuera,
+  Grabacion,
+  H2,
+  Lista,
+  Migas,
+  NavPie,
+  Nota,
+  P,
+  Pasos,
+  Portadilla,
+  Rejilla,
+  Tarjeta,
+} from "../_ui/piezas";
 
 export const metadata: Metadata = {
-  title: "Sección 1 · Tu examen y la IA — Ponencia Tecnología — Aula en la Nube",
+  title: "Bloque 1 · Prompts que rinden — Del prompt a la plaza — Aula en la Nube",
   description:
-    "Apunte de la Sección 1: el terreno de tu oposición (temario de 71 temas, Orden de 9 de septiembre de 1993), qué ha cambiado y qué no, y los 4 modos serios de usar IA para preparar el temario, con los prompts copiables y ejercicios de repaso.",
+    "Los seis bloques de un prompt profesional (rol, contexto, tarea, reglas, formato y control), el metaprompt para que la IA escriba el encargo por ti, y las cadenas de prompts con las que se construye una aplicación completa. Con diagramas interactivos y prompts copiables.",
 };
 
-const chip =
-  "inline-block rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-blue-700";
+const { atras, adelante } = vecinos(1);
 
-export default function PonenciaS1() {
+export default function Bloque1() {
   return (
-    <div className="mx-auto w-full max-w-4xl px-4 py-6">
-      <Breadcrumbs
+    <div className="mx-auto w-full max-w-5xl px-4 py-8">
+      <Migas bloque={{ titulo: "Bloque 1", ruta: "/ponencia-tecnologia/01-introduccion/" }} />
+      <Portadilla
+        n={1}
+        tono="azul"
+        minutos={20}
+        titulo="Prompts que rinden"
+        entradilla={
+          <>
+            Todo lo que viene después depende de este bloque. La diferencia entre quien saca cosas
+            mediocres de la IA y quien saca material de tribunal no está en la herramienta ni en el
+            modelo: está en <b>cómo se escribe el encargo</b>. Veinte minutos para aprender la
+            plantilla, el truco que la duplica y el orden en que se encadenan las peticiones.
+          </>
+        }
+      />
+
+      {/* ═══ 1. El problema ═══════════════════════════════════════════════ */}
+      <H2 ante="El punto de partida" tono="azul">
+        Por qué la IA te contesta flojo
+      </H2>
+      <P>
+        Cuando alguien dice «lo probé y no me sirvió», casi siempre había escrito algo como{" "}
+        <i>«hazme un tema sobre estructuras»</i>. Un modelo no tiene forma de saber si eres opositor
+        o alumno de 2.º de ESO, si escribes a mano en un examen o preparas una diapositiva, ni si
+        necesitas dos folios o veinte. Ante la duda, responde <b>para el promedio</b>: correcto,
+        genérico y sin una sola cifra útil.
+      </P>
+      <P>
+        La buena noticia es que esto se arregla con texto, no con dinero. Un prompt bien construido
+        cambia el resultado más que cambiar de modelo o pagar una suscripción.
+      </P>
+
+      <Contraste
+        bien={{
+          titulo: "Lo que devuelve un encargo dirigido",
+          items: [
+            "Cifras con sus unidades y normativa con número y año.",
+            "La estructura que le has pedido, sin introducción de relleno.",
+            "Los puntos dudosos marcados para que tú los compruebes.",
+            "Tres preguntas incómodas al final, para ver si lo has entendido.",
+          ],
+        }}
+        mal={{
+          titulo: "Lo que devuelve «hazme un tema sobre…»",
+          items: [
+            "Tres párrafos de introducción que no dicen nada.",
+            "Afirmaciones sin cifras: «es muy importante», «resulta fundamental».",
+            "Normativa citada con seguridad absoluta y a veces inventada.",
+            "Una extensión al azar que no te sirve ni para el examen ni para clase.",
+          ],
+        }}
+      />
+
+      {/* ═══ 2. La anatomía ═══════════════════════════════════════════════ */}
+      <H2 ante="La plantilla" tono="azul">
+        Los seis bloques de un prompt profesional
+      </H2>
+      <P>
+        Esta es la plantilla que se usa durante toda la sesión y que sirve exactamente igual para
+        redactar un tema, para montar una programación de aula o para encargarle una aplicación a un
+        agente. Los cuatro primeros bloques los escribe casi todo el mundo; los dos últimos son los
+        que separan un texto de estudiante de un texto de opositor.
+      </P>
+
+      <AnatomiaPrompt />
+
+      <P>
+        Aquí la tienes montada entera. Cambia solo lo que va entre corchetes: el resto es tu firma y
+        no se toca.
+      </P>
+
+      <FichaPrompt
+        tono="azul"
+        etiqueta="Prompt 1 · la plantilla"
+        titulo="Tu prompt de partida, para cualquier encargo serio"
+      >
+        <PromptBlock
+          text={`# Rol
+Eres [ESPECIALISTA CONCRETO: p. ej. "catedrático de Tecnología de Secundaria con 25 años en tribunales de oposición"].
+
+# Contexto
+Oposición al cuerpo de profesores de Secundaria, especialidad Tecnología, Comunitat Valenciana.
+Temario de 71 temas. Lo que me des tiene que poder defenderse delante de un tribunal técnico.
+Destino del texto: [A MANO EN EL EXAMEN / PRESENTACIÓN / MATERIAL DE AULA].
+
+# Tarea
+[UN SOLO ENCARGO, EN IMPERATIVO Y CON UN ENTREGABLE CLARO.]
+
+# Reglas
+1) Nunca inventes normativa: si no estás seguro de una norma, un número o una fecha, escribe [COMPROBAR].
+2) Cada afirmación técnica, con su cifra y su unidad.
+3) Cero introducciones floridas y cero conclusiones de relleno.
+4) Si el encargo es demasiado grande para una respuesta, dime en cuántos pasos me lo das y no empieces.
+
+# Formato
+[EXTENSIÓN + ESTRUCTURA: p. ej. "máximo dos folios, apartados numerados, idea principal en negrita".]
+
+# Control
+Termina con tres preguntas incómodas que me haría un vocal sobre lo que acabas de escribir.
+No me des las respuestas.`}
+        />
+      </FichaPrompt>
+
+      <Nota tono="verde" titulo="El bloque que casi nadie escribe">
+        <b>#&nbsp;Control</b> convierte cada respuesta en un examen sobre esa respuesta. Si no sabes
+        contestar las tres preguntas, ese texto todavía no lo has estudiado: lo has recibido. Es el
+        hábito más barato de adquirir y el que más diferencia marca en la defensa oral.
+      </Nota>
+
+      {/* ═══ 3. El metaprompt ═════════════════════════════════════════════ */}
+      <H2 ante="El multiplicador" tono="morado">
+        El metaprompt: pídele el encargo, no la respuesta
+      </H2>
+      <P>
+        Escribir seis bloques cada vez cansa. Y hay algo mejor: <b>el modelo conoce sus propios
+        puntos ciegos mejor que tú</b>. Así que en lugar de pedirle la solución, le pides que escriba
+        el prompt perfecto para conseguirla. Te devuelve un encargo con restricciones que a ti no se
+        te habrían ocurrido, y tú le añades lo que la máquina no puede saber: tu curso, tu grupo, tu
+        tiempo y tu tribunal.
+      </P>
+
+      <CicloMetaprompt />
+
+      <FichaPrompt
+        tono="morado"
+        etiqueta="Prompt 2 · el metaprompt"
+        titulo="La frase que más rendimiento da de toda la sesión"
+      >
+        <p className="mb-2">
+          Cuéntale en bruto lo que necesitas, como se lo contarías a un compañero en el pasillo, y
+          cierra con esto:
+        </p>
+        <PromptBlock
+          text={`No me des todavía la respuesta.
+
+Escribe el PROMPT ideal para conseguir lo que te acabo de contar. Inclúyelo todo:
+- Rol: qué especialista debería responder.
+- Contexto: etapa, curso, comunidad autónoma, normativa aplicable y destino del texto.
+- Tarea: un solo encargo, en imperativo.
+- Reglas: qué NO puede hacer (inventar normativa, rellenar, dar cifras sin unidades…).
+- Formato: extensión y estructura exactas.
+- Control: cómo comprobaré yo que la respuesta sirve.
+
+Antes de escribirlo, hazme las preguntas que te falten por saber. Hazlas todas de una vez.`}
+        />
+      </FichaPrompt>
+
+      <Nota tono="ambar" titulo="Dónde entra tu criterio">
+        El prompt que te devuelve es un <b>borrador bueno</b>, no un original. Lo que tú le corriges
+        —el nivel real de tu grupo, los 50 minutos de clase, la normativa que te obliga, las manías
+        del tribunal— es exactamente lo que aportas como docente. Eso no se delega, y es lo que un
+        tribunal sí sabe distinguir.
+      </Nota>
+
+      <Rejilla cols={3}>
+        <Tarjeta tono="morado" titulo="Úsalo cuando…">
+          El encargo es importante y lo vas a repetir: un tema, una unidad didáctica, una rúbrica,
+          una aplicación. Compensa gastar dos minutos en el prompt.
+        </Tarjeta>
+        <Tarjeta tono="gris" titulo="No lo uses cuando…">
+          La pregunta es de una línea y la respuesta también. Para «¿cómo se dice <i>tornillo
+          prisionero</i> en inglés técnico?» no hace falta ceremonia.
+        </Tarjeta>
+        <Tarjeta tono="verde" titulo="Guarda lo que funcione">
+          Cuando un prompt te dé un resultado redondo, guárdalo en un documento. En dos meses tendrás
+          tu propio repertorio y no volverás a empezar de cero.
+        </Tarjeta>
+      </Rejilla>
+
+      {/* ═══ 4. Las cadenas ═══════════════════════════════════════════════ */}
+      <H2 ante="La escala" tono="verde">
+        Las cadenas de prompts: cuando un encargo no cabe en uno solo
+      </H2>
+      <P>
+        Una aplicación, una unidad didáctica completa o una programación de curso no salen de un
+        prompt: salen de una <b>conversación con un orden</b>. Y el orden importa, porque cada paso
+        se construye sobre el anterior. Este es el que funciona.
+      </P>
+
+      <CadenaDePrompts />
+
+      <Nota tono="verde" titulo="Esto no es teoría: está publicado entero">
+        En{" "}
+        <Fuera href="https://aulaenlanube.com/cadenas-de-prompts/">
+          aulaenlanube.com/cadenas-de-prompts
+        </Fuera>{" "}
+        tienes cuatro aplicaciones educativas con <b>la conversación completa que las creó</b>, prompt
+        a prompt y en orden: el simulador del sistema solar en 3D (31 prompts), la mesa de crafteo de
+        física (24), la célula animal (18) y un <i>tower defense</i> educativo (22). Ábrelas y lee la
+        cadena: se ve exactamente dónde se pide la lógica, dónde la pedagogía y dónde la estética.
+      </Nota>
+
+      <H2 ante="El error caro" tono="rosa">
+        Los cuatro fallos que se repiten siempre
+      </H2>
+      <Lista
+        tono="rosa"
         items={[
-          { title: "Programación e IA", path: "/zona-programacion/" },
-          { title: "Ponencia Tecnología", path: "/ponencia-tecnologia/" },
-          { title: "Sección 1", path: "/ponencia-tecnologia/01-introduccion/" },
+          <>
+            <b>Pedir dos cosas a la vez.</b> «Redáctame el tema y hazme las diapositivas» devuelve
+            dos cosas mediocres. Son dos prompts.
+          </>,
+          <>
+            <b>Discutir con la respuesta en vez de arreglar el prompt.</b> Si lo que sale no es lo
+            que querías, el fallo está arriba. Vuelve al encargo, no al resultado.
+          </>,
+          <>
+            <b>Seguir en la misma conversación cuando ya se ha torcido.</b> Los modelos arrastran
+            todo lo hablado. Cuando una conversación se enreda, se abre otra limpia y se pega el
+            prompt corregido.
+          </>,
+          <>
+            <b>Pedir la estética antes que la lógica.</b> Maquillar algo que todavía no funciona es
+            tiempo tirado: cada arreglo posterior te rompe el diseño.
+          </>,
         ]}
       />
-      <span className={chip}>Sección 1 · Tu examen y la IA</span>
-      <h1 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
-        Tu examen de Tecnología y la IA
-      </h1>
-      <p className="mt-4 text-lg text-zinc-600">
-        Esta es la guía de la primera parte de la sesión: poner en claro qué va y qué no ha
-        cambiado en tu oposición, y dejar funcionando los <b>4 modos serios de atacar los 71
-        temas con IA</b>. Todos los prompts son copiables con un clic y funcionan en el Copilot de
-        tu licencia o en el de web (los tienes listos en la Sección 2).
-      </p>
 
-      <h2 className="mt-8 text-xl font-extrabold tracking-tight">El terreno: 71 temas, dos partes</h2>
-      <p className="mt-2 text-[15px] text-zinc-700">
-        Tu temario lo fija la <b>Orden de 9 de septiembre de 1993</b> (vigente vía <b>Orden
-        ECD/191/2012</b>): 71 temas — energía, materiales, estructuras, sistemas de control,
-        instalaciones, electrónica, dibujo, TIC/programación y didáctica. El <b>RD 276/2007</b>{" "}
-        no regula el temario: es el reglamento estatal del proceso selectivo —es decir, cómo es el
-        examen—. Dos cosas que conviene tener claras antes de pedir nada a la IA:
-      </p>
-      <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
-        <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
-          <h3 className="text-[15px] font-bold">📚 Lo que NO ha cambiado</h3>
-          <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-zinc-600">
-            <li>El temario sigue siendo el mismo: la IA cambia <b>cómo lo estudias</b>, no <b>lo que se pregunta</b>.</li>
-            <li>La parte práctica sigue midiendo que <b>tú</b> aplica conceptos a una situación real.</li>
-            <li>La defensa es oral: cualquier párrafo que no entiendas del todo, el tribunal se da cuenta.</li>
-          </ul>
-        </div>
-        <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5">
-          <h3 className="text-[15px] font-bold">🚀 Lo que SÍ ha cambiado (a tu favor)</h3>
-          <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-emerald-900">
-            <li><b>Velocidad:</b> lo que eran 4 temas de lectura a fondo, ahora son 20 min de IA bien dirigida + tu lectura crítica.</li>
-            <li><b>«¿Cómo integras la IA en tu aula?»</b> es ya un supuesto plausible de examen: saber responderlo te diferencia.</li>
-            <li><b>Un agente de código</b> te da a ti, opositor, un laboratorio de bolsillo que antes no tenías.</li>
-          </ul>
-        </div>
-      </div>
-      <p className="mt-4 text-[15px] text-zinc-700">
-        Y para que sepas exactamente a qué te enfrentas en la primera prueba: la <b>parte A</b>{" "}
-        (tema) consiste en elegir <b>uno de cuatro temas</b> (por ser un temario de más de 50), en
-        2 horas, anónimo con etiquetas y bolígrafo azul o negro, con los criterios del <b>ANEXO
-        VI</b> comunes a todas las especialidades: estructura 10 %, expresión y presentación 10 %
-        (incluido el lenguaje inclusivo) y conocimiento científico e innovación 80 %. La{" "}
-        <b>parte B</b> (práctica) la fija el <b>ANEXO III</b> de la convocatoria, especialidad por
-        especialidad, y sus criterios los publican las comisiones antes del inicio del proceso;
-        ten presente que no presentarse a la parte A te impide hacer la B.
-      </p>
+      {/* ═══ 5. Práctica ══════════════════════════════════════════════════ */}
+      <H2 ante="Para practicar" tono="azul">
+        Tres ejercicios para esta semana
+      </H2>
+      <Pasos
+        tono="azul"
+        items={[
+          <>
+            <b>Hoy:</b> coge el prompt de la plantilla y pídele el esqueleto de un tema que ya
+            domines. Como lo dominas, verás enseguida qué acierta y qué se inventa. Ese contraste es
+            la mejor forma de calibrar la herramienta.
+          </>,
+          <>
+            <b>Mañana:</b> el mismo encargo, pero por metaprompt. Compara los dos prompts: ¿qué
+            restricciones añadió que tú no habías escrito?
+          </>,
+          <>
+            <b>Esta semana:</b> pásale el prompt de la plantilla a un compañero de preparación y
+            pedid los dos el mismo tema. Los resultados no serán iguales. Comentar por qué es la
+            forma más rápida de aprender a dirigirla.
+          </>,
+        ]}
+      />
 
-      <h2 className="mt-8 text-xl font-extrabold tracking-tight">La regla de oro</h2>
-      <div className="mt-3 rounded-2xl border border-amber-200 bg-amber-50 p-5 text-[15px] text-amber-900">
-        <b>La IA trabaja para que tú entiendas — no para que escriba por ti.</b> Si el tribunal
-        sospecha un tema «generado», lo único que le importa es: ¿puedes defender cada párrafo? Si
-        sí, ni se enteran. Si no, lo han pillado. Apúntate esta regla en tu lista: es la que
-        diferencia cada una de tus defensas.
-      </div>
+      <Cierre tono="azul">
+        <b>Lo que te llevas de este bloque:</b> seis bloques de prompt, un ciclo de metaprompt y un
+        orden para las cadenas. Con eso solo, todo lo que viene después —Copilot, los temas, las
+        láminas y las aplicaciones— rinde el doble. Sin eso, ninguna herramienta te va a salvar.
+      </Cierre>
 
-      <h2 className="mt-8 text-xl font-extrabold tracking-tight">Los 4 modos de usar IA con tu temario</h2>
-      <p className="mt-2 text-[15px] text-zinc-700">
-        En la sesión verás los cuatro en directo, uno a uno. Cada uno con su prompt listo: elige
-        uno para probar ahora mismo (funciona igual en el chat de tu licencia, en Copilot web o en
-        el chat de VS Code (el de la Sección 2).
-      </p>
+      <Grabacion matiz="El de este bloque es el más útil para repasar andando: son tres ideas y se fijan escuchándolas dos veces." />
 
-      <div className="mt-4 space-y-4">
-        <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
-          <h3 className="text-[15px] font-bold">① El esqueleto del tema — antes de estudiarlo</h3>
-          <p className="mt-1 text-sm text-zinc-600">
-            Pídeselo antes de estudiar un tema: estructura, preguntas probables, y el vocabulario
-            que debes poder definir de memoria. El mapa es tuyo, para estudiar; no se entrega.
-            Ahorra la primera hora de desorden de cada tema.
-          </p>
-          <PromptBlock text={`Estoy preparando el tema [Nº]: "[TÍTULO]" de la oposición de Tecnología (Secundaria, C. Valenciana) — temario: Orden de 9 de septiembre de 1993 (71 temas).\nDame:\n1) El esqueleto del tema en una sola página: bloques principales y sub-bloques.\n2) Las 5 preguntas más probables de tribunal, de menor a mayor dificultad.\n3) Las 10 definiciones o términos clave que debería saber dar de memoria (con 1 línea de definición cada una).\n4) Una pista: ¿con qué otros temas suele combinarse este en el examen?\nFormato: título + listas numeradas, sin introducciones floridas.`} />
-        </div>
+      <P>
+        ¿Te has quedado con ganas de más prompts ya montados? Los tienes por uso en{" "}
+        <Dentro href="/programacion-ia/">el curso de programación con IA</Dentro>.
+      </P>
 
-        <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
-          <h3 className="text-[15px] font-bold">② El tema en voz de vocal — para redactar</h3>
-          <p className="mt-1 text-sm text-zinc-600">
-            Esqueleto completo del tema con estructura de defensa. Lo importante: <b>tú relees cada
-            frase y la reescribes</b>. Lo que se entrega es tu tema, con tu criterio encima. Nunca
-            entregues el output de la IA sin pasarlo por tus palabras.
-          </p>
-          <PromptBlock text={`Redacta el tema [Nº]: "[TÍTULO]" (oposición de Tecnología, Secundaria, C. Valenciana; temario: Orden de 9 de septiembre de 1993, 71 temas) como lo explicaría un vocal:\n1) Inicio: 3-4 líneas de encuadre con el marco legal exacto (cita la Orden de 9 de septiembre de 1993 para el temario y el RD 276/2007 como reglamento del proceso selectivo; si hay otras normas, márcalas con [COMPROBAR] si no tienes seguridad).\n2) Desarrollo: apartados numerados, con cifras con unidades y ejemplos de aula en cada uno.\n3) Cierre: 3 líneas de síntesis + 1 aplicación didáctica concreta a Educación Secundaria.\nTono profesional, cero relleno. Máximo 2 páginas.`} />
-        </div>
-
-        <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
-          <h3 className="text-[15px] font-bold">③ El simulador de tribunal — el ensayo que mejor sale</h3>
-          <p className="mt-1 text-sm text-zinc-600">
-            El mejor ensayo de defensa que existe, gratis: la IA te interroga con preguntas
-            incómodas y <b>no te deja avanzar hasta que respondas</b>. Quince minutos el día antes
-            del examen valen más que una tarde de repaso pasivo. Úsalo con tus propios temas
-            redactados, no con los suyos.
-          </p>
-          <PromptBlock text={`Actúa como vocal de una oposición de Tecnología de Secundaria (Comunidad Valenciana), con 25 años de experiencia y fama de pregunta incómoda.\nTe pego mi tema redactado:\n\n[PEGA AQUÍ TU TEMA]\n\nPregúntame 5 preguntas, una a una, de menor a mayor incómodas (incluye al menos una de aplicación a aula y una técnica pura). No me des la respuesta correcta hasta que yo haya contestado; luego corrígeme en concreto: qué falla, qué dirías el tribunal, y cómo la reformularía en 1 frase. Al final: valoración numérica del 1 a 10 con una línea de justificación.`} />
-        </div>
-
-        <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
-          <h3 className="text-[15px] font-bold">④ Tu banco de supuestos didácticos</h3>
-          <p className="mt-1 text-sm text-zinc-600">
-            Para los temas didácticos y los supuestos contextualizados: la IA te genera 10
-            escenarios de aula distintos, y tú eliges y desarrollas los que te encajan. La IA pone
-            el escenario; <b>tu didáctica hace el trabajo</b>. Guarda los que te gusten: te ahorrarán
-            horas en cada supuesto de examen.
-          </p>
-          <PromptBlock text={`Genera 10 supuestos didácticos REALISTAS (no genéricos) para el tema [Nº]: "[TÍTULO]" (oposición de Tecnología, ESO/FP C. Valenciana).\nCada supuesto en: contexto (una escuela concreta y creíble: tipo de centro, curso, tamaño de grupo, perfil del alumnado, una tensión real) + lo que se pide.\nVaría: grupo heterogénero, alumnado con dificultades, proyecto interdisciplinar, aula con poca infraestructura, convivencia con un conflicto, familias desvinculadas, alumnado con altas capacidades, programación de un trimestre, evaluación competencial, integración de IA en el aula.\nNo repitas escenarios entre supuestos.`} />
-        </div>
-      </div>
-
-      <h2 className="mt-8 text-xl font-extrabold tracking-tight">El enemigo: la referencia inventada</h2>
-      <p className="mt-2 text-[15px] text-zinc-700">
-        El fallo más caro de usar IA en tus temas: <b>una cita de algo que no existe</b>. La IA
-        cita reales Decretos y reales estándares con cara de verdad. Regla: toda norma, todo número
-        y todo estándar que aparezca en tu tema final <b>se comprueba antes de entregarlo</b> — su
-        BOE, su fecha, su número. Un vocal con el BOE abierto no perdona. El prompt ② ya la exige
-        con el marcador [COMPROBAR]: cuando veas uno, ahí va tu ojo humano.
-      </p>
-
-      <h2 className="mt-8 text-xl font-extrabold tracking-tight">Los datos que puedes invocar en la defensa</h2>
-      <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
-        <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
-          <p className="text-3xl font-extrabold text-blue-700">72 %</p>
-          <p className="mt-1 text-sm text-zinc-600">
-            del sector TIC ya usa IA generativa para programar a diario{" "}
-            <span className="text-xs text-zinc-400">(ServiceNow, 2025)</span>. Si el sector la usa,
-            el profesor de Tecnología que no la ha probado queda a años luz de su aula.
-          </p>
-        </div>
-        <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
-          <p className="text-3xl font-extrabold text-blue-700">90 %</p>
-          <p className="mt-1 text-sm text-zinc-600">
-            del alumnado de FP ya usa IA generativa para estudiar{" "}
-            <span className="text-xs text-zinc-400">(Informe CSIC, 2026)</span>. Tu alumnado de
-            Secundaria la maneja mejor que la mayoría de los vocales. Cita esto con prudencia (es
-            un informe del sector) y con la cifra.
-          </p>
-        </div>
-      </div>
-
-      <h2 className="mt-8 text-xl font-extrabold tracking-tight">✏️ Tu material de repaso</h2>
-      <ul className="mt-3 space-y-2 text-[15px] text-zinc-700">
-        <li>• <b>Esta semana:</b> pídele el esqueleto (prompt ①) a 5 temas y compártelo con un compañero: ¿os da respuestas diferentes? (La IA no es un libro: dirige igual y aprende a calibrarla.)</li>
-        <li>• <b>Cada día de estudio:</b> cierra cada tema con 10 min del simulador (③) sobre TU tema, no sobre el de otro.</li>
-        <li>• <b>Antes de cada supuesto de práctica:</b> pide 5 escenarios (④) y elige el que más te dé juego: tu supuesto didáctico empieza ahí.</li>
-      </ul>
-
-      <h2 className="mt-8 text-xl font-extrabold tracking-tight">🎧 La sesión, otra vez</h2>
-      <p className="mt-2 text-[15px] text-zinc-700">
-        La sesión se graba íntegra: al día siguiente tendrás aquí el enlace a la grabación completa
-        y, por bloque, un resumen en audio y un resumen escrito de 10 líneas.
-      </p>
-      <ul className="mt-3 space-y-2 text-[15px] text-zinc-700">
-        <li>• <b>Escúchalo estudiando o andando:</b> el resumen en audio de este bloque dura lo que un trayecto, y te lo repasas sin sentarte.</li>
-        <li>• <b>¿Faltaste o te perdiste algo?</b> El resumen en audio de esta sección sustituye a la clase: escúchalo y vuelve a este apunte.</li>
-        <li>• <b>El resumen escrito de 10 líneas</b> es tu repaso rápido la semana antes del examen.</li>
-      </ul>
-
-      <div className="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50 p-5 text-[15px] text-emerald-900">
-        <b>Conclusión que te llevas de esta sección:</b> tu ventaja competitiva no es «sé el
-        temario» (todo el mundo lo sabe). Tu ventaja es <b>saber dirigir la IA para preparar 71
-        temas en la mitad de tiempo sin perder criterio — y saber defender una práctica con un
-        agente delante del tribunal</b>. Eso es lo que entrenas en el resto de las secciones.
-      </div>
-
-      <div className="mt-10 flex flex-wrap items-center justify-between gap-3 border-t border-zinc-200 pt-5">
-        <Link href="/ponencia-tecnologia/" className="rounded-xl border border-zinc-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-zinc-50">
-          ← Portada de la ponencia
-        </Link>
-        <Link href="/ponencia-tecnologia/02-herramientas-gratuitas/" className="rounded-xl bg-slate-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800">
-          Sección 2 · Tu kit gratuito →
-        </Link>
-      </div>
+      <NavPie atras={atras} adelante={adelante} />
     </div>
   );
 }

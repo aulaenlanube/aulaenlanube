@@ -1,153 +1,329 @@
 import type { Metadata } from "next";
-import Link from "@/components/Link";
-import Breadcrumbs from "@/components/Breadcrumbs";
 import PromptBlock from "@/components/PromptBlock";
+import { ArbolCopilot, MapaCopilot } from "../_svg/copilot";
+import { vecinos } from "../_datos";
+import {
+  Cierre,
+  Contraste,
+  Dentro,
+  FichaPrompt,
+  Fuera,
+  Grabacion,
+  H2,
+  Lista,
+  Migas,
+  NavPie,
+  Nota,
+  P,
+  Pasos,
+  Portadilla,
+  Rejilla,
+  Tarjeta,
+} from "../_ui/piezas";
 
 export const metadata: Metadata = {
-  title: "Sección 2 · Tu kit gratuito — Ponencia Tecnología — Aula en la Nube",
+  title: "Bloque 2 · Copilot: el kit que ya tienes — Del prompt a la plaza — Aula en la Nube",
   description:
-    "Apunte de la Sección 2: las 3 capas de Copilot — la de tu licencia Education, la de web como red de emergencia, y GitHub Copilot en VS Code con modo agente. Instalación paso a paso, límites reales y el prompt de rol.",
+    "Qué incluye exactamente Copilot con la cuenta educativa de la Generalitat Valenciana (Microsoft 365 A1 y A3), qué es GitHub Copilot y por qué el profesorado verificado puede tener Copilot Pro gratis, cuál abrir para cada encargo y qué datos no se meten nunca en un chat.",
 };
 
-const chip =
-  "inline-block rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-blue-700";
+const { atras, adelante } = vecinos(2);
 
-export default function PonenciaS2() {
+export default function Bloque2() {
   return (
-    <div className="mx-auto w-full max-w-4xl px-4 py-6">
-      <Breadcrumbs
-        items={[
-          { title: "Programación e IA", path: "/zona-programacion/" },
-          { title: "Ponencia Tecnología", path: "/ponencia-tecnologia/" },
-          { title: "Sección 2", path: "/ponencia-tecnologia/02-herramientas-gratuitas/" },
-        ]}
+    <div className="mx-auto w-full max-w-5xl px-4 py-8">
+      <Migas bloque={{ titulo: "Bloque 2", ruta: "/ponencia-tecnologia/02-herramientas-gratuitas/" }} />
+      <Portadilla
+        n={2}
+        tono="morado"
+        minutos={20}
+        titulo="Copilot: el kit que ya tienes"
+        entradilla={
+          <>
+            Media docena de herramientas distintas se llaman «Copilot», y esa confusión es
+            responsable de la mitad de las decepciones. Aquí se aclara <b>cuál es cuál</b>, qué te da
+            ya la cuenta del centro sin pagar un euro, por qué como docente puedes tener gratis la
+            versión de pago de la que programa, y qué no se mete nunca en un chat.
+          </>
+        }
       />
-      <span className={chip}>Sección 2 · Tu kit gratuito</span>
-      <h1 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
-        Tu kit gratuito: las 3 capas funcionando
-      </h1>
-      <p className="mt-4 text-lg text-zinc-600">
-        El objetivo de esta sección: que salgas de ella <b>con las 3 capas funcionando a la
-        vez</b>: una de trabajo diario (el Copilot de tu licencia), una de respaldo (Copilot web) y
-        la que se programa (VS Code + agente). «Copilot» suena a lo mismo — no lo es—. Aquí tienes
-        cada una para donde debe ir y así la dejas configurada en tu portátil.
-      </p>
 
-      <h2 className="mt-8 text-xl font-extrabold tracking-tight">Capa 1 · El de tu licencia: Copilot Chat + Designer (M365 para Educación)</h2>
-      <p className="mt-2 text-[15px] text-zinc-700">
-        Tu centro tiene <b>Microsoft 365 para Educación</b> — la gran mayoría en C. Valenciana — y
-        dentro viene <b>Copilot Chat + Designer sin coste adicional</b>. Es tu capa de trabajo
-        diario, la que más vas a usar en la sesión:
-      </p>
-      <ul className="mt-3 space-y-2 text-[15px] text-zinc-700">
-        <li>• <b>Chat de trabajo:</b> resumir temas, generar supuestos, reformular objetivos al lenguaje de la LOMLOE («competencia…», «criterio de evaluación de…»). Es el 80 % del trabajo mental del opositor: todo lo del bloque 1 se hace aquí.</li>
-        <li>• <b>Designer:</b> genera imágenes y presentaciones desde texto. Si te piden material didáctico, es oro.</li>
-        <li>• <b>Excel/Power BI:</b> preguntas de datos en lenguaje natural («¿tendencia de estos consumos?»), para los bloques de energía o sistemas de control.</li>
-      </ul>
-      <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
-        <b>Cómo lo compruebas tú:</b> <code>microsoft365.com</code> → Copilot. Si tu centro
-        tiene la oferta paga de Copilot para Educación (desde 2025, ~18 $/usuario/mes), verás más
-        funciones; <b>no dependas de nada que no puedas reproducir en cualquier PC</b>. Lo que
-        siempre funciona es Copilot Chat + Designer — con eso es suficiente para la práctica.
-      </div>
+      {/* ═══ 1. El mapa ═══════════════════════════════════════════════════ */}
+      <H2 ante="El mapa" tono="morado">
+        Seis herramientas, dos cuentas, un solo nombre
+      </H2>
+      <P>
+        Lo primero es dejar de decir «Copilot» y empezar a decir cuál. De la{" "}
+        <b>Identitat Digital del centro</b> cuelga una familia; de tu <b>cuenta personal de
+        GitHub</b>, otra. No se parecen en nada: unas trabajan con texto, las otras con ficheros de
+        tu ordenador. Pulsa cualquier pieza del mapa.
+      </P>
 
-      <h2 className="mt-8 text-xl font-extrabold tracking-tight">Capa 2 · Copilot web de Microsoft (tu red de emergencia)</h2>
-      <p className="mt-2 text-[15px] text-zinc-700">
-        El que se abre sin licencia con cuenta de Microsoft personal. Gratis, pero <b>no lo uses
-        como principal</b>: no ve tus archivos (hay que pegárselos), su memoria es corta y para lo
-        que ya hace, existen 50 herramientas iguales. Dedícale 20 minutos para que tu cuenta
-        personal esté lista: si en el examen te cae la red del tribunal, este sigue vivo.
-      </p>
+      <MapaCopilot />
 
-      <h2 className="mt-8 text-xl font-extrabold tracking-tight">Capa 3 · GitHub Copilot en VS Code (el que programa)</h2>
-      <p className="mt-2 text-[15px] text-zinc-700">
-        Aquí está la que <b>cambia tu parte práctica</b>, y la que más impresiona en la defensa
-        oral. En la sesión la veremos montada en directo; así la dejas configurada en tu portátil:
-      </p>
-      <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
-        <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
-          <h3 className="text-[15px] font-bold">Tu instalación, paso a paso (así la montas tú)</h3>
-          <ol className="mt-2 list-decimal space-y-1 pl-5 text-sm text-zinc-600">
-            <li>Cuenta de <b>GitHub</b> (github.com, 2 min) — la misma que usará el examen.</li>
-            <li><b>VS Code</b> instalado (code.visualstudio.com).</li>
-            <li>Extensión <b>GitHub Copilot</b> instalada y logueada con tu cuenta.</li>
-            <li>Carpeta de trabajo <code>~/ponencia/quiz</code> abierta, con terminal lista.</li>
-          </ol>
-          <p className="mt-2 text-xs text-zinc-500">
-            ¿Falló algo? Repite los pasos aquí — el resultado final debe ser la carpeta abierta y
-            el chat de Copilot visible a la derecha.
-          </p>
-        </div>
-        <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
-          <h3 className="text-[15px] font-bold">Tus números (plan gratuito)</h3>
-          <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-zinc-600">
-            <li><b>2.000 autocompletados</b> y <b>50 peticiones de chat agéntico</b> al mes — para estudiar + 1 proyecto, de sobra.</li>
-            <li>El agente trabaja en <b>la carpeta del proyecto</b>: no ve el resto de tu disco.</li>
-            <li><b>Pide paso a paso</b>, no «hazlo todo»: cada petición larga consume más.</li>
-            <li>Si te quedas corto de peticiones en un mes, hay otras claves gratuitas alternativas — coméntalo al terminar la sesión.</li>
+      <H2 ante="Lo que ya tienes" tono="azul">
+        Qué te da tu cuenta @edu.gva.es
+      </H2>
+      <P>
+        Esto es concreto y comprobable: la Conselleria asigna <b>licencia educativa de Microsoft
+        365</b> a todo el profesorado, alumnado y personal de los centros públicos de titularidad de
+        la Generalitat, vinculada a la Identitat Digital. Hay dos modalidades, <b>A1 y A3</b>, y la
+        propia Conselleria publica quién tiene cuál.
+      </P>
+      <Rejilla>
+        <Tarjeta tono="azul" titulo="A1 · la de la mayoría">
+          Es la que tiene el profesorado de un IES ordinario, Tecnología incluida: Office solo en
+          web, 50 GB de correo, 100 GB de OneDrive y Teams. <b>Copilot Chat entra igual</b> — no
+          hace falta A3 para nada de lo que se ve en esta sesión.
+        </Tarjeta>
+        <Tarjeta tono="verde" titulo="A3 · familias concretas">
+          Desde octubre de 2025 se asigna a FP de Informática y Comunicaciones, Administración y
+          Gestión, y Comercio y Marketing; centros a distancia; conservatorios profesionales;
+          enseñanzas artísticas superiores; EOI; y CEFIRE. Añade las aplicaciones de escritorio, 100
+          GB de correo y 1 TB de OneDrive.
+        </Tarjeta>
+      </Rejilla>
+      <P>
+        En ambos casos, entrando con la cuenta del centro, <b>Copilot Chat</b> te da chat con
+        búsqueda en la web, <b>subida y análisis de ficheros</b>, <b>generación de imágenes</b>,{" "}
+        <b>cuadernos</b> (reúnes tus fuentes y preguntas solo sobre ellas, con guía de estudio y
+        mapa mental), <b>páginas</b> (un borrador que se edita y se comparte) y el agente educativo{" "}
+        <b>Study and Learn</b>. Y algo que no es un detalle menor: <b>protección de datos de la
+        organización</b> — lo que le pegas con la cuenta institucional no alimenta el entrenamiento
+        de los modelos, cosa que sí puede ocurrir con una cuenta personal gratuita.
+      </P>
+
+      <Nota tono="ambar" titulo="Compruébalo tú, hoy, y no te fíes de lo que viste el curso pasado">
+        Esto se mueve deprisa. En abril de 2026 Microsoft retiró el Copilot Chat que aparecía{" "}
+        <i>dentro</i> de Word, Excel, PowerPoint y OneNote para quien no tiene la licencia de pago en
+        organizaciones grandes, y muchos docentes se encontraron con que el botón había desaparecido
+        —el Copilot Chat de la aplicación propia, de la web y de Outlook siguió funcionando—. Por eso
+        la única respuesta fiable a «¿qué tengo yo?» es abrir la sesión con tu cuenta y mirar. Si en
+        la sesión aparece algo que en tu portátil no está, avisa: probablemente sea una diferencia de
+        licencia y conviene saberlo antes del examen, no durante.
+      </Nota>
+
+      <H2 ante="La mejor noticia" tono="verde">
+        GitHub Copilot Pro, gratis por ser docente
+      </H2>
+      <P>
+        Esta cuenta no depende del centro: te la abres tú. Y <b>GitHub Education ofrece Copilot Pro
+        sin coste al profesorado verificado</b>. Se solicita con el correo institucional y una prueba
+        del vínculo laboral —carné docente o certificado de empleo—, y GitHub revisa la elegibilidad
+        cada mes.
+      </P>
+      <Contraste
+        bien={{
+          titulo: "Con Copilot Pro de docente verificado",
+          items: [
+            "Completado de código ilimitado mientras escribes.",
+            "Puedes elegir el modelo: no todos rinden igual según lo que pidas.",
+            "Modo agente completo, que es el que monta las aplicaciones del bloque 5.",
+            "Además, GitHub Team gratis (repositorios privados sin límite) y GitHub Classroom.",
+          ],
+        }}
+        mal={{
+          titulo: "Con el plan gratuito normal",
+          items: [
+            "2.000 completados de código al mes.",
+            "50 peticiones de chat al mes: se agotan en una tarde de laboratorio.",
+            "Sin elección de modelo: te toca el que el sistema decida.",
+            "Modo agente sí, pero sin el agente que trabaja solo en la nube.",
+          ],
+        }}
+      />
+      <Nota tono="verde" titulo="Hazlo esta semana, aunque todavía no programes">
+        La verificación no es inmediata y el plan gratuito normal se agota enseguida en cuanto
+        empiezas a trabajar con un agente. Solicítalo en{" "}
+        <Fuera href="https://github.com/education/teachers">github.com/education/teachers</Fuera>. Y
+        si a ti no te aplica —porque aún no estás en activo—, el modo agente también existe en el
+        plan gratuito: rinde menos, pero para el laboratorio de la sesión llega.
+      </Nota>
+
+      {/* ═══ 2. Cuál abro ═════════════════════════════════════════════════ */}
+      <H2 ante="La decisión" tono="rosa">
+        ¿Cuál abro para esto?
+      </H2>
+      <P>
+        Casi todas las decepciones con la IA salen de haber abierto la herramienta equivocada. La
+        pregunta correcta no es «¿qué herramienta uso?» sino <b>«¿qué quiero que exista cuando
+        termine?»</b>. Un texto, un documento trabajado, una imagen o un programa. Pulsa cualquier
+        rama.
+      </P>
+
+      <ArbolCopilot />
+
+      {/* ═══ 3. Casos de uso ══════════════════════════════════════════════ */}
+      <H2 ante="Casos de uso" tono="azul">
+        Doce cosas que puedes hacer hoy mismo
+      </H2>
+      <P>
+        Seis para el opositor que eres ahora y seis para el docente que serás. Todas con lo que ya
+        tienes, sin pagar nada.
+      </P>
+      <Rejilla>
+        <Tarjeta tono="azul" titulo="Para la oposición">
+          <ul className="space-y-1.5">
+            <li>• Esqueleto de un tema antes de estudiarlo, y las cinco preguntas probables.</li>
+            <li>• Simulador de tribunal sobre tu propio tema redactado.</li>
+            <li>• Diez supuestos didácticos realistas para practicar la parte práctica.</li>
+            <li>• Reformular tus objetivos al lenguaje exacto del currículo vigente.</li>
+            <li>• Un cuaderno con la normativa y tus apuntes, para preguntar solo sobre eso.</li>
+            <li>• Repaso relámpago de diez preguntas en cinco minutos, en días alternos.</li>
           </ul>
-        </div>
-      </div>
+        </Tarjeta>
+        <Tarjeta tono="verde" titulo="Para el aula">
+          <ul className="space-y-1.5">
+            <li>• Rúbricas de evaluación a partir de los criterios que tú fijes.</li>
+            <li>• La misma actividad en tres niveles de dificultad, para atender al grupo real.</li>
+            <li>• Láminas y esquemas para proyectar (bloque 4).</li>
+            <li>• Baterías de problemas con solución razonada y distractores creíbles.</li>
+            <li>• Correos difíciles a familias: el borrador lo hace él, el criterio lo pones tú.</li>
+            <li>• Simuladores y aplicaciones interactivas como las del bloque 5.</li>
+          </ul>
+        </Tarjeta>
+      </Rejilla>
 
-      <h2 className="mt-8 text-xl font-extrabold tracking-tight">El prompt de rol: tu firma profesional</h2>
-      <p className="mt-2 text-[15px] text-zinc-700">
-        Antes del laboratorio verás el momento de guardar este prompt en las 3 capas (pega en el
-        chat y listo). Es la diferencia entre «le he preguntado a la IA» y «la he dirigido» —{" "}
-        <b>toda petición seria empieza con él</b> y cambia el encargo:
-      </p>
-      <PromptBlock text={`# Rol
-Eres experto en [ÁREA DEL TEMA QUE ESTOY PREPARANDO, p. ej. "instalaciones eléctricas y normativa de edificaciones"].
+      <FichaPrompt
+        tono="azul"
+        etiqueta="Prompt · el más rentable del bloque"
+        titulo="La misma actividad, en tres niveles"
+      >
+        <p className="mb-2">
+          Este es el que más se usa una vez estás en el aula, y el que mejor queda en un supuesto de
+          atención a la diversidad.
+        </p>
+        <PromptBlock
+          text={`# Rol
+Eres profesor de Tecnología de Secundaria con experiencia en grupos muy heterogéneos.
 
 # Contexto
-Oposición de Tecnología (Secundaria, C. Valenciana) — temario: Orden de 9 de septiembre de 1993 (71 temas).
-Lo que pidas debe poder defenderse delante de un tribunal técnico:
-cero relleno, números con unidades, normativa con número y año.
+Curso: [CURSO]. Contenido: "[CONTENIDO]".
+Grupo real: [Nº] alumnos, de los cuales [Nº] con dificultades de aprendizaje
+y [Nº] que terminan siempre antes de tiempo. Dispongo de [Nº] minutos.
 
-# Reglas de respuesta
-1) Nunca inventes normativa: si no estás seguro, marca "[COMPROBAR]".
-2) Si pido algo demasiado grande, dime "pídemelo en X pasos" y no empieces.
-3) Estructura: respuesta corta → desarrollo → 3 preguntas incómodas de un vocal
-   que me hagan responder antes de que sigas.
+# Tarea
+Dame UNA actividad en tres niveles, no tres actividades distintas:
+el mismo enunciado base y la misma idea, con el andamiaje graduado.
 
-# Mi encargo
-[PEGA AQUÍ TU PEDIDO: tema, suposición, programación didáctica, código...]`}/>
-      <p className="mt-3 text-sm text-zinc-600">
-        Cómo lo trabajas: sustituye el <code>[ÁREA…]</code> y el <code>[PEGA AQUÍ…]</code> en cada
-        petición. El resto ya es tuyo — no lo cambies (las 3 reglas son lo que separa una respuesta
-        de opositor de una respuesta de estudiante).
-      </p>
+# Reglas
+1) Nivel 1: con los pasos guiados y los datos dados. Nivel 2: el estándar. Nivel 3: abierto,
+   con una decisión de diseño que el alumno tenga que justificar.
+2) Los tres niveles se corrigen con LA MISMA rúbrica: no puede haber alumnado de segunda.
+3) Datos y magnitudes reales, con sus unidades.
+4) Nada de material que no haya en un taller de instituto normal.
 
-      <h2 className="mt-8 text-xl font-extrabold tracking-tight">✏️ Tu material de repaso</h2>
-      <ul className="mt-3 space-y-2 text-[15px] text-zinc-700">
-        <li>• <b>Hoy mismo:</b> completa la instalación que se te pueda quedar a medio (capas 1–3) con los pasos de arriba. 15 min.</li>
-        <li>• <b>Dentro de 24 h:</b> con el prompt de rol + tu área, pide algo nuevo (p. ej. «compara el RD 276/2007 —reglamento del proceso selectivo— con lo relevante de la LOMLOE en 1 página»). Comprueba si respondió con las 3 reglas: si no marcó [COMPROBAR] algo, tu prompt quedó incompleto — ajústalo.</li>
-        <li>• <b>Antes de la práctica:</b> ten las 3 capas verificadas en un PC que no sea el tuyo (p. ej. el de casa) — el día del examen no hay segunda oportunidad.</li>
-      </ul>
+# Formato
+Enunciado base · los tres niveles · la rúbrica común (3 criterios, 4 descriptores cada uno) ·
+qué observo mientras trabajan para saber si lo están pillando.
 
-      <h2 className="mt-8 text-xl font-extrabold tracking-tight">🎧 La sesión, otra vez</h2>
-      <p className="mt-2 text-[15px] text-zinc-700">
-        La sesión se graba íntegra: al día siguiente tendrás aquí el enlace a la grabación completa
-        y, por bloque, un resumen en audio y un resumen escrito de 10 líneas.
-      </p>
-      <ul className="mt-3 space-y-2 text-[15px] text-zinc-700">
-        <li>• <b>Escúchalo estudiando o andando:</b> el resumen en audio de este bloque te recuerda los 3 pasos de instalación sin volver a abrir el portátil.</li>
-        <li>• <b>¿Faltaste o te perdiste algo?</b> El resumen en audio de esta sección sustituye a la clase: escúchalo y vuelve a este apunte.</li>
-        <li>• <b>El resumen escrito de 10 líneas</b> es tu checklist antes de volver a montar el kit en otro PC.</li>
-      </ul>
+# Control
+Dime qué parte de esta actividad fallaría si el grupo llega más flojo de lo que he descrito.`}
+        />
+      </FichaPrompt>
 
-      <div className="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50 p-5 text-[15px] text-emerald-900">
-        <b>Cierre de la sección:</b> con 3 copilots funcionando y una firma de prompt ya estás
-        listo. Ahora sí, laboratorio — la capa 3 se pone a trabajar en serio.
-      </div>
+      {/* ═══ 4. Lo que no se mete ═════════════════════════════════════════ */}
+      <H2 ante="El límite" tono="rosa">
+        Lo que no se mete nunca en un chat
+      </H2>
+      <P>
+        Este apartado no es burocracia: es lo que separa usar la herramienta con criterio de tener un
+        problema. Y en una defensa oral, saber decirlo suma tanto como saber usarla.
+      </P>
+      <Contraste
+        bien={{
+          titulo: "Puedes meter",
+          items: [
+            "Tus propios apuntes, tus temas y tus borradores.",
+            "Normativa y currículo: son documentos públicos.",
+            "Enunciados, actividades y rúbricas que has escrito tú.",
+            "Datos anonimizados de verdad: «un alumno de 3.º con dificultades en cálculo».",
+          ],
+        }}
+        mal={{
+          titulo: "No metas nunca",
+          items: [
+            "Nombres, apellidos o iniciales de alumnado, ni sus notas asociadas a una persona.",
+            "Fotos de menores, ni para generar, ni para editar, ni como referencia.",
+            "Informes psicopedagógicos, dictámenes o datos de salud. Son categorías especiales.",
+            "Datos de familias: teléfonos, direcciones, situaciones personales.",
+          ],
+        }}
+      />
+      <Lista
+        tono="rosa"
+        items={[
+          <>
+            <b>Con la cuenta del centro es más seguro, pero no es una barra libre.</b> La protección
+            de datos de la organización evita que tus conversaciones alimenten el entrenamiento de
+            los modelos; no te autoriza a tratar datos personales de terceros sin base legal.
+          </>,
+          <>
+            <b>Antes de usar una herramienta con el alumnado, mira Appsedu.</b> Es el catálogo oficial
+            de aplicaciones evaluadas por la Conselleria junto al Delegado de Protección de Datos, con
+            estado de autorizada o no autorizada. Citarlo en una defensa demuestra que conoces el
+            terreno real de un centro valenciano.
+          </>,
+          <>
+            <b>Edad del alumnado.</b> En las cuentas educativas, el acceso del alumnado menor de 13
+            años está bloqueado, y entre 13 y 17 depende de que el centro lo habilite expresamente.
+            No es una decisión que tomes tú en tu aula: la toma el centro.
+          </>,
+          <>
+            <b>Y una cautela honesta:</b> no hay a día de hoy una instrucción publicada de la
+            Conselleria específica sobre uso de IA generativa en centros. Lo que sí hay es{" "}
+            <b>formación</b>: un CEFIRE específico de Inteligencia Artificial y Pensamiento
+            Computacional creado en 2025 y un plan de alfabetización en IA para el profesorado. Si en
+            una defensa citas normativa autonómica de IA, asegúrate de que existe.
+          </>,
+        ]}
+      />
 
-      <div className="mt-10 flex flex-wrap items-center justify-between gap-3 border-t border-zinc-200 pt-5">
-        <Link href="/ponencia-tecnologia/01-introduccion/" className="rounded-xl border border-zinc-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-zinc-50">
-          ← Sección 1
-        </Link>
-        <Link href="/ponencia-tecnologia/03-laboratorio/" className="rounded-xl bg-slate-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800">
-          Sección 3 · Tu laboratorio →
-        </Link>
-      </div>
+      {/* ═══ 5. Práctica ══════════════════════════════════════════════════ */}
+      <H2 ante="Para practicar" tono="morado">
+        Tu kit montado en tres pasos
+      </H2>
+      <Pasos
+        tono="morado"
+        items={[
+          <>
+            <b>Hoy, cinco minutos:</b> entra con la cuenta del centro y abre Copilot Chat. Comprueba
+            que te deja subir un fichero y generar una imagen. Ya tienes los bloques 3 y 4
+            cubiertos.
+          </>,
+          <>
+            <b>Hoy, diez minutos:</b> cuenta de GitHub y solicitud del programa educativo. Mientras
+            se verifica, instala Visual Studio Code y la extensión de Copilot.
+          </>,
+          <>
+            <b>Esta semana:</b> crea un cuaderno con tus tres temas más fuertes dentro y hazle diez
+            preguntas. Es la mejor forma de comprobar si la herramienta responde sobre{" "}
+            <i>tus</i> fuentes o se inventa cosas de fuera.
+          </>,
+          <>
+            <b>Antes del examen:</b> ten el kit probado en un ordenador que no sea el tuyo. El día de
+            la prueba no hay segunda oportunidad, y las sorpresas de licencia aparecen siempre en el
+            peor momento.
+          </>,
+        ]}
+      />
+
+      <Cierre tono="morado">
+        <b>Lo que te llevas de este bloque:</b> tienes pagado, con la cuenta del centro, un chat con
+        protección de datos, ficheros, imágenes, cuadernos y un agente educativo. Y con una
+        verificación de diez minutos, la versión de pago del Copilot que programa. La pregunta ya no
+        es qué herramienta usar: es{" "}
+        <b>qué quieres que exista cuando termines</b>. El resto es el árbol de decisión.
+      </Cierre>
+
+      <Grabacion matiz="Este es el bloque que más conviene volver a ver con el portátil delante: se sigue paso a paso mientras montas tu kit." />
+
+      <P>
+        Lo siguiente es ponerlo a trabajar sobre los 71 temas:{" "}
+        <Dentro href="/ponencia-tecnologia/temario-con-ia/">bloque 3</Dentro>.
+      </P>
+
+      <NavPie atras={atras} adelante={adelante} />
     </div>
   );
 }

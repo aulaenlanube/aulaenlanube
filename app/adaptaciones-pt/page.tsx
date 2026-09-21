@@ -5,7 +5,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 export const metadata: Metadata = {
   title: "Adaptaciones PT — Aula en la Nube",
   description:
-    "Adaptaciones de ejercicios para niveles de ESO con dificultades, alineadas con la normativa de la Comunitat Valenciana (LOMLOE). Segundo de ESO: matemáticas, valenciano y castellano.",
+    "Adaptaciones de ejercicios para niveles de ESO con dificultades, alineadas con la normativa de la Comunitat Valenciana (LOMLOE). Segundo de ESO: matemáticas y lengua castellana.",
 };
 
 const chip =
@@ -13,7 +13,7 @@ const chip =
 
 const NIVELES = [
   { n: "1º", t: "1.º de ESO", href: "", pronto: false, d: "Adaptaciones de 1.º de ESO. En preparación." },
-  { n: "2º", t: "2.º de ESO", href: "/adaptaciones-pt/2eso/", pronto: true, d: "Matemáticas, valenciano y castellano — adaptaciones de un mismo ejercicio en 4 niveles (2.º ESO, 1.º ESO, 6.º y 5.º de primaria)." },
+  { n: "2º", t: "2.º de ESO", href: "/adaptaciones-pt/2eso/", pronto: true, d: "Matemáticas y castellano — adaptaciones de un mismo ejercicio en 4 niveles descendentes (matemáticas: de 2.º ESO a 5.º de primaria; castellano: de 1.º ESO a 4.º de primaria)." },
   { n: "3º", t: "3.º de ESO", href: "", pronto: false, d: "Adaptaciones de 3.º de ESO. En preparación." },
   { n: "4º", t: "4.º de ESO", href: "", pronto: false, d: "Adaptaciones de 4.º de ESO. En preparación." },
 ];
@@ -33,9 +33,9 @@ export default function AdaptacionesPte() {
       </h1>
       <p className="mt-4 text-lg text-zinc-600">
         Banco de <b>adaptaciones de ejercicios para alumnado de ESO con dificultades</b>. Cada
-        ejercicio se presenta en <b>cuatro niveles</b>: el de referencia del curso y tres
-        adaptaciones descendentes (hasta 5.º de primaria) para que el mismo contenido sea
-        accesible, con los mismos contextos y la misma dinámica de aula.
+        ejercicio se presenta en <b>cuatro niveles</b>: uno de referencia y tres adaptaciones
+        descendentes (hasta 4.º de primaria) para que el mismo contenido sea accesible, con los
+        mismos contextos y la misma dinámica de aula.
       </p>
 
       <div className="mt-6 rounded-2xl border border-zinc-200 bg-zinc-100 p-5 text-sm text-zinc-700">
@@ -72,11 +72,12 @@ export default function AdaptacionesPte() {
 
       <div className="mt-8 rounded-2xl border border-blue-200 bg-blue-50 p-5 text-[15px] text-blue-900">
         <b>Cómo está pensado cada ejercicio:</b> una situación real y cercana (temperaturas,
-        cuenta del banco, ascensor con sótanos…) y, sobre ella, cuatro versiones numeradas y
-        escalonadas: <b>2.º ESO (referencia)</b> → <b>1.º ESO</b> → <b>6.º primaria</b> →{" "}
-        <b>5.º primaria</b>. Cada nivel indica qué se adapta (números, apoyo visual, extensión de
-        la respuesta) y lleva su solución, para que la adaptación sea de acceso al mismo objetivo
-        de aprendizaje, no otro ejercicio distinto.
+        cuenta del banco, un mensaje de móvil, un cartel del mercado…) y, sobre ella, cuatro
+        versiones escalonadas. En <b>matemáticas</b>: 2.º ESO (referencia) → 1.º ESO → 6.º →
+        5.º de primaria. En <b>castellano</b>, un peldaño más abajo: 1.º ESO (referencia) →
+        6.º → 5.º → 4.º de primaria. Cada nivel indica qué se adapta (extensión del texto,
+        apoyo visual, opción cerrada, respuesta oral) y lleva su solución, para que la
+        adaptación sea de acceso al mismo objetivo de aprendizaje, no otro ejercicio distinto.
       </div>
     </div>
   );

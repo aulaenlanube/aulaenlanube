@@ -5,7 +5,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 export const metadata: Metadata = {
   title: "2.º de ESO · Adaptaciones PT — Aula en la Nube",
   description:
-    "Adaptaciones de ejercicios para 2.º de ESO con dificultades: matemáticas, valenciano y castellano. Cada ejercicio, en cuatro niveles descendentes (2º ESO → 1º ESO → 6º → 5º de primaria).",
+    "Adaptaciones de ejercicios para 2.º de ESO con dificultades: matemáticas y castellano. Cada ejercicio, en cuatro niveles descendentes: matemáticas de 2.º ESO a 5.º de primaria y castellano de 1.º ESO a 4.º de primaria.",
 };
 
 const chip =
@@ -28,9 +28,9 @@ const MATERIAS = [
   },
   {
     t: "Castellano",
-    href: "",
-    d: "Adaptaciones de lengua castellana y literatura. En preparación.",
-    listo: false,
+    href: "/adaptaciones-pt/2eso/castellano/",
+    d: "Tema 1 de Lengua Castellana: 6 bloques (repaso, comunicación, sustantivo y adjetivo, derivación, géneros literarios y acentuación) con 6 actividades cada uno, adaptadas a 1.º de ESO, 6.º, 5.º y 4.º de primaria.",
+    listo: true,
     emoji: "📖",
   },
 ];
@@ -51,17 +51,19 @@ export default function AdaptacionesPte2Eso() {
       </h1>
       <p className="mt-4 text-lg text-zinc-600">
         Materiales de apoyo para alumnado de <b>2.º de ESO con dificultades</b>, listos para usar
-        en clase y en casa. Cada ejercicio parte de una situación real y se declina en cuatro
-        niveles: <b>2.º ESO (referencia), 1.º ESO, 6.º y 5.º de primaria</b> — el mismo objetivo
-        de aprendizaje, accesible a cada alumno.
+        en clase y en casa. Cada ejercicio parte de una situación real y se declina en{" "}
+        <b>cuatro niveles</b> descendentes —en matemáticas, de 2.º de ESO a 5.º de primaria; en
+        castellano, de 1.º de ESO a 4.º de primaria, porque el nivel de competencia curricular de
+        partida es más bajo—: el mismo objetivo de aprendizaje, accesible a cada alumno.
       </p>
 
       <div className="mt-4 rounded-2xl border border-zinc-200 bg-zinc-100 p-5 text-sm text-zinc-700">
         <b>Normativa de referencia:</b> Decreto 107/2022 (currículo de ESO, CV, con la modificación
         del Decreto 66/2024) y Real Decreto 217/2022 para las enseñanzas mínimas; los saberes
-        básicos citados en cada ejercicio son los del anexo III del Decreto 107/2022 para el
-        bloque de números de 2.º y 3.er ciclo de la ESO, con descentración al Decreto 106/2022
-        (Primaria) en los niveles adaptados. Medidas de acceso y no significativas de
+        básicos citados en cada ejercicio son los del anexo III del Decreto 107/2022 (bloque de
+        números en matemáticas; comunicación, reflexión sobre la lengua y educación literaria en
+        castellano), con descentración al Decreto 106/2022 (Primaria) en los niveles adaptados
+        más bajos. Medidas de acceso y no significativas de
         conformidad con el Decreto 104/2018 y la Orden 20/2019.
       </div>
 

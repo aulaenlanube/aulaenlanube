@@ -3,6 +3,8 @@ import type { ReactNode } from "react";
 import Link from "@/components/Link";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import PromptBlock from "@/components/PromptBlock";
+// Diagramas interactivos (Componente de Cliente). Esta página sigue siendo de
+// servidor: solo renderiza los componentes, sin pasarles props ni funciones.
 import {
   CadenaCommits,
   GitVsGithub,
@@ -11,7 +13,7 @@ import {
   MergeDiagrama,
   PullRequestDiagrama,
   RamasDosDisenos,
-} from "./svg";
+} from "./diagrama-interactivo";
 
 export const metadata: Metadata = {
   title: "Sesión 2 · GitHub en carne viva — Curso de Programación con IA",
@@ -96,7 +98,7 @@ export default function CursoIASesion2() {
       <div className="my-5 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
         <p className="text-[15px] text-zinc-700">
           <b>Git es un grafo de bolitas, no una carpeta con versiones.</b> Cada commit es una bola;
-          las flechas dicen de cuál vienes; una etiqueta amarilla (HEAD) dice dónde estás. Todo lo de
+          las flechas marcan hacia dónde avanza la historia; una píldora (HEAD) dice dónde estás. Todo lo de
           hoy son bolitas, flechas y dos o tres palabras: mira cada dibujo antes de tocar el teclado
           y sabrás qué tecla pulsar.
         </p>

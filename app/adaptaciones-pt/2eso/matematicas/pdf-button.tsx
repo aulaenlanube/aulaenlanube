@@ -43,7 +43,7 @@ function cargarMotor(): Promise<void> {
   if (!motorPromise) {
     motorPromise = new Promise<void>((res, rej) => {
       const s = document.createElement("script");
-      s.src = "/opos-pdf.js?v=5";
+      s.src = "/opos-pdf.js?v=6";
       s.onload = () => res();
       s.onerror = () => {
         motorPromise = null;
@@ -57,10 +57,11 @@ function cargarMotor(): Promise<void> {
 
 type Chip = { tag: string; label: string; niveles: number[] };
 const CHIPS: Chip[] = [
-  { tag: "todos", label: "Todos", niveles: [0, 1, 2] },
+  { tag: "todos", label: "Todos", niveles: [0, 1, 2, 3] },
   { tag: "original", label: "Sin adaptación", niveles: [0] },
-  { tag: "6p", label: "6.º Primaria", niveles: [1] },
-  { tag: "5p", label: "5.º Primaria", niveles: [2] },
+  { tag: "1eso", label: "1.º ESO", niveles: [1] },
+  { tag: "6p", label: "6.º Primaria", niveles: [2] },
+  { tag: "5p", label: "5.º Primaria", niveles: [3] },
 ];
 
 const chipCls = (sel: boolean) =>

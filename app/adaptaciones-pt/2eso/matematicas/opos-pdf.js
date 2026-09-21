@@ -831,7 +831,7 @@ const P = BRAND.pdf;
         // contentWidth); dentro de una :::box se estrecha para dejar sitio a la
         // barra de acento y al padding interior. CUR_BG: color de fondo sobre el
         // que se rasteriza la math (para que no salga recuadro blanco).
-        let CUR_X = margin, CUR_W = contentWidth, CUR_BG = '#ffffff';
+        let CUR_X = margin, CUR_W = contentWidth, CUR_BG = '#ffffff', CUR_ACCENT = null;
         const langSample = (sections && sections.length) ? sections.map(function (s) { return s.content || ''; }).join(' ') : content;
         const FL = footerLabel(effectiveLang(langSample, lang));
         await ensureBranding();
@@ -1164,7 +1164,7 @@ const P = BRAND.pdf;
                 };
                 // Viñeta/número de lista: se dibuja aparte, a la izquierda del
                 // indent, solo en la primera línea (sangría francesa).
-                if (i === 0 && o.bulletText) { inst.bulletText = o.bulletText; inst.bulletX = o.x || margin; }
+                if (i === 0 && o.bulletText) { inst.bulletText = o.bulletText; inst.bulletX = o.x || CUR_X; }
                 instructions.push(inst);
             });
             if (o.gap) instructions.push({ text: '', fontSize: 4, x: margin, gap: o.gap });
@@ -1460,9 +1460,12 @@ const P = BRAND.pdf;
                     break;
                 // ── Línea de solución dentro de caja (@ …) ──
                 case 'sol': {
-                    let solText = block.text || '';
-                    if (!/^soluci[oó]n/i.test(solText.trim())) solText = 'Solución: ' + solText;
-                    emitRich(solText, { size: BODY_SIZE - 1, color: P.ink, bg: CUR_BG, indent: 2, gap: 4 });
+                    const solT = (block.text || '').trim();
+                    if (/^soluci[oó]n:?$/i.test(solT)) {
+                        emitRich('Solución', { size: BODY_SIZE, bold: true, color: CUR_ACCENT || P.muted, bg: CUR_BG, gap: 2 });
+                    } else {
+                        emitRich(solT, { size: BODY_SIZE - 1, color: P.ink, bg: CUR_BG, indent: 14, gap: 3 });
+                    }
                     break;
                 }
                 // ── Hueco de escritura [[fill:N]]: N líneas rayadas gris claro ──
@@ -1486,16 +1489,16 @@ const P = BRAND.pdf;
                     const outerX = CUR_X, outerW = CUR_W;
                     const bxStart = instructions.length;
                     const savedX = CUR_X, savedW = CUR_W, savedBg = CUR_BG;
-                    CUR_X = outerX + BAR + 9 + 3;   // barra + padding + sangría interior ~12
-                    CUR_W = outerW - (BAR + 9 + 3) - 8;
-                    CUR_BG = block.bgHex || '#ffffff';
+                    CUR_X = outerX + BAR + 16;      // barra + colchon: el marcador a) no pisa la barra
+                    CUR_W = outerW - (BAR + 16) - 10;
+                    CUR_BG = block.bgHex || '#ffffff'; CUR_ACCENT = block.accent || null;
                     if (block.title) {
                         emitRich(block.title, { size: 13, bold: true, color: block.accent, bg: CUR_BG, gap: 3 });
                     }
                     emitBlocks(block.blocks || []);
                     let contentH = 0;
                     for (let t = bxStart; t < instructions.length; t++) contentH += lineH_local(instructions[t]);
-                    CUR_X = savedX; CUR_W = savedW; CUR_BG = savedBg;
+                    CUR_X = savedX; CUR_W = savedW; CUR_BG = savedBg; CUR_ACCENT = null;
                     const boxH = PAD + contentH + PAD;
                     const fitsPage = boxH <= (contentTop - contentBottom - 4);
                     instructions.splice(bxStart, 0, { boxBg: 1, boxX: outerX, boxW: outerW, boxH: boxH, boxColor: block.bg, boxAccent: block.accent, boxRadius: RADIUS, boxBar: BAR, boxNoBg: !fitsPage, gap: 0, fontSize: 0 });

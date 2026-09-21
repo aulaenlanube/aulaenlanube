@@ -129,13 +129,13 @@ function lineaDeActividad(a: Act): string {
 }
 
 // Niveles del PDF (los que entiende el motor en opts.niveles): caja lvl 0 =
-// original sin adaptación (a.nv[0]), lvl 1 = 6.º primaria (a.nv[2]),
-// lvl 2 = 5.º primaria (a.nv[3]). Colores del contrato del motor: fondo claro
-// + acento oscuro por nivel.
+// original sin adaptación (a.nv[0]), lvl 1 = 1.º ESO (a.nv[1]),
+// lvl 2 = 6.º primaria (a.nv[2]), lvl 3 = 5.º primaria (a.nv[3]).
 const PDF_NIVELES: { nv: number; lvl: number; bg: string; accent: string }[] = [
   { nv: 0, lvl: 0, bg: "#eaf5ea", accent: "#2e7d32" },
-  { nv: 2, lvl: 1, bg: "#e8f1fb", accent: "#1565c0" },
-  { nv: 3, lvl: 2, bg: "#fdf3e0", accent: "#b26a00" },
+  { nv: 1, lvl: 1, bg: "#f3e8fb", accent: "#7b1fa2" },
+  { nv: 2, lvl: 2, bg: "#e8f1fb", accent: "#1565c0" },
+  { nv: 3, lvl: 3, bg: "#fdf3e0", accent: "#b26a00" },
 ];
 
 // El motor ahora filtra soluciones/niveles con el 9º argumento (opts): este

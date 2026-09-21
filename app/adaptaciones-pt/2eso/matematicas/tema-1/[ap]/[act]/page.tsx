@@ -72,20 +72,20 @@ export default async function ActividadPT({ params }: P) {
         <section key={i} className={tarjeta}>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
             <span className={CLSN[i]}>{LABELS[i]}</span>
-            {nv.in ? <p className="text-[15px] text-zinc-700">{md(nv.in)}</p> : null}
+            {nv.in ? <p className="text-[15px] text-zinc-700" dangerouslySetInnerHTML={{ __html: md(nv.in) }} /> : null}
           </div>
           <div className="mt-2 space-y-1 text-[15px] text-zinc-800">
-            {nv.p.map((p, j) => <p key={j}>{md(p)}</p>)}
+            {nv.p.map((p, j) => <p key={j} dangerouslySetInnerHTML={{ __html: md(p) }} />)}
           </div>
           {nv.ad ? (
             <div className="mt-2 rounded-xl border border-zinc-200 bg-white/70 p-4 text-[13px] text-zinc-600">
               <span className="text-sm font-bold uppercase tracking-wide text-zinc-500">🔧 Qué se adapta: </span>
-              {md(nv.ad)}
+              <span dangerouslySetInnerHTML={{ __html: md(nv.ad) }} />
             </div>
           ) : null}
           <details className="mt-3 rounded-xl border border-emerald-200 bg-white p-4 text-sm text-zinc-700">
             <summary className="cursor-pointer select-none font-bold text-emerald-700">Ver solución</summary>
-            <div className="mt-2 space-y-1">{nv.s.map((s, j) => <p key={j}>{md(s)}</p>)}</div>
+            <div className="mt-2 space-y-1">{nv.s.map((s, j) => <p key={j} dangerouslySetInnerHTML={{ __html: md(s) }} />)}</div>
           </details>
         </section>
       ))}

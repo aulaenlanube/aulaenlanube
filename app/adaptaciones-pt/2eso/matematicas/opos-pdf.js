@@ -1251,13 +1251,14 @@ const P = BRAND.pdf;
                     // Justifica todas las líneas excepto la última del
                     // párrafo (y excepto cuando el párrafo solo tiene
                     // una línea: ahí el efecto sería antinatural).
-                    const lines = wrapByWidth(block.text, BODY_SIZE, contentWidth);
+                    const pW = CUR_W, pX = CUR_X;
+                    const lines = wrapByWidth(block.text, BODY_SIZE, pW);
                     lines.forEach(function (wl, idx) {
                         const isLast = idx === lines.length - 1;
                         const shouldJustify = !isLast && lines.length > 1;
-                        instructions.push({ text: wl, fontSize: BODY_SIZE, x: margin, color: P.ink, justify: shouldJustify });
+                        instructions.push({ text: wl, fontSize: BODY_SIZE, x: pX, color: P.ink, justify: shouldJustify });
                     });
-                    instructions.push({ text: '', fontSize: 6, x: margin, gap: 4 });
+                    instructions.push({ text: '', fontSize: 6, x: pX, gap: 4 });
                     break;
                 }
                 case 'li': {
@@ -1281,12 +1282,12 @@ const P = BRAND.pdf;
                     } else {
                         const oliPrefix = '  ' + block.number + '. ';
                         const oliIndent = ' '.repeat(oliPrefix.length);
-                        const oliW = contentWidth - 18;
+                        const oliW = CUR_W - 18;
                         const oliLines = wrapByWidth(block.text, BODY_SIZE, oliW);
                         oliLines.forEach(function (wl, idx) {
-                            instructions.push({ text: (idx === 0 ? oliPrefix : oliIndent) + wl, fontSize: BODY_SIZE, x: margin, color: P.ink });
+                            instructions.push({ text: (idx === 0 ? oliPrefix : oliIndent) + wl, fontSize: BODY_SIZE, x: CUR_X, color: P.ink });
                         });
-                        instructions.push({ text: '', fontSize: 3, x: margin, gap: 2 });
+                        instructions.push({ text: '', fontSize: 3, x: CUR_X, gap: 2 });
                     }
                     // Entrada del índice: numerar por página + enlazar a su sección.
                     if (inIndex && instructions[oStart]) instructions[oStart].indexNum = parseInt(block.number, 10);
@@ -1298,11 +1299,11 @@ const P = BRAND.pdf;
                         break;
                     }
                     const quoteIndent = 30;
-                    const quoteW = contentWidth - quoteIndent;
+                    const quoteW = CUR_W - quoteIndent;
                     for (const wl of wrapByWidth(block.text, BODY_SIZE, quoteW)) {
-                        instructions.push({ text: '    | ' + wl, fontSize: BODY_SIZE, x: margin, italic: true, color: P.muted });
+                        instructions.push({ text: '    | ' + wl, fontSize: BODY_SIZE, x: CUR_X, italic: true, color: P.muted });
                     }
-                    instructions.push({ text: '', fontSize: 4, x: margin, gap: 3 });
+                    instructions.push({ text: '', fontSize: 4, x: CUR_X, gap: 3 });
                     break;
                 }
                 case 'code':

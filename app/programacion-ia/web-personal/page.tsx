@@ -120,14 +120,15 @@ export default function CursoIAWebPersonal() {
         >
           <span className="font-extrabold text-zinc-400">02</span>
           <span className="flex-1">
-            <span className="block text-[16px] font-bold">Tu proyecto en GitHub (Git sin comandos)</span>
+            <span className="block text-[16px] font-bold">GitHub en carne viva: tu web, versionada por ti</span>
             <span className="block text-sm text-zinc-600">
-              Repositorio, commit, push/pull, rama y PR: los cinco conceptos para trabajar con agentes
-              y no perder nunca tu trabajo. Tu copia de seguridad de todo el curso.
+              Cuenta, repositorio enlazado a tu carpeta local, commits honestos, máquina del tiempo y
+              dos diseños en dos ramas. Las dudas se preguntan a los modelos del centro; los comandos
+              los escribes tú.
             </span>
           </span>
           <span className="w-fit rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-blue-700">
-            Preparada
+            Esta sesión
           </span>
         </Link>
 

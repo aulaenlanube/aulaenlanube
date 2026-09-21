@@ -1,7 +1,17 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import Link from "@/components/Link";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import PromptBlock from "@/components/PromptBlock";
+import {
+  CadenaCommits,
+  GitVsGithub,
+  IntroGrafoBolitas,
+  MaquinaDelTiempo,
+  MergeDiagrama,
+  PullRequestDiagrama,
+  RamasDosDisenos,
+} from "./svg";
 
 export const metadata: Metadata = {
   title: "Sesión 2 · GitHub en carne viva — Curso de Programación con IA",
@@ -32,12 +42,14 @@ function Mision({
   objetivo,
   comprueba,
   extra,
+  diagrama,
 }: {
   n: string;
   titulo: string;
   objetivo: string;
   comprueba: string;
   extra?: string;
+  diagrama?: ReactNode;
 }) {
   return (
     <section className="my-4 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
@@ -45,6 +57,7 @@ function Mision({
         <span className="text-zinc-400">{n}</span> {titulo}
       </h3>
       <p className="mt-2 text-[15px] text-zinc-700">{objetivo}</p>
+      {diagrama}
       <div className="mt-3 rounded-xl border border-emerald-200 bg-emerald-50 p-3.5 text-sm text-emerald-900">
         <b>✔ Cómo compruebas que está logrado:</b> {comprueba}
       </div>
@@ -78,6 +91,18 @@ export default function CursoIASesion2() {
         <span className={meta}>⌨️ Tú escribes las instrucciones</span>
         <span className={meta}>🕰 Commits = máquina del tiempo</span>
         <span className={meta}>🌚🌕 Dos ramas, dos diseños</span>
+      </div>
+
+      <div className="my-5 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
+        <p className="text-[15px] text-zinc-700">
+          <b>Git es un grafo de bolitas, no una carpeta con versiones.</b> Cada commit es una bola;
+          las flechas dicen de cuál vienes; una etiqueta amarilla (HEAD) dice dónde estás. Todo lo de
+          hoy son bolitas, flechas y dos o tres palabras: mira cada dibujo antes de tocar el teclado
+          y sabrás qué tecla pulsar.
+        </p>
+        <div className="mt-3">
+          <IntroGrafoBolitas />
+        </div>
       </div>
 
       <div className="my-5 rounded-2xl border border-blue-200 bg-blue-50 p-5 text-[15px] text-blue-900">
@@ -160,6 +185,7 @@ export default function CursoIASesion2() {
         titulo="Tu primer repositorio, enlazado a tu web"
         objetivo="Crea un repositorio nuevo llamado mi-web, público. Después tienes que hacer algo más fino que «subir ficheros»: enlazar la carpeta que ya tienes en el portátil (tu web del viernes) para que ese repositorio local pertenezca a GitHub, y subirla. Ahí hay conceptos nuevos (git init, remote, push) — pregunta a la IA del centro cómo enlazar una carpeta local existente con un repo recién creado y hazlo con sus instrucciones tecleadas por ti."
         comprueba="Abres tu repo en el navegador y ves index.html, style.css y tu JS, no solo el README. Y en tu portátil, git status responde sin error: es un repo."
+        diagrama={<GitVsGithub />}
       />
 
       <Mision
@@ -167,6 +193,7 @@ export default function CursoIASesion2() {
         titulo="Commits honestos"
         objetivo="Haz hoy como mínimo tres commits con mensajes que expliquen el porqué («añadida sección de contacto», «hero: dos columnas y foto», «parche: menú móvil»). Pregunta a tu IA cómo preparar el commit (qué ficheros se añaden) y cómo escribir el mensaje. Nada de «actualizo», «cambios» o «asdfgh»."
         comprueba="Pestaña Commits de tu repo: tres entradas con mensajes que se entienden solos dentro de seis meses, cada una con su autor y su fecha."
+        diagrama={<CadenaCommits />}
       />
 
       <Mision
@@ -174,6 +201,7 @@ export default function CursoIASesion2() {
         titulo="La máquina del tiempo"
         objetivo="Ahora vas a romper algo a propósito: cambia un color o borra un bloque de la web, déjalo feo. Después vuelve a la versión anterior usando el historial —pregunta a tu IA dos formas de hacerlo (la interfaz web y la terminal)— y usa la que te atrevas. Si el mensaje del commit es honesto, sabes exactamente a qué punto volver."
         comprueba="Tu web vuelve a verse como antes del destrozo, y sabes explicar qué comando o botón usaste y qué hizo."
+        diagrama={<MaquinaDelTiempo />}
       />
 
       <Mision
@@ -181,6 +209,7 @@ export default function CursoIASesion2() {
         titulo="Dos ramas, dos diseños"
         objetivo="Crea dos ramas con dos diseños distintos de tu web: por ejemplo diseño-oscuro y diseño-minimal. En cada una cambia lo visual (colores, tipografía, disposición del hero) sin tocar la otra. Pregúntale a tu IA cómo crear una rama, cómo cambiarte de rama, y cómo guardar (commit) en la rama en la que estás. Cambiar de rama y refrescar la web es el momento «wow» de la sesión: la misma carpeta, dos webs distintas según el universo paralelo en el que te pongas."
         comprueba="git branch te lista al menos tres (main + tus dos diseños). Al cambiarte de rama, la web de tu navegador cambia de diseño sin que copies nada. Y en GitHub, el selector de ramas muestra las dos."
+        diagrama={<RamasDosDisenos />}
       />
 
       <Mision
@@ -188,6 +217,7 @@ export default function CursoIASesion2() {
         titulo="Elige tu diseño y fusiónalo a main"
         objetivo="Mira los dos diseños con calma, enséñaselos a quien tengas al lado… y decide cuál gana. Fusiona la rama elegida a main (la fusión puede hacerse desde la terminal o desde la propia interfaz de GitHub — pregunta a tu IA y usa la que quieras). La otra rama se puede borrar: fue un experimento, y eso es exactamente para lo que sirven las ramas."
         comprueba="main muestra tu diseño ganador, y el historial de commits de main cuenta la historia: trabajo → dos experimentos → decisión."
+        diagrama={<MergeDiagrama />}
       />
 
       <Mision
@@ -195,6 +225,7 @@ export default function CursoIASesion2() {
         titulo="Bonus: el repo de otro (ensayo del proyecto en grupo)"
         objetivo="Si terminas: entra en el repo de un compañero, crea una rama ahí, mejora un detalle pequeño (un texto, un color), y abre una Pull Request a su main explicando qué propones. Es el ensayo general del proyecto final en grupo: allí todo cambio pasará por una PR revisada."
         comprueba="Tu compañero tiene una PR abierta con tu nombre, la revisa, la aprueba y la fusiona (o te pide un cambio, aún mejor)."
+        diagrama={<PullRequestDiagrama />}
       />
 
       <h2 className="mt-8 text-xl font-extrabold tracking-tight">Cómo preguntar bien a la IA del centro</h2>

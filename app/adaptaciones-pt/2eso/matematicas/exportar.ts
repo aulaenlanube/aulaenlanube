@@ -156,7 +156,7 @@ function actMd(a: Act, _soluciones = true): string {
     n.p.forEach((x) => L.push(`- ${x}`, "[[fill]]"));
     L.push("@ Solución:");
     n.s.forEach((x) => L.push("@ " + x));
-    if (n.ad) L.push(`*Adaptación: ${n.ad}*`);
+    if (n.ad) L.push(`~ Adaptación: ${n.ad}`);
     L.push(":::", "");
   }
   return L.join("\n");

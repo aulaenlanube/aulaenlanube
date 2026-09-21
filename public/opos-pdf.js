@@ -157,6 +157,13 @@ if (window.OposDownloads) return;
                 blocks.push({ type: 'sol', text: stripInline(line.replace(/^@\s?/, '')) });
                 i++; continue;
             }
+            // Dentro de caja, «~ …» es la nota al pie de la caja (qué se
+            // adapta respecto al ejercicio base): va en cursiva, sangrada y
+            // separada de la solución, no como un párrafo suelto a todo ancho.
+            if (inBox && /^~(\s|$)/.test(line)) {
+                blocks.push({ type: 'note', text: stripInline(line.replace(/^~\s?/, '')) });
+                i++; continue;
+            }
             if (line.startsWith('```')) {
                 const isSvg = /^```svg\b/i.test(line.trim());
                 let code = '';
@@ -274,6 +281,7 @@ if (window.OposDownloads) return;
                 continue;
             }
             if (b.type === 'sol') { if (conSoluciones) out.push(b); continue; }
+            if (b.type === 'note') { out.push(b); continue; }
             if (b.type === 'fill') { if (!conSoluciones) out.push(b); continue; }
             out.push(b);
         }
@@ -704,16 +712,20 @@ const P = BRAND.pdf;
     const darkenRgb = function (rgb, f) { return [rgb[0] * f, rgb[1] * f, rgb[2] * f]; };
     // Path PDF de un rectángulo redondeado: x = izquierda, top = borde superior
     // (coordenadas PDF, y crece hacia arriba), h hacia abajo desde top.
-    const roundRectPath = function (x, top, w, h, r) {
-        const k = r * 0.5523, bot = top - h;
-        return F(x + r) + ' ' + F(top) + ' m ' + F(x + w - r) + ' ' + F(top) + ' l ' +
-            F(x + w - k) + ' ' + F(top) + ' ' + F(x + w) + ' ' + F(top - k) + ' ' + F(x + w) + ' ' + F(top - r) + ' c ' +
-            F(x + w) + ' ' + F(bot + r) + ' l ' +
-            F(x + w) + ' ' + F(bot + k) + ' ' + F(x + w - k) + ' ' + F(bot) + ' ' + F(x + w - r) + ' ' + F(bot) + ' c ' +
-            F(x + r) + ' ' + F(bot) + ' l ' +
-            F(x + k) + ' ' + F(bot) + ' ' + F(x) + ' ' + F(bot + k) + ' ' + F(x) + ' ' + F(bot + r) + ' c ' +
-            F(x) + ' ' + F(top - r) + ' l ' +
-            F(x) + ' ' + F(top - k) + ' ' + F(x + k) + ' ' + F(top - r) + ' ' + F(x + r) + ' ' + F(top) + ' c h';
+    // Rectángulo redondeado. `rt`/`rb` permiten radios distintos arriba y abajo:
+    // una caja partida entre dos páginas deja RECTO el lado por el que se corta,
+    // de modo que se lea como continuación y no como una caja nueva.
+    const roundRectPath = function (x, top, w, h, r, rt, rb) {
+        const ra = rt === undefined ? r : rt, rz = rb === undefined ? r : rb;
+        const ka = ra * 0.5523, kz = rz * 0.5523, bot = top - h;
+        return F(x + ra) + ' ' + F(top) + ' m ' + F(x + w - ra) + ' ' + F(top) + ' l ' +
+            F(x + w - ka) + ' ' + F(top) + ' ' + F(x + w) + ' ' + F(top - ka) + ' ' + F(x + w) + ' ' + F(top - ra) + ' c ' +
+            F(x + w) + ' ' + F(bot + rz) + ' l ' +
+            F(x + w) + ' ' + F(bot + kz) + ' ' + F(x + w - kz) + ' ' + F(bot) + ' ' + F(x + w - rz) + ' ' + F(bot) + ' c ' +
+            F(x + rz) + ' ' + F(bot) + ' l ' +
+            F(x + kz) + ' ' + F(bot) + ' ' + F(x) + ' ' + F(bot + kz) + ' ' + F(x) + ' ' + F(bot + rz) + ' c ' +
+            F(x) + ' ' + F(top - ra) + ' l ' +
+            F(x) + ' ' + F(top - ka) + ' ' + F(x + ka) + ' ' + F(top - ra) + ' ' + F(x + ra) + ' ' + F(top) + ' c h';
     };
     const buildLogoVector = function (cx, cy) {
         let s = '';
@@ -1193,17 +1205,16 @@ const P = BRAND.pdf;
         let inIndex = false;
 
         const instructions = [];
-        // Altura de una instrucción (misma regla que `lineH`, declarado más
-        // abajo): necesario dentro de emitBlocks para medir cajas antes de
-        // insertar su fondo.
-        const lineH_local = function (instr) {
-            if (instr.boxBg) return 0;
-            if (instr.rule) return instr.gap || 6;
-            return (instr.gap || (instr.fontSize || 11) * 1.7);
-        };
+        // Cajas :::box. El fondo NO se emite como instrucción: se dibuja al
+        // final, un rectángulo por cada trozo de caja que cae en una página,
+        // de modo que una caja larga pueda continuar en la siguiente sin
+        // dejar media página en blanco detrás.
+        let boxSeq = 0;
+        const boxStyles = {};
         // Emisión recursiva: el interior de las cajas se emite con esta misma
         // función, con CUR_X/CUR_W/CUR_BG estrechados por el contexto de caja.
         const emitBlocks = function (list) {
+        let prevType = null;
         for (const block of list) {
             switch (block.type) {
                 case 'heading': {
@@ -1244,6 +1255,11 @@ const P = BRAND.pdf;
                     break;
                 }
                 case 'paragraph': {
+                    // Nota al pie de una caja de nivel (la «Adaptación: …» que
+                    // sigue a la solución): las líneas «@ …» se emiten con un
+                    // interlineado muy compacto, así que sin este respiro el
+                    // párrafo queda pegado a la última solución.
+                    if (prevType === 'sol') instructions.push({ text: '', fontSize: 4, x: CUR_X, gap: 7 });
                     if (block.text.indexOf('$') !== -1) {
                         emitRich(block.text, { size: BODY_SIZE, color: P.ink, justify: true, gap: 4 });
                         break;
@@ -1256,7 +1272,7 @@ const P = BRAND.pdf;
                     lines.forEach(function (wl, idx) {
                         const isLast = idx === lines.length - 1;
                         const shouldJustify = !isLast && lines.length > 1;
-                        instructions.push({ text: wl, fontSize: BODY_SIZE, x: pX, color: P.ink, justify: shouldJustify });
+                        instructions.push({ text: wl, fontSize: BODY_SIZE, x: pX, maxW: pW, color: P.ink, justify: shouldJustify });
                     });
                     instructions.push({ text: '', fontSize: 6, x: pX, gap: 4 });
                     break;
@@ -1469,6 +1485,15 @@ const P = BRAND.pdf;
                     }
                     break;
                 }
+                // ── Nota al pie de una caja de nivel (~ …) ──
+                case 'note': {
+                    instructions.push({ text: '', fontSize: 4, x: CUR_X, gap: 9 });
+                    emitRich((block.text || '').trim(), {
+                        size: BODY_SIZE - 1, italic: true, color: P.muted,
+                        bg: CUR_BG, indent: 14, gap: 3
+                    });
+                    break;
+                }
                 // ── Hueco de escritura [[fill:N]]: N líneas rayadas gris claro ──
                 case 'fill': {
                     const sep = 13;
@@ -1497,21 +1522,26 @@ const P = BRAND.pdf;
                         emitRich(block.title, { size: 13, bold: true, color: block.accent, bg: CUR_BG, gap: 3 });
                     }
                     emitBlocks(block.blocks || []);
-                    let contentH = 0;
-                    for (let t = bxStart; t < instructions.length; t++) contentH += lineH_local(instructions[t]);
                     CUR_X = savedX; CUR_W = savedW; CUR_BG = savedBg; CUR_ACCENT = null;
-                    const boxH = PAD + contentH + PAD;
-                    const fitsPage = boxH <= (contentTop - contentBottom - 4);
-                    instructions.splice(bxStart, 0, { boxBg: 1, boxX: outerX, boxW: outerW, boxH: boxH, boxColor: block.bg, boxAccent: block.accent, boxRadius: RADIUS, boxBar: BAR, boxNoBg: !fitsPage, gap: 0, fontSize: 0 });
-                    instructions.splice(bxStart + 1, 0, { text: '', fontSize: 4, x: outerX, gap: PAD });
+                    // Relleno interior (arriba y abajo), dentro del grupo.
+                    instructions.splice(bxStart, 0, { text: '', fontSize: 4, x: outerX, gap: PAD });
                     instructions.push({ text: '', fontSize: 4, x: outerX, gap: PAD });
-                    // Grupo keep: la caja completa (fondo + interior + paddings)
-                    // no se parte; el cálculo de altura usa lineH y cuadra exacto.
-                    for (let t = bxStart; t < instructions.length; t++) instructions[t].kf = true;
+                    // Identidad de la caja: cada instrucción suya la lleva, y el
+                    // fondo se calcula tras el reparto en páginas. `kf` mantiene
+                    // la preferencia de no partirla; el reparto decide si esa
+                    // preferencia sale demasiado cara en papel desperdiciado.
+                    const boxId = ++boxSeq;
+                    boxStyles[boxId] = { x: outerX, w: outerW, color: block.bg, accent: block.accent, radius: RADIUS, bar: BAR };
+                    for (let t = bxStart; t < instructions.length; t++) {
+                        const it = instructions[t];
+                        (it.boxIds || (it.boxIds = [])).push(boxId);
+                        it.kf = true;
+                    }
                     instructions.push({ text: '', fontSize: 6, x: outerX, gap: 6 });
                     break;
                 }
             }
+            prevType = block.type;
         }
         };
         emitBlocks(blocks);
@@ -1548,11 +1578,19 @@ const P = BRAND.pdf;
             } else if (ins.kf && (i === 0 || !instructions[i - 1].kf)) {
                 let j = i; while (j < instructions.length && instructions[j].kf) j++;
                 ins.keepStart = true; ins.keepSpan = j - i;
+                // Una caja SÍ puede partirse si hace falta (su fondo se dibuja
+                // por trozos); una figura con su pie, no.
+                ins.splittable = !!(ins.boxIds && ins.boxIds.length);
             }
         }
 
         // Reparto en páginas
         const pages = [[]];
+        // Trozos de caja: {boxId, page, top, bottom}. Se rellenan a la vez que
+        // se reparten las instrucciones, así el rectángulo de fondo sale de las
+        // mismas coordenadas con las que se colocó el texto.
+        const boxFrags = [];
+        const fragEnCurso = {};
         let currentY = contentTop;
         for (let ii = 0; ii < instructions.length; ii++) {
             const instr = instructions[ii];
@@ -1586,7 +1624,16 @@ const P = BRAND.pdf;
                     // a la siguiente (el bug de la Regla 1 antes de esta corrección).
                     need += lineH(x);
                 }
-                if (currentY - need < contentBottom) { pages.push([]); currentY = contentTop; }
+                if (currentY - need < contentBottom) {
+                    // Saltar de página deja en blanco todo lo que quedaba. Vale
+                    // la pena si lo que quedaba era poco; si queda más de un
+                    // tercio de página útil, es peor el remedio que la
+                    // enfermedad y el grupo se parte (solo las cajas, que saben
+                    // dibujar su fondo por trozos).
+                    const libre = currentY - contentBottom;
+                    const usable = contentTop - contentBottom;
+                    if (!instr.splittable || libre < usable * 0.34) { pages.push([]); currentY = contentTop; }
+                }
             }
             // Fila de tabla «keepWithNext»: si esta fila y la siguiente no caben
             // juntas en lo que queda de página, el salto se fuerza ANTES de esta
@@ -1610,10 +1657,48 @@ const P = BRAND.pdf;
                 pages.push([]);
                 currentY = contentTop;
             }
+            if (instr.boxIds) {
+                const pgIdx = pages.length - 1;
+                for (const bid of instr.boxIds) {
+                    let f = fragEnCurso[bid];
+                    if (!f || f.page !== pgIdx) {
+                        f = { boxId: bid, page: pgIdx, top: currentY, bottom: currentY };
+                        fragEnCurso[bid] = f;
+                        boxFrags.push(f);
+                    }
+                    f.bottom = currentY - h;
+                }
+            }
             // Para líneas mixtas (rich) la base se baja por su ascenso, de modo que
             // el math (que sube desde la base) quede dentro del hueco reservado.
             pages[pages.length - 1].push(Object.assign({}, instr, { y: currentY - (instr.ascent || 0) }));
             currentY -= h;
+        }
+
+        // Fondo de las cajas: un rectángulo por trozo, al principio de su
+        // página (el fondo se dibuja antes que el texto que lleva encima).
+        const fondosPorPagina = {};
+        const trozosDe = {};
+        for (const f of boxFrags) (trozosDe[f.boxId] || (trozosDe[f.boxId] = [])).push(f);
+        for (const f of boxFrags) {
+            const st = boxStyles[f.boxId];
+            const bh = f.top - f.bottom;
+            if (!st || bh <= 0.5) continue;
+            const hermanos = trozosDe[f.boxId];
+            const pos = hermanos.indexOf(f);
+            (fondosPorPagina[f.page] || (fondosPorPagina[f.page] = [])).push({
+                boxBg: 1, boxId: f.boxId, boxX: st.x, boxW: st.w, boxH: bh,
+                boxColor: st.color, boxAccent: st.accent, boxRadius: st.radius,
+                boxBar: st.bar, y: f.top, gap: 0, fontSize: 0,
+                boxCont: pos > 0, boxSigue: pos < hermanos.length - 1
+            });
+        }
+        for (const pg in fondosPorPagina) {
+            // De fuera hacia dentro: una caja anidada se dibuja sobre la que la
+            // contiene, y el id de la exterior es siempre mayor (se asigna al
+            // cerrarla, después de emitir su interior).
+            fondosPorPagina[pg].sort(function (a, b) { return b.boxId - a.boxId; });
+            pages[Number(pg)] = fondosPorPagina[pg].concat(pages[Number(pg)]);
         }
 
 
@@ -1839,9 +1924,12 @@ const P = BRAND.pdf;
                 if (instr.boxBg) {
                     if (!instr.boxNoBg) {
                         const bc = instr.boxColor || [0.96, 0.975, 0.995];
-                        stream += 'q ' + C3(bc) + ' rg ' + roundRectPath(instr.boxX, instr.y, instr.boxW, instr.boxH, instr.boxRadius || 6) + ' f Q\n';
+                        const rr = instr.boxRadius || 6;
+                        const rTop = instr.boxCont ? 0 : rr;    // viene de la página anterior
+                        const rBot = instr.boxSigue ? 0 : rr;   // continúa en la siguiente
+                        stream += 'q ' + C3(bc) + ' rg ' + roundRectPath(instr.boxX, instr.y, instr.boxW, instr.boxH, rr, rTop, rBot) + ' f Q\n';
                         const ac = instr.boxAccent || P.primary;
-                        stream += 'q ' + roundRectPath(instr.boxX, instr.y, instr.boxW, instr.boxH, instr.boxRadius || 6) + ' W n '
+                        stream += 'q ' + roundRectPath(instr.boxX, instr.y, instr.boxW, instr.boxH, rr, rTop, rBot) + ' W n '
                                + C3(ac) + ' rg ' + F(instr.boxX) + ' ' + F(instr.y - instr.boxH) + ' ' + F(instr.boxBar || 3) + ' ' + F(instr.boxH) + ' re f Q\n';
                     }
                     continue;
@@ -1878,7 +1966,12 @@ const P = BRAND.pdf;
                     if (instr.justify) {
                         const natural   = approxWidth(instr.text, size, instr.bold);
                         const spaces    = instr.text.split(' ').length - 1;
-                        const gap       = contentWidth - natural;
+                        // El reparto va contra el ancho REAL de la línea, no
+                        // contra el de la página: dentro de una caja el ancho
+                        // útil es menor (CUR_W) y justificar a contentWidth
+                        // estiraba la línea hasta salirse de la caja y del
+                        // margen derecho.
+                        const gap       = (instr.maxW || contentWidth) - natural;
                         if (spaces > 0 && gap > 0 && gap < 80) {
                             const tw = gap / spaces;
                             twPart = tw.toFixed(3) + ' Tw ';

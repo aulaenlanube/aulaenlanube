@@ -712,20 +712,23 @@ const P = BRAND.pdf;
     const darkenRgb = function (rgb, f) { return [rgb[0] * f, rgb[1] * f, rgb[2] * f]; };
     // Path PDF de un rectángulo redondeado: x = izquierda, top = borde superior
     // (coordenadas PDF, y crece hacia arriba), h hacia abajo desde top.
-    // Rectángulo redondeado. `rt`/`rb` permiten radios distintos arriba y abajo:
-    // una caja partida entre dos páginas deja RECTO el lado por el que se corta,
-    // de modo que se lea como continuación y no como una caja nueva.
-    const roundRectPath = function (x, top, w, h, r, rt, rb) {
-        const ra = rt === undefined ? r : rt, rz = rb === undefined ? r : rb;
-        const ka = ra * 0.5523, kz = rz * 0.5523, bot = top - h;
-        return F(x + ra) + ' ' + F(top) + ' m ' + F(x + w - ra) + ' ' + F(top) + ' l ' +
-            F(x + w - ka) + ' ' + F(top) + ' ' + F(x + w) + ' ' + F(top - ka) + ' ' + F(x + w) + ' ' + F(top - ra) + ' c ' +
-            F(x + w) + ' ' + F(bot + rz) + ' l ' +
-            F(x + w) + ' ' + F(bot + kz) + ' ' + F(x + w - kz) + ' ' + F(bot) + ' ' + F(x + w - rz) + ' ' + F(bot) + ' c ' +
-            F(x + rz) + ' ' + F(bot) + ' l ' +
-            F(x + kz) + ' ' + F(bot) + ' ' + F(x) + ' ' + F(bot + kz) + ' ' + F(x) + ' ' + F(bot + rz) + ' c ' +
-            F(x) + ' ' + F(top - ra) + ' l ' +
-            F(x) + ' ' + F(top - ka) + ' ' + F(x + ka) + ' ' + F(top - ra) + ' ' + F(x + ra) + ' ' + F(top) + ' c h';
+    // Rectángulo con un radio por esquina, en sentido horario desde la de
+    // arriba a la izquierda. Hace falta esa libertad por dos motivos: una caja
+    // partida entre dos páginas deja RECTO el lado por el que se corta, y el
+    // lado izquierdo va siempre recto para que la barra de acento llegue
+    // limpia hasta arriba y hasta abajo (con esquina redonda, el recorte se
+    // comía la punta de una barra de solo 3 pt de ancho).
+    const roundRectPath = function (x, top, w, h, rtl, rtr, rbr, rbl) {
+        const K = 0.5523, bot = top - h;
+        const ktl = rtl * K, ktr = rtr * K, kbr = rbr * K, kbl = rbl * K;
+        return F(x + rtl) + ' ' + F(top) + ' m ' + F(x + w - rtr) + ' ' + F(top) + ' l ' +
+            F(x + w - ktr) + ' ' + F(top) + ' ' + F(x + w) + ' ' + F(top - ktr) + ' ' + F(x + w) + ' ' + F(top - rtr) + ' c ' +
+            F(x + w) + ' ' + F(bot + rbr) + ' l ' +
+            F(x + w) + ' ' + F(bot + kbr) + ' ' + F(x + w - kbr) + ' ' + F(bot) + ' ' + F(x + w - rbr) + ' ' + F(bot) + ' c ' +
+            F(x + rbl) + ' ' + F(bot) + ' l ' +
+            F(x + kbl) + ' ' + F(bot) + ' ' + F(x) + ' ' + F(bot + kbl) + ' ' + F(x) + ' ' + F(bot + rbl) + ' c ' +
+            F(x) + ' ' + F(top - rtl) + ' l ' +
+            F(x) + ' ' + F(top - ktl) + ' ' + F(x + ktl) + ' ' + F(top - rtl) + ' ' + F(x + rtl) + ' ' + F(top) + ' c h';
     };
     const buildLogoVector = function (cx, cy) {
         let s = '';
@@ -766,11 +769,10 @@ const P = BRAND.pdf;
         return s;
     };
 
-    // ── Cabecera: logo (JPG incrustado o vector de fallback) + ──
-    //    (opcional) título a la derecha + línea fina.
-    const buildHeaderStream = function (chrome, firstPage) {
-        const { headerTitle } = chrome;
-        const showTitle = firstPage;
+    // ── Cabecera: solo la banda de logos. El título del documento NO se
+    //    repite aquí: el contenido ya abre con su propio H1 y salían los dos
+    //    seguidos, con una línea fina de más entre medias. ──
+    const buildHeaderStream = function () {
         let s = '';
         const logos = LOGOS.filter(function (l) { return l.bytes; });
         if (logos.length) {
@@ -789,18 +791,6 @@ const P = BRAND.pdf;
                 const yPdf = pageHeight - yTop - h;
                 s += 'q ' + F(w) + ' 0 0 ' + F(h) + ' ' + F(x) + ' ' + F(yPdf) + ' cm /Logo' + i + ' Do Q\n';
             });
-        }
-        // Titulo del documento bajo la banda, como en PP1: negrita 13 pt
-        // gris pizarra + linea fina gris.
-        if (headerTitle && logos.length && showTitle) {
-            s += 'q\n';
-            s += '0.122 0.161 0.216 rg\n'; // #1f2937 slate-800 (PP1 _SLATE)
-            const ty = pageHeight - M_TOPGAP - M_BAND - 13;
-            s += 'BT /F2 13 Tf ' + margin + ' ' + F(ty) + ' Td (' + pdfEsc(headerTitle.slice(0, 120)) + ') Tj ET\n';
-            s += '0.863 0.863 0.863 RG 0.57 w\n'; // #dcdcdc
-            const ly = ty - 4;
-            s += margin + ' ' + F(ly) + ' m ' + (pageWidth - margin) + ' ' + F(ly) + ' l S\n';
-            s += 'Q\n';
         }
         return s;
     };
@@ -1835,7 +1825,7 @@ const P = BRAND.pdf;
                 pageObjIds.push(pIdC);
                 continue;
             }
-            stream += buildHeaderStream(chrome, p === 0);
+            stream += buildHeaderStream();
             for (const instr of page) {
                 if (instr.rule) {
                     const c = instr.color || P.line;
@@ -1949,9 +1939,11 @@ const P = BRAND.pdf;
                         const rr = instr.boxRadius || 6;
                         const rTop = instr.boxCont ? 0 : rr;    // viene de la página anterior
                         const rBot = instr.boxSigue ? 0 : rr;   // continúa en la siguiente
-                        stream += 'q ' + C3(bc) + ' rg ' + roundRectPath(instr.boxX, instr.y, instr.boxW, instr.boxH, rr, rTop, rBot) + ' f Q\n';
+                        // Izquierda recta (0): ahí vive la barra de acento.
+                        const forma = roundRectPath(instr.boxX, instr.y, instr.boxW, instr.boxH, 0, rTop, rBot, 0);
+                        stream += 'q ' + C3(bc) + ' rg ' + forma + ' f Q\n';
                         const ac = instr.boxAccent || P.primary;
-                        stream += 'q ' + roundRectPath(instr.boxX, instr.y, instr.boxW, instr.boxH, rr, rTop, rBot) + ' W n '
+                        stream += 'q ' + forma + ' W n '
                                + C3(ac) + ' rg ' + F(instr.boxX) + ' ' + F(instr.y - instr.boxH) + ' ' + F(instr.boxBar || 3) + ' ' + F(instr.boxH) + ' re f Q\n';
                         // Línea discontinua del corte: «esto sigue» abajo y
                         // «esto viene de antes» arriba. Va en el límite mismo

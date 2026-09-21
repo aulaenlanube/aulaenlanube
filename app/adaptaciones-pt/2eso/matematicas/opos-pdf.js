@@ -1591,11 +1591,10 @@ const P = BRAND.pdf;
         // mismas coordenadas con las que se colocó el texto.
         const boxFrags = [];
         const fragEnCurso = {};
-        // Corte de una caja entre dos páginas: se reserva una banda para la
-        // línea discontinua que avisa de que la caja sigue (o viene) de otra
-        // página. CORTE_AIRE separa la línea del texto; CORTE_BORDE, la línea
-        // del borde de la caja.
-        const CORTE_AIRE = 10, CORTE_BORDE = 4, CORTE = CORTE_AIRE + CORTE_BORDE;
+        // Corte de una caja entre dos páginas: la línea discontinua que avisa
+        // del corte va justo en el borde del fondo de color, así que lo único
+        // que hay que reservar es el aire entre el texto y ese borde.
+        const CORTE = 14;
         let currentY = contentTop;
         for (let ii = 0; ii < instructions.length; ii++) {
             const instr = instructions[ii];
@@ -1712,8 +1711,8 @@ const P = BRAND.pdf;
                 boxColor: st.color, boxAccent: st.accent, boxRadius: st.radius,
                 boxBar: st.bar, y: arriba, gap: 0, fontSize: 0,
                 boxCont: cont, boxSigue: sigue,
-                boxCorteArriba: cont ? arriba - CORTE_BORDE : null,
-                boxCorteAbajo: sigue ? abajo + CORTE_BORDE : null
+                boxCorteArriba: cont ? arriba : null,
+                boxCorteAbajo: sigue ? abajo : null
             });
         }
         for (const pg in fondosPorPagina) {
@@ -1955,9 +1954,11 @@ const P = BRAND.pdf;
                         stream += 'q ' + roundRectPath(instr.boxX, instr.y, instr.boxW, instr.boxH, rr, rTop, rBot) + ' W n '
                                + C3(ac) + ' rg ' + F(instr.boxX) + ' ' + F(instr.y - instr.boxH) + ' ' + F(instr.boxBar || 3) + ' ' + F(instr.boxH) + ' re f Q\n';
                         // Línea discontinua del corte: «esto sigue» abajo y
-                        // «esto viene de antes» arriba, del color de la caja.
-                        const cx1 = instr.boxX + (instr.boxBar || 3) + 8;
-                        const cx2 = instr.boxX + instr.boxW - 8;
+                        // «esto viene de antes» arriba. Va en el límite mismo
+                        // entre el fondo de color y el blanco, y de lado a lado
+                        // del bloque, barra de acento incluida.
+                        const cx1 = instr.boxX;
+                        const cx2 = instr.boxX + instr.boxW;
                         for (const cy of [instr.boxCorteArriba, instr.boxCorteAbajo]) {
                             if (cy === null || cy === undefined) continue;
                             stream += 'q ' + C3(ac) + ' RG 0.9 w [3.2 2.6] 0 d '

@@ -8,7 +8,6 @@ import {
   Dentro,
   FichaPrompt,
   Fuera,
-  Grabacion,
   H2,
   Lista,
   Migas,
@@ -22,7 +21,7 @@ import {
 } from "../_ui/piezas";
 
 export const metadata: Metadata = {
-  title: "Bloque 1 · Prompts que rinden — Del prompt a la plaza — Aula en la Nube",
+  title: "Bloque 1 · Prompts que rinden — IA para opositores de Tecnología — Aula en la Nube",
   description:
     "Los seis bloques de un prompt profesional (rol, contexto, tarea, reglas, formato y control), el metaprompt para que la IA escriba el encargo por ti, y las cadenas de prompts con las que se construye una aplicación completa. Con diagramas interactivos y prompts copiables.",
 };
@@ -280,7 +279,6 @@ Antes de escribirlo, hazme las preguntas que te falten por saber. Hazlas todas d
         láminas y las aplicaciones— rinde el doble. Sin eso, ninguna herramienta te va a salvar.
       </Cierre>
 
-      <Grabacion matiz="El de este bloque es el más útil para repasar andando: son tres ideas y se fijan escuchándolas dos veces." />
 
       <P>
         ¿Te has quedado con ganas de más prompts ya montados? Los tienes por uso en{" "}

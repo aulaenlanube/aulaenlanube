@@ -11,7 +11,6 @@ import {
   ESTILO,
   FichaPrompt,
   Fuera,
-  Grabacion,
   H2,
   Lista,
   Migas,
@@ -25,7 +24,7 @@ import {
 } from "../_ui/piezas";
 
 export const metadata: Metadata = {
-  title: "Bloque 5 · El laboratorio: dos aplicaciones — Del prompt a la plaza — Aula en la Nube",
+  title: "Bloque 5 · El laboratorio: dos aplicaciones — IA para opositores de Tecnología — Aula en la Nube",
   description:
     "Programación agéntica para docentes de Tecnología: el ciclo especificar–delegar–verificar–dirigir, las dos aplicaciones de aula creadas con un solo prompt (4.º de ESO y 1.º de Bachillerato), la plantilla para pedir la tuya y cómo publicarla con un enlace que el tribunal pueda abrir.",
 };
@@ -361,11 +360,11 @@ Dime también qué has dado por supuesto que yo no te había dicho.`}
       <Cierre tono="ambar">
         <b>Lo que te llevas de este bloque:</b> saber programar en 2026 no es teclear más rápido:
         es <b>especificar bien, verificar de verdad y saber explicar por qué cada decisión está
-        ahí</b>. Lo primero lo aprendiste en el bloque 1; lo segundo no se delega; lo tercero es lo
-        que se defiende en el bloque 6. Y por el camino te queda una aplicación con tu nombre.
+        ahí</b>. Lo primero lo aprendiste en el bloque 1; lo segundo no se delega; y lo tercero es lo
+        que te van a preguntar el día que enseñes esto. Por el camino te queda, además, una
+        aplicación con tu nombre y un enlace que se abre desde cualquier ordenador.
       </Cierre>
 
-      <Grabacion matiz="Este es el bloque que hay que volver a ver en vídeo: los pasos del agente se entienden mucho mejor viéndolos que leyéndolos." />
 
       <NavPie atras={atras} adelante={adelante} />
     </div>

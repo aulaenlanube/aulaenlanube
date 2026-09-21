@@ -101,7 +101,7 @@ export function Migas({ bloque }: { bloque?: { titulo: string; ruta: string } })
     <Breadcrumbs
       items={[
         { title: "Programación e IA", path: "/zona-programacion/" },
-        { title: "Del prompt a la plaza", path: "/ponencia-tecnologia/" },
+        { title: "IA para opositores de Tecnología", path: "/ponencia-tecnologia/" },
         ...(bloque ? [{ title: bloque.titulo, path: bloque.ruta }] : []),
       ]}
     />
@@ -368,21 +368,6 @@ export function FichaPrompt({
 }
 
 // ── Cierres de página ───────────────────────────────────────────────────────
-
-/** La grabación: el mismo compromiso en los seis bloques, con su matiz. */
-export function Grabacion({ matiz }: { matiz: string }) {
-  return (
-    <div className="mt-12 rounded-2xl border border-zinc-200 bg-zinc-50 p-5">
-      <h2 className="flex items-center gap-2 text-[15px] font-extrabold tracking-tight text-zinc-900">
-        <span aria-hidden="true">🎧</span> La sesión queda grabada
-      </h2>
-      <p className="mt-2 max-w-3xl text-[15px] leading-relaxed text-zinc-600">
-        Al día siguiente tendrás aquí el enlace a la grabación completa y, de este bloque, un resumen
-        en audio y otro escrito de diez líneas. {matiz}
-      </p>
-    </div>
-  );
-}
 
 export function Cierre({ tono = "verde", children }: { tono?: Tono; children: ReactNode }) {
   return (

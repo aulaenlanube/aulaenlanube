@@ -4,7 +4,7 @@ import LogicaDigitalApp from "../_apps/logica-digital";
 import { Chip, Dentro, H2, Lista, Migas, NavPie, Nota, P, Rejilla, Tarjeta } from "../_ui/piezas";
 
 export const metadata: Metadata = {
-  title: "Laboratorio de lógica digital · 4.º de ESO — Del prompt a la plaza — Aula en la Nube",
+  title: "Laboratorio de lógica digital · 4.º de ESO — IA para opositores de Tecnología — Aula en la Nube",
   description:
     "Aplicación interactiva de puertas lógicas, tablas de verdad y retos con enunciado real para 4.º de ESO (Tecnología, electrónica digital). Creada con un agente de código, con el prompt exacto que la generó publicado debajo.",
 };

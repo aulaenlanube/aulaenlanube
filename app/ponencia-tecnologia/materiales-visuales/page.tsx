@@ -8,7 +8,6 @@ import {
   Dentro,
   FichaPrompt,
   Fuera,
-  Grabacion,
   H2,
   Lista,
   Migas,
@@ -22,7 +21,7 @@ import {
 } from "../_ui/piezas";
 
 export const metadata: Metadata = {
-  title: "Bloque 4 · Materiales que entran por los ojos — Del prompt a la plaza — Aula en la Nube",
+  title: "Bloque 4 · Materiales que entran por los ojos — IA para opositores de Tecnología — Aula en la Nube",
   description:
     "Cómo generar láminas didácticas, presentaciones y esquemas con IA que aguanten un proyector y un tribunal: las siete piezas del prompt de una imagen, la plantilla completa, cómo pasar de un guion a una presentación y los errores que delatan un material generado.",
 };
@@ -333,7 +332,6 @@ Cuando termines, dime qué has dado por supuesto que yo no te había dicho.`}
         que no dice nada — y eso, proyectado, se nota desde la última fila.
       </Cierre>
 
-      <Grabacion matiz="El de este bloque conviene verlo en pantalla: las siete piezas se entienden mucho mejor con la lámina delante." />
 
       <NavPie atras={atras} adelante={adelante} />
     </div>

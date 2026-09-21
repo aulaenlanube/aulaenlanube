@@ -8,7 +8,6 @@ import {
   Dato,
   Dentro,
   FichaPrompt,
-  Grabacion,
   H2,
   Migas,
   NavPie,
@@ -21,7 +20,7 @@ import {
 } from "../_ui/piezas";
 
 export const metadata: Metadata = {
-  title: "Bloque 3 · Los 71 temas con IA — Del prompt a la plaza — Aula en la Nube",
+  title: "Bloque 3 · Los 71 temas con IA — IA para opositores de Tecnología — Aula en la Nube",
   description:
     "La ruta completa para preparar un tema del temario de Tecnología con IA: esqueleto previo, lectura crítica, redacción propia, verificación normativa y simulador de tribunal. Con los cinco prompts copiables y la trampa de la referencia inventada.",
 };
@@ -56,8 +55,11 @@ export default function Bloque3() {
         <b>Orden ECD/191/2012</b>: 71 temas de energía, materiales, estructuras, sistemas de control,
         instalaciones, electrónica, dibujo, TIC y didáctica. Eso no lo ha tocado nadie. El{" "}
         <b>RD 276/2007</b> es otra cosa: el reglamento del proceso selectivo, es decir, cómo es el
-        examen. El marco completo y verificado lo tienes en el{" "}
-        <Dentro href="/ponencia-tecnologia/04-evaluacion/">bloque 6</Dentro>.
+        examen. Y tu especialidad es la <b>219, Tecnología</b>: el <b>RD 286/2023</b> le atribuye las
+        materias <i>Tecnología</i>, <i>Digitalización</i> y <i>Tecnología y Digitalización</i>, así
+        que no existe una especialidad llamada «Tecnología y Digitalización» por mucho que se lea por
+        ahí. Comprueba siempre estas referencias en su boletín antes de citarlas: es justo lo que
+        este bloque te va a pedir que hagas con todo.
       </P>
 
       <Contraste
@@ -420,7 +422,6 @@ No repitas escenario ni tensión. Sin introducción.`}
         Eso, sostenido durante meses, es una diferencia que se nota en la sala.
       </Cierre>
 
-      <Grabacion matiz="El resumen en audio de este bloque es el que más se escucha andando: recuerda las seis estaciones en el orden correcto." />
 
       <NavPie atras={atras} adelante={adelante} />
     </div>

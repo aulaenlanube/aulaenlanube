@@ -6,7 +6,7 @@ import { BLOQUES, RECURSOS } from "./_datos";
 import { Chip, Dentro, ESTILO, Fuera, H2, Lista, Migas, Nota, P } from "./_ui/piezas";
 
 export const metadata: Metadata = {
-  title: "Del prompt a la plaza · IA para la oposición de Tecnología y para el aula — Aula en la Nube",
+  title: "IA para opositores de Tecnología · Sesión práctica de 2 horas — Aula en la Nube",
   description:
     "Guía completa de la sesión de dos horas para opositores de Tecnología de Secundaria (Comunitat Valenciana): cómo se escribe un prompt que rinde, el metaprompt, qué te da Copilot gratis con la cuenta del centro, los 71 temas con IA, láminas y materiales de aula, y dos aplicaciones educativas creadas con un agente —con el prompt exacto que las generó—.",
 };
@@ -24,10 +24,10 @@ export default function PonenciaPortada() {
       </div>
 
       <h1 className="mt-4 text-4xl font-extrabold tracking-tight text-zinc-900 sm:text-5xl">
-        Del prompt a la plaza
+        IA para opositores de Tecnología
       </h1>
       <p className="mt-2 text-xl font-semibold tracking-tight text-zinc-500">
-        IA para tu oposición de Tecnología — y para las clases que darás cuando la tengas
+        Preparar el temario, crear los materiales y programar con agentes — con lo que ya tienes
       </p>
 
       <p className="mt-6 max-w-3xl text-lg leading-relaxed text-zinc-600">
@@ -60,8 +60,8 @@ export default function PonenciaPortada() {
       </H2>
       <P>
         Cada bloque ocupa en la barra exactamente lo que dura. Los cuatro primeros se ven con el
-        proyector; el quinto es laboratorio con el portátil abierto; el sexto es la estrategia que te
-        llevas escrita. Pulsa cualquier tramo para ver qué pasa dentro.
+        proyector; el quinto es laboratorio con el portátil abierto; el sexto, por dónde seguir
+        cuando esto se acabe. Pulsa cualquier tramo para ver qué pasa dentro.
       </P>
       <RelojSesion />
 
@@ -177,8 +177,8 @@ export default function PonenciaPortada() {
             que el tribunal puede abrir sin instalar nada.
           </>,
           <>
-            <b>La respuesta a «¿y si aquí cambiamos esto?»</b>, que es la pregunta que decide la
-            defensa de la parte práctica.
+            <b>Un sitio al que volver a estudiar</b>: qué te da OposicionesIA, qué herramienta
+            sirve para cada momento de la preparación y por dónde empezar.
           </>,
         ]}
       />
@@ -231,8 +231,9 @@ export default function PonenciaPortada() {
         </h2>
         <ul className="mt-3 space-y-2 text-[15px] leading-relaxed text-zinc-600">
           <li>
-            • <b>Antes del examen:</b> imprime la lista de control del{" "}
-            <Dentro href="/ponencia-tecnologia/04-evaluacion/">bloque 6</Dentro>.
+            • <b>Para seguir estudiando después:</b> el{" "}
+            <Dentro href="/ponencia-tecnologia/oposicionesia/">bloque 6</Dentro> resume qué hay en
+            OposicionesIA y para qué sirve cada cosa.
           </li>
           <li>
             • <b>Estudiando un tema:</b> ten abierto el{" "}

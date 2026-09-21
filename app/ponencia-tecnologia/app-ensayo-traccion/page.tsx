@@ -4,7 +4,7 @@ import EnsayoTraccionApp from "../_apps/ensayo-traccion";
 import { Chip, Dentro, H2, Lista, Migas, NavPie, Nota, P, Rejilla, Tarjeta } from "../_ui/piezas";
 
 export const metadata: Metadata = {
-  title: "Banco de ensayo de tracción · 1.º de Bachillerato — Del prompt a la plaza — Aula en la Nube",
+  title: "Banco de ensayo de tracción · 1.º de Bachillerato — IA para opositores de Tecnología — Aula en la Nube",
   description:
     "Laboratorio virtual de ensayo de tracción para 1.º de Bachillerato (Tecnología e Ingeniería I): la curva tensión–deformación se dibuja mientras tiras de la probeta, con cinco materiales reales, descarga elástica y plástica y tres retos de dimensionado. Con el prompt exacto que la generó.",
 };

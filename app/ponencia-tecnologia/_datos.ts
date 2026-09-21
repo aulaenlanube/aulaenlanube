@@ -90,13 +90,13 @@ export const BLOQUES: Bloque[] = [
     n: 6,
     min: 10,
     tono: "gris",
-    titulo: "Delante del tribunal",
-    corto: "El tribunal",
+    titulo: "OposicionesIA: dónde seguir",
+    corto: "OposicionesIA",
     breve:
-      "Cómo se defiende todo esto y qué te llevas escrito.",
+      "Qué herramientas tiene la plataforma y para qué sirve cada una.",
     resumen:
-      "Cómo se defiende una práctica hecha con un agente, la regla «si te cambian una línea, respondes», el marco normativo verificado y la lista de control del día del examen.",
-    ruta: "/ponencia-tecnologia/04-evaluacion/",
+      "Un recorrido por OposicionesIA: qué contiene, qué herramienta usar en cada momento de la preparación y qué hay concretamente para Tecnología de Secundaria en la Comunitat Valenciana.",
+    ruta: "/ponencia-tecnologia/oposicionesia/",
   },
 ];
 

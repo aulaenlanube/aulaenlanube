@@ -8,7 +8,6 @@ import {
   Dentro,
   FichaPrompt,
   Fuera,
-  Grabacion,
   H2,
   Lista,
   Migas,
@@ -22,7 +21,7 @@ import {
 } from "../_ui/piezas";
 
 export const metadata: Metadata = {
-  title: "Bloque 2 · Copilot: el kit que ya tienes — Del prompt a la plaza — Aula en la Nube",
+  title: "Bloque 2 · Copilot: el kit que ya tienes — IA para opositores de Tecnología — Aula en la Nube",
   description:
     "Qué incluye exactamente Copilot con la cuenta educativa de la Generalitat Valenciana (Microsoft 365 A1 y A3), qué es GitHub Copilot y por qué el profesorado verificado puede tener Copilot Pro gratis, cuál abrir para cada encargo y qué datos no se meten nunca en un chat.",
 };
@@ -316,7 +315,6 @@ Dime qué parte de esta actividad fallaría si el grupo llega más flojo de lo q
         <b>qué quieres que exista cuando termines</b>. El resto es el árbol de decisión.
       </Cierre>
 
-      <Grabacion matiz="Este es el bloque que más conviene volver a ver con el portátil delante: se sigue paso a paso mientras montas tu kit." />
 
       <P>
         Lo siguiente es ponerlo a trabajar sobre los 71 temas:{" "}

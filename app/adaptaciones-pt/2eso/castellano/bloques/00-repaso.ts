@@ -31,6 +31,23 @@ export const ACTS: Act[] = [
     fig: "silabas",
     nv: [
       {
+        in: "Diez palabras de uso diario en clase y en casa: bicicleta, cuaderno, paella, ordenador, maíz, ciudad, pizarra, estudiáis, sol, aula.",
+        p: [
+          "**a)** Separa en sílabas las diez palabras e indica cuántas sílabas tiene cada una.",
+          "**b)** Clasifícalas en monosílabas, bisílabas, trisílabas y polisílabas.",
+          "**c)** Localiza los **diptongos**, el **triptongo** y los **hiatos** que hay en la lista y explica en cada caso qué vocales se combinan.",
+          "**d)** «Maíz» y «ciudad» llevan las dos una vocal cerrada junto a otra vocal, pero una forma hiato y la otra diptongo. Explica razonadamente de qué depende.",
+          "**e)** Escribe tres palabras del instituto, una con diptongo, otra con hiato y otra con triptongo, y sepáralas en sílabas.",
+        ],
+        s: [
+          "**a)** `bi-ci-cle-ta` (4) · `cua-der-no` (3) · `pa-e-lla` (3) · `or-de-na-dor` (4) · `ma-íz` (2) · `ciu-dad` (2) · `pi-za-rra` (3) · `es-tu-diáis` (3) · `sol` (1) · `au-la` (2).",
+          "**b)** Monosílaba: sol · bisílabas: maíz, ciudad, aula · trisílabas: cuaderno, paella, pizarra, estudiáis · polisílabas: bicicleta, ordenador.",
+          "**c)** Diptongos: `cua` de cuaderno (cerrada átona + abierta), `au` de aula (abierta + cerrada átona) y `ciu` de ciudad (dos cerradas distintas). Triptongo: la secuencia i + á + i de `es-tu-diáis`. Hiatos: `pa-e` de paella (dos vocales abiertas) y `ma-íz` (abierta + cerrada tónica).",
+          "**d)** De si la vocal cerrada es átona o tónica: en «ciudad» la i y la u son átonas y se pronuncian en un mismo golpe de voz, así que forman diptongo; en «maíz» la í es tónica y lleva tilde, de modo que se separa de la a y forma hiato.",
+          "**e)** Respuesta libre; por ejemplo `pa-tio` (diptongo io), `ma-es-tro` (hiato a-e) y `co-piáis` (triptongo iái).",
+        ],
+      },
+      {
         in: "Ocho palabras sacadas de la mochila y de la mesa del comedor: bicicleta, mochila, ordenador, tren, paella, reloj, pizarra, sol.",
         p: [
           "**a)** Separa en sílabas las ocho palabras y escribe al lado cuántas sílabas tiene cada una.",
@@ -44,6 +61,7 @@ export const ACTS: Act[] = [
           "**c)** «Paella»: `pa-e-lla`, porque la a y la e son dos vocales fuertes y no se pueden pronunciar en el mismo golpe de voz. En cambio la `ll` no se parte nunca.",
           "**d)** Respuesta libre, por ejemplo `ca-mi-se-ta`, `pa-pe-le-ra`, `bi-blio-te-ca`.",
         ],
+        ad: "La lista baja de diez palabras a ocho, se retiran el triptongo y los términos diptongo e hiato —basta con localizar una palabra con dos vocales seguidas y explicarlo con palabras propias— y desaparece el apartado que pedía razonar por qué una secuencia es hiato y otra diptongo.",
       },
       {
         in: "Cuatro palabras de la lista: bicicleta, reloj, pizarra, sol.",
@@ -93,6 +111,23 @@ export const ACTS: Act[] = [
     fig: "silabas",
     nv: [
       {
+        in: "Palabras de una parada del mercado de Xàtiva: naranja, limón, sandía, plátano, café, azúcar, horchata, níspero.",
+        p: [
+          "**a)** Separa las ocho palabras en sílabas y subraya la sílaba tónica de cada una.",
+          "**b)** Clasifícalas en **agudas**, **llanas** y **esdrújulas**, y explica el criterio que has seguido.",
+          "**c)** «Naranja», «horchata» y «azúcar» son las tres llanas, pero solo una lleva tilde. Razona por qué.",
+          "**d)** Explica por qué «sandía» lleva tilde aunque sea llana y acabe en vocal.",
+          "**e)** Busca una pareja de palabras que solo se diferencien en el lugar de la sílaba tónica, redacta una oración con cada una y explica qué cambia de la primera a la segunda.",
+        ],
+        s: [
+          "**a)** `na-ran-ja` (ran) · `li-món` (món) · `san-dí-a` (dí) · `plá-ta-no` (plá) · `ca-fé` (fé) · `a-zú-car` (zú) · `hor-cha-ta` (cha) · `nís-pe-ro` (nís).",
+          "**b)** Agudas: limón, café · llanas: naranja, sandía, azúcar, horchata · esdrújulas: plátano, níspero. El criterio es la posición de la sílaba tónica contando desde el final: última, penúltima o antepenúltima.",
+          "**c)** Porque las llanas solo llevan tilde cuando no acaban en vocal, en -n o en -s: «naranja» y «horchata» acaban en vocal y no la necesitan, mientras que «azúcar» acaba en -r y por eso la lleva.",
+          "**d)** Porque la í y la a forman un hiato, y una vocal cerrada tónica junto a una abierta lleva tilde siempre, al margen de la regla general de las llanas. Por eso se separa `san-dí-a`.",
+          "**e)** Respuesta libre, por ejemplo ánimo / animo / animó: «No pierdas el ánimo.» · «Yo te animo desde la grada.» · «El público lo animó hasta el final.» Al cambiar la fuerza de voz cambian la clase de palabra y el tiempo verbal: de sustantivo a verbo en presente y a verbo en pasado.",
+        ],
+      },
+      {
         in: "Palabras de una parada del mercado de Xàtiva: naranja, limón, sandía, plátano, café, azúcar.",
         p: [
           "**a)** Separa las seis palabras en sílabas y subraya la sílaba tónica de cada una.",
@@ -106,6 +141,7 @@ export const ACTS: Act[] = [
           "**c)** Tienen las mismas letras, pero la fuerza cambia quién actúa y cuándo: *yo canto ahora* frente a *él cantó ayer*.",
           "**d)** Respuesta libre, por ejemplo ánimo / animo / animó: «No pierdas el ánimo.» · «Yo te animo desde la grada.» · «El público lo animó hasta el final.»",
         ],
+        ad: "Se pasa de ocho palabras a seis, la clasificación no usa los términos aguda, llana y esdrújula, sino la posición de la fuerza contada desde el final, y se retiran los dos apartados que pedían justificar por qué unas palabras llevan tilde y otras no.",
       },
       {
         in: "Tres palabras de la parada: naranja, plátano, café.",
@@ -154,6 +190,23 @@ export const ACTS: Act[] = [
     ic: "lapiz",
     nv: [
       {
+        in: "Tira de texto sin puntuar: el sábado fuimos al castillo de xàtiva mi hermana y yo subimos andando hasta arriba desde la torre más alta se ve todo el valle a la vuelta merendamos en la plaza",
+        p: [
+          "**a)** Copia el texto repartido en cuatro oraciones, con sus mayúsculas y sus puntos, y explica qué criterio has seguido para cerrar cada una.",
+          "**b)** Cuenta las palabras de la primera oración y separa en sílabas «sábado» y «castillo», señalando la sílaba tónica de cada una.",
+          "**c)** Analiza la segunda oración: separa el sujeto del predicado e indica el núcleo de cada uno.",
+          "**d)** Explica por qué «al castillo de Xàtiva» no llega a ser una oración, aunque sea un grupo de palabras con significado.",
+          "**e)** Añade una quinta oración que cierre el texto y razona qué hace que el conjunto sea un texto y no una lista de oraciones sueltas.",
+        ],
+        s: [
+          "**a)** «El sábado fuimos al castillo de Xàtiva. Mi hermana y yo subimos andando hasta arriba. Desde la torre más alta se ve todo el valle. A la vuelta merendamos en la plaza.» Se cierra una oración cada vez que el grupo de palabras ya tiene sentido completo por sí solo.",
+          "**b)** Siete palabras: El, sábado, fuimos, al, castillo, de, Xàtiva. Sílabas: `sá-ba-do`, con la tónica en `sá`, y `cas-ti-llo`, con la tónica en `ti`.",
+          "**c)** Sujeto: «Mi hermana y yo», con dos núcleos, «hermana» y «yo». Predicado: «subimos andando hasta arriba», con el núcleo «subimos».",
+          "**d)** Porque no tiene sentido completo ni verbo en forma personal: nombra un lugar, pero no llega a informar de nada sobre él.",
+          "**e)** Respuesta libre; debe empezar por mayúscula y acabar en punto. El conjunto es un texto porque todas las oraciones tratan del mismo asunto, la excursión al castillo, y se ordenan siguiendo el hilo del día.",
+        ],
+      },
+      {
         in: "Tira de texto sin puntuar: el sábado fuimos al castillo de Xàtiva subimos andando hasta arriba desde la torre se ve todo el valle",
         p: [
           "**a)** Copia el texto repartido en tres oraciones, con sus mayúsculas y sus puntos.",
@@ -167,6 +220,7 @@ export const ACTS: Act[] = [
           "**c)** Porque no tiene sentido completo: empieza a decir algo del castillo y se corta antes de informar de nada.",
           "**d)** Respuesta libre; debe empezar por mayúscula y acabar en punto. El texto habla de una excursión al castillo de Xàtiva.",
         ],
+        ad: "La tira se acorta de cuatro oraciones a tres, se retira el análisis de sujeto y predicado con sus núcleos y el apartado final solo pide añadir una oración y decir de qué habla el texto, sin razonar qué convierte un conjunto de oraciones en un texto.",
       },
       {
         in: "Tira de texto sin puntuar: el domingo hubo mercado en la plaza mi hermana compró naranjas",
@@ -214,6 +268,23 @@ export const ACTS: Act[] = [
     ic: "tarjetas",
     nv: [
       {
+        in: "Palabras de una excursión a la Albufera: barca, arroz, patos, caña, agua, paseo, pescador, pescaban, barquera. Entrada del diccionario · **caña**: 1. Tallo hueco y con nudos de algunas plantas. 2. Vara larga con un sedal en la punta que sirve para pescar. 3. Vaso alto y estrecho en el que se sirve la cerveza. 4. Parte de la bota que cubre la pierna.",
+        p: [
+          "**a)** Ordena alfabéticamente las nueve palabras y explica qué haces cuando dos de ellas empiezan por las mismas letras.",
+          "**b)** Una página del diccionario tiene las palabras guía «pared» y «pez». Di cuáles de la lista aparecen en esa página y justifícalo letra a letra.",
+          "**c)** Explica en qué forma hay que buscar «pescaban» y «barquera» y por qué no aparecen en el diccionario tal como están escritas.",
+          "**d)** Elige la acepción de «caña» que corresponde a cada oración y justifica tu elección con el contexto: «El pescador dejó la caña sobre la barca.» · «Los patos se esconden entre las cañas.» · «Nos tomamos una caña en el Palmar.»",
+          "**e)** Elige otra palabra de la lista que tenga más de un significado y redacta dos oraciones en las que signifique cosas distintas.",
+        ],
+        s: [
+          "**a)** agua, arroz, barca, barquera, caña, paseo, patos, pescaban, pescador. Cuando la primera letra coincide se compara la segunda, y si también coincide, la tercera, y así sucesivamente: `barc` va antes que `barq` (la c antes que la q) y `pescab` antes que `pescad` (la b antes que la d).",
+          "**b)** Paseo, patos, pescaban y pescador. Van detrás de «pared» porque en «paseo» y «patos» la tercera letra (s, t) es posterior a la r, y en «pescaban» y «pescador» la segunda letra (e) es posterior a la a. Y van delante de «pez» porque «paseo» y «patos» llevan a en segunda posición, anterior a la e, y en «pescaban» y «pescador» la tercera letra es la s, anterior a la z.",
+          "**c)** «Pescaban» se busca en infinitivo, «pescar», porque el diccionario recoge los verbos en esa forma; «barquera» se busca en masculino singular, «barquero», porque así es como se registran los sustantivos.",
+          "**d)** Primera oración, acepción 2: la deja un pescador y va sobre una barca. Segunda oración, acepción 1: los patos se esconden entre las plantas de la orilla. Tercera oración, acepción 3: se toma en un bar del Palmar.",
+          "**e)** Respuesta libre, por ejemplo «paseo»: «Dimos un paseo en barca por la Albufera.» (la acción de pasear) · «El paseo marítimo estaba lleno de gente.» (el lugar por donde se pasea).",
+        ],
+      },
+      {
         in: "Palabras de una excursión a la Albufera: barca, arroz, patos, caña, agua, paseo, pescador.",
         p: [
           "**a)** Ordena alfabéticamente las siete palabras.",
@@ -227,6 +298,7 @@ export const ACTS: Act[] = [
           "**c)** Paseo, patos y pescador, porque las tres van detrás de «pared» y delante de «pez».",
           "**d)** En infinitivo, «pescar»: los verbos se buscan siempre en infinitivo, igual que los sustantivos se buscan en masculino singular.",
         ],
+        ad: "Se ordenan siete palabras en lugar de nueve, se retira la entrada de diccionario con sus cuatro acepciones —y con ella la elección de la acepción según el contexto y la redacción con una palabra polisémica— y la búsqueda se limita a un verbo, sin el sustantivo en femenino.",
       },
       {
         in: "Cuatro palabras de la excursión: barca, agua, caña, arroz.",
@@ -275,6 +347,23 @@ export const ACTS: Act[] = [
     ic: "semaforo",
     nv: [
       {
+        in: "Mensaje sin puntuar: mañana hay falla en mi barrio vendrás a verla con nosotros qué bonita es la de la calle colón por la tarde hay mascletà por la noche hay cremà compramos de todo buñuelos chocolate horchata y agua",
+        p: [
+          "**a)** Copia el mensaje puntuado: mayúsculas, puntos, comas, punto y coma, dos puntos y los signos de interrogación y de exclamación que falten.",
+          "**b)** Justifica el punto y coma y los dos puntos que has colocado: ¿qué hace cada uno que no haría una coma?",
+          "**c)** Explica por qué en la enumeración final no se pone coma delante de la «y».",
+          "**d)** Clasifica todas las mayúsculas del texto según el motivo por el que las llevan.",
+          "**e)** Redacta un mensaje de cuatro o cinco líneas invitando a un compañero a las fiestas de tu pueblo. Debe llevar una pregunta, una exclamación, una enumeración presentada con dos puntos y un punto y coma.",
+        ],
+        s: [
+          "**a)** «Mañana hay falla en mi barrio. ¿Vendrás a verla con nosotros? ¡Qué bonita es la de la calle Colón! Por la tarde hay mascletà; por la noche hay cremà. Compramos de todo: buñuelos, chocolate, horchata y agua.»",
+          "**b)** El punto y coma separa dos oraciones muy relacionadas entre sí, las dos actividades del mismo día, con una pausa mayor que la de la coma pero sin cortar el hilo como haría el punto. Los dos puntos anuncian la enumeración que viene detrás: cierran «Compramos de todo» y abren la lista que lo concreta.",
+          "**c)** Porque la «y» ya enlaza los dos últimos elementos: la coma separa los elementos de la serie y la conjunción la cierra.",
+          "**d)** Por empezar oración: «Mañana», que abre el texto; «Vendrás» y «Compramos», que van detrás de un punto; «Qué» y «Por», que van detrás del cierre de interrogación y de exclamación, signos que equivalen a un punto. Por ser nombre propio: «Colón».",
+          "**e)** Respuesta libre. Se comprueba que aparezcan los cuatro signos pedidos y que cada oración empiece por mayúscula y acabe en punto o en el signo que le corresponda.",
+        ],
+      },
+      {
         in: "Mensaje sin puntuar: mañana hay falla en mi barrio vendrás a verla con nosotros qué bonita es la de la calle Colón compramos buñuelos chocolate horchata y agua",
         p: [
           "**a)** Copia el mensaje puntuado: mayúsculas, puntos, comas y los signos de interrogación y exclamación que falten.",
@@ -286,6 +375,7 @@ export const ACTS: Act[] = [
           "**b)** Porque la «y» ya enlaza los dos últimos elementos: la coma separa el resto de la lista y la «y» la cierra.",
           "**c)** «Mañana» lleva mayúscula por empezar la oración; «Colón» la lleva por ser nombre propio.",
         ],
+        ad: "El mensaje se acorta y se queda solo con punto, coma, interrogación y exclamación: se retiran el punto y coma y los dos puntos con su justificación, la clasificación de las mayúsculas se reduce a dos casos y desaparece la redacción final del mensaje de invitación.",
       },
       {
         in: "Mensaje sin puntuar: mañana hay falla en mi barrio vendrás a verla compramos buñuelos chocolate y horchata",
@@ -333,6 +423,23 @@ export const ACTS: Act[] = [
     ic: "lupa",
     nv: [
       {
+        in: "Texto: «En la Albufera, los barqueros llevan a los visitantes a ver la puesta de sol. Las barcas salen del Palmar cuando cae la tarde y cruzan el lago en silencio. El paseo dura poco más de media hora. A veces se ven bancos de peces muy cerca de la superficie. Entre las cañas descansan cientos de pájaros, algunos llegados desde el norte de Europa. Por eso los barqueros piden que nadie grite ni encienda la música: el ruido asusta a las aves y las obliga a levantar el vuelo.»",
+        p: [
+          "**a)** ¿Cuál es el **tema** del texto? Exprésalo en pocas palabras, sin llegar a formar una oración.",
+          "**b)** Escribe la **idea principal** en una oración e indica dos **ideas secundarias**; explica en qué se nota que lo son.",
+          "**c)** Resume el texto en dos o tres líneas, con tus palabras y sin copiar ninguna oración entera.",
+          "**d)** ¿Por qué piden los barqueros que nadie grite? Responde con una frase completa y apóyate en lo que dice el texto.",
+          "**e)** Busca «banco» en el diccionario: copia dos acepciones distintas, di cuál es la que vale aquí y explica qué palabras del texto te lo han indicado.",
+        ],
+        s: [
+          "**a)** Los paseos en barca por la Albufera al atardecer y el silencio que exigen.",
+          "**b)** Idea principal: «Los barqueros de la Albufera pasean a los visitantes al atardecer y piden silencio para no molestar a las aves.» Ideas secundarias: que las barcas salen del Palmar y que el paseo dura poco más de media hora, o que algunos pájaros llegan desde el norte de Europa. Se nota que son secundarias porque son detalles que se pueden quitar y el texto se sigue entendiendo igual.",
+          "**c)** Resumen modelo: «Al atardecer, los barqueros de la Albufera llevan a los visitantes a ver la puesta de sol en un paseo de media hora. Como entre las cañas descansan muchas aves, piden que nadie grite ni ponga música, porque el ruido las espanta.»",
+          "**d)** «Los barqueros piden silencio porque el ruido asusta a las aves que descansan entre las cañas y las obliga a levantar el vuelo.»",
+          "**e)** Entre las acepciones de «banco» están la de asiento largo para varias personas y la de conjunto numeroso de peces que se desplazan juntos. Aquí vale la segunda, porque el texto habla de lo que se ve en el agua, cerca de la superficie, y dice «bancos de peces».",
+        ],
+      },
+      {
         in: "Texto: «En la Albufera, los barqueros llevan a los visitantes a ver la puesta de sol. Las barcas salen del Palmar cuando cae la tarde y cruzan el lago en silencio. Muchos pájaros descansan entre las cañas. Los barqueros piden que nadie grite, porque el ruido los asusta.»",
         p: [
           "**a)** ¿De qué trata el texto? Escríbelo en una sola frase.",
@@ -346,6 +453,7 @@ export const ACTS: Act[] = [
           "**c)** «Piden silencio porque el ruido asusta a los pájaros que descansan entre las cañas.»",
           "**d)** En la B, en la página de «barco / bastón», porque barquero va detrás de barco (la c antes que la q) y delante de bastón (la r antes que la s).",
         ],
+        ad: "El texto baja de seis oraciones a cuatro, se retiran el resumen y la distinción entre tema, idea principal e ideas secundarias —basta con decir de qué trata y subrayar la oración que lo resume— y la consulta del diccionario se limita a localizar la letra y la página, sin elegir acepciones.",
       },
       {
         in: "Texto: «En la Albufera, los barqueros llevan a los visitantes a ver la puesta de sol. Muchos pájaros descansan entre las cañas. Los barqueros piden que nadie grite.»",

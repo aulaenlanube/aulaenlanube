@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: P): Promise<Metadata> {
   if (!a || !A) return {};
   return {
     title: `Actividad ${Number(act)}: ${A.t} — Tema 1 ${a.t} — Adaptaciones PT`,
-    description: `${A.d} Cuatro niveles de adaptación: 1.º ESO, 6.º, 5.º y 4.º de primaria, con soluciones.`,
+    description: `${A.d} El ejercicio base de 2.º de ESO y cuatro adaptaciones: 1.º ESO, 6.º, 5.º y 4.º de primaria, con soluciones.`,
   };
 }
 
@@ -84,8 +84,9 @@ export default async function ActividadPT({ params }: P) {
       ))}
 
       <div className="mt-8 rounded-2xl border border-zinc-200 bg-zinc-100 p-5 text-sm text-zinc-700">
-        <b>Mismo objetivo en los cuatro niveles:</b> la actividad no cambia de meta, cambia de
-        andamiaje (texto más corto, opción cerrada, banco de palabras, manipulativo, oral).
+        <b>Mismo objetivo en los cinco niveles:</b> arriba va el ejercicio tal y como se plantea
+        en 2.º de ESO; debajo, la misma actividad con más andamiaje (texto más corto, opción
+        cerrada, banco de palabras, manipulativo, oral). No cambia la meta, cambia el acceso.
         Adaptación de acceso conforme al Decreto 104/2018 y la Orden 20/2019 (C. Valenciana).
       </div>
 

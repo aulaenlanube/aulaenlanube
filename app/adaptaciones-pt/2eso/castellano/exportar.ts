@@ -107,14 +107,15 @@ function ejemplosMd(ap: Ap): string {
   return ap.ej.map((e) => `- ${e}`).join("\n");
 }
 
-// Niveles del PDF (los que entiende el motor en opts.niveles): caja lvl 0 =
-// nivel de referencia de 1.º ESO (a.nv[0]), lvl 1 = 6.º primaria (a.nv[1]),
-// lvl 2 = 5.º primaria (a.nv[2]), lvl 3 = 4.º primaria (a.nv[3]).
+// Niveles del PDF (los que filtra el motor con opts.niveles): caja lvl 0 =
+// ejercicio base de 2.º ESO (a.nv[0]), lvl 1 = 1.º ESO (a.nv[1]),
+// lvl 2 = 6.º primaria, lvl 3 = 5.º primaria, lvl 4 = 4.º primaria.
 const PDF_NIVELES: { nv: number; lvl: number; bg: string; accent: string }[] = [
   { nv: 0, lvl: 0, bg: "#f3e8fb", accent: "#7b1fa2" },
   { nv: 1, lvl: 1, bg: "#e8f1fb", accent: "#1565c0" },
   { nv: 2, lvl: 2, bg: "#eaf5ea", accent: "#2e7d32" },
   { nv: 3, lvl: 3, bg: "#fdf3e0", accent: "#b26a00" },
+  { nv: 4, lvl: 4, bg: "#fdeaea", accent: "#b3261e" },
 ];
 
 // El emisor SIEMPRE escribe la sintaxis completa (:::box, [[fill]], líneas @);

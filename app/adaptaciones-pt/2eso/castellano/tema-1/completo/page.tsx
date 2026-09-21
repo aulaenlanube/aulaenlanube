@@ -11,7 +11,7 @@ import { APS, ACTS, LABELS, TEMA } from "../../datos";
 export const metadata: Metadata = {
   title: "Tema 1 completo (imprimible) · Castellano · 2.º ESO · Adaptaciones PT",
   description:
-    "Teoría, ejemplos y actividades de los seis bloques del Tema 1 de Lengua Castellana en una sola página imprimible, con los cuatro niveles de adaptación y sus soluciones.",
+    "Teoría, ejemplos y actividades de los seis bloques del Tema 1 de Lengua Castellana en una sola página imprimible, con el ejercicio base de 2.º de ESO, sus cuatro adaptaciones y las soluciones.",
 };
 
 const crumbs = [

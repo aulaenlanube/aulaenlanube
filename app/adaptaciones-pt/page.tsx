@@ -13,7 +13,7 @@ const chip =
 
 const NIVELES = [
   { n: "1º", t: "1.º de ESO", href: "", pronto: false, d: "Adaptaciones de 1.º de ESO. En preparación." },
-  { n: "2º", t: "2.º de ESO", href: "/adaptaciones-pt/2eso/", pronto: true, d: "Matemáticas y castellano — adaptaciones de un mismo ejercicio en 4 niveles descendentes (matemáticas: de 2.º ESO a 5.º de primaria; castellano: de 1.º ESO a 4.º de primaria)." },
+  { n: "2º", t: "2.º de ESO", href: "/adaptaciones-pt/2eso/", pronto: true, d: "Matemáticas y castellano — el mismo ejercicio en varios niveles descendentes desde 2.º de ESO: hasta 5.º de primaria en matemáticas y hasta 4.º de primaria en castellano." },
   { n: "3º", t: "3.º de ESO", href: "", pronto: false, d: "Adaptaciones de 3.º de ESO. En preparación." },
   { n: "4º", t: "4.º de ESO", href: "", pronto: false, d: "Adaptaciones de 4.º de ESO. En preparación." },
 ];
@@ -33,7 +33,7 @@ export default function AdaptacionesPte() {
       </h1>
       <p className="mt-4 text-lg text-zinc-600">
         Banco de <b>adaptaciones de ejercicios para alumnado de ESO con dificultades</b>. Cada
-        ejercicio se presenta en <b>cuatro niveles</b>: uno de referencia y tres adaptaciones
+        ejercicio se presenta en <b>varios niveles</b>: el del curso y una serie de adaptaciones
         descendentes (hasta 4.º de primaria) para que el mismo contenido sea accesible, con los
         mismos contextos y la misma dinámica de aula.
       </p>
@@ -73,9 +73,9 @@ export default function AdaptacionesPte() {
       <div className="mt-8 rounded-2xl border border-blue-200 bg-blue-50 p-5 text-[15px] text-blue-900">
         <b>Cómo está pensado cada ejercicio:</b> una situación real y cercana (temperaturas,
         cuenta del banco, un mensaje de móvil, un cartel del mercado…) y, sobre ella, cuatro
-        versiones escalonadas. En <b>matemáticas</b>: 2.º ESO (referencia) → 1.º ESO → 6.º →
-        5.º de primaria. En <b>castellano</b>, un peldaño más abajo: 1.º ESO (referencia) →
-        6.º → 5.º → 4.º de primaria. Cada nivel indica qué se adapta (extensión del texto,
+        versiones escalonadas. En <b>matemáticas</b>: 2.º ESO (base) → 1.º ESO → 6.º →
+        5.º de primaria. En <b>castellano</b>, un peldaño más: 2.º ESO (base) → 1.º ESO →
+        6.º → 5.º → 4.º de primaria. Cada adaptación indica qué se adapta (extensión del texto,
         apoyo visual, opción cerrada, respuesta oral) y lleva su solución, para que la
         adaptación sea de acceso al mismo objetivo de aprendizaje, no otro ejercicio distinto.
       </div>

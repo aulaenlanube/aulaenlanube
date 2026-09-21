@@ -7,9 +7,11 @@ export type Nv = { in?: string; p: string[]; s: string[]; ad?: string };
 export type Act = { t: string; d: string; ic: string; fig?: string; nv: Nv[] };
 export type Ap = { slug: string; n: number; t: string; teoria: string[]; ej: string[] };
 
-// Los cuatro niveles, en orden: referencia + tres adaptaciones descendentes.
+// Los cinco niveles, en orden: el ejercicio del curso (2.º ESO) y las cuatro
+// adaptaciones descendentes que cuelgan de él.
 export const LABELS = [
-  "1.º ESO · nivel de referencia",
+  "2.º ESO · ejercicio base",
+  "1.º ESO · adaptación",
   "6.º primaria · adaptación",
   "5.º primaria · adaptación",
   "4.º primaria · adaptación",

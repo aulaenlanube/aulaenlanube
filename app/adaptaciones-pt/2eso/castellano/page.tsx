@@ -6,7 +6,7 @@ import { chip } from "./ui";
 export const metadata: Metadata = {
   title: "Castellano · 2.º ESO — Adaptaciones PT — Aula en la Nube",
   description:
-    "Temario de Lengua Castellana y Literatura con adaptaciones PT: cada tema con sus bloques de teoría, ejemplos y actividades en cuatro niveles (1.º ESO, 6.º, 5.º y 4.º de primaria).",
+    "Temario de Lengua Castellana y Literatura con adaptaciones PT: cada tema con sus bloques de teoría, ejemplos y actividades en cinco niveles (el ejercicio base de 2.º ESO y sus adaptaciones a 1.º ESO, 6.º, 5.º y 4.º de primaria).",
 };
 
 const TEMAS = [
@@ -38,9 +38,10 @@ export default function PteCastellano() {
       </h1>
       <p className="mt-4 text-lg text-zinc-600">
         Cada tema se reparte en <b>bloques</b> con teoría, ejemplos resueltos y actividades
-        adaptadas en cuatro niveles. Como el alumnado de PT de 2.º de ESO suele trabajar con
-        un nivel de competencia curricular por debajo del curso, aquí el nivel de referencia es{" "}
-        <b>1.º de ESO</b> y de ahí se desciende a <b>6.º, 5.º y 4.º de primaria</b>.
+        en <b>cinco niveles</b>. Primero va el <b>ejercicio base de 2.º de ESO</b>, el del
+        curso; debajo, cuatro adaptaciones descendentes —<b>1.º de ESO, 6.º, 5.º y 4.º de
+        primaria</b>— para el alumnado cuyo nivel de competencia curricular está por debajo del
+        curso. Mismo objetivo en los cinco: lo que baja es la exigencia de acceso, no la meta.
       </p>
 
       <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">

@@ -1,6 +1,6 @@
 // Bloque 5 del Tema 1 de Lengua Castellana · Adaptaciones PT · 2.º ESO
 // Acentuación: sílaba tónica, agudas/llanas/esdrújulas, diptongo e hiato y tilde diacrítica.
-// Los cuatro niveles comparten objetivo y contexto; lo que baja es la exigencia de acceso.
+// Los cinco niveles comparten objetivo y contexto; lo que baja es la exigencia de acceso.
 
 import type { Ap, Act } from "../tipos";
 
@@ -31,6 +31,23 @@ export const ACTS: Act[] = [
     fig: "silabas",
     nv: [
       {
+        in: "Seis palabras recogidas en la agenda del instituto: ortografía, devuélvemelo, decimoséptimo, fácilmente, baloncesto, periodista.",
+        p: [
+          "**a)** Separa en sílabas las seis palabras, marca en cada una la sílaba tónica e indica cuántas sílabas átonas tiene.",
+          "**b)** Clasifícalas en agudas, llanas, esdrújulas y sobresdrújulas, y razona en cada caso qué regla de acentuación explica que lleven o no lleven tilde.",
+          "**c)** *Baloncesto* se ha formado con *balón* + *cesto*, y *decimoséptimo* con *décimo* + *séptimo*. Explica qué le ocurre a la tilde del primer componente en cada compuesto y por qué.",
+          "**d)** Los adverbios en *-mente* se comportan de manera especial: explica por qué *fácilmente* conserva la tilde y *tranquilamente* se escribe sin ella.",
+          "**e)** Redacta una frase sobre un día de clase en la que aparezcan una palabra sobresdrújula y un adverbio en *-mente*, y subraya en cada una su sílaba tónica.",
+        ],
+        s: [
+          "**a)** or-to-gra-**fí**-a (cinco sílabas, cuatro átonas) · de-**vuél**-ve-me-lo (cinco sílabas, cuatro átonas) · de-ci-mo-**sép**-ti-mo (seis sílabas, cinco átonas) · fá-cil-**men**-te (cuatro sílabas; por ser adverbio en *-mente* tiene dos sílabas tónicas, «fá», heredada del adjetivo, y «men», la del sufijo) · ba-lon-**ces**-to (cuatro sílabas, tres átonas) · pe-rio-**dis**-ta (cuatro sílabas, tres átonas).",
+          "**b)** No hay ninguna aguda. Llanas: *fácilmente*, *baloncesto* y *periodista*, acabadas en vocal, que por la regla general no llevarían tilde; *ortografía* también es llana acabada en vocal, pero la lleva porque la *i* tónica forma hiato con la *a*. Esdrújula: *decimoséptimo*. Sobresdrújula: *devuélvemelo*. Las dos últimas llevan tilde siempre, sin mirar la letra final.",
+          "**c)** Cuando dos palabras se unen en un compuesto escrito en una sola palabra, el primer componente deja de ser tónico y pierde su tilde: *balón* + *cesto* da *baloncesto*, llana acabada en vocal y sin tilde, y *décimo* + *séptimo* da *decimoséptimo*, que solo conserva la tilde del segundo componente porque el conjunto resulta esdrújulo.",
+          "**d)** El adverbio se forma sobre el femenino del adjetivo y conserva la tilde de este únicamente si el adjetivo la llevaba: *fácil* es llana acabada en -l y sí la lleva, de modo que *fácilmente* la mantiene; *tranquila* es llana acabada en vocal y no la lleva, así que *tranquilamente* tampoco.",
+          "**e)** Respuesta libre. Por ejemplo: «**Devuélvemelo** antes del recreo y lo corregimos **rápidamente**»; la tónica de *devuélvemelo* está en «vuél» y la de *rápidamente*, en «men», además de la heredada «rá».",
+        ],
+      },
+      {
         in: "Palabras del día a día en el instituto: bocadillo, almuerzo, plátano, compás, mochila, gimnasio.",
         p: [
           "**a)** Separa en sílabas las seis palabras y marca en cada una cuál es la sílaba tónica.",
@@ -42,6 +59,7 @@ export const ACTS: Act[] = [
           "**b)** Llanas: bocadillo, almuerzo, mochila y gimnasio, sin tilde porque acaban en vocal. Esdrújula: plátano, con tilde porque las esdrújulas la llevan siempre. Aguda: compás, con tilde porque acaba en -s.",
           "**c)** Las dos palabras tienen acento, porque en las dos hay una sílaba que suena más fuerte; pero solo *compás* lleva tilde, ya que la regla de las agudas lo exige, mientras que *mochila* es llana acabada en vocal y no la necesita.",
         ],
+        ad: "Se conservan seis palabras, pero todas de uso diario y de acentuación regular: quedan fuera las sobresdrújulas, los compuestos y los adverbios en *-mente*, y no hay que redactar ninguna frase propia.",
       },
       {
         in: "Cuatro palabras de la mochila: carpeta, lápiz, bolígrafo, cartón. Ejemplo resuelto: car-**pe**-ta, porque la fuerza cae en «pe».",
@@ -90,6 +108,23 @@ export const ACTS: Act[] = [
     fig: "acentos",
     nv: [
       {
+        in: "Ocho palabras tomadas de un examen de Biología y de la vida del centro: cuéntaselo, análisis, carácter, régimen, fútbol, sutil, volumen, ciempiés.",
+        p: [
+          "**a)** Clasifica las ocho palabras en agudas, llanas, esdrújulas y sobresdrújulas, y justifica en cada una la presencia o la ausencia de tilde nombrando la regla que aplicas.",
+          "**b)** Escribe el plural de *carácter*, *régimen* y *volumen* y explica qué le ocurre en cada caso a la sílaba tónica y a la tilde.",
+          "**c)** *Ciempiés* está formado por *cien* + *pies*. Explica por qué *pies* se escribe sin tilde y *ciempiés* con ella.",
+          "**d)** Forma dos palabras sobresdrújulas añadiendo pronombres a un verbo, como en *cuéntaselo*, y razona su acentuación.",
+          "**e)** Redacta una frase sobre una clase de Educación Física en la que aparezcan una palabra llana con tilde y una esdrújula, e indica la regla de cada una.",
+        ],
+        s: [
+          "**a)** Agudas: *sutil*, acabada en -l y sin tilde, y *ciempiés*, acabada en -s y con tilde. Llanas: *carácter* y *fútbol*, con tilde por acabar en -r y en -l, y *volumen*, sin tilde por acabar en -n. Esdrújulas: *análisis* y *régimen*. Sobresdrújula: *cuéntaselo*. Las esdrújulas y las sobresdrújulas llevan tilde siempre, sin mirar la letra final.",
+          "**b)** *Caracteres*: la tónica se desplaza de «rác» a «te», la palabra queda llana acabada en -s y pierde la tilde. *Regímenes*: la tónica pasa de «ré» a «gí», sigue siendo esdrújula y conserva la tilde, que ahora cae sobre la *i*. *Volúmenes*: la tónica sigue en «lú», pero, al ganar una sílaba, la palabra pasa de llana a esdrújula y aparece la tilde.",
+          "**c)** *Pies* es un monosílabo ortográfico y los monosílabos no se acentúan, porque en ellos no cabe ninguna duda sobre dónde recae el acento. *Ciempiés*, en cambio, tiene dos sílabas (ciem-piés), es aguda y acaba en -s, así que la regla general le exige la tilde, colocada sobre la vocal abierta del diptongo.",
+          "**d)** Por ejemplo *devuélvemelo* (de-vuél-ve-me-lo) y *explícaselo* (ex-plí-ca-se-lo): en las dos, la sílaba tónica queda antes de la antepenúltima, y todas las sobresdrújulas llevan tilde sin mirar la letra final.",
+          "**e)** Respuesta libre. Por ejemplo: «El **árbitro** detuvo el partido de **fútbol** en el pabellón»; *árbitro* es esdrújula y lleva tilde siempre, y *fútbol* es llana acabada en -l, por lo que también la lleva.",
+        ],
+      },
+      {
         in: "Lista de palabras del instituto: examen, química, cartón, lápiz, miércoles, autobús, joven, brújula.",
         p: [
           "**a)** Clasifica las ocho palabras en agudas, llanas y esdrújulas.",
@@ -101,6 +136,7 @@ export const ACTS: Act[] = [
           "**b)** *Cartón* y *autobús* son agudas acabadas en -n y en -s, así que llevan tilde. *Examen* y *joven* son llanas acabadas en -n y no la llevan; *lápiz* es llana acabada en -z y sí la lleva. *Química*, *miércoles* y *brújula* son esdrújulas: la llevan siempre.",
           "**c)** Por ejemplo *cuéntamelo*: la fuerza cae cuatro sílabas antes del final (cuén-ta-me-lo) y las sobresdrújulas llevan tilde siempre.",
         ],
+        ad: "Se mantienen ocho palabras, pero todas de uso escolar frecuente: desaparecen los plurales que desplazan el acento (*caracteres*, *regímenes*) y los compuestos, y la sobresdrújula solo hay que aportarla con un ejemplo al final.",
       },
       {
         in: "Seis palabras con la sílaba tónica ya marcada: ca-**fé**, **már**-mol, **pá**-gi-na, ca-**mión**, **ár**-bol, **lu**-nes.",
@@ -146,6 +182,23 @@ export const ACTS: Act[] = [
     ic: "tilde",
     nv: [
       {
+        in: "Mensaje del delegado en el grupo de clase, copiado **sin ninguna tilde**: «La reunion del viaje a Peñiscola sera el proximo miercoles en el salon de actos. El autobus saldra puntualmente a las siete y media. Si todavia no tienes la autorizacion, pidesela al tutor y devuelvemela firmada; yo la llevare rapidamente a Secretaria».",
+        p: [
+          "**a)** Copia el mensaje colocando todas las tildes que le faltan.",
+          "**b)** Agrupa las palabras que has corregido en agudas, llanas, esdrújulas y sobresdrújulas, e indica la regla aplicada en cada grupo.",
+          "**c)** *Puntualmente* se escribe sin tilde y *rápidamente* con ella, aunque las dos acaben en *-mente*. Explica a qué se debe.",
+          "**d)** Explica qué diferencia de significado y de sílaba tónica hay entre *secretaria* y *Secretaría*, y por qué en este mensaje corresponde la forma con tilde.",
+          "**e)** Redacta tú un aviso de tres líneas para el tablón del instituto en el que aparezcan, al menos, una palabra esdrújula, una aguda con tilde y un adverbio en *-mente*; subráyalas.",
+        ],
+        s: [
+          "**a)** «La **reunión** del viaje a **Peñíscola será** el **próximo miércoles** en el **salón** de actos. El **autobús saldrá** puntualmente a las siete y media. Si **todavía** no tienes la **autorización**, **pídesela** al tutor y **devuélvemela** firmada; yo la **llevaré rápidamente** a **Secretaría**».",
+          "**b)** Agudas: reunión, será, salón, autobús, saldrá, autorización y llevaré, con tilde por acabar en vocal, en -n o en -s. Llanas: todavía y Secretaría, que por la regla general no la llevarían, pero la exigen porque la *i* tónica forma hiato con la *a*. Esdrújulas: Peñíscola, próximo y miércoles, con tilde siempre. Sobresdrújulas: pídesela y devuélvemela, también con tilde siempre. Caso aparte es *rápidamente*, un adverbio en *-mente*.",
+          "**c)** El adverbio se forma sobre el femenino del adjetivo y conserva su tilde solo si el adjetivo la llevaba: *rápida* es esdrújula y la lleva, de ahí *rápidamente*; *puntual* es aguda acabada en -l y no la lleva, de ahí *puntualmente*.",
+          "**d)** *Secretaria* (se-cre-**ta**-ria) es llana, mantiene el diptongo en la última sílaba y designa a la persona que realiza tareas administrativas; *Secretaría* (se-cre-ta-**rí**-a) rompe ese diptongo en hiato, lleva tilde sobre la *i* tónica y nombra la oficina del centro. En el mensaje se habla de la oficina, así que corresponde la forma con tilde.",
+          "**e)** Respuesta libre. Por ejemplo: «El **miércoles** saldrá la lista de la **excursión** al Palmar. Podréis consultarla **fácilmente** en el tablón del pasillo. Quien no aparezca debe avisar al tutor».",
+        ],
+      },
+      {
         in: "Aviso del tablón del instituto, copiado **sin ninguna tilde**: «La excursion a la Albufera sera el miercoles. El autobus sale a las ocho del pabellon. Traed el almuerzo y un boligrafo azul».",
         p: [
           "**a)** Copia el aviso colocando las seis tildes que faltan.",
@@ -157,6 +210,7 @@ export const ACTS: Act[] = [
           "**b)** excursión, será, autobús y pabellón son agudas acabadas en -n, en vocal y en -s, y por eso llevan tilde. Miércoles y bolígrafo son esdrújulas, que la llevan siempre.",
           "**c)** *Traed*, aguda acabada en -d, y *azul*, aguda acabada en -l: la regla de las agudas solo obliga cuando la palabra acaba en vocal, en -n o en -s, y ninguna de las dos acaba así.",
         ],
+        ad: "El texto baja a tres frases y se avisa de cuántas tildes faltan; solo intervienen las reglas generales, sin sobresdrújulas, sin hiatos ni adverbios en *-mente*, y no hay que redactar un aviso propio.",
       },
       {
         in: "Mensaje de móvil copiado **sin tildes**: «Mañana hay examen de musica. Trae el libro, un lapiz y un boligrafo. Despues vamos al gimnasio».",
@@ -204,6 +258,23 @@ export const ACTS: Act[] = [
     ic: "lupa",
     nv: [
       {
+        in: "Ocho palabras copiadas **sin ninguna tilde**: baul, heroico, estudiais, reune, guion, buho, caida, vio.",
+        p: [
+          "**a)** Separa las ocho palabras en sílabas e indica en cada una si hay diptongo, triptongo o hiato.",
+          "**b)** Escríbelas correctamente y explica qué regla justifica la tilde o su ausencia en cada caso.",
+          "**c)** *Guion* y *vio* se escriben hoy sin tilde. Explícalo empleando el concepto de monosílabo ortográfico y añade otros dos ejemplos.",
+          "**d)** Coloca la tilde que corresponda en esta serie y explica la diferencia de significado: «Este ruido es continuo» · «Yo continuo leyendo» · «Ayer continuo la clase».",
+          "**e)** Escribe una frase en la que aparezcan una palabra con triptongo y otra con hiato de vocal cerrada tónica, y subraya en las dos la sílaba tónica.",
+        ],
+        s: [
+          "**a)** Hiato: ba-**úl**, re-**ú**-ne, **bú**-ho (la *h* intercalada no impide el hiato) y ca-**í**-da. Diptongo: he-**roi**-co y, con una sola sílaba, **guion** y **vio**. Triptongo: es-tu-**diáis**.",
+          "**b)** **baúl**, **reúne**, **búho** y **caída** llevan tilde porque la vocal cerrada tónica (*i*, *u*) forma hiato con una abierta, y en ese caso la tilde es obligatoria aunque la regla general no la pidiera. **Estudiáis** la lleva por ser aguda acabada en -s, colocada sobre la vocal abierta del triptongo. **Heroico** es llana acabada en vocal y no la necesita. **Guion** y **vio** son monosílabos y no se acentúan.",
+          "**c)** Un monosílabo ortográfico es el que se escribe con una sola sílaba; como en él no cabe ninguna duda sobre dónde recae el acento, no lleva tilde, salvo cuando se trata de una tilde diacrítica. En *guion* y en *vio* las dos vocales cuentan como diptongo a efectos ortográficos. Otros ejemplos: *fue*, *dio*, *truhan* o *fie*.",
+          "**d)** «Este ruido es **continuo**»: adjetivo llano con diptongo *uo* y sin tilde. «Yo **continúo** leyendo»: primera persona del presente; la *u* tónica forma hiato con la *o* y lleva tilde. «Ayer **continuó** la clase»: tercera persona del pretérito perfecto simple, aguda acabada en vocal.",
+          "**e)** Respuesta libre. Por ejemplo: «Cuando **estudiáis** juntos, el examen de **Geografía** se os hace corto»; la tónica está en «diáis» y en «fí» (Ge-o-gra-**fí**-a).",
+        ],
+      },
+      {
         in: "Ocho palabras copiadas **sin tildes**: sandia, panaderia, frio, baul, aire, cuaderno, oido, raiz.",
         p: [
           "**a)** Separa las ocho palabras en sílabas y di en cuáles hay diptongo y en cuáles hay hiato.",
@@ -215,6 +286,7 @@ export const ACTS: Act[] = [
           "**b)** sandía, panadería, frío, baúl, oído y raíz. Cuando la vocal cerrada (*i*, *u*) es la tónica y va junto a una abierta, el diptongo se rompe y esa vocal lleva tilde aunque la regla general no la pidiera; *aire* y *cuaderno* mantienen el diptongo y siguen las reglas generales, así que van sin tilde.",
           "**c)** Por ejemplo *María* y *reír*, con hiato acentuado, y *estudiáis*, con triptongo.",
         ],
+        ad: "Se trabaja solo con diptongos e hiatos de palabras frecuentes: quedan fuera los monosílabos ortográficos y la serie *continuo / continúo / continuó*, y el triptongo se pide únicamente como ejemplo suelto al final.",
       },
       {
         in: "Seis palabras sin tilde; en las tres primeras va marcada la vocal que suena fuerte: d**i**a, Mar**i**a, r**i**o, aire, peine, ruido.",
@@ -262,6 +334,23 @@ export const ACTS: Act[] = [
     ic: "semaforo",
     nv: [
       {
+        in: "Nota copiada **sin ninguna tilde**: «Se que tu quieres que el te de mas tiempo, mas no puede: el examen es el martes. A mi me dijo que si, aunque aun no lo ha confirmado. Si te apetece, tomamos un te en el recreo y te lo cuento; solo te pido que no se lo digas a nadie».",
+        p: [
+          "**a)** Copia la nota colocando todas las tildes diacríticas que le faltan.",
+          "**b)** Justifica cada tilde indicando la categoría gramatical de la palabra acentuada y la de su pareja sin tilde.",
+          "**c)** *Mas* aparece dos veces, una con tilde y otra sin ella. Explica la diferencia y sustituye cada una por una palabra equivalente que lo demuestre.",
+          "**d)** Explica cuándo *aún* lleva tilde y cuándo *aun* no la lleva, y escribe una frase con cada forma.",
+          "**e)** La palabra *solo* de la nota va sin tilde. Explica qué establece la norma vigente sobre *solo* y sobre los demostrativos *este*, *ese* y *aquel*, y redacta una frase en la que quede claro, sin tilde, que *solo* significa «únicamente».",
+        ],
+        s: [
+          "**a)** «**Sé** que **tú** quieres que **él** te **dé más** tiempo, mas no puede: el examen es el martes. A **mí** me dijo que **sí**, aunque **aún** no lo ha confirmado. Si te apetece, tomamos un **té** en el recreo y te lo cuento; solo te pido que no se lo digas a nadie».",
+          "**b)** *sé*, forma del verbo *saber*, frente a *se*, pronombre; *tú*, pronombre personal, frente a *tu*, determinante posesivo; *él*, pronombre personal, frente a *el*, artículo; *dé*, forma del verbo *dar*, frente a *de*, preposición; *más*, adverbio de cantidad, frente a *mas*, conjunción adversativa; *mí*, pronombre personal, frente a *mi*, posesivo; *sí*, adverbio de afirmación, frente a *si*, conjunción condicional; *aún*, que equivale a *todavía*, frente a *aun*, que equivale a *incluso*; y *té*, sustantivo que nombra la bebida, frente a *te*, pronombre.",
+          "**c)** En «que él te dé **más** tiempo», *más* expresa cantidad y puede sustituirse por *mayor cantidad de*; en «**mas** no puede», *mas* es conjunción adversativa, se sustituye por *pero* y va sin tilde.",
+          "**d)** *Aún* lleva tilde cuando equivale a *todavía*: «**Aún** no ha llegado el autobús». *Aun* va sin tilde cuando equivale a *incluso*, *hasta* o *ni siquiera*: «**Aun** con lluvia, jugaremos en el pabellón».",
+          "**e)** La norma vigente establece que *solo* se escribe sin tilde tanto si es adjetivo («Estaba solo en casa») como si es adverbio («Solo quedan dos plazas»), y que los demostrativos *este*, *ese* y *aquel* no la llevan nunca; cuando hay riesgo de ambigüedad, se recomienda reescribir la frase. Por ejemplo: «**Únicamente** quedan dos plazas para la excursión».",
+        ],
+      },
+      {
         in: "Tres frases copiadas **sin ninguna tilde**: 1) «Si tu quieres, el te da el te». 2) «A mi no me dijo que si». 3) «Se que quiere mas pan, mas no queda».",
         p: [
           "**a)** Copia las tres frases colocando las tildes diacríticas que faltan.",
@@ -273,6 +362,7 @@ export const ACTS: Act[] = [
           "**b)** *tú* es pronombre personal frente a *tu* posesivo; *él* es pronombre frente a *el* artículo; *té* es la bebida frente a *te* pronombre; *mí* es pronombre frente a *mi* posesivo; *sí* es afirmación frente a *si* de condición; *sé* es del verbo *saber* frente a *se* pronombre; *más* es de cantidad frente a *mas*, que equivale a «pero» y va sin tilde.",
           "**c)** Por ejemplo: «Espero que me **dé** el libro **de** Lengua» y «Ya **sé** que **se** ha ido a casa».",
         ],
+        ad: "Las parejas diacríticas se reparten en tres frases cortas e independientes en lugar de un texto seguido, no entran *aún / aun* ni la norma actual sobre *solo*, y la justificación se pide con etiquetas sencillas en vez de con el análisis gramatical completo.",
       },
       {
         in: "Tres frases con la palabra dudosa marcada: 1) «**Tu** hermano ya lo sabe». 2) «**El** libro es de Ana». 3) «A **mi** me gusta el **te** con limón».",
@@ -318,6 +408,23 @@ export const ACTS: Act[] = [
     ic: "lapiz",
     nv: [
       {
+        in: "Diálogo en la parada del autobús, copiado **sin ninguna tilde**: «—¿Cuando sale el autobus a Gandia? —No se cuando sale, pero pregunta cuanto cuesta el billete. —¡Que raro que no lo sepas, con lo que viajas! —Es que no llevo el movil. Dime donde esta la maquina y lo compro. —Esta donde siempre, junto a la puerta por la que entramos».",
+        p: [
+          "**a)** Copia el diálogo con todas las tildes que le faltan.",
+          "**b)** Señala las palabras interrogativas y exclamativas y explica por qué llevan tilde aunque en algunas no aparezcan los signos ¿ ? ni ¡ !.",
+          "**c)** En el diálogo hay varias apariciones de *que* y de *donde* sin tilde. Indica qué función cumple cada una y por qué no se acentúan.",
+          "**d)** Transforma en interrogativas indirectas «¿Cuánto cuesta el abono?» y «¿Por qué no funciona la máquina?», empezando por «Me gustaría saber…» y por «No entiendo…», y explica qué diferencia a *por qué*, *porque* y *porqué*.",
+          "**e)** Redacta un diálogo de cuatro intervenciones en la parada del metro en el que aparezcan una pregunta directa, una pregunta indirecta y una exclamación, con todas sus tildes.",
+        ],
+        s: [
+          "**a)** «—¿**Cuándo** sale el **autobús** a **Gandía**? —No **sé cuándo** sale, pero pregunta **cuánto** cuesta el billete. —¡**Qué** raro que no lo sepas, con lo que viajas! —Es que no llevo el **móvil**. Dime **dónde está** la **máquina** y lo compro. —**Está** donde siempre, junto a la puerta por la que entramos».",
+          "**b)** Son interrogativos o exclamativos *cuándo*, *cuánto*, *qué* y *dónde*. Llevan tilde porque introducen una pregunta o una exclamación, tanto si es directa («¿Cuándo sale…?», «¡Qué raro…!») como si es indirecta («No sé cuándo sale», «pregunta cuánto cuesta», «Dime dónde está»): en las indirectas no se escriben los signos, pero se sigue preguntando.",
+          "**c)** En «con lo que viajas» y en «por la que entramos», *que* es un relativo; en «Qué raro que no lo sepas» y en «Es que no llevo el móvil», *que* es una conjunción; y en «donde siempre», *donde* es un relativo que equivale a «en el lugar de siempre». Ninguno pregunta ni exclama, así que ninguno lleva tilde.",
+          "**d)** «Me gustaría saber **cuánto** cuesta el abono» y «No entiendo **por qué** no funciona la máquina»: la palabra interrogativa mantiene la tilde aunque desaparezcan los signos. *Por qué* se escribe en dos palabras y con tilde para preguntar; *porque* es la conjunción que responde e introduce la causa; y *el porqué* es un sustantivo que significa «el motivo».",
+          "**e)** Respuesta libre. Por ejemplo: «—¿**Qué** línea llega antes al centro? —No sé **cuál** es la más rápida; mira **cuándo** pasa la siguiente. —¡**Qué** suerte, viene en dos minutos! —Pues bajamos ya al andén».",
+        ],
+      },
+      {
         in: "Diálogo en la puerta del instituto, copiado **sin ninguna tilde**: «—¿Que hora es? —No se. —¿Como lo sabes tu? —¡Que tarde! ¿Donde has dejado la llave? —Donde siempre, en el cajon».",
         p: [
           "**a)** Copia el diálogo con todas las tildes que le faltan.",
@@ -329,6 +436,7 @@ export const ACTS: Act[] = [
           "**b)** En la pregunta, *dónde* es interrogativo y pide una información, así que lleva tilde; en la respuesta, *donde* es un relativo que significa «en el lugar de siempre» y va sin tilde.",
           "**c)** Por ejemplo: «No sé **qué** hora es» y «Dime **cuándo** llega el autobús»: aunque no aparezcan los signos, las dos siguen preguntando algo.",
         ],
+        ad: "El diálogo se acorta y todas sus preguntas conservan los signos ¿ ? como pista; solo se analiza la pareja *dónde / donde*, las interrogativas indirectas se escriben libremente en lugar de transformar preguntas dadas y no aparece la distinción entre *por qué*, *porque* y *porqué*.",
       },
       {
         in: "Cuatro frases con la palabra dudosa marcada y sin tilde: 1) «¿**Que** quieres?» 2) «El libro **que** leo es corto». 3) «¿**Donde** vives?» 4) «¡**Cuanto** ha llovido!».",

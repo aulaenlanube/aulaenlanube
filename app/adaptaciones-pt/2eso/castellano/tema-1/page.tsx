@@ -7,7 +7,7 @@ import { APS, ACTS, TEMA } from "../datos";
 export const metadata: Metadata = {
   title: "Tema 1 · Comunicación, palabra y literatura — Castellano 2.º ESO — Adaptaciones PT",
   description:
-    "Tema 1 de Lengua Castellana con adaptaciones PT: seis bloques, cada uno con teoría, ejemplos resueltos y seis actividades en cuatro niveles (1.º ESO, 6.º, 5.º y 4.º de primaria).",
+    "Tema 1 de Lengua Castellana con adaptaciones PT: seis bloques, cada uno con teoría, ejemplos resueltos y seis actividades en cinco niveles (ejercicio base de 2.º ESO y adaptaciones a 1.º ESO, 6.º, 5.º y 4.º de primaria).",
 };
 
 const DESC: Record<string, string> = {
@@ -31,11 +31,12 @@ export default function PteCastellanoTema1() {
           { title: "Tema 1", path: `${base}/` },
         ]}
       />
-      <span className={chip}>Tema 1 · {APS.length} bloques · {APS.length * 6} actividades</span>
+      <span className={chip}>Tema 1 · {APS.length} bloques · {APS.length * 6} actividades × 5 niveles</span>
       <h1 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">{TEMA}</h1>
       <p className="mt-4 text-lg text-zinc-600">
         Cada bloque lleva su <b>teoría</b> (explicación corta y accesible), <b>ejemplos</b>{" "}
-        resueltos y <b>seis actividades</b> adaptadas a los cuatro niveles. El bloque 0 es de
+        resueltos y <b>seis actividades</b>, cada una con el ejercicio base de 2.º de ESO y sus
+        cuatro adaptaciones. El bloque 0 es de
         repaso: conviene empezar por ahí y seguir el orden, aunque los enlaces permiten saltar a
         cualquier bloque.
       </p>
@@ -52,7 +53,7 @@ export default function PteCastellanoTema1() {
               <h2 className="text-base font-bold text-zinc-900 group-hover:text-blue-800">{a.t}</h2>
               <p className="mt-1 text-[13px] text-zinc-600">{DESC[a.slug]}</p>
               <p className="mt-1 text-[11px] font-bold uppercase tracking-wider text-zinc-400">
-                {(ACTS[a.slug] || []).length} actividades × 4 niveles
+                {(ACTS[a.slug] || []).length} actividades × 5 niveles
               </p>
             </div>
             <div className="self-center text-zinc-300 transition group-hover:translate-x-0.5 group-hover:text-blue-600">→</div>

@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: P): Promise<Metadata> {
   if (!a) return {};
   return {
     title: `${a.n} · ${a.t} — Tema 1 Castellano 2.º ESO — Adaptaciones PT`,
-    description: `Teoría, ejemplos resueltos y seis actividades adaptadas en cuatro niveles del bloque ${a.n} (${a.t}) del Tema 1 de Lengua Castellana.`,
+    description: `Teoría, ejemplos resueltos y seis actividades del bloque ${a.n} (${a.t}) del Tema 1 de Lengua Castellana: el ejercicio base de 2.º de ESO y sus cuatro adaptaciones.`,
   };
 }
 
@@ -67,8 +67,8 @@ export default async function BloquePT({ params }: P) {
       <div className="mt-10">
         <h2 className="text-xl font-bold tracking-tight text-zinc-900 sm:text-2xl">🎯 Actividades</h2>
         <p className="mt-1 text-sm text-zinc-500">
-          {acts.length} actividades: entra en cada caja para verla completa, con los cuatro niveles
-          y su solución.
+          {acts.length} actividades: entra en cada caja para verla completa, con el ejercicio
+          base de 2.º de ESO, sus cuatro adaptaciones y la solución de cada nivel.
         </p>
       </div>
       <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">

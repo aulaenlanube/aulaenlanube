@@ -1,6 +1,7 @@
 // Bloque 3 · Derivación nominal y adjetival · Tema 1 de Lengua Castellana
-// Adaptaciones PT · 2.º ESO. Cuatro niveles por actividad: 1.º ESO (referencia),
-// 6.º, 5.º y 4.º de primaria. Lo que baja es el acceso, no el objetivo.
+// Adaptaciones PT · 2.º ESO. Cinco niveles por actividad: 2.º ESO (el ejercicio
+// de referencia del curso), 1.º ESO, 6.º, 5.º y 4.º de primaria. Lo que baja es
+// el acceso, no el objetivo.
 
 import type { Ap, Act } from "../tipos";
 
@@ -28,6 +29,21 @@ export const ACTS: Act[] = [
     t: "Despieza la palabra", d: "Separar lexema, prefijos y sufijos en palabras derivadas.", ic: "puzzle", fig: "derivacion",
     nv: [
       {
+        in: "Palabras recogidas en el folleto de las fiestas de Xàtiva: desordenadas · imposible · futbolistas · relectura · guardabosques · enrojecer · aguafiestas · altura.",
+        p: [
+          "**a)** Segmenta cada palabra en **lexema** y **morfemas**, y precisa en cada morfema si es **flexivo** (género o número) o **derivativo** (prefijo o sufijo).",
+          "**b)** Clasifica las ocho palabras en **derivadas**, **compuestas** y **parasintéticas**, y explica el criterio que aplicas para separar los tres grupos.",
+          "**c)** Justifica por qué `orden` y `desordenadas` pertenecen a la misma familia léxica pese a significar casi lo contrario, y señala en qué se diferencia esa familia léxica del campo semántico «orden y limpieza».",
+          "**d)** Redacta dos oraciones sobre las fiestas de tu pueblo: en una debe aparecer una palabra compuesta y en la otra, una parasintética, distintas de las del folleto. Segmenta después las dos palabras.",
+        ],
+        s: [
+          "**a)** `des-` (prefijo) + `orden` (lexema) + `-ad-` (sufijo) + `-a` (flexivo de género) + `-s` (flexivo de número); `im-` (prefijo, variante de `in-` ante `p`) + `posible` (lexema), sin flexivos; `futbol-` (lexema) + `-ista` (sufijo) + `-s` (flexivo de número), sin marca de género porque `-ista` es común en cuanto al género; `re-` (prefijo) + `lect-` (lexema) + `-ura` (sufijo); `guarda-` + `bosque-` (dos lexemas) + `-s`; `en-` (prefijo) + `roj-` (lexema) + `-ecer` (sufijo verbal); `agua` + `fiesta-` (dos lexemas) + `-s`; `alt-` (lexema) + `-ura` (sufijo).",
+          "**b)** Derivadas: `desordenadas`, `imposible`, `futbolistas`, `relectura` y `altura`, porque añaden afijos a un único lexema. Compuestas: `guardabosques` y `aguafiestas`, porque unen dos lexemas en una sola palabra. Parasintética: `enrojecer`, porque lleva prefijo y sufijo a la vez y no existen por separado las formas «enrojo» ni «rojecer».",
+          "**c)** Comparten el lexema `orden-` y la idea que este aporta: el prefijo `des-` invierte el significado, pero la raíz sigue siendo la misma, y eso es lo que define una familia léxica. El campo semántico «orden y limpieza» agrupa palabras por aquello de lo que hablan aunque no compartan lexema: `recoger`, `barrer`, `caos` o `pulcro`.",
+          "**d)** Respuesta abierta. Valen, por ejemplo, `cortafuegos` (`corta-` + `fuego-` + `-s`, compuesta) y `desalmado` (`des-` + `alm-` + `-ado`, parasintética, porque no existen «desalma» ni «almado»).",
+        ],
+      },
+      {
         in: "Palabras del panel: frutería · desordenado · imposible · futbolista · altura · submarino · relectura.",
         p: [
           "**a)** Parte cada palabra en sus trozos y marca cuál es el **lexema**.",
@@ -39,6 +55,7 @@ export const ACTS: Act[] = [
           "**b)** Prefijos: `des-`, `im-`, `sub-`, `re-`. Sufijos: `-ería`, `-ado`, `-ista`, `-ura`, `-ino`. Llevan prefijo y sufijo a la vez `desordenado`, `submarino` y `relectura`.",
           "**c)** Porque comparten el lexema `orden-`: el prefijo `des-` le da la vuelta al significado, pero la raíz que aporta la idea es la misma.",
         ],
+        ad: "Se segmenta solo en lexema y afijos, sin separar los morfemas flexivos de los derivativos, y desaparecen la clasificación en compuestas y parasintéticas y la redacción final; queda una única justificación, guiada, sobre la familia léxica.",
       },
       {
         in: "Modelo ya resuelto: `frutería` = `frut-` (lexema) + `-ería` (sufijo).",
@@ -86,6 +103,21 @@ export const ACTS: Act[] = [
     t: "Fábrica de oficios del mercado", d: "Crear nombres de oficio con los sufijos que forman sustantivos.", ic: "etiqueta",
     nv: [
       {
+        in: "Reportaje para la revista del instituto sobre el Mercat de Xàtiva: «Aquí hay quien vende fruta, quien vende pescado y quien vende flores; hay quien reparte los pedidos por el barrio, quien toca el piano en la plaza los sábados y quien arregla zapatos en el puesto del fondo.»",
+        p: [
+          "**a)** Forma el sustantivo de oficio derivado de `fruta`, `pescado`, `flor`, `repartir`, `piano` y `zapato`; indica en cada caso el sufijo empleado y el significado que aporta (agente, oficio, quien se dedica a algo).",
+          "**b)** Deriva ahora, de esas mismas bases, los **nombres de lugar** que existan y explica cómo distingues el sufijo de oficio del sufijo de lugar cuando ambos parten del mismo lexema.",
+          "**c)** Analiza el género de los seis oficios: separa los que forman el femenino con un morfema flexivo propio de los que son **comunes en cuanto al género** y solo se diferencian por el determinante. Justifica a qué sufijo se debe esa diferencia.",
+          "**d)** Redacta un párrafo de cinco líneas presentando el mercado de tu barrio en el que emplees al menos cuatro sustantivos derivados con sufijos distintos; subráyalos e indica el sufijo de cada uno.",
+        ],
+        s: [
+          "**a)** frutero (`-ero`, oficio), pescadero (`-ero`, oficio), florista (`-ista`, quien se dedica a ello), repartidor (`-dor`, agente que hace la acción), pianista (`-ista`, quien se dedica a ello) y zapatero (`-ero`, oficio).",
+          "**b)** frutería, pescadería, floristería y zapatería, todas con `-ería` (lugar donde se vende o se trabaja); de `repartir` y de `piano` no sale un nombre de lugar con ese sufijo. El criterio es que `-ero/-era` nombra a la persona que ejerce el oficio, o el objeto, y `-ería` nombra el establecimiento.",
+          "**c)** Forman el femenino con morfema flexivo: frutero/frutera, pescadero/pescadera, repartidor/repartidora y zapatero/zapatera. Son comunes en cuanto al género `florista` y `pianista`, porque el sufijo `-ista` no admite la alternancia `-o`/`-a` y el género solo lo marca el determinante: el florista / la florista.",
+          "**d)** Respuesta abierta. Es correcta si aparecen cuatro derivados con sufijos distintos (por ejemplo `carnicero`, `panadería`, `vendedora` y `pescadería`) y se identifica bien el sufijo de cada uno.",
+        ],
+      },
+      {
         in: "Cartel del mercado de Xàtiva: puesto de fruta · puesto de pescado · puesto de flores · quien reparte los pedidos · quien toca el piano en la plaza · quien arregla zapatos.",
         p: [
           "**a)** Escribe el oficio derivado de cada palabra de partida: `fruta`, `pescado`, `flor`, `repartir`, `piano`, `zapato`.",
@@ -97,6 +129,7 @@ export const ACTS: Act[] = [
           "**b)** `-ero/-era` (oficio, lugar u objeto), `-ista` (quien se dedica a ello) y `-dor/-dora` (quien hace la acción).",
           "**c)** Cambian: frutera, pescadera, repartidora, zapatera. Se dicen igual `florista` y `pianista`: lo que cambia es el artículo (el pianista / la pianista).",
         ],
+        ad: "El cartel sustituye al reportaje y se retiran los nombres de lugar y el párrafo final: el género se resuelve pasando a femenino, sin nombrar el género común ni justificarlo, y del sufijo basta con anotar qué aporta.",
       },
       {
         in: "Modelo resuelto: puesto de fruta da **frutero**.",
@@ -144,6 +177,21 @@ export const ACTS: Act[] = [
     t: "¿Nombre o adjetivo?", d: "Reconocer la clase de palabra que sale al derivar.", ic: "lupa",
     nv: [
       {
+        in: "Derivadas recogidas en un texto trabajado en clase: belleza · cariñoso · aparcamiento · lavable · musical · deportista · brillante · altura · decisión · deportivo.",
+        p: [
+          "**a)** Clasifica las diez palabras en **sustantivos** y **adjetivos**, y segmenta el sufijo derivativo de cada una.",
+          "**b)** Indica de qué palabra de partida procede cada derivada y a qué clase pertenecía esa base; señala en cuáles la derivación ha provocado un **cambio de categoría gramatical**.",
+          "**c)** Justifica con una prueba sintáctica (combinación con determinante o con el cuantificador `muy`) la clasificación que has hecho de `brillante`, `deportista` y `lavable`.",
+          "**d)** Dos palabras de la lista funcionan como sustantivo o como adjetivo según el contexto. Identifícalas y escribe dos oraciones con cada una que demuestren los dos usos.",
+        ],
+        s: [
+          "**a)** Sustantivos: belleza (`-eza`), aparcamiento (`-miento`), altura (`-ura`), deportista (`-ista`) y decisión (`-sión`). Adjetivos: cariñoso (`-oso`), lavable (`-able`), musical (`-al`), brillante (`-ante`) y deportivo (`-ivo`).",
+          "**b)** `belleza`, de `bello` (adjetivo); `aparcamiento`, de `aparcar` (verbo); `altura`, de `alto` (adjetivo); `decisión`, de `decidir` (verbo); `cariñoso`, de `cariño` (sustantivo); `lavable`, de `lavar` (verbo); `musical`, de `música` (sustantivo); `brillante`, de `brillar` (verbo); `deportivo`, de `deporte` (sustantivo), y `deportista`, de `deporte` (sustantivo). Cambian de categoría todas menos `deportista`, que sigue siendo un sustantivo, aunque pase de nombrar una cosa a nombrar a una persona.",
+          "**c)** `brillante` admite las dos pruebas (`un brillante` y `muy brillante`), así que funciona como sustantivo y como adjetivo; `deportista` también (`una deportista` y `muy deportista`); `lavable` solo admite `muy lavable` y no se combina con determinante, por eso es únicamente adjetivo.",
+          "**d)** `brillante` y `deportista`. Por ejemplo: «Llevaba un **brillante** en el anillo» (sustantivo) frente a «Tuvo una idea **brillante**» (adjetivo); «Mi hermana es **una deportista** de élite» (sustantivo) frente a «Mi hermana es **muy deportista**» (adjetivo).",
+        ],
+      },
+      {
         in: "Derivadas recogidas en clase: belleza · cariñoso · aparcamiento · lavable · musical · deportista · brillante · altura.",
         p: [
           "**a)** Clasifícalas en dos columnas, **sustantivos** y **adjetivos**, y subraya el sufijo de cada una.",
@@ -155,6 +203,7 @@ export const ACTS: Act[] = [
           "**b)** `la belleza`, `el aparcamiento`, `la altura`, `una deportista` frente a `muy cariñoso`, `muy lavable`, `muy musical`, `muy brillante`.",
           "**c)** `deportista` y `brillante`: «Mi hermana es **una deportista**» (nombre) / «Mi hermana es **muy deportista**» (adjetivo); «Llevaba un **brillante** en el anillo» (nombre) / «Tuvo una idea **brillante**» (adjetivo).",
         ],
+        ad: "Ocho palabras en vez de diez y sin el apartado de la palabra de partida ni el del cambio de categoría gramatical: la prueba del artículo y de `muy` se anota como ayuda para clasificar, no como justificación sintáctica razonada.",
       },
       {
         in: "Modelo hecho: `belleza` va con los sustantivos, porque decimos `la belleza`.",
@@ -202,6 +251,21 @@ export const ACTS: Act[] = [
     t: "La familia al completo", d: "Formar familias léxicas y cazar al intruso que solo se parece.", ic: "arbol",
     nv: [
       {
+        in: "Lista del cuaderno: marea · marino · marisco · marido · marinero · maremoto · marchar.",
+        p: [
+          "**a)** Escribe seis palabras de la familia léxica de `flor`, subraya el lexema común e indica con qué procedimiento se ha formado cada una: sufijación, prefijación, composición o parasíntesis.",
+          "**b)** En la lista del cuaderno hay dos intrusos. Localízalos y justifica, con el criterio de lexema y significado, por qué no pertenecen a la familia de `mar`.",
+          "**c)** Explica qué diferencia hay entre la **familia léxica** de `mar` y el **campo semántico** «el mar», y escribe tres palabras que estén en el campo semántico pero no en la familia léxica.",
+          "**d)** Redacta un texto de cuatro o cinco líneas sobre una salida a la playa de Gandia en el que aparezcan al menos cuatro palabras de la familia de `mar`; señala después el prefijo o el sufijo de cada una.",
+        ],
+        s: [
+          "**a)** Por ejemplo: florero (sufijación, `-ero`), florista (sufijación, `-ista`), floristería (sufijación, `-ería`), florecer (sufijación, `-ecer`), floral (sufijación, `-al`) y coliflor (composición, `col` + `flor`). El lexema común es `flor-`. También valdría `aflorar`, que es parasintética (`a-` + `flor-` + `-ar`).",
+          "**b)** `marido` y `marchar`: empiezan por las mismas letras, pero su significado no tiene nada que ver con el mar, y una familia léxica exige compartir el lexema **y** el significado que este aporta. Las demás sí lo comparten: marea, marino, marisco, marinero y maremoto.",
+          "**c)** La familia léxica de `mar` reúne las palabras construidas sobre el lexema `mar-`; el campo semántico «el mar» reúne palabras que se refieren a esa misma realidad aunque tengan lexemas distintos. Por ejemplo `ola`, `barco` y `puerto` están en el campo semántico, pero no en la familia léxica.",
+          "**d)** Respuesta abierta. Es correcta si aparecen cuatro palabras de la familia (`marinero`, `marisco`, `marea`, `submarino`, `marítimo`…) con su prefijo o su sufijo bien señalado.",
+        ],
+      },
+      {
         in: "Lista del cuaderno: marea · marino · marisco · marido · marinero.",
         p: [
           "**a)** Escribe cinco palabras de la familia de `flor` y subraya el lexema común.",
@@ -213,6 +277,7 @@ export const ACTS: Act[] = [
           "**b)** `marido`: empieza igual, pero su significado no tiene nada que ver con el mar, y una familia léxica comparte lexema **y** significado.",
           "**c)** Por ejemplo: `florero` con `-ero` (objeto donde se ponen flores) y `florista` con `-ista` (quien se dedica a las flores).",
         ],
+        ad: "Cinco palabras de la familia en lugar de seis y sin nombrar el procedimiento de formación; la lista es más corta y solo esconde un intruso, se retira la comparación con el campo semántico y el texto final se cambia por comentar el sufijo de dos derivadas.",
       },
       {
         in: "Familia empezada: `flor` da `florero`, `florista`, …",
@@ -260,6 +325,23 @@ export const ACTS: Act[] = [
     t: "Prefijos que dan la vuelta", d: "Localizar prefijos en un aviso real y crear palabras nuevas con ellos.", ic: "tarjetas", fig: "derivacion",
     nv: [
       {
+        in: "Aviso del tablón del instituto: «El viernes hay que **desmontar** el escenario de la fiesta; es **imposible** entrar antes de las nueve. Quien faltó puede **rehacer** la prueba el lunes. Conviene **prever** la lluvia y traer chubasquero. El **anteproyecto** de la excursión a las cuevas de Bolbaite, con el recorrido por el **subsuelo** y las normas **antirrobo** del autobús, está colgado en la web del centro.»",
+        p: [
+          "**a)** Localiza todas las palabras con prefijo del aviso y segmenta cada una en prefijo y palabra de partida.",
+          "**b)** Explica qué significado aporta cada prefijo y agrúpalos después por su valor: negación, repetición, anterioridad, posición y oposición.",
+          "**c)** `imposible` se escribe con `im-` y no con `in-`. Formula la regla y escribe tres palabras más con prefijo de negación, una con cada variante: `in-`, `im-` e `i-`.",
+          "**d)** Los prefijos `hiper-`, `poli-` y `multi-` son de origen culto. Di qué significa cada uno, de qué lengua procede y forma una palabra con cada uno.",
+          "**e)** Redacta un aviso de cinco líneas para el tablón de tu clase en el que uses al menos cuatro palabras con prefijos distintos; subráyalas e indica el valor de cada prefijo.",
+        ],
+        s: [
+          "**a)** `des-` + `montar` · `im-` + `posible` · `re-` + `hacer` · `pre-` + `ver` · `ante-` + `proyecto` · `sub-` + `suelo` · `anti-` + `robo`.",
+          "**b)** `des-` invierte la acción; `im-` niega; `re-` indica repetición; `pre-` y `ante-` indican anterioridad; `sub-` indica posición inferior, y `anti-` indica oposición. Grupos: negación (`des-`, `im-`), repetición (`re-`), anterioridad (`pre-`, `ante-`), posición (`sub-`) y oposición (`anti-`).",
+          "**c)** El prefijo de negación es `in-`, pero se escribe `im-` delante de `b` y de `p`, e `i-` delante de `l` y de `r`. Por ejemplo: `inútil` (`in-`), `imborrable` (`im-`) e `ilegal` (`i-`).",
+          "**d)** `hiper-` procede del griego y significa «por encima» o «en exceso»: hipermercado; `poli-` procede del griego y significa «muchos»: polideportivo; `multi-` procede del latín y significa también «muchos»: multicine. Los dos primeros son grecolatinos de origen griego y el tercero, latino.",
+          "**e)** Respuesta abierta. Es correcta si los cuatro prefijos son distintos, se separan bien de su palabra de partida y el valor que se les atribuye encaja con el sentido del aviso.",
+        ],
+      },
+      {
         in: "Aviso del tablón del instituto: «El viernes hay que **desmontar** el escenario de la fiesta. Es **imposible** entrar antes de las nueve. Quien faltó puede **rehacer** la prueba. Conviene **prever** la lluvia: traed chubasquero.»",
         p: [
           "**a)** Localiza las cuatro palabras con prefijo y escribe, para cada una, prefijo + palabra de partida.",
@@ -271,6 +353,7 @@ export const ACTS: Act[] = [
           "**b)** `des-` lo contrario o deshacer la acción; `im-` negación (es `in-`, que se escribe `im-` delante de `p`); `re-` otra vez; `pre-` antes.",
           "**c)** Por ejemplo `subsuelo` o `subdirector`, `antirrobo` o `antivirus`, `releer` o `recargar`; la frase vale si el significado del prefijo se nota.",
         ],
+        ad: "El aviso se acorta y solo deja cuatro palabras con prefijo: se retiran la agrupación por valores, la regla de `in-`/`im-`/`i-`, los prefijos de origen culto y la redacción del aviso propio, y crear palabras se reduce a tres prefijos ya dados y una sola frase.",
       },
       {
         in: "Aviso con las palabras ya subrayadas: hay que **desmontar** el escenario · es **imposible** entrar · se puede **rehacer** la prueba.",
@@ -318,6 +401,23 @@ export const ACTS: Act[] = [
     t: "¿Cariño o palabra nueva?", d: "Distinguir los sufijos apreciativos de los que cambian la palabra.", ic: "verdad",
     nv: [
       {
+        in: "Frases oídas en el recreo: «Me he comprado un cochecito teledirigido.» · «Menudo cochazo tiene tu tío.» · «Le dio un codazo sin querer.» · «Hemos quedado en la librería de la plaza.» · «Vaya gentuza.» · «Se ha traído un bocadillo pequeñín.»",
+        p: [
+          "**a)** Separa los sufijos **apreciativos** de los **derivativos** en `cochecito`, `cochazo`, `codazo`, `librería`, `gentuza` y `pequeñín`, y explica el criterio con el que decides.",
+          "**b)** Clasifica los apreciativos en **diminutivos**, **aumentativos** y **despectivos**, e indica el valor expresivo que aportan en su frase: tamaño, afecto, admiración o desprecio.",
+          "**c)** El sufijo `-azo` aparece en `cochazo` y en `codazo` con dos significados distintos. Explícalos y añade otra pareja de palabras que muestre esa misma doble posibilidad.",
+          "**d)** Explica por qué `belleza` no es una palabra apreciativa aunque derive de `bello`, y di qué cambio provoca en ella el sufijo `-eza`.",
+          "**e)** Escribe un diálogo de cuatro líneas entre dos compañeros de clase en el que aparezcan un diminutivo con valor afectivo, un aumentativo y un despectivo; señálalos e indica el matiz de cada uno.",
+        ],
+        s: [
+          "**a)** Apreciativos: `cochecito` (`-ecito`), `cochazo` (`-azo`), `gentuza` (`-uza`) y `pequeñín` (`-ín`). Derivativos: `codazo` (`-azo` con el valor de golpe) y `librería` (`-ería`, lugar). El criterio es que el apreciativo solo añade un matiz de tamaño o de valoración y no cambia ni la clase de palabra ni la realidad nombrada, mientras que el derivativo crea una palabra nueva, con significado propio y entrada aparte en el diccionario.",
+          "**b)** Diminutivos: `cochecito` (tamaño pequeño) y `pequeñín` (afecto, porque el tamaño ya está en el lexema). Aumentativo: `cochazo` (tamaño grande con admiración). Despectivo: `gentuza` (desprecio hacia el grupo del que se habla).",
+          "**c)** En `cochazo`, `-azo` es aumentativo y pondera el tamaño o la calidad; en `codazo`, `-azo` significa «golpe dado con» y forma una palabra nueva. Otra pareja: `cuerpazo` (aumentativo) frente a `balonazo` (golpe dado con el balón).",
+          "**d)** Porque `-eza` no es apreciativo, sino derivativo: no añade tamaño ni valoración, sino que convierte el adjetivo `bello` en el sustantivo abstracto `belleza`; es decir, cambia la categoría gramatical y crea una palabra distinta.",
+          "**e)** Respuesta abierta. Es correcta si los tres apreciativos son de tipos distintos, quedan bien señalados y el matiz que se les atribuye se sostiene con el contexto del diálogo.",
+        ],
+      },
+      {
         p: [
           "**a)** ¿Verdad o mentira? «En `mesita`, el sufijo `-ita` solo dice que la mesa es pequeña, así que sigue siendo un sustantivo.» Corrige si es falsa.",
           "**b)** ¿Verdad o mentira? «En `belleza`, el sufijo `-eza` solo añade cariño.»",
@@ -330,6 +430,7 @@ export const ACTS: Act[] = [
           "**c)** Verdad: las tres comparten el lexema `perr-`, aunque dos sean apreciativas y la tercera nombre un lugar.",
           "**d)** Mentira: aquí `-azo` significa «golpe» (golpe dado con el codo); en `cochazo` sí significa «grande».",
         ],
+        ad: "El análisis se convierte en cuatro frases de verdadero o falso con una corrección breve: ya no hay que separar apreciativos de derivativos en una lista, ni clasificarlos por tipo, ni redactar el diálogo final, y el doble valor de `-azo` se pregunta en un único ejemplo.",
       },
       {
         in: "Recuerda antes de empezar: los diminutivos y aumentativos solo cambian el tamaño o el cariño.",

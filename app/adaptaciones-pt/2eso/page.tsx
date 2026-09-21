@@ -5,7 +5,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 export const metadata: Metadata = {
   title: "2.º de ESO · Adaptaciones PT — Aula en la Nube",
   description:
-    "Adaptaciones de ejercicios para 2.º de ESO con dificultades: matemáticas y castellano. Cada ejercicio, en cuatro niveles descendentes: matemáticas de 2.º ESO a 5.º de primaria y castellano de 1.º ESO a 4.º de primaria.",
+    "Adaptaciones de ejercicios para 2.º de ESO con dificultades: matemáticas y castellano. Cada ejercicio parte del nivel de 2.º de ESO y baja en adaptaciones: hasta 5.º de primaria en matemáticas y hasta 4.º de primaria en castellano.",
 };
 
 const chip =
@@ -29,7 +29,7 @@ const MATERIAS = [
   {
     t: "Castellano",
     href: "/adaptaciones-pt/2eso/castellano/",
-    d: "Tema 1 de Lengua Castellana: 6 bloques (repaso, comunicación, sustantivo y adjetivo, derivación, géneros literarios y acentuación) con 6 actividades cada uno, adaptadas a 1.º de ESO, 6.º, 5.º y 4.º de primaria.",
+    d: "Tema 1 de Lengua Castellana: 6 bloques (repaso, comunicación, sustantivo y adjetivo, derivación, géneros literarios y acentuación) con 6 actividades cada uno, en 5 niveles: el ejercicio base de 2.º de ESO y sus adaptaciones a 1.º de ESO, 6.º, 5.º y 4.º de primaria.",
     listo: true,
     emoji: "📖",
   },
@@ -52,9 +52,9 @@ export default function AdaptacionesPte2Eso() {
       <p className="mt-4 text-lg text-zinc-600">
         Materiales de apoyo para alumnado de <b>2.º de ESO con dificultades</b>, listos para usar
         en clase y en casa. Cada ejercicio parte de una situación real y se declina en{" "}
-        <b>cuatro niveles</b> descendentes —en matemáticas, de 2.º de ESO a 5.º de primaria; en
-        castellano, de 1.º de ESO a 4.º de primaria, porque el nivel de competencia curricular de
-        partida es más bajo—: el mismo objetivo de aprendizaje, accesible a cada alumno.
+        varios <b>niveles descendentes</b>: siempre arriba el ejercicio de 2.º de ESO y, debajo,
+        las adaptaciones —hasta 5.º de primaria en matemáticas y hasta 4.º de primaria en
+        castellano—. El mismo objetivo de aprendizaje, accesible a cada alumno.
       </p>
 
       <div className="mt-4 rounded-2xl border border-zinc-200 bg-zinc-100 p-5 text-sm text-zinc-700">

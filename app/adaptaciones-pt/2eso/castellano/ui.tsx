@@ -10,13 +10,16 @@ export const chip =
 const nivel =
   "inline-block rounded-full border px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider";
 
-// Orden de los cuatro niveles: 1.º ESO (referencia) → 6.º → 5.º → 4.º primaria.
-export const n1 = nivel + " border-violet-300 bg-violet-50 text-violet-700";
-export const n6 = nivel + " border-sky-300 bg-sky-50 text-sky-700";
-export const n5 = nivel + " border-emerald-300 bg-emerald-50 text-emerald-700";
-export const n4 = nivel + " border-amber-300 bg-amber-50 text-amber-700";
+// Orden de los cinco niveles: 2.º ESO (base) → 1.º ESO → 6.º → 5.º → 4.º.
+// Los cuatro primeros colores son los mismos que usa matemáticas para esos
+// mismos cursos, para que un nivel se reconozca igual en las dos materias.
+export const n2 = nivel + " border-violet-300 bg-violet-50 text-violet-700";
+export const n1 = nivel + " border-sky-300 bg-sky-50 text-sky-700";
+export const n6 = nivel + " border-emerald-300 bg-emerald-50 text-emerald-700";
+export const n5 = nivel + " border-amber-300 bg-amber-50 text-amber-700";
+export const n4 = nivel + " border-rose-300 bg-rose-50 text-rose-700";
 
-export const NIVEL_CLS = [n1, n6, n5, n4];
+export const NIVEL_CLS = [n2, n1, n6, n5, n4];
 
 export const tarjeta =
   "mt-8 scroll-mt-24 rounded-2xl border border-sky-200 bg-gradient-to-br from-sky-100 via-blue-50 to-indigo-100 p-5 shadow-sm sm:p-7";

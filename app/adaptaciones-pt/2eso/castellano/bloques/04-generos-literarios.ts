@@ -31,6 +31,23 @@ export const ACTS: Act[] = [
     fig: "generos",
     nv: [
       {
+        in: "**A)** El sábado, a las ocho, el mercado de Xàtiva ya olía a naranja partida. Marc apretó la lista de la compra dentro del bolsillo y se metió entre los puestos; nadie sabía todavía, ni siquiera él, que aquella mañana iba a perder mucho más que el dinero de la fruta. · **B)** Naranjas del huerto mío, / dormidas en la mañana: / cuando el sol baja hasta el río / se asoman a mi ventana. · **C)** (*Comedor de un piso del Cabanyal. Marzo, media tarde.*) **JULIA.** (*Abre la ventana.*) Huele a pólvora: ya empieza la mascletà. **PAU.** Baja, que sin ti no salimos. **JULIA.** (*Aparte, al público.*) Todos los años dice lo mismo y todos los años se va sin mí.",
+        p: [
+          "**a)** Di a qué género pertenece cada fragmento y justifica cada respuesta con **dos marcas** del propio texto.",
+          "**b)** Clasifica el narrador de A (omnisciente, testigo o protagonista) y demuéstralo con una marca textual.",
+          "**c)** Mide el verso 1 y el verso 3 de B, escribe el esquema métrico completo y clasifica la rima.",
+          "**d)** En C, explica qué indica cada acotación y nombra el recurso teatral de la última intervención de Julia. ¿C está en prosa o en verso? ¿Por qué eso no decide su género?",
+          "**e)** Reescribe el fragmento A convirtiéndolo en teatro: dos réplicas con una acotación. ¿Qué elemento de la narrativa desaparece por el camino?",
+        ],
+        s: [
+          "**a)** A → **narrativa**: una voz en 3.ª persona cuenta hechos (*apretó*, *se metió*) y sitúa espacio y tiempo (el mercado de Xàtiva, el sábado a las ocho). B → **lírica**: habla un yo lírico que expresa lo que siente (*mío*, *mi ventana*) y el texto está dispuesto en versos medidos y rimados. C → **dramática**: el nombre del personaje encabeza cada intervención y hay acotaciones entre paréntesis; la historia avanza solo con el diálogo.",
+          "**b)** Narrador **omnisciente** en 3.ª persona: no es un personaje (*Marc apretó*, no *apreté*) y sabe más que él, porque anticipa lo que va a ocurrir y lo que Marc ignora (*nadie sabía todavía, ni siquiera él…*). Un narrador testigo solo podría contar lo que ve desde fuera, nunca el futuro.",
+          "**c)** Verso 1: *Na / ran / jas / del / huer / to / mí / o* = **8**. Verso 3: *cuan / do-el / sol / ba / ja-has / ta-el / rí / o* = **8** (tres sinalefas; en *baja hasta* la *h* no impide la sinalefa). Esquema **8a 8b 8a 8b**, de arte menor, con rima **consonante** (*mío* – *río*, *mañana* – *ventana*): es una cuarteta.",
+          "**d)** (*Comedor de un piso del Cabanyal. Marzo, media tarde.*) sitúa el espacio y el tiempo; (*Abre la ventana.*) indica un movimiento; (*Aparte, al público.*) señala a quién se dirige Julia. Esa última intervención es un **aparte**: unas palabras dirigidas al público que, por convención, los demás personajes no oyen. C está en **prosa**, pero eso no lo convierte en narrativa: prosa y verso son la forma; el género lo deciden quién habla y para qué se escribe el texto (aquí, personajes que dialogan para ser representados).",
+          "**e)** Modelo: «(*Mercado de Xàtiva. Sábado por la mañana.*) **MARC.** (*Sacando la lista del bolsillo*) Dos kilos de naranjas y me vuelvo a casa. **VENDEDORA.** Tú sabrás, chico, pero de este mercado hoy no sale nadie a la hora que quiere.» Desaparece el **narrador**: ya nadie puede contar lo que Marc no sabe, así que esa información tiene que salir del diálogo o de las acotaciones.",
+        ],
+      },
+      {
         in: "**A)** Aquel sábado el mercado de Xàtiva olía a naranjas. Marc apretó la lista de la compra y se perdió entre los puestos. · **B)** Naranjas del huerto mío, / dormidas en la mañana: / cuando el sol baja hasta el río / se asoman a mi ventana. · **C)** **JULIA.** (*Abre la ventana.*) Huele a pólvora: ya empieza la mascletà. **PAU.** Baja, que sin ti no salimos.",
         p: [
           "**a)** Di a qué género pertenece cada fragmento: A, B y C.",
@@ -44,6 +61,7 @@ export const ACTS: Act[] = [
           "**c)** A y C, en prosa; B, en verso. Se ve por la forma: las líneas de B se cortan antes del margen y se agrupan en una estrofa.",
           "**d)** A podría ser el comienzo de un cuento o de una novela (todavía no se sabe la extensión); C se acerca a una comedia: personajes corrientes, escena cotidiana y tono de enredo.",
         ],
+        ad: "Los tres fragmentos se acortan y desaparece el aparte; se retiran el análisis del tipo de narrador y la medida de los versos, y ya no hay que reescribir el texto en otro género: basta con justificar el género y proponer un subgénero.",
       },
       {
         in: "**A)** Aquel sábado el mercado de Xàtiva olía a naranjas. Marc se perdió entre los puestos. · **B)** Naranjas del huerto mío, / dormidas en la mañana. · Pista: fíjate en quién habla y en si las líneas llegan hasta el margen.",
@@ -93,6 +111,23 @@ export const ACTS: Act[] = [
     ic: "lupa",
     nv: [
       {
+        in: "Cuando el conserje cerró la puerta a mis espaldas, ya era tarde para todo. Me llamo Ainhoa y aquel martes de octubre llegué al instituto con la niebla pegada al abrigo. Dos horas antes, mientras desayunaba, Nerea me había escrito un mensaje que no quise abrir; si lo hubiera leído, no habría cruzado el patio tan tranquila. Ella me esperaba en el porche, empapada y con cara de malas noticias.",
+        p: [
+          "**a)** Clasifica el narrador (omnisciente, testigo o protagonista) y define su punto de vista. Justifícalo con **dos marcas** del texto.",
+          "**b)** Identifica los personajes, el espacio y el tiempo de la narración.",
+          "**c)** El relato no avanza en orden lineal: localiza la expresión que lo demuestra y di qué recurso se está usando. ¿Por qué punto de la historia empieza el fragmento?",
+          "**d)** Reescribe la segunda frase con un narrador **omnisciente** en 3.ª persona y explica qué puede contar ahora que antes era imposible.",
+          "**e)** Continúa el texto con tres líneas que funcionen como **nudo**, manteniendo el narrador original.",
+        ],
+        s: [
+          "**a)** Es un narrador **protagonista**: cuenta en 1.ª persona (*me llamo*, *llegué*, *no quise abrir*) y es el personaje central de lo que se narra. El punto de vista es interno y limitado: solo sabemos lo que Ainhoa ve, recuerda o decide; ni siquiera conocemos el contenido del mensaje, porque ella no llegó a abrirlo.",
+          "**b)** Personajes: Ainhoa (narradora protagonista), Nerea y el conserje. Espacio: el instituto (la puerta, el patio, el porche). Tiempo: un martes de octubre, a primera hora de la mañana, con niebla.",
+          "**c)** «Dos horas antes, mientras desayunaba, Nerea me había escrito un mensaje…»: es una **retrospección**, un salto atrás en el tiempo marcado por *dos horas antes* y por el pluscuamperfecto *había escrito*. Además, el fragmento arranca con la acción ya empezada (la puerta cerrándose a su espalda), es decir, *in medias res*, no por el planteamiento.",
+          "**d)** Modelo: «Se llamaba Ainhoa y aquel martes de octubre llegó al instituto con la niebla pegada al abrigo.» Un narrador omnisciente puede contar lo que el personaje no sabe ni ve: qué decía el mensaje, cuánto llevaba Nerea esperando bajo el porche o lo que iba a ocurrir al día siguiente.",
+          "**e)** Modelo: «Nerea me tendió el móvil sin decir nada. En la pantalla estaba la foto del mural del patio y, debajo, firmados con espray, nuestros dos nombres. Yo no había pintado aquel mural, pero el conserje ya cruzaba la niebla preguntando por mí.»",
+        ],
+      },
+      {
         in: "Me llamo Ainhoa y aquel martes de octubre llegué tarde al instituto. La niebla tapaba el campo de fútbol y, al cruzar el patio, oí una voz que me llamaba desde el porche. Era Nerea, con el abrigo empapado y cara de malas noticias.",
         p: [
           "**a)** ¿En qué persona está el narrador? Copia **tres** palabras del texto que lo demuestren.",
@@ -106,6 +141,7 @@ export const ACTS: Act[] = [
           "**c)** Modelo: «Se llamaba Ainhoa y aquel martes de octubre llegó tarde al instituto. La niebla tapaba el campo de fútbol y, al cruzar el patio, oyó una voz que la llamaba desde el porche.»",
           "**d)** Es el planteamiento: se presentan los personajes, el lugar y el momento, y asoma el problema que pondrá en marcha la historia.",
         ],
+        ad: "El texto se cuenta ya en orden lineal y sin la retrospección, se retira el análisis del tipo de narrador y del punto de vista, y en lugar de continuar la historia basta con reescribir dos frases en 3.ª persona.",
       },
       {
         in: "Me llamo Ainhoa y aquel martes llegué tarde al instituto. Al cruzar el patio, oí una voz que me llamaba.",
@@ -155,6 +191,23 @@ export const ACTS: Act[] = [
     ic: "tarjetas",
     nv: [
       {
+        in: "**1)** Una zorra elogia el canto de un cuervo hasta que este abre el pico y suelta el queso; el texto acaba en dos versos que enseñan algo. · **2)** Un libro de trescientas páginas sobre tres generaciones de una familia de Morella, con varias historias que se cruzan. · **3)** Seis páginas: un chico encuentra una llave en el patio del instituto y en la última línea descubre qué abre. · **4)** Los antiguos contaban que el Túria bajaba enfadado porque un dios le había roto el cántaro donde guardaba la lluvia. · **5)** En Catarroja aseguran que quien cruza el puente a medianoche oye las campanas hundidas de la Albufera. · **6)** Un texto de dos líneas: «Cerró la puerta con llave. Dentro, alguien siguió llamando.»",
+        p: [
+          "**a)** Asigna a cada descripción su subgénero: cuento, novela, leyenda, mito, fábula o microrrelato.",
+          "**b)** Justifica con **dos rasgos** por qué la 2 y la 3 no pertenecen al mismo subgénero.",
+          "**c)** La 4 y la 5 comparten un rasgo y se separan en otro: explica los dos.",
+          "**d)** Redacta la moraleja de la 1 en un **pareado** de octosílabos e indica si tu rima es consonante o asonante.",
+          "**e)** Escribe un **microrrelato** de dos líneas ambientado en el mercado de tu barrio y explica qué rasgos del subgénero has tenido que respetar.",
+        ],
+        s: [
+          "**a)** 1 → fábula · 2 → novela · 3 → cuento · 4 → mito · 5 → leyenda · 6 → microrrelato.",
+          "**b)** La 2 es una **novela**: es extensa, abarca un tiempo amplio (tres generaciones) y sostiene varias líneas de acción a la vez. La 3 es un **cuento**: es breve, concentra una sola acción y pocos personajes, y todo empuja hacia un único final.",
+          "**c)** Rasgo común: las dos se cuentan como si fueran verdad y proceden de la tradición oral. Diferencia: el **mito** explica el origen de algo (por qué el río baja crecido) y sus protagonistas son dioses; la **leyenda** se ancla en un lugar y un tiempo reconocibles (Catarroja, la Albufera) y mezcla lo real con lo maravilloso.",
+          "**d)** Modelo: «Cuando alguien te alaba tanto, / cierra el pico y guarda el canto.» Son dos octosílabos (*cuan / do-al / guien / te-a / la / ba / tan / to* = 8) con rima **consonante** en *-anto*.",
+          "**e)** Modelo: «Compró las naranjas más caras del puesto. Al llegar a casa, dentro de la bolsa solo había una nota con su nombre.» El microrrelato exige brevedad extrema, elipsis (se calla casi todo: quién escribió la nota, qué ponía) y un final que obligue a releer.",
+        ],
+      },
+      {
         in: "**1)** Una zorra elogia el canto de un cuervo hasta que este abre el pico y suelta el queso; el texto acaba con una frase que enseña algo. · **2)** Un libro de trescientas páginas sobre tres generaciones de una familia de Morella. · **3)** Dos páginas: un chico encuentra una llave en el patio y en la última línea descubre qué abre. · **4)** Los antiguos contaban que el Túria bajaba enfadado porque un dios le había roto el cántaro. · **5)** En el pueblo dicen que quien cruza el puente a medianoche oye las campanas hundidas de la Albufera.",
         p: [
           "**a)** Asigna a cada descripción su subgénero: cuento, novela, leyenda, mito o fábula.",
@@ -168,6 +221,7 @@ export const ACTS: Act[] = [
           "**c)** Modelo: «No te fíes de quien te alaba demasiado: algo quiere.»",
           "**d)** Las dos se cuentan como si fueran verdad y vienen de lo que la gente contaba antiguamente. El mito explica el origen de algo con dioses; la leyenda se sitúa en un lugar concreto y reconocible.",
         ],
+        ad: "Se retira el microrrelato, la moraleja se escribe en prosa y no en un pareado medido, y desaparece la producción de un texto propio: solo hay que clasificar y comparar.",
       },
       {
         in: "**1)** Una zorra elogia al cuervo hasta que suelta el queso; al final hay una frase que enseña algo. · **2)** Un libro muy largo sobre una familia de Morella. · **3)** Dos páginas: un chico encuentra una llave. · **4)** En el pueblo dicen que a medianoche se oyen campanas bajo la Albufera. · Ejemplo resuelto: 1 → fábula (animales que hablan y moraleja).",
@@ -217,6 +271,23 @@ export const ACTS: Act[] = [
     ic: "lira",
     nv: [
       {
+        in: "El sol sale en la Albufera, / mi abuelo empuja la barca, / brilla el agua como un vidrio / y el naranjal se levanta. / Rema despacio, sin prisa, / que el tiempo aquí no hace falta.",
+        p: [
+          "**a)** Mide los seis versos uno a uno, marcando las sinalefas y la regla de la sílaba final. ¿Son de arte mayor o de arte menor? Justifícalo.",
+          "**b)** Escribe el esquema métrico completo y clasifica la rima. ¿En qué se diferenciaría de la consonante?",
+          "**c)** ¿Ante qué estrofa o serie estamos? Justifícalo con **dos rasgos** métricos.",
+          "**d)** ¿Quién es el yo lírico y qué transmite? Apóyate en dos expresiones del texto.",
+          "**e)** Añade dos versos más que continúen el poema respetando la medida y la rima de los versos pares.",
+        ],
+        s: [
+          "**a)** V1 *el / sol / sa / le-en / la-Al / bu / fe / ra* = 8 (sinalefa en *sale en* y en *la Albufera*). V2 *mi-a / bue / lo-em / pu / ja / la / bar / ca* = 8. V3 *bri / lla-el / a / gua / co / mo-un / vi / drio* = 8. V4 *y-el / na / ran / jal / se / le / van / ta* = 8. V5 *re / ma / des / pa / cio / sin / pri / sa* = 8 (aquí no hay ninguna sinalefa). V6 *que-el / tiem / po-a / quí / no-ha / ce / fal / ta* = 8 (tres sinalefas; en *no hace* la *h* no la impide). Los seis acaban en palabra llana, así que no hay que sumar ni restar nada: son octosílabos y, al tener ocho sílabas o menos, de **arte menor**.",
+          "**b)** Esquema: **8– 8a 8– 8a 8– 8a**. Riman solo los versos pares (*barca*, *levanta*, *falta*) con rima **asonante** á-a, porque desde la vocal tónica coinciden únicamente las vocales. Si coincidieran también las consonantes (*barca* – *comarca*), la rima sería consonante.",
+          "**c)** Es un **romance**: serie de versos octosílabos (arte menor) con rima asonante en los pares y los impares sueltos, sin división en estrofas cerradas.",
+          "**d)** El yo lírico es alguien que sale a remar de madrugada por la Albufera con su abuelo; transmite calma y afecto (*mi abuelo*, *rema despacio, sin prisa*, *el tiempo aquí no hace falta*).",
+          "**e)** Modelo: «Las garzas miran de lejos / y el remo abre la mañana.» El impar queda suelto y el par mantiene las ocho sílabas (*y-el / re / mo-a / bre / la / ma / ña / na*) y la asonancia á-a.",
+        ],
+      },
+      {
         in: "En la Albufera, temprano, / el agua parece un cristal; / mi abuelo mueve la mano / y el barco empieza a cantar.",
         p: [
           "**a)** ¿Cuántos versos tiene y cuántas estrofas forman? ¿Es arte mayor o arte menor?",
@@ -230,6 +301,7 @@ export const ACTS: Act[] = [
           "**c)** *temprano – mano*: rima **consonante**, porque desde la vocal tónica coinciden todos los sonidos (*-ano*). *cristal – cantar*: rima **asonante**, porque solo coincide la vocal tónica (*a*) y las consonantes finales son distintas (*l* y *r*).",
           "**d)** El yo lírico es alguien que recuerda salir temprano a la Albufera con su abuelo; transmite calma y cariño (*mi abuelo*, *el agua parece un cristal*).",
         ],
+        ad: "El poema baja de seis versos a cuatro, solo se miden dos de ellos, no hay que nombrar la estrofa ni escribir el esquema métrico entero y desaparece la continuación con versos propios.",
       },
       {
         in: "En la Albufera, temprano, / mi abuelo mueve la mano. · Pista: cuando una palabra acaba en vocal y la siguiente empieza por vocal, las dos vocales se cuentan como una sola sílaba (sinalefa).",
@@ -279,6 +351,23 @@ export const ACTS: Act[] = [
     ic: "mascaras",
     nv: [
       {
+        in: "**ACTO PRIMERO · ESCENA II.** (*Cocina de un piso de Valencia. Es de noche. Suena una mascletà a lo lejos.*) **JULIA.** (*Asomándose al pasillo*) ¿Alguien ha visto mi camiseta de la falla? **PAU.** Está tendida en la terraza desde el domingo. **JULIA.** (*Sale corriendo.*) ¡No me esperéis para cenar! (*Pau se queda solo. Baja la luz.*) **PAU.** Siempre igual: entra, pregunta y desaparece. Mañana dirá que nadie la avisa de nada, y yo volveré a callarme, y la terraza seguirá llena de camisetas que no recoge nadie.",
+        p: [
+          "**a)** Señala los elementos de la **estructura externa** que aparecen y explica cuándo cambia una escena. ¿Qué sería un cuadro?",
+          "**b)** Clasifica las **cuatro** acotaciones según lo que indican: espacio, tiempo, sonido, gesto, movimiento o iluminación.",
+          "**c)** La última intervención de Pau no es una réplica más: nombra el recurso y explica en qué se diferencia del **aparte**.",
+          "**d)** Demuestra con **dos pruebas** del texto que aquí no hay narrador y di por qué vías llega entonces la información al espectador.",
+          "**e)** ¿A qué subgénero se acerca (tragedia, comedia, drama, entremés o sainete)? Justifícalo y escribe una réplica más para Julia al volver a escena, con su acotación.",
+        ],
+        s: [
+          "**a)** Aparecen el **acto** (ACTO PRIMERO) y la **escena** (ESCENA II). El acto es cada gran parte de la obra, separada normalmente por la caída del telón; la escena es una parte menor dentro del acto y cambia cada vez que entra o sale un personaje del escenario (al salir Julia corriendo terminaría esta escena). El **cuadro** es el cambio de decorado o de ambiente dentro de un mismo acto.",
+          "**b)** (*Cocina de un piso de Valencia. Es de noche. Suena una mascletà a lo lejos.*) → espacio, tiempo y sonido a la vez · (*Asomándose al pasillo*) → el gesto con el que habla Julia · (*Sale corriendo.*) → un movimiento: Julia abandona la escena · (*Pau se queda solo. Baja la luz.*) → movimiento e iluminación.",
+          "**c)** Es un **monólogo** (o soliloquio): Pau se ha quedado solo en escena y habla en voz alta lo que piensa, sin interlocutor. Se diferencia del **aparte** en que este es breve, se dice habiendo otros personajes delante y, por convención, solo lo oye el público; el monólogo ocupa toda la intervención y exige que el personaje esté solo.",
+          "**d)** Prueba 1: delante de cada intervención está el nombre del personaje en mayúsculas; no hay ninguna voz externa que cuente lo que ocurre. Prueba 2: todo lo que sabemos (dónde está la camiseta, que es de noche, que Julia se marcha) llega por el **diálogo** y por las **acotaciones**. En la representación, además, esa información la dan el decorado, la luz, el sonido y los gestos de los actores.",
+          "**e)** Se acerca a la **comedia**, y en concreto al **sainete**: personajes corrientes, ambiente doméstico y costumbrista valenciano, conflicto mínimo y tono que busca la sonrisa; no hay personajes nobles ni final desgraciado, como pediría la tragedia. Modelo de réplica: «**JULIA.** (*Volviendo con la camiseta empapada, sin mirar a Pau*) ¿Y tú no podías haberla recogido el lunes?»",
+        ],
+      },
+      {
         in: "(*Cocina de un piso de Valencia. Es de noche.*) **JULIA.** (*Asomándose al pasillo*) ¿Alguien ha visto mi camiseta de la falla? **PAU.** Está tendida en la terraza desde el domingo. **JULIA.** (*Sale corriendo.*) ¡No me esperéis para cenar! **PAU.** (*Al público.*) Siempre igual: entra, pregunta y desaparece.",
         p: [
           "**a)** Copia las **cuatro** acotaciones y explica qué indica cada una: lugar, gesto, movimiento o destinatario.",
@@ -292,6 +381,7 @@ export const ACTS: Act[] = [
           "**c)** Modelo: «**JULIA.** (*Desde la escalera, gritando*) ¡Y guardadme un trozo de tortilla!»",
           "**d)** A la **comedia**: personajes corrientes en una escena cotidiana, un pequeño enredo doméstico y un tono que busca la sonrisa, sin final desgraciado.",
         ],
+        ad: "Desaparecen el encabezamiento de acto y escena y el monólogo final, ya no se analiza la estructura externa y la lista de subgéneros se reduce a tres opciones.",
       },
       {
         in: "(*Cocina. Es de noche.*) **JULIA.** (*Asomándose*) ¿Alguien ha visto mi camiseta de la falla? **PAU.** Está tendida en la terraza.",
@@ -344,6 +434,23 @@ export const ACTS: Act[] = [
       {
         in: "Escena de partida: **Hugo pierde el autobús del instituto bajo la lluvia.**",
         p: [
+          "**a)** Escríbela en **narrativa**: cinco líneas en prosa con **narrador testigo** en 1.ª persona (alguien que lo ve desde la marquesina), indicando espacio y tiempo.",
+          "**b)** Reordena tu versión para que empiece *in medias res* y explica qué has movido de sitio.",
+          "**c)** Escríbela en **lírica**: una **redondilla** de octosílabos (esquema 8a 8b 8b 8a) con rima consonante. Mide después los dos primeros versos y señala las sinalefas.",
+          "**d)** Escríbela en **teatro**: dos réplicas, una acotación de espacio y un **aparte** de Hugo.",
+          "**e)** Explica qué se pierde y qué se gana al pasar de la narrativa al teatro, y por qué la diferencia entre prosa y verso no sirve para decidir el género.",
+        ],
+        s: [
+          "**a)** Modelo: «Yo esperaba el de las ocho y cuarto bajo la marquesina del instituto, aquel martes de febrero. Vi llegar a Hugo corriendo, con la mochila abierta y el pelo pegado a la frente. El conductor cerró la puerta y arrancó sin mirarlo. Hugo se quedó parado en medio del charco, sin gritar siquiera. Yo no dije nada: solo me aparté un poco para hacerle sitio.» El narrador testigo habla en 1.ª persona, pero no es el protagonista: cuenta desde fuera lo que le ocurre a otro.",
+          "**b)** Modelo: «El autobús ya giraba la esquina cuando Hugo llegó a la parada. Diez minutos antes yo lo había visto salir de casa sin paraguas…» Se lleva al principio un hecho del centro de la historia (la marcha del autobús) y lo anterior se recupera después, mediante una retrospección.",
+          "**c)** Modelo: «La lluvia me deja fuera, / el autobús ya se aleja / y en el cristal se refleja / un chico que desespera.» Medida: *la / llu / via / me / de / ja / fue / ra* = 8 (sin ninguna sinalefa) y *el / au / to / bús / ya / se-a / le / ja* = 8 (sinalefa en *se aleja*; entre *el* y *autobús* no la hay, porque *el* acaba en consonante). Rima consonante *-era* / *-eja* / *-eja* / *-era*: esquema 8a 8b 8b 8a, una redondilla.",
+          "**d)** Modelo: «(*Parada del instituto. Llueve.*) **HUGO.** (*Corriendo tras el autobús*) ¡Para, que llego! **CONDUCTOR.** (*Sin mirarlo*) A las ocho en punto, como siempre. **HUGO.** (*Aparte, al público.*) Como siempre no: hoy tenía examen a primera hora.»",
+          "**e)** Se pierde el **narrador**: ya nadie puede contar lo que Hugo piensa ni situar el tiempo y el lugar, así que esa información tiene que salir del diálogo, de las acotaciones y, en escena, del decorado, la luz y el sonido. Se gana presencia: el espectador ve y oye la escena en directo, con los gestos y el tono de los actores. La prosa y el verso son solo la forma del texto (hay teatro en verso y poemas en prosa), de modo que el género lo deciden quién habla y cómo se organiza la obra, no si las líneas llegan o no hasta el margen.",
+        ],
+      },
+      {
+        in: "Escena de partida: **Hugo pierde el autobús del instituto bajo la lluvia.**",
+        p: [
           "**a)** Escríbela en **narrativa**: tres líneas en prosa con narrador en 3.ª persona, indicando espacio y tiempo.",
           "**b)** Escríbela en **lírica**: dos versos con rima, y di después si es consonante o asonante.",
           "**c)** Escríbela en **teatro**: dos réplicas con una acotación entre paréntesis.",
@@ -355,6 +462,7 @@ export const ACTS: Act[] = [
           "**c)** Modelo: «**HUGO.** (*Corriendo tras el autobús*) ¡Para, que llego! **CONDUCTOR.** (*Sin mirarlo*) A las ocho en punto, como siempre.»",
           "**d)** En verso solo está la versión lírica; las otras dos, en prosa. Al pasar al teatro desaparece el **narrador**: nadie cuenta nada, todo lo sostienen los personajes y las acotaciones.",
         ],
+        ad: "La narración se acorta a tres líneas con narrador en 3.ª persona y sin alterar el orden del relato, la parte lírica pasa de una redondilla medida a dos versos con rima y el teatro prescinde del aparte.",
       },
       {
         in: "Escena de partida: **Hugo pierde el autobús bajo la lluvia.** · Modelo narrativo ya resuelto: «Hugo llegó empapado a la parada y el autobús ya se iba.»",

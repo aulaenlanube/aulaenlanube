@@ -1,5 +1,6 @@
 // Bloque 1 · La comunicación · Tema 1 de Lengua Castellana · Adaptaciones PT · 2.º ESO
-// Cuatro niveles por actividad: [0] 1.º ESO (referencia), [1] 6.º, [2] 5.º, [3] 4.º de primaria.
+// Cinco niveles por actividad: [0] 2.º ESO (ejercicio de referencia del curso),
+// [1] 1.º ESO, [2] 6.º, [3] 5.º y [4] 4.º de primaria (adaptaciones descendentes).
 
 import type { Ap, Act } from "../tipos";
 
@@ -30,6 +31,23 @@ export const ACTS: Act[] = [
     fig: "circuito",
     nv: [
       {
+        in: "Conversación en el grupo de clase de 2.º B, un lunes a las 21:40. **Nerea:** «Mañana la excursión a la Albufera sale a las 8:00 desde la puerta del instituto. No lleguéis tarde.» **Aitana:** «¡Qué pereza madrugar un martes!» **Hugo:** «¿Me leéis o tenéis el grupo silenciado?» **Nerea:** «Y se escribe *Albufera*, con efe, no *Albuhera*.»",
+        p: [
+          "**a)** Analiza los seis elementos de la comunicación en el primer mensaje de Nerea y explica por qué el receptor es **colectivo** y qué riesgo supone eso para la eficacia del aviso.",
+          "**b)** Identifica la función del lenguaje que predomina en cada una de las cuatro intervenciones y justifícala con las marcas del mensaje: tipo de oración, modo y persona verbal, léxico.",
+          "**c)** Determina el registro de la conversación, señala tres rasgos que lo demuestren y explica qué elementos de la comunicación lo condicionan.",
+          "**d)** Aitana no abre el grupo hasta las 7:55 del día siguiente, ya de camino al instituto. Explica qué parte del circuito falla entonces y por qué no se trata de un defecto del mensaje.",
+          "**e)** Redacta ese mismo aviso como un correo del tutor a las familias e indica qué elementos de la comunicación cambian respecto al mensaje de Nerea.",
+        ],
+        s: [
+          "**a)** Emisor: Nerea. Receptor: los compañeros del grupo de 2.º B. Mensaje: la hora y el lugar de salida de la excursión, más la orden de ser puntuales. Canal: la aplicación de mensajería del móvil. Código: el castellano escrito. Contexto: la noche anterior a una excursión del instituto. El receptor es **colectivo** porque el aviso no se dirige a nadie en concreto: la responsabilidad se reparte, cada uno da por hecho que va para los demás, nadie confirma la lectura y el mensaje puede quedarse sin abrir.",
+          "**b)** Nerea, primera intervención: **representativa o referencial** en la oración inicial, enunciativa y con datos objetivos, y **apelativa o conativa** en «No lleguéis tarde», con imperativo en segunda persona del plural. Aitana: **expresiva o emotiva**, oración exclamativa y valoración subjetiva («¡Qué pereza…!»). Hugo: **fática**, porque no pide información nueva, solo comprueba que el canal sigue abierto. Nerea, segunda intervención: **metalingüística**, ya que habla del propio código, de cómo se escribe una palabra.",
+          "**c)** Registro **informal o coloquial**. Rasgos: tuteo y segunda persona del plural, exclamaciones y preguntas directas, léxico coloquial («pereza», «silenciado»), ausencia de saludo, de despedida y de fórmulas de cortesía, y frases muy breves. Lo condicionan el **receptor** (iguales, compañeros con confianza) y el **contexto** (un grupo privado, de noche, fuera del horario escolar).",
+          "**d)** No falla el mensaje, que sigue siendo claro y completo: falla la **recepción**. El aviso llega al canal, pero el receptor no lo abre a tiempo y ya no puede actuar en consecuencia. La causa es un **ruido**: el grupo silenciado, el móvil sin datos o la notificación perdida entre otras muchas. Por eso un aviso importante conviene confirmarlo o enviarlo por una vía que garantice la lectura.",
+          "**e)** Por ejemplo: «Estimadas familias: les recordamos que mañana, martes 14, se realiza la excursión a la Albufera. La salida será a las 8:00 desde la puerta del instituto y el regreso, sobre las 17:00. Rogamos la máxima puntualidad. Reciban un cordial saludo. Jorge Sanchis, tutor de 2.º B.» Cambian el **emisor** (el tutor, que escribe en nombre del centro), el **receptor** (las familias, no el alumnado), el **canal** (el correo electrónico) y el **registro**, que pasa a ser formal. Se mantienen el código, el castellano escrito, y la información esencial del mensaje.",
+        ],
+      },
+      {
         in: "En el grupo de 2.º B, a las 21:40, Nerea escribe: «Mañana la excursión a la Albufera sale a las 8:00 desde la puerta del instituto. No lleguéis tarde.»",
         p: [
           "**a)** Identifica los seis elementos de la comunicación en esta situación: emisor, receptor, mensaje, canal, código y contexto.",
@@ -41,6 +59,7 @@ export const ACTS: Act[] = [
           "**b)** Es un receptor **colectivo**: al no dirigirse a nadie en concreto, cada uno puede pensar que el aviso va para los demás y nadie confirma. Por eso en un grupo conviene pedir respuesta o nombrar a alguien.",
           "**c)** Falla el **contexto**: en agosto no hay clases ni excursión, así que el mensaje resulta incomprensible aunque el emisor, el canal y el código sean exactamente los mismos.",
         ],
+        ad: "Se trabaja un solo mensaje en lugar de toda la conversación y se retiran las funciones del lenguaje, el registro y la redacción del correo: quedan tres apartados centrados en los seis elementos.",
       },
       {
         in: "Nerea escribe en el grupo de clase: «Mañana la excursión a la Albufera sale a las 8:00 desde la puerta del instituto.»",
@@ -90,6 +109,23 @@ export const ACTS: Act[] = [
     ic: "semaforo",
     nv: [
       {
+        in: "Seis situaciones de un martes cualquiera en Xàtiva: 1) el semáforo de la avenida se pone en rojo; 2) un compañero bosteza en tercera hora; 3) la megafonía del mercado anuncia una oferta de naranjas; 4) el cartel del ascensor dice «Fuera de servicio»; 5) en la pantalla del móvil aparece el icono de un sobre; 6) la bandera del ayuntamiento ondea a media asta.",
+        p: [
+          "**a)** Clasifica las seis situaciones en comunicación **verbal oral**, **verbal escrita** y **no verbal**, y justifica los dos casos que puedan resultar dudosos.",
+          "**b)** Los signos no verbales no funcionan todos igual. Clasifica los de las situaciones 1, 2, 5 y 6 como **índice**, **icono** o **símbolo**, explicando qué relación mantiene cada signo con aquello que representa.",
+          "**c)** Una de las seis situaciones comunica algo que el emisor no pretendía comunicar. Identifícala y explica por qué ocurre.",
+          "**d)** Un compañero te dice «estoy bien» con la mirada baja y la voz apagada. Analiza la contradicción entre lo verbal y lo no verbal y razona a cuál de los dos hace más caso el receptor.",
+          "**e)** Diseña un aviso **no verbal** para la puerta del aula de informática que prohíba comer dentro: describe los signos que emplearías, clasifícalos y explica qué ventaja tienen frente a un cartel escrito.",
+        ],
+        s: [
+          "**a)** 1) no verbal; 2) no verbal; 3) verbal oral; 4) verbal escrita; 5) no verbal; 6) no verbal. Resultan dudosos el bostezo, porque no hay intención comunicativa y aun así el receptor obtiene información, y el icono del sobre, que aparece en una pantalla junto a texto pero no emplea palabras, sino una imagen.",
+          "**b)** 1) **Símbolo**: la relación es convencional y arbitraria, porque el color rojo no se parece en nada a la orden de detenerse y hay que aprenderla. 2) **Índice**: la relación es natural, de causa y efecto, ya que el sueño o el aburrimiento producen el bostezo, y el signo no se ha creado para comunicar. 5) **Icono**: el dibujo se parece a lo que representa, un sobre de correo, y por eso se entiende sin conocer el idioma. 6) **Símbolo**: ni la tela ni la altura a la que está izada se parecen al luto; es una convención social aprendida.",
+          "**c)** El bostezo. Es un gesto involuntario, pero el receptor lo interpreta como «me aburro» o «tengo sueño»: lo no verbal comunica aunque el emisor no lo decida, porque funciona como índice de su estado.",
+          "**d)** Las palabras afirman una cosa y la mirada, la postura y el tono de voz dicen la contraria. El receptor hace más caso a lo **no verbal**, porque es mucho más difícil de controlar: se produce de forma casi involuntaria y funciona como un índice del estado real del emisor, mientras que las palabras se eligen. Cuando ambos códigos se contradicen, se impone el del cuerpo.",
+          "**e)** Respuesta abierta. Por ejemplo, un bocadillo y una lata dibujados dentro de un círculo rojo cruzado por una barra diagonal. El bocadillo y la lata son **iconos**, porque se parecen a lo que representan; el círculo con la barra y el propio color rojo son **símbolos**, convenciones aprendidas que significan prohibición. Ventaja: no exige compartir la lengua ni saber leer, y se interpreta de un vistazo y desde lejos.",
+        ],
+      },
+      {
         in: "Cinco situaciones de un martes cualquiera: 1) el semáforo de la avenida se pone en rojo; 2) un compañero bosteza en tercera hora; 3) la megafonía del mercado anuncia una oferta de naranjas; 4) el cartel del ascensor dice «Fuera de servicio»; 5) en la pantalla del móvil aparece el icono de un sobre.",
         p: [
           "**a)** Clasifica las cinco situaciones en verbal oral, verbal escrita o no verbal.",
@@ -101,6 +137,7 @@ export const ACTS: Act[] = [
           "**b)** El semáforo en rojo es una **señal**: es convencional, hay que aprender que el rojo significa detenerse, porque el color no se parece a la orden. El sobre del móvil es un **icono**: se parece a una carta, así que se entiende sin conocer el idioma.",
           "**c)** El bostezo. Es un gesto involuntario, pero el receptor lo interpreta como «me aburro» o «tengo sueño»: lo no verbal comunica aunque el emisor no lo decida.",
         ],
+        ad: "Una situación menos, la clasificación de los signos se reduce a señal e icono —sin índice ni símbolo— y desaparecen tanto el análisis de la contradicción verbal como el diseño del aviso.",
       },
       {
         in: "Cuatro situaciones: 1) el conserje dice «hasta mañana» *(ya resuelta: verbal, porque usa palabras)*; 2) el semáforo se pone en rojo; 3) una compañera te guiña un ojo; 4) el cartel del ascensor dice «Fuera de servicio».",
@@ -150,6 +187,23 @@ export const ACTS: Act[] = [
     ic: "carta",
     nv: [
       {
+        in: "Audio de mensajería que Álex, de 2.º B, envía a su tutora a las 22:15: «Hola, buenas, que mañana no puedo ir a clase porque tengo médico a primera hora, o sea que llego tarde fijo; luego me paso por el instituto y hablamos, ¿vale? Venga, gracias.»",
+        p: [
+          "**a)** Indica el canal, el código y el registro del audio, y señala tres rasgos del mensaje que delaten ese registro.",
+          "**b)** ¿Qué función del lenguaje predomina en el audio? Justifícalo y di qué función cumple el «¿vale?» final.",
+          "**c)** Traduce el contenido a un **código no verbal**: describe los iconos que emplearías y explica qué información se pierde y por qué ese código no puede transmitirla.",
+          "**d)** Explica por qué al cambiar de canal hay que cambiar también la forma de decirlo, aunque la información sea idéntica. Relaciona la respuesta con la permanencia del canal y con el receptor.",
+          "**e)** Reescribe el mensaje como una **nota formal** para entregar en conserjería: ajusta el registro al nuevo canal y añade los datos que el audio daba por sabidos.",
+        ],
+        s: [
+          "**a)** Canal: el móvil, en forma de audio de mensajería; el mensaje viaja por la voz y la red. Código: el castellano oral. Registro: **informal o coloquial**. Rasgos: fórmulas de apertura y cierre propias de la conversación («Hola, buenas», «Venga»), muletillas y expresiones coloquiales («o sea», «fijo») y frases encadenadas sin planificar, con un «que» inicial que arranca como si la conversación ya estuviera empezada.",
+          "**b)** Predomina la función **representativa o referencial**: el núcleo del mensaje es informar de un hecho, que no asistirá a clase y por qué, mediante oraciones enunciativas y datos objetivos. Se aprecia además un matiz **apelativo**, porque Álex espera que la tutora dé por justificada su ausencia. El «¿vale?» cumple la función **fática**: no aporta información ni pregunta de verdad, solo comprueba que el contacto sigue abierto y busca la conformidad del receptor.",
+          "**c)** Un reloj marcando primera hora, una cruz de farmacia o un maletín médico, el edificio del instituto tachado y una flecha que lleva a un reloj posterior. Se pierden la identidad del emisor, la disculpa y la cortesía, el matiz de «luego me paso» y la relación de causa entre la cita y la ausencia: los iconos representan bien objetos y acciones concretas, pero no expresan tiempos verbales, causas, cortesía ni intenciones, que solo el código verbal permite matizar.",
+          "**d)** Porque el canal condiciona el registro, la planificación y la permanencia del mensaje. El audio es inmediato y efímero, se apoya en el tono de voz y en todo lo que emisor y receptor comparten; la nota escrita queda archivada, puede leerla alguien que no conoce a Álex y debe bastarse a sí misma. Por eso exige nombre, curso, fecha, motivo y fórmulas de cortesía: cambiar de canal obliga a poner por escrito lo que la voz daba por supuesto.",
+          "**e)** Por ejemplo: «Xàtiva, 13 de noviembre. Estimada tutora: le comunico que mañana, martes 14, no podré asistir a las primeras horas de clase porque tengo una cita médica. Me incorporaré a lo largo de la mañana y pasaré a hablar con usted. Atentamente, Álex Ferrer, alumno de 2.º B.» El canal es ahora el papel, el registro es formal, aparece el tratamiento de usted y se explicitan fecha, curso, nombre y motivo.",
+        ],
+      },
+      {
         in: "Audio de mensajería de Álex a su tutora, enviado a las 22:15: «Hola, que mañana no voy a poder ir a clase porque tengo médico a primera hora, luego me paso por el instituto y hablamos.»",
         p: [
           "**a)** Reescribe el mensaje como una **nota escrita** para entregar en conserjería. Indica qué canal usa ahora.",
@@ -161,6 +215,7 @@ export const ACTS: Act[] = [
           "**b)** Un reloj con la hora, una cruz de farmacia o un maletín médico y el edificio del instituto tachado. Se pierden los matices: no queda claro quién lo envía, ni el «luego me paso», ni la disculpa.",
           "**c)** Porque el canal condiciona el registro y la permanencia. El audio es rápido, informal y se apoya en el tono de voz; la nota escrita queda archivada, la puede leer alguien que no conoce a Álex y necesita nombre, curso, fecha y motivo.",
         ],
+        ad: "El audio es más breve, se retiran el análisis del registro y de las funciones del lenguaje, y quedan tres apartados: reescribir la nota, traducirla a iconos y explicar el cambio de canal.",
       },
       {
         in: "Mensaje de audio: «Mañana no voy a clase porque tengo médico.» Modelo de nota ya empezado: «Buenos días. Álex Ferrer, de 2.º B, no asistirá a clase mañana porque…»",
@@ -210,6 +265,23 @@ export const ACTS: Act[] = [
     ic: "megafono",
     nv: [
       {
+        in: "Seis mensajes recogidos el mismo día: 1) «El autobús a Morella sale a las 7:30 de la estación de Castelló.» 2) «¿Me dejas los apuntes de ayer?» 3) «Compra ya: última semana de rebajas.» 4) «¡Qué rabia, se me ha borrado el trabajo entero!» 5) «*Maestrat* se escribe con te final, no con de.» 6) «Morella: piedra, niebla y silencio sobre el Maestrat.»",
+        p: [
+          "**a)** Indica la intención comunicativa de cada mensaje (informar, pedir, convencer o expresar) y la función del lenguaje que predomina en él.",
+          "**b)** Justifica las funciones de los mensajes 3, 5 y 6 con las marcas del propio mensaje: tipo de oración, modo verbal, persona y recursos empleados.",
+          "**c)** La frase «hace frío aquí» puede tener dos intenciones muy distintas. Explica cuáles son y qué elemento de la comunicación decide cuál vale en cada caso.",
+          "**d)** Reescribe el mensaje 1 para que su intención pase a ser *convencer*, sin cambiar el tema del autobús, y di qué función del lenguaje predomina entonces.",
+          "**e)** En la lista falta la función **fática**. Escribe un mensaje que la cumpla y explica para qué sirve esa función.",
+        ],
+        s: [
+          "**a)** 1) informar: función **representativa o referencial**; 2) pedir: **apelativa o conativa**; 3) convencer: **apelativa o conativa**; 4) expresar: **expresiva o emotiva**; 5) informar sobre la lengua misma: **metalingüística**; 6) llamar la atención sobre la forma del mensaje: **poética**.",
+          "**b)** Mensaje 3: verbo en **imperativo** («compra»), apelación directa al receptor y el adverbio «ya», que añade urgencia; todo el mensaje busca una reacción, de ahí la función apelativa. Mensaje 5: la palabra *Maestrat* no se emplea para referirse al territorio, sino que se menciona como palabra; el mensaje habla del código, y por eso es metalingüística. Mensaje 6: no hay verbo, sino una enumeración de tres elementos con ritmo y una imagen sensorial; importa tanto cómo está dicho como lo que dice, que es la marca de la función poética.",
+          "**c)** Puede **informar**, dando un dato objetivo sobre la temperatura, o **pedir** de forma indirecta que alguien cierre la ventana o suba la calefacción. Lo decide el **contexto**, junto con el receptor: no significa lo mismo dicha por el hombre del tiempo en la televisión que dicha a quien está sentado junto a la ventana abierta.",
+          "**d)** Por ejemplo: «Coge el de las 7:30: llegas a Morella con tiempo, te ahorras la cola del siguiente y todavía desayunas allí.» Ya no se limita a dar un dato: apela al receptor con un imperativo y le ofrece razones, así que predomina la función **apelativa o conativa**.",
+          "**e)** Respuesta abierta: «¿Sí? ¿Me oyes bien?», «Ajá, sigue, que te escucho» o «Bueno, te dejo, que cuelgo». La función fática sirve para abrir, mantener, comprobar o cerrar el canal, no para transmitir información nueva: se limita a asegurar que la comunicación sigue en marcha.",
+        ],
+      },
+      {
         in: "Cuatro mensajes del mismo día: 1) «El autobús a Morella sale a las 7:30.» 2) «¿Me dejas los apuntes de ayer?» 3) «Compra ya: última semana de rebajas.» 4) «¡Qué rabia, se me ha borrado el trabajo!»",
         p: [
           "**a)** Indica la intención comunicativa de cada mensaje: informar, pedir, convencer o expresar.",
@@ -221,6 +293,7 @@ export const ACTS: Act[] = [
           "**b)** Por ejemplo: «Coge el de las 7:30: llegas a Morella con tiempo y te ahorras la cola del siguiente.» Ahora no solo informa, busca que el receptor elija ese autobús.",
           "**c)** Puede *informar* (dar un dato sobre la temperatura) o *pedir* de forma indirecta (que cierres la ventana). Lo decide el **contexto**: quién lo dice, a quién y en qué situación.",
         ],
+        ad: "Se pasa de seis mensajes a cuatro, se suprimen los de función metalingüística y poética, y solo se pide la intención comunicativa, sin nombrar las funciones del lenguaje ni justificarlas con marcas.",
       },
       {
         in: "Tres mensajes: 1) «Mañana hay examen de Lengua» *(ya resuelto: informar, porque da un dato)*; 2) «¿Me acompañas a secretaría?»; 3) «¡Bien, hemos ganado!»",
@@ -271,6 +344,23 @@ export const ACTS: Act[] = [
     fig: "circuito",
     nv: [
       {
+        in: "Cinco comunicaciones que salen mal: 1) Julia llama desde el cauce del Túria y se la oye entrecortada. 2) Un turista alemán pregunta en alemán en una panadería de Morella. 3) El profesor manda el correo de las notas a una dirección equivocada. 4) Marc escribe «nos vemos allí a las seis» y su amiga no sabe dónde es «allí». 5) El médico le dice al abuelo de Marc que tiene una «hipoacusia bilateral leve» y el abuelo asiente sin entender nada.",
+        p: [
+          "**a)** Indica en cada caso qué elemento del circuito comunicativo falla y justifícalo.",
+          "**b)** Define con tus palabras qué es el **ruido** y distingue cuáles de los cinco casos son ruido propiamente dicho y cuáles son fallos del código o del contexto.",
+          "**c)** Propón una solución concreta para cada fallo sin alterar la información que se quiere transmitir.",
+          "**d)** Los casos 2 y 5 fallan los dos por el código, pero no de la misma manera. Explica la diferencia y relaciónala con el **registro**.",
+          "**e)** Inventa dos situaciones del instituto: una en la que falle el **receptor** y otra en la que falle el **canal**. Explica en cada una cómo la resolverías.",
+        ],
+        s: [
+          "**a)** 1) El **canal**: hay interferencias y mala cobertura. 2) El **código**: emisor y receptor no comparten la lengua. 3) El **receptor**: el mensaje está bien construido, pero llega a quien no era y el destinatario previsto no lo recibe. 4) El **contexto**: falta la información compartida que da sentido a «allí», que por sí solo no señala ningún lugar. 5) El **código** de nuevo: comparten la lengua, pero el receptor no domina el vocabulario especializado que emplea el emisor.",
+          "**b)** El ruido es cualquier interferencia que aparece en el canal y deteriora, deforma o impide la llegada del mensaje: mala cobertura, jaleo en el pasillo, una fotocopia borrosa o un audio grabado con viento. Ruido propiamente dicho solo hay en el caso 1. En el 2 y en el 5 el problema está en el código; en el 4, en el contexto; y en el 3 el mensaje no se estropea, sino que se equivoca el destinatario.",
+          "**c)** 1) Salir del cauce a buscar cobertura o repetir el aviso por escrito. 2) Pasar a un código común: inglés, gestos, señalar el producto o un traductor del móvil. 3) Comprobar la dirección y reenviar el correo. 4) Sustituir el «allí» por el lugar concreto: «nos vemos en la puerta del instituto a las seis». 5) Traducir el tecnicismo a un registro común: «oye usted un poco menos por los dos oídos».",
+          "**d)** En el caso 2, emisor y receptor usan **lenguas distintas**: no comparten el código en absoluto y la comunicación es imposible mientras no cambien de sistema. En el caso 5 sí comparten la lengua, pero no la misma **variedad**: el médico emplea un registro formal y especializado, lleno de tecnicismos propios de su ámbito, ante un receptor que no pertenece a él. No basta con hablar el mismo idioma: hay que **adecuar el registro** al receptor y a la situación, y esa adecuación es responsabilidad del emisor.",
+          "**e)** Respuesta abierta. Fallo del receptor: el tutor cuelga el aviso de la charla en el tablón del pasillo, pero el grupo al que iba dirigido entra por la otra puerta y nunca pasa por allí; se resuelve enviándolo además por la vía que ese grupo sí consulta. Fallo del canal: la explicación que el profesor graba en vídeo se oye con eco y no se entiende; se resuelve regrabándola en un aula silenciosa o añadiendo subtítulos.",
+        ],
+      },
+      {
         in: "Cuatro comunicaciones que salen mal: 1) Julia llama desde el cauce del Túria y se la oye entrecortada. 2) Un turista alemán pregunta en alemán en una panadería de Morella. 3) El profesor manda el correo de las notas a una dirección equivocada. 4) Marc escribe «nos vemos allí a las seis» y su amiga no sabe dónde es «allí».",
         p: [
           "**a)** Indica en cada caso qué elemento de la comunicación está fallando.",
@@ -282,6 +372,7 @@ export const ACTS: Act[] = [
           "**b)** 1) buscar cobertura o repetirlo por escrito; 2) pasar a un código común: inglés, gestos o señalar el producto; 3) comprobar la dirección y reenviar; 4) concretar el lugar: «nos vemos en la puerta del instituto a las seis».",
           "**c)** El ruido es cualquier interferencia que estropea el mensaje mientras viaja por el canal. En el instituto: el jaleo del pasillo durante una explicación, una fotocopia borrosa o un audio grabado con viento.",
         ],
+        ad: "Un caso menos, se retiran la distinción entre ruido y fallo del código y la invención de situaciones propias, y la definición de ruido se pide con las propias palabras y un solo ejemplo.",
       },
       {
         in: "Tres casos: 1) Julia llama y se la oye entrecortada *(ya resuelto: falla el canal, hay mala cobertura)*; 2) un turista pregunta en alemán y el panadero no le entiende; 3) Marc escribe «nos vemos allí» y su amiga no sabe dónde.",
@@ -331,6 +422,23 @@ export const ACTS: Act[] = [
     ic: "tarjetas",
     nv: [
       {
+        in: "En el recreo, Aisha habla en castellano con Pau, luego en árabe con su hermana por videollamada y, al entrar en clase, saluda a la profesora en valenciano: «Bon dia». Por la tarde escribe en el grupo del equipo de baloncesto: «chicos, mañana entreno a las 6 en la pista de arriba, no faltéis porfa».",
+        p: [
+          "**a)** Define **lenguaje**, **lengua** y **habla**, y aplica cada concepto a la escena con un ejemplo tomado de ella.",
+          "**b)** ¿Cuántas lenguas y cuántos lenguajes utiliza Aisha? Justifica la diferencia.",
+          "**c)** Compara el saludo a la profesora con el mensaje del grupo de baloncesto: di qué cambia en cuanto a la **lengua** y qué cambia en cuanto al **registro**, y señala tres rasgos que lo demuestren.",
+          "**d)** Un grupo de amigos usa palabras inventadas que solo entienden ellos. ¿Están creando una lengua nueva o se trata de una **variedad** de su habla? Razona la respuesta a partir de la definición de lengua.",
+          "**e)** Redacta dos versiones de un mismo mensaje —pedir permiso para salir antes de clase— dirigidas a tu mejor amigo y a la jefa de estudios, y explica después qué elemento de la comunicación te ha obligado a cambiar el registro.",
+        ],
+        s: [
+          "**a)** El **lenguaje** es la capacidad humana y universal de comunicarse mediante signos: es lo que permite a Aisha entenderse con los demás, hable la lengua que hable. Una **lengua** es el sistema concreto de signos, con su gramática y su vocabulario, que comparte una comunidad de hablantes: aquí, el castellano, el árabe y el valenciano. El **habla** es el uso real y concreto que cada persona hace de su lengua en un momento dado: el «Bon dia» que dice al entrar en clase o el mensaje que escribe por la tarde.",
+          "**b)** Tres lenguas y un solo lenguaje. El lenguaje no es un idioma, sino la capacidad de comunicarse con signos, y por eso no se multiplica: se tiene o no se tiene. Las lenguas sí se suman, porque son los sistemas concretos que se aprenden y se usan.",
+          "**c)** En cuanto a la lengua cambia todo: el saludo está en **valenciano** y el mensaje del equipo, en **castellano**. En cuanto al registro, el saludo a la profesora es **formal**, una fórmula de cortesía fija propia del trato respetuoso; el mensaje del grupo es **informal**, como demuestran las minúsculas y la ausencia de tildes, las cifras y abreviaturas («6», «porfa») y el vocativo y el imperativo de confianza («chicos», «no faltéis»), sin saludo ni despedida. El registro no lo marca la lengua, sino el receptor y la situación.",
+          "**d)** Es una **variedad** de su habla, una jerga de grupo, no una lengua nueva. Siguen empleando la gramática y prácticamente todo el vocabulario de la misma lengua y solo sustituyen unas cuantas palabras. Una lengua es un sistema completo —con su fonética, su gramática y su léxico— compartido por toda una comunidad y transmitido de unos hablantes a otros, y eso no se improvisa entre cuatro amigos.",
+          "**e)** Respuesta abierta. Al amigo: «oye, ¿me cubres? que hoy me voy a y media, que tengo dentista». A la jefa de estudios: «Buenos días. Soy Aisha Ben Alí, de 2.º B. ¿Sería posible salir hoy a las 13:30? Tengo cita con el dentista y traigo el justificante firmado. Muchas gracias.» Lo que obliga a cambiar el registro es el **receptor** y, con él, el **contexto**: la relación con el destinatario y el ámbito en que se produce el mensaje deciden el grado de formalidad, aunque la información sea exactamente la misma.",
+        ],
+      },
+      {
         in: "En el recreo, Aisha habla en castellano con Pau, luego en árabe con su hermana por videollamada y, al entrar en clase, saluda a la profesora en valenciano: «Bon dia».",
         p: [
           "**a)** Explica qué es el **lenguaje**, qué es una **lengua** y qué es el **habla**, usando esta escena como ejemplo.",
@@ -342,6 +450,7 @@ export const ACTS: Act[] = [
           "**b)** Usa tres lenguas y un solo lenguaje: el lenguaje es una capacidad humana, no un idioma, y por eso no se cuenta uno por cada lengua que se hable.",
           "**c)** Es una forma de **habla**, propia de ese grupo: siguen usando la gramática y casi todo el vocabulario de la misma lengua, solo cambian unas cuantas palabras.",
         ],
+        ad: "La escena se acorta sin el mensaje del equipo, se retiran el registro y las variedades, y las tres definiciones se aplican directamente a la escena sin comparar textos ni redactar dos versiones.",
       },
       {
         in: "Pistas: **lenguaje** = poder comunicarse con signos · **lengua** = un idioma concreto · **habla** = cómo habla cada persona. Escena: Aisha habla castellano con Pau, árabe con su hermana y saluda en valenciano a la profesora.",

@@ -57,11 +57,12 @@ function cargarMotor(): Promise<void> {
 
 type Chip = { tag: string; label: string; niveles: number[] };
 const CHIPS: Chip[] = [
-  { tag: "todos", label: "Todos", niveles: [0, 1, 2, 3] },
-  { tag: "1eso", label: "1.º ESO (referencia)", niveles: [0] },
-  { tag: "6p", label: "6.º Primaria", niveles: [1] },
-  { tag: "5p", label: "5.º Primaria", niveles: [2] },
-  { tag: "4p", label: "4.º Primaria", niveles: [3] },
+  { tag: "todos", label: "Todos", niveles: [0, 1, 2, 3, 4] },
+  { tag: "2eso", label: "2.º ESO (base)", niveles: [0] },
+  { tag: "1eso", label: "1.º ESO", niveles: [1] },
+  { tag: "6p", label: "6.º Primaria", niveles: [2] },
+  { tag: "5p", label: "5.º Primaria", niveles: [3] },
+  { tag: "4p", label: "4.º Primaria", niveles: [4] },
 ];
 
 const chipCls = (sel: boolean) =>

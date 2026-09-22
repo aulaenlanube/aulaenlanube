@@ -122,9 +122,10 @@ export default function CursoIAWebPersonal() {
           <span className="flex-1">
             <span className="block text-[16px] font-bold">GitHub en carne viva: tu web, versionada por ti</span>
             <span className="block text-sm text-zinc-600 dark:text-zinc-400">
-              Cuenta, repositorio enlazado a tu carpeta local, commits honestos, máquina del tiempo y
-              dos diseños en dos ramas. Las dudas se preguntan a los modelos del centro; los comandos
-              los escribes tú.
+              Qué es Git y qué es GitHub de verdad, la configuración global desde consola y qué
+              escribir exactamente cuando pide usuario y contraseña (un token, no tu contraseña),
+              con los errores típicos y su arreglo. Después: repo enlazado a tu carpeta, commits
+              honestos, máquina del tiempo y dos diseños en dos ramas.
             </span>
           </span>
           <span className="w-fit rounded-full border border-blue-200 dark:border-blue-500/30 bg-blue-50 dark:bg-blue-500/10 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-blue-700 dark:text-blue-300">

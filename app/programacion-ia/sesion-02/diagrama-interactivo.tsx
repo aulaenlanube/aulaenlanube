@@ -45,6 +45,7 @@ const TONOS = {
   morado: { linea: "var(--dg-morado-linea)", fuerte: "var(--dg-morado-fuerte)", suave: "var(--dg-morado-suave)", borde: "var(--dg-morado-borde)" },
   verde: { linea: "var(--dg-verde-linea)", fuerte: "var(--dg-verde-fuerte)", suave: "var(--dg-verde-suave)", borde: "var(--dg-verde-borde)" },
   ambar: { linea: "var(--dg-ambar-linea)", fuerte: "var(--dg-ambar-fuerte)", suave: "var(--dg-ambar-suave)", borde: "var(--dg-ambar-borde)" },
+  rosa: { linea: "var(--dg-rosa-linea)", fuerte: "var(--dg-rosa-fuerte)", suave: "var(--dg-rosa-suave)", borde: "var(--dg-rosa-borde)" },
   gris: { linea: "var(--dg-gris-linea)", fuerte: "var(--dg-gris-fuerte)", suave: "var(--dg-gris-suave)", borde: "var(--dg-gris-borde)" },
 } as const;
 
@@ -583,7 +584,7 @@ function Lienzo({
 }
 
 // ════════════════════════════════════════════════════════════════════════════
-// 1 · Cadena de commits (Misión 3)
+// 1 · Cadena de commits (Misión 4)
 // Rejilla: carril main en x=52, columna de texto en x=78 (hash) y x=160
 // (mensaje). Chips en x=78. Bolas en y=178 / 268 / 358 (paso 90).
 // ════════════════════════════════════════════════════════════════════════════
@@ -634,7 +635,7 @@ export function CadenaCommits() {
       alto={414}
       pasos={PASOS_CADENA}
       etiqueta="Grafo de la rama main con tres commits encadenados: git init abre el carril y cada git commit añade una bola nueva enganchada a la anterior; HEAD marca la última."
-      pie="Cada commit es una bola nueva enganchada a la anterior, y HEAD siempre apunta a la última. Pulsa cualquier bola o comando. Misión 3."
+      pie="Cada commit es una bola nueva enganchada a la anterior, y HEAD siempre apunta a la última. Pulsa cualquier bola o comando. Misión 4."
       dibuja={(ctx) => (
         <>
           <Badge x={41} y={12} texto="main" tono="azul" />
@@ -676,7 +677,7 @@ export function CadenaCommits() {
 }
 
 // ════════════════════════════════════════════════════════════════════════════
-// 2 · Dos ramas, dos diseños (Misión 5)
+// 2 · Dos ramas, dos diseños (Misión 6)
 // Dos carriles: main en x=52, diseno-morado en x=170. Columna de texto: hash
 // en x=196, mensaje en x=278. Chips en x=196 (ancho máximo disponible: 354).
 // ════════════════════════════════════════════════════════════════════════════
@@ -730,12 +731,12 @@ export function RamasDosDisenos() {
       alto={410}
       pasos={PASOS_RAMAS}
       etiqueta="Dos carriles de commits: main en azul y diseno-morado en morado. La rama morada nace del commit a1b2c3d con git checkout -b, recibe su propio commit, y después main continúa por su cuenta con otro commit."
-      pie="main (azul) sigue tranquila; tu experimento (morado) nace de la misma bola y crece en paralelo. Misión 5."
+      pie="main (azul) sigue tranquila; tu experimento (morado) nace de la misma bola y crece en paralelo. Misión 6."
       dibuja={(ctx) => (
         <>
           <Badge x={41} y={12} texto="main" tono="azul" />
           <Badge x={159} y={12} texto="diseno-morado" tono="morado" />
-          <line x1={30} y1={50} x2={530} y2={50} stroke="#e4e4e7" strokeWidth={1} />
+          <line x1={30} y1={50} x2={530} y2={50} stroke={TONOS.gris.borde} strokeWidth={1} />
           {/* Carril morado: el hueco de la columna antes de que nazca la rama */}
           <Tramo
             x1={170}
@@ -795,7 +796,7 @@ export function RamasDosDisenos() {
 }
 
 // ════════════════════════════════════════════════════════════════════════════
-// 3 · Merge (Misión 6)
+// 3 · Merge (Misión 7)
 // Mismos carriles que el diagrama 2. La bola de fusión (x=52, y=348) recibe
 // DOS flechas: la del carril azul y la curva morada que baja desde D.
 // ════════════════════════════════════════════════════════════════════════════
@@ -841,12 +842,12 @@ export function MergeDiagrama() {
       alto={404}
       pasos={PASOS_MERGE}
       etiqueta="Fusión: la rama diseno-morado nace de main, recibe un commit propio, y después una bola de fusión en main recibe dos flechas, la del carril azul y la del carril morado."
-      pie="Dos líneas de historia y una bola de fusión con dos flechas de entrada: así entra tu diseño ganador. Misión 6."
+      pie="Dos líneas de historia y una bola de fusión con dos flechas de entrada: así entra tu diseño ganador. Misión 7."
       dibuja={(ctx) => (
         <>
           <Badge x={41} y={12} texto="main" tono="azul" />
           <Badge x={159} y={12} texto="diseno-morado" tono="morado" />
-          <line x1={30} y1={50} x2={530} y2={50} stroke="#e4e4e7" strokeWidth={1} />
+          <line x1={30} y1={50} x2={530} y2={50} stroke={TONOS.gris.borde} strokeWidth={1} />
           {/* main: de A a la bola de fusión */}
           <Tramo x1={52} y1={99} x2={52} y2={333} tono="azul" uid={ctx.uid} />
           {/* Bifurcación A → D */}
@@ -893,7 +894,7 @@ export function MergeDiagrama() {
 }
 
 // ════════════════════════════════════════════════════════════════════════════
-// 4 · Git (tu portátil) vs GitHub (la nube) — Misión 2
+// 4 · Git (tu portátil) vs GitHub (la nube) — Misión 3
 // Dos tarjetas de 200 de ancho (16..216 y 344..544) y un pasillo libre de 128
 // (216..344) con las tres flechas de sincronización. Los comandos, en chips
 // pulsables debajo; al pulsar uno se resalta también su flecha.
@@ -940,7 +941,7 @@ export function GitVsGithub() {
       alto={422}
       pasos={PASOS_NUBE}
       etiqueta="Git y GitHub: a la izquierda tu portátil, con tus ficheros, la carpeta .git y sus commits; a la derecha el repositorio en la nube. Entre los dos, tres flechas: clone baja una vez, push sube y pull baja."
-      pie="Git vive dentro de tu portátil (.git); GitHub es la copia que compartes. clone baja una vez; luego push sube y pull baja. Misión 2."
+      pie="Git vive dentro de tu portátil (.git); GitHub es la copia que compartes. clone baja una vez; luego push sube y pull baja. Misión 3."
       dibuja={(ctx) => (
         <>
           <Rotulo x={16} y={32} texto="TU PORTÁTIL · Git" color={TINTA} peso={700} tam={FS_MSG} />
@@ -954,13 +955,13 @@ export function GitVsGithub() {
           />
           {/* Tarjeta local */}
           <rect x={16} y={44} width={200} height={164} rx={14} fill="var(--dg-papel)" stroke={TONOS.gris.borde} strokeWidth={2} />
-          <rect x={32} y={62} width={168} height={38} rx={9} fill="#f4f4f5" stroke="#e4e4e7" strokeWidth={1.5} />
+          <rect x={32} y={62} width={168} height={38} rx={9} fill={TONOS.gris.suave} stroke={TONOS.gris.borde} strokeWidth={1.5} />
           <text x={116} y={87} textAnchor="middle" fontSize={FS_MSG} fontWeight={700} fill={TINTA}>
             tus ficheros
           </text>
           <Tramo x1={116} y1={104} x2={116} y2={126} tono="gris" uid={ctx.uid} />
           <Rotulo x={130} y={121} texto="commit" color={TONOS.gris.fuerte} peso={700} />
-          <rect x={32} y={130} width={168} height={62} rx={9} fill="#fffbeb" stroke="#fde68a" strokeWidth={1.5} />
+          <rect x={32} y={130} width={168} height={62} rx={9} fill={TONOS.ambar.suave} stroke={TONOS.ambar.borde} strokeWidth={1.5} />
           <text x={44} y={154} className="font-mono" fontSize={FS} fontWeight={700} fill={TONOS.ambar.fuerte}>
             .git
           </text>
@@ -971,11 +972,11 @@ export function GitVsGithub() {
           <Rotulo x={108} y={179} texto="commits" color={SUAVE} />
           {/* Tarjeta de GitHub */}
           <rect x={344} y={44} width={200} height={164} rx={14} fill="var(--dg-papel)" stroke={TONOS.gris.borde} strokeWidth={2} />
-          <rect x={360} y={62} width={168} height={38} rx={9} fill="#f4f4f5" stroke="#e4e4e7" strokeWidth={1.5} />
+          <rect x={360} y={62} width={168} height={38} rx={9} fill={TONOS.gris.suave} stroke={TONOS.gris.borde} strokeWidth={1.5} />
           <text x={444} y={87} textAnchor="middle" fontSize={FS_MSG} fontWeight={700} fill={TINTA}>
             repo: mi-web
           </text>
-          <rect x={360} y={130} width={168} height={62} rx={9} fill="#eff6ff" stroke="#bfdbfe" strokeWidth={1.5} />
+          <rect x={360} y={130} width={168} height={62} rx={9} fill={TONOS.azul.suave} stroke={TONOS.azul.borde} strokeWidth={1.5} />
           <text x={372} y={154} className="font-mono" fontSize={FS} fontWeight={700} fill={TONOS.azul.fuerte}>
             origin/main
           </text>
@@ -1019,7 +1020,7 @@ export function GitVsGithub() {
 }
 
 // ════════════════════════════════════════════════════════════════════════════
-// 5 · Pull Request (Misión 7, bonus)
+// 5 · Pull Request (Misión 8, bonus)
 // Carriles como en los diagramas 2 y 3. La tarjeta verde de la PR ocupa
 // 196..476 en y=240..304; el merge con squash deja UNA bola nueva en main
 // (por eso la curva de entrada es discontinua: la historia de la rama no viaja).
@@ -1066,12 +1067,12 @@ export function PullRequestDiagrama() {
       alto={434}
       pasos={PASOS_PR}
       etiqueta="Pull request: en el repositorio de Ana, una rama llamada mejora-texto nace de main con un commit, se sube a GitHub, se abre una pull request aprobada con un check verde, y el squash and merge deja un único commit nuevo en main."
-      pie="Así trabajan los equipos: nadie entra en main sin que otra persona revise la PR. Misión 7 (bonus)."
+      pie="Así trabajan los equipos: nadie entra en main sin que otra persona revise la PR. Misión 8 (bonus)."
       dibuja={(ctx) => (
         <>
           <Badge x={41} y={12} texto="main" tono="azul" />
           <Badge x={159} y={12} texto="mejora-texto" tono="morado" />
-          <line x1={30} y1={50} x2={530} y2={50} stroke="#e4e4e7" strokeWidth={1} />
+          <line x1={30} y1={50} x2={530} y2={50} stroke={TONOS.gris.borde} strokeWidth={1} />
           <Tramo x1={52} y1={93} x2={52} y2={367} tono="azul" uid={ctx.uid} />
           <Curva d="M 52 89 C 52 130, 170 122, 170 153" tono="morado" uid={ctx.uid} />
           {/* Squash: los cambios entran, la historia de la rama no (curva discontinua).
@@ -1162,7 +1163,7 @@ export function PullRequestDiagrama() {
 }
 
 // ════════════════════════════════════════════════════════════════════════════
-// 6 · Máquina del tiempo: reset vs revert (Misión 4)
+// 6 · Máquina del tiempo: reset vs revert (Misión 5)
 // Dos columnas separadas por una divisoria en x=296. Izquierda (reset): carril
 // en x=40, textos en x=62. Derecha (revert): carril en x=324, textos en x=346.
 // Bolas cada 70: 140, 210, 280 (y 350 solo en revert).
@@ -1193,10 +1194,10 @@ export function MaquinaDelTiempo() {
       alto={412}
       pasos={PASOS_TIEMPO}
       etiqueta="Comparación entre reset y revert en la rama main. Con git reset --hard HEAD~1, HEAD retrocede una bola y el commit que sobraba aparece tachado y en gris. Con git revert HEAD, la historia sigue adelante y se añade una bola verde que anula el commit roto."
-      pie="reset borra el futuro; revert lo conserva y añade una bola que anula. Si ya hiciste push, usa revert. Misión 4."
+      pie="reset borra el futuro; revert lo conserva y añade una bola que anula. Si ya hiciste push, usa revert. Misión 5."
       dibuja={(ctx) => (
         <>
-          <line x1={296} y1={8} x2={296} y2={400} stroke="#e4e4e7" strokeWidth={1} />
+          <line x1={296} y1={8} x2={296} y2={400} stroke={TONOS.gris.borde} strokeWidth={1} />
           {/* ── Columna izquierda: reset ── */}
           <Rotulo x={16} y={30} texto="reset · borras el futuro" color={TINTA} peso={700} tam={FS_MSG} />
           <Chip x={16} y={44} lineas={["git reset --hard HEAD~1"]} tono="ambar" ctx={ctx} paso="reset" />
@@ -1288,5 +1289,252 @@ export function IntroGrafoBolitas() {
         <Msg x={196} y={170} texto="«la elegida»" />
       </svg>
     </div>
+  );
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// 7 · Las tres zonas de Git (+ la nube)
+// Columna de tarjetas en x=16..316 (w=300, h=78) separadas 46. La flecha de
+// cada hueco baja por el centro de la tarjeta (x=166) y el chip con el comando
+// que la provoca va a su derecha, en x=336 (el más ancho, «git status», mide
+// 141 y acaba en 477). Tarjetas en y=14 / 138 / 262 / 386.
+// ════════════════════════════════════════════════════════════════════════════
+const PASOS_ZONAS: Paso[] = [
+  {
+    id: "status",
+    tono: "gris",
+    cmd: "git status",
+    titulo: "git status · la brújula",
+    texto:
+      "Te dice fichero a fichero en qué zona está cada cosa: en rojo lo que has tocado y no has preparado, en verde lo que ya está preparado para la foto, y «nothing to commit, working tree clean» cuando no queda nada suelto. Si te pierdes, este es el comando.",
+  },
+  {
+    id: "add",
+    tono: "ambar",
+    cmd: "git add .",
+    titulo: "git add · eliges qué sale en la foto",
+    texto:
+      "Mueve cambios de tu carpeta a la zona de preparación. El punto significa «todo lo que he tocado»; también puedes nombrar un fichero suelto (git add index.html). Ojo: aún no has guardado nada, solo has dicho qué quieres guardar.",
+  },
+  {
+    id: "commit",
+    tono: "azul",
+    cmd: 'git commit -m "hero con mi nombre"',
+    titulo: "git commit · se hace la foto",
+    texto:
+      "Coge lo que hay preparado y lo convierte en una bola dentro de .git, con su mensaje, tu nombre y la fecha. Ese estado ya no se pierde. Y fíjate: hasta aquí no ha hecho falta internet ni cuenta de nada, todo ha pasado dentro de tu portátil.",
+  },
+  {
+    id: "push",
+    tono: "morado",
+    cmd: "git push",
+    titulo: "git push · sube la historia a la nube",
+    texto:
+      "Copia a GitHub las bolas que tú tienes y el servidor todavía no. Es el único paso de los cuatro que necesita internet, y el único en el que GitHub te pedirá usuario y token: hasta ahora Git no ha pedido permiso a nadie.",
+  },
+];
+
+// Tarjeta de zona: nombre técnico en monoespaciada, apunte corto al lado y
+// descripción debajo. El relleno es el lavado del tono, así que en oscuro se
+// vuelve translúcido y el texto «fuerte» sigue contrastando.
+function ZonaTarjeta({
+  y,
+  tono,
+  nombre,
+  apunte,
+  apunteX,
+  texto,
+}: {
+  y: number;
+  tono: Tono;
+  nombre: string;
+  apunte: string;
+  apunteX: number;
+  texto: string;
+}) {
+  const t = TONOS[tono];
+  return (
+    <g>
+      <rect x={16} y={y} width={300} height={78} rx={14} fill={t.suave} stroke={t.linea} strokeWidth={2} />
+      <text x={32} y={y + 32} className="font-mono" fontSize={FS_MSG} fontWeight={700} fill={t.fuerte}>
+        {nombre}
+      </text>
+      <Rotulo x={apunteX} y={y + 32} texto={apunte} color={TENUE} />
+      <Rotulo x={32} y={y + 58} texto={texto} color={SUAVE} />
+    </g>
+  );
+}
+
+export function TresZonas() {
+  return (
+    <Lienzo
+      ancho={560}
+      alto={510}
+      pasos={PASOS_ZONAS}
+      etiqueta="Las cuatro paradas de un cambio: de tu carpeta (working tree) a la zona de preparación con git add, de ahí a .git con git commit, y de .git a GitHub con git push. git status dice en qué parada está cada cosa."
+      pie="Un cambio tuyo hace cuatro paradas. Cada flecha es un comando, y solo la última sale de tu portátil. Pulsa cualquier comando."
+      dibuja={(ctx) => (
+        <>
+          <ZonaTarjeta
+            y={14}
+            tono="gris"
+            nombre="working tree"
+            apunte="sin guardar"
+            apunteX={172}
+            texto="tu carpeta: lo que ves"
+          />
+          <Tramo x1={166} y1={96} x2={166} y2={134} tono="ambar" uid={ctx.uid} />
+          <ZonaTarjeta
+            y={138}
+            tono="ambar"
+            nombre="staging"
+            apunte="(o «index»)"
+            apunteX={120}
+            texto="lo que entrará en la foto"
+          />
+          <Tramo x1={166} y1={220} x2={166} y2={258} tono="azul" uid={ctx.uid} />
+          <ZonaTarjeta
+            y={262}
+            tono="azul"
+            nombre=".git"
+            apunte="el repositorio local"
+            apunteX={88}
+            texto="tu historia ya guardada"
+          />
+          <Tramo x1={166} y1={344} x2={166} y2={382} tono="morado" uid={ctx.uid} />
+          <ZonaTarjeta
+            y={386}
+            tono="morado"
+            nombre="origin/main"
+            apunte="el remoto"
+            apunteX={162}
+            texto="la copia que vive en GitHub"
+          />
+          <Chip x={336} y={29} lineas={["git status"]} tono="gris" ctx={ctx} paso="status" />
+          <Chip x={336} y={99} lineas={["git add"]} tono="ambar" ctx={ctx} paso="add" />
+          <Chip x={336} y={223} lineas={["git commit"]} tono="azul" ctx={ctx} paso="commit" />
+          <Chip x={336} y={347} lineas={["git push"]} tono="morado" ctx={ctx} paso="push" />
+          <Rotulo x={280} y={494} texto="git status te dice en qué zona está cada cambio" centrado />
+        </>
+      )}
+    />
+  );
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// 8 · Identidad ≠ credenciales (la confusión que rompe la autenticación)
+// Dos momentos apilados a todo el ancho: arriba el commit (Git te firma, no
+// comprueba nada), abajo el push (GitHub te pide la llave). Tarjetas en
+// x=16..544; las dos flechas bajan por x=76, debajo del chip de su momento.
+// ════════════════════════════════════════════════════════════════════════════
+const PASOS_LLAVE: Paso[] = [
+  {
+    id: "firma",
+    tono: "azul",
+    cmd: 'git commit -m "hero con mi nombre"',
+    titulo: "Al hacer commit, Git te firma",
+    texto:
+      "Git copia dentro del commit lo que tengas puesto en user.name y user.email, como la firma al pie de una carta. No lo comprueba con nadie: si configuras que te llamas Linus Torvalds, Git te deja firmar así. Justo por eso GitHub no se fía de esa firma para darte permisos.",
+  },
+  {
+    id: "llave",
+    tono: "morado",
+    cmd: "git push",
+    titulo: "Al hacer push, GitHub te pide la llave",
+    texto:
+      "Escribir en el servidor de GitHub sí necesita permiso. Usuario = tu nombre de usuario de github.com (no el correo). Contraseña = un token personal que empieza por ghp_, no la contraseña con la que entras en la web: GitHub la desactivó para Git el 13 de agosto de 2021.",
+  },
+];
+
+export function IdentidadVsCredenciales() {
+  return (
+    <Lienzo
+      ancho={560}
+      alto={504}
+      pasos={PASOS_LLAVE}
+      etiqueta="Dos momentos distintos: al hacer git commit, Git estampa user.name y user.email dentro del commit sin comprobar nada; al hacer git push, GitHub pide un usuario y un token personal, y la contraseña de la web ya no vale."
+      pie="Identidad y credenciales se piden en momentos distintos y no son lo mismo. Pulsa cada comando."
+      dibuja={(ctx) => (
+        <>
+          {/* ── Momento 1: la firma ── */}
+          <Rotulo x={16} y={28} texto="1 · Al hacer commit, Git te FIRMA" color={TINTA} peso={700} tam={FS_MSG} />
+          <Chip x={16} y={40} lineas={['git commit -m "hero"']} tono="azul" ctx={ctx} paso="firma" />
+          <Tramo x1={76} y1={76} x2={76} y2={96} tono="azul" uid={ctx.uid} />
+          <rect
+            x={16}
+            y={100}
+            width={528}
+            height={124}
+            rx={14}
+            fill={TONOS.azul.suave}
+            stroke={TONOS.azul.linea}
+            strokeWidth={2}
+          />
+          <Rotulo
+            x={32}
+            y={128}
+            texto="Git escribe tu identidad dentro del commit"
+            color={TONOS.azul.fuerte}
+            peso={700}
+            tam={FS_MSG}
+          />
+          <text x={32} y={158} className="font-mono" fontSize={FS} fontWeight={600} fill={TINTA}>
+            user.name  = Ana García
+          </text>
+          <Rotulo x={278} y={158} texto="sale en cada commit" color={SUAVE} />
+          <text x={32} y={186} className="font-mono" fontSize={FS} fontWeight={600} fill={TINTA}>
+            user.email = ana@gmail.com
+          </text>
+          <Rotulo x={306} y={186} texto="te enlaza con tu perfil" color={SUAVE} />
+          <Rotulo x={32} y={212} texto="Git NO comprueba esto: es una firma, no una llave." color={TENUE} />
+
+          {/* ── Momento 2: la llave ── */}
+          <Rotulo
+            x={16}
+            y={262}
+            texto="2 · Al hacer push, GitHub te PIDE LA LLAVE"
+            color={TINTA}
+            peso={700}
+            tam={FS_MSG}
+          />
+          <Chip x={16} y={274} lineas={["git push"]} tono="morado" ctx={ctx} paso="llave" />
+          <Tramo x1={76} y1={310} x2={76} y2={330} tono="morado" uid={ctx.uid} />
+          <rect
+            x={16}
+            y={334}
+            width={528}
+            height={124}
+            rx={14}
+            fill={TONOS.morado.suave}
+            stroke={TONOS.morado.linea}
+            strokeWidth={2}
+          />
+          <Rotulo
+            x={32}
+            y={362}
+            texto="GitHub comprueba que tienes permiso"
+            color={TONOS.morado.fuerte}
+            peso={700}
+            tam={FS_MSG}
+          />
+          <text x={32} y={392} className="font-mono" fontSize={FS} fontWeight={600} fill={TINTA}>
+            Username: anagarcia
+          </text>
+          <Rotulo x={238} y={392} texto="tu usuario de GitHub" color={SUAVE} />
+          <text x={32} y={420} className="font-mono" fontSize={FS} fontWeight={600} fill={TINTA}>
+            Password: ghp_8f3K…9dQ
+          </text>
+          <Rotulo x={268} y={420} texto="el token, NO tu contraseña" color={SUAVE} />
+          <Rotulo
+            x={32}
+            y={446}
+            texto="La contraseña de github.com falla aquí desde 2021."
+            color={TONOS.rosa.fuerte}
+            peso={600}
+          />
+          <Rotulo x={280} y={488} texto="identidad ≠ credenciales: son dos cosas distintas" centrado />
+        </>
+      )}
+    />
   );
 }

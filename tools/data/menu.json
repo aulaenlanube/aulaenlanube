@@ -152,24 +152,24 @@
     "url": "/zona-programacion/java/"
    },
    {
-    "title": "JAVATutor IA",
-    "url": "/excelencia-simarro-javatutor/web/index.html"
-   },
-   {
     "title": "PP1-Simarro",
-    "url": "/pp1-simarro/web/index.html"
+    "url": "/pp1-simarro/web/index.html",
+    "external": true
    },
    {
     "title": "PIAR 2ESO",
-    "url": "/piar/piar2esoapuntes.htm"
+    "url": "/piar/piar2esoapuntes.htm",
+    "external": true
    },
    {
     "title": "Cadenas de PROMPTS",
-    "url": "/cadenas-de-prompts/"
+    "url": "/cadenas-de-prompts/",
+    "external": true
    },
    {
     "title": "Semana informática 26",
-    "url": "/simarro-semana-informatica-26/"
+    "url": "/simarro-semana-informatica-26/",
+    "external": true
    }
   ]
  },

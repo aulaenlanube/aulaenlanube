@@ -4,6 +4,7 @@ import Link from "@/components/Link";
 import SiteHeader from "@/components/SiteHeader";
 import NewsletterForm from "@/components/NewsletterForm";
 import CookieNotice from "@/components/CookieNotice";
+import ScrollToTop from "@/components/ScrollToTop";
 import JsonLd from "@/components/JsonLd";
 import { getMenu } from "@/lib/content";
 import { organizationLd, websiteLd } from "@/lib/seo";
@@ -152,6 +153,7 @@ export default function RootLayout({
           </div>
         </footer>
 
+        <ScrollToTop />
         <CookieNotice />
       </body>
     </html>

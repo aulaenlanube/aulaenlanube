@@ -39,6 +39,18 @@ productos · 2 ejercicios · 1 home.
   `CourseAside` (cursos), `ArticleSidebar` (posts), `LessonSidebar` (lecciones).
 - **Bloque "proyectos del autor"** (`ProductBlock`): a todo el ancho, al pie del
   contenido en lecciones, posts y rejillas. Distinto del banner lateral.
+- **Botón «volver arriba»** (`components/ScrollToTop.tsx`): flotante abajo a la
+  derecha, aparece pasados 400 px de scroll y lleva un aro que marca lo leído
+  de la página. Mientras el aviso de cookies ocupa el borde inferior se esconde
+  (por debajo de 51rem de ancho) para no quedar medio tapado; el aviso avisa de
+  su presencia con `data-aviso` en `<html>`.
+- **Cabecera móvil**: barra fija de 64 px (`h-16`) con el logo a `h-14`. En
+  escritorio manda la barra de menú + el banner con las redes y el logo grande.
+- **Menú** (`tools/data/menu.json`): las microwebs heredadas que conservan su
+  propio diseño (PP1-Simarro, PIAR 2ESO, Cadenas de PROMPTS, Semana informática
+  26) llevan `"external": true`, así que se abren en una pestaña nueva y no
+  rompen la continuidad visual del sitio. Quitar una entrada del menú no quita
+  la página: la URL sigue sirviéndose igual.
 - **SEO**: ningún cambio de diseño debe tocar `<head>` (título, canónica, OG,
   JSON-LD). Verificar siempre con `node tools/verify-build.mjs`
   (objetivo: `565 OK, 0 DIFF`).

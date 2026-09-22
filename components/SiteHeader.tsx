@@ -141,12 +141,13 @@ export default function SiteHeader({
             <ThemeToggle className="-mr-1 ml-1" />
           </nav>
 
-          {/* Barra móvil: logo grande + hamburguesa. Altura fija (48px) para que
-              el logo crezca al máximo sin alargar la cabecera. */}
-          <div className="flex h-12 items-center justify-between lg:hidden">
+          {/* Barra móvil: logo grande + hamburguesa. Altura fija (64px): da aire
+              suficiente para que el logo se lea bien y los dos botones tengan
+              área de toque cómoda, sin comerse la pantalla al hacer scroll. */}
+          <div className="flex h-16 items-center justify-between lg:hidden">
             <Link href="/" aria-label="Inicio" className="flex h-full items-center">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={logo} alt="Aula en la nube" className="h-11 w-auto" />
+              <img src={logo} alt="Aula en la nube" className="h-14 w-auto" />
             </Link>
             <div className="flex items-center gap-1">
               <ThemeToggle />

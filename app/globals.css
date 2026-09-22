@@ -183,6 +183,16 @@ body {
   }
 }
 
+/* Botón «volver arriba»: mientras el aviso de cookies ocupa el borde inferior
+   se quita de en medio, para no quedar medio tapado. El aviso mide como mucho
+   42rem (max-w-2xl) centradas, así que deja hueco para el botón (3rem + 1.5rem
+   de margen) a partir de 51rem de ancho; por debajo, mejor esconderlo. */
+@media (max-width: 51rem) {
+  [data-aviso="1"] .aeln-arriba {
+    display: none;
+  }
+}
+
 /* Red de seguridad: cualquier emoji-imagen (de WordPress) que se cuele se
    muestra a tamaño de texto, no enorme. */
 img.emoji,

@@ -20,6 +20,15 @@ export default function CookieNotice() {
     }
   }, []);
 
+  // Mientras el aviso tapa el borde inferior, el botón «volver arriba» se
+  // esconde en pantallas estrechas para no quedar medio cubierto
+  // (la regla vive en app/globals.css).
+  useEffect(() => {
+    if (!show) return;
+    document.documentElement.setAttribute("data-aviso", "1");
+    return () => document.documentElement.removeAttribute("data-aviso");
+  }, [show]);
+
   function accept() {
     try {
       localStorage.setItem(KEY, "1");

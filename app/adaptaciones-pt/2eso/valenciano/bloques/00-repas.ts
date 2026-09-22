@@ -132,7 +132,7 @@ export const ACTS: Act[] = [
         ad: "Només dos sintagmes i dos canvis; la tercera pregunta es respon rodejant i triant gènere o nombre.",
       },
       {
-        in: "Fitxes: GOS/GOSSA, XIC/XICA, LLIBRE/LLIBRES. Frase amb forats: «La ___ és molt bonita.»",
+        in: "Fitxes: GOS/GOSSA, XIC/XICA, LLIBRE/LLIBRES. Frase amb forats: «La ___ és molt bonica.»",
         p: [
           "**a)** Emballa cada fitxa mascle amb el seu femení o el seu plural.",
           "**b)** Tria la fitxa que va en el forat: *xic* / *xicoteta* / *llibre*.",
@@ -140,8 +140,8 @@ export const ACTS: Act[] = [
         ],
         s: [
           "**a)** GOS–GOSSA, XIC–XICA, LLIBRE–LLIBRES.",
-          "**b)** *xicoteta*: *La xicoteta és molt bonita.*",
-          "**c)** Perquè *la* i *bonita* són femenins: el nom del forat també ha de ser femení.",
+          "**b)** *xicoteta*: *La xicoteta és molt bonica.*",
+          "**c)** Perquè *la* i *bonica* són femenins: el nom del forat també ha de ser femení.",
         ],
         ad: "Treball amb fitxes d'embalar i un sol forat; la raó es diu oralment.",
       },

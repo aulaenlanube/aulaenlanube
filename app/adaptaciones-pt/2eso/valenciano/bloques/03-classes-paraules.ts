@@ -83,13 +83,13 @@ export const ACTS: Act[] = [
         ad: "Quatre fitxes i quatre caixes; la preposició es queda en «altres» per a no carregar la classificació.",
       },
       {
-        in: "El mestre diu tres paraules: «gossa», «bonita», «corre».",
+        in: "El mestre diu tres paraules: «gossa», «bonica», «corre».",
         p: [
           "**a)** Assenya la targeta NOM si és un nom, la targeta ADJETIU si és un adjectiu o la targeta VERB si és una acció.",
           "**b)** Repetix el gest de *corre* amb el cos.",
         ],
         s: [
-          "**a)** gossa → NOM; bonita → ADJETIU; corre → VERB.",
+          "**a)** gossa → NOM; bonica → ADJETIU; corre → VERB.",
           "**b)** Còrrer amb el cos o amb el dit.",
         ],
         ad: "Targetes i cos: tres paraules, modelat oral, res escrit.",

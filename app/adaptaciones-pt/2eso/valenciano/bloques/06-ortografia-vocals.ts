@@ -215,7 +215,7 @@ export const ACTS: Act[] = [
           "**b)** Destapa la fitxa i comprova si portava la u o la o.",
         ],
         s: ["**a)** tórtora.", "**b)** Cap de les dues: t-O-rtora, porta dues os."],
-        ad: "Endevinalle visual i autocorrecció.",
+        ad: "Endevinalla visual i autocorrecció.",
       },
     ],
   },

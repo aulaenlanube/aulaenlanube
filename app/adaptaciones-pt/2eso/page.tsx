@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 const chip =
-  "inline-block rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-blue-700";
+  "inline-block rounded-full border border-blue-200 dark:border-blue-500/30 bg-blue-50 dark:bg-blue-500/10 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-blue-700 dark:text-blue-300";
 
 const MATERIAS = [
   {
@@ -49,7 +49,7 @@ export default function AdaptacionesPte2Eso() {
       <h1 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
         Adaptaciones de 2.º de ESO
       </h1>
-      <p className="mt-4 text-lg text-zinc-600">
+      <p className="mt-4 text-lg text-zinc-600 dark:text-zinc-400">
         Materiales de apoyo para alumnado de <b>2.º de ESO con dificultades</b>, listos para usar
         en clase y en casa. Cada ejercicio parte de una situación real y se declina en{" "}
         varios <b>niveles descendentes</b>: siempre arriba el ejercicio de 2.º de ESO y, debajo,
@@ -57,7 +57,7 @@ export default function AdaptacionesPte2Eso() {
         castellano—. El mismo objetivo de aprendizaje, accesible a cada alumno.
       </p>
 
-      <div className="mt-4 rounded-2xl border border-zinc-200 bg-zinc-100 p-5 text-sm text-zinc-700">
+      <div className="mt-4 rounded-2xl border border-zinc-200 dark:border-white/10 bg-zinc-100 dark:bg-white/10 p-5 text-sm text-zinc-700 dark:text-zinc-300">
         <b>Normativa de referencia:</b> Decreto 107/2022 (currículo de ESO, CV, con la modificación
         del Decreto 66/2024) y Real Decreto 217/2022 para las enseñanzas mínimas; los saberes
         básicos citados en cada ejercicio son los del anexo III del Decreto 107/2022 (bloque de
@@ -70,22 +70,22 @@ export default function AdaptacionesPte2Eso() {
       <div className="mt-6 space-y-4">
         {MATERIAS.map((m) =>
           m.listo ? (
-            <Link key={m.t} href={m.href} className="group flex gap-4 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm transition hover:border-blue-300 hover:bg-blue-50/40">
+            <Link key={m.t} href={m.href} className="group flex gap-4 rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-5 shadow-sm transition hover:border-blue-300 dark:hover:border-blue-500/40 hover:bg-blue-50/40 dark:hover:bg-blue-500/10">
               <div className="w-10 flex-none text-3xl">{m.emoji}</div>
               <div>
-                <h2 className="text-lg font-bold text-zinc-900 group-hover:text-blue-800">{m.t}</h2>
-                <p className="mt-1 text-sm text-zinc-600">{m.d}</p>
+                <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-blue-800">{m.t}</h2>
+                <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">{m.d}</p>
               </div>
               <div className="self-center text-zinc-300 transition group-hover:translate-x-0.5 group-hover:text-blue-600">→</div>
             </Link>
           ) : (
-            <div key={m.t} className="flex gap-4 rounded-2xl border border-zinc-200 bg-white p-5 opacity-60">
+            <div key={m.t} className="flex gap-4 rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-5 opacity-60">
               <div className="w-10 flex-none text-3xl">{m.emoji}</div>
               <div>
-                <h2 className="text-lg font-bold text-zinc-500">{m.t}</h2>
-                <p className="mt-1 text-sm text-zinc-500">{m.d}</p>
+                <h2 className="text-lg font-bold text-zinc-500 dark:text-zinc-400">{m.t}</h2>
+                <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">{m.d}</p>
               </div>
-              <div className="self-center text-xs font-bold uppercase tracking-wide text-zinc-400">En preparación</div>
+              <div className="self-center text-xs font-bold uppercase tracking-wide text-zinc-400 dark:text-zinc-400">En preparación</div>
             </div>
           )
         )}

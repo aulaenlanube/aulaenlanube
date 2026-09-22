@@ -235,7 +235,7 @@ function FichaCaja({
         width={COL_W}
         height={H_FICHA}
         rx={12}
-        fill={activo ? t.suave : "#ffffff"}
+        fill={activo ? t.suave : "var(--dg-papel)"}
         stroke={t.linea}
         strokeWidth={activo ? 2.5 : 1.5}
         style={{ transition: "fill 150ms ease, stroke-width 150ms ease" }}

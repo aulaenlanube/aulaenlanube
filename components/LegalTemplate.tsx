@@ -4,7 +4,7 @@ import { breadcrumbLd } from "@/lib/seo";
 import type { LegalEntry } from "@/lib/content";
 
 const proseCls =
-  "prose prose-zinc mt-8 max-w-none prose-headings:scroll-mt-24 prose-a:text-blue-600 prose-h2:text-2xl prose-h2:font-semibold prose-h2:text-slate-700 prose-h3:text-lg prose-table:text-sm prose-th:text-left";
+  "prose prose-zinc dark:prose-invert mt-8 max-w-none prose-headings:scroll-mt-24 prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-h2:text-2xl prose-h2:font-semibold prose-h2:text-slate-700 dark:prose-h2:text-slate-200 prose-h3:text-lg prose-table:text-sm prose-th:text-left";
 
 function fmt(d?: string): string {
   if (!d) return "";
@@ -29,11 +29,11 @@ export default function LegalTemplate({ entry }: { entry: LegalEntry }) {
   return (
     <div className="mx-auto w-full max-w-4xl px-4 py-8 sm:py-10">
       <article className="min-w-0">
-        <h1 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
+        <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 sm:text-4xl">
           {entry.title}
         </h1>
         {entry.updated && (
-          <p className="mt-2 text-sm text-zinc-500">
+          <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
             Última actualización:{" "}
             <time dateTime={entry.updated}>{fmt(entry.updated)}</time>
           </p>

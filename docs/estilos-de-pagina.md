@@ -43,6 +43,62 @@ productos · 2 ejercicios · 1 home.
   JSON-LD). Verificar siempre con `node tools/verify-build.mjs`
   (objetivo: `565 OK, 0 DIFF`).
 
+## Tema claro / oscuro
+
+Todo el sitio tiene modo oscuro. El interruptor vive en la cabecera
+(`components/ThemeToggle.tsx`, a la derecha del menú en escritorio y junto a la
+hamburguesa en móvil) y la fontanería, en `lib/tema.ts` + `app/globals.css`.
+
+**Cómo se activa** (variante `dark` definida con `@custom-variant`):
+
+1. `<html data-theme="dark">` — elección explícita del usuario, guardada en
+   `localStorage` (`aeln_tema`). Un script en línea del `<head>` la aplica
+   mientras el navegador analiza el HTML, así que **no hay destello claro**.
+2. `prefers-color-scheme: dark` — preferencia del sistema, mientras el usuario
+   no haya pedido el tema claro (`data-theme="light"`). Funciona sin JavaScript.
+
+Si la elección coincide con la del sistema, el botón borra la preferencia
+guardada: el sitio vuelve a seguir al sistema. Todo ello dentro de
+`@media screen`, de modo que **al imprimir siempre se usa el tema claro**.
+
+**Equivalencias de color** (mismo criterio en todas las plantillas):
+
+| Claro | Oscuro | Uso |
+|-------|--------|-----|
+| `bg-white` | `dark:bg-slate-900` | tarjeta / superficie |
+| `bg-zinc-50` · `bg-zinc-100` | `dark:bg-white/5` · `dark:bg-white/10` | bandas y superficies suaves |
+| `border-zinc-200` · `-300` | `dark:border-white/10` · `/15` | líneas (luz, no gris) |
+| `text-zinc-900` · `-700` · `-500` | `dark:text-zinc-100` · `-300` · `-400` | jerarquía de texto |
+| `text-zinc-400` | `dark:text-zinc-400` | el nivel «tenue» no baja de zinc-400: zinc-500 sobre el fondo oscuro se queda en 4,0:1, por debajo de la AA |
+| `text-blue-700` · `-600` | `dark:text-blue-300` · `-400` | enlaces y acentos |
+| `bg-<tono>-50` + `border-<tono>-200` | `dark:bg-<tono>-500/10` + `dark:border-<tono>-500/30` | cajas tintadas (aviso, nota, ejemplo) |
+| `hover:bg-slate-800` | `dark:hover:bg-slate-600` | botones: en oscuro el hover **aclara** |
+
+El fondo de página (`--background`) es más oscuro que la tarjeta, y el pie más
+oscuro todavía: la jerarquía se lee sin necesidad de sombras.
+
+**Casos que NO se invierten** (a propósito):
+
+- Botones de color con texto oscuro (`bg-amber-400 text-zinc-900`) y el CTA cian
+  del banner de OposicionesIA: el fondo no cambia, el texto tampoco.
+- La caja de código (`CodeBlock`) y el pie: ya eran oscuros en los dos temas.
+- La ficha de producto de la rejilla de afiliados: la foto de Amazon viene con
+  fondo blanco, así que el hueco de la imagen sigue siendo blanco.
+- Las **láminas de Adaptaciones PT** (`Figura`, clase `aeln-lamina`): dibujan
+  tinta oscura sobre papel y se serializan tal cual para el PDF, así que
+  conservan el papel blanco; en oscuro solo se les baja un poco el brillo.
+
+**Diagramas SVG**: la paleta de `app/ponencia-tecnologia/_svg/base.tsx` y la del
+diagrama de Git (`programacion-ia/sesion-02`) son tokens CSS (`--dg-*`,
+declarados en `app/globals.css`), así que el mismo dibujo se adapta al tema sin
+JavaScript: en oscuro las líneas suben de tono, los rellenos pasan a lavados
+translúcidos y el papel se vuelve superficie elevada. Cuidado al reutilizar esos
+tokens en SVG que haya que rasterizar aislados (PDF): allí `var()` no resuelve.
+
+**Contenido migrado**: los contenedores de prosa llevan `dark:prose-invert` y
+`dark:prose-a:text-blue-400`; las capturas se atenúan un poco en oscuro
+(`filter: brightness(.92)`) y recuperan su aspecto al pasar el ratón.
+
 ## Páginas "hub" (Elementor)
 
 Algunas lecciones son índices ricos hechos con Elementor (imagen, Google Slides,

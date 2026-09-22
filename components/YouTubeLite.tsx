@@ -12,7 +12,7 @@ export default function YouTubeLite({ id, title }: { id: string; title: string }
   }, [open]);
 
   return (
-    <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-black shadow-sm ring-1 ring-zinc-200">
+    <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-black shadow-sm ring-1 ring-zinc-200 dark:ring-white/10">
       {open ? (
         <iframe
           ref={frameRef}

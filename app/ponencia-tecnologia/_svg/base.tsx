@@ -28,22 +28,26 @@ import { useId, useState, type ReactNode } from "react";
 //    píxel: cuando algo tiene que encajar exacto, usa el modo monoespaciado.
 // ════════════════════════════════════════════════════════════════════════════
 
+// Los colores son tokens CSS (app/globals.css): el mismo dibujo se adapta al
+// tema claro/oscuro sin JavaScript. Si alguna vez hay que serializar estos SVG
+// para rasterizarlos aislados (como en el PDF de Adaptaciones PT), habrá que
+// resolver los `var()` antes: fuera del documento no tienen valor.
 // ── Paleta ──────────────────────────────────────────────────────────────────
 export const TONOS = {
-  azul: { linea: "#2563eb", fuerte: "#1d4ed8", suave: "#eff6ff", borde: "#bfdbfe" },
-  morado: { linea: "#7c3aed", fuerte: "#6d28d9", suave: "#f5f3ff", borde: "#ddd6fe" },
-  verde: { linea: "#059669", fuerte: "#047857", suave: "#ecfdf5", borde: "#a7f3d0" },
-  ambar: { linea: "#b45309", fuerte: "#92400e", suave: "#fffbeb", borde: "#fde68a" },
-  rosa: { linea: "#e11d48", fuerte: "#be123c", suave: "#fff1f2", borde: "#fecdd3" },
-  gris: { linea: "#71717a", fuerte: "#3f3f46", suave: "#f4f4f5", borde: "#d4d4d8" },
+  azul: { linea: "var(--dg-azul-linea)", fuerte: "var(--dg-azul-fuerte)", suave: "var(--dg-azul-suave)", borde: "var(--dg-azul-borde)" },
+  morado: { linea: "var(--dg-morado-linea)", fuerte: "var(--dg-morado-fuerte)", suave: "var(--dg-morado-suave)", borde: "var(--dg-morado-borde)" },
+  verde: { linea: "var(--dg-verde-linea)", fuerte: "var(--dg-verde-fuerte)", suave: "var(--dg-verde-suave)", borde: "var(--dg-verde-borde)" },
+  ambar: { linea: "var(--dg-ambar-linea)", fuerte: "var(--dg-ambar-fuerte)", suave: "var(--dg-ambar-suave)", borde: "var(--dg-ambar-borde)" },
+  rosa: { linea: "var(--dg-rosa-linea)", fuerte: "var(--dg-rosa-fuerte)", suave: "var(--dg-rosa-suave)", borde: "var(--dg-rosa-borde)" },
+  gris: { linea: "var(--dg-gris-linea)", fuerte: "var(--dg-gris-fuerte)", suave: "var(--dg-gris-suave)", borde: "var(--dg-gris-borde)" },
 } as const;
 
 export type Tono = keyof typeof TONOS;
 
-export const FONDO = "#fafafa"; // fondo de la tarjeta: también es el halo de los nodos
-export const TINTA = "#18181b";
-export const SUAVE = "#52525b";
-export const TENUE = "#71717a";
+export const FONDO = "var(--dg-fondo)"; // fondo de la tarjeta: también es el halo de los nodos
+export const TINTA = "var(--dg-tinta)";
+export const SUAVE = "var(--dg-suave)";
+export const TENUE = "var(--dg-tenue)";
 
 // ── Métricas ────────────────────────────────────────────────────────────────
 export const ANCHO = 560; // diagrama en columna
@@ -318,13 +322,13 @@ export function Numero({
   return (
     <g>
       <circle cx={cx} cy={cy} r={r + 4} fill={FONDO} />
-      <circle cx={cx} cy={cy} r={r} fill={t.linea} stroke="#ffffff" strokeWidth={3} />
+      <circle cx={cx} cy={cy} r={r} fill={t.linea} stroke="var(--dg-fondo)" strokeWidth={3} />
       <text
         x={cx}
         y={cy + 6}
         fontSize={FS}
         fontWeight={800}
-        fill="#ffffff"
+        fill="var(--dg-sobre-tono)"
         textAnchor="middle"
       >
         {n}
@@ -427,7 +431,7 @@ export function Caja({
         width={w}
         height={h}
         rx={12}
-        fill={activo ? t.suave : (relleno ?? "#ffffff")}
+        fill={activo ? t.suave : (relleno ?? "var(--dg-papel)")}
         stroke={t.linea}
         strokeWidth={activo ? 2.5 : 1.5}
         style={{ transition: "fill 150ms ease, stroke-width 150ms ease" }}
@@ -532,7 +536,7 @@ export function Nodo({
         cx={cx}
         cy={cy}
         r={r}
-        fill={activo ? t.suave : "#ffffff"}
+        fill={activo ? t.suave : "var(--dg-papel)"}
         stroke={t.linea}
         strokeWidth={activo ? 3.5 : 2.5}
         style={{ transition: "fill 150ms ease, stroke-width 150ms ease" }}
@@ -569,33 +573,33 @@ function Panel({ paso, panelId, cerrar }: { paso: Paso | null; panelId: string; 
     <div id={panelId} aria-live="polite" className="mt-3">
       {paso ? (
         <div
-          className="rounded-xl border border-zinc-200 bg-white p-3.5 shadow-sm"
+          className="rounded-xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-3.5 shadow-sm"
           style={{ borderLeftWidth: 6, borderLeftColor: TONOS[paso.tono].linea }}
         >
           <div className="flex items-start justify-between gap-3">
-            <p className="text-[15px] font-bold text-zinc-900">{paso.titulo}</p>
+            <p className="text-[15px] font-bold text-zinc-900 dark:text-zinc-100">{paso.titulo}</p>
             <button
               type="button"
               onClick={cerrar}
-              className="shrink-0 rounded-lg border border-zinc-300 px-2.5 py-1 text-[12px] font-semibold text-zinc-600 transition hover:bg-zinc-100"
+              className="shrink-0 rounded-lg border border-zinc-300 dark:border-white/15 px-2.5 py-1 text-[12px] font-semibold text-zinc-600 dark:text-zinc-400 transition hover:bg-zinc-100 dark:hover:bg-white/10"
             >
               cerrar ✕
             </button>
           </div>
-          <p className="mt-2 text-[15px] leading-relaxed text-zinc-700">{paso.texto}</p>
+          <p className="mt-2 text-[15px] leading-relaxed text-zinc-700 dark:text-zinc-300">{paso.texto}</p>
           {paso.ejemplo ? (
             <pre className="mt-2.5 overflow-x-auto whitespace-pre-wrap break-words rounded-lg bg-zinc-900 px-3 py-2.5 font-mono text-[13px] leading-relaxed text-zinc-100">
               {paso.ejemplo}
             </pre>
           ) : null}
           {paso.clave ? (
-            <p className="mt-2.5 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-[14px] font-semibold text-emerald-900">
+            <p className="mt-2.5 rounded-lg border border-emerald-200 dark:border-emerald-500/30 bg-emerald-50 dark:bg-emerald-500/10 px-3 py-2 text-[14px] font-semibold text-emerald-900 dark:text-emerald-200">
               {paso.clave}
             </p>
           ) : null}
         </div>
       ) : (
-        <p className="rounded-xl border border-dashed border-zinc-300 bg-white/70 px-3.5 py-2.5 text-[13px] text-zinc-500">
+        <p className="rounded-xl border border-dashed border-zinc-300 dark:border-white/15 bg-white/70 dark:bg-white/5 px-3.5 py-2.5 text-[13px] text-zinc-500 dark:text-zinc-400">
           Toca cualquier pieza del diagrama y aquí te cuento qué hace y por qué está ahí.
         </p>
       )}
@@ -632,7 +636,7 @@ export function Lienzo({
   };
   const activo = pasos.find((p) => p.id === sel) ?? null;
   return (
-    <figure className="mt-5 rounded-2xl border border-zinc-200 p-3 sm:p-4" style={{ background: FONDO }}>
+    <figure className="mt-5 rounded-2xl border border-zinc-200 dark:border-white/10 p-3 sm:p-4" style={{ background: FONDO }}>
       <div className="overflow-x-auto">
         <svg
           viewBox={`0 0 ${ancho} ${alto}`}
@@ -645,11 +649,11 @@ export function Lienzo({
           {dibuja(ctx)}
         </svg>
       </div>
-      <p className="mt-1 text-center text-[12px] text-zinc-400 lg:hidden">
+      <p className="mt-1 text-center text-[12px] text-zinc-400 dark:text-zinc-400 lg:hidden">
         Desliza el diagrama de lado para verlo entero
       </p>
       <Panel paso={activo} panelId={panelId} cerrar={() => setSel(null)} />
-      <figcaption className="mt-2 text-center text-[13px] font-medium text-zinc-500">{pie}</figcaption>
+      <figcaption className="mt-2 text-center text-[13px] font-medium text-zinc-500 dark:text-zinc-400">{pie}</figcaption>
     </figure>
   );
 }

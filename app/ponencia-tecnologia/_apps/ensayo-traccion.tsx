@@ -965,22 +965,22 @@ function Instrumento({
 }) {
   const marco =
     tono === "azul"
-      ? "border-blue-200 bg-blue-50/70"
+      ? "border-blue-200 dark:border-blue-500/30 bg-blue-50/70 dark:bg-blue-500/10"
       : tono === "ambar"
-        ? "border-amber-200 bg-amber-50/70"
+        ? "border-amber-200 dark:border-amber-500/30 bg-amber-50/70 dark:bg-amber-500/10"
         : tono === "rosa"
-          ? "border-rose-200 bg-rose-50/70"
-          : "border-zinc-200 bg-white";
+          ? "border-rose-200 dark:border-rose-500/30 bg-rose-50/70 dark:bg-rose-500/10"
+          : "border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900";
   return (
     <div className={`rounded-xl border ${marco} p-3`}>
       <div className="flex items-baseline gap-2">
-        <span className="text-base font-extrabold tracking-tight text-slate-900">{simbolo}</span>
-        <span className="truncate text-[11px] font-semibold uppercase tracking-wider text-zinc-500">{nombre}</span>
+        <span className="text-base font-extrabold tracking-tight text-slate-900 dark:text-slate-100">{simbolo}</span>
+        <span className="truncate text-[11px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">{nombre}</span>
       </div>
-      <div className="mt-0.5 font-mono text-[11px] text-zinc-500">{formula}</div>
+      <div className="mt-0.5 font-mono text-[11px] text-zinc-500 dark:text-zinc-400">{formula}</div>
       <div className="mt-1.5 flex items-baseline gap-1">
-        <span className="text-xl font-extrabold tracking-tight tabular-nums text-slate-900">{valor}</span>
-        <span className="text-sm text-zinc-500">{unidad}</span>
+        <span className="text-xl font-extrabold tracking-tight tabular-nums text-slate-900 dark:text-slate-100">{valor}</span>
+        <span className="text-sm text-zinc-500 dark:text-zinc-400">{unidad}</span>
       </div>
     </div>
   );
@@ -993,10 +993,10 @@ type Veredicto = "bien" | "corto" | "pasado" | null;
 function CajaVeredicto({ estado, children }: { estado: Veredicto; children: ReactNode }) {
   const marco =
     estado === "bien"
-      ? "border-emerald-300 bg-emerald-50 text-emerald-900"
+      ? "border-emerald-300 dark:border-emerald-500/40 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-900 dark:text-emerald-200"
       : estado === "corto"
-        ? "border-rose-300 bg-rose-50 text-rose-900"
-        : "border-amber-300 bg-amber-50 text-amber-900";
+        ? "border-rose-300 dark:border-rose-500/40 bg-rose-50 dark:bg-rose-500/10 text-rose-900 dark:text-rose-200"
+        : "border-amber-300 dark:border-amber-500/40 bg-amber-50 dark:bg-amber-500/10 text-amber-900 dark:text-amber-200";
   return (
     <div className={`mt-3 rounded-xl border p-4 text-[15px] leading-relaxed ${marco}`} aria-live="polite">
       {children}
@@ -1024,15 +1024,15 @@ function Reto1() {
   const estado: Veredicto = !valido ? null : nReal < n ? "corto" : dv <= dMin + 1.2 ? "bien" : "pasado";
 
   return (
-    <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
-      <h4 className="text-base font-extrabold tracking-tight text-slate-900">Reto 1 · El tirante de acero</h4>
-      <p className="mt-1.5 text-[15px] text-zinc-700">
+    <div className="rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-5 shadow-sm">
+      <h4 className="text-base font-extrabold tracking-tight text-slate-900 dark:text-slate-100">Reto 1 · El tirante de acero</h4>
+      <p className="mt-1.5 text-[15px] text-zinc-700 dark:text-zinc-300">
         Un tirante de <b>acero S275</b> debe soportar <b>50 kN</b> con un coeficiente de seguridad{" "}
         <b>n = 2</b> frente al límite elástico. ¿Qué diámetro mínimo necesita?
       </p>
       <div className="mt-3 flex flex-wrap items-end gap-3">
         <div>
-          <label htmlFor={`${uid}-d`} className="block text-sm font-semibold text-slate-700">
+          <label htmlFor={`${uid}-d`} className="block text-sm font-semibold text-slate-700 dark:text-slate-200">
             Tu diámetro d
           </label>
           <div className="mt-1 flex items-center gap-2">
@@ -1047,15 +1047,15 @@ function Reto1() {
                 setD(ev.target.value);
                 setComprobado(false);
               }}
-              className="w-28 rounded-xl border border-zinc-300 px-3 py-2 text-[15px] tabular-nums text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+              className="w-28 rounded-xl border border-zinc-300 dark:border-white/15 px-3 py-2 text-[15px] tabular-nums text-slate-900 dark:text-slate-100 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
             />
-            <span className="text-sm text-zinc-500">mm</span>
+            <span className="text-sm text-zinc-500 dark:text-zinc-400">mm</span>
           </div>
         </div>
         <button
           type="button"
           onClick={() => setComprobado(true)}
-          className="rounded-xl bg-slate-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-slate-800"
+          className="rounded-xl bg-slate-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-slate-800 dark:hover:bg-slate-600"
         >
           Comprobar
         </button>
@@ -1109,11 +1109,11 @@ function Reto2() {
   const acertado = elegido === "empate";
 
   return (
-    <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
-      <h4 className="text-base font-extrabold tracking-tight text-slate-900">
+    <div className="rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-5 shadow-sm">
+      <h4 className="text-base font-extrabold tracking-tight text-slate-900 dark:text-slate-100">
         Reto 2 · Quién aguanta más sin deformarse
       </h4>
-      <p className="mt-1.5 text-[15px] text-zinc-700">
+      <p className="mt-1.5 text-[15px] text-zinc-700 dark:text-zinc-300">
         Con una probeta de <b>10 mm</b> de diámetro (A = {num(area, 2)} mm²), ¿qué material aguanta{" "}
         <b>más fuerza</b> antes de deformarse permanentemente, es decir, antes de pasar su límite elástico?
       </p>
@@ -1133,7 +1133,7 @@ function Reto2() {
                 }}
                 className="peer sr-only"
               />
-              <span className="block rounded-xl border border-zinc-300 bg-white px-3 py-2 text-[15px] text-slate-700 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:font-semibold peer-checked:text-blue-800 peer-focus-visible:ring-2 peer-focus-visible:ring-blue-400 hover:bg-zinc-50">
+              <span className="block rounded-xl border border-zinc-300 dark:border-white/15 bg-white dark:bg-slate-900 px-3 py-2 text-[15px] text-slate-700 dark:text-slate-200 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:font-semibold peer-checked:text-blue-800 peer-focus-visible:ring-2 peer-focus-visible:ring-blue-400 hover:bg-zinc-50 dark:hover:bg-white/5">
                 {o.texto}
               </span>
             </label>
@@ -1144,7 +1144,7 @@ function Reto2() {
         type="button"
         disabled={!elegido}
         onClick={() => setComprobado(true)}
-        className="mt-3 rounded-xl bg-slate-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-40"
+        className="mt-3 rounded-xl bg-slate-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-slate-800 dark:hover:bg-slate-600 disabled:cursor-not-allowed disabled:opacity-40"
       >
         Comprobar
       </button>
@@ -1208,15 +1208,15 @@ function Reto3() {
   const acertado = ok(vAl, objAl) && ok(vPla, objPla);
 
   return (
-    <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
-      <h4 className="text-base font-extrabold tracking-tight text-slate-900">Reto 3 · Sustituir aluminio por PLA</h4>
-      <p className="mt-1.5 text-[15px] text-zinc-700">
+    <div className="rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-5 shadow-sm">
+      <h4 className="text-base font-extrabold tracking-tight text-slate-900 dark:text-slate-100">Reto 3 · Sustituir aluminio por PLA</h4>
+      <p className="mt-1.5 text-[15px] text-zinc-700 dark:text-zinc-300">
         Una pieza de <b>PLA impreso</b> sustituye a una de <b>aluminio 6061-T6</b> en una fijación que soporta{" "}
         <b>3 kN</b>. ¿Qué diámetro necesita cada una para <b>no superar su límite elástico</b>? Calcula los dos.
       </p>
       <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
         <div>
-          <label htmlFor={`${uid}-al`} className="block text-sm font-semibold text-slate-700">
+          <label htmlFor={`${uid}-al`} className="block text-sm font-semibold text-slate-700 dark:text-slate-200">
             Diámetro de la pieza de aluminio
           </label>
           <div className="mt-1 flex items-center gap-2">
@@ -1231,13 +1231,13 @@ function Reto3() {
                 setDAl(ev.target.value);
                 setComprobado(false);
               }}
-              className="w-28 rounded-xl border border-zinc-300 px-3 py-2 text-[15px] tabular-nums text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+              className="w-28 rounded-xl border border-zinc-300 dark:border-white/15 px-3 py-2 text-[15px] tabular-nums text-slate-900 dark:text-slate-100 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
             />
-            <span className="text-sm text-zinc-500">mm</span>
+            <span className="text-sm text-zinc-500 dark:text-zinc-400">mm</span>
           </div>
         </div>
         <div>
-          <label htmlFor={`${uid}-pla`} className="block text-sm font-semibold text-slate-700">
+          <label htmlFor={`${uid}-pla`} className="block text-sm font-semibold text-slate-700 dark:text-slate-200">
             Diámetro de la pieza de PLA
           </label>
           <div className="mt-1 flex items-center gap-2">
@@ -1252,9 +1252,9 @@ function Reto3() {
                 setDPla(ev.target.value);
                 setComprobado(false);
               }}
-              className="w-28 rounded-xl border border-zinc-300 px-3 py-2 text-[15px] tabular-nums text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+              className="w-28 rounded-xl border border-zinc-300 dark:border-white/15 px-3 py-2 text-[15px] tabular-nums text-slate-900 dark:text-slate-100 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
             />
-            <span className="text-sm text-zinc-500">mm</span>
+            <span className="text-sm text-zinc-500 dark:text-zinc-400">mm</span>
           </div>
         </div>
       </div>
@@ -1262,7 +1262,7 @@ function Reto3() {
         type="button"
         disabled={!valido}
         onClick={() => setComprobado(true)}
-        className="mt-3 rounded-xl bg-slate-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-40"
+        className="mt-3 rounded-xl bg-slate-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-slate-800 dark:hover:bg-slate-600 disabled:cursor-not-allowed disabled:opacity-40"
       >
         Comprobar
       </button>
@@ -1528,13 +1528,13 @@ export default function EnsayoTraccionApp() {
 
       {/* Cabecera */}
       <header className="mb-5">
-        <span className="inline-block rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-blue-700">
+        <span className="inline-block rounded-full border border-blue-200 dark:border-blue-500/30 bg-blue-50 dark:bg-blue-500/10 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-blue-700 dark:text-blue-300">
           1.º Bachillerato · Tecnología e Ingeniería I · Materiales
         </span>
-        <h2 className="mt-3 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
+        <h2 className="mt-3 text-2xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100 sm:text-3xl">
           Banco de ensayo de tracción
         </h2>
-        <p className="mt-2 max-w-3xl text-[15px] text-zinc-700">
+        <p className="mt-2 max-w-3xl text-[15px] text-zinc-700 dark:text-zinc-300">
           Tira de la probeta y mira qué le pasa. La curva tensión–deformación no está dibujada de antemano:{" "}
           <b>se va trazando conforme tiras</b>. Cuando quieras, pulsa <b>suelta la fuerza</b> y comprueba si la
           probeta vuelve a su sitio o se queda estirada para siempre. Ahí está el examen entero.
@@ -1581,11 +1581,11 @@ export default function EnsayoTraccionApp() {
       </div>
 
       {/* Mandos */}
-      <div className="mt-5 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
-        <h3 className="text-lg font-extrabold tracking-tight text-slate-900">Mandos de la máquina</h3>
+      <div className="mt-5 rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-5 shadow-sm">
+        <h3 className="text-lg font-extrabold tracking-tight text-slate-900 dark:text-slate-100">Mandos de la máquina</h3>
 
         <fieldset className="mt-4">
-          <legend className="text-sm font-semibold text-slate-700">Material de la probeta</legend>
+          <legend className="text-sm font-semibold text-slate-700 dark:text-slate-200">Material de la probeta</legend>
           <div className="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-2 xl:grid-cols-5">
             {MATERIALES.map((m) => (
               <label key={m.id} className="cursor-pointer">
@@ -1597,22 +1597,22 @@ export default function EnsayoTraccionApp() {
                   onChange={() => cambiarMaterial(m.id)}
                   className="peer sr-only"
                 />
-                <span className="flex h-full flex-col rounded-xl border border-zinc-300 bg-white px-3 py-2 text-left peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-focus-visible:ring-2 peer-focus-visible:ring-blue-400 hover:bg-zinc-50">
+                <span className="flex h-full flex-col rounded-xl border border-zinc-300 dark:border-white/15 bg-white dark:bg-slate-900 px-3 py-2 text-left peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-focus-visible:ring-2 peer-focus-visible:ring-blue-400 hover:bg-zinc-50 dark:hover:bg-white/5">
                   <span className="flex items-center gap-2">
                     <span className="h-3 w-3 flex-none rounded-full" style={{ backgroundColor: m.color }} />
-                    <span className="text-sm font-bold text-slate-900">{m.corto}</span>
+                    <span className="text-sm font-bold text-slate-900 dark:text-slate-100">{m.corto}</span>
                   </span>
-                  <span className="mt-1 font-mono text-[11px] leading-snug text-zinc-500">
+                  <span className="mt-1 font-mono text-[11px] leading-snug text-zinc-500 dark:text-zinc-400">
                     E = {num(m.eGPa, 1)} GPa · σ{m.fragil ? "r" : "e"} = {num(m.se, 0)} · σr = {num(m.sr, 0)} MPa
                   </span>
-                  <span className="mt-0.5 text-[11px] text-zinc-500">A = {num(m.aTabla, 1)} % de alargamiento</span>
+                  <span className="mt-0.5 text-[11px] text-zinc-500 dark:text-zinc-400">A = {num(m.aTabla, 1)} % de alargamiento</span>
                 </span>
               </label>
             ))}
           </div>
-          <p className="mt-2 text-sm text-zinc-500">{material.uso}</p>
+          <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">{material.uso}</p>
           {material.nota && (
-            <p className="mt-2 rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">
+            <p className="mt-2 rounded-xl border border-amber-200 dark:border-amber-500/30 bg-amber-50 dark:bg-amber-500/10 p-3 text-sm text-amber-900 dark:text-amber-200">
               {material.nota}
             </p>
           )}
@@ -1620,7 +1620,7 @@ export default function EnsayoTraccionApp() {
 
         <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label htmlFor={`${uid}-diam`} className="block text-sm font-semibold text-slate-700">
+            <label htmlFor={`${uid}-diam`} className="block text-sm font-semibold text-slate-700 dark:text-slate-200">
               Diámetro de la probeta d (4 a 20 mm)
             </label>
             <div className="mt-1 flex items-center gap-2">
@@ -1632,13 +1632,13 @@ export default function EnsayoTraccionApp() {
                 step={0.5}
                 value={diametro}
                 onChange={(ev) => cambiarDiametro(Number(ev.target.value))}
-                className="w-28 rounded-xl border border-zinc-300 px-3 py-2 text-[15px] tabular-nums text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                className="w-28 rounded-xl border border-zinc-300 dark:border-white/15 px-3 py-2 text-[15px] tabular-nums text-slate-900 dark:text-slate-100 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
               />
-              <span className="text-sm text-zinc-500">mm → A = {num(area, 2)} mm²</span>
+              <span className="text-sm text-zinc-500 dark:text-zinc-400">mm → A = {num(area, 2)} mm²</span>
             </div>
           </div>
           <div>
-            <label htmlFor={`${uid}-l0`} className="block text-sm font-semibold text-slate-700">
+            <label htmlFor={`${uid}-l0`} className="block text-sm font-semibold text-slate-700 dark:text-slate-200">
               Longitud inicial L₀ (20 a 200 mm)
             </label>
             <div className="mt-1 flex items-center gap-2">
@@ -1650,26 +1650,26 @@ export default function EnsayoTraccionApp() {
                 step={5}
                 value={l0}
                 onChange={(ev) => cambiarL0(Number(ev.target.value))}
-                className="w-28 rounded-xl border border-zinc-300 px-3 py-2 text-[15px] tabular-nums text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                className="w-28 rounded-xl border border-zinc-300 dark:border-white/15 px-3 py-2 text-[15px] tabular-nums text-slate-900 dark:text-slate-100 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
               />
-              <span className="text-sm text-zinc-500">mm → L = {num(lActual, 3)} mm</span>
+              <span className="text-sm text-zinc-500 dark:text-zinc-400">mm → L = {num(lActual, 3)} mm</span>
             </div>
           </div>
         </div>
-        <p className="mt-2 text-sm text-zinc-500">
+        <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
           Cambiar el material o la probeta reinicia el ensayo: estás montando una probeta nueva.
         </p>
 
         {/* Deslizador de fuerza */}
         <div className="mt-5">
-          <label htmlFor={`${uid}-f`} className="block text-sm font-semibold text-slate-700">
+          <label htmlFor={`${uid}-f`} className="block text-sm font-semibold text-slate-700 dark:text-slate-200">
             Fuerza aplicada F
           </label>
           <div className="mt-1 flex items-baseline gap-2">
-            <span className="text-2xl font-extrabold tracking-tight tabular-nums text-slate-900">
+            <span className="text-2xl font-extrabold tracking-tight tabular-nums text-slate-900 dark:text-slate-100">
               {num(lectura.f, 2)}
             </span>
-            <span className="text-sm text-zinc-500">kN de un máximo de {num(fMax, 2)} kN</span>
+            <span className="text-sm text-zinc-500 dark:text-zinc-400">kN de un máximo de {num(fMax, 2)} kN</span>
           </div>
           <input
             id={`${uid}-f`}
@@ -1684,14 +1684,14 @@ export default function EnsayoTraccionApp() {
               aplicar(Number(ev.target.value));
             }}
             aria-valuetext={`${num(lectura.f, 2)} kilonewton, tensión ${num(lectura.sigma, 1)} megapascales, ${FASES[fase].rotulo}`}
-            className="mt-2 h-2 w-full cursor-pointer appearance-none rounded-full bg-zinc-200 accent-blue-600 disabled:cursor-not-allowed disabled:opacity-40"
+            className="mt-2 h-2 w-full cursor-pointer appearance-none rounded-full bg-zinc-200 dark:bg-white/15 accent-blue-600 disabled:cursor-not-allowed disabled:opacity-40"
             style={{
               background: `linear-gradient(to right, ${
                 fase === "plastica" || fase === "carga-max" || fase === "estriccion" ? "#f59e0b" : "#2563eb"
               } ${pctSlider}%, #e4e4e7 ${pctSlider}%)`,
             }}
           />
-          <p className="mt-1 text-sm text-zinc-500">
+          <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
             El tope del deslizador es la carga máxima que aguanta esta probeta: F<sub>máx</sub> = σr · A ={" "}
             {num(fMax, 2)} kN. Con el teclado: flechas para afinar, Inicio y Fin para los extremos.
           </p>
@@ -1711,7 +1711,7 @@ export default function EnsayoTraccionApp() {
             <button
               type="button"
               onClick={() => setAuto(false)}
-              className="rounded-xl bg-slate-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-slate-800"
+              className="rounded-xl bg-slate-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-slate-800 dark:hover:bg-slate-600"
             >
               Pausa
             </button>
@@ -1720,7 +1720,7 @@ export default function EnsayoTraccionApp() {
               type="button"
               onClick={() => setAuto(true)}
               disabled={rotoYa}
-              className="rounded-xl bg-slate-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-40"
+              className="rounded-xl bg-slate-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-slate-800 dark:hover:bg-slate-600 disabled:cursor-not-allowed disabled:opacity-40"
             >
               Ensayo automático
             </button>
@@ -1741,14 +1741,14 @@ export default function EnsayoTraccionApp() {
               aplicar(material.fragil ? fMax * 0.97 : fElastico);
             }}
             disabled={rotoYa}
-            className="rounded-xl border border-zinc-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 hover:bg-zinc-50 disabled:cursor-not-allowed disabled:opacity-40"
+            className="rounded-xl border border-zinc-300 dark:border-white/15 bg-white dark:bg-slate-900 px-5 py-2.5 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-zinc-50 dark:hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-40"
           >
             {material.fragil ? "Ir al borde de la rotura" : "Ir al límite elástico"}
           </button>
           <button
             type="button"
             onClick={reiniciar}
-            className="rounded-xl border border-zinc-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 hover:bg-zinc-50"
+            className="rounded-xl border border-zinc-300 dark:border-white/15 bg-white dark:bg-slate-900 px-5 py-2.5 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-zinc-50 dark:hover:bg-white/5"
           >
             Reiniciar
           </button>
@@ -1756,10 +1756,10 @@ export default function EnsayoTraccionApp() {
       </div>
 
       {/* Panel de instrumentos */}
-      <div className="mt-5 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
+      <div className="mt-5 rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-5 shadow-sm">
         <div className="flex flex-wrap items-baseline justify-between gap-2">
-          <h3 className="text-lg font-extrabold tracking-tight text-slate-900">Panel de instrumentos</h3>
-          <span className="text-sm text-zinc-500">
+          <h3 className="text-lg font-extrabold tracking-tight text-slate-900 dark:text-slate-100">Panel de instrumentos</h3>
+          <span className="text-sm text-zinc-500 dark:text-zinc-400">
             {rotoYa ? "valores en el instante de la rotura" : "lecturas en vivo"}
           </span>
         </div>
@@ -1791,7 +1791,7 @@ export default function EnsayoTraccionApp() {
             tono={Number.isFinite(nSeg) && nSeg < 1 ? "rosa" : "zinc"}
           />
         </div>
-        <p className="mt-3 text-sm text-zinc-500">
+        <p className="mt-3 text-sm text-zinc-500 dark:text-zinc-400">
           1 kN = 1 000 N · 1 MPa = 1 N/mm² · E en GPa = E en MPa entre 1 000 · ε es adimensional y se muestra en %.
           El coeficiente de seguridad n dice cuántas veces cabe la tensión de trabajo dentro de σ
           {material.fragil ? "r" : "e"}: si n es menor que 1, la pieza ya ha fallado.
@@ -1801,11 +1801,11 @@ export default function EnsayoTraccionApp() {
       {/* La idea central: la descarga */}
       <div
         className={`mt-5 rounded-2xl border p-5 shadow-sm ${
-          lectura.epsPerm > 1e-6 ? "border-amber-300 bg-amber-50" : "border-blue-200 bg-blue-50"
+          lectura.epsPerm > 1e-6 ? "border-amber-300 dark:border-amber-500/40 bg-amber-50 dark:bg-amber-500/10" : "border-blue-200 dark:border-blue-500/30 bg-blue-50 dark:bg-blue-500/10"
         }`}
         aria-live="polite"
       >
-        <h3 className="text-lg font-extrabold tracking-tight text-slate-900">
+        <h3 className="text-lg font-extrabold tracking-tight text-slate-900 dark:text-slate-100">
           Suelta la fuerza: ¿vuelve o se queda?
         </h3>
         {lectura.epsPerm > 1e-6 ? (
@@ -1854,7 +1854,7 @@ export default function EnsayoTraccionApp() {
               aplicar(fElastico * 0.9);
             }}
             disabled={rotoYa}
-            className="rounded-xl border border-zinc-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 hover:bg-zinc-50 disabled:cursor-not-allowed disabled:opacity-40"
+            className="rounded-xl border border-zinc-300 dark:border-white/15 bg-white dark:bg-slate-900 px-5 py-2.5 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-zinc-50 dark:hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-40"
           >
             Probar dentro de la zona elástica
           </button>
@@ -1865,7 +1865,7 @@ export default function EnsayoTraccionApp() {
               aplicar(fMax * 0.99);
             }}
             disabled={rotoYa || material.fragil}
-            className="rounded-xl border border-zinc-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 hover:bg-zinc-50 disabled:cursor-not-allowed disabled:opacity-40"
+            className="rounded-xl border border-zinc-300 dark:border-white/15 bg-white dark:bg-slate-900 px-5 py-2.5 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-zinc-50 dark:hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-40"
           >
             Probar en plena zona plástica
           </button>
@@ -1873,34 +1873,34 @@ export default function EnsayoTraccionApp() {
       </div>
 
       {/* Explicación de la fase */}
-      <div className="mt-5 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm" aria-live="polite">
+      <div className="mt-5 rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-5 shadow-sm" aria-live="polite">
         <div className="flex flex-wrap items-center gap-2">
           <span className={`rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider ${FASES[fase].pastilla}`}>
             {FASES[fase].rotulo}
           </span>
-          <h3 className="text-lg font-extrabold tracking-tight text-slate-900">{explicacion.titulo}</h3>
+          <h3 className="text-lg font-extrabold tracking-tight text-slate-900 dark:text-slate-100">{explicacion.titulo}</h3>
         </div>
-        <p className="mt-2 text-[15px] leading-relaxed text-zinc-700">{explicacion.cuerpo}</p>
-        <dl className="mt-3 grid grid-cols-1 gap-x-6 gap-y-1 text-sm text-zinc-600 sm:grid-cols-2">
-          <div className="flex justify-between gap-3 border-b border-zinc-100 py-1">
+        <p className="mt-2 text-[15px] leading-relaxed text-zinc-700 dark:text-zinc-300">{explicacion.cuerpo}</p>
+        <dl className="mt-3 grid grid-cols-1 gap-x-6 gap-y-1 text-sm text-zinc-600 dark:text-zinc-400 sm:grid-cols-2">
+          <div className="flex justify-between gap-3 border-b border-zinc-100 dark:border-white/5 py-1">
             <dt>{material.fragil ? "Sin límite elástico: rompe en" : "Límite elástico σe"}</dt>
-            <dd className="font-mono tabular-nums text-slate-900">
+            <dd className="font-mono tabular-nums text-slate-900 dark:text-slate-100">
               {num(material.se, 0)} MPa (ε = {num(epsElastico(material) * 100, 3)} %)
             </dd>
           </div>
-          <div className="flex justify-between gap-3 border-b border-zinc-100 py-1">
+          <div className="flex justify-between gap-3 border-b border-zinc-100 dark:border-white/5 py-1">
             <dt>Resistencia a tracción σr</dt>
-            <dd className="font-mono tabular-nums text-slate-900">
+            <dd className="font-mono tabular-nums text-slate-900 dark:text-slate-100">
               {num(material.sr, 0)} MPa (ε = {num(epsMaxCarga(material) * 100, 2)} %)
             </dd>
           </div>
-          <div className="flex justify-between gap-3 border-b border-zinc-100 py-1">
+          <div className="flex justify-between gap-3 border-b border-zinc-100 dark:border-white/5 py-1">
             <dt>{material.fragil ? "Fuerza que la parte" : "Fuerza en el límite elástico"}</dt>
-            <dd className="font-mono tabular-nums text-slate-900">{num(fElastico, 2)} kN</dd>
+            <dd className="font-mono tabular-nums text-slate-900 dark:text-slate-100">{num(fElastico, 2)} kN</dd>
           </div>
-          <div className="flex justify-between gap-3 border-b border-zinc-100 py-1">
+          <div className="flex justify-between gap-3 border-b border-zinc-100 dark:border-white/5 py-1">
             <dt>Fuerza máxima de la probeta</dt>
-            <dd className="font-mono tabular-nums text-slate-900">{num(fMax, 2)} kN</dd>
+            <dd className="font-mono tabular-nums text-slate-900 dark:text-slate-100">{num(fMax, 2)} kN</dd>
           </div>
         </dl>
       </div>
@@ -1936,8 +1936,8 @@ export default function EnsayoTraccionApp() {
 
       {/* Retos */}
       <div className="mt-5">
-        <h3 className="text-xl font-extrabold tracking-tight text-slate-900">Tres retos de dimensionado</h3>
-        <p className="mt-1 text-[15px] text-zinc-700">
+        <h3 className="text-xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100">Tres retos de dimensionado</h3>
+        <p className="mt-1 text-[15px] text-zinc-700 dark:text-zinc-300">
           Los mismos que caen en el examen: se resuelven con σ = F/A, A = π·d²/4 y el coeficiente de seguridad.
           Escribe tu respuesta y la app te corrige el razonamiento paso a paso.
         </p>
@@ -1949,7 +1949,7 @@ export default function EnsayoTraccionApp() {
       </div>
 
       {/* Pie */}
-      <p className="mt-5 rounded-2xl border border-zinc-200 bg-zinc-100 p-4 text-sm text-zinc-600">
+      <p className="mt-5 rounded-2xl border border-zinc-200 dark:border-white/10 bg-zinc-100 dark:bg-white/10 p-4 text-sm text-zinc-600 dark:text-zinc-400">
         <b>Valores orientativos.</b> Las constantes de los cinco materiales están redondeadas a partir de tablas
         técnicas habituales y sirven para aprender el método, no para calcular una estructura real: en un
         proyecto se usan los valores del certificado del fabricante y los coeficientes de seguridad que fije la

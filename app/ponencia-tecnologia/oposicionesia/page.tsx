@@ -151,7 +151,7 @@ export default function Bloque6() {
         {CATEGORIAS.map((c, i) => (
           <div
             key={c}
-            className="flex items-center gap-3 rounded-xl border border-zinc-200 bg-white px-3.5 py-2.5 text-[14px] text-zinc-700 shadow-sm"
+            className="flex items-center gap-3 rounded-xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 px-3.5 py-2.5 text-[14px] text-zinc-700 dark:text-zinc-300 shadow-sm"
           >
             <span className="flex h-6 w-6 flex-none items-center justify-center rounded-full bg-emerald-600 text-[11px] font-extrabold text-white">
               {i + 1}

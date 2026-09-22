@@ -162,7 +162,7 @@ export function RelojSesion() {
                   texto={String(s.n)}
                   tam={FS_GRANDE}
                   peso={800}
-                  color={activo ? "#ffffff" : t.fuerte}
+                  color={activo ? "var(--dg-sobre-tono)" : t.fuerte}
                   ancla="middle"
                 />
                 <Rotulo
@@ -171,7 +171,7 @@ export function RelojSesion() {
                   texto={`${s.min} min`}
                   tam={FS}
                   peso={600}
-                  color={activo ? "#ffffff" : t.fuerte}
+                  color={activo ? "var(--dg-sobre-tono)" : t.fuerte}
                   ancla="middle"
                 />
               </Zona>
@@ -192,7 +192,7 @@ export function RelojSesion() {
                   fill={ctx.sel === f.id ? TONOS[f.tono].suave : "transparent"}
                   stroke={ctx.sel === f.id ? TONOS[f.tono].linea : "transparent"}
                   strokeWidth={2}
-                  className="transition-colors duration-150 group-hover:fill-zinc-100"
+                  className="transition-colors duration-150 group-hover:fill-zinc-100 dark:group-hover:fill-white/10"
                 />
                 <rect
                   x={x0 - 11}

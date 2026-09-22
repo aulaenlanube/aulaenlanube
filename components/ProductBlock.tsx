@@ -24,10 +24,10 @@ export default function ProductBlock({
 
   return (
     <section className="mt-14">
-      <div className="overflow-hidden rounded-2xl bg-gradient-to-br from-slate-50 to-blue-50 p-6 ring-1 ring-blue-100 sm:p-8">
+      <div className="overflow-hidden rounded-2xl bg-gradient-to-br from-slate-50 to-blue-50 p-6 dark:from-slate-900 dark:to-blue-950/40 ring-1 ring-blue-100 dark:ring-blue-500/20 sm:p-8">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-slate-700">{title}</h2>
-          <p className="mt-1 text-sm text-zinc-500">
+          <h2 className="text-2xl font-bold text-slate-700 dark:text-slate-200">{title}</h2>
+          <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
             Estos son otros proyectos creados por Edu Torregrosa. ¡Échales un vistazo!
           </p>
         </div>
@@ -39,7 +39,7 @@ export default function ProductBlock({
               href={p.url}
               target="_blank"
               rel="noopener"
-              className="group flex flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-zinc-200 transition duration-200 hover:-translate-y-1 hover:shadow-xl hover:ring-blue-200"
+              className="group flex flex-col overflow-hidden rounded-xl bg-white dark:bg-slate-900 shadow-sm ring-1 ring-zinc-200 dark:ring-white/10 transition duration-200 hover:-translate-y-1 hover:shadow-xl hover:ring-blue-200 dark:hover:ring-blue-500/30"
             >
               <div
                 className={`relative flex h-28 items-center justify-center bg-gradient-to-br p-4 ${GRADIENTS[i % GRADIENTS.length]}`}
@@ -59,9 +59,9 @@ export default function ProductBlock({
                 ) : null}
               </div>
               <div className="flex flex-1 flex-col p-5">
-                <div className="text-lg font-bold text-slate-800">{p.name}</div>
+                <div className="text-lg font-bold text-slate-800 dark:text-slate-200">{p.name}</div>
                 {p.description ? (
-                  <p className="mt-1 flex-1 text-sm leading-6 text-zinc-600">{p.description}</p>
+                  <p className="mt-1 flex-1 text-sm leading-6 text-zinc-600 dark:text-zinc-400">{p.description}</p>
                 ) : (
                   <span className="flex-1" />
                 )}

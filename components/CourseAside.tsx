@@ -13,7 +13,7 @@ export default function CourseAside() {
 
       {latest.length > 0 && (
         <div>
-          <h3 className="text-sm font-semibold uppercase tracking-wide text-zinc-400">
+          <h3 className="text-sm font-semibold uppercase tracking-wide text-zinc-400 dark:text-zinc-400">
             Últimos cursos
           </h3>
           <div className="mt-3 space-y-3">
@@ -21,7 +21,7 @@ export default function CourseAside() {
               <Link
                 key={c.path}
                 href={c.path}
-                className="group block overflow-hidden rounded-lg ring-1 ring-zinc-200 transition hover:ring-blue-300"
+                className="group block overflow-hidden rounded-lg ring-1 ring-zinc-200 dark:ring-white/10 transition hover:ring-blue-300 dark:hover:ring-blue-500/40"
               >
                 {c.image ? (
                   // eslint-disable-next-line @next/next/no-img-element

@@ -23,14 +23,14 @@ export default function PonenciaPortada() {
         <Chip tono="gris">Comunitat Valenciana</Chip>
       </div>
 
-      <h1 className="mt-4 text-4xl font-extrabold tracking-tight text-zinc-900 sm:text-5xl">
+      <h1 className="mt-4 text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100 sm:text-5xl">
         IA para opositores de Tecnología
       </h1>
-      <p className="mt-2 text-xl font-semibold tracking-tight text-zinc-500">
+      <p className="mt-2 text-xl font-semibold tracking-tight text-zinc-500 dark:text-zinc-400">
         Preparar el temario, crear los materiales y programar con agentes — con lo que ya tienes
       </p>
 
-      <p className="mt-6 max-w-3xl text-lg leading-relaxed text-zinc-600">
+      <p className="mt-6 max-w-3xl text-lg leading-relaxed text-zinc-600 dark:text-zinc-400">
         Dos horas para salir con cuatro cosas funcionando: un <b>método para escribir prompts</b> que
         aguantan un tribunal, el <b>Copilot que ya tienes pagado</b> con la cuenta del centro, una
         <b> forma de atacar los 71 temas</b> sin perder criterio, y la capacidad de{" "}
@@ -47,9 +47,9 @@ export default function PonenciaPortada() {
           { n: "2", t: "apps de aula que puedes probar aquí mismo", tono: "ambar" as const },
           { n: "0 €", t: "de coste: todo con lo que ya tienes", tono: "verde" as const },
         ].map((d) => (
-          <div key={d.t} className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm">
+          <div key={d.t} className="rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-4 shadow-sm">
             <p className={`text-3xl font-extrabold tracking-tight ${ESTILO[d.tono].texto}`}>{d.n}</p>
-            <p className="mt-1 text-[13px] leading-snug text-zinc-500">{d.t}</p>
+            <p className="mt-1 text-[13px] leading-snug text-zinc-500 dark:text-zinc-400">{d.t}</p>
           </div>
         ))}
       </div>
@@ -81,7 +81,7 @@ export default function PonenciaPortada() {
             <Link
               key={b.ruta}
               href={b.ruta}
-              className={`group flex flex-col rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm transition ${e.tarjeta}`}
+              className={`group flex flex-col rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-5 shadow-sm transition ${e.tarjeta}`}
             >
               <div className="flex items-center gap-3">
                 <span
@@ -89,14 +89,14 @@ export default function PonenciaPortada() {
                 >
                   {b.n}
                 </span>
-                <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-400">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-400">
                   {b.min} min
                 </span>
               </div>
-              <h3 className="mt-3 text-[17px] font-extrabold tracking-tight text-zinc-900">
+              <h3 className="mt-3 text-[17px] font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100">
                 {b.titulo}
               </h3>
-              <p className="mt-1.5 flex-1 text-[14px] leading-relaxed text-zinc-600">{b.resumen}</p>
+              <p className="mt-1.5 flex-1 text-[14px] leading-relaxed text-zinc-600 dark:text-zinc-400">{b.resumen}</p>
               <p className={`mt-3 text-[13px] font-bold ${e.texto}`}>
                 Abrir el apunte{" "}
                 <span className="inline-block transition-transform group-hover:translate-x-0.5">→</span>
@@ -137,13 +137,13 @@ export default function PonenciaPortada() {
             <Link
               key={a.ruta}
               href={a.ruta}
-              className={`group rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm transition ${e.tarjeta}`}
+              className={`group rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-5 shadow-sm transition ${e.tarjeta}`}
             >
               <Chip tono={a.tono}>{a.curso}</Chip>
-              <h3 className="mt-3 text-[17px] font-extrabold tracking-tight text-zinc-900">
+              <h3 className="mt-3 text-[17px] font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100">
                 {a.titulo}
               </h3>
-              <p className="mt-1.5 text-[14px] leading-relaxed text-zinc-600">{a.d}</p>
+              <p className="mt-1.5 text-[14px] leading-relaxed text-zinc-600 dark:text-zinc-400">{a.d}</p>
               <p className={`mt-3 text-[13px] font-bold ${e.texto}`}>
                 Probarla y ver su prompt{" "}
                 <span className="inline-block transition-transform group-hover:translate-x-0.5">→</span>
@@ -200,16 +200,16 @@ export default function PonenciaPortada() {
           const cuerpo = (
             <>
               <div className="flex items-center gap-2">
-                <span className="text-[14px] font-bold text-blue-700 group-hover:underline">
+                <span className="text-[14px] font-bold text-blue-700 dark:text-blue-300 group-hover:underline">
                   {r.t}
                 </span>
                 <span className="text-blue-400">{interno ? "→" : "↗"}</span>
               </div>
-              <p className="mt-1 text-[13px] leading-relaxed text-zinc-500">{r.d}</p>
+              <p className="mt-1 text-[13px] leading-relaxed text-zinc-500 dark:text-zinc-400">{r.d}</p>
             </>
           );
           const cls =
-            "group rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm transition hover:border-blue-300 hover:bg-blue-50/30";
+            "group rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-4 shadow-sm transition hover:border-blue-300 dark:hover:border-blue-500/40 hover:bg-blue-50/30 dark:hover:bg-blue-500/10";
           // Se indexa por título: dos fichas distintas pueden apuntar a la
           // misma página (las cadenas de prompts y su galería de infografías).
           return interno ? (
@@ -225,11 +225,11 @@ export default function PonenciaPortada() {
       </div>
 
       {/* ── Cómo usar esto ─────────────────────────────────────────────── */}
-      <div className="mt-12 rounded-2xl border border-zinc-200 bg-zinc-50 p-5">
-        <h2 className="text-[15px] font-extrabold tracking-tight text-zinc-900">
+      <div className="mt-12 rounded-2xl border border-zinc-200 dark:border-white/10 bg-zinc-50 dark:bg-white/5 p-5">
+        <h2 className="text-[15px] font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100">
           Cómo sacarle partido a esta página
         </h2>
-        <ul className="mt-3 space-y-2 text-[15px] leading-relaxed text-zinc-600">
+        <ul className="mt-3 space-y-2 text-[15px] leading-relaxed text-zinc-600 dark:text-zinc-400">
           <li>
             • <b>Para seguir estudiando después:</b> el{" "}
             <Dentro href="/ponencia-tecnologia/oposicionesia/">bloque 6</Dentro> resume qué hay en

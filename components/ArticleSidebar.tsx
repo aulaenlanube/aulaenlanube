@@ -16,7 +16,7 @@ export default function ArticleSidebar({ currentPath }: { currentPath?: string }
 
       {recent.length > 0 && (
         <div>
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-zinc-400">
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-zinc-400 dark:text-zinc-400">
             Últimas publicaciones
           </h2>
           <ul className="mt-4 space-y-4">
@@ -34,7 +34,7 @@ export default function ArticleSidebar({ currentPath }: { currentPath?: string }
                   ) : (
                     <div className="h-16 w-24 flex-none rounded-md bg-gradient-to-br from-sky-500 to-blue-700" />
                   )}
-                  <span className="text-sm font-semibold leading-snug text-blue-700 group-hover:underline">
+                  <span className="text-sm font-semibold leading-snug text-blue-700 dark:text-blue-300 group-hover:underline">
                     {p.title}
                   </span>
                 </Link>

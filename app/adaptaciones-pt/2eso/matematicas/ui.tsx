@@ -5,29 +5,34 @@ import type { ReactNode } from "react";
 // sky/indigo, chips de nivel, detalles <details> nativos) — sin CSS nuevo.
 
 export const chip =
-  "inline-block rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-blue-700";
+  "inline-block rounded-full border border-blue-200 dark:border-blue-500/30 bg-blue-50 dark:bg-blue-500/10 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-blue-700 dark:text-blue-300";
 
 const nivel =
   "inline-block rounded-full border px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider";
 
-export const n2 = nivel + " border-violet-300 bg-violet-50 text-violet-700";
-export const n1 = nivel + " border-sky-300 bg-sky-50 text-sky-700";
-export const n6 = nivel + " border-emerald-300 bg-emerald-50 text-emerald-700";
-export const n5 = nivel + " border-amber-300 bg-amber-50 text-amber-700";
+export const n2 = nivel + " border-violet-300 dark:border-violet-500/40 bg-violet-50 dark:bg-violet-500/10 text-violet-700 dark:text-violet-300";
+export const n1 = nivel + " border-sky-300 dark:border-sky-500/40 bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-300";
+export const n6 = nivel + " border-emerald-300 dark:border-emerald-500/40 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-300";
+export const n5 = nivel + " border-amber-300 dark:border-amber-500/40 bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-300";
 
 export const tarjeta =
-  "mt-8 scroll-mt-24 rounded-2xl border border-sky-200 bg-gradient-to-br from-sky-100 via-blue-50 to-indigo-100 p-5 shadow-sm sm:p-7";
+  "mt-8 scroll-mt-24 rounded-2xl border border-sky-200 dark:border-sky-500/30 bg-gradient-to-br from-sky-100 via-blue-50 to-indigo-100 dark:from-sky-500/10 dark:via-blue-500/10 dark:to-indigo-500/10 p-5 shadow-sm sm:p-7";
 
 const sol =
-  "mt-3 rounded-xl border border-emerald-200 bg-white p-4 text-sm text-zinc-700";
+  "mt-3 rounded-xl border border-emerald-200 dark:border-emerald-500/30 bg-white dark:bg-slate-900 p-4 text-sm text-zinc-700 dark:text-zinc-300";
 const ad =
-  "mt-2 rounded-xl border border-zinc-200 bg-white/70 p-4 text-[13px] text-zinc-600";
+  "mt-2 rounded-xl border border-zinc-200 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 text-[13px] text-zinc-600 dark:text-zinc-400";
 
-export const sub = "text-sm font-bold uppercase tracking-wide text-zinc-500";
+export const sub = "text-sm font-bold uppercase tracking-wide text-zinc-500 dark:text-zinc-400";
 
+// Las figuras son láminas de ficha: dibujan tinta oscura sobre papel y, además,
+// se serializan tal cual para el PDF (ver exportar.ts), así que sus colores van
+// literales y no pueden depender del tema. Por eso la lámina conserva el papel
+// blanco también en oscuro; `aeln-lamina` solo le baja un poco el brillo para
+// que no deslumbre (app/globals.css).
 export function Figura({ children, caption }: { children: ReactNode; caption?: ReactNode }) {
   return (
-    <figure className="mt-6 flex flex-col items-center rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
+    <figure className="aeln-lamina mt-6 flex flex-col items-center rounded-2xl border border-zinc-200 dark:border-white/10 bg-white p-5 shadow-sm">
       {children}
       {caption ? <figcaption className="mt-2 text-center text-xs text-zinc-500">{caption}</figcaption> : null}
     </figure>
@@ -48,8 +53,8 @@ function Lineas({ partes, className }: { partes: ReactNode[]; className?: string
 export function Enunciado({ intro, partes }: { intro?: ReactNode; partes: ReactNode[] }) {
   return (
     <div className="mt-2">
-      {intro ? <p className="text-[15px] text-zinc-800">{intro}</p> : null}
-      <Lineas partes={partes} className="mt-1 text-[15px] text-zinc-800" />
+      {intro ? <p className="text-[15px] text-zinc-800 dark:text-zinc-200">{intro}</p> : null}
+      <Lineas partes={partes} className="mt-1 text-[15px] text-zinc-800 dark:text-zinc-200" />
     </div>
   );
 }
@@ -57,7 +62,7 @@ export function Enunciado({ intro, partes }: { intro?: ReactNode; partes: ReactN
 export function Solucion({ partes }: { partes: ReactNode[] }) {
   return (
     <details className={sol}>
-      <summary className="cursor-pointer select-none font-bold text-emerald-700">Ver solución</summary>
+      <summary className="cursor-pointer select-none font-bold text-emerald-700 dark:text-emerald-300">Ver solución</summary>
       <Lineas partes={partes} className="mt-2" />
     </details>
   );
@@ -75,11 +80,11 @@ export function Adaptacion({ children }: { children: ReactNode }) {
 // visual que los ejercicios.
 export function Teoria({ children }: { children: ReactNode }) {
   return (
-    <section className="mt-8 rounded-2xl border border-blue-200 bg-blue-50/60 p-5 shadow-sm sm:p-7">
-      <h2 className="flex items-center gap-2 text-xl font-bold tracking-tight text-zinc-900 sm:text-2xl">
+    <section className="mt-8 rounded-2xl border border-blue-200 dark:border-blue-500/30 bg-blue-50/60 dark:bg-blue-500/10 p-5 shadow-sm sm:p-7">
+      <h2 className="flex items-center gap-2 text-xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 sm:text-2xl">
         📘 Teoría
       </h2>
-      <div className="mt-3 space-y-3 text-[15px] leading-relaxed text-zinc-700">{children}</div>
+      <div className="mt-3 space-y-3 text-[15px] leading-relaxed text-zinc-700 dark:text-zinc-300">{children}</div>
     </section>
   );
 }
@@ -88,10 +93,10 @@ export function Teoria({ children }: { children: ReactNode }) {
 export function SeccionTitulo({ emoji, titulo, subtitulo }: { emoji: string; titulo: string; subtitulo?: string }) {
   return (
     <div className="mt-10">
-      <h2 className="flex items-center gap-2 text-xl font-bold tracking-tight text-zinc-900 sm:text-2xl">
+      <h2 className="flex items-center gap-2 text-xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 sm:text-2xl">
         {emoji} {titulo}
       </h2>
-      {subtitulo ? <p className="mt-1 text-sm text-zinc-500">{subtitulo}</p> : null}
+      {subtitulo ? <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">{subtitulo}</p> : null}
     </div>
   );
 }

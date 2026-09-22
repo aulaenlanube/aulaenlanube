@@ -23,15 +23,15 @@ export default function ExerciseCard({
   const hasCode = !!(code && lines && lines.length > 0);
 
   return (
-    <section className="mt-8 scroll-mt-24 rounded-2xl border border-sky-200 bg-gradient-to-br from-sky-100 via-blue-50 to-indigo-100 p-5 shadow-sm transition-all duration-200 hover:border-sky-300 hover:shadow-md motion-reduce:transition-none sm:p-7">
+    <section className="mt-8 scroll-mt-24 rounded-2xl border border-sky-200 dark:border-sky-500/30 bg-gradient-to-br from-sky-100 via-blue-50 to-indigo-100 dark:from-sky-500/10 dark:via-blue-500/10 dark:to-indigo-500/10 p-5 shadow-sm transition-all duration-200 hover:border-sky-300 dark:hover:border-sky-500/40 hover:shadow-md motion-reduce:transition-none sm:p-7">
       <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
-        <h2 className="text-xl font-bold tracking-tight text-zinc-900 sm:text-2xl">{title}</h2>
+        <h2 className="text-xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 sm:text-2xl">{title}</h2>
         {hasCode && (
           <button
             type="button"
             onClick={() => setOpen((o) => !o)}
             aria-expanded={open}
-            className="group inline-flex min-h-[38px] items-center gap-2 rounded-full border border-blue-200 bg-white px-4 py-1.5 text-sm font-semibold text-blue-700 shadow-sm transition-all duration-200 hover:border-blue-300 hover:bg-blue-50 hover:shadow active:scale-[0.98] motion-reduce:transition-none motion-reduce:active:scale-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2"
+            className="group inline-flex min-h-[38px] items-center gap-2 rounded-full border border-blue-200 dark:border-blue-500/30 bg-white dark:bg-slate-900 px-4 py-1.5 text-sm font-semibold text-blue-700 dark:text-blue-300 shadow-sm transition-all duration-200 hover:border-blue-300 dark:hover:border-blue-500/40 hover:bg-blue-50 dark:hover:bg-blue-500/10 hover:shadow active:scale-[0.98] motion-reduce:transition-none motion-reduce:active:scale-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2"
           >
             <svg
               viewBox="0 0 20 20"
@@ -48,7 +48,7 @@ export default function ExerciseCard({
       </div>
 
       <div
-        className="prose prose-zinc mt-4 max-w-none text-[15px] prose-a:text-blue-600 prose-img:rounded-lg prose-img:ring-1 prose-img:ring-zinc-200"
+        className="prose prose-zinc dark:prose-invert mt-4 max-w-none text-[15px] prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-img:rounded-lg prose-img:ring-1 prose-img:ring-zinc-200 dark:prose-img:ring-white/10"
         dangerouslySetInnerHTML={{ __html: statementHtml }}
       />
 

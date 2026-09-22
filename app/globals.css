@@ -1,9 +1,139 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+/* ════════════════════════════════════════════════════════════════════════════
+   MODO OSCURO
+   ────────────────────────────────────────────────────────────────────────────
+   La variante `dark:` se activa de dos maneras:
+
+   1. `<html data-theme="dark">` — elección explícita del usuario (el botón de
+      la cabecera la guarda en localStorage y un script en línea la aplica antes
+      del primer pintado, ver app/layout.tsx).
+   2. `prefers-color-scheme: dark` — preferencia del sistema, mientras el
+      usuario no haya pedido explícitamente el tema claro (`data-theme="light"`).
+      Así el sitio respeta el sistema incluso sin JavaScript.
+
+   Todo ello dentro de `@media screen`: **al imprimir siempre se usa el tema
+   claro**, que es lo que espera el papel (y lo que necesitan las fichas de
+   Adaptaciones PT, pensadas para PDF).
+
+   En CSS propio (más abajo) la misma variante se reutiliza con `@variant dark`,
+   para no repetir nunca las dos condiciones.
+   ════════════════════════════════════════════════════════════════════════════ */
+@custom-variant dark {
+  @media screen {
+    &:where([data-theme="dark"], [data-theme="dark"] *) {
+      @slot;
+    }
+    @media (prefers-color-scheme: dark) {
+      &:where(:root:not([data-theme="light"]), :root:not([data-theme="light"]) *) {
+        @slot;
+      }
+    }
+  }
+}
+
+/* Paleta base. Las superficies del tema oscuro forman una escala coherente:
+   fondo de página (el más oscuro) < tarjeta (slate-900) < elevado (slate-800),
+   con bordes de luz (blanco al 10 %) en lugar de líneas grises. */
 :root {
   --background: #ffffff;
   --foreground: #18181b;
+  --surface: #ffffff;
+  --surface-2: #fafafa;
+  --line: #e4e4e7;
+  --muted: #71717a;
+  --link: #2563eb;
+  color-scheme: light;
+
+  @variant dark {
+    --background: #090e17;
+    --foreground: #e5e9f0;
+    --surface: #0f172a;
+    --surface-2: #1e293b;
+    --line: rgba(255, 255, 255, 0.1);
+    --muted: #94a3b8;
+    --link: #60a5fa;
+    color-scheme: dark;
+  }
+}
+
+/* ── Paleta de los diagramas SVG ────────────────────────────────────────────
+   Los diagramas de la ponencia y del curso de programación pintan con estos
+   tokens (ver app/ponencia-tecnologia/_svg/base.tsx). Al vivir en CSS, el mismo
+   dibujo se adapta al tema sin JavaScript ni doble juego de componentes: en
+   oscuro las líneas suben de tono, los rellenos pasan a lavados translúcidos y
+   el papel se vuelve una superficie elevada.
+
+   OJO: las figuras de Adaptaciones PT (adaptaciones-pt/.../figuras.tsx) NO
+   usan estos tokens a propósito. Sus SVG se serializan y se rasterizan aislados
+   para el PDF, donde `var()` no resolvería: allí los colores van literales. */
+:root {
+  --dg-fondo: #fafafa;
+  --dg-papel: #ffffff;
+  --dg-tinta: #18181b;
+  --dg-suave: #52525b;
+  --dg-tenue: #71717a;
+  --dg-sobre-tono: #ffffff;
+
+  --dg-azul-linea: #2563eb;
+  --dg-azul-fuerte: #1d4ed8;
+  --dg-azul-suave: #eff6ff;
+  --dg-azul-borde: #bfdbfe;
+  --dg-morado-linea: #7c3aed;
+  --dg-morado-fuerte: #6d28d9;
+  --dg-morado-suave: #f5f3ff;
+  --dg-morado-borde: #ddd6fe;
+  --dg-verde-linea: #059669;
+  --dg-verde-fuerte: #047857;
+  --dg-verde-suave: #ecfdf5;
+  --dg-verde-borde: #a7f3d0;
+  --dg-ambar-linea: #b45309;
+  --dg-ambar-fuerte: #92400e;
+  --dg-ambar-suave: #fffbeb;
+  --dg-ambar-borde: #fde68a;
+  --dg-rosa-linea: #e11d48;
+  --dg-rosa-fuerte: #be123c;
+  --dg-rosa-suave: #fff1f2;
+  --dg-rosa-borde: #fecdd3;
+  --dg-gris-linea: #71717a;
+  --dg-gris-fuerte: #3f3f46;
+  --dg-gris-suave: #f4f4f5;
+  --dg-gris-borde: #d4d4d8;
+
+  @variant dark {
+    --dg-fondo: #0f172a;
+    --dg-papel: #172032;
+    --dg-tinta: #e5e9f0;
+    --dg-suave: #aab4c4;
+    --dg-tenue: #8b94a3;
+    --dg-sobre-tono: #0b1220;
+
+    --dg-azul-linea: #60a5fa;
+    --dg-azul-fuerte: #93c5fd;
+    --dg-azul-suave: rgba(59, 130, 246, 0.18);
+    --dg-azul-borde: rgba(96, 165, 250, 0.45);
+    --dg-morado-linea: #a78bfa;
+    --dg-morado-fuerte: #c4b5fd;
+    --dg-morado-suave: rgba(139, 92, 246, 0.18);
+    --dg-morado-borde: rgba(167, 139, 250, 0.45);
+    --dg-verde-linea: #34d399;
+    --dg-verde-fuerte: #6ee7b7;
+    --dg-verde-suave: rgba(16, 185, 129, 0.18);
+    --dg-verde-borde: rgba(52, 211, 153, 0.45);
+    --dg-ambar-linea: #fbbf24;
+    --dg-ambar-fuerte: #fcd34d;
+    --dg-ambar-suave: rgba(245, 158, 11, 0.18);
+    --dg-ambar-borde: rgba(251, 191, 36, 0.45);
+    --dg-rosa-linea: #fb7185;
+    --dg-rosa-fuerte: #fda4af;
+    --dg-rosa-suave: rgba(244, 63, 94, 0.18);
+    --dg-rosa-borde: rgba(251, 113, 133, 0.45);
+    --dg-gris-linea: #94a3b8;
+    --dg-gris-fuerte: #cbd5e1;
+    --dg-gris-suave: rgba(148, 163, 184, 0.16);
+    --dg-gris-borde: rgba(148, 163, 184, 0.4);
+  }
 }
 
 html {
@@ -31,6 +161,28 @@ body {
   font-family: var(--font-inter), system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
+::selection {
+  background: color-mix(in srgb, var(--link) 28%, transparent);
+}
+
+/* Fundido al cambiar de tema: la clase la pone y quita el botón de la cabecera
+   durante ~300 ms, para que el salto claro/oscuro no sea brusco. No se aplica
+   si el usuario ha pedido reducir el movimiento. */
+@media (prefers-reduced-motion: no-preference) {
+  .aeln-tema-anim,
+  .aeln-tema-anim *,
+  .aeln-tema-anim *::before,
+  .aeln-tema-anim *::after {
+    transition:
+      background-color 0.25s ease,
+      border-color 0.25s ease,
+      color 0.25s ease,
+      fill 0.25s ease,
+      stroke 0.25s ease,
+      box-shadow 0.25s ease !important;
+  }
+}
+
 /* Red de seguridad: cualquier emoji-imagen (de WordPress) que se cuele se
    muestra a tamaño de texto, no enorme. */
 img.emoji,
@@ -53,13 +205,52 @@ img[src*="s.w.org/images/core/emoji"] {
   color: #94a3b8;
   text-decoration: none;
   padding: 0 1px;
+  @variant dark {
+    color: #64748b;
+  }
 }
 .aeln-cite a:hover {
   color: #2563eb;
+  @variant dark {
+    color: #60a5fa;
+  }
+}
+
+/* Capturas y fotos del contenido migrado: en oscuro se les baja un pelín el
+   brillo para que un pantallazo blanco no deslumbre; al pasar el ratón vuelven
+   a su aspecto original. */
+.prose img,
+.aeln-media img {
+  @variant dark {
+    filter: brightness(0.92) contrast(0.96);
+    transition: filter 0.2s ease;
+  }
+}
+.prose img:hover,
+.aeln-media img:hover {
+  @variant dark {
+    filter: none;
+  }
+}
+
+/* Láminas de ficha (Adaptaciones PT): dibujos de tinta oscura sobre papel que
+   también viajan al PDF, así que el papel sigue siendo blanco en tema oscuro.
+   Se les baja el brillo para que no deslumbren y se recuperan al pasar el ratón. */
+.aeln-lamina {
+  @variant dark {
+    filter: brightness(0.94) contrast(0.97);
+    transition: filter 0.2s ease;
+  }
+}
+.aeln-lamina:hover {
+  @variant dark {
+    filter: none;
+  }
 }
 
 /* Resaltado de sintaxis de los bloques de código (paleta tipo VS Code Dark+).
-   Las clases las pinta lib/highlight.ts en tiempo de compilación. */
+   Las clases las pinta lib/highlight.ts en tiempo de compilación. La caja es
+   oscura en los dos temas, así que no necesita variante. */
 .aeln-code .tok-com { color: #6a9955; font-style: italic; }
 .aeln-code .tok-kw { color: #569cd6; }
 .aeln-code .tok-ctrl { color: #c586c0; }
@@ -79,19 +270,29 @@ img[src*="s.w.org/images/core/emoji"] {
 }
 .aeln-code-scroll::-webkit-scrollbar-thumb:hover { background: #475569; }
 
-/* Impresión y PDF (Adaptaciones PTE): ocultar cromo, cortes de página limpios */
+/* Impresión y PDF (Adaptaciones PTE): ocultar cromo, cortes de página limpios.
+   Las variantes `dark:` no llegan aquí (viven dentro de @media screen), así que
+   basta con forzar el lienzo blanco. */
 @media print {
+  :root {
+    color-scheme: light;
+    --background: #ffffff;
+    --foreground: #18181b;
+  }
   header, footer, .no-print, .fixed { display: none !important; }
   .print-break { break-before: page; }
   section { break-inside: avoid; }
-  body { background: #fff !important; }
+  body { background: #fff !important; color: #18181b !important; }
 }
 
 /* Tablas en la teoría de Adaptaciones PTE */
 .pte-teoria table{width:100%;border-collapse:collapse;font-size:.9rem;margin:.5rem 0}
-.pte-teoria caption{caption-side:top;text-align:left;font-weight:700;color:#334155;padding:.25rem 0}
-.pte-teoria th,.pte-teoria td{border:1px solid #cbd5e1;padding:.4rem .6rem;text-align:left;vertical-align:top}
-.pte-teoria th{background:#f1f5f9}
+.pte-teoria caption{caption-side:top;text-align:left;font-weight:700;color:#334155;padding:.25rem 0;
+  @variant dark { color: #cbd5e1; }}
+.pte-teoria th,.pte-teoria td{border:1px solid #cbd5e1;padding:.4rem .6rem;text-align:left;vertical-align:top;
+  @variant dark { border-color: rgba(255,255,255,.14); }}
+.pte-teoria th{background:#f1f5f9;
+  @variant dark { background: rgba(255,255,255,.06); }}
 @media print{.pte-teoria table{font-size:.8rem}}
 
 .print-head{display:none}

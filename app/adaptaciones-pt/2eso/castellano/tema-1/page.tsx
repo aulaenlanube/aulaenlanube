@@ -33,7 +33,7 @@ export default function PteCastellanoTema1() {
       />
       <span className={chip}>Tema 1 · {APS.length} bloques · {APS.length * 6} actividades × 5 niveles</span>
       <h1 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">{TEMA}</h1>
-      <p className="mt-4 text-lg text-zinc-600">
+      <p className="mt-4 text-lg text-zinc-600 dark:text-zinc-400">
         Cada bloque lleva su <b>teoría</b> (explicación corta y accesible), <b>ejemplos</b>{" "}
         resueltos y <b>seis actividades</b>, cada una con el ejercicio base de 2.º de ESO y sus
         cuatro adaptaciones. El bloque 0 es de
@@ -46,13 +46,13 @@ export default function PteCastellanoTema1() {
           <Link
             key={a.slug}
             href={`${base}/${a.slug}/`}
-            className="group flex gap-4 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm transition hover:border-blue-300 hover:bg-blue-50/40"
+            className="group flex gap-4 rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-5 shadow-sm transition hover:border-blue-300 dark:hover:border-blue-500/40 hover:bg-blue-50/40 dark:hover:bg-blue-500/10"
           >
-            <div className="w-12 flex-none text-2xl font-extrabold tracking-tight text-blue-700">{a.n}</div>
+            <div className="w-12 flex-none text-2xl font-extrabold tracking-tight text-blue-700 dark:text-blue-300">{a.n}</div>
             <div>
-              <h2 className="text-base font-bold text-zinc-900 group-hover:text-blue-800">{a.t}</h2>
-              <p className="mt-1 text-[13px] text-zinc-600">{DESC[a.slug]}</p>
-              <p className="mt-1 text-[11px] font-bold uppercase tracking-wider text-zinc-400">
+              <h2 className="text-base font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-blue-800">{a.t}</h2>
+              <p className="mt-1 text-[13px] text-zinc-600 dark:text-zinc-400">{DESC[a.slug]}</p>
+              <p className="mt-1 text-[11px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-400">
                 {(ACTS[a.slug] || []).length} actividades × 5 niveles
               </p>
             </div>
@@ -62,12 +62,12 @@ export default function PteCastellanoTema1() {
       </div>
 
       <div className="mt-8 flex flex-wrap items-center gap-3">
-        <Link href={`${base}/completo/`} className="rounded-xl border border-zinc-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-zinc-50">
+        <Link href={`${base}/completo/`} className="rounded-xl border border-zinc-300 dark:border-white/15 bg-white dark:bg-slate-900 px-5 py-2.5 text-sm font-semibold text-slate-700 dark:text-slate-200 transition hover:bg-zinc-50 dark:hover:bg-white/5">
           📄 Ver tema completo imprimible
         </Link>
       </div>
 
-      <div className="mt-8 rounded-2xl border border-zinc-200 bg-zinc-100 p-5 text-sm text-zinc-700">
+      <div className="mt-8 rounded-2xl border border-zinc-200 dark:border-white/10 bg-zinc-100 dark:bg-white/10 p-5 text-sm text-zinc-700 dark:text-zinc-300">
         <b>Saberes básicos (anexo III, Decreto 107/2022):</b> los elementos de la comunicación y la
         intención comunicativa; las clases de palabras y sus procedimientos de formación; la
         ortografía de la tilde; y la lectura y el reconocimiento de los géneros literarios.

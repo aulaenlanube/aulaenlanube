@@ -21,13 +21,13 @@ function LessonSidebar({ entry }: { entry: LessonEntry }) {
       <OposicionesIaBanner />
 
       {hasList && (
-        <div className="rounded-xl border border-zinc-200">
-          <div className="border-b border-zinc-100 p-3">
-            <div className="text-xs font-semibold uppercase tracking-wide text-zinc-400">
+        <div className="rounded-xl border border-zinc-200 dark:border-white/10">
+          <div className="border-b border-zinc-100 dark:border-white/5 p-3">
+            <div className="text-xs font-semibold uppercase tracking-wide text-zinc-400 dark:text-zinc-400">
               Lecciones del curso
             </div>
             {entry.parent && (
-              <Link href={entry.parent.path} className="line-clamp-2 text-sm font-medium text-blue-600 hover:underline">
+              <Link href={entry.parent.path} className="line-clamp-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline">
                 {clean(entry.parent.title)}
               </Link>
             )}
@@ -41,11 +41,11 @@ function LessonSidebar({ entry }: { entry: LessonEntry }) {
                   className={
                     "flex gap-2 rounded px-2 py-1.5 " +
                     (c.current
-                      ? "bg-blue-50 font-semibold text-blue-700"
-                      : "text-zinc-600 hover:bg-zinc-50")
+                      ? "bg-blue-50 dark:bg-blue-500/10 font-semibold text-blue-700 dark:text-blue-300"
+                      : "text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-white/5")
                   }
                 >
-                  <span className="text-zinc-400">{c.n}.</span>
+                  <span className="text-zinc-400 dark:text-zinc-400">{c.n}.</span>
                   <span className="line-clamp-2">{clean(c.title)}</span>
                 </Link>
               </li>
@@ -66,11 +66,11 @@ export default function LessonTemplate({ entry }: { entry: LessonEntry }) {
       {/* Siempre 2 columnas: contenido + barra lateral (banner + lecciones). */}
       <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_19rem] lg:gap-10">
         <article className="min-w-0">
-          <h1 className="text-2xl font-bold tracking-tight text-zinc-900 sm:text-3xl">{l.title}</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 sm:text-3xl">{l.title}</h1>
           {entry.parent && (
-            <p className="mt-2 text-sm text-zinc-500">
+            <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
               Parte del curso{" "}
-              <Link href={entry.parent.path} className="font-medium text-blue-600 hover:underline">
+              <Link href={entry.parent.path} className="font-medium text-blue-600 dark:text-blue-400 hover:underline">
                 {clean(entry.parent.title)}
               </Link>
             </p>
@@ -82,7 +82,7 @@ export default function LessonTemplate({ entry }: { entry: LessonEntry }) {
 
           {entry.bodyHtml && (
             <div
-              className="mt-8 text-[15px] leading-7 text-zinc-700 [&_a]:text-blue-600 [&_a]:underline [&_b]:font-semibold [&_del]:opacity-60 [&_p]:mt-4"
+              className="mt-8 text-[15px] leading-7 text-zinc-700 dark:text-zinc-300 [&_a]:text-blue-600 dark:[&_a]:text-blue-400 [&_a]:underline [&_b]:font-semibold [&_del]:opacity-60 [&_p]:mt-4"
               dangerouslySetInnerHTML={{ __html: entry.bodyHtml }}
             />
           )}

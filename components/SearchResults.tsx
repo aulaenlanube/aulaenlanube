@@ -31,18 +31,18 @@ export default function SearchResults({ index }: { index: SearchItem[] }) {
         placeholder="Escribe para buscar…"
         aria-label="Buscar"
         autoFocus
-        className="w-full rounded-md border border-zinc-300 px-4 py-3 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+        className="w-full rounded-md border border-zinc-300 dark:border-white/15 px-4 py-3 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
       />
 
       {q.trim().length >= 2 ? (
         <>
-          <p className="mt-4 text-sm text-zinc-500">
+          <p className="mt-4 text-sm text-zinc-500 dark:text-zinc-400">
             {results.length} resultado{results.length === 1 ? "" : "s"} para «{q.trim()}»
           </p>
-          <ul className="mt-2 divide-y divide-zinc-100">
+          <ul className="mt-2 divide-y divide-zinc-100 dark:divide-white/5">
             {results.map((r) => (
               <li key={r.p}>
-                <Link href={r.p} className="block py-2.5 text-blue-700 hover:underline">
+                <Link href={r.p} className="block py-2.5 text-blue-700 dark:text-blue-300 hover:underline">
                   {r.t}
                 </Link>
               </li>
@@ -50,7 +50,7 @@ export default function SearchResults({ index }: { index: SearchItem[] }) {
           </ul>
         </>
       ) : (
-        <p className="mt-4 text-sm text-zinc-500">Escribe al menos 2 caracteres.</p>
+        <p className="mt-4 text-sm text-zinc-500 dark:text-zinc-400">Escribe al menos 2 caracteres.</p>
       )}
     </div>
   );

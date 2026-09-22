@@ -8,6 +8,7 @@ import JsonLd from "@/components/JsonLd";
 import { getMenu } from "@/lib/content";
 import { organizationLd, websiteLd } from "@/lib/seo";
 import { SOCIAL } from "@/lib/social";
+import { SCRIPT_TEMA } from "@/lib/tema";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], display: "swap", variable: "--font-inter" });
@@ -42,8 +43,19 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="es" className={`${inter.variable} h-full antialiased`}>
-      <body className="flex min-h-full flex-col bg-white text-zinc-900">
+    <html lang="es" className={`${inter.variable} h-full antialiased`} suppressHydrationWarning>
+      <head>
+        {/* Tema guardado: se aplica mientras el navegador analiza el HTML, antes
+            de pintar nada, así no hay destello claro al abrir en oscuro. Sin
+            preferencia guardada no toca nada y manda el sistema
+            (prefers-color-scheme), ver app/globals.css. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: SCRIPT_TEMA,
+          }}
+        />
+      </head>
+      <body className="flex min-h-full flex-col">
         {/* Acelera miniaturas/reproductor de YouTube (React 19 eleva estos <link>
             al <head>). */}
         <link rel="preconnect" href="https://i.ytimg.com" />
@@ -53,7 +65,7 @@ export default function RootLayout({
         <JsonLd data={[organizationLd(), websiteLd()]} />
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-white focus:px-4 focus:py-2 focus:shadow focus:ring-2 focus:ring-blue-600"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-white focus:px-4 focus:py-2 focus:text-zinc-900 focus:shadow focus:ring-2 focus:ring-blue-600 dark:focus:bg-slate-800 dark:focus:text-zinc-100"
         >
           Saltar al contenido
         </a>
@@ -63,7 +75,7 @@ export default function RootLayout({
 
         <main id="main" className="flex-1">{children}</main>
 
-        <footer className="bg-slate-900 text-white">
+        <footer className="bg-slate-900 text-white dark:bg-slate-950">
           {/* Newsletter "¿Quieres más?" con formulario de suscripción */}
           <div className="mx-auto grid w-full max-w-6xl items-center gap-10 px-4 py-14 lg:grid-cols-2">
             <div className="text-center lg:text-left">

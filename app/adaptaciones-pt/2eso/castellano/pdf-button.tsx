@@ -68,7 +68,7 @@ const CHIPS: Chip[] = [
 const chipCls = (sel: boolean) =>
   sel
     ? "rounded-full border border-blue-500 bg-blue-600 px-3 py-1 text-xs font-semibold text-white shadow-sm transition"
-    : "rounded-full border border-zinc-300 bg-white px-3 py-1 text-xs font-semibold text-slate-600 transition hover:border-blue-300 hover:bg-blue-50";
+    : "rounded-full border border-zinc-300 dark:border-white/15 bg-white dark:bg-slate-900 px-3 py-1 text-xs font-semibold text-slate-600 dark:text-slate-300 transition hover:border-blue-300 dark:hover:border-blue-500/40 hover:bg-blue-50 dark:hover:bg-blue-500/10";
 
 export default function OposPdfButton({ payload, label }: { payload: PdfPayload; label?: string }) {
   const [chip, setChip] = useState<Chip>(CHIPS[0]);
@@ -99,14 +99,14 @@ export default function OposPdfButton({ payload, label }: { payload: PdfPayload;
   };
 
   return (
-    <span className="no-print inline-flex flex-col gap-2 rounded-2xl border border-zinc-200 bg-zinc-50/80 p-3">
+    <span className="no-print inline-flex flex-col gap-2 rounded-2xl border border-zinc-200 dark:border-white/10 bg-zinc-50/80 dark:bg-white/5 p-3">
       <span className="flex flex-wrap items-center gap-1.5">
         {CHIPS.map((c) => (
           <button key={c.tag} type="button" onClick={() => setChip(c)} className={chipCls(c.tag === chip.tag)}>
             {c.label}
           </button>
         ))}
-        <span className="mx-1 h-4 w-px bg-zinc-300" aria-hidden />
+        <span className="mx-1 h-4 w-px bg-zinc-300 dark:bg-white/20" aria-hidden />
         <button
           type="button"
           role="switch"
@@ -115,7 +115,7 @@ export default function OposPdfButton({ payload, label }: { payload: PdfPayload;
           className={`rounded-full border px-3 py-1 text-xs font-semibold shadow-sm transition ${
             conSoluciones
               ? "border-emerald-500 bg-emerald-600 text-white hover:bg-emerald-700"
-              : "border-zinc-400 bg-white text-slate-600 hover:bg-zinc-100"
+              : "border-zinc-400 dark:border-white/20 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-zinc-100 dark:hover:bg-white/10"
           }`}
         >
           {conSoluciones ? "Con soluciones" : "Sin soluciones"}
@@ -124,7 +124,7 @@ export default function OposPdfButton({ payload, label }: { payload: PdfPayload;
       <button
         type="button"
         onClick={descargar}
-        className="self-start rounded-xl border border-blue-300 bg-white px-5 py-2.5 text-sm font-semibold text-blue-700 shadow-sm transition hover:bg-blue-50"
+        className="self-start rounded-xl border border-blue-300 dark:border-blue-500/40 bg-white dark:bg-slate-900 px-5 py-2.5 text-sm font-semibold text-blue-700 dark:text-blue-300 shadow-sm transition hover:bg-blue-50 dark:hover:bg-blue-500/10"
       >
         {estado === "ok" ? "✓ Descargado" : estado === "err" ? "No se pudo generar" : label ?? "⬇ Descargar PDF"}
       </button>

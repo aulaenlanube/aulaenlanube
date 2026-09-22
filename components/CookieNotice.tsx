@@ -36,14 +36,14 @@ export default function CookieNotice() {
       role="dialog"
       aria-live="polite"
       aria-label="Aviso de cookies"
-      className="fixed inset-x-3 bottom-3 z-[60] mx-auto max-w-2xl rounded-xl border border-zinc-200 bg-white/95 p-4 shadow-xl ring-1 ring-black/5 backdrop-blur sm:inset-x-4 sm:bottom-4 sm:p-5"
+      className="fixed inset-x-3 bottom-3 z-[60] mx-auto max-w-2xl rounded-xl border border-zinc-200 dark:border-white/10 bg-white/95 p-4 shadow-xl ring-1 ring-black/5 dark:bg-slate-900/95 dark:ring-white/10 backdrop-blur sm:inset-x-4 sm:bottom-4 sm:p-5"
     >
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-5">
-        <p className="text-sm leading-6 text-zinc-700">
+        <p className="text-sm leading-6 text-zinc-700 dark:text-zinc-300">
           🍪 Usamos solo <strong>cookies técnicas</strong> necesarias para el sitio.
           No usamos analítica ni publicidad, y los vídeos de YouTube se cargan solo
           cuando pulsas <em>play</em>.{" "}
-          <Link href="/politica-de-cookies/" className="font-medium text-blue-600 underline">
+          <Link href="/politica-de-cookies/" className="font-medium text-blue-600 dark:text-blue-400 underline">
             Más información
           </Link>
           .

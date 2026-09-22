@@ -7,7 +7,7 @@ const linkCls =
 export default function Breadcrumbs({ items }: { items: NavLink[] }) {
   if (!items || items.length === 0) return null;
   return (
-    <nav aria-label="Migas de pan" className="mb-4 text-xs text-zinc-500">
+    <nav aria-label="Migas de pan" className="mb-4 text-xs text-zinc-500 dark:text-zinc-400">
       <ol className="flex flex-wrap items-center gap-1">
         <li>
           <Link href="/" className={linkCls}>
@@ -18,7 +18,7 @@ export default function Breadcrumbs({ items }: { items: NavLink[] }) {
           <li key={c.path} className="flex items-center gap-1">
             <span aria-hidden>/</span>
             {i === items.length - 1 ? (
-              <span aria-current="page" className="text-zinc-700">
+              <span aria-current="page" className="text-zinc-700 dark:text-zinc-300">
                 {c.title}
               </span>
             ) : (

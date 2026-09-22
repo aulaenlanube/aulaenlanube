@@ -4,6 +4,7 @@ import Link from "@/components/Link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import SearchBox from "./SearchBox";
+import ThemeToggle from "./ThemeToggle";
 
 export type MenuItem = { title: string; url: string; external?: boolean; children?: MenuItem[] };
 export type Social = { name: string; u: string; d: string };
@@ -25,7 +26,8 @@ function Leaf({ it, cls }: { it: MenuItem; cls: string }) {
   );
 }
 
-const leafCls = "block rounded px-3 py-1.5 text-sm text-zinc-600 hover:bg-blue-50 hover:text-blue-700";
+const leafCls =
+  "block rounded px-3 py-1.5 text-sm text-zinc-600 dark:text-zinc-400 hover:bg-blue-50 dark:hover:bg-blue-500/10 hover:text-blue-700 dark:hover:text-blue-300";
 
 function SocialRow({ social, className = "" }: { social: Social[]; className?: string }) {
   return (
@@ -100,7 +102,7 @@ export default function SiteHeader({
   return (
     <>
       {/* Barra de menú (azul oscuro, fija al hacer scroll) */}
-      <div className="sticky top-0 z-50 bg-slate-700 text-white shadow-sm">
+      <div className="sticky top-0 z-50 border-b border-transparent bg-slate-700 text-white shadow-sm dark:border-white/10 dark:bg-slate-900">
         <div className="mx-auto w-full max-w-7xl px-4">
           {/* Nav escritorio */}
           <nav className="hidden w-full items-center justify-between lg:flex">
@@ -111,14 +113,14 @@ export default function SiteHeader({
                   cls="block px-2 py-3 text-[15px] font-medium text-white/90 hover:text-white"
                 />
                 {top.children && top.children.length > 0 && (
-                  <div className="invisible absolute left-0 top-full z-50 translate-y-1 rounded-xl border border-zinc-200 bg-white p-3 text-zinc-700 opacity-0 shadow-xl transition duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+                  <div className="invisible absolute left-0 top-full z-50 translate-y-1 rounded-xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-3 text-zinc-700 dark:text-zinc-300 opacity-0 shadow-xl transition duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 dark:shadow-black/40">
                     {top.children.some((c) => c.children?.length) ? (
                       <div className="flex gap-5">
                         {top.children.map((c) => (
                           <div key={c.title} className="min-w-[190px]">
                             {c.children?.length ? (
                               <>
-                                <Leaf it={c} cls="block rounded px-3 py-1 text-xs font-semibold uppercase tracking-wide text-zinc-400 hover:text-blue-700" />
+                                <Leaf it={c} cls="block rounded px-3 py-1 text-xs font-semibold uppercase tracking-wide text-zinc-400 dark:text-zinc-400 hover:text-blue-700 dark:hover:text-blue-300" />
                                 <ul>{c.children.map((g) => <li key={g.title}><Leaf it={g} cls={leafCls} /></li>)}</ul>
                               </>
                             ) : (
@@ -136,6 +138,7 @@ export default function SiteHeader({
                 )}
               </div>
             ))}
+            <ThemeToggle className="-mr-1 ml-1" />
           </nav>
 
           {/* Barra móvil: logo grande + hamburguesa. Altura fija (48px) para que
@@ -145,16 +148,19 @@ export default function SiteHeader({
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={logo} alt="Aula en la nube" className="h-11 w-auto" />
             </Link>
-            <button
-              className="rounded p-2 text-white"
-              aria-label="Abrir menú"
-              aria-expanded={open}
-              onClick={() => setOpen(true)}
-            >
-              <svg viewBox="0 0 24 24" className="h-7 w-7 fill-none stroke-current stroke-2">
-                <path d="M4 6h16M4 12h16M4 18h16" strokeLinecap="round" />
-              </svg>
-            </button>
+            <div className="flex items-center gap-1">
+              <ThemeToggle />
+              <button
+                className="rounded p-2 text-white"
+                aria-label="Abrir menú"
+                aria-expanded={open}
+                onClick={() => setOpen(true)}
+              >
+                <svg viewBox="0 0 24 24" className="h-7 w-7 fill-none stroke-current stroke-2">
+                  <path d="M4 6h16M4 12h16M4 18h16" strokeLinecap="round" />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -173,7 +179,7 @@ export default function SiteHeader({
         role="dialog"
         aria-modal="true"
         aria-label="Menú"
-        className={`fixed inset-0 z-[70] flex flex-col bg-gradient-to-b from-slate-800 via-slate-800 to-slate-900 text-white transition-transform duration-300 ease-out lg:hidden ${
+        className={`fixed inset-0 z-[70] flex flex-col bg-gradient-to-b from-slate-800 via-slate-800 to-slate-900 text-white transition-transform duration-300 ease-out dark:from-slate-900 dark:via-slate-900 dark:to-slate-950 lg:hidden ${
           open ? "translate-x-0" : "pointer-events-none translate-x-full"
         }`}
       >
@@ -278,7 +284,7 @@ export default function SiteHeader({
 
       {/* Banner: redes sociales + logo grande. Solo en escritorio: en móvil la
           barra superior ya muestra el logo, así que aquí sería redundante. */}
-      <div className="hidden bg-slate-700 text-white lg:block">
+      <div className="hidden bg-slate-700 text-white dark:bg-slate-900 lg:block">
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-5 px-4 pb-8 pt-3">
           <SocialRow social={social} />
           <Link href="/" aria-label="Inicio" className="block">

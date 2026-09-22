@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 const chip =
-  "inline-block rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-blue-700";
+  "inline-block rounded-full border border-blue-200 dark:border-blue-500/30 bg-blue-50 dark:bg-blue-500/10 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-blue-700 dark:text-blue-300";
 
 const NIVELES = [
   { n: "1º", t: "1.º de ESO", href: "", pronto: false, d: "Adaptaciones de 1.º de ESO. En preparación." },
@@ -31,14 +31,14 @@ export default function AdaptacionesPte() {
       <h1 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
         Adaptaciones PT
       </h1>
-      <p className="mt-4 text-lg text-zinc-600">
+      <p className="mt-4 text-lg text-zinc-600 dark:text-zinc-400">
         Banco de <b>adaptaciones de ejercicios para alumnado de ESO con dificultades</b>. Cada
         ejercicio se presenta en <b>varios niveles</b>: el del curso y una serie de adaptaciones
         descendentes (hasta 4.º de primaria) para que el mismo contenido sea accesible, con los
         mismos contextos y la misma dinámica de aula.
       </p>
 
-      <div className="mt-6 rounded-2xl border border-zinc-200 bg-zinc-100 p-5 text-sm text-zinc-700">
+      <div className="mt-6 rounded-2xl border border-zinc-200 dark:border-white/10 bg-zinc-100 dark:bg-white/10 p-5 text-sm text-zinc-700 dark:text-zinc-300">
         <b>Marco normativo (Comunitat Valenciana):</b> Decreto 107/2022, de 5 de agosto, del
         Consell (ordenación y currículo de la ESO, modificado por el Decreto 66/2024) · Real
         Decreto 217/2022 (enseñanzas mínimas) · Decreto 106/2022, de 5 de agosto (currículo de
@@ -49,28 +49,28 @@ export default function AdaptacionesPte() {
       <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
         {NIVELES.map((x) =>
           x.pronto ? (
-            <Link key={x.n} href={x.href} className="group rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm transition hover:border-blue-300 hover:bg-blue-50/40">
+            <Link key={x.n} href={x.href} className="group rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-5 shadow-sm transition hover:border-blue-300 dark:hover:border-blue-500/40 hover:bg-blue-50/40 dark:hover:bg-blue-500/10">
               <div className="flex items-baseline gap-3">
-                <span className="text-3xl font-extrabold tracking-tight text-blue-700">{x.n}</span>
-                <h2 className="text-lg font-bold text-zinc-900 group-hover:text-blue-800">{x.t}</h2>
+                <span className="text-3xl font-extrabold tracking-tight text-blue-700 dark:text-blue-300">{x.n}</span>
+                <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-blue-800">{x.t}</h2>
               </div>
-              <p className="mt-2 text-sm text-zinc-600">{x.d}</p>
-              <div className="mt-2 text-xs font-bold uppercase tracking-wide text-emerald-700">Disponible →</div>
+              <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">{x.d}</p>
+              <div className="mt-2 text-xs font-bold uppercase tracking-wide text-emerald-700 dark:text-emerald-300">Disponible →</div>
             </Link>
           ) : (
-            <div key={x.n} className="rounded-2xl border border-zinc-200 bg-white p-5 opacity-60">
+            <div key={x.n} className="rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-5 opacity-60">
               <div className="flex items-baseline gap-3">
-                <span className="text-3xl font-extrabold tracking-tight text-zinc-400">{x.n}</span>
-                <h2 className="text-lg font-bold text-zinc-500">{x.t}</h2>
+                <span className="text-3xl font-extrabold tracking-tight text-zinc-400 dark:text-zinc-400">{x.n}</span>
+                <h2 className="text-lg font-bold text-zinc-500 dark:text-zinc-400">{x.t}</h2>
               </div>
-              <p className="mt-2 text-sm text-zinc-500">{x.d}</p>
-              <div className="mt-2 text-xs font-bold uppercase tracking-wide text-zinc-400">En preparación</div>
+              <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">{x.d}</p>
+              <div className="mt-2 text-xs font-bold uppercase tracking-wide text-zinc-400 dark:text-zinc-400">En preparación</div>
             </div>
           )
         )}
       </div>
 
-      <div className="mt-8 rounded-2xl border border-blue-200 bg-blue-50 p-5 text-[15px] text-blue-900">
+      <div className="mt-8 rounded-2xl border border-blue-200 dark:border-blue-500/30 bg-blue-50 dark:bg-blue-500/10 p-5 text-[15px] text-blue-900 dark:text-blue-200">
         <b>Cómo está pensado cada ejercicio:</b> una situación real y cercana (temperaturas,
         cuenta del banco, un mensaje de móvil, un cartel del mercado…) y, sobre ella, cuatro
         versiones escalonadas. En <b>matemáticas</b>: 2.º ESO (base) → 1.º ESO → 6.º →

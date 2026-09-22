@@ -12,7 +12,7 @@ function PortadaCard({ c }: { c: CourseCard }) {
   return (
     <Link
       href={c.path}
-      className="group block overflow-hidden rounded-lg bg-white shadow-sm ring-1 ring-black/10 transition hover:-translate-y-0.5 hover:shadow-lg"
+      className="group block overflow-hidden rounded-lg bg-white dark:bg-slate-900 shadow-sm ring-1 ring-black/10 dark:ring-white/10 transition hover:-translate-y-0.5 hover:shadow-lg"
     >
       {c.image ? (
         // eslint-disable-next-line @next/next/no-img-element
@@ -44,9 +44,9 @@ function CoursesLanding({ entry }: { entry: CourseIndexEntry }) {
 
       {/* Otros cursos (fondo claro) */}
       {entry.otherCourses && entry.otherCourses.length > 0 && (
-        <section className="bg-white">
+        <section className="bg-white dark:bg-slate-900">
           <div className="mx-auto max-w-6xl px-4 py-14">
-            <h2 className="text-center text-3xl font-semibold uppercase tracking-wide text-slate-600">
+            <h2 className="text-center text-3xl font-semibold uppercase tracking-wide text-slate-600 dark:text-slate-300">
               Otros cursos
             </h2>
             <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3">
@@ -56,7 +56,7 @@ function CoursesLanding({ entry }: { entry: CourseIndexEntry }) {
             </div>
 
             {entry.advertencia && (
-              <div className="mt-10 rounded-lg border border-red-200 bg-red-50 p-6 text-red-800">
+              <div className="mt-10 rounded-lg border border-red-200 dark:border-red-500/30 bg-red-50 dark:bg-red-500/10 p-6 text-red-800 dark:text-red-300 dark:text-red-200">
                 <h3 className="text-lg font-bold uppercase tracking-wide">Advertencia</h3>
                 <p className="mt-2 leading-7">{entry.advertencia}</p>
               </div>
@@ -68,16 +68,16 @@ function CoursesLanding({ entry }: { entry: CourseIndexEntry }) {
       {/* Preguntas frecuentes */}
       {entry.faqs && entry.faqs.length > 0 && (
         <section className="mx-auto max-w-6xl px-4 py-14">
-          <h2 className="text-center text-3xl font-semibold text-slate-600">Preguntas frecuentes</h2>
-          <div className="mt-8 divide-y divide-zinc-200 overflow-hidden rounded-xl border border-zinc-200">
+          <h2 className="text-center text-3xl font-semibold text-slate-600 dark:text-slate-300">Preguntas frecuentes</h2>
+          <div className="mt-8 divide-y divide-zinc-200 dark:divide-white/10 overflow-hidden rounded-xl border border-zinc-200 dark:border-white/10">
             {entry.faqs.map((f, i) => (
-              <details key={i} className="group bg-sky-50/40 open:bg-white">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-5 py-4 font-medium text-slate-700">
+              <details key={i} className="group bg-sky-50/40 dark:bg-sky-500/10 open:bg-white dark:open:bg-slate-900">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-5 py-4 font-medium text-slate-700 dark:text-slate-200">
                   {f.q}
-                  <span className="text-blue-500 transition group-open:rotate-90">▸</span>
+                  <span className="text-blue-500 dark:text-blue-400 transition group-open:rotate-90">▸</span>
                 </summary>
                 <div
-                  className="px-5 pb-5 text-zinc-600 [&_a]:text-blue-600 [&_a]:underline"
+                  className="px-5 pb-5 text-zinc-600 dark:text-zinc-400 [&_a]:text-blue-600 dark:[&_a]:text-blue-400 [&_a]:underline"
                   dangerouslySetInnerHTML={{ __html: f.a }}
                 />
               </details>
@@ -98,17 +98,17 @@ function SectionLanding({ entry }: { entry: CourseIndexEntry }) {
         // eslint-disable-next-line @next/next/no-img-element
         <img src={s.heroImage} alt="" className="w-full rounded-xl object-cover" />
       )}
-      <h1 className="mt-8 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">{entry.title}</h1>
+      <h1 className="mt-8 text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 sm:text-4xl">{entry.title}</h1>
       {s.introHtml && (
         <div
-          className="prose prose-zinc mt-4 max-w-none text-zinc-700 prose-a:text-blue-600 [&_iframe]:aspect-video [&_iframe]:h-auto [&_iframe]:w-full [&_iframe]:rounded-lg [&_iframe]:ring-1 [&_iframe]:ring-zinc-200"
+          className="prose prose-zinc dark:prose-invert mt-4 max-w-none text-zinc-700 dark:text-zinc-300 prose-a:text-blue-600 dark:prose-a:text-blue-400 [&_iframe]:aspect-video [&_iframe]:h-auto [&_iframe]:w-full [&_iframe]:rounded-lg [&_iframe]:ring-1 [&_iframe]:ring-zinc-200 dark:[&_iframe]:ring-white/10"
           dangerouslySetInnerHTML={{ __html: s.introHtml }}
         />
       )}
 
       {s.courseCards.length > 0 && (
         <section className="mt-10">
-          <h2 className="text-2xl font-semibold text-slate-600">{s.coursesTitle}</h2>
+          <h2 className="text-2xl font-semibold text-slate-600 dark:text-slate-300">{s.coursesTitle}</h2>
           <div className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3">
             {s.courseCards.map((c) => (
               <PortadaCard key={c.path} c={c} />
@@ -118,7 +118,7 @@ function SectionLanding({ entry }: { entry: CourseIndexEntry }) {
       )}
 
       {s.notice && (
-        <div className="mt-8 rounded-lg border border-red-200 bg-red-50 p-6 text-red-800">
+        <div className="mt-8 rounded-lg border border-red-200 dark:border-red-500/30 bg-red-50 dark:bg-red-500/10 p-6 text-red-800 dark:text-red-300 dark:text-red-200">
           <h3 className="text-lg font-bold">…en construcción</h3>
           <p className="mt-2 leading-7">{s.notice}</p>
         </div>
@@ -126,7 +126,7 @@ function SectionLanding({ entry }: { entry: CourseIndexEntry }) {
 
       {s.recentPosts.length > 0 && (
         <section className="mt-12">
-          <h2 className="text-2xl font-semibold text-slate-600">{s.recentTitle}</h2>
+          <h2 className="text-2xl font-semibold text-slate-600 dark:text-slate-300">{s.recentTitle}</h2>
           <div className="mt-6 grid gap-6 sm:grid-cols-2">
             {s.recentPosts.map((p) => (
               <Link key={p.path} href={p.path} className="group block">
@@ -136,7 +136,7 @@ function SectionLanding({ entry }: { entry: CourseIndexEntry }) {
                 ) : (
                   <div className="aspect-video w-full rounded-lg bg-gradient-to-br from-sky-500 to-blue-700" />
                 )}
-                <h3 className="mt-2 font-semibold text-blue-700 group-hover:underline">{clean(p.title)}</h3>
+                <h3 className="mt-2 font-semibold text-blue-700 dark:text-blue-300 group-hover:underline">{clean(p.title)}</h3>
               </Link>
             ))}
           </div>
@@ -181,19 +181,19 @@ export default function CourseIndexTemplate({ entry }: { entry: CourseIndexEntry
     <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:py-10">
       <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_19rem] lg:gap-10">
         <div className="min-w-0">
-          <h1 className="text-center text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
+          <h1 className="text-center text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 sm:text-4xl">
             {entry.title}
           </h1>
           {entry.introHtml ? (
             <div
-              className="prose prose-zinc mt-4 max-w-none text-zinc-700 prose-a:text-blue-600 [&_iframe]:aspect-video [&_iframe]:h-auto [&_iframe]:w-full [&_iframe]:rounded-lg [&_iframe]:ring-1 [&_iframe]:ring-zinc-200"
+              className="prose prose-zinc dark:prose-invert mt-4 max-w-none text-zinc-700 dark:text-zinc-300 prose-a:text-blue-600 dark:prose-a:text-blue-400 [&_iframe]:aspect-video [&_iframe]:h-auto [&_iframe]:w-full [&_iframe]:rounded-lg [&_iframe]:ring-1 [&_iframe]:ring-zinc-200 dark:[&_iframe]:ring-white/10"
               dangerouslySetInnerHTML={{ __html: entry.introHtml }}
             />
           ) : entry.intro ? (
-            <p className="mt-4 text-zinc-700">{entry.intro}</p>
+            <p className="mt-4 text-zinc-700 dark:text-zinc-300">{entry.intro}</p>
           ) : null}
 
-          <h2 className="mt-8 text-center text-2xl font-semibold text-slate-600">
+          <h2 className="mt-8 text-center text-2xl font-semibold text-slate-600 dark:text-slate-300">
             {allVideos ? "El curso se divide en los siguientes vídeos" : "Contenido del curso"}
           </h2>
 
@@ -202,7 +202,7 @@ export default function CourseIndexTemplate({ entry }: { entry: CourseIndexEntry
               <div key={it.path}>
                 <Link
                   href={it.path}
-                  className="group block overflow-hidden rounded-lg ring-1 ring-zinc-200 transition hover:-translate-y-0.5 hover:shadow-lg hover:ring-blue-300"
+                  className="group block overflow-hidden rounded-lg ring-1 ring-zinc-200 dark:ring-white/10 transition hover:-translate-y-0.5 hover:shadow-lg hover:ring-blue-300 dark:hover:ring-blue-500/40"
                 >
                   {it.image ? (
                     // eslint-disable-next-line @next/next/no-img-element
@@ -216,10 +216,10 @@ export default function CourseIndexTemplate({ entry }: { entry: CourseIndexEntry
                     </div>
                   )}
                 </Link>
-                <Link href={it.path} className="mt-2 flex items-start gap-1 font-medium text-blue-700 hover:underline">
+                <Link href={it.path} className="mt-2 flex items-start gap-1 font-medium text-blue-700 dark:text-blue-300 hover:underline">
                   <span aria-hidden="true">▷</span>
                   <span>{clean(it.title)}</span>
-                  {it.isSection && <span className="ml-1 text-xs text-zinc-400">(sección)</span>}
+                  {it.isSection && <span className="ml-1 text-xs text-zinc-400 dark:text-zinc-400">(sección)</span>}
                 </Link>
               </div>
             ))}

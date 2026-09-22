@@ -23,10 +23,10 @@ export default function ExercisesTemplate({ entry }: { entry: ExerciseEntry }) {
     <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:py-10">
       <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_19rem] lg:gap-10">
         <article className="min-w-0">
-          <h1 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
+          <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 sm:text-4xl">
             {entry.title}
           </h1>
-          {entry.date && <p className="mt-2 text-sm text-zinc-500">{fmt(entry.date)}</p>}
+          {entry.date && <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">{fmt(entry.date)}</p>}
           {entry.image && (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={entry.image} alt="" className="mt-6 w-full rounded-xl object-cover" />
@@ -34,7 +34,7 @@ export default function ExercisesTemplate({ entry }: { entry: ExerciseEntry }) {
 
           {entry.intro && (
             <div
-              className="prose prose-zinc mt-8 max-w-none prose-a:text-blue-600 prose-img:rounded-lg"
+              className="prose prose-zinc dark:prose-invert mt-8 max-w-none prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-img:rounded-lg"
               dangerouslySetInnerHTML={{ __html: entry.intro }}
             />
           )}

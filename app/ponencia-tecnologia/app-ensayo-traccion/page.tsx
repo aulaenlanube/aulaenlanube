@@ -21,10 +21,10 @@ export default function AppEnsayoTraccion() {
         <Chip tono="gris">Tecnología e Ingeniería I · Materiales</Chip>
         <Chip tono="verde">Un solo prompt</Chip>
       </div>
-      <h1 className="mt-4 text-3xl font-extrabold tracking-tight text-zinc-900 sm:text-4xl">
+      <h1 className="mt-4 text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100 sm:text-4xl">
         Banco de ensayo de tracción
       </h1>
-      <p className="mt-4 max-w-3xl text-lg leading-relaxed text-zinc-600">
+      <p className="mt-4 max-w-3xl text-lg leading-relaxed text-zinc-600 dark:text-zinc-400">
         La curva tensión–deformación no se explica: <b>se descubre tirando</b>. Elige material,
         dimensiona la probeta y aumenta la fuerza hasta romperla — y, sobre todo, prueba el botón de{" "}
         <b>soltar la fuerza</b> a media carga, que es donde está la idea que hay que llevarse. Debajo

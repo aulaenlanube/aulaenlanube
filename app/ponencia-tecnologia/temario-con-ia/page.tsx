@@ -326,28 +326,28 @@ Cuando yo te mande las mías, corrígelas una a una en una sola línea por pregu
         <Dato tono="azul" cifra="35 %">
           del profesorado español de <b>Secundaria</b> declara haber usado IA en su trabajo (28 % en
           Primaria; media OCDE, 36 %).
-          <span className="mt-1 block text-[13px] text-zinc-400">
+          <span className="mt-1 block text-[13px] text-zinc-400 dark:text-zinc-400">
             OCDE, TALIS 2024 · informe español del INEE, octubre de 2025. Datos recogidos en 2024.
           </span>
         </Dato>
         <Dato tono="verde" cifra="51 %">
           de los desarrolladores <b>profesionales</b> usa herramientas de IA <b>a diario</b>; el 84 %
           las usa o piensa usarlas.
-          <span className="mt-1 block text-[13px] text-zinc-400">
+          <span className="mt-1 block text-[13px] text-zinc-400 dark:text-zinc-400">
             Stack Overflow Developer Survey 2025, sobre 26.004 profesionales.
           </span>
         </Dato>
         <Dato tono="ambar" cifra="90 %">
           del alumnado de <b>FP de Grado Superior</b> ha usado alguna vez IA generativa — pero solo
           el <b>43 %</b> lo hace de forma habitual.
-          <span className="mt-1 block text-[13px] text-zinc-400">
+          <span className="mt-1 block text-[13px] text-zinc-400 dark:text-zinc-400">
             Ayuda en Acción y CSIC, 2025. Encuesta a 355 docentes más entrevistas.
           </span>
         </Dato>
         <Dato tono="morado" cifra="62 %">
           de los jóvenes europeos de <b>16 a 24 años</b> usa IA generativa con fines de educación
           formal.
-          <span className="mt-1 block text-[13px] text-zinc-400">
+          <span className="mt-1 block text-[13px] text-zinc-400 dark:text-zinc-400">
             Eurostat, diciembre de 2025 (población UE de 16 a 74 años: 32,7 %).
           </span>
         </Dato>

@@ -22,18 +22,18 @@ export const metadata: Metadata = {
 };
 
 const chip =
-  "inline-block rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-blue-700";
+  "inline-block rounded-full border border-blue-200 dark:border-blue-500/30 bg-blue-50 dark:bg-blue-500/10 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-blue-700 dark:text-blue-300";
 const meta =
-  "rounded-full border border-zinc-200 bg-zinc-100 px-3 py-1 text-[12px] font-semibold text-zinc-700";
+  "rounded-full border border-zinc-200 dark:border-white/10 bg-zinc-100 dark:bg-white/10 px-3 py-1 text-[12px] font-semibold text-zinc-700 dark:text-zinc-300";
 
 function Concepto({ nombre, analogia, que }: { nombre: string; analogia: string; que: string }) {
   return (
-    <div className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm">
+    <div className="rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-4 shadow-sm">
       <h3 className="flex flex-wrap items-baseline gap-x-2 text-[15px] font-bold">
         {nombre}
-        <span className="text-[13px] font-semibold italic text-blue-700">{analogia}</span>
+        <span className="text-[13px] font-semibold italic text-blue-700 dark:text-blue-300">{analogia}</span>
       </h3>
-      <p className="mt-1.5 text-sm text-zinc-700">{que}</p>
+      <p className="mt-1.5 text-sm text-zinc-700 dark:text-zinc-300">{que}</p>
     </div>
   );
 }
@@ -54,16 +54,16 @@ function Mision({
   diagrama?: ReactNode;
 }) {
   return (
-    <section className="my-4 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
+    <section className="my-4 rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-5 shadow-sm">
       <h3 className="flex flex-wrap items-baseline gap-x-3 text-[17px] font-bold">
-        <span className="text-zinc-400">{n}</span> {titulo}
+        <span className="text-zinc-400 dark:text-zinc-400">{n}</span> {titulo}
       </h3>
-      <p className="mt-2 text-[15px] text-zinc-700">{objetivo}</p>
+      <p className="mt-2 text-[15px] text-zinc-700 dark:text-zinc-300">{objetivo}</p>
       {diagrama}
-      <div className="mt-3 rounded-xl border border-emerald-200 bg-emerald-50 p-3.5 text-sm text-emerald-900">
+      <div className="mt-3 rounded-xl border border-emerald-200 dark:border-emerald-500/30 bg-emerald-50 dark:bg-emerald-500/10 p-3.5 text-sm text-emerald-900 dark:text-emerald-200">
         <b>✔ Cómo compruebas que está logrado:</b> {comprueba}
       </div>
-      {extra ? <p className="mt-2 text-sm text-zinc-500">{extra}</p> : null}
+      {extra ? <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">{extra}</p> : null}
     </section>
   );
 }
@@ -82,7 +82,7 @@ export default function CursoIASesion2() {
       <h1 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
         GitHub en carne viva: tu web, versionada por ti
       </h1>
-      <p className="mt-4 text-lg text-zinc-600">
+      <p className="mt-4 text-lg text-zinc-600 dark:text-zinc-400">
         Hoy tu web deja de vivir solo en tu portátil. Cada uno sale de clase con su cuenta de GitHub,
         su repositorio enlazado a la web que empezaste el viernes, varios commits de verdad, una
         máquina del tiempo usada, y <b>dos diseños distintos en dos ramas</b>. Con una norma que no se
@@ -95,8 +95,8 @@ export default function CursoIASesion2() {
         <span className={meta}>🌚🌕 Dos ramas, dos diseños</span>
       </div>
 
-      <div className="my-5 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
-        <p className="text-[15px] text-zinc-700">
+      <div className="my-5 rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-5 shadow-sm">
+        <p className="text-[15px] text-zinc-700 dark:text-zinc-300">
           <b>Git es un grafo de bolitas, no una carpeta con versiones.</b> Cada commit es una bola;
           las flechas marcan hacia dónde avanza la historia; una píldora (HEAD) dice dónde estás. Todo lo de
           hoy son bolitas, flechas y dos o tres palabras: mira cada dibujo antes de tocar el teclado
@@ -107,7 +107,7 @@ export default function CursoIASesion2() {
         </div>
       </div>
 
-      <div className="my-5 rounded-2xl border border-blue-200 bg-blue-50 p-5 text-[15px] text-blue-900">
+      <div className="my-5 rounded-2xl border border-blue-200 dark:border-blue-500/30 bg-blue-50 dark:bg-blue-500/10 p-5 text-[15px] text-blue-900 dark:text-blue-200">
         <b>Las reglas del juego de hoy</b> (así se trabaja de verdad con IA):
         <ol className="mt-2 list-decimal space-y-1 pl-5">
           <li>
@@ -134,7 +134,7 @@ export default function CursoIASesion2() {
       <h2 className="mt-8 text-xl font-extrabold tracking-tight">
         Los cinco conceptos (esto sí te lo explico yo)
       </h2>
-      <p className="mt-1 text-[15px] text-zinc-600">
+      <p className="mt-1 text-[15px] text-zinc-600 dark:text-zinc-400">
         Lo importante de hoy no son los comandos —esos los pregunta cada uno a su IA—, es{" "}
         <b>entender qué está pasando</b>. Esto es lo que no puede hacer nadie por ti:
       </p>
@@ -165,7 +165,7 @@ export default function CursoIASesion2() {
           que="Traer una rama terminada a la principal. Es lo que harás al final de hoy cuando decidas qué diseño gana — y lo que haréis por PR en el proyecto en grupo."
         />
       </div>
-      <div className="my-5 rounded-2xl border border-zinc-200 bg-zinc-100 p-5 text-[15px] text-zinc-800">
+      <div className="my-5 rounded-2xl border border-zinc-200 dark:border-white/10 bg-zinc-100 dark:bg-white/10 p-5 text-[15px] text-zinc-800 dark:text-zinc-200">
         <b>Por qué esto importa fuera del aula:</b> cuando varias personas trabajan en el mismo
         repositorio —así funciona cualquier empresa de software—, nadie experimenta en la rama
         principal. Cada uno abre su rama, y lo bueno se fusiona. Hoy lo vas a practicar a escala
@@ -231,7 +231,7 @@ export default function CursoIASesion2() {
       />
 
       <h2 className="mt-8 text-xl font-extrabold tracking-tight">Cómo preguntar bien a la IA del centro</h2>
-      <p className="mt-1 text-[15px] text-zinc-600">
+      <p className="mt-1 text-[15px] text-zinc-600 dark:text-zinc-400">
         La calidad de lo que te responda depende de cómo lo preguntes. La fórmula:{" "}
         <b>contexto + objetivo + restricción</b>. Una plantilla para arrancar:
       </p>
@@ -239,7 +239,7 @@ export default function CursoIASesion2() {
         text={`Estoy en 1º DAM usando Git por primera vez. Tengo una carpeta en mi portátil con index.html, style.css y script.js, y un repositorio vacío recién creado en GitHub llamado mi-web.
 Explícame paso a paso, comando a comando, qué debo escribir en la terminal para enlazar mi carpeta local con ese repositorio de GitHub y subir la web. Para cada comando, dime en una línea qué hace y qué veré si ha salido bien.`}
       />
-      <ul className="mt-3 space-y-1 text-[15px] text-zinc-700">
+      <ul className="mt-3 space-y-1 text-[15px] text-zinc-700 dark:text-zinc-300">
         <li>
           <b>Pide siempre el «qué hace cada comando»</b>: si no lo sabes explicar, no lo teclees.
         </li>
@@ -254,7 +254,7 @@ Explícame paso a paso, comando a comando, qué debo escribir en la terminal par
         </li>
       </ul>
 
-      <div className="my-5 rounded-2xl border border-amber-200 bg-amber-50 p-5 text-[15px] text-amber-900">
+      <div className="my-5 rounded-2xl border border-amber-200 dark:border-amber-500/30 bg-amber-50 dark:bg-amber-500/10 p-5 text-[15px] text-amber-900 dark:text-amber-200">
         <b>Trampas que os vais a encontrar hoy</b> (y que tenéis que saber leer):{" "}
         <span className="font-mono text-[13px]">working tree dirty</span> (tienes cambios sin
         commitear — Git no te deja cambiar de rama hasta que guardas o descartas),{" "}
@@ -266,23 +266,23 @@ Explícame paso a paso, comando a comando, qué debo escribir en la terminal par
       </div>
 
       <h2 className="mt-8 text-xl font-extrabold tracking-tight">Checklist de entrega (antes de salir)</h2>
-      <div className="mt-3 space-y-2 text-[15px] text-zinc-700">
-        <div className="rounded-xl border border-zinc-200 bg-white p-3.5">
+      <div className="mt-3 space-y-2 text-[15px] text-zinc-700 dark:text-zinc-300">
+        <div className="rounded-xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-3.5">
           ☐ Cuenta con perfil profesional · ☐ Repo <code>mi-web</code> con tu web dentro (no solo el
           README) · ☐ ≥ 3 commits con mensajes que explican el porqué
         </div>
-        <div className="rounded-xl border border-zinc-200 bg-white p-3.5">
+        <div className="rounded-xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-3.5">
           ☐ Has roto algo y has vuelto atrás con el historial · ☐ Dos ramas con dos diseños que
           cambian al moverte entre ellas · ☐ Tu diseño elegido fusionado en <code>main</code>
         </div>
-        <div className="rounded-xl border border-zinc-200 bg-white p-3.5">
+        <div className="rounded-xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-3.5">
           ☐ Sabes explicar con tus palabras: repo, commit, push/pull, rama y merge — porque en la
           defensa del proyecto me basta con pedirte: «muéstrame tus commits y cuéntame la historia de
           tu web».
         </div>
       </div>
 
-      <div className="my-5 rounded-2xl border border-emerald-200 bg-emerald-50 p-5 text-[15px] text-emerald-900">
+      <div className="my-5 rounded-2xl border border-emerald-200 dark:border-emerald-500/30 bg-emerald-50 dark:bg-emerald-500/10 p-5 text-[15px] text-emerald-900 dark:text-emerald-200">
         <b>Regla de oro del curso desde hoy:</b> si funciona, se sube —<i>push</i> sagrado. Tu GitHub
         es la copia de seguridad de todo el curso: acabarlo significa tener literalmente tu historia
         en commits. Y cuando mañana usemos agentes de código, el agente podrá escribir el comando; la
@@ -290,16 +290,16 @@ Explícame paso a paso, comando a comando, qué debo escribir en la terminal par
       </div>
 
       <h2 className="mt-8 text-xl font-extrabold tracking-tight">Para la próxima sesión</h2>
-      <ul className="mt-2 space-y-1 text-[15px] text-zinc-700">
+      <ul className="mt-2 space-y-1 text-[15px] text-zinc-700 dark:text-zinc-300">
         <li>☐ Tu repo enlazado y con push: no necesitas traer nada más — tu trabajo ya vive en la nube</li>
         <li>☐ Curiosidad por el siguiente paso: la misma dinámica de hoy, pero con un agente escribiendo los comandos contigo (y tú decidiendo todos los commits)</li>
       </ul>
 
-      <div className="mt-10 flex flex-wrap items-center justify-between gap-3 border-t border-zinc-200 pt-5">
-        <Link href="/programacion-ia/sesion-01/" className="rounded-xl border border-zinc-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-zinc-50">
+      <div className="mt-10 flex flex-wrap items-center justify-between gap-3 border-t border-zinc-200 dark:border-white/10 pt-5">
+        <Link href="/programacion-ia/sesion-01/" className="rounded-xl border border-zinc-300 dark:border-white/15 bg-white dark:bg-slate-900 px-5 py-2.5 text-sm font-semibold text-slate-700 dark:text-slate-200 transition hover:bg-zinc-50 dark:hover:bg-white/5">
           ← Sesión 1
         </Link>
-        <Link href="/programacion-ia/web-personal/" className="rounded-xl bg-slate-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800">
+        <Link href="/programacion-ia/web-personal/" className="rounded-xl bg-slate-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800 dark:hover:bg-slate-600">
           Volver al proyecto →
         </Link>
       </div>

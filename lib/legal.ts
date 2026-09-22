@@ -182,6 +182,12 @@ export const LEGAL_PAGES: Record<string, LegalPage> = {
       <td>Recordar que ya has visto y cerrado el aviso de cookies para no volver a mostrártelo.</td>
       <td>Persistente (hasta que borres los datos del navegador)</td>
     </tr>
+    <tr>
+      <td><code>aeln_tema</code></td>
+      <td>Técnica (almacenamiento local)</td>
+      <td>Recordar si has elegido el tema claro u oscuro. Solo se guarda si pulsas el botón de la cabecera: sin él, el sitio sigue la preferencia de tu sistema.</td>
+      <td>Persistente (hasta que borres los datos del navegador)</td>
+    </tr>
   </tbody>
 </table>
 <p>Esta información se guarda únicamente en tu navegador y <strong>no se envía a ningún servidor</strong>. Al ser estrictamente necesaria para el funcionamiento del aviso, no requiere consentimiento.</p>

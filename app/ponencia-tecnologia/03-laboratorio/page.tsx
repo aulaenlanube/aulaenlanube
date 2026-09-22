@@ -131,13 +131,13 @@ export default function Bloque5() {
             <Link
               key={a.ruta}
               href={a.ruta}
-              className={`group rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm transition ${e.tarjeta}`}
+              className={`group rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-5 shadow-sm transition ${e.tarjeta}`}
             >
               <Chip tono={a.tono}>{a.curso}</Chip>
-              <h3 className="mt-3 text-[17px] font-extrabold tracking-tight text-zinc-900">
+              <h3 className="mt-3 text-[17px] font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100">
                 {a.titulo}
               </h3>
-              <p className="mt-1.5 text-[14px] leading-relaxed text-zinc-600">{a.d}</p>
+              <p className="mt-1.5 text-[14px] leading-relaxed text-zinc-600 dark:text-zinc-400">{a.d}</p>
               <p className={`mt-3 text-[13px] font-bold ${e.texto}`}>
                 Probarla y ver su prompt{" "}
                 <span className="inline-block transition-transform group-hover:translate-x-0.5">→</span>
@@ -168,7 +168,7 @@ export default function Bloque5() {
           <>
             <b>Prepara el terreno.</b> Visual Studio Code instalado, extensión de GitHub Copilot,
             sesión iniciada con tu cuenta, y una carpeta vacía abierta —por ejemplo{" "}
-            <code className="rounded bg-zinc-100 px-1.5 py-0.5 text-[13px]">~/tecno/app</code>—. El
+            <code className="rounded bg-zinc-100 dark:bg-white/10 px-1.5 py-0.5 text-[13px]">~/tecno/app</code>—. El
             agente trabaja <b>dentro de esa carpeta</b> y no ve el resto de tu disco.
           </>,
           <>
@@ -197,7 +197,7 @@ export default function Bloque5() {
           <>
             <b>Publícala.</b> Repositorio en GitHub, Settings → Pages, publicar desde la rama
             principal. En un minuto tienes una dirección pública del tipo{" "}
-            <code className="rounded bg-zinc-100 px-1.5 py-0.5 text-[13px]">
+            <code className="rounded bg-zinc-100 dark:bg-white/10 px-1.5 py-0.5 text-[13px]">
               tuusuario.github.io/tu-app
             </code>
             . <b>Ese enlace va en tu defensa</b>: el tribunal lo abre sin instalar nada.

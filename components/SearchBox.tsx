@@ -22,12 +22,12 @@ export default function SearchBox() {
         type="search"
         placeholder="Buscar..."
         aria-label="Buscar en la web"
-        className="w-full rounded-l-md border border-zinc-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+        className="w-full rounded-l-md border border-zinc-300 dark:border-white/15 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
       />
       <button
         type="submit"
         aria-label="Buscar"
-        className="flex-none rounded-r-md bg-slate-700 px-3 text-white transition hover:bg-slate-800"
+        className="flex-none rounded-r-md bg-slate-700 px-3 text-white transition hover:bg-slate-800 dark:hover:bg-slate-600"
       >
         <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current stroke-2" aria-hidden="true">
           <circle cx="11" cy="11" r="7" />

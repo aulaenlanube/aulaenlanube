@@ -226,7 +226,7 @@ function Bloque({
         width={h.w}
         height={H_FILA}
         rx={12}
-        fill={activo ? t.suave : "#ffffff"}
+        fill={activo ? t.suave : "var(--dg-papel)"}
         stroke={t.linea}
         strokeWidth={activo ? 2.5 : 1.5}
         style={{ transition: "fill 150ms ease, stroke-width 150ms ease" }}
@@ -534,7 +534,7 @@ export function ArbolCopilot() {
               width={RAIZ_W}
               height={RAIZ_H}
               rx={28}
-              fill={ctx.sel === "raiz" ? TONOS.gris.suave : "#ffffff"}
+              fill={ctx.sel === "raiz" ? TONOS.gris.suave : "var(--dg-papel)"}
               stroke={TONOS.gris.fuerte}
               strokeWidth={2.5}
             />
@@ -612,7 +612,7 @@ export function ArbolCopilot() {
                     width={COL_W}
                     height={H_COND}
                     rx={12}
-                    fill={ctx.sel === r.id ? t.suave : "#ffffff"}
+                    fill={ctx.sel === r.id ? t.suave : "var(--dg-papel)"}
                     stroke={t.linea}
                     strokeWidth={ctx.sel === r.id ? 2.5 : 1.5}
                     style={{ transition: "fill 150ms ease, stroke-width 150ms ease" }}

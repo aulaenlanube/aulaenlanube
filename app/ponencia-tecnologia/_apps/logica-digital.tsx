@@ -48,16 +48,16 @@ const METAL = "#94a3b8"; // bornes y palanca de los interruptores
 const tono = (v: number) => (v ? CABLE_1 : CABLE_0);
 
 /* ── Clases reutilizadas del sistema de diseño del sitio ─────────────────── */
-const TARJETA = "rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm";
+const TARJETA = "rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-5 shadow-sm";
 const TITULO = "font-extrabold tracking-tight";
-const CUERPO = "text-[15px] text-zinc-700";
-const SECUNDARIO = "text-sm text-zinc-500";
+const CUERPO = "text-[15px] text-zinc-700 dark:text-zinc-300";
+const SECUNDARIO = "text-sm text-zinc-500 dark:text-zinc-400";
 const ANILLO =
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2";
 const ANILLO_OSCURO =
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900";
-const BOTON_1 = `rounded-xl bg-slate-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-slate-800 ${ANILLO}`;
-const BOTON_2 = `rounded-xl border border-zinc-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 hover:bg-zinc-50 ${ANILLO}`;
+const BOTON_1 = `rounded-xl bg-slate-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-slate-800 dark:hover:bg-slate-600 ${ANILLO}`;
+const BOTON_2 = `rounded-xl border border-zinc-300 dark:border-white/15 bg-white dark:bg-slate-900 px-5 py-2.5 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-zinc-50 dark:hover:bg-white/5 ${ANILLO}`;
 
 /* ── Las seis puertas ────────────────────────────────────────────────────── */
 const ORDEN = ["NOT", "AND", "OR", "NAND", "NOR", "XOR"] as const;
@@ -499,7 +499,7 @@ function Lienzo({ minWidth, children }: { minWidth: number; children: ReactNode 
       <div className="-mx-1 overflow-x-auto px-1">
         <div style={{ minWidth }}>{children}</div>
       </div>
-      <p className="mt-2 text-[13px] text-slate-500 sm:hidden">
+      <p className="mt-2 text-[13px] text-slate-500 dark:text-slate-400 sm:hidden">
         Desliza el circuito con el dedo para verlo entero.
       </p>
     </>
@@ -541,7 +541,7 @@ function Conmutador({
         aria-hidden="true"
       >
         <span
-          className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-[left] ${
+          className={`absolute top-0.5 h-5 w-5 rounded-full bg-white dark:bg-slate-900 dark:bg-slate-900 shadow transition-[left] ${
             on ? "left-[22px]" : "left-0.5"
           }`}
         />
@@ -687,7 +687,7 @@ function ModoExplorar({ uid }: { uid: string }) {
                 className={`inline-flex items-center gap-2 rounded-xl border px-3.5 py-2 text-sm font-bold transition-colors ${ANILLO} ${
                   activa
                     ? "border-blue-600 bg-blue-600 text-white"
-                    : "border-zinc-300 bg-white text-slate-700 hover:bg-zinc-50"
+                    : "border-zinc-300 dark:border-white/15 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:bg-zinc-50 dark:hover:bg-white/5"
                 }`}
               >
                 <MiniSimbolo tipo={p} />
@@ -752,16 +752,16 @@ function ModoExplorar({ uid }: { uid: string }) {
                 Tabla de verdad completa de la puerta {tipo}
               </caption>
               <thead>
-                <tr className="text-[13px] uppercase tracking-wider text-zinc-500">
-                  <th scope="col" className="border-b border-zinc-200 px-3 py-2">
+                <tr className="text-[13px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+                  <th scope="col" className="border-b border-zinc-200 dark:border-white/10 px-3 py-2">
                     A
                   </th>
                   {dos && (
-                    <th scope="col" className="border-b border-zinc-200 px-3 py-2">
+                    <th scope="col" className="border-b border-zinc-200 dark:border-white/10 px-3 py-2">
                       B
                     </th>
                   )}
-                  <th scope="col" className="border-b border-zinc-200 px-3 py-2">
+                  <th scope="col" className="border-b border-zinc-200 dark:border-white/10 px-3 py-2">
                     S
                   </th>
                 </tr>
@@ -778,20 +778,20 @@ function ModoExplorar({ uid }: { uid: string }) {
                       aria-current={actual ? "true" : undefined}
                       className={
                         actual
-                          ? "bg-blue-50 font-bold text-blue-900 ring-1 ring-inset ring-blue-200"
-                          : "text-zinc-700"
+                          ? "bg-blue-50 dark:bg-blue-500/10 font-bold text-blue-900 dark:text-blue-200 ring-1 ring-inset ring-blue-200 dark:ring-blue-500/30"
+                          : "text-zinc-700 dark:text-zinc-300"
                       }
                     >
-                      <td className="border-b border-zinc-100 px-3 py-2">{fila[0]}</td>
+                      <td className="border-b border-zinc-100 dark:border-white/5 px-3 py-2">{fila[0]}</td>
                       {dos && (
-                        <td className="border-b border-zinc-100 px-3 py-2">{fila[1]}</td>
+                        <td className="border-b border-zinc-100 dark:border-white/5 px-3 py-2">{fila[1]}</td>
                       )}
-                      <td className="border-b border-zinc-100 px-3 py-2">
+                      <td className="border-b border-zinc-100 dark:border-white/5 px-3 py-2">
                         <span
                           className={`inline-grid h-7 w-7 place-items-center rounded-lg font-bold ${
                             out
-                              ? "bg-emerald-100 text-emerald-700"
-                              : "bg-zinc-100 text-zinc-500"
+                              ? "bg-emerald-100 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300"
+                              : "bg-zinc-100 dark:bg-white/10 text-zinc-500 dark:text-zinc-400"
                           }`}
                         >
                           {out}
@@ -806,26 +806,26 @@ function ModoExplorar({ uid }: { uid: string }) {
         </div>
 
         <div className={TARJETA}>
-          <div className="flex items-center gap-3 text-slate-700">
+          <div className="flex items-center gap-3 text-slate-700 dark:text-slate-200">
             <MiniSimbolo tipo={tipo} />
             <h3 className={`text-base ${TITULO}`}>
-              {tipo} <span className="font-semibold text-zinc-500">· {ficha.alias}</span>
+              {tipo} <span className="font-semibold text-zinc-500 dark:text-zinc-400">· {ficha.alias}</span>
             </h3>
           </div>
           <p className={`mt-3 ${CUERPO}`}>{ficha.frase}</p>
-          <div className="mt-4 rounded-xl bg-zinc-50 px-4 py-3">
-            <p className="text-[13px] font-semibold uppercase tracking-wider text-zinc-500">
+          <div className="mt-4 rounded-xl bg-zinc-50 dark:bg-white/5 px-4 py-3">
+            <p className="text-[13px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
               Expresión booleana
             </p>
-            <p className="mt-1 font-mono text-lg font-bold text-slate-800">
+            <p className="mt-1 font-mono text-lg font-bold text-slate-800 dark:text-slate-200">
               {ficha.expresion}
             </p>
           </div>
-          <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3">
-            <p className="text-[13px] font-semibold uppercase tracking-wider text-amber-700">
+          <div className="mt-4 rounded-xl border border-amber-200 dark:border-amber-500/30 bg-amber-50 dark:bg-amber-500/10 px-4 py-3">
+            <p className="text-[13px] font-semibold uppercase tracking-wider text-amber-700 dark:text-amber-300">
               Para entenderla
             </p>
-            <p className="mt-1 text-[15px] text-amber-900">{ficha.analogia}</p>
+            <p className="mt-1 text-[15px] text-amber-900 dark:text-amber-200">{ficha.analogia}</p>
           </div>
         </div>
       </div>
@@ -1137,7 +1137,7 @@ function ModoMontar({ uid }: { uid: string }) {
               ))}
             </select>
           </label>
-          <span className="text-[13px] text-slate-500">
+          <span className="text-[13px] text-slate-500 dark:text-slate-400">
             Solo puertas de dos entradas: cada hueco tiene dos cables.
           </span>
         </div>
@@ -1174,12 +1174,12 @@ function ModoMontar({ uid }: { uid: string }) {
         {/* Objetivo */}
         <div className={TARJETA}>
           <h3 className={`text-base ${TITULO}`}>El objetivo</h3>
-          <label className="mt-3 block text-[13px] font-semibold uppercase tracking-wider text-zinc-500">
+          <label className="mt-3 block text-[13px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
             Elige el encargo
             <select
               value={objId}
               onChange={(e) => setObjId(e.target.value)}
-              className={`mt-1.5 block w-full rounded-xl border border-zinc-300 bg-white px-3 py-2 text-[15px] font-semibold normal-case tracking-normal text-slate-700 ${ANILLO}`}
+              className={`mt-1.5 block w-full rounded-xl border border-zinc-300 dark:border-white/15 bg-white dark:bg-slate-900 px-3 py-2 text-[15px] font-semibold normal-case tracking-normal text-slate-700 dark:text-slate-200 ${ANILLO}`}
             >
               {OBJETIVOS.map((o) => (
                 <option key={o.id} value={o.id}>
@@ -1194,12 +1194,12 @@ function ModoMontar({ uid }: { uid: string }) {
           <ul className={`mt-3 space-y-1 ${SECUNDARIO}`}>
             {(["A", "B", "C"] as const).map((letra, i) => (
               <li key={letra}>
-                <b className="font-mono text-slate-700">{letra} = 1</b> →{" "}
+                <b className="font-mono text-slate-700 dark:text-slate-200">{letra} = 1</b> →{" "}
                 {objetivo.entradas[i]}
               </li>
             ))}
             <li>
-              <b className="font-mono text-slate-700">S = 1</b> → {objetivo.salida}
+              <b className="font-mono text-slate-700 dark:text-slate-200">S = 1</b> → {objetivo.salida}
             </li>
           </ul>
 
@@ -1207,8 +1207,8 @@ function ModoMontar({ uid }: { uid: string }) {
             aria-live="polite"
             className={`mt-4 rounded-xl border px-4 py-3 text-[15px] ${
               resuelto
-                ? "border-emerald-200 bg-emerald-50 text-emerald-900"
-                : "border-amber-200 bg-amber-50 text-amber-900"
+                ? "border-emerald-200 dark:border-emerald-500/30 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-900 dark:text-emerald-200"
+                : "border-amber-200 dark:border-amber-500/30 bg-amber-50 dark:bg-amber-500/10 text-amber-900 dark:text-amber-200"
             }`}
           >
             {resuelto ? (
@@ -1226,9 +1226,9 @@ function ModoMontar({ uid }: { uid: string }) {
             )}
           </div>
 
-          <details className="mt-3 rounded-xl bg-zinc-50 px-4 py-3">
+          <details className="mt-3 rounded-xl bg-zinc-50 dark:bg-white/5 px-4 py-3">
             <summary
-              className={`cursor-pointer text-sm font-semibold text-slate-700 ${ANILLO}`}
+              className={`cursor-pointer text-sm font-semibold text-slate-700 dark:text-slate-200 ${ANILLO}`}
             >
               ¿Te has atascado? Abre la pista
             </summary>
@@ -1250,13 +1250,13 @@ function ModoMontar({ uid }: { uid: string }) {
                 comparada con la tabla objetivo
               </caption>
               <thead>
-                <tr className="text-[13px] uppercase tracking-wider text-zinc-500">
+                <tr className="text-[13px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
                   {["A", "B", "C", "P1", "S"].map((h) => (
-                    <th key={h} scope="col" className="border-b border-zinc-200 px-2 py-2">
+                    <th key={h} scope="col" className="border-b border-zinc-200 dark:border-white/10 px-2 py-2">
                       {h}
                     </th>
                   ))}
-                  <th scope="col" className="border-b border-zinc-200 px-2 py-2">
+                  <th scope="col" className="border-b border-zinc-200 dark:border-white/10 px-2 py-2">
                     Obj.
                   </th>
                 </tr>
@@ -1271,40 +1271,40 @@ function ModoMontar({ uid }: { uid: string }) {
                       aria-current={actual ? "true" : undefined}
                       className={
                         actual
-                          ? "bg-blue-50 font-bold text-blue-900 ring-1 ring-inset ring-blue-200"
+                          ? "bg-blue-50 dark:bg-blue-500/10 font-bold text-blue-900 dark:text-blue-200 ring-1 ring-inset ring-blue-200 dark:ring-blue-500/30"
                           : falla
-                            ? "bg-rose-50 text-rose-900"
-                            : "text-zinc-700"
+                            ? "bg-rose-50 dark:bg-rose-500/10 text-rose-900 dark:text-rose-200"
+                            : "text-zinc-700 dark:text-zinc-300"
                       }
                     >
                       {f.v.map((bit, k) => (
                         <td
                           key={k}
-                          className="border-b border-zinc-100 px-2 py-2"
+                          className="border-b border-zinc-100 dark:border-white/5 px-2 py-2"
                         >
                           {bit}
                         </td>
                       ))}
-                      <td className="border-b border-zinc-100 px-2 py-2 text-zinc-500">
+                      <td className="border-b border-zinc-100 dark:border-white/5 px-2 py-2 text-zinc-500 dark:text-zinc-400">
                         {f.p1}
                       </td>
-                      <td className="border-b border-zinc-100 px-2 py-2">
+                      <td className="border-b border-zinc-100 dark:border-white/5 px-2 py-2">
                         <span
                           className={`inline-grid h-7 w-7 place-items-center rounded-lg font-bold ${
                             f.s
-                              ? "bg-emerald-100 text-emerald-700"
-                              : "bg-zinc-100 text-zinc-500"
+                              ? "bg-emerald-100 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300"
+                              : "bg-zinc-100 dark:bg-white/10 text-zinc-500 dark:text-zinc-400"
                           }`}
                         >
                           {f.s}
                         </span>
                       </td>
-                      <td className="border-b border-zinc-100 px-2 py-2">
+                      <td className="border-b border-zinc-100 dark:border-white/5 px-2 py-2">
                         <span
                           className={`inline-grid h-7 w-7 place-items-center rounded-lg font-bold ${
                             falla
-                              ? "bg-rose-100 text-rose-700"
-                              : "bg-zinc-100 text-zinc-400"
+                              ? "bg-rose-100 dark:bg-rose-500/15 text-rose-700 dark:text-rose-300"
+                              : "bg-zinc-100 dark:bg-white/10 text-zinc-400 dark:text-zinc-400"
                           }`}
                         >
                           {f.obj}
@@ -1610,16 +1610,16 @@ function ModoRetos({ uid }: { uid: string }) {
         <div className="flex flex-wrap items-baseline justify-between gap-2">
           <h3 className={`text-base ${TITULO}`}>
             Reto {indice + 1} de {RETOS.length}
-            <span className="ml-2 font-semibold text-zinc-500">· {reto.tema}</span>
+            <span className="ml-2 font-semibold text-zinc-500 dark:text-zinc-400">· {reto.tema}</span>
           </h3>
           <p className={SECUNDARIO}>
-            Resueltos: <b className="text-emerald-600">{superados}</b> de {RETOS.length} ·{" "}
-            <b className="text-blue-700">{primeras}</b> a la primera
+            Resueltos: <b className="text-emerald-600 dark:text-emerald-400">{superados}</b> de {RETOS.length} ·{" "}
+            <b className="text-blue-700 dark:text-blue-300">{primeras}</b> a la primera
           </p>
         </div>
 
         <div
-          className="mt-3 h-2.5 w-full overflow-hidden rounded-full bg-zinc-200"
+          className="mt-3 h-2.5 w-full overflow-hidden rounded-full bg-zinc-200 dark:bg-white/15"
           role="progressbar"
           aria-valuenow={superados}
           aria-valuemin={0}
@@ -1647,8 +1647,8 @@ function ModoRetos({ uid }: { uid: string }) {
                   aqui
                     ? "bg-slate-700 text-white"
                     : e.superado
-                      ? "bg-emerald-100 text-emerald-700 hover:bg-emerald-200"
-                      : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200"
+                      ? "bg-emerald-100 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-200 dark:hover:bg-emerald-500/25"
+                      : "bg-zinc-100 dark:bg-white/10 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200 dark:hover:bg-white/15"
                 }`}
               >
                 {i + 1}
@@ -1664,16 +1664,16 @@ function ModoRetos({ uid }: { uid: string }) {
           La situación
         </p>
         <p className={`mt-1.5 ${CUERPO}`}>{reto.escenario}</p>
-        <p className="mt-3 text-[15px] font-semibold text-slate-800">{reto.enunciado}</p>
+        <p className="mt-3 text-[15px] font-semibold text-slate-800 dark:text-slate-200">{reto.enunciado}</p>
 
-        <ul className="mt-4 grid gap-1.5 rounded-xl bg-zinc-50 px-4 py-3 text-[15px] text-zinc-700 sm:grid-cols-2">
+        <ul className="mt-4 grid gap-1.5 rounded-xl bg-zinc-50 dark:bg-white/5 px-4 py-3 text-[15px] text-zinc-700 dark:text-zinc-300 sm:grid-cols-2">
           {reto.entradas.map((e) => (
             <li key={e.letra}>
-              <b className="font-mono text-slate-800">{e.letra} = 1</b> → {e.uno}
+              <b className="font-mono text-slate-800 dark:text-slate-200">{e.letra} = 1</b> → {e.uno}
             </li>
           ))}
           <li className="sm:col-span-2">
-            <b className="font-mono text-slate-800">S = 1</b> → {reto.salida}
+            <b className="font-mono text-slate-800 dark:text-slate-200">S = 1</b> → {reto.salida}
           </li>
         </ul>
 
@@ -1695,7 +1695,7 @@ function ModoRetos({ uid }: { uid: string }) {
                     className={`inline-flex items-center gap-2 rounded-xl border px-3.5 py-2 text-sm font-bold transition-colors disabled:opacity-60 ${ANILLO} ${
                       elegida
                         ? "border-blue-600 bg-blue-600 text-white"
-                        : "border-zinc-300 bg-white text-slate-700 hover:bg-zinc-50"
+                        : "border-zinc-300 dark:border-white/15 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:bg-zinc-50 dark:hover:bg-white/5"
                     }`}
                   >
                     <MiniSimbolo tipo={p} />
@@ -1719,17 +1719,17 @@ function ModoRetos({ uid }: { uid: string }) {
                   Tabla de verdad que debes completar para el reto {reto.tema}
                 </caption>
                 <thead>
-                  <tr className="text-[13px] uppercase tracking-wider text-zinc-500">
+                  <tr className="text-[13px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
                     {reto.entradas.map((e) => (
                       <th
                         key={e.letra}
                         scope="col"
-                        className="border-b border-zinc-200 px-2 py-2"
+                        className="border-b border-zinc-200 dark:border-white/10 px-2 py-2"
                       >
                         {e.letra}
                       </th>
                     ))}
-                    <th scope="col" className="border-b border-zinc-200 px-2 py-2">
+                    <th scope="col" className="border-b border-zinc-200 dark:border-white/10 px-2 py-2">
                       S
                     </th>
                   </tr>
@@ -1744,21 +1744,21 @@ function ModoRetos({ uid }: { uid: string }) {
                         key={v.join("")}
                         className={
                           bien
-                            ? "bg-emerald-50"
+                            ? "bg-emerald-50 dark:bg-emerald-500/10"
                             : mal
-                              ? "bg-rose-50"
-                              : "odd:bg-zinc-50/60"
+                              ? "bg-rose-50 dark:bg-rose-500/10"
+                              : "odd:bg-zinc-50/60 dark:odd:bg-white/5"
                         }
                       >
                         {v.map((bit, j) => (
                           <td
                             key={j}
-                            className="border-b border-zinc-100 px-2 py-2 font-mono tabular-nums text-zinc-700"
+                            className="border-b border-zinc-100 dark:border-white/5 px-2 py-2 font-mono tabular-nums text-zinc-700 dark:text-zinc-300"
                           >
                             {bit}
                           </td>
                         ))}
-                        <td className="border-b border-zinc-100 px-2 py-2">
+                        <td className="border-b border-zinc-100 dark:border-white/5 px-2 py-2">
                           <div className="flex items-center justify-center gap-1.5">
                             {([0, 1] as const).map((opcion) => (
                               <label key={opcion} className="cursor-pointer">
@@ -1773,7 +1773,7 @@ function ModoRetos({ uid }: { uid: string }) {
                                     .map((e, j) => `${e.letra} igual a ${v[j]}`)
                                     .join(", ")}: la salida vale ${opcion}`}
                                 />
-                                <span className="grid h-9 w-9 place-items-center rounded-lg border border-zinc-300 bg-white font-mono text-[15px] font-bold text-zinc-500 transition-colors peer-checked:border-blue-600 peer-checked:bg-blue-600 peer-checked:text-white peer-focus-visible:ring-2 peer-focus-visible:ring-blue-600 peer-focus-visible:ring-offset-2 peer-disabled:opacity-60">
+                                <span className="grid h-9 w-9 place-items-center rounded-lg border border-zinc-300 dark:border-white/15 bg-white dark:bg-slate-900 font-mono text-[15px] font-bold text-zinc-500 dark:text-zinc-400 transition-colors peer-checked:border-blue-600 peer-checked:bg-blue-600 peer-checked:text-white peer-focus-visible:ring-2 peer-focus-visible:ring-blue-600 peer-focus-visible:ring-offset-2 peer-disabled:opacity-60">
                                   {opcion}
                                 </span>
                               </label>
@@ -1781,7 +1781,7 @@ function ModoRetos({ uid }: { uid: string }) {
                             {est.comprobado && (
                               <span
                                 className={`ml-1 text-lg font-bold ${
-                                  bien ? "text-emerald-600" : "text-rose-600"
+                                  bien ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600"
                                 }`}
                                 aria-hidden="true"
                               >
@@ -1837,7 +1837,7 @@ function ModoRetos({ uid }: { uid: string }) {
         {/* Corrección */}
         <div aria-live="polite">
           {est.comprobado && est.superado && (
-            <div className="mt-4 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-[15px] text-emerald-900">
+            <div className="mt-4 rounded-xl border border-emerald-200 dark:border-emerald-500/30 bg-emerald-50 dark:bg-emerald-500/10 px-4 py-3 text-[15px] text-emerald-900 dark:text-emerald-200">
               <b>Correcto.</b>{" "}
               {reto.tipo === "puerta"
                 ? `La ${est.puerta} es la puerta que pide el enunciado.`
@@ -1856,8 +1856,8 @@ function ModoRetos({ uid }: { uid: string }) {
           )}
 
           {est.comprobado && !est.superado && (
-            <div className="mt-4 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3">
-              <p className="text-[15px] font-semibold text-rose-900">
+            <div className="mt-4 rounded-xl border border-rose-200 dark:border-rose-500/30 bg-rose-50 dark:bg-rose-500/10 px-4 py-3">
+              <p className="text-[15px] font-semibold text-rose-900 dark:text-rose-200">
                 Todavía no. {falladas.length === 1 ? "Se te escapa 1 fila" : `Se te escapan ${falladas.length} filas`}{" "}
                 de {filas.length}; el resto ya lo tienes bien.
                 {reto.tipo === "puerta" && est.puerta && (
@@ -1866,20 +1866,20 @@ function ModoRetos({ uid }: { uid: string }) {
               </p>
               <ul className="mt-2.5 space-y-2">
                 {falladas.map((f) => (
-                  <li key={f.k} className="text-[15px] text-rose-900">
+                  <li key={f.k} className="text-[15px] text-rose-900 dark:text-rose-200">
                     <span className="font-mono font-bold">
                       {reto.entradas.map((e, j) => `${e.letra}=${f.v[j]}`).join(" · ")}
                     </span>{" "}
                     → pusiste <b>{f.dado}</b>, y debería ser <b>{esperado[f.k]}</b>.{" "}
-                    <span className="text-rose-800">{reto.motivo(f.v)}</span>
+                    <span className="text-rose-800 dark:text-rose-300">{reto.motivo(f.v)}</span>
                   </li>
                 ))}
               </ul>
               <details className="mt-3">
-                <summary className={`cursor-pointer text-sm font-semibold text-rose-900 ${ANILLO}`}>
+                <summary className={`cursor-pointer text-sm font-semibold text-rose-900 dark:text-rose-200 ${ANILLO}`}>
                   Ver la pista
                 </summary>
-                <p className="mt-1.5 text-[15px] text-rose-900">{reto.pista}</p>
+                <p className="mt-1.5 text-[15px] text-rose-900 dark:text-rose-200">{reto.pista}</p>
               </details>
             </div>
           )}
@@ -1888,16 +1888,16 @@ function ModoRetos({ uid }: { uid: string }) {
 
       {/* Resumen final */}
       {todos && (
-        <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5 shadow-sm">
-          <h3 className={`text-lg ${TITULO} text-emerald-900`}>
+        <div className="rounded-2xl border border-emerald-200 dark:border-emerald-500/30 bg-emerald-50 dark:bg-emerald-500/10 p-5 shadow-sm">
+          <h3 className={`text-lg ${TITULO} text-emerald-900 dark:text-emerald-200`}>
             Has terminado los seis retos
           </h3>
-          <p className="mt-2 text-[15px] text-emerald-900">
+          <p className="mt-2 text-[15px] text-emerald-900 dark:text-emerald-200">
             Marcador: <b>{superados} de {RETOS.length}</b> resueltos, <b>{primeras}</b> a la
             primera y <b>{estados.reduce((n, e) => n + e.intentos, 0)}</b> comprobaciones en
             total.
           </p>
-          <p className="mt-2 text-[15px] text-emerald-900">{cierre}</p>
+          <p className="mt-2 text-[15px] text-emerald-900 dark:text-emerald-200">{cierre}</p>
           <button
             type="button"
             onClick={() => {
@@ -1966,13 +1966,13 @@ export default function LogicaDigitalApp() {
   return (
     <section className="w-full">
       <header>
-        <span className="inline-block rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-[13px] font-bold uppercase tracking-wider text-blue-700">
+        <span className="inline-block rounded-full border border-blue-200 dark:border-blue-500/30 bg-blue-50 dark:bg-blue-500/10 px-3 py-1 text-[13px] font-bold uppercase tracking-wider text-blue-700 dark:text-blue-300">
           4.º ESO · Tecnología · Electrónica digital
         </span>
         <h2 className={`mt-3 text-2xl sm:text-3xl ${TITULO}`}>
           Laboratorio de lógica digital
         </h2>
-        <p className="mt-3 max-w-3xl text-lg text-zinc-600">
+        <p className="mt-3 max-w-3xl text-lg text-zinc-600 dark:text-zinc-400">
           Puertas lógicas, tablas de verdad y funciones booleanas, pero tocándolas. Conmuta
           interruptores, monta circuitos de dos puertas y resuelve seis encargos reales:
           una alarma, un riego, un ascensor, un cinturón, un taller y un semáforo de obra.
@@ -1982,7 +1982,7 @@ export default function LogicaDigitalApp() {
       <div
         role="tablist"
         aria-label="Modos del laboratorio de lógica digital"
-        className="mt-6 flex gap-1.5 rounded-2xl border border-zinc-200 bg-zinc-50 p-1.5"
+        className="mt-6 flex gap-1.5 rounded-2xl border border-zinc-200 dark:border-white/10 bg-zinc-50 dark:bg-white/5 p-1.5"
       >
         {MODOS.map((m, i) => {
           const activa = m.id === modo;
@@ -2003,7 +2003,7 @@ export default function LogicaDigitalApp() {
               className={`min-w-0 flex-1 whitespace-nowrap rounded-xl px-2 py-2.5 text-sm font-semibold transition-colors sm:px-4 ${ANILLO} ${
                 activa
                   ? "bg-slate-700 text-white shadow-sm"
-                  : "text-slate-600 hover:bg-white"
+                  : "text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-white/10"
               }`}
             >
               {m.etiqueta}

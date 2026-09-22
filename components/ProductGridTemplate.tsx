@@ -16,13 +16,13 @@ export default function ProductGridTemplate({ entry }: { entry: ArticleEntry }) 
 
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:py-10">
-      <h1 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
+      <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 sm:text-4xl">
         {entry.title}
       </h1>
 
       {entry.intro && (
         <div
-          className="prose prose-zinc mt-4 max-w-none prose-a:text-blue-600"
+          className="prose prose-zinc dark:prose-invert mt-4 max-w-none prose-a:text-blue-600 dark:prose-a:text-blue-400"
           dangerouslySetInnerHTML={{ __html: entry.intro }}
         />
       )}
@@ -33,7 +33,7 @@ export default function ProductGridTemplate({ entry }: { entry: ArticleEntry }) 
             <Link
               key={s.path}
               href={s.path}
-              className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm font-semibold text-zinc-700 transition hover:border-blue-300 hover:text-blue-700"
+              className="inline-flex items-center gap-2 rounded-full border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 px-4 py-2 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-blue-300 dark:hover:border-blue-500/40 hover:text-blue-700 dark:hover:text-blue-300"
             >
               {s.image && (
                 // eslint-disable-next-line @next/next/no-img-element
@@ -50,10 +50,10 @@ export default function ProductGridTemplate({ entry }: { entry: ArticleEntry }) 
           <div
             key={i}
             className={
-              "group flex flex-col overflow-hidden rounded-xl border bg-white transition " +
+              "group flex flex-col overflow-hidden rounded-xl border bg-white dark:bg-slate-900 transition " +
               (c.unavailable
-                ? "border-zinc-200 opacity-95"
-                : "border-zinc-200 hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-md")
+                ? "border-zinc-200 dark:border-white/10 opacity-95"
+                : "border-zinc-200 dark:border-white/10 hover:-translate-y-0.5 hover:border-blue-200 dark:hover:border-blue-500/30 hover:shadow-md")
             }
           >
             <div className="relative flex aspect-square items-center justify-center bg-white p-3">
@@ -73,11 +73,11 @@ export default function ProductGridTemplate({ entry }: { entry: ArticleEntry }) 
                 }
               />
             </div>
-            <div className="flex flex-1 flex-col gap-3 border-t border-zinc-100 p-3">
+            <div className="flex flex-1 flex-col gap-3 border-t border-zinc-100 dark:border-white/5 p-3">
               <h3
                 className={
                   "line-clamp-2 min-h-[2.5rem] text-sm font-semibold " +
-                  (c.unavailable ? "text-zinc-400" : "text-zinc-800")
+                  (c.unavailable ? "text-zinc-400 dark:text-zinc-400" : "text-zinc-800 dark:text-zinc-200")
                 }
               >
                 {c.title}
@@ -85,7 +85,7 @@ export default function ProductGridTemplate({ entry }: { entry: ArticleEntry }) 
               {c.unavailable ? (
                 <span
                   aria-disabled="true"
-                  className="mt-auto cursor-not-allowed select-none rounded-lg bg-zinc-100 px-3 py-2 text-center text-sm font-bold text-zinc-400"
+                  className="mt-auto cursor-not-allowed select-none rounded-lg bg-zinc-100 dark:bg-white/10 px-3 py-2 text-center text-sm font-bold text-zinc-400 dark:text-zinc-400"
                 >
                   No disponible
                 </span>

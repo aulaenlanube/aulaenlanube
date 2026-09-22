@@ -34,7 +34,7 @@ export default function PteTema1() {
       <h1 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
         Tema 1 · Números enteros
       </h1>
-      <p className="mt-4 text-lg text-zinc-600">
+      <p className="mt-4 text-lg text-zinc-600 dark:text-zinc-400">
         Cada apartado lleva su <b>teoría</b> (explicación corta y accesible), <b>ejemplos</b>{" "}
         resueltos y <b>actividades</b> adaptadas en los cuatro niveles. El orden es el de la
         secuencia del tema: conviene seguirlo, pero los enlaces laterales permiten saltar a
@@ -46,19 +46,19 @@ export default function PteTema1() {
           <Link
             key={a.n}
             href={`/adaptaciones-pt/2eso/matematicas/tema-1/${a.href}`}
-            className="group flex gap-4 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm transition hover:border-blue-300 hover:bg-blue-50/40"
+            className="group flex gap-4 rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-5 shadow-sm transition hover:border-blue-300 dark:hover:border-blue-500/40 hover:bg-blue-50/40 dark:hover:bg-blue-500/10"
           >
-            <div className="w-12 flex-none text-2xl font-extrabold tracking-tight text-blue-700">{a.n}</div>
+            <div className="w-12 flex-none text-2xl font-extrabold tracking-tight text-blue-700 dark:text-blue-300">{a.n}</div>
             <div>
-              <h2 className="text-base font-bold text-zinc-900 group-hover:text-blue-800">{a.t}</h2>
-              <p className="mt-1 text-[13px] text-zinc-600">{a.d}</p>
+              <h2 className="text-base font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-blue-800">{a.t}</h2>
+              <p className="mt-1 text-[13px] text-zinc-600 dark:text-zinc-400">{a.d}</p>
             </div>
             <div className="self-center text-zinc-300 transition group-hover:translate-x-0.5 group-hover:text-blue-600">→</div>
           </Link>
         ))}
       </div>
 
-      <div className="mt-8 rounded-2xl border border-zinc-200 bg-zinc-100 p-5 text-sm text-zinc-700">
+      <div className="mt-8 rounded-2xl border border-zinc-200 dark:border-white/10 bg-zinc-100 dark:bg-white/10 p-5 text-sm text-zinc-700 dark:text-zinc-300">
         <b>Saberes básicos (anexo III, Decreto 107/2022):</b> números enteros, representación y
         orden en la recta, valor absoluto y opuesto, operaciones y jerarquía, y uso en contextos
         familiares (temperaturas, altitudes, economía doméstica).

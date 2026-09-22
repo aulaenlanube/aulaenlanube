@@ -33,64 +33,64 @@ type Estilo = {
 
 export const ESTILO: Record<Tono, Estilo> = {
   azul: {
-    chip: "border-blue-200 bg-blue-50 text-blue-700",
+    chip: "border-blue-200 dark:border-blue-500/30 bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-300",
     barra: "bg-blue-600",
     borde: "border-blue-600",
-    texto: "text-blue-700",
-    nota: "border-blue-200 bg-blue-50 text-blue-900",
-    tarjeta: "hover:border-blue-300 hover:bg-blue-50/40",
+    texto: "text-blue-700 dark:text-blue-300",
+    nota: "border-blue-200 dark:border-blue-500/30 bg-blue-50 dark:bg-blue-500/10 text-blue-900 dark:text-blue-200",
+    tarjeta: "hover:border-blue-300 dark:hover:border-blue-500/40 hover:bg-blue-50/40 dark:hover:bg-blue-500/10",
     numero: "bg-blue-600 text-white",
-    suave: "bg-blue-50",
+    suave: "bg-blue-50 dark:bg-blue-500/10",
   },
   morado: {
-    chip: "border-violet-200 bg-violet-50 text-violet-700",
+    chip: "border-violet-200 dark:border-violet-500/30 bg-violet-50 dark:bg-violet-500/10 text-violet-700 dark:text-violet-300",
     barra: "bg-violet-600",
     borde: "border-violet-600",
-    texto: "text-violet-700",
-    nota: "border-violet-200 bg-violet-50 text-violet-900",
-    tarjeta: "hover:border-violet-300 hover:bg-violet-50/40",
+    texto: "text-violet-700 dark:text-violet-300",
+    nota: "border-violet-200 dark:border-violet-500/30 bg-violet-50 dark:bg-violet-500/10 text-violet-900 dark:text-violet-200",
+    tarjeta: "hover:border-violet-300 dark:hover:border-violet-500/40 hover:bg-violet-50/40 dark:hover:bg-violet-500/10",
     numero: "bg-violet-600 text-white",
-    suave: "bg-violet-50",
+    suave: "bg-violet-50 dark:bg-violet-500/10",
   },
   verde: {
-    chip: "border-emerald-200 bg-emerald-50 text-emerald-700",
+    chip: "border-emerald-200 dark:border-emerald-500/30 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-300",
     barra: "bg-emerald-600",
     borde: "border-emerald-600",
-    texto: "text-emerald-700",
-    nota: "border-emerald-200 bg-emerald-50 text-emerald-900",
-    tarjeta: "hover:border-emerald-300 hover:bg-emerald-50/40",
+    texto: "text-emerald-700 dark:text-emerald-300",
+    nota: "border-emerald-200 dark:border-emerald-500/30 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-900 dark:text-emerald-200",
+    tarjeta: "hover:border-emerald-300 dark:hover:border-emerald-500/40 hover:bg-emerald-50/40 dark:hover:bg-emerald-500/10",
     numero: "bg-emerald-600 text-white",
-    suave: "bg-emerald-50",
+    suave: "bg-emerald-50 dark:bg-emerald-500/10",
   },
   ambar: {
-    chip: "border-amber-200 bg-amber-50 text-amber-800",
+    chip: "border-amber-200 dark:border-amber-500/30 bg-amber-50 dark:bg-amber-500/10 text-amber-800 dark:text-amber-200",
     barra: "bg-amber-500",
     borde: "border-amber-500",
-    texto: "text-amber-800",
-    nota: "border-amber-200 bg-amber-50 text-amber-900",
-    tarjeta: "hover:border-amber-300 hover:bg-amber-50/40",
+    texto: "text-amber-800 dark:text-amber-200",
+    nota: "border-amber-200 dark:border-amber-500/30 bg-amber-50 dark:bg-amber-500/10 text-amber-900 dark:text-amber-200",
+    tarjeta: "hover:border-amber-300 dark:hover:border-amber-500/40 hover:bg-amber-50/40 dark:hover:bg-amber-500/10",
     numero: "bg-amber-500 text-white",
-    suave: "bg-amber-50",
+    suave: "bg-amber-50 dark:bg-amber-500/10",
   },
   rosa: {
-    chip: "border-rose-200 bg-rose-50 text-rose-700",
+    chip: "border-rose-200 dark:border-rose-500/30 bg-rose-50 dark:bg-rose-500/10 text-rose-700 dark:text-rose-300",
     barra: "bg-rose-600",
     borde: "border-rose-600",
-    texto: "text-rose-700",
-    nota: "border-rose-200 bg-rose-50 text-rose-900",
-    tarjeta: "hover:border-rose-300 hover:bg-rose-50/40",
+    texto: "text-rose-700 dark:text-rose-300",
+    nota: "border-rose-200 dark:border-rose-500/30 bg-rose-50 dark:bg-rose-500/10 text-rose-900 dark:text-rose-200",
+    tarjeta: "hover:border-rose-300 dark:hover:border-rose-500/40 hover:bg-rose-50/40 dark:hover:bg-rose-500/10",
     numero: "bg-rose-600 text-white",
-    suave: "bg-rose-50",
+    suave: "bg-rose-50 dark:bg-rose-500/10",
   },
   gris: {
-    chip: "border-zinc-300 bg-zinc-100 text-zinc-700",
+    chip: "border-zinc-300 dark:border-white/15 bg-zinc-100 dark:bg-white/10 text-zinc-700 dark:text-zinc-300",
     barra: "bg-zinc-500",
     borde: "border-zinc-500",
-    texto: "text-zinc-700",
-    nota: "border-zinc-300 bg-zinc-50 text-zinc-800",
-    tarjeta: "hover:border-zinc-400 hover:bg-zinc-50",
+    texto: "text-zinc-700 dark:text-zinc-300",
+    nota: "border-zinc-300 dark:border-white/15 bg-zinc-50 dark:bg-white/5 text-zinc-800 dark:text-zinc-200",
+    tarjeta: "hover:border-zinc-400 dark:hover:border-white/20 hover:bg-zinc-50 dark:hover:bg-white/5",
     numero: "bg-zinc-600 text-white",
-    suave: "bg-zinc-100",
+    suave: "bg-zinc-100 dark:bg-white/10",
   },
 };
 
@@ -142,13 +142,13 @@ export function Portadilla({
           {n}
         </span>
         <Chip tono={tono}>Bloque {n} de 6</Chip>
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-zinc-500">
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
           <RelojIcono /> {minutos} min
         </span>
       </div>
-      <h1 className="mt-4 text-3xl font-extrabold tracking-tight text-zinc-900 sm:text-4xl">{titulo}</h1>
+      <h1 className="mt-4 text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100 sm:text-4xl">{titulo}</h1>
       <div className={`mt-4 border-l-4 pl-4 ${e.borde}`}>
-        <p className="max-w-3xl text-lg leading-relaxed text-zinc-600">{entradilla}</p>
+        <p className="max-w-3xl text-lg leading-relaxed text-zinc-600 dark:text-zinc-400">{entradilla}</p>
       </div>
     </header>
   );
@@ -180,7 +180,7 @@ export function H2({
       {ante ? (
         <p className={`text-[11px] font-bold uppercase tracking-[0.14em] ${ESTILO[tono].texto}`}>{ante}</p>
       ) : null}
-      <h2 className="mt-1 flex items-start gap-3 text-2xl font-extrabold tracking-tight text-zinc-900">
+      <h2 className="mt-1 flex items-start gap-3 text-2xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100">
         <span className={`mt-2 h-5 w-1.5 flex-none rounded-full ${ESTILO[tono].barra}`} aria-hidden="true" />
         <span>{children}</span>
       </h2>
@@ -189,12 +189,12 @@ export function H2({
 }
 
 export function H3({ children }: { children: ReactNode }) {
-  return <h3 className="mt-8 text-lg font-bold tracking-tight text-zinc-900">{children}</h3>;
+  return <h3 className="mt-8 text-lg font-bold tracking-tight text-zinc-900 dark:text-zinc-100">{children}</h3>;
 }
 
 /** Párrafo de cuerpo, con el ancho de lectura acotado. */
 export function P({ children }: { children: ReactNode }) {
-  return <p className="mt-3 max-w-3xl text-[16px] leading-relaxed text-zinc-700">{children}</p>;
+  return <p className="mt-3 max-w-3xl text-[16px] leading-relaxed text-zinc-700 dark:text-zinc-300">{children}</p>;
 }
 
 /** Lista con viñetas cuadradas del tono. */
@@ -202,7 +202,7 @@ export function Lista({ tono = "azul", items }: { tono?: Tono; items: ReactNode[
   return (
     <ul className="mt-4 max-w-3xl space-y-2.5">
       {items.map((it, i) => (
-        <li key={i} className="flex gap-3 text-[16px] leading-relaxed text-zinc-700">
+        <li key={i} className="flex gap-3 text-[16px] leading-relaxed text-zinc-700 dark:text-zinc-300">
           <span
             className={`mt-2.5 h-1.5 w-1.5 flex-none rounded-[2px] ${ESTILO[tono].barra}`}
             aria-hidden="true"
@@ -219,7 +219,7 @@ export function Pasos({ tono = "azul", items }: { tono?: Tono; items: ReactNode[
   return (
     <ol className="mt-4 max-w-3xl space-y-3">
       {items.map((it, i) => (
-        <li key={i} className="flex gap-3 text-[16px] leading-relaxed text-zinc-700">
+        <li key={i} className="flex gap-3 text-[16px] leading-relaxed text-zinc-700 dark:text-zinc-300">
           <span
             className={`mt-0.5 flex h-6 w-6 flex-none items-center justify-center rounded-full text-[12px] font-extrabold ${ESTILO[tono].numero}`}
           >
@@ -261,9 +261,9 @@ export function Tarjeta({
   children: ReactNode;
 }) {
   return (
-    <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
+    <div className="rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-5 shadow-sm">
       {titulo ? (
-        <h3 className="flex items-start gap-2.5 text-[15px] font-bold text-zinc-900">
+        <h3 className="flex items-start gap-2.5 text-[15px] font-bold text-zinc-900 dark:text-zinc-100">
           <span
             className={`mt-1.5 h-3 w-1 flex-none rounded-full ${ESTILO[tono].barra}`}
             aria-hidden="true"
@@ -271,7 +271,7 @@ export function Tarjeta({
           <span>{titulo}</span>
         </h3>
       ) : null}
-      <div className="mt-2 text-[15px] leading-relaxed text-zinc-600">{children}</div>
+      <div className="mt-2 text-[15px] leading-relaxed text-zinc-600 dark:text-zinc-400">{children}</div>
     </div>
   );
 }
@@ -297,9 +297,9 @@ export function Dato({
   children: ReactNode;
 }) {
   return (
-    <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
+    <div className="rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-5 shadow-sm">
       <p className={`text-3xl font-extrabold tracking-tight ${ESTILO[tono].texto}`}>{cifra}</p>
-      <div className="mt-1.5 text-[14px] leading-relaxed text-zinc-600">{children}</div>
+      <div className="mt-1.5 text-[14px] leading-relaxed text-zinc-600 dark:text-zinc-400">{children}</div>
     </div>
   );
 }
@@ -314,22 +314,22 @@ export function Contraste({
 }) {
   return (
     <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2">
-      <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5">
-        <h3 className="text-[15px] font-extrabold text-emerald-900">✔ {bien.titulo}</h3>
+      <div className="rounded-2xl border border-emerald-200 dark:border-emerald-500/30 bg-emerald-50 dark:bg-emerald-500/10 p-5">
+        <h3 className="text-[15px] font-extrabold text-emerald-900 dark:text-emerald-200">✔ {bien.titulo}</h3>
         <ul className="mt-2.5 space-y-2">
           {bien.items.map((it, i) => (
-            <li key={i} className="flex gap-2.5 text-[14px] leading-relaxed text-emerald-900">
+            <li key={i} className="flex gap-2.5 text-[14px] leading-relaxed text-emerald-900 dark:text-emerald-200">
               <span className="mt-2 h-1.5 w-1.5 flex-none rounded-[2px] bg-emerald-600" aria-hidden="true" />
               <span>{it}</span>
             </li>
           ))}
         </ul>
       </div>
-      <div className="rounded-2xl border border-rose-200 bg-rose-50 p-5">
-        <h3 className="text-[15px] font-extrabold text-rose-900">✘ {mal.titulo}</h3>
+      <div className="rounded-2xl border border-rose-200 dark:border-rose-500/30 bg-rose-50 dark:bg-rose-500/10 p-5">
+        <h3 className="text-[15px] font-extrabold text-rose-900 dark:text-rose-200">✘ {mal.titulo}</h3>
         <ul className="mt-2.5 space-y-2">
           {mal.items.map((it, i) => (
-            <li key={i} className="flex gap-2.5 text-[14px] leading-relaxed text-rose-900">
+            <li key={i} className="flex gap-2.5 text-[14px] leading-relaxed text-rose-900 dark:text-rose-200">
               <span className="mt-2 h-1.5 w-1.5 flex-none rounded-[2px] bg-rose-600" aria-hidden="true" />
               <span>{it}</span>
             </li>
@@ -357,12 +357,12 @@ export function FichaPrompt({
 }) {
   const e = ESTILO[tono];
   return (
-    <section className="mt-5 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
-      <div className={`flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-zinc-200 px-5 py-3 ${e.suave}`}>
+    <section className="mt-5 overflow-hidden rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 shadow-sm">
+      <div className={`flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-zinc-200 dark:border-white/10 px-5 py-3 ${e.suave}`}>
         <span className={`text-[11px] font-bold uppercase tracking-[0.14em] ${e.texto}`}>{etiqueta}</span>
-        <h3 className="text-[16px] font-extrabold tracking-tight text-zinc-900">{titulo}</h3>
+        <h3 className="text-[16px] font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100">{titulo}</h3>
       </div>
-      <div className="px-5 pb-5 pt-4 text-[15px] leading-relaxed text-zinc-600">{children}</div>
+      <div className="px-5 pb-5 pt-4 text-[15px] leading-relaxed text-zinc-600 dark:text-zinc-400">{children}</div>
     </section>
   );
 }
@@ -387,18 +387,18 @@ export function NavPie({
   return (
     <nav
       aria-label="Navegación entre bloques"
-      className="mt-12 flex flex-wrap items-stretch justify-between gap-3 border-t border-zinc-200 pt-6"
+      className="mt-12 flex flex-wrap items-stretch justify-between gap-3 border-t border-zinc-200 dark:border-white/10 pt-6"
     >
       <Link
         href={atras.ruta}
-        className="group max-w-[47%] flex-1 rounded-xl border border-zinc-300 bg-white px-4 py-3 transition hover:border-zinc-400 hover:bg-zinc-50"
+        className="group max-w-[47%] flex-1 rounded-xl border border-zinc-300 dark:border-white/15 bg-white dark:bg-slate-900 px-4 py-3 transition hover:border-zinc-400 dark:hover:border-white/20 hover:bg-zinc-50 dark:hover:bg-white/5"
       >
-        <span className="block text-[11px] font-bold uppercase tracking-wider text-zinc-400">← Anterior</span>
-        <span className="mt-0.5 block text-[14px] font-semibold text-slate-700">{atras.titulo}</span>
+        <span className="block text-[11px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-400">← Anterior</span>
+        <span className="mt-0.5 block text-[14px] font-semibold text-slate-700 dark:text-slate-200">{atras.titulo}</span>
       </Link>
       <Link
         href={adelante.ruta}
-        className="group max-w-[47%] flex-1 rounded-xl bg-slate-700 px-4 py-3 text-right transition hover:bg-slate-800"
+        className="group max-w-[47%] flex-1 rounded-xl bg-slate-700 px-4 py-3 text-right transition hover:bg-slate-800 dark:hover:bg-slate-600"
       >
         <span className="block text-[11px] font-bold uppercase tracking-wider text-white/60">Siguiente →</span>
         <span className="mt-0.5 block text-[14px] font-semibold text-white">{adelante.titulo}</span>
@@ -410,7 +410,7 @@ export function NavPie({
 /** Enlace externo con el «↗» y estilo de la ponencia. */
 export function Fuera({ href, children }: { href: string; children: ReactNode }) {
   return (
-    <a href={href} target="_blank" rel="noopener" className="font-semibold text-blue-700 underline">
+    <a href={href} target="_blank" rel="noopener" className="font-semibold text-blue-700 dark:text-blue-300 underline">
       {children} ↗
     </a>
   );
@@ -418,7 +418,7 @@ export function Fuera({ href, children }: { href: string; children: ReactNode })
 
 export function Dentro({ href, children }: { href: string; children: ReactNode }) {
   return (
-    <Link href={href} className="font-semibold text-blue-700 underline">
+    <Link href={href} className="font-semibold text-blue-700 dark:text-blue-300 underline">
       {children}
     </Link>
   );

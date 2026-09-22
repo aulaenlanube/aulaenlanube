@@ -19,10 +19,10 @@ export default function AppLogicaDigital() {
         <Chip tono="gris">Tecnología · Electrónica digital</Chip>
         <Chip tono="verde">Un solo prompt</Chip>
       </div>
-      <h1 className="mt-4 text-3xl font-extrabold tracking-tight text-zinc-900 sm:text-4xl">
+      <h1 className="mt-4 text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100 sm:text-4xl">
         Laboratorio de lógica digital
       </h1>
-      <p className="mt-4 max-w-3xl text-lg leading-relaxed text-zinc-600">
+      <p className="mt-4 max-w-3xl text-lg leading-relaxed text-zinc-600 dark:text-zinc-400">
         Puertas lógicas, tablas de verdad y seis retos con enunciado real. Pruébala aquí mismo —
         funciona con el ratón, con el dedo y con el teclado— y después baja a ver{" "}
         <b>el encargo exacto que la creó</b>. No hay ningún truco escondido: lo que hay debajo es

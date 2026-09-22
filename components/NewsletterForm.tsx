@@ -58,7 +58,7 @@ export default function NewsletterForm() {
   }
 
   const inputCls =
-    "w-full rounded-md border border-zinc-300 bg-white px-4 py-3 text-zinc-800 placeholder:text-zinc-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40";
+    "w-full rounded-md border border-zinc-300 dark:border-white/15 bg-white dark:bg-slate-900 px-4 py-3 text-zinc-800 dark:text-zinc-200 placeholder:text-zinc-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40";
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4" noValidate>

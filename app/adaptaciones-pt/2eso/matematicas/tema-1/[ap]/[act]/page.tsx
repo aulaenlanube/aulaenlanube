@@ -61,7 +61,7 @@ export default async function ActividadPT({ params }: P) {
         <div>
           <span className={chip}>Tema 1 · Apartado {a.n} · Actividad {n}</span>
           <h1 className="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl">{A.t}</h1>
-          <p className="mt-1 text-sm text-zinc-500">{A.d}</p>
+          <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">{A.d}</p>
         </div>
       </div>
 
@@ -72,42 +72,42 @@ export default async function ActividadPT({ params }: P) {
         <section key={i} className={tarjeta}>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
             <span className={CLSN[i]}>{LABELS[i]}</span>
-            {nv.in ? <p className="text-[15px] text-zinc-700" dangerouslySetInnerHTML={{ __html: md(nv.in) }} /> : null}
+            {nv.in ? <p className="text-[15px] text-zinc-700 dark:text-zinc-300" dangerouslySetInnerHTML={{ __html: md(nv.in) }} /> : null}
           </div>
-          <div className="mt-2 space-y-1 text-[15px] text-zinc-800">
+          <div className="mt-2 space-y-1 text-[15px] text-zinc-800 dark:text-zinc-200">
             {nv.p.map((p, j) => <p key={j} dangerouslySetInnerHTML={{ __html: md(p) }} />)}
           </div>
           {nv.ad ? (
-            <div className="mt-2 rounded-xl border border-zinc-200 bg-white/70 p-4 text-[13px] text-zinc-600">
-              <span className="text-sm font-bold uppercase tracking-wide text-zinc-500">🔧 Qué se adapta: </span>
+            <div className="mt-2 rounded-xl border border-zinc-200 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 text-[13px] text-zinc-600 dark:text-zinc-400">
+              <span className="text-sm font-bold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">🔧 Qué se adapta: </span>
               <span dangerouslySetInnerHTML={{ __html: md(nv.ad) }} />
             </div>
           ) : null}
-          <details className="mt-3 rounded-xl border border-emerald-200 bg-white p-4 text-sm text-zinc-700">
-            <summary className="cursor-pointer select-none font-bold text-emerald-700">Ver solución</summary>
+          <details className="mt-3 rounded-xl border border-emerald-200 dark:border-emerald-500/30 bg-white dark:bg-slate-900 p-4 text-sm text-zinc-700 dark:text-zinc-300">
+            <summary className="cursor-pointer select-none font-bold text-emerald-700 dark:text-emerald-300">Ver solución</summary>
             <div className="mt-2 space-y-1">{nv.s.map((s, j) => <p key={j} dangerouslySetInnerHTML={{ __html: md(s) }} />)}</div>
           </details>
         </section>
       ))}
 
-      <div className="mt-8 rounded-2xl border border-zinc-200 bg-zinc-100 p-5 text-sm text-zinc-700">
+      <div className="mt-8 rounded-2xl border border-zinc-200 dark:border-white/10 bg-zinc-100 dark:bg-white/10 p-5 text-sm text-zinc-700 dark:text-zinc-300">
         <b>Mismo objetivo en los cuatro niveles:</b> la actividad no cambia de meta, cambia de
         andamiaje (recta impresa, opción cerrada, manipulativo, oral). Adaptación de acceso
         conforme al Decreto 104/2018 y la Orden 20/2019 (C. Valenciana).
       </div>
 
       <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
-        <Link href={`${base}/${a.slug}/`} className="rounded-xl border border-zinc-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-zinc-50">
+        <Link href={`${base}/${a.slug}/`} className="rounded-xl border border-zinc-300 dark:border-white/15 bg-white dark:bg-slate-900 px-5 py-2.5 text-sm font-semibold text-slate-700 dark:text-slate-200 transition hover:bg-zinc-50 dark:hover:bg-white/5">
           ← Apartado {a.n}
         </Link>
         <div className="flex gap-3">
           <PrintButton />
           {next ? (
-            <Link href={`${base}/${a.slug}/${String(n + 1).padStart(2, "0")}/`} className="rounded-xl bg-slate-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800">
+            <Link href={`${base}/${a.slug}/${String(n + 1).padStart(2, "0")}/`} className="rounded-xl bg-slate-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800 dark:hover:bg-slate-600">
               Actividad {n + 1} →
             </Link>
           ) : (
-            <Link href={`${base}/`} className="rounded-xl bg-slate-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800">Siguiente apartado →</Link>
+            <Link href={`${base}/`} className="rounded-xl bg-slate-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800 dark:hover:bg-slate-600">Siguiente apartado →</Link>
           )}
         </div>
       </div>

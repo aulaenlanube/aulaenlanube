@@ -5,7 +5,7 @@ import { Fig } from "./figuras";
 // tablas RAW (HTML de confianza) y figuras por clave «Fig:xxx».
 export function TeoriaBloque({ items }: { items: string[] }) {
   return (
-    <div className="pte-teoria mt-3 space-y-3 text-[15px] leading-relaxed text-zinc-700">
+    <div className="pte-teoria mt-3 space-y-3 text-[15px] leading-relaxed text-zinc-700 dark:text-zinc-300">
       {items.map((t, i) => {
         // Las tablas de lengua tienen hasta cinco columnas: van en su propio
         // carril con scroll para que no desborden la página en un móvil.

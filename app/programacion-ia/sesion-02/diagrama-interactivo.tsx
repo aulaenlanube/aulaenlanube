@@ -35,22 +35,26 @@ import { useId, useState, type ReactNode } from "react";
 // es un Componente de Cliente) para que dos instancias del mismo diagrama en
 // la misma página no compartan ids.
 
+// Los colores son tokens CSS (app/globals.css): el mismo dibujo se adapta al
+// tema claro/oscuro sin JavaScript. Si alguna vez hay que serializar estos SVG
+// para rasterizarlos aislados (como en el PDF de Adaptaciones PT), habrá que
+// resolver los `var()` antes: fuera del documento no tienen valor.
 // ── Paleta ──────────────────────────────────────────────────────────────────
 const TONOS = {
-  azul: { linea: "#2563eb", fuerte: "#1d4ed8", suave: "#eff6ff", borde: "#bfdbfe" },
-  morado: { linea: "#7c3aed", fuerte: "#6d28d9", suave: "#f5f3ff", borde: "#ddd6fe" },
-  verde: { linea: "#059669", fuerte: "#047857", suave: "#ecfdf5", borde: "#a7f3d0" },
-  ambar: { linea: "#b45309", fuerte: "#92400e", suave: "#fffbeb", borde: "#fde68a" },
-  gris: { linea: "#71717a", fuerte: "#3f3f46", suave: "#f4f4f5", borde: "#d4d4d8" },
+  azul: { linea: "var(--dg-azul-linea)", fuerte: "var(--dg-azul-fuerte)", suave: "var(--dg-azul-suave)", borde: "var(--dg-azul-borde)" },
+  morado: { linea: "var(--dg-morado-linea)", fuerte: "var(--dg-morado-fuerte)", suave: "var(--dg-morado-suave)", borde: "var(--dg-morado-borde)" },
+  verde: { linea: "var(--dg-verde-linea)", fuerte: "var(--dg-verde-fuerte)", suave: "var(--dg-verde-suave)", borde: "var(--dg-verde-borde)" },
+  ambar: { linea: "var(--dg-ambar-linea)", fuerte: "var(--dg-ambar-fuerte)", suave: "var(--dg-ambar-suave)", borde: "var(--dg-ambar-borde)" },
+  gris: { linea: "var(--dg-gris-linea)", fuerte: "var(--dg-gris-fuerte)", suave: "var(--dg-gris-suave)", borde: "var(--dg-gris-borde)" },
 } as const;
 
 type Tono = keyof typeof TONOS;
 
-const FONDO = "#fafafa"; // fondo de la tarjeta: también es el halo de las bolas
-const TINTA = "#18181b";
-const SUAVE = "#52525b";
-const TENUE = "#71717a";
-const BORRADO = "#d4d4d8"; // relleno de las bolas que el reset se lleva por delante
+const FONDO = "var(--dg-fondo)"; // fondo de la tarjeta: también es el halo de las bolas
+const TINTA = "var(--dg-tinta)";
+const SUAVE = "var(--dg-suave)";
+const TENUE = "var(--dg-tenue)";
+const BORRADO = "var(--dg-gris-borde)"; // relleno de las bolas que el reset se lleva por delante
 
 // ── Métricas ────────────────────────────────────────────────────────────────
 const R = 11; // radio de bola, constante en todos los diagramas
@@ -198,7 +202,7 @@ function Bola({
         cy={y}
         r={R - 1.5}
         fill={borrada ? BORRADO : t.linea}
-        stroke="#ffffff"
+        stroke="var(--dg-fondo)"
         strokeWidth={3}
       />
       {borrada ? (
@@ -207,7 +211,7 @@ function Bola({
           <line x1={x + 5} y1={y - 5} x2={x - 5} y2={y + 5} />
         </g>
       ) : null}
-      {signo ? <rect x={x - 5.5} y={y - 1.5} width={11} height={3} rx={1.5} fill="#ffffff" /> : null}
+      {signo ? <rect x={x - 5.5} y={y - 1.5} width={11} height={3} rx={1.5} fill="var(--dg-sobre-tono)" /> : null}
     </>
   );
 }
@@ -414,7 +418,7 @@ function Chip({
         width={w}
         height={h}
         rx={8}
-        fill={activo ? t.suave : "#ffffff"}
+        fill={activo ? t.suave : "var(--dg-papel)"}
         stroke={t.linea}
         strokeWidth={activo ? 2.5 : 1.5}
         style={{ transition: "fill 150ms ease, stroke-width 150ms ease" }}
@@ -466,7 +470,7 @@ function BloqueComando({ cmd }: { cmd: string }) {
   return (
     <div className="relative mt-2">
       <pre className="overflow-x-auto rounded-lg bg-zinc-900 px-3 py-2.5 pr-24 font-mono text-[14px] leading-relaxed text-zinc-100">
-        <span aria-hidden="true" className="select-none text-zinc-500">
+        <span aria-hidden="true" className="select-none text-zinc-500 dark:text-zinc-400">
           ${" "}
         </span>
         {cmd}
@@ -495,15 +499,15 @@ function Panel({ paso, panelId, cerrar }: { paso: Paso | null; panelId: string; 
     <div id={panelId} aria-live="polite" className="mt-3">
       {paso ? (
         <div
-          className="rounded-xl border border-zinc-200 bg-white p-3.5 shadow-sm"
+          className="rounded-xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-3.5 shadow-sm"
           style={{ borderLeftWidth: 6, borderLeftColor: TONOS[paso.tono].linea }}
         >
           <div className="flex items-start justify-between gap-3">
-            <p className="text-[15px] font-bold text-zinc-900">{paso.titulo}</p>
+            <p className="text-[15px] font-bold text-zinc-900 dark:text-zinc-100">{paso.titulo}</p>
             <button
               type="button"
               onClick={cerrar}
-              className="shrink-0 rounded-lg border border-zinc-300 px-2.5 py-1 text-[12px] font-semibold text-zinc-600 transition hover:bg-zinc-100"
+              className="shrink-0 rounded-lg border border-zinc-300 dark:border-white/15 px-2.5 py-1 text-[12px] font-semibold text-zinc-600 dark:text-zinc-400 transition hover:bg-zinc-100 dark:hover:bg-white/10"
             >
               cerrar ✕
             </button>
@@ -512,14 +516,14 @@ function Panel({ paso, panelId, cerrar }: { paso: Paso | null; panelId: string; 
             // key por paso: al cambiar de paso, el botón vuelve a decir «copiar»
             <BloqueComando key={paso.id} cmd={paso.cmd} />
           ) : (
-            <p className="mt-2 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-[14px] font-semibold text-emerald-900">
+            <p className="mt-2 rounded-lg border border-emerald-200 dark:border-emerald-500/30 bg-emerald-50 dark:bg-emerald-500/10 px-3 py-2 text-[14px] font-semibold text-emerald-900 dark:text-emerald-200">
               {paso.accion}
             </p>
           )}
-          <p className="mt-2 text-[15px] leading-relaxed text-zinc-700">{paso.texto}</p>
+          <p className="mt-2 text-[15px] leading-relaxed text-zinc-700 dark:text-zinc-300">{paso.texto}</p>
         </div>
       ) : (
-        <p className="rounded-xl border border-dashed border-zinc-300 bg-white/70 px-3.5 py-2.5 text-[13px] text-zinc-500">
+        <p className="rounded-xl border border-dashed border-zinc-300 dark:border-white/15 bg-white/70 dark:bg-white/5 px-3.5 py-2.5 text-[13px] text-zinc-500 dark:text-zinc-400">
           Toca una bola o un comando del diagrama y aquí te cuento qué hizo Git en ese paso.
         </p>
       )}
@@ -556,7 +560,7 @@ function Lienzo({
   };
   const activo = pasos.find((p) => p.id === sel) ?? null;
   return (
-    <figure className="mt-4 rounded-xl border border-zinc-200 p-3" style={{ background: FONDO }}>
+    <figure className="mt-4 rounded-xl border border-zinc-200 dark:border-white/10 p-3" style={{ background: FONDO }}>
       <div className="overflow-x-auto">
         <svg
           viewBox={`0 0 ${ancho} ${alto}`}
@@ -569,11 +573,11 @@ function Lienzo({
           {dibuja(ctx)}
         </svg>
       </div>
-      <p className="mt-1 text-center text-[12px] text-zinc-400 sm:hidden">
+      <p className="mt-1 text-center text-[12px] text-zinc-400 dark:text-zinc-400 sm:hidden">
         Desliza el diagrama de lado para verlo entero
       </p>
       <Panel paso={activo} panelId={panelId} cerrar={() => setSel(null)} />
-      <figcaption className="mt-2 text-center text-[13px] font-medium text-zinc-500">{pie}</figcaption>
+      <figcaption className="mt-2 text-center text-[13px] font-medium text-zinc-500 dark:text-zinc-400">{pie}</figcaption>
     </figure>
   );
 }
@@ -944,12 +948,12 @@ export function GitVsGithub() {
           {/* Nubecita decorativa, a la derecha del rótulo de GitHub */}
           <path
             d="M 516 36 q -8 0 -8 -7 q 0 -6 6 -6.5 q 1 -8.5 9.5 -8.5 q 6.5 0 8.5 5.5 q 2 -2 4.5 -2 q 5.5 0 5.5 5.5 q 6 1 6 6 q 0 7 -7.5 7 z"
-            fill="#ffffff"
+            fill="var(--dg-papel)"
             stroke={TENUE}
             strokeWidth={2}
           />
           {/* Tarjeta local */}
-          <rect x={16} y={44} width={200} height={164} rx={14} fill="#ffffff" stroke="#d4d4d8" strokeWidth={2} />
+          <rect x={16} y={44} width={200} height={164} rx={14} fill="var(--dg-papel)" stroke={TONOS.gris.borde} strokeWidth={2} />
           <rect x={32} y={62} width={168} height={38} rx={9} fill="#f4f4f5" stroke="#e4e4e7" strokeWidth={1.5} />
           <text x={116} y={87} textAnchor="middle" fontSize={FS_MSG} fontWeight={700} fill={TINTA}>
             tus ficheros
@@ -966,7 +970,7 @@ export function GitVsGithub() {
           <circle cx={92} cy={174} r={7} fill={TONOS.azul.linea} />
           <Rotulo x={108} y={179} texto="commits" color={SUAVE} />
           {/* Tarjeta de GitHub */}
-          <rect x={344} y={44} width={200} height={164} rx={14} fill="#ffffff" stroke="#d4d4d8" strokeWidth={2} />
+          <rect x={344} y={44} width={200} height={164} rx={14} fill="var(--dg-papel)" stroke={TONOS.gris.borde} strokeWidth={2} />
           <rect x={360} y={62} width={168} height={38} rx={9} fill="#f4f4f5" stroke="#e4e4e7" strokeWidth={1.5} />
           <text x={444} y={87} textAnchor="middle" fontSize={FS_MSG} fontWeight={700} fill={TINTA}>
             repo: mi-web
@@ -1108,7 +1112,7 @@ export function PullRequestDiagrama() {
               width={280}
               height={64}
               rx={12}
-              fill={ctx.sel === "pr" ? TONOS.verde.suave : "#ffffff"}
+              fill={ctx.sel === "pr" ? TONOS.verde.suave : "var(--dg-papel)"}
               stroke={TONOS.verde.linea}
               strokeWidth={ctx.sel === "pr" ? 2.5 : 1.5}
               style={{ transition: "fill 150ms ease, stroke-width 150ms ease" }}
@@ -1129,7 +1133,7 @@ export function PullRequestDiagrama() {
             <path
               d="M 213 266 l 3.5 3.5 l 7 -7.5"
               fill="none"
-              stroke="#ffffff"
+              stroke="var(--dg-sobre-tono)"
               strokeWidth={2.5}
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -1259,7 +1263,7 @@ export function IntroGrafoBolitas() {
     // del halo de las bolas) y su propio scroll horizontal, para que la
     // miniatura no desborde la tarjeta blanca de la página en móvil.
     <div
-      className="overflow-x-auto rounded-xl border border-zinc-200 p-3"
+      className="overflow-x-auto rounded-xl border border-zinc-200 dark:border-white/10 p-3"
       style={{ background: FONDO }}
     >
       <svg

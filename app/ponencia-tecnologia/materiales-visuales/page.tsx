@@ -225,7 +225,7 @@ Al final, dime qué tres diapositivas se caerían si me quedara sin tiempo, y po
             exactamente lo que necesitas para ensayar una exposición cronometrada.
           </>,
           <>
-            <b>Los <code className="rounded bg-zinc-100 px-1 py-0.5 text-[13px]">[DATO]</code> los
+            <b>Los <code className="rounded bg-zinc-100 dark:bg-white/10 px-1 py-0.5 text-[13px]">[DATO]</code> los
             rellenas tú.</b> Es la misma regla del [COMPROBAR] del bloque 3, aplicada a la
             presentación.
           </>,

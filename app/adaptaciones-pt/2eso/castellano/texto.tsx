@@ -7,7 +7,7 @@ function esc(s: string) {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
-const COD = "rounded bg-zinc-100 px-1 py-0.5 font-mono text-[0.92em] text-zinc-800";
+const COD = "rounded bg-zinc-100 dark:bg-white/10 px-1 py-0.5 font-mono text-[0.92em] text-zinc-800 dark:text-zinc-200";
 
 // Marcadores en línea. El orden importa: ** antes que * para que la negrita
 // no se coma la cursiva.

@@ -328,7 +328,7 @@ export function CicloMetaprompt() {
 
           {/* Corazón del ciclo */}
           <circle cx={CX} cy={CY} r={62} fill={FONDO} />
-          <circle cx={CX} cy={CY} r={58} fill="#ffffff" stroke={TONOS.gris.borde} strokeWidth={2} />
+          <circle cx={CX} cy={CY} r={58} fill="var(--dg-papel)" stroke={TONOS.gris.borde} strokeWidth={2} />
           {/* El rótulo del centro cabe holgado en el disco de r = 58: dos
               líneas de 16, la más ancha «METAPROMPT» (≈ 91 de caja). Nada más
               entra aquí — lo que se salga de esa circunferencia pisa los arcos. */}
@@ -700,7 +700,7 @@ export function AnatomiaInfografia() {
             width={HOJA_W}
             height={HOJA_H}
             rx={14}
-            fill="#ffffff"
+            fill="var(--dg-papel)"
             stroke={TONOS.gris.borde}
             strokeWidth={2}
           />
@@ -710,7 +710,7 @@ export function AnatomiaInfografia() {
 
           {/* Ilustración central + procesos radiales */}
           <circle cx={hx(0.5)} cy={hy(0.42)} r={62} fill={TONOS.verde.suave} stroke={TONOS.verde.linea} strokeWidth={2} />
-          <circle cx={hx(0.5)} cy={hy(0.42)} r={34} fill="#ffffff" stroke={TONOS.verde.borde} strokeWidth={2} />
+          <circle cx={hx(0.5)} cy={hy(0.42)} r={34} fill="var(--dg-papel)" stroke={TONOS.verde.borde} strokeWidth={2} />
           {[-140, -40, 40, 140].map((g) => (
             <g key={g}>
               <Tramo
@@ -758,7 +758,7 @@ export function AnatomiaInfografia() {
               cy={hy(0.86)}
               r={11}
               fill={[TONOS.azul.linea, TONOS.verde.linea, TONOS.ambar.linea, TONOS.morado.linea, TONOS.gris.linea][i]}
-              stroke="#ffffff"
+              stroke="var(--dg-fondo)"
               strokeWidth={2}
             />
           ))}
@@ -835,7 +835,7 @@ export function AnatomiaInfografia() {
                 fill={ctx.sel === f.id ? TONOS[f.tono].suave : "transparent"}
                 stroke={ctx.sel === f.id ? TONOS[f.tono].linea : "transparent"}
                 strokeWidth={2}
-                className="transition-colors duration-150 group-hover:fill-zinc-100"
+                className="transition-colors duration-150 group-hover:fill-zinc-100 dark:group-hover:fill-white/10"
               />
               <rect
                 x={X_DISCO - 25}

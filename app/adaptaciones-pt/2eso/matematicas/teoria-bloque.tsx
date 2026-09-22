@@ -5,7 +5,7 @@ import { Termohorizontal, TablaSignos, FichasColores, Jerarquia, Fases } from ".
 // tablas RAW (HTML de confianza) y figuras por clave «Fig:xxx».
 export function TeoriaBloque({ items }: { items: string[] }) {
   return (
-    <div className="pte-teoria mt-3 space-y-3 text-[15px] leading-relaxed text-zinc-700">
+    <div className="pte-teoria mt-3 space-y-3 text-[15px] leading-relaxed text-zinc-700 dark:text-zinc-300">
       {items.map((t, i) => {
         if (t.startsWith("RAW:"))
           return <div key={i} dangerouslySetInnerHTML={{ __html: texRaw(t.slice(4)) }} />;

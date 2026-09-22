@@ -11,20 +11,20 @@ export const metadata: Metadata = {
 };
 
 const chip =
-  "inline-block rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-blue-700";
+  "inline-block rounded-full border border-blue-200 dark:border-blue-500/30 bg-blue-50 dark:bg-blue-500/10 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-blue-700 dark:text-blue-300";
 const meta =
-  "rounded-full border border-zinc-200 bg-zinc-100 px-3 py-1 text-[12px] font-semibold text-zinc-700";
+  "rounded-full border border-zinc-200 dark:border-white/10 bg-zinc-100 dark:bg-white/10 px-3 py-1 text-[12px] font-semibold text-zinc-700 dark:text-zinc-300";
 
 function Paso({ n, t, children }: { n: string; t: string; children: React.ReactNode }) {
   return (
-    <section className="my-4 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
+    <section className="my-4 rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-5 shadow-sm">
       <h3 className="flex flex-wrap items-center gap-3 text-[17px] font-bold">
         <span className="inline-flex h-8 w-8 flex-none items-center justify-center rounded-full bg-slate-700 text-sm font-extrabold text-white">
           {n}
         </span>
         {t}
       </h3>
-      <div className="mt-2 space-y-2 text-[15px] text-zinc-700">{children}</div>
+      <div className="mt-2 space-y-2 text-[15px] text-zinc-700 dark:text-zinc-300">{children}</div>
     </section>
   );
 }
@@ -43,7 +43,7 @@ export default function CursoIASesion1() {
       <h1 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
         Tu web personal con IA
       </h1>
-      <p className="mt-4 text-lg text-zinc-600">
+      <p className="mt-4 text-lg text-zinc-600 dark:text-zinc-400">
         Primera fase del proyecto: una <b>landing de marca personal</b>. La construyes <b>directamente desde el
         chat</b> con los modelos del centro, gestionando tú los ficheros. Sin API todavía: tú
         diriges, la IA ejecuta. Esta fase puede ocupar más de una clase —la próxima seguimos mejorando
@@ -56,7 +56,7 @@ export default function CursoIASesion1() {
         <span className={meta}>📤 Entrega: carpeta + se enseña en clase</span>
       </div>
 
-      <div className="my-5 rounded-2xl border border-amber-200 bg-amber-50 p-5 text-[15px] text-amber-900">
+      <div className="my-5 rounded-2xl border border-amber-200 dark:border-amber-500/30 bg-amber-50 dark:bg-amber-500/10 p-5 text-[15px] text-amber-900 dark:text-amber-200">
         <b>Antes de empezar:</b> crea una carpeta llamada <code>mi-web</code> en tu cuenta. Ahí irán
         los tres ficheros. Todo lo que te responda la IA lo <b>tú copias, pegas, guardas y pruebas
         en el navegador</b>. Si sale raro, no es culpa de la IA: vuelve a pedirlo mejor. Eso también
@@ -64,21 +64,21 @@ export default function CursoIASesion1() {
       </div>
 
       <h2 className="mt-8 text-xl font-extrabold tracking-tight">¿Qué vamos a montar?</h2>
-      <p className="mt-1 text-[15px] text-zinc-600">Una web real = una carpeta con ficheros. Lo mínimo:</p>
-      <pre className="my-3 overflow-x-auto rounded-xl border border-zinc-200 bg-zinc-100 p-4 font-mono text-[13.5px] leading-relaxed text-zinc-800">
+      <p className="mt-1 text-[15px] text-zinc-600 dark:text-zinc-400">Una web real = una carpeta con ficheros. Lo mínimo:</p>
+      <pre className="my-3 overflow-x-auto rounded-xl border border-zinc-200 dark:border-white/10 bg-zinc-100 dark:bg-white/10 p-4 font-mono text-[13.5px] leading-relaxed text-zinc-800 dark:text-zinc-200">
 {`mi-web/
 ├── index.html   ← la estructura (qué hay)
 ├── style.css    ← el estilo (cómo se ve)
 └── script.js    ← la interacción (qué hace)`}
       </pre>
-      <p className="text-[15px] text-zinc-600">
+      <p className="text-[15px] text-zinc-600 dark:text-zinc-400">
         Una web compleja, además, base de datos. Eso llegará con el proyecto final en grupo. Hoy
         dominan el trío: estructura, estilo, comportamiento.
       </p>
 
       <Paso n="1" t="Pensar antes de pedir">
         <p>La IA no sabe quién eres. Rellena esta ficha en un <code>notas.txt</code> dentro de <code>mi-web</code> (la usarás en el paso 2):</p>
-        <ul className="list-disc space-y-1 pl-6 text-sm text-zinc-600">
+        <ul className="list-disc space-y-1 pl-6 text-sm text-zinc-600 dark:text-zinc-400">
           <li>Nombre y apellidos + <b>una frase</b> que diga quién eres</li>
           <li>3-5 «cosas que he hecho» (curso, hobby, proyecto, viaje, deporte)</li>
           <li>3 cosas que me gustan (música, series, videojuegos, tecnología…)</li>
@@ -100,7 +100,7 @@ Colores/estilo: ___
 
 Haz el index.html con: cabecera (nombre + frase), "Sobre mí", "Lo que he hecho",
 "Me gusta", un pie de página con contacto. HTML semántico, etiquetas comentadas.`} />
-        <div className="rounded-2xl border border-blue-200 bg-blue-50 p-4 text-sm text-blue-900">
+        <div className="rounded-2xl border border-blue-200 dark:border-blue-500/30 bg-blue-50 dark:bg-blue-500/10 p-4 text-sm text-blue-900 dark:text-blue-200">
           <b>El truco del profesional:</b> pide, pega, guarda… y <b>ábrela en el navegador</b>.
           Comprueba que están todos los bloques, pruébala estrecha (como en el móvil) y, si algo no
           se ve como lo pediste, pídele a la IA el cambio concreto: eso también es programar.
@@ -130,7 +130,7 @@ Sin frameworks. Solo CSS puro, comentado.`} />
 
       <Paso n="5" t="JS: interactividad a elegir">
         <p>Pide <b>una</b> (luego otra si te sobra tiempo). Elige tú, no la IA:</p>
-        <ul className="list-disc space-y-1 pl-6 text-sm text-zinc-600">
+        <ul className="list-disc space-y-1 pl-6 text-sm text-zinc-600 dark:text-zinc-400">
           <li><b>Modo oscuro</b> con botón (guardando la preferencia en <code>localStorage</code>)</li>
           <li><b>Efecto máquina de escribir</b> en tu frase de presentación</li>
           <li><b>Menú responsive</b> (hamburguesa en móvil)</li>
@@ -154,7 +154,7 @@ Dame solo el CSS que lo arregla y por qué pasaba.`} />
 
       <Paso n="7" t="Entrega">
         <p>Sube la carpeta <code>mi-web</code> al sitio que indique el profe. En la <a href="/programacion-ia/sesion-02/" className="font-semibold underline">sesión 2</a> aprenderás a tenerla además en GitHub, tu copia de seguridad del curso. Checklist:</p>
-        <ul className="mt-2 space-y-1 text-sm text-zinc-700">
+        <ul className="mt-2 space-y-1 text-sm text-zinc-700 dark:text-zinc-300">
           <li>☐ Se abre y se ve bien en escritorio y en móvil</li>
           <li>☐ Tiene mis datos reales (nombre, hechos, gustos)</li>
           <li>☐ He editado al menos una cosa a mano y lo sé explicar</li>
@@ -163,32 +163,32 @@ Dame solo el CSS que lo arregla y por qué pasaba.`} />
         </ul>
       </Paso>
 
-            <div className="my-5 rounded-2xl border border-amber-200 bg-amber-50 p-5 text-[15px] text-amber-900">
+            <div className="my-5 rounded-2xl border border-amber-200 dark:border-amber-500/30 bg-amber-50 dark:bg-amber-500/10 p-5 text-[15px] text-amber-900 dark:text-amber-200">
         <b>Criterio:</b> no vale «me lo hizo la IA». Vale: la web funciona, sabes contar qué tiene y
         qué cambiarías, y se ve que decides tú. En clase la enseñarás y responderás 2-3 preguntas
         sobre ella (sin leer el código línea a línea: entendiendo cómo funciona).
       </div>
 
       <h2 className="mt-8 text-xl font-extrabold tracking-tight">Kit de rescate</h2>
-      <details className="my-2 rounded-xl border border-zinc-200 bg-white p-4">
-        <summary className="cursor-pointer text-[15px] font-bold text-zinc-800">«No sé cómo pedir lo que quiero»</summary>
-        <p className="mt-2 text-sm text-zinc-600">Prompt: <i>«Quiero que mi web se parezca a ___ (describe sensaciones: sobria, colorida, tipo portfolio…). Pregúntame 5 cosas una por una y luego diséñame el estilo.»</i> — que la IA te entreviste.</p>
+      <details className="my-2 rounded-xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-4">
+        <summary className="cursor-pointer text-[15px] font-bold text-zinc-800 dark:text-zinc-200">«No sé cómo pedir lo que quiero»</summary>
+        <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">Prompt: <i>«Quiero que mi web se parezca a ___ (describe sensaciones: sobria, colorida, tipo portfolio…). Pregúntame 5 cosas una por una y luego diséñame el estilo.»</i> — que la IA te entreviste.</p>
       </details>
-      <details className="my-2 rounded-xl border border-zinc-200 bg-white p-4">
-        <summary className="cursor-pointer text-[15px] font-bold text-zinc-800">«La IA me da el código en trozos y no sé dónde va»</summary>
-        <p className="mt-2 text-sm text-zinc-600">Prompt: <i>«Dame el fichero completo, no fragmentos, e indica con comentarios qué parte es nueva.»</i> Y si no: <i>«dime exactamente la línea donde insertar esto»</i>.</p>
+      <details className="my-2 rounded-xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-4">
+        <summary className="cursor-pointer text-[15px] font-bold text-zinc-800 dark:text-zinc-200">«La IA me da el código en trozos y no sé dónde va»</summary>
+        <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">Prompt: <i>«Dame el fichero completo, no fragmentos, e indica con comentarios qué parte es nueva.»</i> Y si no: <i>«dime exactamente la línea donde insertar esto»</i>.</p>
       </details>
-      <details className="my-2 rounded-xl border border-zinc-200 bg-white p-4">
-        <summary className="cursor-pointer text-[15px] font-bold text-zinc-800">«Se me ha roto algo al tocar el CSS»</summary>
-        <p className="mt-2 text-sm text-zinc-600">Prompt: <i>«Mi web estaba así: [pega el CSS]. Al añadir ___ dejó de funcionar ___. ¿Qué está mal y por qué?»</i> — Pegar el código roto es el 90 % del debugging.</p>
+      <details className="my-2 rounded-xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-4">
+        <summary className="cursor-pointer text-[15px] font-bold text-zinc-800 dark:text-zinc-200">«Se me ha roto algo al tocar el CSS»</summary>
+        <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">Prompt: <i>«Mi web estaba así: [pega el CSS]. Al añadir ___ dejó de funcionar ___. ¿Qué está mal y por qué?»</i> — Pegar el código roto es el 90 % del debugging.</p>
       </details>
-      <details className="my-2 rounded-xl border border-zinc-200 bg-white p-4">
-        <summary className="cursor-pointer text-[15px] font-bold text-zinc-800">«¿Puedo usar cualquier IA?»</summary>
-        <p className="mt-2 text-sm text-zinc-600">Puedes usar la que quieras —incluidos los agentes del centro—, pero el trabajo de revisar, comprender y decidir es tuyo, no de la herramienta. Si en clase no lo sabes explicar, no cuenta.</p>
+      <details className="my-2 rounded-xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-4">
+        <summary className="cursor-pointer text-[15px] font-bold text-zinc-800 dark:text-zinc-200">«¿Puedo usar cualquier IA?»</summary>
+        <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">Puedes usar la que quieras —incluidos los agentes del centro—, pero el trabajo de revisar, comprender y decidir es tuyo, no de la herramienta. Si en clase no lo sabes explicar, no cuenta.</p>
       </details>
 
-      <div className="mt-10 flex flex-wrap items-center justify-between gap-3 border-t border-zinc-200 pt-5">
-        <Link href="/programacion-ia/web-personal/" className="rounded-xl border border-zinc-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-zinc-50">
+      <div className="mt-10 flex flex-wrap items-center justify-between gap-3 border-t border-zinc-200 dark:border-white/10 pt-5">
+        <Link href="/programacion-ia/web-personal/" className="rounded-xl border border-zinc-300 dark:border-white/15 bg-white dark:bg-slate-900 px-5 py-2.5 text-sm font-semibold text-slate-700 dark:text-slate-200 transition hover:bg-zinc-50 dark:hover:bg-white/5">
           ← Volver al proyecto
         </Link>
         <PrintButton />

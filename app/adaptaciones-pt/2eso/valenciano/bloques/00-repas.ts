@@ -38,7 +38,7 @@ export const ACTS: Act[] = [
         ],
         s: [
           "**a)** re‑pre‑sen‑**TANT** (4 síl·labes); fun‑cio‑na‑**MENT** (4); pa‑ci‑**ÈN**‑cia (4). En *paciència*, la tònica és *èn* i porta accent obert.",
-          "**b)** Perquè *i* i *e* juntes en *cièn* formen un diftong (una sola síl·laba amb dos vocals), i la segona *ia* final és un hiat: pa‑ci‑**èn**‑ci/a dona 4 síl·labes, no 3 ni 5.",
+          "**b)** Perquè *i* i *e* juntes en *cièn* formen un diftong (una sola síl·laba amb dues vocals), i la segona *ia* final és un hiat: pa‑ci‑**èn**‑ci/a dona 4 síl·labes, no 3 ni 5.",
           "**c)** Resposta oberta: per exemple *llibret* (lli‑BRET), *prestatge* (pres‑TAT‑ge), *lectora* (lec‑TO‑ra).",
           "**d)** *funcionament* no en porta; *representant* porta *ent* final. El dígraf clar és *rr* o *ll*: a *biblioteca* no n'hi ha, així que val *representant* no… La resposta correcta: *paciència* no en porta; **cap paraula de l'oració no porta dígraf**, excepte si comptes *ci* de *paciència*, que no ho és. Si un alumne tria *representant* amb la *r* simple, ha de dir que NO és dígraf perquè portaria *rr*: *representant* s'escriu amb una sola ere. (Accepta qualsevol resposta raonada que distinga dígraf de simple.)",
         ],
@@ -60,7 +60,7 @@ export const ACTS: Act[] = [
       {
         in: "Paraules: *casa – ma‑ne‑ta – lli‑bre* (ja separades per l'ordre).",
         p: [
-          "**a)** Conta els colps de veu de cada paraula i escriu el número.",
+          "**a)** Compta els colps de veu de cada paraula i escriu el nombre.",
           "**b)** Rodeja la síl·laba que sona més fort en *maneta*.",
           "**c)** Uneix cada paraula amb la seua família: *caseta → casa*, *llibreta → …*",
         ],
@@ -72,16 +72,16 @@ export const ACTS: Act[] = [
         ad: "Les paraules arriben ya separades: la tasca es redueix a comptar colps, rodejar i unir amb fletxes.",
       },
       {
-        in: "Fitxes de paraules: *SA‑BE*, *CA‑SA*, *LLOP*. Banco de números: *2 · 2 · 1*.",
+        in: "Fitxes de paraules: *SA‑BE*, *CA‑SA*, *LLOP*. Banc de nombres: *2 · 2 · 1*.",
         p: [
-          "**a)** Enganxa al costat de cada fitxa el número de síl·labes del banco.",
+          "**a)** Enganxa al costat de cada fitxa el nombre de síl·labes del banc.",
           "**b)** Fes colps amb la mà mentre dius *SA‑BE* i digues en veu alta quina síl·laba va més forta.",
         ],
         s: [
           "**a)** SA‑BE: 2; CA‑SA: 2; LLOP: 1.",
           "**b)** La forta és la primera: **SA**‑be. Un síl·laba sola no es pot partir.",
         ],
-        ad: "Es manipulen fitxes físiques i el banco té els números fets: marquen la tònica colpejant, de forma oral.",
+        ad: "Es manipulen fitxes físiques i el banc té els nombres fets: marquen la tònica colpejant, de forma oral.",
       },
       {
         in: "El mestre diu en veu alta: *CA‑SA*, *LI‑BRE*, *MA‑NE‑TA*.",
@@ -122,7 +122,7 @@ export const ACTS: Act[] = [
         p: [
           "**a)** Escriu *el gos ros* en femení.",
           "**b)** Escriu *les xiques contentes* en singular.",
-          "**c)** Rodea l'adjectiu de cada sintagma i digues si copia el nom en gènere o en nombre.",
+          "**c)** Rodeja l'adjectiu de cada sintagma i digues si copia el nom en gènere o en nombre.",
         ],
         s: [
           "**a)** la gossa rosa.",
@@ -148,11 +148,11 @@ export const ACTS: Act[] = [
       {
         in: "Dues caixes: MAR i TERRA. Paraules: *gos, gossa, nen, nena, cases, gossets*.",
         p: [
-          "**a)** Fes dos montones: paraules que acaben en so de A (femení) i la resta.",
-          "**b)** Compta les paraules de cada montón.",
+          "**a)** Fes dos montons: paraules que acaben en so de A (femení) i la resta.",
+          "**b)** Compta les paraules de cada montó.",
         ],
         s: [
-          "**a)** En ‑a: *gossa, nena, cases…!* compte: *cases* acaba en ‑es, plural femení. Montón femení: *gossa, nena, cases*; montón mascle o plural en ‑os: *gos, nen, gossets*.",
+          "**a)** *gossa* i *nena* acaben en so de A; compte amb *cases*, que acaba en ‑es i també és femení. Al montó femení: *gossa, nena, cases*; a l'altre: *gos, nen, gossets*.",
           "**b)** Tres i tres.",
         ],
         ad: "Només classifiquen per terminació (so de A o no) i compten; sense canviar formes.",
@@ -167,7 +167,7 @@ export const ACTS: Act[] = [
           "**a)** *gossa* → A; *gos* → B; *nena* → A; *llibre* → B.",
           "**b)** xica.",
         ],
-        ad: "Resposta amb targetes i oral: el mestre parla, l'alumne ensenya; dos paraules i prou.",
+        ad: "Resposta amb targetes i oral: el mestre parla, l'alumne ensenya; dues paraules i prou.",
       },
     ],
   },
@@ -179,7 +179,7 @@ export const ACTS: Act[] = [
       {
         in: "Frases del diari del centre: «\\_\\_\\_ pati és net», «\\_\\_\\_ horta està verda», «Baixem \\_\\_\\_ menjador», «Venim \\_\\_\\_ mercat».",
         p: [
-          "**a)** Completa els forats amb *el, la, l', al, del* (cada un una volta).",
+          "**a)** Completa els forats amb *el, la, l', al, del* (cadascun, una volta).",
           "**b)** Explica per què *horta* porta apòstrof i no *el horta*.",
           "**c)** Explica què conté la contracció *del* i escriu la frase desplegada.",
           "**d)** Escriu dues frases curtes: una amb *al* i una amb *a l'*, i digues la diferència.",
@@ -195,7 +195,7 @@ export const ACTS: Act[] = [
         in: "Frases: «\\_\\_\\_ pati», «\\_\\_\\_ escola», «baixem \\_\\_\\_ gimnàs», «eixe \\_\\_\\_ mercat».",
         p: [
           "**a)** Completa amb *el, la, l', al, del*.",
-          "**b)** Rodea on hi ha una contracció.",
+          "**b)** Rodeja on hi ha una contracció.",
           "**c)** Diu per què *escola* porta apòstrof.",
         ],
         s: [
@@ -203,19 +203,19 @@ export const ACTS: Act[] = [
           "**b)** *al* i *del*.",
           "**c)** Perquè comença per vocal i *la* s'apostrofa: *la escola → l'escola*.",
         ],
-        ad: "Quatre forats amb banco de cinc peces; la contracció només es rodeja i l'apostrofació es justifica oralment.",
+        ad: "Quatre forats amb banc de cinc peces; la contracció només es rodeja i l'apostrofació es justifica oralment.",
       },
       {
-        in: "Banco: *EL · LA · L'*. Frases: «\\_\\_\\_ llibre», «\\_\\_\\_ motxilla», «\\_\\_\\_ aula».",
+        in: "Banc: *EL · LA · L'*. Frases: «\\_\\_\\_ llibre», «\\_\\_\\_ motxilla», «\\_\\_\\_ aula».",
         p: [
-          "**a)** Escriu l'article del banco davant de cada paraula.",
+          "**a)** Escriu l'article del banc davant de cada paraula.",
           "**b)** Marca quins articles porten apòstrof.",
         ],
         s: [
           "**a)** el llibre, la motxilla, l'aula.",
           "**b)** *l'aula*: el que porta apòstrof és l'article davant de vocal.",
         ],
-        ad: "Banco de tres articles i una sola marca; sense contraccions.",
+        ad: "Banc de tres articles i una sola marca; sense contraccions.",
       },
       {
         in: "Fitxa gran: EL PATI. Fitxa xicoteta: L'HORTA. Targetes EL / L'.",
@@ -281,7 +281,7 @@ export const ACTS: Act[] = [
         in: "«Els germans Sanchis van pujar al Castell de Xàtiva de matí. Van comptar vuit torres i van fer una foto. La Marta vol tornar de nit.»",
         p: [
           "**a)** Rodea: van pujar *de matí* o *de nit*?",
-          "**b)** Rodea el número de torres: *vuit* / *deu*.",
+          "**b)** Rodeja el nombre de torres: *vuit* / *deu*.",
           "**c)** Uneix: Marta → vol tornar *de nit* perquè → *les llums*.",
         ],
         s: [
@@ -294,7 +294,7 @@ export const ACTS: Act[] = [
       {
         in: "Quatre làmines: (1) el Castell de dia, (2) un nen que conta torres, (3) una lluna, (4) una motxilla.",
         p: [
-          "**a)** L'mestre llegix el text i tu senyales la làmina que correspon a cada frase.",
+          "**a)** El mestre lig el text i tu assenyalis la làmina que correspon a cada frase.",
           "**b)** Digues en veu alta: Marta vol tornar de dia o de nit?",
         ],
         s: [
@@ -304,7 +304,7 @@ export const ACTS: Act[] = [
         ad: "La comprensió es faassenyant làmines mentre un adult llegix; l'última pregunta és oral.",
       },
       {
-        in: "El mestre llegix en veu alta: «La Marta vol tornar de nit.»",
+        in: "El mestre lig en veu alta: «La Marta vol tornar de nit.»",
         p: [
           "**a)** Fes un senyal amb el dit: DÍA si entens que és de dia, NIT si és de nit.",
           "**b)** Repetix la frase en veu alta i digues UNA paraula que ha sentit (Marta, tornar, nit…).",
@@ -385,7 +385,7 @@ export const ACTS: Act[] = [
           "**a)** Segons el nom de cada alumne.",
           "**b)** Amb «A» o «F»: es mostra la targeta A (A va abans que F, i F abans que X).",
         ],
-        ad: "Joc de targetes personalitzat i només dos comparacions; tot oral.",
+        ad: "Joc de targetes personalitzat i només dues comparacions; tot oral.",
       },
     ],
   },
@@ -397,7 +397,7 @@ export const ACTS: Act[] = [
       {
         in: "Del text del Castell: *Castell, castellet, costura, costurera, muralla, murallet*.",
         p: [
-          "**a)** Classifica les sis paraules en tres famílies (dos paraules per família).",
+          "**a)** Classifica les sis paraules en tres famílies (dues paraules per família).",
           "**b)** Els diminutius porten *‑et/‑eta* (xicotet). Separa quines de la llista són diminutius i quines no, i digues la paraula gran de cada diminutiu.",
           "**c)** *costurera* és una persona que…? Deduïx el significat pels sufixos *‑er/-era* i explica el truc.",
           "**d)** Escriu tu una família nova (tres paraules) a partir de *pa*: *panís, palet…*.",
@@ -433,7 +433,7 @@ export const ACTS: Act[] = [
           "**a)** MA–maneta, CASTELL–castellet, CASA–caseta.",
           "**b)** Resposta personal: cadira→cadireta, gat→gato… (s'accepta *go* → *go* si és de la seua parla).",
         ],
-        ad: "Parelles feta i diminutiu amb banco de dos fitxes; la producció és oral.",
+        ad: "Parelles fetes i diminutiu amb banc de dues fitxes; la producció és oral.",
       },
       {
         in: "Dos caixes: GRAN i XICOTET. Paraules: *flor, florita, gat, gatet, casa*.",

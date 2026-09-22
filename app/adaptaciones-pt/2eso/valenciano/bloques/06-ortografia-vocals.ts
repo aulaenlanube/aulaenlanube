@@ -12,7 +12,7 @@ export const AP: Ap = {
     "Fig:vocals",
     "**Divergències vocàliques**: moltes paraules semblants al castellà divergixen en l'escriptura d'alguna vocal. Amb **a**: *afaitar, ambaixada, assassí, avaluar*. Amb **e**: *assemblea, emparar, enyorar, espàrrec*. Amb **i**: *diabetis, línia, nucli*. Amb **o**: *botifarra, brúixola, capítol, cartolina*. Amb **u**: *bufetada, muntanya, suborn, cacau*. No és captrucu: cada llengua té la seua vocal, i eixes diferències s'aprenen llegint.",
     "**Confusions vocàliques**: una pronúncia poc acurada conduïx a escriptures incorrectes del tot: *\\*Jusep, \\*artista, \\*pacència*, en compte de *Josep, artista, paciència*. I **mai** no s'escriu la [a] que sona en paraules que comencen per *em-, en-, es-, eix-*: *esperar* es diu [asperar], però s'escriu **esperar**; *encendre*, no *\\*ancendre*.",
-    "El truc del diccionari interior: quan dubtes entre dos vocals, pensa en una **paraula de la mateixa família** que la traga. *Condició* → *condicionari*? no: però *nubes → nuvolat* et diu la u; *creuar → creu* et diu la u; *pobre → pobresa* et manté la o. Quan la família no t'ajuda, eixa vocal s'apren com un nom propi.",
+    "El truc del diccionari interior: quan dubtes entre dues vocals, pensa en una **paraula de la mateixa família** que la traga. *Condició* → *condicionari*? no: però *nubes → nuvolat* et diu la u; *creuar → creu* et diu la u; *pobre → pobresa* et manté la o. Quan la família no t'ajuda, eixa vocal s'apren com un nom propi.",
     "RAW:<table><caption>Les cinc regles d'or del bloc</caption><thead><tr><th>Regla</th><th>Exemple</th><th>Mai mai</th></tr></thead><tbody><tr><td>e/o tòniques poden ser obertes o tancades</td><td>mel / paper</td><td>confondre la grafia amb el so</td></tr><tr><td>Les àtones sempre tancades</td><td>cabina, cotxer</td><td>accentuar àtones</td></tr><tr><td>Divergències amb el castellà</td><td>muntanya, capítol</td><td>calcar la vocal del castellà</td></tr><tr><td>No escriure la [a] prostètica</td><td>esperar, encendre</td><td>*aspetar, *ancendre</td></tr><tr><td>Accent obert o tancat segons so</td><td>caixó (ò oberta?) — soc, pèl</td><td>posar accent «perquè sí»</td></tr></tbody></table>",
   ],
   ej: [
@@ -34,7 +34,7 @@ export const ACTS: Act[] = [
         p: [
           "**a)** Escolta-les (o consulta la locució) i clasifica-les en una graella de quatre caselles: **e oberta** (com *mel*), **e tancada** (com *gens*), **o oberta** (com *sort*), **o tancada** (com *gos*).",
           "**b)** De les que són **o oberta**, copia'n tres i posa'ls l'accent obert si el porten.",
-          "**c)** *mos, plor, bord*… soonen igual que en castellà? Explica en dos frases per què les vocals obertes sense accent (monosíl·labs) no porten accent.",
+          "**c)** *mos, plor, bord*… soonen igual que en castellà? Explica en dues frases per què les vocals obertes sense accent (monosíl·labs) no porten accent.",
           "**d)** Tria 6 paraules de la llista i escriu-ne una oració amb cada una; revisa la vocal tònica abans de entregar.",
         ],
         s: [
@@ -105,10 +105,10 @@ export const ACTS: Act[] = [
           "**d)** Escriu tres paraules més que comencen per *em-, en-, es-* i posa'les en una oració.",
         ],
         s: [
-          "**a)** 1) *Josep* i *monde?* No: *quadre*. 2) *artista* és correcta: l'error seria escriure *\\*artista* com es diu [artysta?]… Comprovem: 1) «Jusep → Josep», «quadre» és ben escrit. 2) *artista* ben escrit. 3) *esperar/encendre* ben escrites. 4) Ben escrita. 5) *patient/impacient*: ben escrites. Resposta real: **només la 1 té dos faltes**: *Jusep → Josep*. (Les altres no: l'exercici inclou frases trampa correctes perquè no es correga per inèrcia.)",
-          "**b)** Perquè la [a] que sona és una vocal prostètica, un so afegit a la parla coloquial que l'ortografia **no** recollix mai: l'etimologia llatina (*spectare → esperar, aspirar…*) i la norma diuen e.",
-          "**c)** Divergència: cap (les altres van bé); confusión: només *Jusep* (pronúncia descuidada); correcta: 2, 3, 4, 5.",
-          "**d)** Per exemple: *embull, emmetxar, eixamplar*: «L'**eixamplar** del camí va fer un **embull**: va caldre **emmetxar** el mur.»",
+          "**a)** Només la 1 porta faltes: «**Jusep** va pintar un **quadro** de Monet» → *Josep* i *quadre*. Les altres quatre són trampa i estan ben escrites: *artista* (no «\\*artista»), *esperar/encendre* (e-, no a-), *aixecar/eixir* i *pacient/impacient* (‑ient). Repassa: quan dubtes, paraula de la mateixa família o diccionari.",
+          "**b)** Perquè la [a] que sent l'orella és una vocal prostètica, un so afegit a la parla coloquial que l'ortografia **no** recull mai: l'etimologia llatina (*spectare → esperar*) i la norma diuen e.",
+          "**c)** Divergència vocàlica: cap; confusió: *Jusep* i *quadro* (frase 1, pronúncia descuidada); correctes: 2, 3, 4 i 5.",
+          "**d)** Per exemple: *embull, eixamplar, emmetxar*: «Vam **eixamplar** el camí i va caldre **emmetxar** el mur sense fer cap **embull**.»",
         ],
       },
       {
@@ -200,7 +200,7 @@ export const ACTS: Act[] = [
         ad: "Parelles visuals i una comparació senzilla.",
       },
       {
-        in: "El mestre ensenya la foto d'una tórtora i diu «tórtora». Després, la d'una montaña i diu «muntanya».",
+        in: "El mestre ensenya la foto d'una tórtora i diu «tórtora». Després, la d'una muntanya i diu «muntanya».",
         p: [
           "**a)** Repetix les dues paraules tres vegades.",
           "**b)** Assenya la fitxa que té la u.",
@@ -214,7 +214,7 @@ export const ACTS: Act[] = [
           "**a)** Di el nom en veu alta.",
           "**b)** Destapa la fitxa i comprova si portava la u o la o.",
         ],
-        s: ["**a)** tórtora.", "**b)** Cap de les dues: t-O-rtora, porta dos os."],
+        s: ["**a)** tórtora.", "**b)** Cap de les dues: t-O-rtora, porta dues os."],
         ad: "Endevinalle visual i autocorrecció.",
       },
     ],
@@ -252,7 +252,7 @@ export const ACTS: Act[] = [
         ad: "Sis paraules i dues respostes; cap pregunta d'explicació.",
       },
       {
-        in: "Fitxes: _stendre, _smorzar, g_gant. Banco de vocals: E · O · A.",
+        in: "Fitxes: _stendre, _smorzar, g_gant. Banc de vocals: E · O · A.",
         p: [
           "**a)** Pon la vocal que falta.",
           "**b)** Digues en veu alta «esmorzar» sense la a del davant.",
@@ -261,7 +261,7 @@ export const ACTS: Act[] = [
           "**a)** estendre, esmorzar, gegant.",
           "**b)** «esmorzar».",
         ],
-        ad: "Fitxes i banco de tres vocals.",
+        ad: "Fitxes i banc de tres vocals.",
       },
       {
         in: "Imatge d'un esmorzar i imatge d'un gegant.",
@@ -316,7 +316,7 @@ export const ACTS: Act[] = [
         ad: "Tres formes i una elecció tancada.",
       },
       {
-        in: "Banco: *escupen · vull · tosseixen*.",
+        in: "Banc: *escupen · vull · tosseixen*.",
         p: [
           "**a)** Uneix cada forma amb la seua oració.",
           "**b)** Digues en veu alta la que porta ix.",
@@ -325,7 +325,7 @@ export const ACTS: Act[] = [
           "**a)** «…escupen al passadís»; «Jo no vull fer l'examen»; «Els malalts tosseixen molt».",
           "**b)** tosseixen.",
         ],
-        ad: "Banco amb les respostes fetes.",
+        ad: "Banc amb les respostes fetes.",
       },
       {
         in: "Fitxes: ESCUPIR → ESCUPEN. TOSSIR → TOSSEIXEN.",
@@ -358,12 +358,12 @@ export const ACTS: Act[] = [
           "**a)** Escriu el text al dictat (dos llegides).",
           "**b)** Subratlla les paraules amb divergència vocàlica (les que en castellà tenen una altra vocal) i copia-les.",
           "**c)** Comprova i autocorregeix: quina vocal dubtes? Consulta el diccionari i anota la teua decisió.",
-          "**d)** Tornes a escriure el text al cap de tres dies: quantes faltes has baixat?",
+          "**d)** Tornes a escriure el text al cap de tres dies: quantes faltes has tret?",
         ],
         s: [
           "**a)** El text complet, amb la puntuació del model.",
-          "**b)** *volcànica* (volcánica), *comarca*, *colades? colada* és igual…; *lava, paisatge* (paisaje sense i), *muntanya* (montaña), *cubrix* (cubre: canvia vocal i desinència).",
-          "**c)** Es valora la consulta al diccionari i l'anotació de la decisió, no tindre-zero-faltes.",
+          "**b)** *volcànica* (cast. volcánica), *comarca* (igual), *colada* (igual), *lava*, *paisatge* (cast. paisaje, sense la *i*), *muntanya* (cast. montaña), *cubrix* (cast. cubre: canvia vocal i desinència).",
+          "**c)** Es valora la consulta al diccionari i l'anotació de la decisió, no tindre cap falta.",
           "**d)** Es valora la millora; registrar el nombre.",
         ],
       },
@@ -377,13 +377,13 @@ export const ACTS: Act[] = [
         ad: "Quatre frases i autocorrecció amb model.",
       },
       {
-        in: "Dictat de dos frases curtes: «La Fageda d'en Jordà és un bosc.» «La lava va fer muntanyes.»",
+        in: "Dictat de dues frases curtes: «La Fageda d'en Jordà és un bosc.» «La lava va fer muntanyes.»",
         p: [
           "**a)** Escriu-les al dictat (tres vegades).",
           "**b)** Compta les vocals de la paraula *muntanyes*.",
         ],
         s: [
-          "**a)** Les dos frases.",
+          "**a)** Les dues frases.",
           "**b)** Quatre (u-a-e…: m-u-n-t-a-n-y-e-s: u, a, e = 3 vocals).",
         ],
         ad: "Dos frases i un conteig simple de vocals.",

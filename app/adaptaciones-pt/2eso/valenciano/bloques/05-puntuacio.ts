@@ -18,7 +18,7 @@ export const AP: Ap = {
   ej: [
     "*Va vindre, va vore i va vèncer*: comes que separen verbs d'una enumeració; l'últim va unit amb *i* sense coma.",
     "*Mira, Paco, que et drogues*: *Paco* és vocatiu i va entre comes (coma abans i després).",
-    "*—On vas? —li va preguntar—. Respon.*: dos intervencions amb guió llarg; l'incís del narrador va entre guions i sense espais.",
+    "*—On vas? —li va preguntar—. Respon.*: dues intervencions amb guió llarg; l'incís del narrador va entre guions i sense espais.",
   ],
 };
 
@@ -39,9 +39,9 @@ export const ACTS: Act[] = [
         ],
         s: [
           "**a)** Comes: pausa menor, incisos («De fet,», «a més de ser molt bona modista,»), enumeracions («més altes, més baixes…»). Dos punts: introduïxen l'enumeració d'exemples de dones. Punt: final d'oració i de paràgraf. Punts suspensius: omissió d'exemples (la llista podria seguir). Punt i coma: separa dues oracions estretament lligades dins la mateixa intervenció. Guió llarg: obri la intervenció dialogada de la senyora.",
-          "**b)** Ometen més adjectius: la llista de dones continuaria (pel-roges, menudes…). Guanyen agilitat i donen a enténer que l'enumeració és oberta, no taxada.",
+          "**b)** Ometen més adjectius: la llista de dones continuaria (pèl-roges, menudes…). Guanyen agilitat i fan entendre que l'enumeració és oberta, no taxada.",
           "**c)** L'encapsulen un incís (una informació complementària entre comes). Si la levaras, l'oració quedaria mal unida i el lector podria llegir «la senyora Antonella també era» de seguit, perdent el matit.",
-          "**d)** Perquè una coma fora massa pausa xicoteta per a dos oracions completes, i un punt tallaria massa la relació de contrast entre «gent que fa fotografies» i «jo m'estime els pinzells». El punt i coma manté la unió i marca la pausa mitjana.",
+          "**d)** Perquè una coma fora massa pausa xicoteta per a dues oracions completes, i un punt tallaria massa la relació de contrast entre «gent que fa fotografies» i «jo m'estime els pinzells». El punt i coma manté la unió i marca la pausa mitjana.",
         ],
       },
       {
@@ -229,47 +229,47 @@ export const ACTS: Act[] = [
     ic: "repaso",
     nv: [
       {
-        in: "Continuació del text de l'act. 1, amb * en lloc de signes: «—Com ho puc fer per a atrapar la llum com al quadre de la saleta* —li va preguntar un dia. La senyora Antonella va somriure. *Per començar hauries de pintar a l'oli* no amb aquarel·les* li va dir*. I de totes maneres* és molt difícil* se n'ha de saber molt* l'artista que va pintar l'original d'aquell quadre era tot un mestre*»",
+        in: "Continuació del text de l'act. 1, amb * en lloc de signes: «—Com ho puc fer per atrapar la llum com al quadre de la saleta* —li va preguntar un dia. La senyora Antonella va somriure. *Per començar hauries de pintar a l'oli* no amb aquarel·les* li va dir*. I de totes maneres* és molt difícil* se n'ha de saber molt* l'artista que va pintar l'original d'aquell quadre era tot un mestre*»",
         p: [
           "**a)** Copia el text substituint cada * pel signe que toca.",
           "**b)** Justifica la teua elecció en els dos darrers * de la darrera intervenció.",
           "**c)** Explica per què el darrer * pot portar punt després del guió i no abans.",
         ],
         s: [
-          "**a)** «—Com ho puc fer per a atrapar la llum com al quadre de la saleta? —li va preguntar un dia. La senyora Antonella va somriure. —Per començar, hauries de pintar a l'oli, no amb aquarel·les —li va dir—. I, de totes maneres, és molt difícil: se n'ha de saber molt; l'artista que va pintar l'original d'aquell quadre era tot un mestre.»",
-          "**b)** El penúltimo *: dos punts (o punt i coma) perquè «se n'ha de saber molt» explica i justifica «és molt difícil». El *: punt i coma perquè separa dues oracions contrastades i relacionades.",
+          "**a)** «—Com ho puc fer per atrapar la llum com al quadre de la saleta? —li va preguntar un dia. La senyora Antonella va somriure. —Per començar, hauries de pintar a l'oli, no amb aquarel·les —li va dir—. I, de totes maneres, és molt difícil: se n'ha de saber molt; l'artista que va pintar l'original d'aquell quadre era tot un mestre.»",
+          "**b)** El penúltim *: dos punts (o punt i coma) perquè «se n'ha de saber molt» explica i justifica «és molt difícil». El *: punt i coma perquè separa dues oracions contrastades i relacionades.",
           "**c)** Perquè la intervenció s'acaba ací: el guió de tancament fa les vegades del punt final, i la regla diu que no es dupliquen (el punt s'entén darrere del guió; en este cas, punt abans del guió de tancament dins del diàleg narratiu).",
         ],
       },
       {
-        in: "Text amb *: «—Com ho puc fer per a atrapar la llum com al quadre de la saleta* —li va preguntar un dia.» / «—Per començar hauries de pintar a l'oli* no amb aquarel·les* li va dir*.»",
+        in: "Text amb *: «—Com ho puc fer per atrapar la llum com al quadre de la saleta* —li va preguntar un dia.» / «—Per començar hauries de pintar a l'oli* no amb aquarel·les* li va dir*.»",
         p: [
           "**a)** Canvia els * per signes (ajuda: el primer * tanca una pregunta; els darrers tanquen un incís).",
           "**b)** Digues a quin signe pertoca el «?» ací.",
         ],
         s: [
-          "**a)** «—Com ho puc fer per a atrapar la llum com al quadre de la saleta? —li va preguntar un dia.» / «—Per començar, hauries de pintar a l'oli, no amb aquarel·les —li va dir—.»",
+          "**a)** «—Com ho puc fer per atrapar la llum com al quadre de la saleta? —li va preguntar un dia.» / «—Per començar, hauries de pintar a l'oli, no amb aquarel·les —li va dir—.»",
           "**b)** El del final de la pregunta de l'exclosa.",
         ],
-        ad: "Només dos frases, les pistes dins de l'enunciat.",
+        ad: "Només dues frases, les pistes dins de l'enunciat.",
       },
       {
-        in: "Una sola intervenció amb *: «—I tu* també vols pintar* li va dir». Banco: ? — ,",
+        in: "Una sola intervenció amb *: «—I tu* també vols pintar* li va dir». Banc: ? — ,",
         p: [
-          "**a)** Completa amb el banco: «I tu*, també vols pintar* —li va dir.»",
+          "**a)** Completa amb el banc: «I tu*, també vols pintar* —li va dir.»",
           "**b)** Digues on va el guió llarg.",
         ],
         s: [
           "**a)** «I tu, també vols pintar? —li va dir.»",
           "**b)** Davant de «li va dir», sense espai.",
         ],
-        ad: "Banco de tres signes i una frase muntada.",
+        ad: "Banc de tres signes i una frase muntada.",
       },
       {
-        in: "Fitxes: ¿ / ? / — . Frase en gran: «On aneu».",
+        in: "Fitxes: ? / ! / — . Frase en gran: «On aneu».",
         p: [
           "**a)** Poseu les fitxes on toquen.",
-          "**b)** Lligiu la frase final en veu alta.",
+          "**b)** Llegiu la frase final en veu alta.",
         ],
         s: ["**a)** On aneu? —(o «—On aneu?»).", "**b)** Lectura oral."],
         ad: "Fitxes físiques i lectura.",
@@ -291,7 +291,7 @@ export const ACTS: Act[] = [
     ic: "chat",
     nv: [
       {
-        in: "Xat (Roser, de 2n B, escriu a Mireia): «hola soc roser de 2nB 🙂 / hola qui t'ha donat el meu número / mirea com que és el seu… he pensat que potser li podem fer un [regal] juntes què et sembla / genial tens alguna idea / ella va comentar que li feien il·lusió uns patins / uns patins si no té ni idea de patinar 🛼 / potser vol aprendre de tota manera anem pensant i demà a l'hora del pati en parlem va!»",
+        in: "Xat (Roser, de 2n B, escriu a Mireia): «hola soc roser de 2nB 🙂 / hola qui t'ha donat el meu nombre / mirea com que és el seu… he pensat que potser li podem fer un [regal] juntes què et sembla / genial tens alguna idea / ella va comentar que li feien il·lusió uns patins / uns patins si no té ni idea de patinar 🛼 / potser vol aprendre de tota manera anem pensant i demà a l'hora del pati en parlem va!»",
         p: [
           "**a)** Reescriu la conversa completa amb els signes de puntuació, majúscules i accents que li falten.",
           "**b)** Separa les paraules del missatge de Roser («potser vol aprendre…») en oracions i posa-hi els punts.",
@@ -299,7 +299,7 @@ export const ACTS: Act[] = [
           "**d)** Un xat puntuat com un text formal: argumenta si val la pena puntuar igual en els dos canals.",
         ],
         s: [
-          "**a)** «Hola! Soc Roser, de 2n B. / Hola! Qui t'ha donat el meu número? / Mireia, com que és el seu… He pensat que potser li podem fer un regal juntes. Què et sembla? / Genial! Tens alguna idea? / Ella va comentar que li feien il·lusió uns patins. / Uns patins! Si no té ni idea de patinar! 🛼 / Potser vol aprendre. De tota manera, anem pensant i demà, a l'hora del pati, en parlem, va!»",
+          "**a)** «Hola! Soc Roser, de 2n B. / Hola! Qui t'ha donat el meu nombre? / Mireia, com que és el seu… He pensat que potser li podem fer un regal juntes. Què et sembla? / Genial! Tens alguna idea? / Ella va comentar que li feien il·lusió uns patins. / Uns patins! Si no té ni idea de patinar! 🛼 / Potser vol aprendre. De tota manera, anem pensant i demà, a l'hora del pati, en parlem, va!»",
           "**b)** «Potser vol aprendre. De tota manera, anem pensant i demà, a l'hora del pati, en parlem, va!» — quatre oracions (o tres, segons com s'uneixin amb comes).",
           "**c)** El de l'exclamació, que ja fa el signe; és una interjecció de complicitat coloquial (com «ei!»): manté el to del canal informal.",
           "**d)** Resposta oberta: el xat admet omissions i minúscules perquè el canal és immediat i el context, compartit; en un text formal el lector no pot preguntar, així que la puntuació garantix que s'entenga. Cada canal, la seua puntuació.",
@@ -308,11 +308,11 @@ export const ACTS: Act[] = [
       {
         in: "Missatge: «hola qui t'ha donat el meu numero» i «demà a l'hora del pati en parlem».",
         p: [
-          "**a)** Posa majúscules, accents i signes a les dos frases.",
+          "**a)** Posa majúscules, accents i signes a les dues frases.",
           "**b)** Digues quants punts (o signes) ha menester el segon missatge per a ser clar.",
         ],
         s: [
-          "**a)** «Hola! Qui t'ha donat el meu número?» / «Demà, a l'hora del pati, en parlem.» (o «Demà a l'hora del pati en parlem.»)",
+          "**a)** «Hola! Qui t'ha donat el meu nombre?» / «Demà, a l'hora del pati, en parlem.» (o «Demà a l'hora del pati en parlem.»)",
           "**b)** Un punt final (mínim); les comes del circumstancial són opcionals.",
         ],
         ad: "Dos missatges curts i una reflexió oral sobre el nombre de punts.",
@@ -324,7 +324,7 @@ export const ACTS: Act[] = [
           "**b)** Llig-ho en veu alta amb la seua veu.",
         ],
         s: [
-          "**a)** «Hola!» — «Qui t'ha donat el meu número?» — «Genial!»",
+          "**a)** «Hola!» — «Qui t'ha donat el meu nombre?» — «Genial!»",
           "**b)** Oral.",
         ],
         ad: "Una majúscula i un signe per frase; el signe es tria per so.",
@@ -364,7 +364,7 @@ export const ACTS: Act[] = [
         ],
         s: [
           "**a)** «El meu pare era alt i prim, i tenia les mans grosses de treballar. Quan nos contava històries, la veu li eixia greu, com un llom de terra llaurada; i nosaltres callàvem.»",
-          "**b)** Coma (o punt i coma davant de la conjunción: coma després de «greu»): la comparació és un incís explicatiu.",
+          "**b)** Coma (o punt i coma davant de la conjunció: coma després de «greu»): la comparació és un incís explicatiu.",
           "**c)** Exemple: «les mans, plenes de cicatrius, grosses de treballar».",
           "**d)** Coavaluació: on fan pausa els lectors, hi ha signe.",
         ],
@@ -394,7 +394,7 @@ export const ACTS: Act[] = [
         ad: "Blocs ja escrits que només s'ordenen i separem amb comes.",
       },
       {
-        in: "El mestre llegix la descripció del pare fent les pauses.",
+        in: "El mestre lig la descripció del pare fent les pauses.",
         p: [
           "**a)** Alça la mà quan sentes una pausa (i diràs: coma o punt?).",
           "**b)** Alça el dit quan la pausa siga llarga.",

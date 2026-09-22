@@ -196,7 +196,7 @@ export const ACTS: Act[] = [
         ad: "Una sola estructura amb model fet; es canvien dos peces.",
       },
       {
-        in: "Banco per a l'estructura «Els ___ van arribar ___»: noms *xiquets, futbolistes, veïnes*; adverbis *tard, prompte, eixa nit*.",
+        in: "Banc per a l'estructura «Els ___ van arribar ___»: noms *xiquets, futbolistes, veïnes*; adverbis *tard, prompte, eixa nit*.",
         p: [
           "**a)** Completa l'oració triant una fitxa de cada columna.",
           "**b)** Llig-la en veu alta.",
@@ -205,7 +205,7 @@ export const ACTS: Act[] = [
           "**a)** «Els futbolistes van arribar prompte.» (qualsevol combinació).",
           "**b)** Lectura oral.",
         ],
-        ad: "Oració tancada amb dos buits i banco visual.",
+        ad: "Oració tancada amb dos buits i banc visual.",
       },
       {
         in: "Fitxes: els xiquets | van arribar | tard.",
@@ -256,7 +256,7 @@ export const ACTS: Act[] = [
       {
         in: "Regla del tram: els grups es poden xicotetizar. «la meua germana petita» → «ella». «sobre la cadira» → «ací». «estava molt cansada» → «cansada».",
         p: [
-          "**a)** Xicotetitza aquestos tres grups: «el gos del veí» → …, «cap al riu» → …, «van nanejar un gelat» → …",
+          "**a)** Xicotetiza aquestos tres grups: «el gos del veí» → …, «cap al riu» → …, «van nanejar un gelat» → …",
           "**b)** Digues quina paraula va quedar de cada grup (la que mana).",
         ],
         s: [
@@ -289,7 +289,7 @@ export const ACTS: Act[] = [
       {
         in: "Dues caixes: PERSONA/COSA i LLOC.",
         p: [
-          "**a)** L'mestre diu un grup («el gos roig», «dintre del calaix», «la meua motxilla»): tu el poses en la caixa de persona/cosa o de lloc.",
+          "**a)** El mestre diu un grup («el gos roig», «dintre del calaix», «la meua motxilla»): tu el poses en la caixa de persona/cosa o de lloc.",
           "**b)** Digues per què «dintre del calaix» va on va.",
         ],
         s: [

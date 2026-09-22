@@ -21,8 +21,8 @@ export async function generateMetadata({ params }: P): Promise<Metadata> {
   const a = APS.find((x) => x.slug === ap);
   if (!a) return {};
   return {
-    title: `${a.n} · ${a.t} — Tema 1 Valencià 2.º ESO — Adaptaciones PT`,
-    description: `Teoría, ejemplos resueltos y seis activitats del bloque ${a.n} (${a.t}) del Tema 1 de Valencià: el ejercicio base de 2.º de ESO y sus cuatro adaptaciones.`,
+    title: `${a.n} · ${a.t} — Tema 1 Valencià 2n ESO — Adaptaciones PT`,
+    description: `Teoria, exemples resolts i sis activitats del bloc ${a.n} (${a.t}) del Tema 1 de Valencià: l’exercici base de 2n d’ESO i les seues quatre adaptacions.`,
   };
 }
 
@@ -90,10 +90,10 @@ export default async function BloquePT({ params }: P) {
       </div>
 
       <div className={`${tarjeta} !mt-10 !text-sm`}>
-        <b>Para el profe:</b> las seis activitats de este bloque comparten objetivo, así que son
-        intercambiables: si un alumno acaba una antes de tiempo, mándale a la siguiente caja. Las
-        últimas suelen ser las más abiertas (crear, verbalizar, dramatizar), y las primeras, las
-        más guiadas.
+        <b>Per al profe:</b> les sis activitats d’este bloc compartixen objectiu, així que són
+        intercanviables: si un alumne acaba una abans de temps, envia’l a la següent caixa. Les
+        últimes solen ser les més obertes (crear, verbalitzar, dramatitzar), i les primeres, les
+        més guiades.
       </div>
 
       <div className="mt-8 flex flex-wrap items-center gap-3">

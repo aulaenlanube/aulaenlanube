@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: P): Promise<Metadata> {
   if (!a || !A) return {};
   return {
     title: `Activitat ${Number(act)}: ${A.t} — Tema 1 ${a.t} — Adaptaciones PT`,
-    description: `${A.d} El ejercicio base de 2.º de ESO y cuatro adaptaciones: 1.º ESO, 6.º, 5.º y 4.º de primaria, con soluciones.`,
+    description: `${A.d} L’exercici base de 2n d’ESO i quatre adaptacions: 1r d’ESO, 6è, 5è i 4t de primària, amb solucions.`,
   };
 }
 
@@ -86,8 +86,8 @@ export default async function ActividadPT({ params }: P) {
       <div className="mt-8 rounded-2xl border border-zinc-200 dark:border-white/10 bg-zinc-100 dark:bg-white/10 p-5 text-sm text-zinc-700 dark:text-zinc-300">
         <b>Mateix objectiu en els cinc nivells:</b> dalt va l’exercici tal com es planteja
         a 2n d’ESO; avall, la mateixa activitat amb més andamiatge (text més curt, opció
-        tancada, banco de paraules, manipulatiu, oral). No canvia la meta, canvia l’accés.
-        Adaptació d’accés conforme al Decreto 104/2018 i l’Orden 20/2019 (C. Valenciana).
+        tancada, banc de paraules, manipulatiu, oral). No canvia la meta, canvia l’accés.
+        Adaptació d’accés conforme al Decret 104/2018 i l’Orden 20/2019 (C. Valenciana).
       </div>
 
       <div className="mt-6 flex flex-wrap items-center justify-between gap-3">

@@ -9,9 +9,9 @@ import { Icono, Fig } from "../../figuras";
 import { APS, ACTS, LABELS, TEMA } from "../../datos";
 
 export const metadata: Metadata = {
-  title: "Tema 1 complet (imprimible) · Valencià · 2.º ESO · Adaptaciones PT",
+  title: "Tema 1 complet (imprimible) · Valencià · 2n ESO · Adaptaciones PT",
   description:
-    "Teoría, ejemplos y activitats de los seis blocs del Tema 1 de Valencià en una sola página imprimible, con el ejercicio base de 2.º de ESO, sus cuatro adaptaciones y las soluciones.",
+    "Teoria, exemples i activitats dels set blocs del Tema 1 de Valencià en una sola pàgina imprimible, amb l’exercici base de 2n d’ESO, les seues quatre adaptacions i les solucions.",
 };
 
 const crumbs = [
@@ -31,9 +31,9 @@ export default function TemaCompleto() {
           {TEMA} — <span className="text-blue-700 dark:text-blue-300">tot el tema</span>
         </h1>
         <p className="mt-2 text-[15px] leading-relaxed text-zinc-700 dark:text-zinc-300">
-          Teoría, ejemplos y activitats de los {APS.length} blocs en una sola página. Con el
-          botón <b>Descargar PDF</b> puedes elegir un solo nivel (o todos) y sacarlo con o sin
-          soluciones para imprimir en A4.
+          Teoria, exemples i activitats dels {APS.length} blocs en una sola pàgina. Amb el
+          botó <b>Descarregar PDF</b> pots triar un sol nivell (o tots) i traure’l amb o sense
+          solucions per a imprimir en A4.
         </p>
         <div className="no-print mt-4 flex flex-wrap items-center gap-3">
           <OposPdfButton payload={payloadTema()} />
@@ -89,7 +89,7 @@ export default function TemaCompleto() {
                         </ul>
                         {nv.ad ? (
                           <div className="mt-3 rounded-lg border border-amber-200 dark:border-amber-500/30 bg-amber-50 dark:bg-amber-500/10 p-3 text-sm text-amber-900 dark:text-amber-200">
-                            <span className="text-xs font-bold uppercase tracking-wide">🔧 Qué se adapta</span>
+                            <span className="text-xs font-bold uppercase tracking-wide">🔧 Què s'adapta</span>
                             <p className="mt-1" dangerouslySetInnerHTML={{ __html: md(nv.ad) }} />
                           </div>
                         ) : null}

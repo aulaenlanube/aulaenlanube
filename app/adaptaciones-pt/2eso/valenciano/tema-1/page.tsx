@@ -5,13 +5,13 @@ import { chip } from "../ui";
 import { APS, ACTS, TEMA } from "../datos";
 
 export const metadata: Metadata = {
-  title: "Tema 1 · Comunicació, llengua i ortografia — Valencià 2.º ESO — Adaptaciones PT",
+  title: "Tema 1 · Comunicació, llengua i ortografia — Valencià 2n ESO — Adaptaciones PT",
   description:
-    "Tema 1 de Valencià con adaptaciones PT: seis bloques, cada uno con teoría, ejemplos resueltos y seis activitats en cinco niveles (ejercicio base de 2.º ESO y adaptaciones a 1.º ESO, 6.º, 5.º y 4.º de primaria).",
+    "Tema 1 de Valencià amb adaptacions PT: set blocs, cadascun amb teoria, exemples resolts i sis activitats en cinc nivells (exercici base de 2n d'ESO i adaptacions a 1r d'ESO, 6è, 5è i 4t de primària).",
 };
 
 const DESC: Record<string, string> = {
-  "00-repas": "Síl·laba tònica, gènere i nombre, articles i contraccions, lectura, orden alfabético y familias de palabras: lo que hace falta para arrancar.",
+  "00-repas": "Síl·laba tònica, gènere i nombre, articles i contraccions, lectura, ordre alfabètic i famílies de paraules: el que cal tindre a punt per a arrancar.",
   "01-comunicacio": "Emissor, receptor, missatge, canal, codi i context. Les funcions del llenguatge. Verbal i no verbal.",
   "02-diversitat": "Quantes llengües hi ha al món, famílies lingüístiques d'Europa, l'origen romànic del valencià i les llengües en perill.",
   "03-classes-paraules": "Les huit classes de paraules: variables (nom, adjectiu, determinant, pronom, verb) i invariables (adverbi, preposició, conjunció).",
@@ -32,14 +32,14 @@ export default function PteValenciaTema1() {
           { title: "Tema 1", path: `${base}/` },
         ]}
       />
-      <span className={chip}>Tema 1 · {APS.length} blocs · {APS.length * 6} activitats × 5 niveles</span>
+      <span className={chip}>Tema 1 · {APS.length} blocs · {APS.length * 6} activitats × 5 nivells</span>
       <h1 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">{TEMA}</h1>
       <p className="mt-4 text-lg text-zinc-600 dark:text-zinc-400">
-        Cada bloque lleva su <b>teoría</b> (explicación corta y accesible), <b>ejemplos</b>{" "}
-        resueltos y <b>seis activitats</b>, cada una con el ejercicio base de 2.º de ESO y sus
-        cuatro adaptaciones. El bloc 0 és de
-        repàs: conviene empezar por ahí y seguir el orden, aunque los enlaces permiten saltar a
-        cualquier bloque.
+        Cada bloc porta la seua <b>teoria</b> (explicació curta i accessible), <b>exemples</b>{" "}
+        resolts i <b>six activitats</b>, cadascuna amb l’exercici base de 2n d’ESO i les seues
+        quatre adaptacions. El bloc 0 és de
+        repàs: convé començar per ahí i seguir l’ordre, encara que els enllaços permeten saltar a
+        qualsevol bloc.
       </p>
 
       <div className="mt-6 space-y-3">
@@ -54,7 +54,7 @@ export default function PteValenciaTema1() {
               <h2 className="text-base font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-blue-800">{a.t}</h2>
               <p className="mt-1 text-[13px] text-zinc-600 dark:text-zinc-400">{DESC[a.slug]}</p>
               <p className="mt-1 text-[11px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-400">
-                {(ACTS[a.slug] || []).length} activitats × 5 niveles
+                {(ACTS[a.slug] || []).length} activitats × 5 nivells
               </p>
             </div>
             <div className="self-center text-zinc-300 transition group-hover:translate-x-0.5 group-hover:text-blue-600">→</div>
@@ -69,9 +69,9 @@ export default function PteValenciaTema1() {
       </div>
 
       <div className="mt-8 rounded-2xl border border-zinc-200 dark:border-white/10 bg-zinc-100 dark:bg-white/10 p-5 text-sm text-zinc-700 dark:text-zinc-300">
-        <b>Saberes básicos (anexo III, Decreto 107/2022):</b> los elementos de la comunicación y la
-        intención comunicativa; las clases de palabras y sus procedimientos de formación; la
-        ortografía de la tilde; y la lectura y el reconocimiento de los géneros literarios.
+        <b>Sabers bàsics (annex III, Decret 107/2022):</b> els elements de la comunicació i la
+        intenció comunicativa; les classes de paraules i els seus procediments de formació; la
+        ortografia de la tilde; i la lectura i el reconeixement dels gèneres literaris.
       </div>
     </div>
   );

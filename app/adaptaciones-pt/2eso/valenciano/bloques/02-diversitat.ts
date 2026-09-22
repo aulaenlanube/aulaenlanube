@@ -8,7 +8,7 @@ export const AP: Ap = {
   n: 2,
   t: "La diversitat lingüística",
   teoria: [
-    "Al món n'hi ha unes **set mil llengües** i uns dos-cents estats. No van repartides a parts iguals: hi ha estats on se'n parlen centenars, com **Papua Nova Guinea** (més de 800) o **Indonèsia** (més de 700), i d'altres on només se'n parla una, com Islàndia o l'Uruguai. La **Llengua de Senyals**, els silbats i les llengües indígenes recorden que comunicar-se no és només cosa de veu i paper.",
+    "Al món n'hi ha unes **set mil llengües** i uns dos-cents estats. No van repartides a parts iguals: hi ha estats on se'n parlen centenars, com **Papua Nova Guinea** (més de 800) o **Indonèsia** (més de 700), i d'altres on només se'n parla una, com Islàndia o l'Uruguai. La **llengua de signes**, les llengües xiulades i les llengües indígenes recorden que comunicar-se no és només cosa de veu i paper.",
     "La riquesa lingüística també es veu en els **alfabets**: l'alfabet **llatí** és el que fem servir nosaltres, però existeixen el grec, el **ciríl·lic** (rus, búlgar), l'àrab, l'hebreu, el japonés i el xinés, que no és un alfabet sinó milers de caràcters.",
     "De totes les llengües del món, només **nou** són parlades com a primera llengua per més de cent milions de persones: el xinés (1.116 milions), l'**espanyol** (460), l'anglés (374), l'hindi/urdu, l'àrab, el portugués, el bengalí, el rus i el japonés. La nostra llengua ocupa la posició **85** amb uns **huit milions** de parlants: no és de les més parlades, però sí de les que tenen més pes cultural per nombre de parlants en proporció.",
     "RAW:<table><caption>Llengües amb més de 100 milions de parlants (primera llengua), extret d'ethnologue.com</caption><thead><tr><th>Llengua</th><th>Parlants</th></tr></thead><tbody><tr><td>Xinés</td><td>1.116.000.000</td></tr><tr><td>Espanyol</td><td>460.000.000</td></tr><tr><td>Anglés</td><td>374.000.000</td></tr><tr><td>Hindi/Urdu</td><td>341.000.000</td></tr><tr><td>Àrab</td><td>250.000.000</td></tr><tr><td>Portugués</td><td>217.000.000</td></tr><tr><td>Bengalí</td><td>200.000.000</td></tr><tr><td>Rus</td><td>170.000.000</td></tr><tr><td>Japonés</td><td>140.000.000</td></tr></tbody></table>",
@@ -63,20 +63,20 @@ export const ACTS: Act[] = [
         in: "Taula simplificada: xinés 1.116, espanyol 460, anglés 374.",
         p: [
           "**a)** Rodeja la llengua amb més parlants: *xinés* / *espanyol* / *anglés*.",
-          "**b)** Copia els números de men a major: … < … < …",
-          "**c)** Quantes llengües de la llista es parlen a la Comunitat Valenciana? Respon amb un número.",
+          "**b)** Copia els nombres de menor a major: … < … < …",
+          "**c)** Quantes llengües de la llista es parlen a la Comunitat Valenciana? Respon amb un nombre.",
         ],
         s: [
           "**a)** Xinés.",
           "**b)** 374 < 460 < 1.116.",
           "**c)** Dues: espanyol i, si comptem el valencià fora del rànquing de la taula, cap més de la llista; la resposta esperada: **1** (espanyol).",
         ],
-        ad: "Només tres dades, opcions tancades i un sol número; sense càlcul.",
+        ad: "Només tres dades, opcions tancades i un sol nombre; sense càlcul.",
       },
       {
         in: "Fitxes amb banderes: XINA, ESPANYA, REGNE UNIT. Fitxes amb xifres: 460M, 374M, 1.116M.",
         p: [
-          "**a)** Unix cada bandera amb la seua xifra.",
+          "**a)** Uneix cada bandera amb la seua xifra.",
           "**b)** Digues en veu alta quina xifra és la més gran.",
         ],
         s: [
@@ -88,8 +88,8 @@ export const ACTS: Act[] = [
       {
         in: "El mestre diu tres nombres: «quatre-cents seixanta», «tres-cents setanta-quatre», «mil-cent setanta».",
         p: [
-          "**a)** Assenya amb el dit amunt si el número que sent dir és el de l'espanyol, i estirat si és el de l'anglés.",
-          "**b)** Repetix en veu alta el número més gran que has sentit.",
+          "**a)** Assenya amb el dit amunt si el nombre que sent dir és el de l'espanyol, i estirat si és el de l'anglés.",
+          "**b)** Repetix en veu alta el nombre més gran que has sentit.",
         ],
         s: [
           "**a)** «Quatre-cents seixanta» → amunt (espanyol); «tres-cents setanta-quatre» → estirat (anglés).",
@@ -131,7 +131,7 @@ export const ACTS: Act[] = [
           "**b)** Papua Nova Guinea, amb més de 800.",
           "**c)** … d'**extinció** (desaparéixer).",
         ],
-        ad: "Text retallat a dos frases, un sol vertader/fals i un complet amb la paraula clau donada al banco mental.",
+        ad: "Text retallat a dues frases, un sol vertader/fals i un complet amb la paraula clau donada al banc mental.",
       },
       {
         in: "Text curt: «Al món hi ha unes 7.000 llengües. Papua Nova Guinea en té més de 800.»",
@@ -145,12 +145,12 @@ export const ACTS: Act[] = [
           "**b)** Més de 800.",
           "**c)** Indonèsia → més de 700 llengües.",
         ],
-        ad: "Tot es fa rodejant entre dos opcions i unint, sense redactar.",
+        ad: "Tot es fa rodejant entre dues opcions i unint, sense redactar.",
       },
       {
-        in: "Dues targetes: un planeta amb el número 7.000 i un mapa amb el número 800.",
+        in: "Dues targetes: un planeta amb el nombre 7.000 i un mapa amb el nombre 800.",
         p: [
-          "**a)** L'mestre llig i tu assenyes la targeta del número que sent.",
+          "**a)** El mestre llig i tu assenyes la targeta del nombre que sent.",
           "**b)** Digues en veu alta: al món hi ha moltes llengües o poques?",
         ],
         s: [
@@ -163,7 +163,7 @@ export const ACTS: Act[] = [
         in: "El mestre ensenya un planeta ple de punts de colors i diu: «Cada punt és una llengua.»",
         p: [
           "**a)** Fes un punt de colors al paper: quants més puntes millor. Compta els teus punts i digues en veu alta quants n'has fet.",
-          "**b)** Escolta: al món hi ha unes *set mil* llengües. Repetix el número en veu alta.",
+          "**b)** Escolta: al món hi ha unes *set mil* llengües. Repetix el nombre en veu alta.",
         ],
         s: [
           "**a)** (Resposta lliure; es valora entendre que un nombre gran com 7.000 no es pot fer a puntets.)",
@@ -181,7 +181,7 @@ export const ACTS: Act[] = [
       {
         in: "Esquema del llibre: famílies → LLENGÜES → Indoeuropees (bàltiques, cèltiques, eslaves, germàniques, romàniques, hel·lènica, il·líria) / Altres famílies (uralianes, altaiques, caucàsiques, semítiques, llengua aïllada: basc).",
         p: [
-          "**a)** En quina família i quin branca està el valencià? I el portugués i el francés? Anota els tres.",
+          "**a)** En quina família i quina branca està el valencià? I el portugués i el francés? Anota els tres.",
           "**b)** L'anglés, l'alemany i el suec s'entenen entre ells millor que amb l'espanyol. Explica-ho amb la llengua de famílies i branques.",
           "**c)** El basc és una llengua aïllada. Què vol dir ací «aïllada»? Per què és especial en el mapa d'Europa?",
           "**d)** El hongarés i el finés NO són indoeuropeus. En quina família cauen i per què sorpren al visitor?",
@@ -229,7 +229,7 @@ export const ACTS: Act[] = [
           "**a)** Del llatí: valencià i portugués. Altre origen: basc.",
           "**b)** El basc, que no ve del llatí.",
         ],
-        ad: "Només dos caixes i una pregunta oral: ve del llatí o no.",
+        ad: "Només dues caixes i una pregunta oral: ve del llatí o no.",
       },
       {
         in: "El mestre ensenya les paraules: «mare», «mare», «mère», «mother».",
@@ -241,7 +241,7 @@ export const ACTS: Act[] = [
           "**a)** «mare» (valencià) i «mare» (italià) se pareguen → sí; «mother» va per una altra banda.",
           "**b)** Per exemple: valencià i espanyol.",
         ],
-        ad: "Tot oral i rítmic: palmas i dos paraules del conte del mestre.",
+        ad: "Tot oral i rítmic: palmas i dues paraules del conte del mestre.",
       },
     ],
   },
@@ -256,7 +256,7 @@ export const ACTS: Act[] = [
           "**a)** Ordena'ls cronològicament i copia l'ordre amb lletres.",
           "**b)** Explica per què l'**aïllament** d'un territori afavorix que la llengua es divurca.",
           "**c)** Quina llengua de les oficials a Espanya NO ve del llatí i per què és un cas únic?",
-          "**d)** Si el romà mai no haguera arribat, com creus que seria la llengua que parles hui? Raona la resposta en dos frases.",
+          "**d)** Si el romà mai no haguera arribat, com creus que seria la llengua que parles hui? Raona la resposta en dues frases.",
         ],
         s: [
           "**a)** B, A, C, D.",
@@ -313,7 +313,7 @@ export const ACTS: Act[] = [
           "**a)** A la menció de «llatina/llatina pare» → targeta LLATÍ.",
           "**b)** Per exemple: valencià i castellà.",
         ],
-        ad: "Comprensió oral amb targeta i dos paraules produïdes.",
+        ad: "Comprensió oral amb targeta i dues paraules produïdes.",
       },
     ],
   },
@@ -323,11 +323,11 @@ export const ACTS: Act[] = [
     ic: "oreja",
     nv: [
       {
-        in: "Dades del llibre (p. 20): Mèxic, s. xv: 300 llengües. Hoy: 175. D'estes, 5 les parlen infants.",
+        in: "Dades del llibre (p. 20): Mèxic, s. xv: 300 llengües. Hui: 175. D'estes, 5 les parlen infants.",
         p: [
           "**a)** Calcula quantes llengües han desaparegut a Mèxic i quin percentatge aproximat representen (orientatiu: 125 de 300 ≈ la quarta part de…).",
           "**b)** De les 175 supervivents, quante les parlen els infants? Què implica per als anys vinents?",
-          "**c)** Busca i copia del text la frase que explica la causa final de la desaparició (la del prestige).",
+          "**c)** Busca i copia del text la frase que explica la causa final de la desaparició (la del prestigi).",
           "**d)** Proposa dues accions perquè una llengua xicoteta no morisca.",
         ],
         s: [
@@ -433,10 +433,10 @@ export const ACTS: Act[] = [
           "**a)** LLETRES.",
           "**b)** s-o-l.",
         ],
-        ad: "Una assenyalament i escurar en tres lletres.",
+        ad: "Un assenyalament i escriure les tres lletres.",
       },
       {
-        in: "L'mestre ensenya una imatge d'un carrer amb rètol en alfabet llatí i una altra amb rètol xinés.",
+        in: "El mestre ensenya una imatge d'un carrer amb rètol en alfabet llatí i una altra amb rètol xinés.",
         p: [
           "**a)** Fes un cercle en la imatge que tú podries lligir.",
           "**b)** Digues: les dues imatges són carrers o boscos?",

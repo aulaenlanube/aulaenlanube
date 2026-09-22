@@ -33,9 +33,9 @@ export const ACTS: Act[] = [
         in: "Text (adaptat de *Coppelius, el creador d'autòmats*, de Rosa M. Colom): «**La** **mare** era **blanca** de pell **i** **amb** **els** cabells castany fosc que **formaven** espirals **i** **se** t'enganxaven **als** dits **quan** l'abraçaves. **Els** **ulls**, els tenia verds **com** una fulla d'arbre **i** **les** celles igual que **dos** semicercles fets amb un retolador **gruixut**.»",
         p: [
           "**a)** Completa la graella amb les paraules subratllades: Noms, Adjectius, Determinants, Pronoms, Verbs, Adverbis, Preposicions, Conjuncions.",
-          "**b)** *Com* en «verds com una fulla» és adverbi, però també pot ser conjunción comparativa. Explica la prova que faries per a decidir-ho.",
-          "**c)** Busca en el text dos paraules que siguen del mateix camp semàntic (parts del cos) i una de la mateixa família lèxica que *ull*.",
-          "**d)** Reescriviu la primera oración canviant *mare* per *pare*: quantes paraules has de tocar? Noma-les totes i explica la concordància.",
+          "**b)** *Com* en «verds com una fulla» és adverbi, però també pot ser conjunció comparativa. Explica la prova que faries per a decidir-ho.",
+          "**c)** Busca en el text dues paraules que siguen del mateix camp semàntic (parts del cos) i una de la mateixa família lèxica que *ull*.",
+          "**d)** Reescriviu la primera oració canviant *mare* per *pare*: quantes paraules has de tocar? Marca-les totes i explica la concordància.",
         ],
         s: [
           "**a)** Noms: *mare, ulls* (i *pell, cabells, dits…* si no estan subratllats, valen). Adjectius: *blanca, gruixut* (i *verds*). Determinants: *la, els, les*. Pronoms: *se, t', l'*. Verbs: *formaven, tenia, abraçaves*. Preposicions: *amb, de*. Conjuncions: *i*. Adverbis: *com, igual* (en «igual que»).",
@@ -53,22 +53,22 @@ export const ACTS: Act[] = [
         ],
         s: [
           "**a)** Noms: *mare, cabells, espirals*. Adjectius: *blanca*. Determinants: *la, els*. Pronoms: *se*. Verbs: *formaven, abraçaves*. Preposicions: *amb, de*. Conjuncions: *i, quan*.",
-          "**b)** Adjectiu: acompaña i copia el nom *mare* (femení singular).",
+          "**b)** Adjectiu: acompanya i copia el nom *mare* (femení singular).",
           "**c)** *El pare era blanc.*",
         ],
-        ad: "Traen la fila d'adverbis (la més difícil), el banco de subratllats es reduïx i l'apartat d'anàlisi de *com* desapareix.",
+        ad: "Traen la fila d'adverbis (la més difícil), el banc de subratllats es reduïx i l'apartat d'anàlisi de *com* desapareix.",
       },
       {
-        in: "Banco de paraules del text: *mare, blanca, la, formaven, amb, i*.",
+        in: "Banc de paraules del text: *mare, blanca, la, formaven, amb, i*.",
         p: [
-          "**a)** Coloca cada paraula del banco en la seua columna: NOM · ADJETIU · DETERMINANT · VERB · PREPOSICIÓ · CONJUNCIÓ.",
+          "**a)** Coloca cada paraula del banc en la seua columna: NOM · ADJETIU · DETERMINANT · VERB · PREPOSICIÓ · CONJUNCIÓ.",
           "**b)** Digues en veu alta per què *formaven* és un verb.",
         ],
         s: [
           "**a)** NOM: mare · ADJETIU: blanca · DETERMINANT: la · VERB: formaven · PREPOSICIÓ: amb · CONJUNCIÓ: i.",
           "**b)** Perquè indica allò que feien (acció) i pot canviar: *formava, formarem, formaven*.",
         ],
-        ad: "El banco ja tria les paraules: només cal col·locar-les en sis columnes; la justificació és oral.",
+        ad: "El banc ja tria les paraules: només cal col·locar-les en sis columnes; la justificació és oral.",
       },
       {
         in: "Fitxes: MARE, BLANCA, FORMAVA, AMB. Caixes: NOM · ADJETIU · VERB · ALTRES.",
@@ -111,9 +111,9 @@ export const ACTS: Act[] = [
         ],
         s: [
           "**a)** D'una xica: ho deduïm de les marques de femení dels adjectius (*sola, perduda, atenta*) que funcionen com a claus gramaticals del personatge.",
-          "**b)** Lloc: *acá? — «a la dreta», «lluny», «enmig (de)», «cap al far», «arran del mur», «sobre la tanca», «de nit» (temps)*. De manera: *lentament*. (Es valora trobar *lluny* i *lentament*.)",
+          "**b)** Lloc: *acà*, «a la dreta», «lluny», «enmig (de)», «cap al far», «arran del mur», «sobre la tanca»; temps: «de nit»; manera: *lentament*. (Es valora trobar *lluny* i *lentament*.)",
           "**c)** Sis: *sola, perduda, foscos, xicotet, alta, silvestre*.",
-          "**d)** Primera conjugació: *renillar, dirigix? — no (‑ir)*: **renillar, camina, fica, anar?** — els de ‑ar evidents: *renillar, camina, fica, haver?* Resposta correcta: *renillar* (infinitiu en ‑ar), *camina, fica, tranquil·litza* (1a); d'altres: *sent, té, ixen* (2a/3a).",
+          "**d)** Són de primera conjugació, perquè l'infinitiu acaba en ‑ar: *renillar*, i també *camina* (caminar), *fica* (fixar) i *tranquil·litza* (tranquil·litzar). *Sent*, *té* i *ixen* no ho són.",
         ],
       },
       {
@@ -131,7 +131,7 @@ export const ACTS: Act[] = [
         ad: "El text baixa a quatre frases, els adverbis estan acotats en l'enunciat i l'última pregunta és tancada.",
       },
       {
-        in: "Banco: *sola, lentament, renillar, nit*.",
+        in: "Banc: *sola, lentament, renillar, nit*.",
         p: [
           "**a)** Uneix cada fitxa amb la seua classe: ADJECTIU · ADVERBI · VERB · NOM.",
           "**b)** Digues en veu alta quin mot del fragment diu *com* camina la xica.",
@@ -229,7 +229,7 @@ export const ACTS: Act[] = [
       {
         in: "La targeta CANVI és verda; la targeta NO CANVI, roja.",
         p: [
-          "**a)** L'mestre llig: *llibre, sobre, roig*. Ensenya la targeta verda o roja.",
+          "**a)** El mestre llig: *llibre, sobre, roig*. Ensenya la targeta verda o roja.",
           "**b)** Digues el plural d'una de les que poden canviar.",
         ],
         s: [
@@ -251,7 +251,7 @@ export const ACTS: Act[] = [
           "**a)** Classifica el determinant de cada oració: article, possessiu, quantitatiu, demostratiu, indefinit o interrogatiu.",
           "**b)** Explica quina diferència hi ha entre *aquelles* i *algunes* quant a precisió del que determinen.",
           "**c)** Canvia el determinant de la 3 per un altre de la mateixa mena i di què passa amb el nom.",
-          "**d)** Escriu dos oracions noves: una amb un **possessiu** i una amb un **indefinit**, i assenya'ls.",
+          "**d)** Escriu dues oracions noves: una amb un **possessiu** i una amb un **indefinit**, i assenya'ls.",
         ],
         s: [
           "**a)** 1) article; 2) possessiu; 3) quantitatiu; 4) demostratiu; 5) indefinit; 6) interrogatiu.",
@@ -272,10 +272,10 @@ export const ACTS: Act[] = [
           "**b)** *Aquelles* concreta quines taronges (les llunyanes); *les* no en fa selectives: són totes les del context.",
           "**c)** Per exemple: «Molts veïns van vindre.»",
         ],
-        ad: "Tres oracions i un triar entre les tres menes donades; el canvi de sentit es diu en una frase.",
+        ad: "Tres oracions i triar entre les tres menes donades; el canvi de sentit es diu en una frase.",
       },
       {
-        in: "Banco: *article (el, la) · possessiu (meua) · demostratiu (aquell)*.",
+        in: "Banc: *article (el, la) · possessiu (meua) · demostratiu (aquell)*.",
         p: [
           "**a)** Uneix cada fitxa amb la seua mena.",
           "**b)** Rodreja el demostratiu: *el* / *aquell* / *meua*.",
@@ -289,7 +289,7 @@ export const ACTS: Act[] = [
       {
         in: "Fitxes: EL, LA MEUA, AQUELL.",
         p: [
-          "**a)** L'mestre diu «el que senyala, el que és meu, el que acompanya»: tu assenyes.",
+          "**a)** El mestre diu «el que senyala, el que és meu, el que acompanya»: tu assenyes.",
           "**b)** Abraca la fitxa LA MEUA: els possessius són del que parla.",
         ],
         s: [
@@ -393,9 +393,9 @@ export const ACTS: Act[] = [
         in: "Consigna de producció lliure amb llista de verificació de categories (nom, adjectiu, determinant, pronom, verb, adverbi, preposició, conjunció).",
         p: [
           "**a)** Escriu quatre oracions de més de deu paraules cadascuna, cadascuna sobre un tema diferent (esport, música, natura, tecnologia).",
-          "**b)** En cada oració, assenya amb colors distintes un nom, un verb, un adjectiu i un adverbi.",
+          "**b)** En cada oració, assenya amb colors distints un nom, un verb, un adjectiu i un adverbi.",
           "**c)** De quines categories n'has fet servir menys? Compta-ho en una taula de 8 files.",
-          "**d)** Reescriu la que menys t'haja eixit afillada afegint-hi una conjunción i una preposició.",
+          "**d)** Reescriu la que menys t'haja eixit afillada afegint-hi una conjunció i una preposició.",
         ],
         s: [
           "**a)** Resposta oberta; criteri: >10 paraules, sentit complet, ortografia.",
@@ -414,7 +414,7 @@ export const ACTS: Act[] = [
         s: [
           "**a)** Per exemple: «…i les reparteix entre els veïns.»",
           "**b)** *cosina* (nom), *porta* (verb), *meua* (adjectiu-possessiu o determinant, segons anàlisi: accepta).",
-          "**c)** Per exemple el pronom *les* o la conjunción *i*.",
+          "**c)** Per exemple el pronom *les* o la conjunció *i*.",
         ],
         ad: "Una sola oració des d'un model copiat; assenyar tres categories i completar-ne una de donada.",
       },
@@ -428,22 +428,22 @@ export const ACTS: Act[] = [
           "**a)** «El gos corre ràpid pel carrer.» (accepta qualsevol opció de la classe indicada).",
           "**b)** Lectura en veu alta.",
         ],
-        ad: "Estructura buidada amb la classe de cada paraula escrita dins del buit; l'ortografia no puntuau.",
+        ad: "Estructura buidada amb la classe de cada paraula escrita dins del buit; l'ortografia no es penalitza.",
       },
       {
         in: "Bancos: EL/LA · CORRE/SAUTA · MOLT/POC · CARRER/TERRA.",
         p: [
-          "**a)** Fes una oració triant una paraula de cada banco, en ordre.",
+          "**a)** Fes una oració triant una paraula de cada banc, en ordre.",
           "**b)** Llig-la en veu alta al company.",
         ],
         s: [
-          "**a)** «El terra corre molt carrer» NO: cal triar un ordre amb sentit → «El carrer corre…» tampoc. Model vàlid: «El gos corre molt pel carrer» — el banco guia, l'ordre el posa l'alumne.",
+          "**a)** «El terra corre molt carrer» NO: cal triar un ordre amb sentit → «El carrer corre…» tampoc. Model vàlid: «El gos corre molt pel carrer» — el banc guia, l'ordre el posa l'alumne.",
           "**b)** Lectura oral.",
         ],
-        ad: "Banco de quatre columnes d'on pillar; només una oració.",
+        ad: "Banc de quatre columnes d'on pillar; només una oració.",
       },
       {
-        in: "Fitxes de colors: AZUL=nom, VERD=verb, GROC=adjectiu.",
+        in: "Fitxes de colors: BLAU=nom, VERD=verb, GROC=adjectiu.",
         p: [
           "**a)** Colpeja la taula i digues una paraula de cada color.",
           "**b)** Digues les tres juntes i fes una oració.",

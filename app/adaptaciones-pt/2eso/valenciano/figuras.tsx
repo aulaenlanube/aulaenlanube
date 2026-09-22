@@ -265,7 +265,7 @@ export function Funcions() {
     [378, 106, "FÀTICA", "el canal", "«Em sents?»"],
   ];
   return (
-    <Figura caption="Cada funció del llenguatge posa el focus en un element del circuit: por eso, mirando un enunciado, se puede adivinar qué función cumple.">
+    <Figura caption="Cada funció del llenguatge posa el focus en un element del circuit: per això, mirant un enunciat, es pot endevinar quina funció complix.">
       <svg viewBox="0 0 560 196" className="h-auto w-full min-w-[520px] max-w-full" role="img" aria-label="Les sis funcions del llenguatge amb l'element de la comunicació que destaca cadascuna">
         {cells.map(([x, y, t, el, ex]) => (
           <g key={t}>
@@ -295,7 +295,7 @@ export function Paraules() {
     [200, "ADVERBI", "tard, molt"],
   ];
   return (
-    <Figura caption="Les huit classes de paraules: cinc variables (porten flexió de gènere, nombre, persona…) i tres d'invariables. Las preposiciones y conjunciones pertenecen al grupo de los conectores.">
+    <Figura caption="Les huit classes de paraules: cinc variables (porten flexió de gènere, nombre, persona…) i tres d'invariables. Les preposicions i les conjuncions pertanyen al grup dels conectors.">
       <svg viewBox="0 0 560 300" className="h-auto w-full min-w-[520px] max-w-full" role="img" aria-label="Esquema de les classes de paraules: variables i invariables">
         <Caja x={170} y={8} w={220} h={36} r={18} fill="#ecfdf5" stroke="#059669" />
         <Txt x={280} y={32} size={14} peso={700} fill="#047857">CLASSES DE PARAULES</Txt>

@@ -13,7 +13,7 @@ export const AP: Ap = {
     "En tota situació comunicativa intervénen **sis elements**. L'**emissor** és qui produeix el missatge i el **receptor**, qui el rep; el **missatge** és la informació que viatja; el **canal** és el mitjà físic pel qual viatja (l'aire, el paper, la pantalla, el cable); el **codi** és el sistema de signes compartit (el castellà, el valencià, els gestos, els colors d'un semàfor); i el **context** o referent és tot allò que envolta el missatge i ajuda a interpretar-lo: on, quan i entre qui ocor. Si falla un sol element, la comunicació es trenca: un missatge perfecte escrit en un codi que el receptor no coneix no comunica absolutament res.",
     "Fig:circuit",
     "RAW:<table><caption>Els sis elements en una situació real: Marta envia un àudio al pare des de la porta de l'institut de Xàtiva, a les 14:05, per a demanar-li que la arreplegue perquè està plovent</caption><thead><tr><th>Element</th><th>Què és</th><th>En esta situació</th></tr></thead><tbody><tr><td>Emissor</td><td>Qui produeix i envia el missatge</td><td>Marta</td></tr><tr><td>Receptor</td><td>Qui rep i interpreta el missatge</td><td>El seu pare</td></tr><tr><td>Missatge</td><td>La informació que es transmet</td><td>Que passe a arreplegar-la perquè plou</td></tr><tr><td>Canal</td><td>El mitjà físic pel qual viatja</td><td>El mòbil: un àudio de missatgeria</td></tr><tr><td>Codi</td><td>El sistema de signes compartit</td><td>El valencià oral</td></tr><tr><td>Context</td><td>La situació que dona sentit al missatge</td><td>Final de les classes, plovent, el pare prop</td></tr></tbody></table>",
-    "Segons la necessitat o l'objectiu del missatge (informar, narrar, convéncer, descriure…), l'emissor destacará un element de la comunicació o un altre. Així, el llenguatge acomplix **sis funcions**: **expressiva** (destaca l'emissor: «Tinc fam»), **conativa** (el receptor: «Tanqueu la porta!»), **referencial** (el context: «El nucli del subjecte sol ser un nom»), **poètica** (la forma del missatge: «El gegant del pi ara balla»), **metalingüística** (el codi: «*Diftong* s'escriu amb ft») i **fàtica** (el canal: «Em sents?»).",
+    "Segons la necessitat o l'objectiu del missatge (informar, narrar, convèncer, descriure…), l'emissor destacará un element de la comunicació o un altre. Així, el llenguatge acomplix **sis funcions**: **expressiva** (destaca l'emissor: «Tinc fam»), **conativa** (el receptor: «Tanqueu la porta!»), **referencial** (el context: «El nucli del subjecte sol ser un nom»), **poètica** (la forma del missatge: «El gegant del pi ara balla»), **metalingüística** (el codi: «*Diftong* s'escriu amb ft») i **fàtica** (el canal: «Em sents?»).",
     "Fig:funcions",
     "La comunicació **verbal** usa paraules i pot ser **oral** (una conversa, un àudio, la megafonia del mercat) o **escrita** (un wasap, un examen, el cartell d'una botiga). La comunicació **no verbal** transmet sense paraules: gestos, mirades, postura, to de veu, senyals de trànsit, imatges, icones i colors. Les dues es mesclen sense parar i, quan es contradiuen, el receptor fa més cas a la no verbal: si dius «està bé» amb el cap baix i la veu apagada, ningú no et creu.",
   ],
@@ -32,7 +32,7 @@ export const ACTS: Act[] = [
     fig: "circuit",
     nv: [
       {
-        in: "Conversa al grup de classe de 2n B, un dilluns a les 21:40. **Nerea:** «Demà l'eixida a l'Albufera ix a les 8:00 des de la porta de l'institut. No arribeu tard!» **Aitana:** «Que peresa madrugar un dimarts!» **Hugo:** «Me lliggeu o teniu el grup silenciat?» **Nerea:** «I *Albufera* s'escriu amb be, no amb ese.»**",
+        in: "Conversa al grup de classe de 2n B, un dilluns a les 21:40. **Nerea:** «Demà l'eixida a l'Albufera ix a les 8:00 des de la porta de l'institut. No arribeu tard!» **Aitana:** «Que peresa madrugar un dimarts!» **Hugo:** «Me lliggeu o teniu el grup silenciat?» **Nerea:** «*Lliggeu*? Això no es diu així: del verb *llegir*, **llegiu**.»",
         p: [
           "**a)** Analisa els sis elements de la comunicació en el primer missatge de Nerea i explica per què el receptor és **col·lectiu** i quin risc suposa això per a l'eficàcia de l'avís.",
           "**b)** Identifica la funció del llenguatge que predomina en cada una de les quatre intervencions i justifica-la amb les marques del missatge: tipus d'oració, mode i persona verbal, lèxic.",
@@ -41,7 +41,7 @@ export const ACTS: Act[] = [
           "**e)** Redacta eixe mateix avís com un correu del tutor a les famílies i indica quins elements de la comunicació canvien respecte al missatge de Nerea.",
         ],
         s: [
-          "**a)** Emissor: Nerea. Receptor: els companys del grup de 2n B. Missatge: l'hora i el lloc de l'eixida, més l'ordre de ser puntuals. Canal: l'aplicació de missatgeria del mòbil. Codi: el valencià escrit. Context: la nit abans d'una eixida de l'institut. El receptor és **col·lectiu** perquè l'avís no es dirigix a ningú en concret: la responsabilitat es repartix, cadú dona per fet que va per als demés, ningú no confirma la lectura i el missatge pot quedar-se sense obrir.",
+          "**a)** Emissor: Nerea. Receptor: els companys del grup de 2n B. Missatge: l'hora i el lloc de l'eixida, més l'ordre de ser puntuals. Canal: l'aplicació de missatgeria del mòbil. Codi: el valencià escrit. Context: la nit abans d'una eixida de l'institut. El receptor és **col·lectiu** perquè l'avís no es dirigix a ningú en concret: la responsabilitat es repartix, cadascú dona per fet que va per als demés, ningú no confirma la lectura i el missatge pot quedar-se sense obrir.",
           "**b)** Nerea, primera intervenció: **referencial** en l'oració inicial (enunciativa, dades objectives) i **conativa** en «No arribeu tard» (imperatiu en segona del plural). Aitana: **expressiva**, oració exclamativa i valoració subjectiva («Que peresa…!»). Hugo: **fàtica**, perquè no demana informació nova, només comprova que el canal seguix obert. Nerea, segona intervenció: **metalingüística**, ja que parla del codi mateix, de com s'escriu una paraula.",
           "**c)** Registre **informal o coloquial**. Trets: tuteig i segona persona del plural, exclamacions i preguntes directes, lèxic coloquial («peresa», «silenciat»), absence de salutació i de comiat. Ho condicionen el **receptor** (iguals, companys de confiança) i el **context** (un grup privat, de nit, fora de l'horari escolar).",
           "**d)** No falla el missatge, que seguix clar i complet: falla la **recepció**. L'avís arriba al canal, però el receptor no l'obri a temps i ja no pot actuar en conseqüència. La causa és un **soroll**: el grup silenciat o la notificació perduda. Per això un avís important convindria confirmar-lo o manar-lo per una via que garantisca la lectura.",
@@ -74,13 +74,13 @@ export const ACTS: Act[] = [
           "**b)** En **valencià**, un codi de paraules escrites.",
           "**c)** Quan: «demà» i «a les 8:00». On: «des de la porta de l'institut».",
         ],
-        ad: "Es reduïx a tres elements, es dona l'emissor ja resolt com a model i bastarà senyar en el text en lloc de redactar una explicació.",
+        ad: "Es reduïx a tres elements, es dona l'emissor ja resolt com a model i bastarà assenyar en el text en lloc de redactar una explicació.",
       },
       {
-        in: "Missatge de mòbil: «Mamà, hui eixc a les 14:00. T'espere a la porta.» Banco de paraules: *emissor* · *receptor* · *canal*.",
+        in: "Missatge de mòbil: «Mamà, hui eixc a les 14:00. T'espere a la porta.» Banc de paraules: *emissor* · *receptor* · *canal*.",
         p: [
           "**a)** Rodeja l'emissor: *la mare* / *el fill* / *l'institut*.",
-          "**b)** Completa amb el banco de paraules: qui escriu és el …, qui ho llig és el … i el mòbil és el …",
+          "**b)** Completa amb el banc de paraules: qui escriu és el …, qui ho llig és el … i el mòbil és el …",
           "**c)** El missatge està fet amb paraules o amb dibuixos? Tria: *paraules* / *dibuixos*.",
         ],
         s: [
@@ -88,16 +88,16 @@ export const ACTS: Act[] = [
           "**b)** Qui escriu és l'**emissor**, qui el llig és el **receptor** i el mòbil és el **canal**.",
           "**c)** Amb *paraules*: és comunicació verbal escrita.",
         ],
-        ad: "Es passe a opcions tancades (rodejar i triar entre tres) amb banco de paraules a la vista i frases molt curtes.",
+        ad: "Es passa a opcions tancades (rodejar i triar entre tres) amb banc de paraules a la vista i frases molt curtes.",
       },
       {
-        in: "Targetes sobre la taula: AZUL per qui parla, VERDA per qui escaucha, GROCÀ per al que se diu. El mestre llig en veu alta: «Pablo li diu a la seua germana: posa't el xubasquero, que plou.»",
+        in: "Targetes sobre la taula: BLAU per qui parla, VERDA per qui escaucha, GROCÀ per al que se diu. El mestre llig en veu alta: «Pablo li diu a la seua germana: posa't el xubasquero, que plou.»",
         p: [
-          "**a)** Coloca la targeta AZUL davant del dibuix de Pablo i la VERDA davant del de la seua germana.",
+          "**a)** Coloca la targeta BLAU davant del dibuix de Pablo i la VERDA davant del de la seua germana.",
           "**b)** Di en veu alta què posaria en la targeta GROCÀ, és a dir, què li diu Pablo.",
         ],
         s: [
-          "**a)** AZUL sobre Pablo, que és qui parla (l'emissor), i VERDA sobre la germana, que escaucha (el receptor).",
+          "**a)** BLAU sobre Pablo, que és qui parla (l'emissor), i VERDA sobre la germana, que escaucha (el receptor).",
           "**b)** En la targeta GROCÀ va el missatge: que es pose el xubasquero perquè està plovent. Es respon oralment.",
         ],
         ad: "Es treballa amb targetes de colors i resposta oral, amb només dos elements i el text llegit en veu alta pel mestre.",
@@ -113,7 +113,7 @@ export const ACTS: Act[] = [
       {
         in: "Sis enunciats del llibre (p. 19): 1) «Tinc fam.» 2) «Tancat per vacances.» 3) «Em sents?» 4) «El nucli del subjecte sol ser un nom o un pronom.» 5) «Tanqueu la porta!» 6) «Bella, de vós so enamòrós.»",
         p: [
-          "**a)** Indica la funció del llenguatge de cada enunciat i la justfica amb una marca del text.",
+          "**a)** Indica la funció del llenguatge de cada enunciat i la justifica amb una marca del text.",
           "**b)** Relaciona cada funció amb l'element de la comunicació sobre el qual incidix: expressiva‑…, conativa‑…, referencial‑…, fàtica‑…, poètica‑…, metalingüística‑…",
           "**c)** Redacta un seté enunciat que complisca la funció **poètica** (un vers, un eslògan o un joc de paraules).",
           "**d)** Un dels sis enunciats compleix una funció **doble**: informar i, alhora, fer que el receptor faça algo. Quin i per què?",
@@ -151,12 +151,12 @@ export const ACTS: Act[] = [
           "**b)** El 2, perquè l'ordre «Tanqueu la porta!» espera que algú la tanque.",
           "**c)** Resposta oberta: «Me passeu el corrector?».",
         ],
-        ad: "Un enunciat ja resolt com a model, dos que triar entre dos opcions i un de producció molt guiada.",
+        ad: "Un enunciat ja resolt com a model, dos que triar entre dues opcions i un de producció molt guiada.",
       },
       {
-        in: "Targetes: «Tinc son.» · «Tanqueu la porta!» · «Em sents?» Banco: *expressar* · *ordenar* · *comprovar*.",
+        in: "Targetes: «Tinc son.» · «Tanqueu la porta!» · «Em sents?» Banc: *expressar* · *ordenar* · *comprovar*.",
         p: [
-          "**a)** Uneix cada targeta amb la paraula del banco que dica per a què servix.",
+          "**a)** Uneix cada targeta amb la paraula del banc que dica per a què servix.",
           "**b)** Rodeja: quina targeta és una ordre? *1* / *2* / *3*.",
         ],
         s: [
@@ -208,7 +208,7 @@ export const ACTS: Act[] = [
         ],
         s: [
           "**a)** 1) no verbal; 2) no verbal; 3) verbal oral; 4) verbal escrita; 5) no verbal.",
-          "**b)** El semàfor roig és un **símbol**: el roig no s'assembla a «para», cal apendre que significa parar. L'icona del sobre és un **icono**: el dibuix s'assembla a un sobre.",
+          "**b)** El semàfor roig és un **símbol**: el roig no s'assembla a «parar»: cal aprendre, per convenció, què significa. L'icona del sobre és un **icono**: el dibuix s'assembla a un sobre.",
           "**c)** El badall: és involuntari, però l'altres ho interpreten com a son o avorriment.",
         ],
         ad: "Una situació menys i la classificació de signes es reduïx a símbol i icono; desapareix el disseny de l'avís.",
@@ -228,7 +228,7 @@ export const ACTS: Act[] = [
         ad: "Menys situacions, la primera classificada com a model i només dues opcions (verbal / no verbal).",
       },
       {
-        in: "Quatre missatges: 1) un semàfor en roig; 2) dir «bons dies»; 3) l'icona d'una paperera a l'ordinador; 4) un cartell que diu «Obert». Banco: V = verbal (paraules) · NV = no verbal (sense paraules).",
+        in: "Quatre missatges: 1) un semàfor en roig; 2) dir «bons dies»; 3) l'icona d'una paperera a l'ordinador; 4) un cartell que diu «Obert». Banc: V = verbal (paraules) · NV = no verbal (sense paraules).",
         p: [
           "**a)** Escriu V o NV al costat de cada missatge.",
           "**b)** Rodeja el que és un senyal de trànsit: *1* / *2* / *3* / *4*.",
@@ -239,17 +239,17 @@ export const ACTS: Act[] = [
           "**b)** El *1*, el semàfor en roig.",
           "**c)** *Esborrar*: el dibuix s'assembla a una paperera de veritat.",
         ],
-        ad: "Cada ítem es resol amb dos lletres o rodejant entre opcions tancades, sense redactar.",
+        ad: "Cada ítem es resol amb dues lletres o rodejant entre opcions tancades, sense redactar.",
       },
       {
-        in: "Quatre targetes dibuixades: un semàfor en roig, una mà alçada, un dit sobre els llavis i un bocadillo de còmic amb la paraula «hola».",
+        in: "Quatre targetes dibuixades: un semàfor en roig, una mà alçada, un dit sobre els llavis i un bocadill de còmic amb la paraula «hola».",
         p: [
-          "**a)** Fes amb el cos el gest de cada targeta i di en veu alta què significar.",
+          "**a)** Fes amb el cos el gest de cada targeta i di en veu alta què significa.",
           "**b)** Fes dos montons: targetes amb paraules i targetes sense paraules.",
         ],
         s: [
           "**a)** Semàfor roig: parar. Mà alçada: demanar torn. Dit als llavis: silenci. Bocadillo «hola»: saludar.",
-          "**b)** Amb paraules: només la del bocadillo. Sense paraules: les altres tres.",
+          "**b)** Amb paraules: només la del bocadill. Sense paraules: les altres tres.",
         ],
         ad: "Dramatització corporal i classificació en dos montons, amb resposta oral i dos passos.",
       },
@@ -265,12 +265,12 @@ export const ACTS: Act[] = [
         p: [
           "**a)** Indica el canal, el codi i el registre de l'àudio, i assenya tres trets del missatge que delaten eixe registre.",
           "**b)** Quina funció del llenguatge predomina? Justifica-ho i di què feia el «vale?» final.",
-          "**c)** Tradú el contingut a un **codi no verbal**: descriu quins icones faries i explica quina informació es perd.",
+          "**c)** Tradú el contingut a un **codi no verbal**: descriu quines icones faries i explica quina informació es perd.",
           "**d)** Reescriu el missatge com una **nota formal** per a entregar a consergeria: ajusta el registre i afegix les dades que l'àudio donava per sabudes.",
         ],
         s: [
           "**a)** Canal: el mòbil, àudio de missatgeria. Codi: valencià oral. Registre: **informal**. Trets: fórmules de conversa («Hola, bones», «Vaja»), muletilles coloquials («o siga», «segur»), frases encadenades sense planificar.",
-          "**b)** Predomina la **referencial**: informa d'un fet (no vindrà i per què) amb oracions enunciativas. El «vale?» és **fàtica**: no pregunta de veres, només vol mantindre el contacte i buscar la conformitat.",
+          "**b)** Predomina la **referencial**: informa d'un fet (no vindrà i per què) amb oracions enunciatives. El «vale?» és **fàtica**: no pregunta de veres, només vol mantindre el contacte i buscar la conformitat.",
           "**c)** Per exemple: un rellotge marcant primera hora, una creu de farmàcia i l'edifici de l'institut tatxat. Es perden la identitat de qui envia, la cortesia i el matís de «després passe»: els icones representen objectes i accions, però no temps verbals, causes ni intencions.",
           "**d)** Per exemple: «Xàtiva, 13 de novembre. Benvolguda tutora: li comunico que demà, dimarts 14, no podré assistir a classe perquè tinc una cita mèdica. M'incorporaré al llarg del matí. Atentament, Álex Ferrer, de 2n B.» Canvien el canal (papel), el registre (formal, tractament de vosté) i s'expliciten data, curs i nom.",
         ],
@@ -287,7 +287,7 @@ export const ACTS: Act[] = [
           "**b)** Un rellotge, una creu de farmàcia i l'institut tatxat. Es perden qui el man, el «després passe» i la disculpa.",
           "**c)** Perquè el canal condiciona el registre i la permanència: l'àudio és ràpid, informal i es recolza en el to; la nota queda archivada, la pot llig algú que no coneix Álex i necessàta nom, curs, data i motiu.",
         ],
-        ad: "L'àudio es més breu, retiren anàlisi del registre i funcions, i queden tres apartats clars.",
+        ad: "L'àudio és més breu, retiren anàlisi del registre i funcions, i queden tres apartats clars.",
       },
       {
         in: "Missatge d'àudio: «Demà no va a classe perquè tinc metge.» Nota començada: «Bon dia. Álex Ferrer, de 2n B, no assistirà a classe demà perquè…»",
@@ -304,18 +304,18 @@ export const ACTS: Act[] = [
         ad: "Es dona el començament de la nota escrit i només cal completar; les preguntes es limiten a nomenar el canal.",
       },
       {
-        in: "Missatge de mòbil: «Demà no va a classe. Va al metge.» Banco: *faltaré* · *a classe* · *demà*.",
+        in: "Missatge de mòbil: «Demà no va a classe. Va al metge.» Banc: *faltaré* · *a classe* · *demà*.",
         p: [
           "**a)** Rodeja el canal: *el papel* / *la pantalla del mòbil* / *un altaveu*.",
           "**b)** Tria el dibuix que millor traduïx el missatge sense paraules: *un baló* / *una creu de farmàcia* / *una motxilla*.",
-          "**c)** Copia la frase canviant «no va a classe» per les paraules del banco.",
+          "**c)** Copia la frase canviant «no va a classe» per les paraules del banc.",
         ],
         s: [
           "**a)** *La pantalla del mòbil*.",
           "**b)** *Una creu de farmàcia*.",
           "**c)** «Demà faltaré a classe. Va al metge.»",
         ],
-        ad: "Es tria entre tres opcions i es copia usant el banco; sense redactar.",
+        ad: "Es tria entre tres opcions i es copia usant el banc; sense redactar.",
       },
       {
         in: "El mestre llig en veu alta: «Demà no va a classe perquè va al metge.»",
@@ -341,7 +341,7 @@ export const ACTS: Act[] = [
         p: [
           "**a)** Definix **llenguatge**, **llengua** i **fala**, i aplica cada concepte a l'escena amb un exemple d'ella.",
           "**b)** Quantes llengües i quants llenguatges utilitza Aisha? Justifica la diferència.",
-          "**c)** Compara el salud a la profe amb el missatge del grup: què canvia quant a **llengua** i què quant a **registre**? Assenya tres trets.",
+          "**c)** Compara la salutació a la profe amb el missatge del grup: què canvia quant a **llengua** i què quant a **registre**? Assenya tres trets.",
           "**d)** Un grup d'amics usa paraules inventades que ells sols entenen. Estan creant una llengua nova o és una varietat de la seua fala? Razona la resposta.",
         ],
         s: [
@@ -380,9 +380,9 @@ export const ACTS: Act[] = [
         ad: "Les definicions es donen com a pistes a la vista i només cal aplicar-les, amb respostes d'una línia.",
       },
       {
-        in: "Banco: *llenguatge* · *llengua* · *fala*. Frases: 1) el valencià i l'inglés són dos …; 2) totes les persones tenim … per a comunicar-nos; 3) quan Pau conta algo a la seua manera, és la seua …",
+        in: "Banc: *llenguatge* · *llengua* · *fala*. Frases: 1) el valencià i l'inglés són dos …; 2) totes les persones tenim … per a comunicar-nos; 3) quan Pau conta algo a la seua manera, és la seua …",
         p: [
-          "**a)** Completa les tres frases amb el banco.",
+          "**a)** Completa les tres frases amb el banc.",
           "**b)** Rodeja: el castellà és una *llengua* / un *llenguatge*.",
           "**c)** Uneix: «Bon dia» → valencià · «Good morning» → …",
         ],
@@ -391,12 +391,12 @@ export const ACTS: Act[] = [
           "**b)** Una *llengua*.",
           "**c)** «Good morning» → inglés.",
         ],
-        ad: "Es completa amb banco de tres paraules i es respon rodejant o unint, frases molt curtes.",
+        ad: "Es completa amb banc de tres paraules i es respon rodejant o unint, frases molt curtes.",
       },
       {
         in: "Targetes amb saluts i sa bandera: «Hola» (castellà), «Bon dia» (valencià), «Good morning» (inglés).",
         p: [
-          "**a)** Llig cada targeta en veu alta i col·locar-la junt a la seua bandera.",
+          "**a)** Llig cada targeta en veu alta i col·loca-la junt a la seua bandera.",
           "**b)** Di en veu alta: les tres targetes diuen el mateix? En què es diferencien?",
         ],
         s: [
@@ -417,13 +417,13 @@ export const ACTS: Act[] = [
         p: [
           "**a)** Indica en cada cas quin element del circuit falla i justifica-ho.",
           "**b)** Definix amb les teues paraules què és el **soroll** i digues quins casos són soroll de debò.",
-          "**c)** Proposa una solució concreta per a cada fallo sense cambiar la informació.",
+          "**c)** Proposa una solució concreta per a cada fallo sense canviar la informació.",
           "**d)** Els casos 2 i 5 fallen pels dos pel codi, però no igual. Explica la diferència i relaciona-la amb el **registre**.",
         ],
         s: [
           "**a)** 1) **Canal**: interferències, mala cobertura. 2) **Codi**: no compartixen llengua. 3) **Receptor**: arriba a qui no era. 4) **Context**: falta la informació compartida que dona sentit a «allí». 5) **Codi**: compartixen llengua però no el vocabulari especialitzat.",
           "**b)** El soroll és qualsevol interferència que estropeja el missatge mentre viatja pel canal. Soroll de debò només és el cas 1; en el 2 i el 5 el problema és el codi, en el 4 el context, i en el 3 el destinatari.",
-          "**c)** 1) ixir del llit i buscar cobertura o repetir-ho per escrit. 2) pasar a un codi comú: senyes, un traductor. 3) comprovar l'adreça i reenviar. 4) concretar: «ens vorem a la porta de l'institut a les sis». 5) traduir: «sent vosté un poc menys per les dos orelles».",
+          "**c)** 1) ixir del llit i buscar cobertura o repetir-ho per escrit. 2) passar a un codi comú: senyes, un traductor. 3) comprovar l'adreça i reenviar. 4) concretar: «ens vorem a la porta de l'institut a les sis». 5) traduir: «sent vosté un poc menys per les dos orelles».",
           "**d)** En el 2 són **llengües diferents**: no compartixen codi en absolut. En el 5 sí compartixen llengua però no **varietat**: el metge usa un registre especialitzat davant d'un receptor que no el domina. No bastarà parlar el mateix idioma: cal adequar el registre al receptor, i és responsabilitat de l'emissor.",
         ],
       },
@@ -431,7 +431,7 @@ export const ACTS: Act[] = [
         in: "Quatre comunicacions que ixen malament: 1) Julia truca des del llit del riu i se la sent a cops. 2) Un turista alemany pregunta en alemany en un forn. 3) El professor envia el correu a una adreça equivocada. 4) Marc escriu «ens vorem allí» i no se l'enten.",
         p: [
           "**a)** Indica quin element falla en cada cas.",
-          "**b)** Proposa una solució per a cada fallo sense cambiar la informació.",
+          "**b)** Proposa una solució per a cada fallo sense canviar la informació.",
           "**c)** Definix què és el **soroll** i posa un exemple de l'institut.",
         ],
         s: [
@@ -456,9 +456,9 @@ export const ACTS: Act[] = [
         ad: "Un cas menys, el primer resolt i la pista dóna els dos elements possibles.",
       },
       {
-        in: "Tres fallos: 1) no hi ha cobertura; 2) el company parla una llengua que no coneixes; 3) la lletra del cartell està esborrada. Banco: *canal* · *codi* · *missatge*.",
+        in: "Tres fallos: 1) no hi ha cobertura; 2) el company parla una llengua que no coneixes; 3) la lletra del cartell està esborrada. Banc: *canal* · *codi* · *missatge*.",
         p: [
-          "**a)** Uneix cada fallo amb la paraula del banco.",
+          "**a)** Uneix cada fallo amb la paraula del banc.",
           "**b)** Rodeja el que és un problema d'idioma: *1* / *2* / *3*.",
           "**c)** Per a arreglar el 1, què faries? Tria: *cridar més* / *ixir a buscar cobertura* / *escriure més llarg*.",
         ],
@@ -467,10 +467,10 @@ export const ACTS: Act[] = [
           "**b)** El *2*.",
           "**c)** *Ixir a buscar cobertura*.",
         ],
-        ad: "Es resol unint amb banco de tres paraules i triant opcions tancades.",
+        ad: "Es resol unint amb banc de tres paraules i triant opcions tancades.",
       },
       {
-        in: "Joc del telèfon escachavat. El mestre di a l'orella del primer: «Demà porteu la carpeta roja i un llapis.»",
+        in: "Joc del telèfon trencat. El mestre di a l'orella del primer: «Demà porteu la carpeta roja i un llapis.»",
         p: [
           "**a)** Passeu la frase a l'orella, u a u, fins a l'últim, que la di en veu alta.",
           "**b)** Compara la frase del principi amb la del final i di quines paraules han canviat.",

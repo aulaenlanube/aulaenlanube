@@ -5,7 +5,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 export const metadata: Metadata = {
   title: "Adaptaciones PT — Aula en la Nube",
   description:
-    "Adaptaciones de ejercicios para niveles de ESO con dificultades, alineadas con la normativa de la Comunitat Valenciana (LOMLOE). Segundo de ESO: matemáticas y lengua castellana.",
+    "Adaptaciones de ejercicios para niveles de ESO con dificultades, alineadas con la normativa de la Comunitat Valenciana (LOMLOE). Segundo de ESO: matemáticas, lengua castellana y valencià.",
 };
 
 const chip =
@@ -13,7 +13,7 @@ const chip =
 
 const NIVELES = [
   { n: "1º", t: "1.º de ESO", href: "", pronto: false, d: "Adaptaciones de 1.º de ESO. En preparación." },
-  { n: "2º", t: "2.º de ESO", href: "/adaptaciones-pt/2eso/", pronto: true, d: "Matemáticas y castellano — el mismo ejercicio en varios niveles descendentes desde 2.º de ESO: hasta 5.º de primaria en matemáticas y hasta 4.º de primaria en castellano." },
+  { n: "2º", t: "2.º de ESO", href: "/adaptaciones-pt/2eso/", pronto: true, d: "Matemáticas, castellano y valencià — el mismo ejercicio en varios niveles descendentes desde 2.º de ESO: hasta 5.º de primaria en matemáticas y hasta 4.º de primaria en castellano." },
   { n: "3º", t: "3.º de ESO", href: "", pronto: false, d: "Adaptaciones de 3.º de ESO. En preparación." },
   { n: "4º", t: "4.º de ESO", href: "", pronto: false, d: "Adaptaciones de 4.º de ESO. En preparación." },
 ];

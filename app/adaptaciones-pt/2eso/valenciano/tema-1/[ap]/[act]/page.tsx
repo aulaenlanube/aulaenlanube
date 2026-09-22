@@ -1,0 +1,110 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import Link from "@/components/Link";
+import Breadcrumbs from "@/components/Breadcrumbs";
+import PrintButton from "@/components/PrintButton";
+import { chip, NIVEL_CLS, tarjeta } from "../../../ui";
+import { md } from "../../../texto";
+import { Icono, Fig } from "../../../figuras";
+import { APS, ACTS, LABELS } from "../../../datos";
+
+type P = { params: Promise<{ ap: string; act: string }> };
+
+export function generateStaticParams() {
+  const out: { ap: string; act: string }[] = [];
+  for (const a of APS) for (let i = 0; i < (ACTS[a.slug]?.length ?? 0); i++) out.push({ ap: a.slug, act: String(i + 1).padStart(2, "0") });
+  return out;
+}
+
+export async function generateMetadata({ params }: P): Promise<Metadata> {
+  const { ap, act } = await params;
+  const a = APS.find((x) => x.slug === ap);
+  const A = a && ACTS[a.slug]?.[Number(act) - 1];
+  if (!a || !A) return {};
+  return {
+    title: `Activitat ${Number(act)}: ${A.t} — Tema 1 ${a.t} — Adaptaciones PT`,
+    description: `${A.d} El ejercicio base de 2.º de ESO y cuatro adaptaciones: 1.º ESO, 6.º, 5.º y 4.º de primaria, con soluciones.`,
+  };
+}
+
+export default async function ActividadPT({ params }: P) {
+  const { ap, act } = await params;
+  const a = APS.find((x) => x.slug === ap);
+  const n = Number(act);
+  const acts = a ? ACTS[a.slug] : undefined;
+  const A = acts?.[n - 1];
+  if (!a || !acts || !A) notFound();
+  const next = acts[n];
+  const base = "/adaptaciones-pt/2eso/valenciano/tema-1";
+  const me = `${base}/${a.slug}/${String(n).padStart(2, "0")}/`;
+
+  return (
+    <div className="mx-auto w-full max-w-4xl px-4 py-6">
+      <Breadcrumbs
+        items={[
+          { title: "Adaptaciones PT", path: "/adaptaciones-pt/" },
+          { title: "2.º ESO", path: "/adaptaciones-pt/2eso/" },
+          { title: "Valencià", path: "/adaptaciones-pt/2eso/valenciano/" },
+          { title: "Tema 1", path: `${base}/` },
+          { title: `Bloc ${a.n}`, path: `${base}/${a.slug}/` },
+          { title: `Act. ${n}`, path: me },
+        ]}
+      />
+      <div className="flex items-start gap-4">
+        <div className="mt-1 flex-none"><Icono k={A.ic} /></div>
+        <div>
+          <span className={chip}>Tema 1 · Bloc {a.n} · Activitat {n}</span>
+          <h1 className="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl">{A.t}</h1>
+          <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">{A.d}</p>
+        </div>
+      </div>
+
+      {A.fig ? <Fig k={A.fig} /> : null}
+
+      {A.nv.map((nv, i) => (
+        <section key={i} className={tarjeta}>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+            <span className={NIVEL_CLS[i]}>{LABELS[i]}</span>
+            {nv.in ? <p className="text-[15px] text-zinc-700 dark:text-zinc-300" dangerouslySetInnerHTML={{ __html: md(nv.in) }} /> : null}
+          </div>
+          <div className="mt-2 space-y-1 text-[15px] text-zinc-800 dark:text-zinc-200">
+            {nv.p.map((p, j) => <p key={j} dangerouslySetInnerHTML={{ __html: md(p) }} />)}
+          </div>
+          {nv.ad ? (
+            <div className="mt-2 rounded-xl border border-zinc-200 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 text-[13px] text-zinc-600 dark:text-zinc-400">
+              <span className="text-sm font-bold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">🔧 Què s’adapta: </span>
+              <span dangerouslySetInnerHTML={{ __html: md(nv.ad) }} />
+            </div>
+          ) : null}
+          <details className="mt-3 rounded-xl border border-emerald-200 dark:border-emerald-500/30 bg-white dark:bg-slate-900 p-4 text-sm text-zinc-700 dark:text-zinc-300">
+            <summary className="cursor-pointer select-none font-bold text-emerald-700 dark:text-emerald-300">Veure solució</summary>
+            <div className="mt-2 space-y-1">{nv.s.map((s, j) => <p key={j} dangerouslySetInnerHTML={{ __html: md(s) }} />)}</div>
+          </details>
+        </section>
+      ))}
+
+      <div className="mt-8 rounded-2xl border border-zinc-200 dark:border-white/10 bg-zinc-100 dark:bg-white/10 p-5 text-sm text-zinc-700 dark:text-zinc-300">
+        <b>Mateix objectiu en els cinc nivells:</b> dalt va l’exercici tal com es planteja
+        a 2n d’ESO; avall, la mateixa activitat amb més andamiatge (text més curt, opció
+        tancada, banco de paraules, manipulatiu, oral). No canvia la meta, canvia l’accés.
+        Adaptació d’accés conforme al Decreto 104/2018 i l’Orden 20/2019 (C. Valenciana).
+      </div>
+
+      <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
+        <Link href={`${base}/${a.slug}/`} className="rounded-xl border border-zinc-300 dark:border-white/15 bg-white dark:bg-slate-900 px-5 py-2.5 text-sm font-semibold text-slate-700 dark:text-slate-200 transition hover:bg-zinc-50 dark:hover:bg-white/5">
+          ← Bloc {a.n}
+        </Link>
+        <div className="flex gap-3">
+          <PrintButton />
+          {next ? (
+            <Link href={`${base}/${a.slug}/${String(n + 1).padStart(2, "0")}/`} className="rounded-xl bg-slate-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800 dark:hover:bg-slate-600">
+              Activitat {n + 1} →
+            </Link>
+          ) : (
+            <Link href={`${base}/`} className="rounded-xl bg-slate-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800 dark:hover:bg-slate-600">Següent bloc →</Link>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}

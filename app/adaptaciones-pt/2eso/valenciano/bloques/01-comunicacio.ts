@@ -9,7 +9,7 @@ export const AP: Ap = {
   n: 1,
   t: "La comunicació",
   teoria: [
-    "**Comunicar‑se** és transmetre informació a algú amb una **intenció**: que s.aburro d'algo, que faça algo, que canvie d'opinió o que sàpe com et sent. Ho fas tota estona i gairebé sempre sense pensar-ho: quan manes un àudio, quan alces la mà en classe, quan el conductor de la línia 2 posa l'intermitent o quan el cartell del mercat diu, sense una sola paraula, «Tancat per falles». Segons per a què s'emeta, el missatge servix per a *informar* (l'examen és dijous), per a *demanar* (me passeu els apunts?), per a *convéncer* (última setmana de rebaixes) o per a *expressar* (que ràbia!). Reconéixer la intenció és tan important com entendre les paraules.",
+    "**Comunicar‑se** és transmetre informació a algú amb una **intenció**: que algú s'assabente d'alguna cosa, que faça alguna cosa, que canvie d'opinió o que sàpiga com et sent. Ho fas tota estona i gairebé sempre sense pensar-ho: quan manes un àudio, quan alces la mà en classe, quan el conductor de la línia 2 posa l'intermitent o quan el cartell del mercat diu, sense una sola paraula, «Tancat per falles». Segons per a què s'emeta, el missatge servix per a *informar* (l'examen és dijous), per a *demanar* (me passeu els apunts?), per a *convéncer* (última setmana de rebaixes) o per a *expressar* (que ràbia!). Reconèixer la intenció és tan important com entendre les paraules.",
     "En tota situació comunicativa intervénen **sis elements**. L'**emissor** és qui produeix el missatge i el **receptor**, qui el rep; el **missatge** és la informació que viatja; el **canal** és el mitjà físic pel qual viatja (l'aire, el paper, la pantalla, el cable); el **codi** és el sistema de signes compartit (el castellà, el valencià, els gestos, els colors d'un semàfor); i el **context** o referent és tot allò que envolta el missatge i ajuda a interpretar-lo: on, quan i entre qui ocor. Si falla un sol element, la comunicació es trenca: un missatge perfecte escrit en un codi que el receptor no coneix no comunica absolutament res.",
     "Fig:circuit",
     "RAW:<table><caption>Els sis elements en una situació real: Marta envia un àudio al pare des de la porta de l'institut de Xàtiva, a les 14:05, per a demanar-li que la arreplegue perquè està plovent</caption><thead><tr><th>Element</th><th>Què és</th><th>En esta situació</th></tr></thead><tbody><tr><td>Emissor</td><td>Qui produeix i envia el missatge</td><td>Marta</td></tr><tr><td>Receptor</td><td>Qui rep i interpreta el missatge</td><td>El seu pare</td></tr><tr><td>Missatge</td><td>La informació que es transmet</td><td>Que passe a arreplegar-la perquè plou</td></tr><tr><td>Canal</td><td>El mitjà físic pel qual viatja</td><td>El mòbil: un àudio de missatgeria</td></tr><tr><td>Codi</td><td>El sistema de signes compartit</td><td>El valencià oral</td></tr><tr><td>Context</td><td>La situació que dona sentit al missatge</td><td>Final de les classes, plovent, el pare prop</td></tr></tbody></table>",
@@ -116,7 +116,7 @@ export const ACTS: Act[] = [
           "**a)** Indica la funció del llenguatge de cada enunciat i la justifica amb una marca del text.",
           "**b)** Relaciona cada funció amb l'element de la comunicació sobre el qual incidix: expressiva‑…, conativa‑…, referencial‑…, fàtica‑…, poètica‑…, metalingüística‑…",
           "**c)** Redacta un seté enunciat que complisca la funció **poètica** (un vers, un eslògan o un joc de paraules).",
-          "**d)** Un dels sis enunciats compleix una funció **doble**: informar i, alhora, fer que el receptor faça algo. Quin i per què?",
+          "**d)** Un dels sis enunciats compleix una funció **doble**: informar i, alhora, fer que el receptor faça alguna cosa. Quin i per què?",
         ],
         s: [
           "**a)** 1) **expressiva**: primera persona, declara un estat propi. 2) **referencial** (i conativa en l'efecte): informa d'un fet, el cartell del comerç. 3) **fàtica**: només comprova el canal. 4) **metalingüística**: parla de la pròpia llengua. 5) **conativa**: imperatiu, busca una acció del receptor. 6) **expressiva**: declaració d'amor, to literari.",
@@ -130,7 +130,7 @@ export const ACTS: Act[] = [
         p: [
           "**a)** Digues la funció de cada enunciat: expressiva, fàtica, conativa o referencial.",
           "**b)** Uneix cada funció amb l'element que destaca: expressiva·receptor / fàtica·canal / conativa·emissor… (comprova si les unions del model són totes correctes i corregeix-les).",
-          "**c)** Escriu un enunciat nou amb funció conativa: que algú faça algo per tu.",
+          "**c)** Escriu un enunciat nou amb funció conativa: que algú faça alguna cosa per tu.",
         ],
         s: [
           "**a)** 1) expressiva; 2) fàtica; 3) conativa; 4) referencial.",
@@ -144,7 +144,7 @@ export const ACTS: Act[] = [
         p: [
           "**a)** Tria la funció dels enunciats 2 i 3: *conativa* / *fàtica*.",
           "**b)** Quin dels tres espera una acció del receptor? Rodeja'l.",
-          "**c)** Esciu tu un enunciat per a demanar algo en classe.",
+          "**c)** Esciu tu un enunciat per a demanar alguna cosa en classe.",
         ],
         s: [
           "**a)** 2) conativa; 3) fàtica.",
@@ -189,8 +189,8 @@ export const ACTS: Act[] = [
         p: [
           "**a)** Classifica les sis situacions en **verbal oral**, **verbal escrita** i **no verbal**, i justifica les dues que puguen resultar dubtoses.",
           "**b)** Classifica els signes de les situacions 1, 2 i 5 com a **índex**, **icono** o **símbol** i explicau quina relació manté cadascun amb allò que representa.",
-          "**c)** Una de les sis situacions comunica algo que l'emissor no pretenia comunicar. Identificau-la i expliqueu per què ocor.",
-          "**d)** Dissenya un avís **no verbal** per a la porta de l'aula d'informàtica que prohibisca menjar-hi: descriu els signes, classifica'ls i digues quina avantatge tenen front a un cartell escrit.",
+          "**c)** Una de les sis situacions comunica alguna cosa que l'emissor no pretenia comunicar. Identifica-la i explica per què ocor.",
+          "**d)** Dissenya un avís **no verbal** per a la porta de l'aula d'informàtica que prohibisca menjar-hi: descriu els signes, classifica'ls i digues quin avantatge tenen front a un cartell escrit.",
         ],
         s: [
           "**a)** 1) no verbal; 2) no verbal; 3) verbal oral; 4) verbal escrita; 5) no verbal; 6) no verbal. Són dubtosos el badall, perquè no té intenció comunicativa i, amb tot, el receptor en trau informació, i l'icona del sobre, que ix en una pantalla junt amb text però no usa paraules.",
@@ -217,7 +217,7 @@ export const ACTS: Act[] = [
         in: "Quatre situacions: 1) el porter diu «fins demà» *(ja resolt: verbal, perquè usa paraules)*; 2) el semàfor es posa en roig; 3) una companya et fa un gui; 4) el cartell de l'ascensor diu «Fora de servici».",
         p: [
           "**a)** Classifica les situacions 2, 3 i 4 en **verbal** o **no verbal**, com al model.",
-          "**b)** Quina de les quatre l'entendria una persona que no sàpe valencià? Explica-ho en una frase.",
+          "**b)** Quina de les quatre l'entendria una persona que no sàpia valencià? Explica-ho en una frase.",
           "**c)** Esciu un exemple teu de comunicació no verbal que uses en l'institut.",
         ],
         s: [
@@ -380,7 +380,7 @@ export const ACTS: Act[] = [
         ad: "Les definicions es donen com a pistes a la vista i només cal aplicar-les, amb respostes d'una línia.",
       },
       {
-        in: "Banc: *llenguatge* · *llengua* · *fala*. Frases: 1) el valencià i l'inglés són dos …; 2) totes les persones tenim … per a comunicar-nos; 3) quan Pau conta algo a la seua manera, és la seua …",
+        in: "Banc: *llenguatge* · *llengua* · *fala*. Frases: 1) el valencià i l'inglés són dos …; 2) totes les persones tenim … per a comunicar-nos; 3) quan Pau conta alguna cosa a la seua manera, és la seua …",
         p: [
           "**a)** Completa les tres frases amb el banc.",
           "**b)** Rodeja: el castellà és una *llengua* / un *llenguatge*.",

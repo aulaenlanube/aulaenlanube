@@ -36,7 +36,7 @@ export default function PteValenciaTema1() {
       <h1 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">{TEMA}</h1>
       <p className="mt-4 text-lg text-zinc-600 dark:text-zinc-400">
         Cada bloc porta la seua <b>teoria</b> (explicació curta i accessible), <b>exemples</b>{" "}
-        resolts i <b>six activitats</b>, cadascuna amb l’exercici base de 2n d’ESO i les seues
+        resolts i <b>sis activitats</b>, cadascuna amb l’exercici base de 2n d’ESO i les seues
         quatre adaptacions. El bloc 0 és de
         repàs: convé començar per ahí i seguir l’ordre, encara que els enllaços permeten saltar a
         qualsevol bloc.

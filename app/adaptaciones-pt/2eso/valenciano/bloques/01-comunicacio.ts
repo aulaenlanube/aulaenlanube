@@ -204,7 +204,7 @@ export const ACTS: Act[] = [
         p: [
           "**a)** Classifica-les en verbal oral, verbal escrita o no verbal.",
           "**b)** De les no verbals, di quina és un **símbol** (cal apendre-la) i quina és un **icono** (s'assembla al que representa).",
-          "**c)** Una de les cinc comunica algo sense que l'emissor ho haja decidit. Quina i per què?",
+          "**c)** Una de les cinc comunica alguna cosa sense que l'emissor ho haja decidit. Quina i per què?",
         ],
         s: [
           "**a)** 1) no verbal; 2) no verbal; 3) verbal oral; 4) verbal escrita; 5) no verbal.",

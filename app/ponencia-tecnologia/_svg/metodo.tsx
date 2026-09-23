@@ -6,7 +6,6 @@ import {
   Curva,
   FS,
   FS_TIT,
-  FONDO,
   Lienzo,
   MEDIO,
   Numero,
@@ -326,22 +325,56 @@ export function CicloMetaprompt() {
             );
           })}
 
-          {/* Corazón del ciclo */}
-          <circle cx={CX} cy={CY} r={62} fill={FONDO} />
-          <circle cx={CX} cy={CY} r={58} fill="var(--dg-papel)" stroke={TONOS.gris.borde} strokeWidth={2} />
-          {/* El rótulo del centro cabe holgado en el disco de r = 58: dos
-              líneas de 16, la más ancha «METAPROMPT» (≈ 91 de caja). Nada más
-              entra aquí — lo que se salga de esa circunferencia pisa los arcos. */}
-          <Parrafo
-            x={CX}
-            y={CY - 6}
-            lineas={["EL", "METAPROMPT"]}
-            color={TINTA}
-            peso={800}
-            tam={FS}
-            interlineado={20}
-            ancla="middle"
+          {/* Corazón del ciclo. Disco único r = 66 con degradado papel→morado
+              y UNA sombra suave. El rótulo se parte en META / PROMPT (18 en
+              negrita, ≈ 80 de caja la línea ancha) para ir holgado: a |y| = 28
+              la semicuerda del disco es 59, margen lateral ≥ 19 garantizado.
+              Fuera, cuatro tramos de color a r = 76 en las diagonales (±18°),
+              separados 8 unidades del borde del disco y a buen recaudo de los
+              halos de los nodos (r 77). */}
+          <defs>
+            <radialGradient id={`${ctx.uid}-hub`} cx="50%" cy="32%" r="85%">
+              <stop offset="0%" stopColor="var(--dg-papel)" />
+              <stop offset="100%" stopColor="var(--dg-morado-suave)" />
+            </radialGradient>
+            <filter id={`${ctx.uid}-hub-sombra`} x="-45%" y="-45%" width="190%" height="190%">
+              <feDropShadow dx="0" dy="3" stdDeviation="5" floodColor={TINTA} floodOpacity="0.16" />
+            </filter>
+          </defs>
+
+          {/* Los cuatro tramos de color del núcleo: cada uno es la prosecución
+              natural del arco que sale de su nodo (mismo tono, mismo sentido). */}
+          {NODOS_META.map((n) => {
+            const diag = n.g + 45; // centro del tramo: justo entre su nodo y el siguiente
+            return (
+              <path
+                key={`tramo-${n.id}`}
+                d={arco(CX, CY, 79, diag - 17, diag + 17)}
+                fill="none"
+                stroke={TONOS[n.tono].linea}
+                strokeWidth={6}
+                strokeLinecap="round"
+              />
+            );
+          })}
+          <circle
+            cx={CX}
+            cy={CY}
+            r={66}
+            fill={`url(#${ctx.uid}-hub)`}
+            stroke={TONOS.morado.borde}
+            strokeWidth={2}
+            filter={`url(#${ctx.uid}-hub-sombra)`}
           />
+          <text x={CX} y={CY - 16} textAnchor="middle" fontSize={FS} fontWeight={700} letterSpacing={2} fill={TINTA} opacity={0.85}>
+            EL
+          </text>
+          <text x={CX} y={CY + 8} textAnchor="middle" fontSize={FS_TIT} fontWeight={800} fill={TINTA}>
+            META
+          </text>
+          <text x={CX} y={CY + 30} textAnchor="middle" fontSize={FS_TIT} fontWeight={800} fill={TINTA}>
+            PROMPT
+          </text>
 
           {NODOS_META.map((n) => (
             <Nodo

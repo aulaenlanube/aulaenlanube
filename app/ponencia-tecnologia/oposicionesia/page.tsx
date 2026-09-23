@@ -251,6 +251,63 @@ export default function Bloque6() {
         de <b>Maestros</b>, esas sí están abiertas hoy.
       </P>
 
+      {/* ═══ 7. Quién lo hace y desde dónde ═══════════════════════════════ */}
+      <H2 ante="Quién lo hace" tono="azul">
+        Esto no lo escribe un chat: centro de excelencia y dos canales
+      </H2>
+      <P>
+        Todo lo que has visto —la ponencia y la plataforma— lo hace profesorado en activo del{" "}
+        <b>IES Dr. Lluís Simarro de Xàtiva</b>, el centro seleccionado en 2025 por el Ministerio de
+        Educación como <b>Centro de Excelencia de Formación Profesional</b> en el sector de{" "}
+        <b>Inteligencia Artificial y Big Data</b>: un millón de euros de financiación
+        NextGenerationEU, la <b>Red Estatal de Centros de Excelencia</b> y proyectos reales con ITI,
+        AWS o universidades — el «Centro Inteligente». Es la misma familia de herramientas de esta
+        ponencia, usada en clase todos los días por gente que aprueba exámenes de oposición igual
+        que tú. Puedes verlo en{" "}
+        <Fuera href="https://oposicionesia.com/quien-soy">oposicionesia.com/quien-soy</Fuera> y en la{" "}
+        <Fuera href="https://www.xativa.es/es/educacion/noticia/ies-dr-lluis-simarro-xativa-seleccionado-como-centro-excelencia-nacional-formacion-profesional-2025">
+          nota oficial del Ayuntamiento de Xàtiva
+        </Fuera>
+        .
+      </P>
+      <Rejilla>
+        <Tarjeta tono="verde" titulo="Corregir exámenes con IA, en vídeo (26 min)">
+          El módulo de corrección del bloque 6 no es teoría: así se corrige un examen escrito a mano
+          con IA y rúbrica,{" "}
+          <Fuera href="https://www.youtube.com/watch?v=jGhicjeUz24">
+            en este vídeo del canal IA para docentes
+          </Fuera>
+          . <b>Aviso honesto:</b> está grabado en junio de 2025 — tiene casi año y medio. La interfaz
+          de las herramientas ha cambiado desde entonces; el flujo de trabajo —fotografiar, pasar a
+          texto, corregir con rúbrica anclada a criterios— es exactamente el que sigue vigente.
+        </Tarjeta>
+        <Tarjeta tono="morado" titulo="El curso de IA para docentes, completo y gratis">
+          En el mismo canal tienes el{" "}
+          <Fuera href="https://www.youtube.com/playlist?list=PLMhQ6qm8uYWCHT4hADeD5X86MGnzAn42U">
+            Curso de IA para docentes 2025-2026
+          </Fuera>
+          : nueve lecciones grabadas en orden —qué IAs usar, evaluación con IA, presentaciones,
+          imagen, vídeo, NotebookLM, estudiar con IA y hasta IA gratis sin internet—. Si el bloque 5
+          de esta sesión te sabe a poco, el curso es el siguiente paso natural, y no cuesta nada.
+        </Tarjeta>
+      </Rejilla>
+      <P>
+        Y para no perderte lo que salga después —incluidas las{" "}
+        <Fuera href="https://www.youtube.com/playlist?list=PLMhQ6qm8uYWCHz2wlG_g241PZ1kTcabf7">
+          tres partes del seminario de IA para docentes de 2026
+        </Fuera>
+        , con poco más de tres horas y media de sesión completa—, los dos canales son{" "}
+        <Fuera href="https://www.youtube.com/@ia-para-docentes">
+          <b>youtube.com/@ia-para-docentes</b>
+        </Fuera>{" "}
+        (IA aplicada al aula y a la oposición) y{" "}
+        <Fuera href="https://www.youtube.com/@aulaenlanube">
+          <b>youtube.com/@aulaenlanube</b>
+        </Fuera>{" "}
+        (programación, herramientas y todo lo demás). Suscribirte a los dos es gratis y es la forma
+        más barata de que la formación no se acabe cuando se apaga el proyector.
+      </P>
+
       <Cierre tono="gris">
         <b>El cierre de las dos horas:</b> hoy no te llevas una suscripción ni una herramienta
         concreta — las herramientas cambian cada seis meses. Te llevas <b>un método para dirigirlas</b>{" "}

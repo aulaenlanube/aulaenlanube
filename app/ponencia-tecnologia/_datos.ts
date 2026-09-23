@@ -131,6 +131,16 @@ export const RECURSOS: { t: string; d: string; u: string }[] = [
     u: "https://www.youtube.com/@ia-para-docentes",
   },
   {
+    t: "Curso de IA para docentes (vídeo)",
+    d: "Las nueve lecciones grabadas del curso 2025-2026, en orden: qué IAs usar, evaluación, presentaciones, imagen, vídeo, NotebookLM y hasta IA gratis sin internet. La misma metodología del bloque 1 y 2, en formato serie.",
+    u: "https://www.youtube.com/playlist?list=PLMhQ6qm8uYWCHT4hADeD5X86MGnzAn42U",
+  },
+  {
+    t: "Corregir exámenes con IA (vídeo, 26 min)",
+    d: "Grabado en junio de 2025 — casi año y medio después, la interfaz ha cambiado; el flujo de trabajo que se enseña sigue siendo el mismo. En directo: exámenes escritos a mano corregidos con IA y rúbrica. Vívelo antes de leer el bloque 6.",
+    u: "https://www.youtube.com/watch?v=jGhicjeUz24",
+  },
+  {
     t: "YouTube · Aula en la nube",
     d: "Más de 800 vídeos gratuitos de programación, GIMP, OBS, Google y ofimática. Si hay una herramienta que no dominas, empieza aquí.",
     u: "https://www.youtube.com/@aulaenlanube",

@@ -210,8 +210,7 @@ export default function PonenciaPortada() {
           );
           const cls =
             "group rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-4 shadow-sm transition hover:border-blue-300 dark:hover:border-blue-500/40 hover:bg-blue-50/30 dark:hover:bg-blue-500/10";
-          // Se indexa por título: dos fichas distintas pueden apuntar a la
-          // misma página (las cadenas de prompts y su galería de infografías).
+          // Se indexa por título (fuente de verdad de la lista).
           return interno ? (
             <Link key={r.t} href={r.u} className={cls}>
               {cuerpo}

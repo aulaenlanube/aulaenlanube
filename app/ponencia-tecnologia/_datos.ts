@@ -116,13 +116,8 @@ export function vecinos(n: number) {
 
 export const RECURSOS: { t: string; d: string; u: string }[] = [
   {
-    t: "Cadenas de prompts",
-    d: "Cuatro aplicaciones educativas con la conversación entera que las creó, prompt a prompt. Es el bloque 1 y el bloque 5 en formato consultable.",
-    u: "https://aulaenlanube.com/cadenas-de-prompts/",
-  },
-  {
-    t: "Galería de infografías",
-    d: "En la misma página, pestaña «Infografías»: diecisiete láminas de aula con el prompt exacto de cada una. Cámbiale el tema y tienes la tuya — es el atajo del bloque 4.",
+    t: "Cadenas de prompts e infografías",
+    d: "Cuatro aplicaciones educativas con la conversación entera que las creó, prompt a prompt — el bloque 1 y el bloque 5 en formato consultable. En la misma página, pestaña «Infografías»: diecisiete láminas de aula con el prompt exacto de cada una. Cámbiale el tema y tienes la tuya — es el atajo del bloque 4.",
     u: "https://aulaenlanube.com/cadenas-de-prompts/",
   },
   {

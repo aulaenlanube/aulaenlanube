@@ -27,7 +27,7 @@ const VIDEOS: Video[] = [
     semana: "Vídeo 01",
     fecha: "Viernes 19-09 grabación · Domingo 21-09 publicación",
     titulo: "Soy profe de DAM y este año no voy a enseñar a programar como hasta ahora",
-    youtubeId: null,
+    youtubeId: "WfTPdFcvJCc",
     resumen:
       "Presentación del cambio de método: por qué un curso de Java de 220+ vídeos deja de ser la forma de enseñar en 2026, qué haremos en el curso, y la clase aumentada (transcripción en tiempo real + JARVIS).",
     bloques: [
@@ -62,6 +62,32 @@ const VIDEOS: Video[] = [
       {
         h: "CIERRE (30s, a cámara)",
         p: "El vídeo uno de una serie que durará todo el curso. Cada domingo, lo de la semana, con las webs de los alumnos de por medio si ellos quieren. Alumno de 1º DAM: la web del curso ya está arriba; iros pensando quién sois. Nos vemos el domingo que viene.",
+      },
+    ],
+  },
+  {
+    semana: "Vídeo 02",
+    fecha: "Sábado 26-09 grabación · Domingo 27-09 publicación",
+    titulo: "Tu primer proyecto con IA: de una carpeta vacía a GitHub",
+    youtubeId: null,
+    resumen:
+      "El primer proyecto real, creado desde cero fichero a fichero con el chat (HTML, CSS y JS por separado) y conectado a GitHub: repo, commit y push sin memorizar un solo comando. El tutorial se improvisa en pantalla; el intro va cerrado palabra por palabra.",
+    bloques: [
+      {
+        h: "GANCHO (0:00-1:30, sin saludo, sin sintonía — carpeta vacía en pantalla. Redactado literal)",
+        p: "Hoy vamos a crear un proyecto real desde cero: una web personal, fichero a fichero, sin escribir a mano una sola línea de código. Y no nos vamos a quedar en la carpeta: al final de este vídeo ese proyecto va a estar en GitHub, con tu nombre, público y con historial. Eso que separa a quien «hace cosas con la IA» de quien tiene un proyecto de desarrollador. Fíjate en la palabra: historial. Cualquiera te genera código hoy. Lo que casi nadie te enseña es el proceso que convierte una carpeta de ficheros sueltos en un proyecto del que puedes volver atrás, presumir y entregar. Eso es lo que vas a ver completo, desde una carpeta vacía. En unos diez minutos vas a tener algo que no existía cuando pulsaste play. Y el paso 5, el del token de GitHub, es donde la mitad de mis alumnos se atascaron la primera vez — te lo enseñaré también cuando falla. Vamos allá. [Corte al escritorio] Antes de seguir: esto es el resumen de la semana 2 del curso de programación con IA que doy a 1º de DAM en el IES Simarro. La semana pasada conté el cambio de método —por qué este año no enseño programación como toda la vida—; si no lo viste, no importa: este vídeo funciona solo. Pero si te pica, te lo dejo enlazado: youtu.be/WfTPdFcvJCc.",
+      },
+      {
+        h: "TUTORIAL (1:30-9:00, improvisado — estos son los beats para que no falte ninguno)",
+        p: "1) Carpeta vacía → pedir SOLO el HTML al chat; abrir en el navegador: ya existe, y es feo (bien: ese es el punto de partida real). «Un fichero cada vez, nunca la web entera de una». 2) style.css a petición aparte: antes/después en pantalla; «separados entiendes el edificio». 3) script.js con una interacción mínima: tercer prompt, tercer fichero. 4) La norma de oro a pantalla: «usa todos los agentes que quieras, pero entiende cada línea que entregas» — pedir al agente que explique lo que acaba de escribir. 5) GitHub, el momento de la verdad: repo vacío creado en la web (público, sin README); los comandos init/add/commit/remote/push los genera el agente — lo que se explica son los 4 conceptos (repo, commit=fotografía, remote=dirección, push=tirar para arriba). El token: tal cual, incluido que solo se copia una vez; «si os atascais aquí, es la fricción normal del día uno». 6) La recompensa: repo público con tu usuario, histórico del commit, los tres ficheros dentro; «esto es lo que lleva un junior a su primera entrevista — costado una tarde». 7) Cierre del tutorial: borrar un fichero y recuperarlo viajando en el tiempo con git; loop al ep03: «la semana que viene, todo lo que tiene que ser de Git — ramas, PRs y por qué tu agente te dice «vas tres commits por detrás»».",
+      },
+      {
+        h: "LA REVELACIÓN (9:00-9:45, a cámara, tono cercano)",
+        p: "Para los que no sabíais: esto es un curso de programación con IA. Oficial —1º de DAM, ciclo de FP, con su currículo y su examen final— rediseñado entero para aprender a programar dirigiendo agentes, no repitiendo sintaxis. Lo doy en un instituto público con treinta alumnos y lo estoy grabando semana a semana: qué hemos hecho, qué ha salido mal, qué hemos cambiado. Sin postureo: si algo no funciona, sale en el vídeo.",
+      },
+      {
+        h: "CIERRE (9:45-10:15, a cámara)",
+        p: "Tu deber, si te ha servido: carpeta vacía, tres ficheros, un repo con tu nombre. En media hora lo tienes. Suscríbete si quieres ver cómo se programa en 2026 contado desde dentro de un aula pública. Vídeo nuevo el domingo.",
       },
     ],
   },

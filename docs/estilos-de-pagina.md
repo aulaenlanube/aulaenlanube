@@ -99,6 +99,10 @@ oscuro todavía: la jerarquía se lee sin necesidad de sombras.
 - Las **láminas de Adaptaciones PT** (`Figura`, clase `aeln-lamina`): dibujan
   tinta oscura sobre papel y se serializan tal cual para el PDF, así que
   conservan el papel blanco; en oscuro solo se les baja un poco el brillo.
+  Igual las **hojas de las historias sociales** (Alumnado TEA): son el A4 que
+  se imprime (misma maqueta para el SVG de la web y para el PDF, en
+  `app/adaptaciones-pt/tea/historias-sociales/maqueta.ts`) y llevan
+  pictogramas ARASAAC sobre fondo blanco.
 
 **Diagramas SVG**: la paleta de `app/ponencia-tecnologia/_svg/base.tsx` y la del
 diagrama de Git (`programacion-ia/sesion-02`) son tokens CSS (`--dg-*`,

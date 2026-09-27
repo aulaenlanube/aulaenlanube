@@ -5,7 +5,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 export const metadata: Metadata = {
   title: "Adaptaciones PT — Aula en la Nube",
   description:
-    "Adaptaciones de ejercicios para niveles de ESO con dificultades, alineadas con la normativa de la Comunitat Valenciana (LOMLOE). Segundo de ESO: matemáticas, lengua castellana y valencià.",
+    "Adaptaciones de ejercicios para niveles de ESO con dificultades, alineadas con la normativa de la Comunitat Valenciana (LOMLOE). Segundo de ESO: matemáticas, lengua castellana y valencià. Alumnado TEA: historias sociales con pictogramas.",
 };
 
 const chip =
@@ -78,6 +78,23 @@ export default function AdaptacionesPte() {
         6.º → 5.º → 4.º de primaria. Cada adaptación indica qué se adapta (extensión del texto,
         apoyo visual, opción cerrada, respuesta oral) y lleva su solución, para que la
         adaptación sea de acceso al mismo objetivo de aprendizaje, no otro ejercicio distinto.
+      </div>
+      <h2 className="mt-10 text-xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 sm:text-2xl">
+        Necesidades específicas
+      </h2>
+      <div className="mt-4 grid grid-cols-1 gap-4">
+        <Link href="/adaptaciones-pt/tea/" className="group flex gap-4 rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-5 shadow-sm transition hover:border-blue-300 dark:hover:border-blue-500/40 hover:bg-blue-50/40 dark:hover:bg-blue-500/10">
+          <div className="w-10 flex-none text-3xl" aria-hidden>♾️</div>
+          <div>
+            <h3 className="text-lg font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-blue-800">Alumnado TEA</h3>
+            <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+              Apoyos visuales para alumnado con trastorno del espectro autista. Primera zona:
+              historias sociales con pictogramas ARASAAC, en versión chico y chica, para leer en
+              pantalla o descargar en PDF con tarjetas recortables.
+            </p>
+            <div className="mt-2 text-xs font-bold uppercase tracking-wide text-emerald-700 dark:text-emerald-300">Disponible →</div>
+          </div>
+        </Link>
       </div>
     </div>
   );

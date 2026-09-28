@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "Curso IA · acceso claustro"
+AuthUserFile /home/USUARIO_HOSTING/.curso-ia-auth/plan.passwd
+Require valid-user

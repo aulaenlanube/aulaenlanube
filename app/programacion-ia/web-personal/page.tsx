@@ -26,6 +26,14 @@ const FILAS = [
   ["6 · Pie", "Tu nombre, año, un detalle con personalidad.", "Cierre profesional."],
 ] as const;
 
+const RUTA = "/programacion-ia/tutoriales/";
+const TUTORIALES = [
+  [`${RUTA}github-pages/`, "TUTORIAL 1", "Publica tu web y domina GitHub", "GitHub Pages paso a paso y el flujo óptimo: commits que cuentan, issues, PRs y qué no se sube nunca.", "proceso + mínimos"],
+  [`${RUTA}api-externa/`, "TUTORIAL 2", "Datos vivos de una API externa", "Un widget con datos reales (tiempo, GitHub, música) que la IA escribe por ti y tú sabes explicar.", "interactividad"],
+  [`${RUTA}chatbot/`, "TUTORIAL 3", "Un chatbot que responde por ti", "Burbuja de chat en tu web con tu personalidad, sin filtrar tus datos y sin exponer claves.", "contacto"],
+  [`${RUTA}medios/`, "TUTORIAL 4", "Medios que cuentan tu historia", "SVG propios, vídeo por código y animaciones con intención: la riqueza de medios que puntúa.", "medios + diseño"],
+] as const;
+
 export default function CursoIAWebPersonal() {
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-6">
@@ -149,6 +157,33 @@ export default function CursoIAWebPersonal() {
             Preparada
           </span>
         </Link>
+      </div>
+
+      <h2 className="mt-9 text-xl font-extrabold tracking-tight">
+        Tutoriales para subir nota
+      </h2>
+      <p className="mt-1 max-w-3xl text-[15px] text-zinc-600 dark:text-zinc-400">
+        Una vez tu web funcione y esté en GitHub (sesiones 1-2), estos cuatro tutoriales son la
+        escalera hacia el <b>Excelente</b> de la rúbrica. Cada uno mueve casillas concretas, se hace
+        pidiendo a la IA y comprobando en el navegador — no vas a leer código: vas a decidir, exigir
+        y saber explicar el resultado. Úsalos en clase o en casa, a tu ritmo, en el orden que quieras
+        (el de GitHub va primero, porque publica todo lo demás).
+      </p>
+      <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+        {TUTORIALES.map(([href, num, t, d, sube]) => (
+          <Link
+            key={href}
+            href={href}
+            className="flex flex-col rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg"
+          >
+            <span className="text-xs font-extrabold tracking-wider text-zinc-400 dark:text-zinc-500">{num}</span>
+            <span className="mt-1 block text-[16px] font-bold">{t}</span>
+            <span className="mt-1 flex-1 block text-sm text-zinc-600 dark:text-zinc-400">{d}</span>
+            <span className="mt-3 w-fit rounded-full border border-emerald-200 dark:border-emerald-500/30 bg-emerald-50 dark:bg-emerald-500/10 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-300">
+              Sube: {sube}
+            </span>
+          </Link>
+        ))}
       </div>
 
       <div className="mt-6 rounded-2xl border border-blue-200 dark:border-blue-500/30 bg-blue-50 dark:bg-blue-500/10 p-5 text-[15px] text-blue-900 dark:text-blue-200">

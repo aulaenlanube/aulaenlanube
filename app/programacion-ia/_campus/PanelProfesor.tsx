@@ -6,7 +6,7 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "@/components/Link";
 import { CURSOS, CURSO_IDS, type CursoId } from "@/lib/campus/catalogo";
-import { api, type EntregaResumen, type GrupoResumen } from "@/lib/campus/cliente";
+import { api, RUTAS, type EntregaResumen, type GrupoResumen } from "@/lib/campus/cliente";
 import { ModalGrupo } from "./ProfGrupo";
 import ProfEntregas from "./ProfEntregas";
 import ProfGrupo from "./ProfGrupo";
@@ -53,7 +53,7 @@ export default function PanelProfesor() {
         titulo="Panel del profesor"
         acciones={
           <>
-            <Link href="/programacion-ia/plan/" className={cls.btn2}>Planificación</Link>
+            <a href={RUTAS.plan} className={cls.btn2}>Planificación</a>
             <button type="button" onClick={cerrarSesion} className={cls.btn2}>Salir</button>
           </>
         }

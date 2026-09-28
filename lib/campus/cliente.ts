@@ -13,6 +13,8 @@ export const RUTAS = {
   acceso: `${BASE}/programacion-ia/acceso/`,
   alumno: `${BASE}/programacion-ia/aula/`,
   profesor: `${BASE}/programacion-ia/profesor/`,
+  // Planificación privada: la sirve campus-api/plan.php solo con sesión de profesor.
+  plan: `${BASE}/programacion-ia/plan/`,
 };
 
 export type Rol = "alumno" | "profesor";

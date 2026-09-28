@@ -34,6 +34,7 @@ services:
       - ../../../out:/srv/sitio/public_html:ro
       - ../../../public/campus-api:/srv/sitio/public_html/campus-api:ro
       - ./aeln-db-config.php:/srv/sitio/aeln-db-config.php:ro
+      - ./router.php:/srv/router.php:ro
     ports:
       - "127.0.0.1:8088:8080"
-    command: ["php", "-S", "0.0.0.0:8080", "-t", "/srv/sitio/public_html"]
+    command: ["php", "-S", "0.0.0.0:8080", "-t", "/srv/sitio/public_html", "/srv/router.php"]

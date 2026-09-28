@@ -1,4 +1,5 @@
-AuthType Basic
-AuthName "Curso IA · acceso claustro"
-AuthUserFile /home/USUARIO_HOSTING/.curso-ia-auth/plan.passwd
-Require valid-user
+# Planificación privada del curso: misma sesión que el campus (sin segundo login).
+# Cualquier petición a esta carpeta la atiende campus-api/plan.php, que solo
+# sirve el fichero si hay un profesor con sesión; si no, lleva al acceso.
+RewriteEngine On
+RewriteRule ^ /campus-api/plan.php [L]

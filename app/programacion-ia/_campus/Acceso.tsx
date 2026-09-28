@@ -5,11 +5,12 @@ import Link from "@/components/Link";
 import { api, RUTAS, type UsuarioSesion } from "@/lib/campus/cliente";
 import { cls, mensajeError } from "./ui";
 
-/** Destino tras entrar: ?volver= solo si es una ruta del propio campus (sin redirecciones abiertas). */
+/** Destino tras entrar: ?volver= solo si es una zona de su rol (sin redirecciones abiertas). */
 function destino(usuario: UsuarioSesion): string {
   const panel = usuario.rol === "profesor" ? RUTAS.profesor : RUTAS.alumno;
+  const permitidas = usuario.rol === "profesor" ? [RUTAS.profesor, RUTAS.plan] : [RUTAS.alumno];
   const volver = new URLSearchParams(window.location.search).get("volver") || "";
-  return volver.startsWith(new URL(panel, window.location.origin).pathname) ? volver : panel;
+  return permitidas.some((r) => volver.startsWith(new URL(r, window.location.origin).pathname)) ? volver : panel;
 }
 
 export default function Acceso() {

@@ -50,8 +50,10 @@ ssh -p "$SSH_PORT" -o BatchMode=yes "$HOST" "
   # Desempaquetar el sitio estático en una carpeta temporal y copiarlo ENCIMA
   rm -rf ~/aeln-prod-tmp && mkdir -p ~/aeln-prod-tmp
   tar xzf ~/aeln-prod.tgz -C ~/aeln-prod-tmp
-  # rsync SIN --delete: añade/actualiza nuestras páginas, no toca ficheros de WP
-  rsync -a --exclude='.htaccess' ~/aeln-prod-tmp/ \"\$ROOT/\"
+  # rsync SIN --delete: añade/actualiza nuestras páginas, no toca ficheros de WP.
+  # Solo se excluye el .htaccess de la RAÍZ (se genera abajo); los de subcarpetas
+  # vienen del repo (p. ej. programacion-ia/plan/, la puerta del plan privado).
+  rsync -a --exclude='/.htaccess' ~/aeln-prod-tmp/ \"\$ROOT/\"
   # .htaccess de producción: servir estático (index.html primero), con index.php
   # de respaldo (wp-admin) y PRESERVANDO el handler PHP de LiteSpeed para que
   # wp-admin y subscribe.php sigan ejecutando PHP.

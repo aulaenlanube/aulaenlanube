@@ -11,6 +11,7 @@ criterio a criterio. Dos cursos independientes: **presencial** y
 | `/programacion-ia/acceso/` | todos | Login (común; redirige al panel de cada rol) |
 | `/programacion-ia/aula/` | alumno | Mi curso (proyectos → sesiones → entregas) · Mis notas · Cuenta |
 | `/programacion-ia/profesor/` | profesor | Grupos por curso · Seguimiento y corrección · Entregas · Cuenta |
+| `/programacion-ia/plan/` | profesor | Planificación privada (plan general + mapa de sesiones), con la misma sesión |
 | `/campus-api/api.php` | — | API JSON (PHP) |
 
 Las tres páginas son `noindex` y no están en el sitemap. Las páginas de
@@ -36,6 +37,17 @@ que:
   - `lib/campus/rubricas.ts` — rúbricas y `calcularNota()`. La de la web de
     marca la pinta también la página pública de la sesión 03.
   - `lib/campus/cliente.ts` — cliente de la API y tipos.
+
+### Planificación privada (misma sesión)
+
+`public/programacion-ia/plan/.htaccess` reescribe cualquier petición de esa
+carpeta a `campus-api/plan.php`, que solo sirve el fichero estático si hay un
+**profesor con sesión en el campus**; sin sesión lleva al acceso (y tras entrar
+vuelve al plan), y a un alumno lo manda a su aula. Sustituye al antiguo
+candado Basic Auth, que pedía un segundo login. El deploy solo excluye el
+`.htaccess` de la raíz, así que este se publica solo. En local lo emula
+`tools/campus/dev/router.php`. Ojo: los `.md` del plan (`docs/plan-curso-*.md`)
+están en el repo, que es público.
 
 ### Datos (tablas `app_campus_*`, `tools/campus/schema.sql`)
 

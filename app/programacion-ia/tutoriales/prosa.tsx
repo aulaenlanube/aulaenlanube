@@ -10,7 +10,7 @@ import type { ReactNode } from "react";
 
 function enLinea(txt: string, keyBase: string): ReactNode[] {
   const nodos: ReactNode[] = [];
-  const re = /(\*\*([^*]+)\*\*)|(`([^`]+)`)|(\[([^\]]+)\]\(([^)\s]+)\))|(_([^_]+)_)/g;
+  const re = /(\*\*([^*]+)\*\*)|(`([^`]+)`)|(\[([^\]]+)\]\(([^)\s]+)\))|((?<!_)_(?![_\s])([^_]*[^_\s])(?<!_)_(?!_))/g;
   let ultimo = 0;
   let m: RegExpExecArray | null;
   let i = 0;

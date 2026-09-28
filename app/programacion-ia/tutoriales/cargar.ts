@@ -27,7 +27,11 @@ export function leerTutorial(slug: string): Tutorial {
     cuerpo = raw.slice(m[0].length);
     for (const linea of m[1].split("\n")) {
       const kv = linea.match(/^(\w+):\s*(.*)$/);
-      if (kv) meta[kv[1]] = kv[2].trim();
+      if (kv) {
+        let v = kv[2].trim();
+        if ((v.startsWith('"') && v.endsWith('"')) || (v.startsWith("'") && v.endsWith("'"))) v = v.slice(1, -1);
+        meta[kv[1]] = v;
+      }
     }
   }
   return {

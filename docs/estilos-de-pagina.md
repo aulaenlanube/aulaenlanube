@@ -150,3 +150,12 @@ visible** (sin desplegable): `parseArticleParts` (en `lib/content.ts`) trocea el
 HTML separando los `<pre><xmp>…</xmp></pre>` del texto y `ArticleTemplate` los
 intercala. Ejemplos: `/que-es-la-recursividad-la-explicacion-definitiva/`,
 `/los-mejores-algoritmos-ordenacion-quicksort-mergesort-heapsort/`.
+
+## Campus del curso de IA (paneles privados)
+
+`/programacion-ia/acceso/`, `/aula/` y `/profesor/` son paneles cliente (ver
+`docs/campus.md`) que reutilizan las mismas piezas: contenedor `max-w-6xl px-4`,
+tarjetas `rounded-2xl` con las equivalencias claro/oscuro de arriba, chips y
+botones de las sesiones del curso. Las clases compartidas viven en
+`app/programacion-ia/_campus/ui.tsx` (`cls`): usarlas en vez de repetir cadenas.
+Son `noindex` y no afectan a la paridad SEO.

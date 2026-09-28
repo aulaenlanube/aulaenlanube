@@ -48,3 +48,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Campus del curso de IA: exportaciones, clones y evidencias de la corrección
+# asistida (datos del alumnado) — NUNCA al repo público
+/.campus-trabajo/

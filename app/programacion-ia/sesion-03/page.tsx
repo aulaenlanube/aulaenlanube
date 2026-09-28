@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "@/components/Link";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import { RUBRICA_WEB_MARCA } from "@/lib/campus/rubricas";
 
 export const metadata: Metadata = {
   title: "Sesión 3 · Por qué programamos así — Curso de Programación con IA",
@@ -11,79 +12,7 @@ export const metadata: Metadata = {
 const chip =
   "inline-block rounded-full border border-blue-200 dark:border-blue-500/30 bg-blue-50 dark:bg-blue-500/10 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-blue-700 dark:text-blue-300";
 
-type Nivel = [string, string, string, string];
-const RUBRICA: { nombre: string; peso: number; qué: string; niveles: Nivel }[] = [
-  {
-    nombre: "Contacto real y funcional", peso: 15,
-    qué: "Que un desconocido pueda escribirte desde la web y te llegue.",
-    niveles: [
-      "Enlace roto, botón muerto o mail inventado.",
-      "mailto: o teléfono visible y correcto, sin más.",
-      "Formulario que envía de verdad (Formspree/Web3Forms/GitHub Issue) con validación y mensaje de éxito.",
-      "Canal con respuesta automática: chatbot con la API del centro, auto-responder por correo, o formulario que abre un issue/PR etiquetado — y sabes explicar el recorrido del dato.",
-    ],
-  },
-  {
-    nombre: "Contenido propio y densidad", peso: 15,
-    qué: "Una web de marca se define por qué dice de TI, no por su plantilla.",
-    niveles: [
-      "Solo el texto genérico que soltó la IA en el primer prompt.",
-      "1-2 secciones con algo tuyo (fotos, algún trabajo).",
-      "4+ secciones coherentes: sobre mí, proyectos con contexto, servicios/habilidades, experiencia; textos revisados por ti, sin humo.",
-      "Además: casos de proyecto reales con problema→solución→resultado, datos o métricas propias, y una voz reconocible (se nota quién eres sin leer el nombre).",
-    ],
-  },
-  {
-    nombre: "Diseño y coherencia visual", peso: 15,
-    qué: "Que parezca una marca, no una demo de plantilla.",
-    niveles: [
-      "Colores y tipografías aleatorias; roto en móvil.",
-      "Plantilla correcta pero impersonal; responsive básico.",
-      "Sistema coherente: paleta y tipografía deliberadas, espaciados regulares, responsive real en 3 anchos, modo oscuro que suma.",
-      "Identidad propia defendible: logo/favicon hechos por ti, microinteracciones, consistencia en 4+ páginas, y sabes justificar cada decisión de diseño.",
-    ],
-  },
-  {
-    nombre: "Riqueza de medios", peso: 10,
-    qué: "Imágenes, SVG, vídeo, animación: el contenido multimedia cuenta la historia.",
-    niveles: [
-      "Solo texto o una foto de stock.",
-      "Imágenes variadas sin optimizar (peso, alt, lazy).",
-      "Mezcla trabajada: fotos propias optimizadas, ≥2 SVG propios (iconos/illustraciones), vídeo embebido, animaciones CSS/JS que aportan.",
-      "Todo lo anterior con criterio: SVG animados propios, vídeo propio o demo grabada, animaciones con intención (no decorativas), Lighthouse media sin avisos.",
-    ],
-  },
-  {
-    nombre: "Interactividad y funcionalidad extra", peso: 15,
-    qué: "Lo que une el 'te hace una web' con el 'has construido una aplicación'.",
-    niveles: [
-      "Solo enlaces ancla y algún acordeón de serie.",
-      "Alguna interacción cosmética (hover, carrusel).",
-      "≥2 funciones reales: menú móvil propio, buscador/filtro de proyectos, formulario validado, calculadora, test, dark-mode con persistencia.",
-      "Función con estado o datos: login demo con zona interna, consumo de una API externa real, chatbot operativo, o personalización según parámetros — con el código explicado en la defensa.",
-    ],
-  },
-  {
-    nombre: "Arquitectura, calidad técnica y accesibilidad", peso: 15,
-    qué: "Cómo está montado por dentro: semántica, estructura, rendimiento.",
-    niveles: [
-      "Un index.html gigante con estilos inline, sin carpetas.",
-      "Estructura de ficheros razonable pero HTML no semántico.",
-      "HTML semántico, CSS organizado (variables/tokens), JS modular, <title>/meta/OG por página, contraste y foco accesibles, alt en imágenes.",
-      "Además: componentes reutilizables o templates, Lighthouse ≥90 en rendimiento/accesibilidad, y ADR o README técnico explicando 2 decisiones de arquitectura.",
-    ],
-  },
-  {
-    nombre: "Proceso: git, iteración y evidencia de trabajo", peso: 15,
-    qué: "El corazón del curso: el trabajo detrás, visible en el historial.",
-    niveles: [
-      "1-2 commits monolíticos.",
-      "3-9 commits con mensajes flojos ('cambios', 'final').",
-      "≥10 commits atómicos con mensajes que cuentan decisiones + ramas para las features grandes.",
-      "Historial que se puede leer como un diario: issues/PR, iteraciones visibles, v1→v2 con mejoras rastreables, y las órdenes clave a la IA archivadas en el repo.",
-    ],
-  },
-];
+const RUBRICA = RUBRICA_WEB_MARCA.criterios;
 
 function Dato({ cifra, texto, fuente, url, pct = true }: { cifra: string; texto: string; fuente: string; url: string; pct?: boolean }) {
   return (

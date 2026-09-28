@@ -28,6 +28,19 @@ export default function CursoIAInicio() {
         importantes</b>: uno individual y uno en grupo.
       </p>
 
+      <div className="mt-6 flex flex-col gap-3 rounded-2xl border border-blue-200 dark:border-blue-500/30 bg-blue-50 dark:bg-blue-500/10 p-5 sm:flex-row sm:items-center sm:justify-between">
+        <p className="text-[15px] text-blue-900 dark:text-blue-200">
+          <b>¿Eres alumno del curso?</b> Entra en tu aula: sesiones de cada proyecto, tus entregas y tu nota
+          explicada con la rúbrica.
+        </p>
+        <Link
+          href="/programacion-ia/acceso/"
+          className="inline-flex flex-none items-center justify-center rounded-xl bg-blue-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-500"
+        >
+          Acceso al aula →
+        </Link>
+      </div>
+
       <h2 className="mt-9 text-xl font-extrabold tracking-tight">Los proyectos</h2>
       <p className="mt-1 text-[15px] text-zinc-600 dark:text-zinc-400">
         El temario se construye con los proyectos: cada uno deja una técnica o una herramienta nueva.

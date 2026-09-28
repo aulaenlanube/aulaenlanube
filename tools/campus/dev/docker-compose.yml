@@ -1,0 +1,39 @@
+# Entorno local del campus: MariaDB + PHP 8.2 sirviendo el export estático (out/)
+# con la API montada en vivo desde public/campus-api (editar PHP no exige rebuild).
+#   bash tools/campus/dev.sh up     → http://127.0.0.1:8088/programacion-ia/acceso/
+#   bash tools/campus/dev.sh down   → para y borra la BD de pruebas
+name: aeln-campus-dev
+services:
+  db:
+    image: mariadb:10.11
+    environment:
+      MARIADB_ROOT_PASSWORD: raiz-local
+      MARIADB_DATABASE: campus_dev
+      MARIADB_USER: campus
+      MARIADB_PASSWORD: campus-local
+      TZ: Europe/Madrid
+    volumes:
+      - ../schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ../semilla.sql:/docker-entrypoint-initdb.d/02-semilla.sql:ro
+      - ./profesor-dev.sql:/docker-entrypoint-initdb.d/03-profesor-dev.sql:ro
+    ports:
+      - "127.0.0.1:3399:3306"
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+  web:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      TZ: Europe/Madrid
+    volumes:
+      - ../../../out:/srv/sitio/public_html:ro
+      - ../../../public/campus-api:/srv/sitio/public_html/campus-api:ro
+      - ./aeln-db-config.php:/srv/sitio/aeln-db-config.php:ro
+    ports:
+      - "127.0.0.1:8088:8080"
+    command: ["php", "-S", "0.0.0.0:8080", "-t", "/srv/sitio/public_html"]

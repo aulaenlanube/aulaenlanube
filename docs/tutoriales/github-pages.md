@@ -28,6 +28,8 @@ Un detalle que explica el peso de todo esto: los mínimos son la puerta de entra
 
 GitHub Pages publica una web estática gratis desde tu repo: si tu usuario es `anagarcia` y tu repo `mi-web`, tu web vivirá en `https://anagarcia.github.io/mi-web/`. La documentación oficial está en [pages.github.com](https://pages.github.com) y en [About GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages).
 
+[FIG:pages]
+
 Pide esto en el chat (funciona en cualquier asistente, también en los modelos del centro):
 
 ```
@@ -105,6 +107,8 @@ Y acuérdate de la norma de la sesión 2: el token se pega **en la terminal** cu
 ## Paso 4 · Commits atómicos: el prompt de estrategia (mínimo «git» + «proceso»)
 
 Un commit atómico es **una cosa, un guardado**. «Añadida sección de contacto» vale; «actualizo cosas» no. El mensaje cuenta **la decisión**, en imperativo: *añade / arregla / reordena / cambia*, y el cuerpo (opcional) el porqué: «el menú se apilaba a 360px».
+
+[FIG:commit]
 
 Deberíamos tener unos 4-5 commits de la sesión 2. Vamos a por los 10 mínimos con trabajo real (producción, .nojekyll, .gitignore… ya son 3 nuevos). Para cada cambio que hagas de ahora en adelante usa este prompt — es la herramienta del criterio «proceso»:
 
@@ -185,6 +189,8 @@ Créalos uno a uno en la pestaña **Issues → New issue** (copiando y pegando l
 ## Paso 6 · Ramas y una PR aunque estés solo
 
 Una rama es un universo paralelo para experimentar sin tocar lo publicado. Y una **pull request** es proponer los cambios de tu rama a `main` con una explicación: la [revisión la haces tú, aunque estés solo](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests) — así trabaja cualquier empresa de software y así se hace el proyecto en grupo del curso.
+
+[FIG:rama]
 
 ```
 Quiero probar un cambio grande en mi web (___) sin romper lo publicado. Guíame solo
@@ -269,6 +275,8 @@ sitio o cambiar la fuente de Pages), con los clics o comandos exactos de cada un
 ## Si crees que has subido el token: 3 pasos sin leer código
 
 Un token `ghp_...` es tu contraseña para GitHub: quien lo tenga, sube y borra cosas con tu nombre. Si alguna vez has pegado el token en un fichero del proyecto (un `config.js`, un `.env`, un comentario…), haz esto **en orden**, aunque solo lo sospeches:
+
+[FIG:token]
 
 1. **Comprobar si está en el repo.** Entra en tu repo en GitHub, busca en el cajón de búsqueda de la barra superior tu repo y escribe `ghp_` filtrando por *Code* (también vale abrir la pestaña **Commits** y repasar los diffs de los últimos días a ojo). O, más fiable, pídele a la IA local:
 

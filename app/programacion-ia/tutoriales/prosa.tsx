@@ -1,6 +1,7 @@
 import PromptBlock from "@/components/PromptBlock";
 import Link from "@/components/Link";
 import type { ReactNode } from "react";
+import { FIGURAS } from "./figuras";
 
 // Renderizador de los markdown de tutoriales (docs/tutoriales/*.md → página).
 // Componente de SERVIDOR: solo elementos + PromptBlock (client) para los
@@ -61,6 +62,15 @@ export default function Prosa({ md }: { md: string }) {
 
   while (i < lineas.length) {
     const L = lineas[i];
+
+    // Figura: línea sola [FIG:token] → SVG de figuras.tsx
+    const fig = L.trim().match(/^\[FIG:([a-z]+)\]$/);
+    if (fig && FIGURAS[fig[1]]) {
+      const F = FIGURAS[fig[1]];
+      bloques.push(<F key={`fig${k++}`} />);
+      i++;
+      continue;
+    }
 
     // Cerca de código → PromptBlock (copiable)
     if (/^```/.test(L.trim())) {

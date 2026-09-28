@@ -29,6 +29,8 @@ Un aviso antes de seguir: el criterio «contacto» vale 15 puntos y el mínimo e
 
 Todo el bot es una frase larga + la pregunta del visitante. La frase larga —las **instrucciones**— es lo que convierte un chat genérico en «el bot de TU web». En la jerga se llama *prompt de sistema*: un texto que viaja delante de cada pregunta y le dice a la IA quién es, cómo habla y qué límites tiene.
 
+[FIG:sistema]
+
 El recorrido completo, que es lo que te van a preguntar en la defensa:
 
 ```text
@@ -158,6 +160,8 @@ Como este tutorial usa la vía 1 o la vía 2, no manejas ninguna clave. Tu tranq
 
 Con tus instrucciones finales ya pegadas donde dice «PEGA AQUÍ», pide esto al chat del centro. Funciona en cualquier asistente general; no necesita extensiones:
 
+[FIG:recorrido]
+
 ```
 Tengo una web personal con index.html, style.css y script.js en mi carpeta mi-web.
 Quiero añadirle un chatbot flotante. No sé programar: dame el trabajo terminado y
@@ -216,6 +220,8 @@ Con la web abierta y F12:
 ## Paso 6 · Las 10 preguntas trampa (tu examen del bot)
 
 Un bot que responde «hola bien» no está probado. Estás probando un robot que habla en tu nombre en público: se testea **intentando romperlo**. Copia esta tabla a tu `notas.txt`; en cada fila escribe debajo de la pregunta la respuesta literal del bot (cópiala y pégala, no la resumas) y ponle un APTO o NO APTO:
+
+[FIG:filtros]
 
 | # | Pregunta trampa | Comprueba | APTO / NO APTO |
 |---|---|---|---|

@@ -29,6 +29,8 @@ Si aún no tienes la web publicada, haz antes el [tutorial 1 de GitHub Pages](/p
 
 Una **API** es una dirección de internet que, cuando le pides datos, te los devuelve en texto ordenado. No es un programa que instalas: es una URL. Si escribes esta en el navegador (va, pruébala ahora mismo):
 
+[FIG:api]
+
 ```text
 https://api.open-meteo.com/v1/forecast?latitude=38.9921&longitude=-0.5215&current=temperature_2m,weather_code&timezone=Europe/Madrid
 ```
@@ -66,6 +68,8 @@ Cuatro pasos. Los memorizas ahora y los sueltas en la defensa. El profe no va a 
 ### APIs fiables para este tutorial (verificadas todas sin clave y con CORS abierto)
 
 «CORS abierto» significa que la API deja que una web cualquiera (la tuya) le pida datos desde el navegador. Todas estas lo tienen verificado: si una mañana te falla, es cosa de la API, no tuya — cambia de dato, no de vida. (Nota del que escribe: xkcd, el cómic, estaba en la lista de deseos de este tutorial, pero hoy su endpoint JSON responde 404 — fuera. Esto pasa; por eso la variante D te enseña a verificar antes de montar.)
+
+[FIG:cors]
 
 | API | Qué da | URL de ejemplo |
 | --- | --- | --- |
@@ -196,6 +200,8 @@ Y compruébalo tú mismo como en el paso 5 (F12 → Network: si el navegador la 
 
 Aquí es donde la mayoría recibe un churro. Se lo exiges así:
 
+[FIG:json]
+
 ```text
 He elegido la variante ___ . Ahora escríbela. Requisitos NO negociables:
 
@@ -291,6 +297,8 @@ Y la parte que casi nadie hace y la rúbrica sí mira (descriptor Excelente de p
 ## Errores típicos (y su prompt de rescate)
 
 **1 · Se queda en «Cargando dato…» para siempre.** Casi nunca es la API: el `id` del hueco no coincide (tu HTML dice `id="widget"` y el JS busca otro nombre), o el fichero `api.js` no está al lado del `index.html` (ruta mal). Revisa que la línea de conexión y el hueco dicen el MISMO id. Prompt de rescate (paso de defensa incluido):
+
+[FIG:error]
 
 ```text
 Mi widget no aparece: se queda en «Cargando…». No leo el código, así que haz tú el

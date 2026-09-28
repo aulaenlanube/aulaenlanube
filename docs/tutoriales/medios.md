@@ -67,6 +67,8 @@ Ese texto va a ser el punto de partida del primer prompt y, en la defensa, tu ev
 
 Vas a pedir un **SVG**, y aquí está la idea que cambia el tutorial: un SVG no es una foto, es texto. Dentro hay etiquetas, como en HTML, solo que dibujando. Por eso puedes decirle a la IA «póntelo azul» y reescribirlo en tres segundos, por eso escala sin pixelarse en cualquier pantalla, y por eso un logo hecho por ti no es un privilegio de gente que sabe dibujar. Y por eso también encaja tan bien en este curso: si la IA ya te escribe HTML, escribirte SVG es exactamente el mismo oficio.
 
+[FIG:svgtexto]
+
 Por qué SVG y no un PNG o una foto, en tres líneas (úsalas tal cual en la defensa):
 
 | | PNG / JPG | SVG |
@@ -115,6 +117,8 @@ Al cambiar el color del menú en el CSS, el logo cambia con él. Si tienes modo 
 ## Paso 3 · Cuatro iconos SVG coherentes y tres animaciones que aportan
 
 Ahora una familia de iconos para tus secciones o habilidades. La palabra clave del prompt es **mismo estilo**: cuatro iconos sueltos parecen robados de cuatro webs; cuatro iconos del mismo trazo parecen una marca.
+
+[FIG:iconanim]
 
 ```
 Añade a mi web 4 iconos en SVG inline, los cuatro con el mismo estilo de trazo (línea de 2 píxeles,
@@ -200,6 +204,8 @@ Y saca la miniatura: pausa el vídeo donde se vea algo con sentido (tu cara, la 
 ## Paso 5 · Vídeo por código (II): embeberlo bien o no embeberlo
 
 El `<video>` mal puesto es la causa nº 1 de webs lentas con buena intención. El prompt de la IA, con la lista de condiciones integrada (no la negocias, es la ley):
+
+[FIG:video]
 
 ```
 Quiero poner en mi web el vídeo de mi carpeta media/demo.mp4, en la sección ___.

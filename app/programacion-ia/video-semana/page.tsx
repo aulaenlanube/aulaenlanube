@@ -69,7 +69,7 @@ const VIDEOS: Video[] = [
     semana: "Vídeo 02",
     fecha: "Sábado 26-09 grabación · Domingo 27-09 publicación",
     titulo: "Tu primer proyecto con IA: de una carpeta vacía a GitHub",
-    youtubeId: null,
+    youtubeId: "2L1hakuXpVk",
     resumen:
       "El primer proyecto real, creado desde cero fichero a fichero con el chat (HTML, CSS y JS por separado) y conectado a GitHub: repo, commit y push sin memorizar un solo comando. El tutorial se improvisa en pantalla; el intro va cerrado palabra por palabra.",
     bloques: [

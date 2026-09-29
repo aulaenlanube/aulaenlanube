@@ -133,7 +133,18 @@ function actMd(a: Act): string {
     if (!n) continue;
     L.push(`:::box title="${LABELS[nv]}" lvl=${lvl} bg=${bg} accent=${accent}`);
     if (n.in) L.push("> " + n.in, "");
-    n.p.forEach((x) => L.push(`- ${x}`, "[[fill]]"));
+    if (n.files?.length) {
+      n.p.forEach((x) => L.push(`- ${x}`));
+      // Fitxes en format plantilla: nom + espai de separació + caixes de resposta.
+      if (n.p.length) L.push("");
+      n.files.forEach((f, i) => {
+        L.push(`- **${String(i + 1).padStart(2, "0")} · ${f.w}**`);
+        if (f.sep) L.push("[[fill:1]]");
+        if (f.cx > 0) L.push(`  Resposta: ${"_".repeat(14 + (f.cx - 1) * 16)}`);
+      });
+    } else {
+      n.p.forEach((x) => L.push(`- ${x}`, "[[fill]]"));
+    }
     L.push("@ Solució:");
     n.s.forEach((x) => L.push("@ " + x));
     if (n.ad) L.push(`~ Adaptació: ${n.ad}`);

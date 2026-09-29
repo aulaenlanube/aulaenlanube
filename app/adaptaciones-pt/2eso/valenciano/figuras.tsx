@@ -460,6 +460,46 @@ export function VocalsContacte() {
   );
 }
 
+// Graella del crucigrama sil·làbic de l'U6 (Activitat 4), redibuixada neta:
+// cada casella quadrada rep la seua síl·laba; els números del llibre van en la
+// cantonada. Clusters connectats (1-6-3-4, 2-7-3) + verticals autònomes (5, 8).
+export function CrucigramaVocals() {
+  const C = 56; // costat de casella
+  const OX = 10, OY = 10;
+  const cel = (col: number, fila: number, num?: string) => (
+    <g key={`${col}-${fila}`}>
+      <rect x={OX + col * C} y={OY + fila * C} width={C} height={C} rx={6}
+        fill="#fff" stroke="#475569" strokeWidth="2.5" />
+      {num ? (
+        <text x={OX + col * C + 5} y={OY + fila * C + 15} fontSize={13} fontWeight={800}
+          fill="#1e293b" fontFamily={SANS}>{num}</text>
+      ) : null}
+    </g>
+  );
+  const cases: [number, number, string?][] = [
+    // fila 1: 1H abadessa (4) · 6V arranca a "des" · 7V ulleres · 5V carreta · 8V punyalada
+    [0, 0, "1"], [1, 0], [2, 0, "6"], [3, 0],
+    [5, 0, "7"], [8, 0, "5"], [9, 0, "8"],
+    // fila 2: 2H lleganyes (3) sobre 7 · 6 continua · 5, 8 continuen
+    [2, 1], [5, 1, "2"], [6, 1], [7, 1], [8, 1], [9, 1],
+    // fila 3: 3H botifarres (4) sobre 6 i 7 · 5, 8 continuen
+    [2, 2, "3"], [3, 2], [4, 2], [5, 2], [8, 2], [9, 2],
+    // fila 4: 4H ral·li (2) sobre 6 · 8 acaba
+    [1, 3, "4"], [2, 3], [9, 3],
+    // fila 5: 6 acaba
+    [2, 4],
+  ];
+  return (
+    <Figura caption="Cada casella és UNA síl·laba. Els números de cantonada són les pistes del llibre: 1-4 horitzontals, 5-8 verticals. On dues paraules es toquen, la mateixa síl·laba val per a les dos.">
+      <div className="overflow-x-auto">
+        <svg viewBox="0 0 580 306" role="img" aria-label="Graella del crucigrama sil·làbic" className="h-auto w-full max-w-[580px]">
+          {cases.map(([col, fila, num], i) => <g key={i}>{cel(col, fila, num)}</g>)}
+        </svg>
+      </div>
+    </Figura>
+  );
+}
+
 // Despachador por clave (lo usan la teoría, las actividades y el exportador).
 export const FIGS: Record<string, () => ReactElement> = {
   circuit: Circuit,
@@ -469,6 +509,7 @@ export const FIGS: Record<string, () => ReactElement> = {
   puntuacio: Puntuacio,
   vocals: Vocals,
   "vocals-contacte": VocalsContacte,
+  "crucigrama-vocals": CrucigramaVocals,
 };
 
 export function Fig({ k }: { k: string }) {

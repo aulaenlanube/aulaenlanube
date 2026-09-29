@@ -3,9 +3,13 @@
 // Los textos admiten **negrita**, *cursiva* y `código`; en `teoria`, además,
 // bloques «RAW:<table>…</table>» (HTML de confianza) y figuras «Fig:clave».
 
-export type Nv = { in?: string; p: string[]; s: string[]; ad?: string };
+export type Nv = { in?: string; p: string[]; s: string[]; ad?: string; files?: Fila[] };
 export type Act = { t: string; d: string; ic: string; fig?: string; nv: Nv[] };
 export type Ap = { slug: string; n: number; t: string; teoria: string[]; ej: string[] };
+
+// Fila d'exercici en format "plantilla": la paraula, un espai per a separar
+// en síl·labes (opcional) i N caixes perquè l'alumne escriga la resposta.
+export type Fila = { w: string; sep?: boolean; cx: number };
 
 // Els cinc nivells, en ordre: l'exercici del curs (2n ESO) i les quatre
 // adaptacions descendents que penjen d'ell.
@@ -27,4 +31,5 @@ export const ICONOS = [
 // Claves de figura válidas para `fig` y para «Fig:clave» en la teoría.
 export const FIGURAS = [
   "circuit", "funcions", "paraules", "sintagmes", "puntuacio", "vocals",
+  "vocals-contacte", "crucigrama-vocals",
 ] as const;

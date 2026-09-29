@@ -54,3 +54,49 @@ export function SeccionTitulo({ emoji, titulo, subtitulo }: { emoji: string; tit
     </div>
   );
 }
+
+// Plantilla d'activitat en files: PAROLA | espai de síl·labes | caixes de resposta.
+// Disseny per a dislèxia: fila alts (48px), ratllat suau, caixa ben delimitada.
+export function Plantilla({ files }: { files: { w: string; sep?: boolean; cx: number }[] }) {
+  return (
+    <div className="mt-3 overflow-x-auto">
+      <table className="w-full min-w-[560px] border-separate border-spacing-y-2 text-left">
+        <thead>
+          <tr className="text-[11px] font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+            <th className="w-[40%] px-1 pb-1">Paraula</th>
+            <th className="w-[40%] px-1 pb-1">Separa en síl·labes</th>
+            <th className="px-1 pb-1">Resposta</th>
+          </tr>
+        </thead>
+        <tbody>
+          {files.map((f, i) => (
+            <tr key={i}>
+              <td className="rounded-l-xl bg-white px-4 py-2.5 text-[17px] font-semibold text-zinc-900 shadow-sm ring-1 ring-zinc-200 dark:bg-slate-900 dark:text-zinc-100 dark:ring-white/10">
+                <span className="mr-2 text-[12px] font-bold text-zinc-500 dark:text-zinc-400">{String(i + 1).padStart(2, "0")}</span>
+                {f.w}
+              </td>
+              <td colSpan={f.cx ? 1 : 2} className={`bg-white px-3 py-2.5 shadow-sm ring-1 ring-zinc-200 dark:bg-slate-900 dark:ring-white/10 ${f.cx ? "" : "rounded-r-xl"}`}>
+                {f.sep ? (
+                  <span className="flex items-center gap-2" aria-label="Espai per a escriure les síl·labes">
+                    {[0, 1, 2, 3, 4].map((k) => (
+                      <span key={k} className="h-9 flex-1 rounded-md border-2 border-dashed border-zinc-400 dark:border-zinc-400" />
+                    ))}
+                  </span>
+                ) : null}
+              </td>
+              {f.cx ? (
+                <td className="rounded-r-xl bg-white px-3 py-2.5 shadow-sm ring-1 ring-zinc-200 dark:bg-slate-900 dark:ring-white/10">
+                  <span className="flex gap-2">
+                    {Array.from({ length: f.cx }).map((_, k) => (
+                      <span key={k} className="h-11 flex-1 rounded-lg border-2 border-sky-400 bg-sky-50/60 dark:border-sky-500/60 dark:bg-sky-500/10" />
+                    ))}
+                  </span>
+                </td>
+              ) : null}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}

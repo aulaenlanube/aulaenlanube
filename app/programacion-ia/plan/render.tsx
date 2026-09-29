@@ -54,7 +54,7 @@ function inline(s: string, key: number): React.ReactNode {
     if (m.index > last) parts.push(s.slice(last, m.index));
     if (m[1]) parts.push(<strong key={k++}>{m[2]}</strong>);
     else if (m[3]) parts.push(<code key={k++} className="rounded bg-slate-100 dark:bg-white/10 px-1 py-0.5 text-[0.85em] font-mono">{m[4]}</code>);
-    else if (m[5]) parts.push(<a key={k++} href={m[6]} className="text-[#1d4ed8] dark:text-blue-300 underline underline-offset-2">{m[7]}</a>);
+    else if (m[5]) parts.push(<a key={k++} href={m[7]} className="text-[#1d4ed8] dark:text-blue-300 underline underline-offset-2">{m[6]}</a>);
     last = m.index + m[0].length;
   }
   if (last < s.length) parts.push(s.slice(last));

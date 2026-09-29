@@ -71,14 +71,14 @@ export const CURSOS: Record<CursoId, CursoCatalogo> = {
     id: "presencial",
     nombre: "Programación con IA · Presencial",
     corto: "Presencial",
-    descripcion: "1º DAM/DAW en el aula: kickoff, build y demo cada semana.",
+    descripcion: "1º DAM/DAW en el aula (1CFSD): kickoff, build y demo cada semana. Con proyecto final en grupo.",
     proyectos: ["web-marca"],
   },
   semipresencial: {
     id: "semipresencial",
     nombre: "Programación con IA · Semipresencial",
     corto: "Semipresencial",
-    descripcion: "Modalidad semipresencial: mismo método, entregas adaptadas al trabajo autónomo.",
+    descripcion: "1º DAM semipresencial (1CFSDS): trabajo por QUINCENAS, solo proyectos individuales — sin proyecto en grupo. Entregas: proceso en git a mitad de quincena y proyecto completo al cierre.",
     proyectos: ["web-marca"],
   },
 };

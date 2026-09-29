@@ -277,10 +277,10 @@ function SvgQuincena2() {
       ))}
       <path d="M84 52 h 96" stroke="#94a3b8" strokeWidth="2.5" strokeDasharray="7 6" strokeLinecap="round" />
       <path d="M170 52 l-10 -6 v12 z" fill="#94a3b8" />
-      <rect x="200" y="34" width="52" height="34" rx="8" fill="none" stroke="#475569" strokeWidth="2.5" />
-      <path d="M214 56 v-12 m0 0 l-6 6 m6 -6 l6 6" stroke="#2563eb" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-      <text x="204" y="27" fontSize="11" fontWeight="700" fill="#1e40af">web + repo</text>
-      <path d="M276 18 l0 40 m0 -40 l-8 10 m8 -10 l8 10" stroke="#d97706" strokeWidth="3.5" fill="none" strokeLinecap="round" />
+      <rect x="206" y="40" width="52" height="30" rx="8" fill="none" stroke="#475569" strokeWidth="2.5" />
+      <path d="M220 58 v-8 m0 0 l-6 6 m6 -6 l6 6" stroke="#2563eb" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+      <text x="210" y="28" fontSize="11" fontWeight="700" fill="#1e40af">web + repo</text>
+      <path d="M280 24 l0 34 m0 -34 l-8 10 m8 -10 l8 10" stroke="#d97706" strokeWidth="3.5" fill="none" strokeLinecap="round" />
     </svg>
   );
 }

@@ -363,7 +363,7 @@ function FigSistema() {
       </g>
       {/* salida */}
       {flecha("M530 98 L570 98", id, "stroke-emerald-600 dark:stroke-emerald-400")}
-      <rect x={575} y={70} width={80} height={56} rx={12} className={caja} strokeWidth={1.8} />
+      <rect x={569} y={70} width={94} height={56} rx={12} className={caja} strokeWidth={1.8} />
       {txt(615, 92, "«Estudio 1º", "fill-zinc-700 dark:fill-zinc-300", 10.5)}
       {txt(615, 106, "de DAM en el", "fill-zinc-700 dark:fill-zinc-300", 10.5)}
       {txt(615, 120, "Simarro»", "fill-zinc-700 dark:fill-zinc-300", 10.5)}
@@ -405,21 +405,20 @@ function FigFiltros() {
   return (
     <Marco id={id} viewBox="0 0 670 210" label="Tres embudos de la ficha: qué sabe el bot, qué calla y qué pasa si insisten. Escrito por ti, en orden de importancia.">
       {[
-        { y: 30, w: 420, c: "fill-blue-100 dark:fill-blue-500/20 stroke-blue-400 dark:stroke-blue-500/50", t: "SÍ responde: qué curso hago, contacto, proyectos…", x: 335 },
-        { y: 88, w: 330, c: "fill-amber-50 dark:fill-amber-500/10 stroke-amber-400 dark:stroke-amber-500/60", t: "NUNCA: mi dirección, mi móvil, datos de terceros", x: 335 },
-        { y: 146, w: 240, c: "fill-emerald-50 dark:fill-emerald-500/10 stroke-emerald-400 dark:stroke-emerald-500/60", t: "SI NO SABES: «eso pregúntamelo por correo»", x: 335 },
+        { y: 30, w: 440, c: "fill-blue-100 dark:fill-blue-500/20 stroke-blue-400 dark:stroke-blue-500/50", t: "SÍ responde: qué curso hago, contacto, proyectos…" },
+        { y: 88, w: 360, c: "fill-amber-50 dark:fill-amber-500/10 stroke-amber-400 dark:stroke-amber-500/60", t: "NUNCA: mi dirección, mi móvil, datos de terceros" },
+        { y: 146, w: 320, c: "fill-emerald-50 dark:fill-emerald-500/10 stroke-emerald-400 dark:stroke-emerald-500/60", t: "SI NO SABES: «pregúntamelo por correo»" },
       ].map((f) => (
         <g key={f.t.slice(0, 8)}>
-          <rect x={f.x - f.w / 2} y={f.y} width={f.w} height={44} rx={10} className={f.c} strokeWidth={2} />
-          {txt(f.x, f.y + 27, f.t, "fill-zinc-800 dark:fill-zinc-200", 12)}
+          <rect x={335 - f.w / 2} y={f.y} width={f.w} height={44} rx={10} className={f.c} strokeWidth={2} />
+          {txt(335, f.y + 27, f.t, "fill-zinc-800 dark:fill-zinc-200", 12)}
         </g>
       ))}
-      <path d="M335 76 L335 85" strokeWidth={2.5} markerEnd={`url(#fm-${id})`} className="stroke-zinc-400 dark:stroke-zinc-500" fill="none" />
-      <path d="M335 134 L335 143" strokeWidth={2.5} markerEnd={`url(#fm-${id})`} className="stroke-zinc-400 dark:stroke-zinc-500" fill="none" />
-          </Marco>
+      <path d="M335 74 L335 83" strokeWidth={2.5} markerEnd={`url(#fm-${id})`} className="stroke-zinc-400 dark:stroke-zinc-500" fill="none" />
+      <path d="M335 132 L335 141" strokeWidth={2.5} markerEnd={`url(#fm-${id})`} className="stroke-zinc-400 dark:stroke-zinc-500" fill="none" />
+    </Marco>
   );
 }
-
 // ── medios ───────────────────────────────────────────────────────────────────
 
 function FigSvgTexto() {

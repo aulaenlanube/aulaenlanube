@@ -421,6 +421,45 @@ export function Vocals() {
   );
 }
 
+// Mapa conceptual: vocals en contacte → diftong / hiat / triptong.
+// Disseny per a dislèxia: només 3 branques, text molt gran, molt poc text per caixa.
+export function VocalsContacte() {
+  return (
+    <Figura caption="Vocals en contacte: si van en la MESMA síl·laba és diftong; en síl·labes DISTINTES, hiat; tres juntes en un colp, triptong.">
+      <svg viewBox="0 0 620 236" className="h-auto w-full min-w-[560px] max-w-full" role="img" aria-label="Esquema: vocals en contacte es dividix en diftong, hiat i triptong">
+        <Caja x={16} y={86} w={140} h={64} r={32} fill="#ecfdf5" stroke="#059669" />
+        <Txt x={86} y={112} size={15} peso={800} fill="#047857">VOCALS</Txt>
+        <Txt x={86} y={134} size={15} peso={800} fill="#047857">EN CONTACTE</Txt>
+
+        <line x1={158} y1={104} x2={196} y2={40} stroke="#94a3b8" strokeWidth="2.5" />
+        <line x1={158} y1={118} x2={196} y2={118} stroke="#94a3b8" strokeWidth="2.5" />
+        <line x1={158} y1={132} x2={196} y2={196} stroke="#94a3b8" strokeWidth="2.5" />
+
+        <Caja x={200} y={16} w={120} h={48} fill="#fff7ed" stroke="#ea580c" />
+        <Txt x={260} y={46} size={17} peso={800} fill="#9a3412">DIFTONG</Txt>
+        <line x1={322} y1={40} x2={352} y2={40} stroke="#ea580c" strokeWidth="2.5" strokeDasharray="6 5" />
+        <Caja x={356} y={16} w={250} h={48} fill="#fff" stroke="#cbd5e1" />
+        <Txt x={481} y={36} size={12.5} fill="#334155">2 vocals · MESMA síl·laba</Txt>
+        <Txt x={481} y={54} size={12.5} fill="#1d4ed8" cursiva>di-jous · a-deu · ciu-tat</Txt>
+
+        <Caja x={200} y={94} w={120} h={48} fill="#eff6ff" stroke="#1d4ed8" />
+        <Txt x={260} y={124} size={17} peso={800} fill="#1e40af">HIAT</Txt>
+        <line x1={322} y1={118} x2={352} y2={118} stroke="#1d4ed8" strokeWidth="2.5" strokeDasharray="6 5" />
+        <Caja x={356} y={94} w={250} h={48} fill="#fff" stroke="#cbd5e1" />
+        <Txt x={481} y={114} size={12.5} fill="#334155">2 vocals · SÍL·LABES DISTINTES</Txt>
+        <Txt x={481} y={132} size={12.5} fill="#1d4ed8" cursiva>a-e-ri · hi-e-na · di-a-da</Txt>
+
+        <Caja x={200} y={172} w={120} h={48} fill="#faf5ff" stroke="#7c3aed" />
+        <Txt x={260} y={202} size={17} peso={800} fill="#5b21b6">TRIPTONG</Txt>
+        <line x1={322} y1={196} x2={352} y2={196} stroke="#7c3aed" strokeWidth="2.5" strokeDasharray="6 5" />
+        <Caja x={356} y={172} w={250} h={48} fill="#fff" stroke="#cbd5e1" />
+        <Txt x={481} y={192} size={12.5} fill="#334155">3 vocals · UN colp de veu</Txt>
+        <Txt x={481} y={210} size={12.5} fill="#1d4ed8" cursiva>guai-ta · es-ti-gueig</Txt>
+      </svg>
+    </Figura>
+  );
+}
+
 // Despachador por clave (lo usan la teoría, las actividades y el exportador).
 export const FIGS: Record<string, () => ReactElement> = {
   circuit: Circuit,
@@ -429,6 +468,7 @@ export const FIGS: Record<string, () => ReactElement> = {
   sintagmes: Sintagmes,
   puntuacio: Puntuacio,
   vocals: Vocals,
+  "vocals-contacte": VocalsContacte,
 };
 
 export function Fig({ k }: { k: string }) {

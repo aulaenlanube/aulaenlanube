@@ -11,7 +11,7 @@ export default function SesionesPage() {
   return (
     <>
       <div className="mx-auto max-w-4xl px-4 pt-6 sm:px-6">
-        <Link href="/programacion-ia/plan/" className="text-sm font-semibold text-[#1d4ed8] underline underline-offset-2">
+        <Link href="/programacion-ia/plan/" className="text-sm font-semibold text-[#1d4ed8] dark:text-blue-300 underline underline-offset-2">
           ← Volver a la planificación general
         </Link>
       </div>

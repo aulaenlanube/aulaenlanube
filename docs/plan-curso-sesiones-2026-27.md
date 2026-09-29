@@ -1,97 +1,73 @@
 # Mapa de sesiones · Curso de Programación con IA 2026-27
-### Desglose semanal completo (S = sesión, 1/semana + sesión extra donde se indica) · **PREVISIÓN PRIVADA**
-_Ortogonal al plan general (`plan-curso-programacion-ia-2026-27.md`): aquí es qué se hace cada lunes/miércoles/viernes. Actualizado 2026-09-28._
+### Desglose semana a semana hasta Navidad (primera evaluación) · **PREVISIÓN PRIVADA**
+_Ortogonal al plan general (`plan-curso-programacion-ia-2026-27.md`): aquí es qué se hace cada semana. Actualizado 2026-09-29 — fechas contrastadas con lo realmente impartido y con la serie de vídeo. Si el día lectivo del grupo cambia, se recalcula la tabla; el orden de proyectos no se toca._
 
-**Convenciones**: cada sesión = kickoff(L) + build(M) + demo/merge(V). «Público» = tiene página en /programacion-ia/. Fechas orientativas; se recalculan tras cada puente.
-
----
-
-## BLOQUE 0 · Fundamentos del oficio con IA — S1-S4 (29 sep – 23 oct) 🔶 EN CURSO
-| S | Fecha | Tema | Entregable |
-|---|-------|------|-----------|
-| S1 ✔ | 29 sep | El cambio de método: por qué no memorizamos sintaxis. Setup equipos + cuenta GitHub + primer prompt dirigido | Repo personal creado, perfil verde |
-| S2 ✔ | 6 oct | Git/GitHub en carne viva: ramas, PR, merge (→ páginas públicas sesion-01/02/03) | Primera PR mergida por cada alumno |
-| S3 ✔ | 13 oct | Web de marca: proyecto 1 lanzado + **rúbrica** (sesión reflexión publicada) | Web v1 en GitHub Pages |
-| S4 | 20 oct | **Iteración dirigida por rúbrica**: cada alumno audita su web contra los 7 criterios y ataca el de menor puntuación; ADR y cuaderno de decisiones entran como hábito | Web v2 + cuaderno de decisiones iniciado |
-| — | 9-12 oct | 🔻 PUENTE (no lectivo) | |
-
-**Herramientas enseñadas**: GitHub (ramas/PR/issues), agente local del centro, spec de 10 líneas, Commits atómicos.
-**Riesgo known**: la mitad se atasca en el token de GitHub (mitigado en vídeo ep02).
-
-## BLOQUE 1 · CLI — S5-S8 (26 oct – 20 nov): `simarro-qa`
-| S | Fecha | Tema | Entregable |
-|---|-------|------|-----------|
-| S5 | 26 oct | Qué es una CLI y por qué un dev vive en la terminal. Python + Typer: primera orden con --flags. Spec grupal → individual | `simarro-qa --ayuda` funcional |
-| S6 | 2 nov | El corazón: conectar con la API del centro (el RAG responde dudas). Variables de entorno y secretos: qué nunca se sube | Pregunta → respuesta del RAG del centro |
-| S7 | 9 nov | Calidad: tests con pytest escritos por el agente y auditados por ellos; manejo de errores (el caso feo: API caída) | Suite verde + demo de fallo controlado |
-| S8 | 16 nov (extra 23 nov) | Empaquetado y release: pyproject, `pip install git+`, GitHub Release + Actions que empaqueta. **Release day**: cada alumno instala la CLI de otro | Paquete instalable + tag v1.0 |
-
-**Herramientas**: terminal, pytest, GitHub Actions (por primera vez), versionado semántico, secretos.
-**Producto vivo**: la CLI del grupo de mejor nota queda como utilería del aula.
-
-## BLOQUE 2 · SaaS Web — S9-S14 (23 nov – 22 dic + 7-22 ene): la app del curso
-| S | Fecha | Tema | Entregable |
-|---|-------|------|-----------|
-| S9 | 23 nov | Kickoff de producto: lluvia de candidatos (reserva material / tablón proyectos / intercambio libros), votación, spec maestra + roles startup (founder/CTO/QA por micro-grupo) | Spec v1 firmada por el grupo |
-| S10 | 30 nov | Arquitectura: C4 ligero, qué es front/back/BD, por qué Next+Postgres. Plantilla del curso clonada | Diagrama de contenedores + repo del grupo |
-| S11 | 7 dic | Auth real: registro/login de verdad (no demo). Modelos de datos | Un usuario creado en dev que persiste |
-| S12 | 14 dic | CRUD completo de la feature estrella + validaciones. PR review cruzada de grupo | Feature mergida con tests |
-| 🔻 | 23 dic – 6 ene | **NAVIDAD** | |
-| S13 | 7 ene | Despliegue real: VPS del curso, DNS, HTTPS, variables. Cada grupo sube su MVP a URL propia | URL pública del grupo |
-| S14 | 14 ene (extra 21 ene) | Usuarios reales: el resto del ciclo prueba la app; feedback → backlog → iteración. **Demo day SaaS** ante 2º DAM | MVP en producción + informe de uso |
-
-**Herramientas**: Figma básico + tokens, ADRs, kanban de proyecto, métricas de uso, despliegue.
-**Nota**: este bloque puede recortarse a 4 semanas si S9-S12 se desangran — la feature estrella es el mínimo viable, el resto v2.
-
-## BLOQUE 3 · Escritorio — S15-S18 (25 feb – 12 mar): la herramienta de aula
-| S | Fecha | Tema | Entregable |
-|---|-------|------|-----------|
-| S15 | 15 feb | ¿Por qué sigue existiendo el software de escritorio? Electron vs Tauri (decisión con ADR); reutilizamos la web del SaaS empaquetada | .deb que arranca en los PCs del aula |
-| S16 | 22 feb | Integración con el sistema: leer hardware (monitor GPUs titan), notificaciones, config persistente | Widget de estado del centro |
-| S17 | 1 mar | Instalador y firma: empaquetar para Windows y Linux, qué es code signing y por qué cuesta (el coste de producción real) | Instalador doble + ADR de plataforma |
-| S18 | 8 mar | Auto-update y canal beta; **Release day escritorio** | App actualizándose sola en demo |
-
-## BLOQUE 4 · Videojuego — S19-S23 (15 mar – 19 mar ✂ Fallas, 22 mar – 2 abr ✂ Pascua)
-| S | Fecha | Tema | Entregable |
-|---|-------|------|-----------|
-| S19 | 15 mar | Game jam kickoff: premisa, alcance de 3 días de clase, engine (Godot o Phaser según grupo), game design doc de 1 página | GDD + repo + prototipo mueve un cuadro |
-| 🔻 | 16-19 mar | **FALLAS** | |
-| S20 | 22 mar | Bucle de juego: input, física, colisiones con agente; playtest cruzado en aula | Vertical slice jugable |
-| S21 | 29 mar | Juice: partículas, sonido, screen shake — la diferencia entre «funciona» y «se siente bien» | Build con feedback sensorial |
-| 🔻 | 25 mar-5 abr solapado / 6 abr vuelta | **PASCUA** | |
-| S22 | 12 abr | Pulido + release en itch.io del curso: página, capturas, copy | Build pública jugable |
-| S23 | 16 abr | Postmortem por grupo (qué mataríamos del diseño) | Informe + nota de bloque |
-
-## BLOQUE 5 · Móvil — S24-S29 (19 abr – 14 may): Android de verdad
-| S | Fecha | Tema | Entregable |
-|---|-------|------|-----------|
-| S24 | 19 abr | Expo/React Native: de web a componente; por qué «móvil no es una web dentro de un marco» | Pantalla que corre en su móvil |
-| S25 | 26 abr | Navegación, formularios, estado offline-first: la app de avisos del ciclo (reutiliza el back del SaaS) | App conecta con la API del curso |
-| S26 | 3 may | Cáscara nativa: cámara, notificaciones push, permisos (el usuario manda) | Push real recibido en clase |
-| S27 | 10 may | Build APK + distribución por QR (Test Flight/Play internal). Emulador vs físico: las 5 mentiras del dev de móvil | APK instalada por 3 compañeros |
-| S28 | 17 may | El camino a tienda: cuentas, tasas, firmas, fichero de la play, review y rechazos típicos — **se recorre el proceso completo hasta el umbral del pago, sin pagar** | «Release checklist» cumplido al 90% |
-| S29 | 24 may (extra 31 may) | Iteración final del móvil según feedback + **Demo day móvil** | v1 móvil del grupo |
-
-## BLOQUE 6 · Integración y portfolio — S30-S34 (31 may – 18 jun)
-| S | Fecha | Tema | Entregable |
-|---|-------|------|-----------|
-| S30 | 31 may | Proyecto final a elección en micro-grupo (2+ plataformas + IA): pitch de 5 líneas, spec, ADR0 | Brief aprobado |
-| S31-32 | 7-14 jun | Sprints con demo viernes; mentorías 1:1 por grupo (10 min cada uno) | Alpha funcional |
-| S33 | 21 jun (extra) | Ensayo de defensa + portfolio GitHub: README raíz, limpieza de repos, carta de presentación técnica | Portfolio público |
-| S34 | 28 jun ✂(ajustar a calendario) | **DEMO-DAY FINAL** con invitado externo: 6 min por grupo + defensa 4 min | Nota final + memoria del curso |
+**Convenciones**: S = semana (una clase por semana). «Público» = tiene página en `/programacion-ia/`. Cada semana deja algo publicado el viernes. Primera evaluación = **3 proyectos**: web de marca (P1), CLI con IA (P2) y videojuego (P3).
 
 ---
 
-### Evaluación y su anclaje a sesiones
-- Portfolio (40): se audita en S8, S14, S18, S23, S29, S33 (mini-notas de bloque acumulan).
-- Demo+defensa (30): S14/S23/S29/S34.
-- Cuaderno de decisiones (20): revisión mensual (S8, S18, S29).
-- Coequipo (10): continua por PR reviews.
-- **Recuperación**: cada bloque tiene «prueba de producción» re-hacible (deploy + checklist) en las dos semanas tras el cierre de bloque.
+## P1 · Web personal de marca — S2-S5 (21 sep → 23 oct) 🔶 EN CURSO
+_[Portada del proyecto](/programacion-ia/web-personal/) · sesiones [1](/programacion-ia/sesion-01/) [2](/programacion-ia/sesion-02/) [3](/programacion-ia/sesion-03/) · [4 tutoriales](/programacion-ia/tutoriales/)]
 
-### Qué hace falta preparar (yo, la semana previa)
-- S8: plantilla pyproject del curso. S9-S13: plantilla Next+Postgres + VPS del curso aprovisionado (¿nuevo o reutilizamos subdominio de aulaenlanube con contenedor en titan? → decidir en dic). S15: .deb probado en los PCs del aula. S19: Godot/Phaser en los equipos. S24: Expo + nodo 20 en aulas. S34: invitado.
-- **Riesgos del mapa**: S13 post-Navidad = arranque frío (primera clase = repaso-juego); S19-21 en 4 días reales es justo → el juego puede bajar a «Phaser, 1 pantalla, pulida»; si titan cae una semana, todos los bloques tienen modo offline con modelo local pequeño.
+| S | Semana | Qué se hace | Entregable |
+|---|--------|-------------|------------|
+| S1 ✔ | 14 sep | El cambio de método: por qué este curso no se memoriza sintaxis. Cuentas GitHub, perfil, primer prompt dirigido | Cuentas creadas + repo personal vacío ✔ |
+| S2 ✔ | 21 sep | **Crear la web desde cero sin escribir código** (sesión 1) + **git de verdad** con su token y sus ramas (sesión 2). Primera web publicada en GitHub Pages | Web v1 publicada con repo y commits ✔ (ep02) |
+| S3 ◐ | 28 sep | **La rúbrica por dentro** (sesión 3): qué pide cada criterio y cómo se ve el Excelente. Autoauditoría de su web con la rúbrica. Salen los 4 tutoriales para subir nota | Autoauditoría en `notas.txt` + plan de v2 (ep03) |
+| S4 | 5 oct | **Iteración dirigida**: cada alumno ataca el criterio peor puntuado con un prompt de iteración (plantilla en tutorial 1). Revisión cruzada de PR en parejas | Web v2 + 10+ commits con historia |
+| 🔻 | 9 oct | No lectivo (9 d'Octubat) | — |
+| S5 | 12 oct | **Release day P1**: defensa oral de 5 min con la rúbrica en la mano + README técnico. Nota de proyecto | P1 evaluado + portfolio limpio |
 
-### Vídeo-semana (serie pública)
-S1 ✔ ep01 · S2 ✔ ep02 (27-sep) · S3 → ep03 (esta semana, ya con norma de gancho) · cada viernes se graba del día, se publica domingo. **Los «release day» (S8, S14, S18, S22, S29, S34) llevan vídeo propio de producto** — son los episodios que venden el método fuera del instituto. Playlist al llegar a ep04.
+**Herramientas enseñadas**: GitHub (ramas/PR/Actions), agente del centro, spec de 10 líneas, commits atómicos, Lighthouse básico.
+**Riesgo known**: el token de GitHub (la mitad se atasca) — mitigado en ep02 y tutorial 1.
+
+## P2 · CLI «tareas con IA» — S6-S9 (19 oct → 13 nov)
+_Mi proyecto del curso: una app de terminal que gestiona MIS ficheros con acciones predefinidas que yo configuro, combinando sistema operativo e IA. Nombre provisional: `simarro-tareas`._
+
+| S | Semana | Qué se hace | Entregable |
+|---|--------|-------------|------------|
+| S6 | 19 oct | **Kickoff + terminal**: qué es una CLI y para qué sirve un dev. Live Server → terminal: rutas, `ls`, `cd`, `mkdir`, permisos. Instalar Python y el andamiaje con el agente: primera orden que funciona | `--ayuda` funcional en su equipo |
+| S7 | 26 oct | **Acciones predefinidas** (sin IA todavía): el corazón del diseño — las acciones viven en `acciones.json` que escribe el ALUMNO («ordenar descargas por tipo», «renombrar fotos por fecha»…). La IA implementa el motor que las ejecuta. ADR: por qué config externa y no código | 3 acciones propias funcionando |
+| S8 | 2 nov | **La capa IA**: los modelos del centro desde la terminal (endpoint local del aula — la clave NUNCA en el repo: `.env` + `.gitignore` antes del primer commit). Acciones con IA: resumir un texto, generar el README de una carpeta, renombrar por contenido. Modo sin red: las acciones predefinidas siguen funcionando | Acción IA demo en clase + `.gitignore` auditado |
+| S9 | 9 nov | **Calidad y release**: tests que escribe el agente y audita el alumno (el caso feo: fichero inexistente, carpeta vacía), README de instalación (`pip install git+…`), GitHub Release v1.0. **Release day**: cada alumno instala y usa la CLI de otro | Paquete instalable + tag v1.0 + nota P2 |
+
+**Herramientas**: terminal/SO, Python+Typer, `.env` y secretos, pytest, Actions, versionado semántico.
+**Preparación profe (semana previa a S6)**: elegir librería (Typer) probada en los PCs del aula + endpoint de titan abierto al aula con límite.
+
+## P3 · Videojuego — S10-S13 (16 nov → 14 dic)
+_Juego web 2D pequeño y pulido, publicado en GitHub Pages y jugable por toda la clase. Mismo motor de siempre: spec → agente → auditar → publicar → defender._
+
+| S | Semana | Qué se hace | Entregable |
+|---|--------|-------------|------------|
+| S10 | 16 nov | **Game design en una página**: qué máquina de estados tiene mi juego, cuánta diversión por minuto. Alcance deliberadamente pequeño (1 pantalla). Phaser o canvas según spec. Prototipo: «un cuadrado se mueve» | GDD de 1 página + repo + prototipo |
+| S11 | 23 nov | **El bucle**: puntuación, vida/derrotas, dificultad progresiva — el estado del juego (mismo concepto que el mini-juego del tutorial 4 de medios, pero completo). Playtest cruzado en aula: juegan al del compañero, feedback en issues | Vertical slice jugable |
+| S12 | 30 nov | **Pulido y assets con IA**: sonido, partículas, «juice» (la diferencia entre funciona y se siente bien); sprites generados con IA y curados a mano (igual que el SVG de P1: los revisas tú). Landing del juego en Pages | Build pública con página propia |
+| S13 | 7 dic | **Torneo + postmortem**: todos juegan todos, ranking, defensa oral (por qué este bucle y no otro) y postmortem de media página | P3 evaluado + nota |
+
+**Herramientas**: game feel, estados, GitHub Pages otra vez, playtest, postmortem.
+**Preparación profe**: plantilla Phaser mínima probada en los equipos del aula.
+
+## Cierre de evaluación — S14-S15 (14 dic – 21 dic)
+
+| S | Semana | Qué se hace | Entregable |
+|---|--------|-------------|------------|
+| S14 | 14 dic | **Portfolio day**: los 3 proyectos enlazados desde la web de marca (¡P1 se actualiza con P2 y P3!), README raíz, limpieza de repos. Se les enseña el plan de la evaluación 2 | Portfolio público |
+| S15 | 21 dic | Cierre de notas + retro del curso en vídeo (el de verdad: qué ha funcionado, qué no) + encuesta anónima al grupo | Notas 1ª ev. publicadas |
+| 🔻 | **22 dic – 6 ene** | **NAVIDAD** | — |
+
+## Evaluación 2 (borrador — se detalla en enero, 11 ene – 26 mar)
+
+Dirección prevista, sujeta al resultado real de P1-P3: **app web multiusuario real** (base de datos, despliegue en servidor del curso — el salto de «mi web» a «producto con usuarios») y **publicación móvil** (la web del curso empaquetada). Fallas **16-19 mar** y **Pascua 25 mar – 5 abr** descontadas; detalle completo, al volver de Navidad.
+
+---
+
+### Evaluación y su anclaje a semanas
+- **Cada proyecto con su rúbrica publicada por delante** (P1 ya pública en el campus; P2 y P3 se publican en S5 y S12).
+- Común: repo con historial real + cuaderno de decisiones + defensa. Recuperable: cada proyecto deja una «prueba de producción» reproducible.
+- La serie de vídeo acompaña: ep por semana, vídeo-propio en los release days (S5, S9, S13).
+
+### Riesgos del mapa
+- **S6 (terminal desde cero)**: mitad del grupo no la ha usado nunca → la sesión es guiada al 100% con la plantilla del profe probada la semana previa.
+- **S8 depende del endpoint del centro**: si para el 2 nov no hay vía segura (proxy con clave en servidor), S8 se hace con la vía local del titan de clase; el modo sin IA de la CLI siempre funciona.
+- **S13 diciembre** (excursiones/notas): el torneo se puede mover a S14 sin romper nada.
+- Si una semana salta por causa mayor, se pierde sesión, no proyecto: los bloques van holgados a propósito.

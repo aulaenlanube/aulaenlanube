@@ -1,80 +1,81 @@
-# Curso de Programación con IA — Planificación integral 2026-27
+# Curso de Programación con IA — Planificación 2026-27
 ### 1º DAM · IES Dr. Lluís Simarro · **PREVISIÓN PRIVADA (solo docent)**
-_Última actualización: 2026-09-28 · autor: JARVIS + Edu_
+_Última actualización: 2026-09-29 · autor: JARVIS + Edu · recalculada contra lo que el grupo ha hecho de verdad (S1-S2 dadas, serie de vídeo en marcha, proyecto 1 lanzado y con tutoriales publicados)_
 
 ## 0. Marco
 
-- **Tesis del curso**: el alumno de FP no va a escribir código línea a línea; va a **dirigir agentes de IA** que lo escriben. Su trabajo real: especificar, decidir arquitectura y funcionalidad, validar resultado, integrar, entregar. Eso es lo que entrenamos, con herramientas de producción desde la semana 1.
-- **Todo con los modelos del centro (titan, IA local)**: misma experiencia sin cuentas de pago ni dependencia exterior.
-- **Método startup**: proyecto individual + micro-grupos de rol (arquitectura / producto / QA), demo pública cada viernes, repo vivo desde el primer día.
-- **El código no se memoriza, se audita**: el alumno nunca es autor material, es **editor con criterio**. Toda evaluación va sobre especificación, decisiones, revisión y entrega.
-- **Calendario real CV 26-27**: clases hasta **18 de junio de 2027**. No lectivos: puente 9-12 oct · Navidad **22 dic–6 ene** · Fallas **16-19 mar** · Pascua **25 mar–5 abr**. → **≈30-32 semanas lectivas efectivas**.
+- **Tesis del curso**: el alumno de FP no va a escribir código línea a línea; va a **dirigir agentes de IA** que lo escriben. Su trabajo real: especificar, decidir, validar el resultado, integrar y entregar. El código no se memoriza, **se audita**: el alumno es editor con criterio, no autor material.
+- **Con los modelos del centro como motor** (IA local, sin cuentas de pago). Lo que el centro todavía no pueda dar (proxy con clave) se cubre con vías gratuitas sin API key: el alumnado **jamás** pone una clave propia en un proyecto del curso.
+- **Método startup**: proyecto individual con micro-roles (producto / arquitectura / QA), repo vivo desde el primer día, entrega y defensa por proyecto con la **rúbrica publicada por delante**.
+- **Una sesión semanal** (la serie de vídeo marca el ritmo: se graba el fin de semana, se publica el domingo). Fechas de esta previsión ancladas al calendario escolar CV 26-27: **puente 9-12 oct · Navidad 22 dic – 6 ene · Fallas 16-19 mar · Pascua 25 mar – 5 abr · fin de curso 18 jun**. Si el día lectivo del grupo se mueve, JARVIS recalcula la tabla al cerrar cada semana — lo que no cambia es el **orden de proyectos**.
 
-## 1. Estructura en 6 bloques de proyecto (cada uno = mini-empresa que lanza un producto)
+## 1. Primera evaluación · 3 proyectos (S1-S13: 22 sep → 15 dic)
 
-| # | Bloque | Proyecto (producto real) | Semanas | Fecha aprox | Entregable publicable |
-|---|--------|--------------------------|---------|-------------|----------------------|
-| 0 | **Fundamentos del dev con IA** | Setup + "Hola mundo dirigido": CLAUDE.md/AGENTS.md del centro, método, prompt de especificación | S1-S4 | 29 sep – 23 oct | Repo plantilla + primera spec bien escrita + CI verde |
-| 1 | **CLI** | `simarro-qa`: CLI que pregunta dudas de clase al RAG del centro (Python + Typer; empaquetada con pip) | S5-S8 | 26 oct – 20 nov | Paquete instalable + tests + GH Actions + README de producción |
-| 2 | **SaaS web** | App web multiusuario real (Next.js + Postgres): MVP elegido por votación (reserva de material del ciclo / tablón de proyectos). Auth, despliegue en VPS propio del curso | S9-S14 | 23 nov – 19 dic (+11-22 ene) | URL pública en dominio del curso con usuarios reales del ciclo |
-| 3 | **Escritorio** | Herramienta de aula empaquetada (Electron o Tauri): p. ej. monitor de GPUs de titan o lanzador del RAG. Instalador .deb/.msi firmado en teoría | S15-S18 | 25 ene – 12 feb | Instalador + auto-update explicado + demo en sobremesa del aula |
-| 4 | **Videojuego** | Juego web/game jam (Godot 4 o Phaser): corto, pulido, con "release" en itch.io del curso | S19-S23 | 15 feb – 19 mar (antes de Fallas) | Build jugable pública + postmortem |
-| 5 | **Móvil** | App Android con **Expo/React Native**: la misma idea del SaaS version bolsillo (notas, avisos). Prueba en **emulador + APK en móvil propio**; Play Store: proceso completo enseñado (closed test), sin cuenta de pago | S24-S29 | 7 abr – 14 may | APK instalable por QR + doc "cómo se publicaría" |
-| 6 | **Integración y portfolio** | "Producto final a elección" en micro-grupos tipo startup: combina al menos 2 plataformas + IA. Semana de demo-day con invitado externo (empresa/DAW senior) | S30-S34 | 17 may – 18 jun | Demo-day + portfolio GitHub público por alumno |
+> Desglose completo semana a semana → [Mapa de sesiones](/programacion-ia/plan/sesiones/)
 
-> Las semanas exactas se recalculan cada trimestre contra el calendario del centro (fiestas locales). El orden **CLI → Web → Escritorio → Juego → Móvil** es deliberado: dificultad de empaquetado y feedback creciente, y cada bloque reutiliza git/CI/specs del anterior.
+| # | Proyecto | Qué es | Semanas | Estado |
+|---|----------|--------|---------|--------|
+| P1 | **Web personal de marca** | La web del alumno, publicada en GitHub Pages con git y README: decidir marca, dirigir al agente, iterar contra la rúbrica y defender. Material ya publicado: [portada del proyecto](/programacion-ia/web-personal/), sesiones [1](/programacion-ia/sesion-01/)·[2](/programacion-ia/sesion-02/)·[3](/programacion-ia/sesion-03/) y los [4 tutoriales para subir nota](/programacion-ia/tutoriales/) | S2-S4 (arrancada en S2) | 🔶 EN CURSO |
+| P2 | **CLI «tareas con IA»** | Aplicación de terminal que usa el sistema operativo y combina IA para tareas sencillas sobre los **propios ficheros**: ordenar descargas, renombrar por fechas, resumir documentos, generar READMEs… con **acciones predefinidas en un fichero de configuración** (lo potente del proyecto: el alumno define las acciones, el agente las implementa) | S5-S8 | ⬜ |
+| P3 | **Videojuego** | Juego web 2D pequeño y pulido, publicado y jugable por cualquiera (Phaser o canvas puro, mismo GitHub Pages): spec de diversión, bucle de juego, assets generados con IA y curados a mano, playtest cruzado, release y postmortem | S9-S12 | ⬜ |
 
-## 2. Ritmo semanal (plantilla fija, adaptable)
+**S13 (15 dic)**: defensa final de evaluación + portfolio, y cierre de notas justo antes de Navidad (**22 dic – 6 ene**).
 
-- **Lunes** — *Kickoff*: recap del anterior (2'), especificación asistida: el alumno dicta, la IA estructura, el alumno corta (15'), asignación de roles y issue en GitHub (10').
-- **Miércoles** — *Build*: trabajo con agentes locales; el profe pasa por puestos auditando **decisiones**, no código (lo que no sabe explicar, no vale).
-- **Viernes** — *Demo & merge*: demo de 3' por alumno/grupo, PR review cruzada entre pares con checklist, merge a main, y grabación del vídeo-semana del curso (serie YouTube).
-- **Regla de oro**: toda PR necesita (a) spec de 10 líneas, (b) decisión anotada en ADR si cambia arquitectura, (c) prueba que demuestre que funciona. Sin eso no se mergea.
+El hilo entre los tres es deliberado: la **web** enseña a publicar y a decidir (marca, rúbrica, criterio); la **CLI** enseña sistema — terminal, ficheros, permisos, secretos, pruebas — y a dar poder al usuario con configuración externa; el **juego** enseña estados, balance y pulido, la parte de producto que más se nota. Y los tres comparten el esqueleto: spec de 10 líneas → dirigir al agente → auditar → probar → publicar → defender.
 
-## 3. Herramientas no-código que SÍ se enseñan (el currículo oculto)
+## 2. Ritmo semanal (plantilla fija)
 
-1. **GitHub completo**: ramas + PR + reviews, Issues/Projects (kanban), Actions (CI), Releases semver, Protect branch, Codespaces.
-2. **Especificación**: plantillas de spec (problema → usuarios → criterios de aceptación → no-objetivos), spec-driven development; "el prompt es el nuevo pliego de condiciones".
-3. **Contexto de agente**: AGENTS.md/CLAUDE.md, memorias, por qué un buen contexto vale más que un prompt largo.
-4. **Arquitectura**: ADRs (Architecture Decision Records), diagramas de contexto/contenedor (C4 ligero) hechos con ayuda de IA, límites y APIs.
-5. **QA con IA**: Playwright con screenshots, pruebas de humo, "el tribunal incómodo" (pedir a la IA que ataque su propio producto), rúbricas de revisión.
-6. **Producto**: prioridades (RICE simple), MVP vs v2, métricas de uso reales del SaaS del curso, feedback de usuarios reales (el resto del ciclo).
-7. **Diseño**: Figma básico + design systems que la IA aplica; tokens (color/tipo/espaciado) y por qué.
-8. **Operaciones**: despliegue real (VPS, DNS, HTTPS), variables de entorno y secretos (lo que NO se sube), monitorización mínima (logs, uptime), rollback; **seguridad**: qué es un API key leak (caso real del curso: el `.gitignore` que se comía código), dependencias, permisos mínimos.
-9. **Comunicación**: README que se sostiene solo, changelog, demo de 3 minutos, escribir para quien no estaba.
+- **Clase** — kickoff (2'): recap de la semana anterior + especificación asistida (el alumno dicta, la IA estructura, el alumno corta). Después, trabajo con los agentes del centro; el profe pasa por puestos auditando **decisiones**, no código.
+- **Regla de oro**: cada entrega necesita (a) spec de 10 líneas, (b) decisión anotada (ADR o cuaderno), (c) prueba de que funciona. Sin eso, no cuenta.
+- **Viernes/fin de semana** — demo, merge a main y grabación del **vídeo-semana** (se publica el domingo).
 
-## 4. Evaluación
+## 3. Herramientas que SÍ se enseñan (currículo oculto, repartido en los 3 proyectos)
 
-- **Portfolio GitHub vivo (40%)**: repos públicos, historial limpio, specs y ADRs, CI en verde — rúbrica por bloque.
-- **Demo + defensa oral (30%)**: viernes semana bimestral; defensa tipo "por qué esta decisión y no otra" (calco de la defensa de Tecnología: coherencia con lo que el alumno cuenta).
-- **Cuaderno de decisiones (20%)**: entradas breves: qué pedí a la IA, qué me devolvió, qué cambié y por qué. (AntiaI-fairy: se valora el criterio, no la prosa.)
-- **Cochistencia del equipo (10%)**: reviews hechas, issues gestionados.
-- **Nunca**: velocidad tipeando, memorizar APIs, "código a mano" — sería evaluar la era anterior.
-- Recuperable: cada bloque deja "prueba de producción" (deploy/checklist) que puede rehacerse en periodo de recuperación.
+1. **GitHub completo** (P1): ramas + PR, issues, Actions, releases, protect branch — en marcha desde S2.
+2. **Especificación** (los 3): plantillas de spec — problema → usuarios → criterios de aceptación → no-objetivos; «el prompt es el nuevo pliego de condiciones».
+3. **Terminal y sistema operativo** (P2): rutas, permisos, `PATH`, subprocess — el SO como plataforma de trabajo, no como pantalla.
+4. **Secretos y configuración** (P2): qué es una API key, por qué vive fuera del repo, `.gitignore` antes del primer commit; config externa (las acciones predefinidas en JSON, no en el código).
+5. **QA con IA** (P2-P3): pruebas escritas por el agente y auditadas por el alumno; «pedir a la IA que ataque su propio producto».
+6. **Arquitectura ligera** (P2-P3): ADRs, diagrama de un contenedor, módulos: por qué la lógica va separada de la interfaz.
+7. **Diseño y producto** (P1-P3): tokens (color/tipo), MVP vs v2, priorizar; en P3, game feel y curva de dificultad.
+8. **Comunicación**: README que se sostiene solo, changelog, demo de 3 minutos, postmortem (P3).
 
-## 5. Vídeo-semana (serie pública en Aula en la nube)
+## 4. Evaluación (primer evaluación)
 
-- Viernes se graba, domingo se publica (ya rodado: ep01 20-sep, ep02 27-sep ✅ automatizado con cron de detección).
-- Regla de gancho fijada 22-sep: abrir **directo al tema**, "resumen de la semana N" después, "para los que no sabíais, esto es un curso…" al final; cada episodio vale solo; recap opcional.
-- Cada bloque de proyecto termina con un **vídeo "producto en producción"** (más allá del resumen de clase): son los que venden el método.
-- Playlist «Curso de Programación con IA» creada cuando haya 4+ episodios (cuando lo digas, la monto por API).
+- **Cada proyecto se evalúa con su rúbrica publicada antes de acabar**: P1 ya tiene la suya (`RUBRICA_WEB_MARCA`, 7 criterios con descriptores literales, visible en el [campus](/programacion-ia/acceso/) y explicada en la portada del proyecto). Las rúbricas de P2 (CLI) y P3 (juego) se publican en el campus las semanas S4 y S8.
+- Común a los tres: **repo con historial real** (commits que cuentan el proceso), **cuaderno de decisiones** (qué pedí, qué devolvió la IA, qué cambié y por qué) y **defensión oral o grabada** con la rúbrica en la mano.
+- **Nunca** se evalúa: velocidad tipeando, memorizar APIs o sintaxis, «código a mano» — sería evaluar la era anterior.
+- Recuperable: cada proyecto deja una «prueba de producción» (web publicada / paquete instalable / juego jugable) reproducible en el periodo de recuperación.
 
-## 6. Riesgos y mitigación
+## 5. Serie «El curso, en vídeo» (pública, en Aula en la nube)
 
-- **Dependencia del agente sin criterio** → regla "lo que no puedes explicar no cuenta" + defensas orales.
-- **Copio-pega de la IA sin auditar** → QA con IA + revisión cruzada con checklist + ADRs firmados.
-- **Fricción de entornos (aula)** → imagen/preparador del centro con toolchain de cada bloque probada la semana previa por docent (yo).
-- **Fallas de red/titan en clase** → todos los proyectos tienen modo offline con modelo local pequeño de respaldo.
-- **Ánimo del grupo en bloques largos** → micro-sprints de 1 semana dentro de cada bloque, siempre algo publicable los viernes.
-- **Fiestas locales/swap de días** → los "fines de bloque" se mueven, el orden de bloques no.
+Grabación viernes/sábado → publicación domingo. Norma de gancho (22-sep): abrir directo al tema, «resumen de la semana N» después, «para los que no sabíais, esto es un curso» al final; cada episodio vale solo.
 
-## 7. Qué necesito de ti (decisiones, sin prisa)
+| Ep | Semana | Tema | Estado |
+|---|---|---|---|
+| ep01 | S1 | «Soy profe de DAM y este año no voy a enseñar a programar como hasta ahora» | ✔ publicado |
+| ep02 | S2 | «Crear una web real desde cero sin escribir una línea de código» (arranque de P1 + git) | ✔ publicado |
+| ep03 | S3 | La rúbrica por dentro: iterar contra criterios, no contra gustos | 🔶 esta semana |
+| … | — | un episodio por semana; los días de release (S4, S8, S12) llevan vídeo propio de producto | plan |
 
-1. **Nombre del SaaS del curso** (votación o decisión) — cambia ejemplos de specs.
-2. **¿Cuentas GitHub del centro** para el alumnado (org `ies-simarro-dam`) o cuentas propias? → prepáralo en semana 3.
-3. **Invitado para el demo-day** (junio): ¿contacto del sector / DAW de otro centro / familia-empresa?
-4. **Ritmo de publicación de la serie**: mantener viernes-grabación/domingo-publicación (actual) es lo óptimo — confirmar.
-5. Si quieres, en S2 monto el **org + repos plantilla** y lo dejo listo para el alumnado (tarea delegable).
+[Índice de la serie →](/programacion-ia/video-semana/) · Playlist «Curso de Programación con IA» cuando haya 4+ episodios.
+
+## 6. Segunda y tercera evaluación (borrador — se detallan en enero)
+
+Cerrada la primera evaluación con 3 productos publicados, la dirección prevista para después de Navidad (a confirmar con el resultado real de P1-P3):
+
+- **Evaluación 2 (ene – mar)**: app web multiusuario real (el «SaaS del curso»: base de datos, despliegue en VPS propio) y empaquetado/distribución — el salto de «mi web» a «producto con usuarios». Fallas (16-19 mar) y la semana de Pascua ya descontadas.
+- **Evaluación 3 (abr – jun)**: proyecto libre en micro-grupos tipo startup combinando al menos 2 plataformas + IA, **demo-day con invitado externo** (17 may – 18 jun) y portfolio final del curso.
+- Decisiones que se toman en enero: qué producto multiusuario (votación), formato del demo-day, invitado.
+
+## 7. Riesgos y mitigación
+
+- **Dependencia del agente sin criterio** → «lo que no puedes explicar no cuenta» + defensa con rúbrica en la mano (ya probado en P1).
+- **Copio-pega sin auditar** → pruebas obligatorias y revisión cruzada desde P2.
+- **Fricción de entorno en el aula** → el profe prueba la toolchain de cada proyecto la semana previa (la de P1 ya está rodada: los [tutoriales](/programacion-ia/tutoriales/) recogen los atascos reales detectados).
+- **Fallas de red/modelos en clase** → todo proyecto con modo degradado: la CLI hace sus acciones predefinidas sin IA; el juego no depende de red.
+- **Claves y datos** → ninguna API key personal en ningún repo del curso; los modelos del centro, cuando exista el proxy (clave en servidor), y vías gratuitas sin clave mientras tanto (lo documenta el tutorial del chatbot).
+- **Fiestas y cambios de día** → se mueven las fechas, nunca el orden de proyectos.
 
 ---
-*Este documento es previsión viva: se actualiza tras cada bloque (lecciones aprendidas en el vídeo-semana + retro docent). Versión pública futura: cuando cada bloque esté rodado y validado, su página pública correspondiente en /programacion-ia/.*
+*Previsión viva: este documento y el [mapa semanal](/programacion-ia/plan/sesiones/) forman la fuente de verdad (en el repo: `docs/plan-curso-programacion-ia-2026-27.md` y `docs/plan-curso-sesiones-2026-27.md`). JARVIS los actualiza al cerrar cada semana (lecciones del vídeo-semana + retro docent).*

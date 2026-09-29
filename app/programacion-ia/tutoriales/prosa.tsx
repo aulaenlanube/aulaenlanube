@@ -108,7 +108,9 @@ export default function Prosa({ md }: { md: string }) {
 
     // Tabla GFM
     if (L.trim().startsWith("|") && i + 1 < lineas.length && /^\|?[\s:|-]+\|?$/.test(lineas[i + 1].trim()) && lineas[i + 1].includes("-")) {
-      const cab = L.split("|").map((c) => c.trim()).filter(Boolean);
+      // Las cabeceras NO se filtran: una celda vacía | | es una columna real
+      // (las tablas sin título en la primera columna perderían la alineación).
+      const cab = L.trim().replace(/^\|/, "").replace(/\|$/, "").split("|").map((c) => c.trim());
       i += 2;
       const filas: string[][] = [];
       while (i < lineas.length && lineas[i].trim().startsWith("|")) {

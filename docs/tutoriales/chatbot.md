@@ -19,7 +19,7 @@ Descriptores literales de la rúbrica del proyecto (`rubricas.ts`):
 | Casilla que mueves | Qué exigen para llegar ahí (literal) | Qué te da este tutorial |
 |---|---|---|
 | **Mínimo «contacto»** (puerta de entrada: sin él, NE) | «Un visitante puede ponerse en contacto y funciona de verdad (formulario que envía, chatbot o, al menos, mailto:/teléfono correctos).» | El chatbot cuenta como «funciona de verdad»: un desconocido escribe desde tu web y obtiene respuesta. Además el bot te obliga a tener un canal real (correo o formulario) al que él remite. |
-| **Criterio «contacto»** (peso 15) — salto a **Excelente** | «Canal con respuesta automática: chatbot con la API del centro … y sabes explicar el recorrido del dato.» | Paso 1-5: el bot montado usando la vía del centro o una API gratuita sin clave. Paso 7 y las preguntas finales: el recorrido del dato entrenado para contarlo sin leer código. El «…» del descriptor cubre esta variante: el servicio gratuito sin clave funciona igual y lo justificas en la defensa. |
+| **Criterio «contacto»** (peso 15) — salto a **Excelente** | «Canal con respuesta automática: chatbot con la API del centro … y sabes explicar el recorrido del dato.» | Paso 1-5: el bot montado (árbol de reglas propio, API gratuita sin clave — o la API del centro si el instituto la habilita). Paso 7 y las preguntas finales: el recorrido del dato entrenado para contarlo sin leer código. El «…» del descriptor cubre esta variante: el servicio gratuito sin clave funciona igual y lo justificas en la defensa. |
 | **Criterio «interactividad»** (peso 15) — nivel **Excelente** | «Función con estado o datos: … consumo de una API externa real, chatbot operativo, o personalización según parámetros — con el código explicado en la defensa.» | Un chatbot operativo tiene las dos cosas: estado (recuerda las últimas frases de la conversación) y datos (consume una API externa real cada vez que responde). |
 | **Criterio «proceso»** (peso 15) — nivel **Excelente** | «…iteraciones visibles, v1→v2 con mejoras rastreables, y las órdenes clave a la IA archivadas en el repo.» | Las 10 pruebas con preguntas trampa se archivan en `notas.txt` dentro del repo (paso 6) y cada arreglo sale en un commit con historia (paso 7). Es evidencia de iteración con resultados, de la que se puede auditar. |
 
@@ -129,36 +129,43 @@ Seis reglas, doce líneas, ni un dato vivo que duela perderlo. Ese es el estánd
 
 ## Paso 3 · Dónde vive la «IA» del bot (y por qué aquí no hay clave)
 
-El bot necesita un servicio que genere las respuestas. Tres vías, de la más pro a la más sencilla:
+[FIG:niveles]
 
-1. **La API del centro (el proxy del profe)**. El centro ofrece sus modelos sin clave para el alumnado: la URL del endpoint te la da el profe en clase. Es la vía buena en el IES: tus datos salen por la red del centro hacia un servicio controlado, y en la defensa puedes decir «uso la API del centro», que es literalmente lo que pide el descriptor de Excelente.
-2. **text.pollinations.ai (vía recomendada para casa, verificada este curso)**. Un servicio gratuito que responde preguntas por una simple URL, sin registro, sin tarjeta y **sin clave**: la petición es `https://text.pollinations.ai/` + tu texto. Además lo he comprobado con la herramienta de desarrollo abierta: responde `access-control-allow-origin: *`, el permiso CORS que necesitas para llamarlo desde tu web. Si algún día usas su panel de modelos ([gen.pollinations.ai/docs](https://gen.pollinations.ai/docs)), todo lo del tutorial cambia en una sola línea: la URL.
-3. **Cualquier otra API con clave (OpenAI, Gemini…)**: posible, y **prohibida en este proyecto tal como se suele intentar**. Léete el recuadro de abajo, que es la lección real de este paso.
+El bot necesita algo que genere las respuestas. Cuatro vías posibles, de la más sencilla a la más exigente — elige una y sabes por qué:
 
-Las dos vías buenas, frente a frente, para que elijas con criterio:
+1. **Sin IA: un árbol de decisiones (la vía más honesta)**. Tu bot no «entiende»: *busca palabras clave y contesta lo que tú escribiste antes*. Es un árbol de decisiones (o un grafo de preguntas, como un test interactivo): «si escribes *horario* → respondo A; si escribes *proyectos* → te hago una pregunta y según lo que contestes, te llevo a B o C; si no reconozco nada → te paso a mi correo». Con esto se hace un bot muy útil para las 6-8 dudas típicas de tu web, en 0 KB de descarga, en cualquier navegador de cualquier portátil del instituto, sin red, sin clave y **sin posibilidad de que filtre un dato tuyo: no puede decir lo que no está escrito**. Es la opción más fácil de defender en la defensa, porque cada frase la has escrito tú. El descriptor de la rúbrica dice «chatbot con la API del centro, auto-responder por correo…»: un auto-responder por palabras es un canal con respuesta automática con todas las letras.
+2. **text.pollinations.ai (la vía sin fricción para casa, verificada este curso)**. Un servicio gratuito que responde preguntas por una simple URL, sin registro, sin tarjeta y **sin clave**: la petición es `https://text.pollinations.ai/` + tu texto. Además lo he comprobado con la herramienta de desarrollo abierta: responde `access-control-allow-origin: *`, el permiso CORS que necesitas para llamarlo desde tu web. La limitación honesta: el servicio es público, sin auth ni cuotas, con rate limit y sin SLA — **no lo des por hecho en clase**: ten siempre la vía 1 o la 3 como plan B, porque media clase llamándolo a la vez lo va a hacer toser (por eso el paso 4 te obliga a programar el mensaje de error con tu canal de contacto).
+3. **Un modelo pequeño dentro del navegador (WebLLM + WebGPU)**. La vía que sorprende en la defensa: el modelo se descarga a tu navegador y razona **en local**, sin llamar a ningún servidor. Es real y funciona hoy en Chrome/Edge: los modelos aptos para navegador van de 135M a ~2B parámetros (los «tiny» de WebLLM: SmolLM2-360M ~200 MB, Qwen2.5-0.5B ~280 MB, Llama-3.2-1B ~670 MB, Qwen2.5-1.5B ~840 MB), requieren **WebGPU** (Chrome/Edge 113+, Safari 26+, Firefox 141+; en Linux sigue verde) y un portátil moderno. El coste de verdad: **tus instrucciones viajan al navegador del visitante** (el modelo se las traga cada vez) y el visitante gasta su conexión y su GPU en la primera carga. Es la que más puntos de efecto «no sabía que esto cabía en una web» suma, y la que peor encaja con la privacidad si un día quisieras un dato semi-privado.
+4. **La API del centro (si el centro la habilita)**. Un **proxy del centro** es un servidor gestionado que guarda la clave y ofrece una URL limpia: la página de tu web llama a `https://___/api/chat` (URL que define el centro) y el proxy añade la clave por detrás y reenvía a los modelos del centro. La clave **jamás** se ve en tu JavaScript, el uso queda controlado (límites por usuario y por día) y tus datos salen hacia un servicio del instituto. Es exactamente lo que pide el descriptor literal de Excelente («chatbot con la API del centro»). Hoy en el curso **esta vía está pendiente de que el centro la habilite**: el profe os dará la URL en clase cuando exista. Mientras no exista, usa la vía 1 (sin IA) o la 2 (pollinations).
 
-| | API del centro | text.pollinations.ai |
-|---|---|---|
-| Clave / tarjeta | Ninguna (la guarda el profe) | Ninguna, jamás |
-| Dónde funciona | En la red del IES | En casa y en cualquier sitio |
-| Coste para ti | 0 | 0 |
-| Satura | Casi nunca | Horas punta: sí (error 5) |
-| En la defensa | «Chatbot con la API del centro»: descriptor literal | Variante gratuita equivalente: la justificas tú |
+Las cuatro vías, frente a frente, para que elijas con criterio:
 
-Si el profe os da la URL del proxy del centro, el prompt del paso 4 es el mismo cambiando un párrafo: «monta la llamada contra `___` (la URL que me da el centro) con un POST JSON con mis instrucciones y la pregunta, sin ninguna clave». La IA hace el resto; tus instrucciones y tus pruebas son idénticas.
+| | Árbol (sin IA) | pollinations | WebLLM local | API del centro (pendiente) |
+|---|---|---|---|---|
+| Clave / tarjeta | Ninguna, jamás | Ninguna, jamás | Ninguna, jamás | La guarda el servidor del centro |
+| Funciona | Siempre, hasta sin red | Necesita internet | Después de la 1ª descarga, sin red | Necesita internet (red del IES) |
+| Coste para ti | 0 | 0 | 0 | 0 |
+| Qué necesita el visitante | Nada | Red abierta | ~200-800 MB de descarga y WebGPU | Nada visible |
+| Satura / falla | Nunca | Horas punta: sí | Nunca (falla si el equipo va justo) | Si el centro lo cae |
+| Tu ficha personal… | La escribes tú, no hay fuga | Viaja en cada llamada al servicio | Viaja al navegador del usuario | Sale por la red del IES al proxy |
+| En la defensa | «Auto-responder con reglas propias» (descriptor cubierto) | «Servicio gratuito sin clave, equivalente» | «Modelo cuantizado ejecutándose en el navegador del cliente con WebGPU» | «Chatbot con la API del centro»: descriptor literal |
 
-> **Por qué una clave NO va en el JS de una web pública.** El `chatbot.js` de tu web se lo descarga cualquiera que pulse F12 → Sources (o clic derecho → «Ver código fuente»). No es un hacking de película: son dos clics. Si ahí pone `API_KEY = "sk-..."`, esa clave es pública: un script puede recorrer GitHub entero buscando patrones de claves robadas y usarlas en minutos. Con tu clave robada, alguien gasta tokens a tu nombre y el cargo llega a la tarjeta que la asoció. Las claves solo viven en el servidor (en tu centro, el proxy del profe hace justo esto: guarda la clave y te da una URL limpia).
+[FIG:arbol]
+
+**Mi recomendación para el curso: la 1 como base (siempre) y la 2 como mejora.** Un bot de árbol funciona, no depende de nadie y te da el mínimo de contacto resuelto; si quieres el «plus IA», le pones pollinations encima y sabes explicar la diferencia (el árbol responde lo que tú escribiste; la IA redacta). Si vas sobrado y el portátil lo aguanta, WebLLM es el extra que hace que el profe levante una ceja.
+
+> **Por qué una clave NO va en el JS de una web pública.** El `chatbot.js` de tu web se lo descarga cualquiera que pulse F12 → Sources (o clic derecho → «Ver código fuente»). No es un hacking de película: son dos clics. Si ahí pone `API_KEY = "sk-..."`, esa clave es pública: un script puede recorrer GitHub entero buscando patrones de claves robadas y usarlas en minutos. Con tu clave robada, alguien gasta tokens a tu nombre y el cargo llega a la tarjeta que la asoció. Las claves solo viven en el servidor (un proxy del centro, si se habilita, hace justo esto: guarda la clave y te da una URL limpia).
 >
 > **Y si en algún momento usas una clave (fuera de este proyecto):** se guarda en un fichero `.env` que **jamás** se sube, y ese fichero se añade a `.gitignore` **antes** del primer commit (la documentación de git lo explica en [git-scm.com/docs/gitignore](https://git-scm.com/docs/gitignore) y GitHub en [ignorando ficheros](https://docs.github.com/en/get-started/git-basics/ignoring-files)). Los 3 pasos para comprobar que no se te ha ido nada, sin leer código:
 > 1. En GitHub, dentro de tu repo, abre la búsqueda de código (la lupa, o `https://github.com/search`) y busca el principio de tu clave (por ejemplo `sk-`). Si aparece en un fichero o en un commit, se ha ido.
 > 2. En la página de tu repo, pestaña **Code**: abre `chatbot.js` y `.env` desde la web de GitHub. Si los ves ahí con la clave dentro, se han ido. Y si quieres certeza total, pídele a la IA: «comprueba en mi histórico si alguna versión de mis ficheros ha contenido esta clave» (con `git log --all -S` — que lo ejecute ella y te lo explique en dos frases).
 > 3. Si se ha ido: **rota la clave** (bórrala y genera otra — en GitHub, [github.com/settings/tokens](https://github.com/settings/tokens)) y avisa a quien te la dio. Una clave rota no sirve para nada, aunque siga en el histórico. No basta con borrar el fichero en un commit nuevo: lo que subió, queda.
 
-Como este tutorial usa la vía 1 o la vía 2, no manejas ninguna clave. Tu tranquilidad en la defensa: «mi bot no usa clave porque el servicio gratuito no la pide, y a propósito no he usado servicios con clave porque en una web estática pública acabarían a la vista de cualquiera con F12».
+Como el tutorial te hace montar la vía 1, la 2 o la 3, **no tocas ninguna clave en toda tu web**. Tu tranquilidad en la defensa: «mi bot no usa clave a propósito: en una web estática pública cualquier clave del JavaScript acaba a la vista de cualquiera con F12 en dos clics, así que elegí una vía que no la necesita».
 
 ## Paso 4 · Pide el bot a la IA (el prompt gordo)
 
-Con tus instrucciones finales ya pegadas donde dice «PEGA AQUÍ», pide esto al chat del centro. Funciona en cualquier asistente general; no necesita extensiones:
+Con tus instrucciones finales ya pegadas donde dice «PEGA AQUÍ», pide esto al chat del centro. Funciona en cualquier asistente general; no necesita extensiones. Este es el prompt de la **vía 2 (pollinations)**; al final del paso tienes el de la **vía 1 (árbol sin IA)** y la nota de la **vía 3 (WebLLM)**.
 
 [FIG:recorrido]
 
@@ -194,7 +201,7 @@ Después de chatbot.js, dime EXACTAMENTE la única línea que debo añadir a mi
 index.html antes de </body>, y nada más. No cambies nada más de mi web.
 ```
 
-Pega `chatbot.js`, añade la línea que te diga al `index.html`, guarda los dos ficheros. Dos avisos antes de probar, porque pasarán:
+Pega `chatbot.js`, añade la línea que te diga al `index.html`, guarda los dos ficheros. **Si montas la vía 1 (árbol sin IA) o la vía 3 (WebLLM), usa el prompt de su apartado más abajo** — el resto del tutorial (pruebas, iteraciones, defensas) es idéntico para las tres. Dos avisos antes de probar, porque pasarán:
 
 - Si la IA te responde con **trozos** del fichero en vez del fichero entero, insiste con la frase mágica del curso: «dame el fichero COMPLETO, no fragmentos». Un `chatbot.js` a medias es la causa nº 1 de «no me sale nada».
 - La línea que va al `index.html` debe quedar **justo antes de `</body>`**, después de tu `script.js` si lo tenías. Si la IA te dice otro sitio, síguele el sitio, pero que quede una sola.
@@ -205,6 +212,30 @@ Comprueba con tus propios ojos, sin leer código:
 - Escribes «hola» → sale el «escribiendo…» → llega una respuesta **en español**, con tu nombre de bot.
 - Pulsa Enter sin ratón: envía.
 - Achica la ventana (o F12 → modo dispositivo): el chat no tapa medio mundo ni se sale.
+
+### Variante · El bot-árbol sin IA (vía 1): el prompt corto
+
+Si eliges la vía sin IA (o la montas primero y luego añades la 2), cambia el punto 3 del prompt por este bloque — el resto (burbuja, estados, accesible, CSS) es literalmente igual:
+
+```text
+3. Sin IA y sin llamadas a internet: el bot responde con un ÁRBOL DE DECISIONES que
+   defino yo. Crea una constante RAMAS: un objeto donde cada clave es un tema y cada
+   valor es la respuesta literal escrita por mí (te pego abajo mis respuestas).
+   Al recibir una pregunta, normaliza a minúsculas sin tildes, busca qué tema contiene
+   más palabras clave y responde ESA frase literal. Si ningún tema supera 1
+   coincidencia, responde el mensaje por defecto remitiendo a mi contacto. CADA frase
+   la escribo yo: el bot no genera nada, solo elige. Añade botones de pregunta rápida
+   (horario / qué estudio / contacto) para que el visitante sepa qué pedir.
+PEGA AQUÍ MIS RESPUESTAS: """
+[pega aquí las 5-8 frases literales, una por tema]
+"""
+```
+
+Tus respuestas salen del mismo `notas.txt` del paso 2 — el borrador ya las tiene casi escritas. Lo que ganas: cero dependencias (el bot funciona hasta sin wifi), cero claves, cero saturación, y una defensa impecable: «mi bot no puede filtrar lo que no está escrito». Lo que pesa en contra: la variante de descriptor menciona «API», así que en la defensa enmarca el árbol como la base del auto-responder y, si quieres el matiz IA, monta también la vía 2 encima — es el prompt gordo tal cual, no hay trabajo duplicado.
+
+### Variante · El modelo en el navegador (vía 3, WebLLM): lo que hay que saber
+
+Antes de lanzarte, dos clics de comprobación: abre [webgpureport.org](https://webgpureport.org/) y mira que tu navegador soporte WebGPU (si sale «WebGPU not supported», quédate en la vía 1 o 2 y no pierdas la tarde). Si pasa, pide el prompt gordo cambiando el punto 3 por: «monta WebLLM importando `@mlc-ai/web-llm` como ES module desde `https://esm.run/@mlc-ai/web-llm`, usa `Llama-3.2-1B-Instruct-q4f16_1-MLC` o `SmolLM2-360M-Instruct-q4f16_1-MLC`, muestra una barra de progreso de la descarga inicial y, si WebGPU no está disponible o la carga falla, cae automáticamente al modo árbol de decisiones con mis respuestas». Ese «cae automáticamente» es la parte que te salva la demo. Hay dos modelos de ejemplo verificados ([Llama-3.2-1B](https://huggingface.co/mlc-ai/Llama-3.2-1B-Instruct-q4f16_1-MLC), [Qwen2.5-1.5B](https://huggingface.co/mlc-ai/Qwen2.5-1.5B-Instruct-q4f16_1-MLC)) y un playground para probarlo sin montar nada en [webllm.mlc.ai](https://webllm.mlc.ai) — pruébalo ahí primero, es un minuto. Lo que ganas: una frase de defensa que pocos pueden decir («mi bot ejecuta un modelo cuantizado a 4 bits dentro del navegador del visitante usando su GPU, sin servidor») y poder enseñarlo con `chrome://gpu` abierto. Lo que cuesta, honesto: la primera visita descarga 200-800 MB y el visitante pone la batería; en un portátil del centro justito, la carga puede ir lenta — por eso el plan B del árbol nunca sobra.
 
 ## Paso 5 · Pruébalo en entorno real, no a doble clic
 
@@ -300,7 +331,7 @@ corregido COMPLETO, con los cambios marcados con comentarios. No cambies nada m�
 
 **4 · Error rojo de CORS o «blocked».** El paso clásico: probando a doble clic desde `file://` (origen `null`) — hazlo con Live Server o Pages (paso 5). Si ya estás en producción, escribe la URL del servicio a secas en otra pestaña: si responde, el servicio está vivo y el problema es tuyo (prompt de rescate arriba); si no responde o da error 5xx, es el servicio: espera, es gratis y compartido (ver error 5).
 
-**5 · «Saturado» / error 429 / 500 del servicio.** text.pollinations.ai es gratuito, sin clave y **compartido con todo el mundo**: hay horas punta en las que satura, o días en que el proveedor tiene una avería — te pasará seguro con media clase probando bots a la vez. Tu bot **no puede depender de un servicio que no avisa**: por eso el paso 4 exige el mensaje amable con tu canal de contacto dentro. En clase, usa la vía del centro (el proxy del profe no satura por ti). Y en la defensa, si te lo preguntan, esta respuesta vale más que un código perfecto: «el servicio gratuito a veces satura, por eso mi bot tiene estado de error con mi correo, y en el instituto uso la API del centro».
+**5 · «Saturado» / error 429 / 500 del servicio.** text.pollinations.ai es gratuito, sin clave y **compartido con todo el mundo**: hay horas punta en las que satura, o días en que el proveedor tiene una avería — te pasará seguro con media clase probando bots a la vez. Tu bot **no puede depender de un servicio que no avisa**: por eso el paso 4 exige el mensaje amable con tu canal de contacto dentro. Tu seguro es doble: el estado de error con tu canal de contacto (obligatorio en el paso 4) y tener la vía 1 montada como plan B — el árbol no satura nunca. Y en la defensa, si te lo preguntan, esta respuesta vale más que un código perfecto: «el servicio gratuito a veces satura, por eso mi bot tiene estado de error con mi correo, y la base de mi bot es un árbol de reglas propias que funciona siempre».
 
 ## Mapa de decisión rápida
 
@@ -310,7 +341,7 @@ corregido COMPLETO, con los cambios marcados con comentarios. No cambies nada m�
  │        ├─ SÍ → Live Server o push a Pages (paso 5)
  │        └─ NO → ¿Qué dice la consola (F12 → Console)?
  │                ├─ «CORS» / bloqueado ..... error 4 (entorno o URL del servicio)
- │                ├─ 429 / 500 / saturado ... error 5 (servicio: espera o usa la vía del centro)
+ │                ├─ 429 / 500 / saturado ... error 5 (servicio: espera, o ten montado el árbol — vía 1)
  │                └─ otra cosa .............. prompt de rescate (error 3)
  └─ SÍ → prueba trampa 3 (pregunta en inglés):
           ├─ responde en inglés → refuerza la regla 1 de instrucciones (paso 6)
@@ -323,7 +354,7 @@ corregido COMPLETO, con los cambios marcados con comentarios. No cambies nada m�
 
 ## Lista de comprobación final
 
-☐ El bot responde preguntas sobre mí con mis datos reales, en español, en 2-3 frases.
+☐ El bot responde preguntas sobre mí con mis datos reales, en español, en 2-3 frases (en la vía 1, con MIS frases literales).
 ☐ Las instrucciones finales del bot están en mi `notas.txt` y en el bloque `INSTRUCCIONES` de `chatbot.js`, y he repasado que no hay dirección, edad exacta, DNI ni datos de terceros.
 ☐ Ninguna clave en ningún fichero de mi web (este tutorial no usa; en la defensa sé explicar por qué una clave en JS público se roba con dos clics).
 ☐ Las 10 pruebas trampa: tabla en `notas.txt` con las respuestas literales, todas APTO, commiteada en el repo.
@@ -349,7 +380,7 @@ Y ojo con un matiz que en la defensa separa notablemente: este bot **no recuerda
 «Por eso lo testee con 10 preguntas trampa (te enseño la tabla), por eso siempre remite a mi contacto real cuando no sabe algo, y por eso las instrucciones no prometen nada que yo no pueda defender en persona.»
 
 **— ¿Por qué no has usado OpenAI/Gemini con tu clave?**
-«Porque en una web estática cualquier clave del JavaScript se ve con F12 en dos clics, y una clave robada son cargos para el dueño. Las claves viven en servidores; aquí uso la API del centro, que funciona de proxy con la clave del centro detrás, o el servicio gratuito sin clave.»
+«Porque en una web estática cualquier clave del JavaScript se ve con F12 en dos clics, y una clave robada son cargos para el dueño. Las claves viven en servidores — un proxy del centro haría justo eso, guardar la clave detrás y dar una URL limpia, pero el centro aún no lo ofrece; yo he preferido una vía que no necesita clave: mi árbol de reglas propio, y el servicio gratuito sin clave para el plus de IA.»
 
 ---
 

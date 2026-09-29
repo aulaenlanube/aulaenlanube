@@ -19,11 +19,12 @@ Transcribo los descriptores literales de la rúbrica del proyecto (`RUBRICA_WEB_
 | Casilla que mueve | Qué exigen para llegar ahí (literal de la rúbrica) | Qué te da este tutorial |
 |---|---|---|
 | **Riqueza de medios · Competente** (nivel 3, 80 % de 10 pts) | «Mezcla trabajada: fotos propias optimizadas, ≥2 SVG propios (iconos/illustraciones), vídeo embebido, animaciones CSS/JS que aportan.» | Los 4 SVG propios del paso 2-3, el vídeo del paso 4-5 y las 3 animaciones del paso 3. |
-| **Riqueza de medios · Excelente** (nivel 4, 100 % de 10 pts) | «SVG animados propios, vídeo propio o demo grabada, animaciones con intención (no decorativas), Lighthouse media sin avisos.» | Logo animado (paso 2), demo grabada de 30 s (paso 4), las 8 comprobaciones de defensa (paso 7) y la limpieza con Lighthouse (paso 6). |
+| **Riqueza de medios · Excelente** (nivel 4, 100 % de 10 pts) | «SVG animados propios, vídeo propio o demo grabada, animaciones con intención (no decorativas), Lighthouse media sin avisos.» | Logo animado (paso 2), demo grabada de 30 s (paso 4), el mini-juego o el extra del paso 6, las 8 comprobaciones de defensa (paso 8) y la limpieza con Lighthouse (paso 7). |
 | **Diseño · Excelente** (4 de 4) | «Identidad propia defendible: logo/favicon hechos por ti, microinteracciones, consistencia en 4+ páginas, y sabes justificar cada decisión de diseño.» | Tu logo SVG + favicon (paso 2) son literalmente «logo/favicon hechos por ti»; las microinteracciones del paso 3 son la otra mitad de la casilla. |
-| **Arquitectura · Excelente** (4 de 4) | «…Lighthouse ≥90 en rendimiento/accesibilidad, y ADR o README técnico explicando 2 decisiones de arquitectura.» | El paso 6 deja tu Lighthouse sin avisos de medios, que es lo que sostiene la puntuación cuando añades vídeo. |
+| **Arquitectura · Excelente** (4 de 4) | «…Lighthouse ≥90 en rendimiento/accesibilidad, y ADR o README técnico explicando 2 decisiones de arquitectura.» | El paso 7 deja tu Lighthouse sin avisos de medios, que es lo que sostiene la puntuación cuando añades vídeo. |
+| **Interactividad · nivel 3→4** (peso 15) | N3: «≥2 funciones reales: … test …». N4: «Función con estado o datos … con el código explicado en la defensa». | El mini-juego del paso 6 (quiz = el «test» literal; marcador en localStorage = el «estado») con sus 5 pruebas y su explicación preparada. |
 
-Un detalle del «Excelente» de medios: exige **todo lo anterior** además de lo nuevo. O sea, además del SVG, el vídeo y la animación con intención, pide «fotos propias optimizadas». Si en tu web solo hay foto de stock, tienes un hueco. Se tapa fácil: sustituye la foto de stock por una tuya (en el espejo, tu mesa de trabajo, tu pantalla) pasada por Squoosh. El paso 6 te dice cómo.
+Un detalle del «Excelente» de medios: exige **todo lo anterior** además de lo nuevo. O sea, además del SVG, el vídeo y la animación con intención, pide «fotos propias optimizadas». Si en tu web solo hay foto de stock, tienes un hueco. Se tapa fácil: sustituye la foto de stock por una tuya (en el espejo, tu mesa de trabajo, tu pantalla) pasada por Squoosh. El paso 7 te dice cómo.
 
 Y ojo con el otro extremo: un vídeo de 200 MB en tu repo puede tumbar el mínimo de la rúbrica —«La web carga en producción (GitHub Pages) sin errores en consola»—. Por eso el vídeo pasa por compresión obligatoria antes de llegar a la web. Es el paso 4.
 
@@ -36,8 +37,9 @@ El tutorial completo, de un vistazo (una tarde entera con margen):
 | 3 | 4 iconos + 3 microinteracciones | 30 min |
 | 4 | Guion, grabación y compresión del vídeo | 40 min |
 | 5 | Embeber el vídeo bien | 15 min |
-| 6 | Higiene (alt, lazy, Squoosh) y Lighthouse | 25 min |
-| 7 | Recorrer las 8 comprobaciones de defensa | 10 min |
+| 6 | El mini-juego (quiz / memory / puzle) | 30 min |
+| 7 | Higiene (alt, lazy, Squoosh) y Lighthouse | 25 min |
+| 8 | Recorrer las 8 comprobaciones de defensa | 10 min |
 
 ## Paso 1 · Inventario: qué tiene ahora tu web
 
@@ -231,7 +233,37 @@ Una nota técnica que te puede tocar explicar: el `.mp4` debe estar codificado c
 
 **Commit:** `vídeo embebido con poster y preload="none"`
 
-## Paso 6 · Higiene obligatoria y Lighthouse limpio
+## Paso 6 · El mini-juego: la web que se toca (tu «plus» de interactividad)
+
+Un medio más, y de los que se recuerdan: un mini-juego de 15 líneas de lógica que vive en tu web de marca. No compite con el vídeo ni con el SVG — los complementa, porque convierte al visitante pasivo en visitante activo, y eso es exactamente lo que premia la casilla de **Interactividad** (peso 15): su nivel 3 pide «≥2 funciones reales: … **test** …» con literal — un quiz es ese «test» — y el nivel 4 sube a «función con estado o datos», que tu juego también tiene (el marcador en `localStorage`). Y ojo al truco de defensa: un juego se describe solo — «tienes que juntar 4 piezas de mi currículum en 60 segundos»—, así que justificar su intención (la palabra del descriptor Excelente) es gratis: **informa jugando**.
+
+Tres ideas que valen para tu marca, de más fácil a más elaborada — elige UNA:
+
+1. **Quiz de 5 preguntas sobre ti** («¿en qué ciudad vivo?», «¿qué proyecto he hecho?», «¿qué me gusta fuera de programar?»). Cada respuesta correcta suma; al final, veredicto con tu bio real. El visitante aprende quién eres jugando: esa es la justificación.
+2. **Memory de 8 parejas** con tus iconos SVG del paso 3 (¡ya los tienes!). Reutilizas tus propios medios: la defensa se cuenta sola — «las cartas son mis iconos, dibujados a mano en SVG».
+3. **Puzle de 15** con tu logo partido en 15 piezas, o «ordena mi timeline»: arrastra 4 hitos de tu historia al orden correcto. La más vistosa y la más propensa a bugs — solo si vas sobrado.
+
+[FIG:juego]
+
+La regla de oro antes de pedirlo: **si no puedes explicar el juego en una frase, no lo pidas**. La frase es el pliego de condiciones. Pídele a la IA el juego CON la frase del visitante delante, y sin librerías (vanilla JS, un solo fichero `juego.js`, mismo patrón que tu `chatbot.js`):
+
+```
+Quiero un mini-juego para la sección ___ de mi web de marca. La idea en una frase:
+«el visitante tiene que ___ y gana si ___». Sin librerías externas, todo en un solo
+fichero juego.js (sin fetch, sin red) más su CSS dentro del propio JS como hacemos
+con el chatbot. Requisitos: estados visibles (inicio / jugando / fin con veredicto),
+marcador y récord guardados en localStorage, botón de reinicio, jugable con teclado
+(tab+enter) Y con ratón, aria-labels en cada opción, respeta prefers-reduced-motion
+(sin sacudidas al fallar), y en móvil se juega con el pulgar. Colores de mi web: ___ .
+Dame juego.js y la única línea para index.html COMPLETOS y con comentarios en español.
+No cambies nada más.
+```
+
+Después de pegar, tus 5 pruebas de juego (van a `notas.txt`, con su commit): se puede jugar entero con teclado; el récord sobrevive a recargar la página (cierra y abre); en el móvil no se sale del ancho; el `prefers-reduced-motion` activado no quita el juego, solo el movementeo; y un tercer compañero lo juega sin que le expliques nada — si necesita instrucciones, el juego está mal, pídele que mejore la pantalla de inicio.
+
+Qué dice cada versión en tu defensa: el quiz defiende «los medios enseñan» (el visitante sale sabiendo tres cosas de mí); el memory defiende coherencia de marca (tus propios SVG, reutilizados); el puzle defiende complejidad técnica (un tablero de estados hecho por encargo y probado). Vale cualquiera: el descriptor Excelente no pide el juego más difícil, pide **intención justificable + Lighthouse sin avisos** — y los tres la tienen. Si solo tienes 20 minutos, monta el quiz: es el de menos lógica y el que mejor se defiende.
+
+## Paso 7 · Higiene obligatoria y Lighthouse limpio
 
 Aquí se separa el trabajo de la nota, y es un paso de 10 minutos. La higiene de medios no es estética: un `alt` bien puesto hace que un lector de pantalla le «lea» la imagen a quien no la ve, y un `loading="lazy"` hace que tu web arranque sin descargar lo que todavía no se ve. La rúbrica los cobra en «Arquitectura» y la casilla Competente de medios («Imágenes variadas **sin optimizar (peso, alt, lazy)**») te penaliza justo por no tenerlos.
 
@@ -275,7 +307,7 @@ Repite hasta que Lighthouse esté limpio de medios. Es el último descriptor del
 
 **Commit:** `higiene de medios: alt, lazy, imágenes optimizadas, Lighthouse limpio`
 
-## Paso 7 · Las 8 comprobaciones de defensa
+## Paso 8 · Las 8 comprobaciones de defensa
 
 En la defensa no vas a explicar código; vas a explicar **qué** tiene tu web y **para qué**. Recorre esta lista en voz alta, con la web abierta, señalando cada elemento en pantalla. Si alguna te falla, el tutorial no ha terminado:
 
@@ -321,6 +353,7 @@ Lo que **no** es vía válida: GIFs descargados, vídeos de stock con tu nombre 
 3. **SVG negro en modo oscuro.** El SVG llevó un `fill="#000"` fijo en vez de `currentColor`. Pide el `currentColor` y compruébalo alternando el tema. El paso 2 tiene el rescate.
 4. **Iconos incoherentes entre sí, o ficheros con el nombre de la grabación** (`Screencast 2026-09-28 21-43-05.mp4`, `Logo Mío!.svg`). Cada icono de un estilo distinto = no hay marca, hay recortable; y los nombres con espacios y mayúsculas dan 404 al publicar. Solución: un solo prompt para los cuatro iconos (paso 3, con «mismo estilo de trazo»), nombres en minúscula con guiones, y si el repo pesa una barbaridad: `«Mi repo es enorme por los medios. ¿Cómo lo dejo en menos de 50 MB sin romper la web? Dame la lista exacta de qué comprimir o quitar.»`
 5. **«Fuego decorativo»**: la animación que no informaba de nada (partículas, confeti, cursor con estela). Es la antítesis del descriptor «animaciones con intención (no decorativas)». Antes de aceptar cualquier animación que proponga la IA, hazle la pregunta que te hará el profe: ¿qué le aporta a quien mira? Si la respuesta es «nada, pero queda guay», no va.
+6. **El mini-juego que no se puede terminar** (paso 6). Síntoma: llegas al final y no sale veredicto, o el botón de reinicio no hace nada, o al fallar se queda pensando. Son los tres estados del prompt (inicio / jugando / fin) sin cerrar. Prompt de rescate: «Mi juego ___ se queda en ___ cuando ___ (descríbelo literal, con lo que salga en F12 → Console). Te pego juego.js: [pégalo]. Dame el fichero COMPLETO corregido con los cambios marcados; no cambies el aspecto». Y repasa tus 5 pruebas: si una tercera persona necesita instrucciones, el fallo es de la pantalla de inicio, no tuyo.
 
 ## Lista de comprobación final
 
@@ -351,10 +384,10 @@ El «Excelente» es la meta de este tutorial, pero si solo tienes media hora ant
 
 1. **Paso 2** (logo + favicon SVG): 20 min y te da los «SVG propios» que exige Competente y el «logo/favicon hechos por ti» del Diseño Excelente. Imprescindible.
 2. **Paso 3, solo los iconos** (sin animaciones): 15 min más, y ya tienes los «≥2 SVG propios» con creces (5).
-3. **Paso 6, solo la higiene**: 10 min de Squoosh y `alt`, y dejas de ser «imágenes sin optimizar» (el nivel 2 de la rúbrica).
+3. **Paso 7, solo la higiene**: 10 min de Squoosh y `alt`, y dejas de ser «imágenes sin optimizar» (el nivel 2 de la rúbrica).
 4. Vídeo: si no da tiempo, queda para la siguiente sesión y aspiras a Competente sin el vídeo… que la casilla también pide. Con el tiempo justo, graba los 30 s y súbuelos al día siguiente: el guion ya lo tienes pedido.
 
-Con eso tu «medios» está en Competente (8 de 10) y el diseño en camino. El Excelente se completa con el logo animado, el vídeo embebido y el Lighthouse limpio del paso 6.
+Con eso tu «medios» está en Competente (8 de 10) y el diseño en camino. El Excelente se completa con el logo animado, el vídeo embebido y el Lighthouse limpio del paso 7.
 
 ## Cierre: qué has conseguido y qué toca ahora
 

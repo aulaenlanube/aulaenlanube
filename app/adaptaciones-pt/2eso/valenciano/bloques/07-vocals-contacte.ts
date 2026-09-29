@@ -39,10 +39,12 @@ export const ACTS: Act[] = [
         in: "Les 27 paraules del llibre en llista vertical. Escriu al costat (o en esta taula): separació + classe.",
         p: [
           "**Model:** *dijous → di-jous → diftong creixent (ou)*.",
-          "**Pas 1.** Separa amb guionets.",
-          "**Pas 2.** Mira la taula de teòria: creixent (forta+feble: ai, eu, ou…) · decreixent (ia, io, iu inicials o entre vocals, i els de g/q) · hiat (forta+forta, o i/u després de consonant + forta).",
-          "**Pas 3.** Escriu la classe: C · D · H.",
-          "1 dijous · 2 enraonar · 3 adeu · 4 piragüista · 5 huit · 6 quota · 7 fluor · 8 iogurt · 9 medieval · 10 ianqui · 11 diumenge · 12 acció · 13 cel·luloide · 14 afluent · 15 hiena · 16 reina · 17 iuca · 18 actual · 19 aquarel·la · 20 barroer · 21 afaitar · 22 nuclear · 23 paraula · 24 aire · 25 diada · 26 terraqüi · 27 aigüera",
+          "**Pas 1.** Separa amb guionets. **Pas 2.** Mira la taula: creixent (forta+feble: ai, eu, ou…) · decreixent (ia, io, iu inicials o entre vocals, i els de g/q) · hiat (forta+forta, o i/u darrere consonant + forta).",
+          "1 · dijous", "2 · enraonar", "3 · adeu", "4 · piragüista", "5 · huit", "6 · quota", "7 · fluor",
+          "8 · iogurt", "9 · medieval", "10 · ianqui", "11 · diumenge", "12 · acció", "13 · cel·luloide",
+          "14 · afluent", "15 · hiena", "16 · reina", "17 · iuca", "18 · actual", "19 · aquarel·la",
+          "20 · barroer", "21 · afaitar", "22 · nuclear", "23 · paraula", "24 · aire", "25 · diada",
+          "26 · terraqüi", "27 · aigüera",
         ],
         s: [
           "**C (creixent, forta+feble o les dos febles):** 1 di-jous (ou) · 3 a-deu (eu) · 4 pi-ra-güis-ta (üi) · 5 huit (ui) · 11 diu-men-ge (iu) · 13 cel·lu-loi-de (oi) · 16 rei-na (ei) · 17 iu-ca (iu) · 21 a-fai-tar (ai) · 23 pa-rau-la (au) · 24 ai-re (ai) · 27 ai-güe-ra (ai).",
@@ -53,12 +55,17 @@ export const ACTS: Act[] = [
         ],
       },
       {
-        in: "12 paraules Ja agrupades per color. Només has de separar-les.",
+        in: "12 paraules, ja agrupades per color. Només has de separar-les.",
         p: [
           "**Model:** *adeu → a-deu* (caixa blava = diftong creixent).",
           "**a)** Separa les síl·labes de cada paraula.",
-          "**b)** Digues a veu quin so vocal contingé (eu, ou, io…).",
-          "🟦 Creixents: dijous · adeu · reina · aire. 🟨 Decreixents: iogurt · ianqui. 🟥 Hiat: enraonar · medieval · hiena · diada · fluor · barroer.",
+          "**b)** Digues a veu quin so vocal conté (eu, ou, io…).",
+          "🟦 Creixents →",
+          "· dijous", "· adeu", "· reina", "· aire",
+          "🟨 Decreixents →",
+          "· iogurt", "· ianqui",
+          "🟥 Hiat →",
+          "· enraonar", "· medieval", "· hiena", "· diada", "· fluor", "· barroer",
         ],
         s: [
           "🟦: di-jous · a-deu · rei-na · ai-re. 🟨: io-gurt · ian-qui. 🟥: en-ra-o-nar · me-di-e-val · hi-e-na · di-a-da · flu-or · bar-ro-er.",
@@ -69,7 +76,8 @@ export const ACTS: Act[] = [
         in: "8 fitxes amb la primera síl·laba escrita. Completa i penja-la al mur del color.",
         p: [
           "**Mur:** verd = diftong · blau = hiat.",
-          "Completa: di‑… · a‑… · rei‑… · en‑ra‑… · me‑… · hi‑… · flu‑… · guai‑…",
+          "Completa cadascuna en la seua línia:",
+          "di‑…", "a‑…", "rei‑…", "en‑ra‑…", "me‑…", "hi‑…", "flu‑…", "guai‑…",
           "Comprova: llig la paraula sencera i veu si la separació té sentit.",
         ],
         s: [
@@ -108,7 +116,7 @@ export const ACTS: Act[] = [
           "**Model:** *guaita → guai‑ta → u-a-i en un colp, la del mig és a → **SÍ***.",
           "**a)** Separa les síl·labes.",
           "**b)** Marca SÍ o NO. Recorda: triptong = 3 vocals juntes i la del MIG no pot ser i ni u.",
-          "1 guaita · 2 bioenergia · 3 uruguaià · 4 gaiato · 5 estigueig · 6 esquaix",
+          "1 · guaita", "2 · bioenergia", "3 · uruguaià", "4 · gaiato", "5 · estigueig", "6 · esquaix",
         ],
         s: [
           "SÍ: guaita (guai-ta) · uruguaià (u-ru-guai-à) · estigueig (es-ti-gueig) · esquaix (es-quai-x).",
@@ -119,7 +127,8 @@ export const ACTS: Act[] = [
         in: "Les 6 paraules amb la separació començada (primera síl·laba feta).",
         p: [
           "**Model:** *guai‑… → SÍ* (u-a-i, mig = a).",
-          "Completa i marca: guai… · bio…energia · uru… · gai… · estigue… · esqua…",
+          "Completa i marca:",
+          "guai…", "bio…energia", "uru…", "gai…", "estigue…", "esqua…",
         ],
         s: ["SÍ: guaita · uruguaià · estigueig · esquaix. NO: bioenergia · gaiato."],
         ad: "El triptong es veu 'a mig fer' perquè el reconeixement siga visual.",
@@ -128,7 +137,8 @@ export const ACTS: Act[] = [
         in: "4 fitxes amb 3 cercles de vocals. Pinta el cercle del MIG.",
         p: [
           "**Model (guaita):** cercles u‑a‑i → mig = a (no és i ni u) → SÍ.",
-          "Pinta el mig i marca SÍ/NO: guaita · estigueig · bioenergia · gaiato.",
+          "Pinta el cercle del MIG i marca SÍ/NO:",
+          "· guaita", "· estigueig", "· bioenergia", "· gaiato",
         ],
         s: ["SÍ: guaita · estigueig. NO: bioenergia · gaiato."],
         ad: "4 paraules amb el gest de pinte com a criteri automàtic.",
@@ -155,7 +165,10 @@ export const ACTS: Act[] = [
           "**Model:** *formatge* → **tg** fa un so → for‑mat‑ge.",
           "**a)** Subratlla el dígraf.",
           "**b)** Separa amb guionets.",
-          "1 seguiment · 2 horitzó · 3 formatge · 4 ferrer · 5 arquitecta · 6 safareig · 7 empitjorar · 8 espardenya · 9 conillera · 10 caputxa · 11 coixa · 12 massapà · 13 ballester · 14 el·lipse · 15 sobrassada · 16 civilitzar · 17 falguera · 18 ratlla · 19 eixugar · 20 pistatxo · 21 carretó · 22 afanyar · 23 al·lèrgia · 24 enutjós",
+          "1 · seguiment", "2 · horitzó", "3 · formatge", "4 · ferrer", "5 · arquitecta", "6 · safareig",
+          "7 · empitjorar", "8 · espardenya", "9 · conillera", "10 · caputxa", "11 · coixa", "12 · massapà",
+          "13 · ballester", "14 · el·lipse", "15 · sobrassada", "16 · civilitzar", "17 · falguera", "18 · ratlla",
+          "19 · eixugar", "20 · pistatxo", "21 · carretó", "22 · afanyar", "23 · al·lèrgia", "24 · enutjós",
         ],
         s: [
           "1 se‑gui‑ment (gu) · 2 ho‑ri‑tzó (tz) · 3 for‑mat‑ge (tg) · 4 fer‑rer (rr) · 5 ar‑qui‑tec‑ta (qu) · 6 sa‑fa‑reig (ig) · 7 em‑pi‑tjo‑rar (tj) · 8 es‑par‑de‑nya (ny) · 9 co‑ni‑lle‑ra (ll) · 10 ca‑put‑xa (tx) · 11 coi‑xa (ix) · 12 mas‑sa‑pà (ss) · 13 bal·les‑ter (ll) · 14 e‑l·lip‑se (l·l) · 15 so‑bra‑ssa‑da (ss) · 16 ci‑vi‑li‑tzar (tz) · 17 fal‑gue‑ra (gu) · 18 rat‑lla (ll) · 19 ei‑xu‑gar (ix) · 20 pis‑tat‑xo (tx) · 21 ca‑rre‑tó (rr) · 22 a‑fa‑nyar (ny) · 23 al·lér‑gi‑a (l·l) · 24 e‑nu‑tjós (tj).",
@@ -163,21 +176,21 @@ export const ACTS: Act[] = [
         ],
       },
       {
-        in: "12 paraules amb el dígraf JA en negreta.",
+        in: "6 paraules amb el dígraf ja en negreta.",
         p: [
           "**Model:** for**tg**e → for‑mat‑ge.",
           "**a)** Separa en síl·labes.",
           "**b)** Còpia el dígraf a la fitxa.",
-          "hor**tz**ó · for**tg**e · capu**tx**a · ma**ss**apà · esparden**ny**a · fer**rr**e.",
+          "hor**tz**ó", "for**tg**e", "capu**tx**a", "ma**ss**apà", "esparden**ny**a", "fer**rr**e",
         ],
         s: ["horitzó (tz) · formatge (tg) · caputxa (tx) · massapà (ss) · espardenya (ny) · ferrer (rr)."],
-        ad: "El dígraf ja Senyalat: es redueix la cerca i es manté l'operació.",
+        ad: "El dígraf ja assenyalat: es redueix la cerca i es manté l'operació.",
       },
       {
         in: "3 fitxes per a 3 cartells de paret.",
         p: [
           "Porta cada fitxa al cartell del dígraf: **ny** · **tx** · **ss**.",
-          "Fitxes: espardenya · caputxa · massapà.",
+          "Fitxes per a penjar:", "· espardenya", "· caputxa", "· massapà",
         ],
         s: ["espardenya → ny · caputxa → tx · massapà → ss."],
         ad: "3 paraules en emparejament amb moviment (cartells a la paret).",
@@ -202,8 +215,16 @@ export const ACTS: Act[] = [
         in: "Pistes en llista vertical. Graella del llibre: 1 síl·laba per casella.",
         p: [
           "**Com fer-lo:** llig la pista → pensa la paraula → sepàra‑la → una síl·laba per casella.",
-          "**Horitzontals.** 1 Dona que dirigix una abadia. 2 Substància enganxada als ulls en despertar (plural). 3 Embotit de color negre (plural). 4 Cursa de cotxes per pistes de muntanya.",
-          "**Verticals.** 5 Vehicle estirat per un animal, carro, carrossa. 6 Traure del bollic. 7 Lent que sosté nas i orelles per a veure millor (plural). 8 Cop donat amb un punyal.",
+          "**Horitzontals**",
+          "1 · Dona que dirigix una abadia.",
+          "2 · Substància enganxada als ulls en despertar (plural).",
+          "3 · Embotit de color negre (plural).",
+          "4 · Cursa de cotxes per pistes de muntanya.",
+          "**Verticals**",
+          "5 · Vehicle estirat per un animal: carro, carrossa.",
+          "6 · Traure del bollic.",
+          "7 · Lent que sosté nas i orelles per a veure millor (plural).",
+          "8 · Cop donat amb un punyal.",
         ],
         s: [
           "**1** a‑ba‑des‑sa · **2** lle‑ga‑nyes · **3** bo‑ti‑fa‑rres (ne‑gres? — compte les caselles) · **4** ral·li.",
@@ -245,7 +266,9 @@ export const ACTS: Act[] = [
         in: "Les 4 regles del llibre en targeta + 12 paraules en llista vertical.",
         p: [
           "**Primer:** passa el dit per les 4 regles: mai vocal sola · mai diftong trencat · gu‑qu‑ll‑ny‑ix junts, la resta separables (el punt volat → guionet) · mots compostos intactes.",
-          "Ara escriu les parts possibles: 1 Núria · 2 qüestió · 3 roure · 4 pianista · 5 dutxa · 6 aixeta · 7 vosaltres · 8 màrbre · 9 enquesta · 10 aquella · 11 castanyer · 12 audició",
+          "Ara escriu les parts possibles:",
+          "1 · Núria", "2 · qüestió", "3 · roure", "4 · pianista", "5 · dutxa", "6 · aixeta",
+          "7 · vosaltres", "8 · màrbre", "9 · enquesta", "10 · aquella", "11 · castanyer", "12 · audició",
         ],
         s: [
           "1 Nú‑ri‑a (mai *Núri‑a*: vocal sola) · 2 qües‑ti‑ó · 3 rou‑re · 4 pia‑nis‑ta (mai *pi‑a‑nis‑ta*: diftong intacte) · 5 dut‑xa · 6 ai‑xe‑ta · 7 vos‑al‑tres · 8 màr‑bre · 9 en‑ques‑ta · 10 a‑que‑lla · 11 cas‑ta‑nyer · 12 au‑di‑ci‑ó.",
@@ -256,14 +279,18 @@ export const ACTS: Act[] = [
         in: "6 paraules amb 2 recordatoris al capdamunt (dígrafs junts · mai vocal sola).",
         p: [
           "**Model:** *dutxa → dut‑xa*.",
-          "Separa: pianista · castanyer · enquesta · vosaltres · qüestió · audició.",
+          "Separa:",
+          "· pianista", "· castanyer", "· enquesta", "· vosaltres", "· qüestió", "· audició",
         ],
         s: ["pia‑nis‑ta · cas‑ta‑nyer · en‑ques‑ta · vos‑al‑tres · qües‑ti‑ó · au‑di‑ci‑ó."],
         ad: "12→6 paraules, 2 regles en compte de 4, model al principi.",
       },
       {
         in: "4 fitxes amb el punt de tall marcat amb llapis.",
-        p: ["Comprova amb el dit i copia: dutxa · aixeta · Núria · roure."],
+        p: [
+          "Comprova amb el dit i copia:",
+          "· dutxa", "· aixeta", "· Núria", "· roure",
+        ],
         s: ["dut‑xa · ai‑xe‑ta · Nú‑ria · rou‑re."],
         ad: "La separació ja ve feta a la fitxa: verificar i copiar.",
       },

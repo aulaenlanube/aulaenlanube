@@ -173,18 +173,23 @@ export default function CursoIASemipresencial() {
         <div className="flex flex-col gap-5 md:flex-row md:items-center">
           <SvgHerramientas />
           <div className="flex-1">
-            <h2 className="text-xl font-extrabold tracking-tight">Tus herramientas desde casa (gratis, con la licència de Conselleria)</h2>
+            <h2 className="text-xl font-extrabold tracking-tight">Tus herramientas desde casa: el chat de Copilot (Microsoft 365)</h2>
             <p className="mt-2 text-[15px] text-zinc-700 dark:text-zinc-300">
-              El semipresencial se trabaja con <b>Visual Studio Code + GitHub Copilot</b>: editor y agente
-              de código con licencia educativa de la Conselleria, instalables en tu propio equipo. Es la
-              combinación que vas a usar en la empresa: instálala y actívala en tu equipo con el correo
-              educativo que te da la Conselleria, <b>antes de la quincena 2</b>, que es cuando más la vas
-              a necesitar. Si la licencia de tu cuenta no viene activada, avisa al profesor.
+              Tu cuenta de <b>Microsoft 365 del centro</b> incluye <b>Copilot</b>, y su <b>chat</b> es
+              <b> lo único que vas a usar en este primer proyecto</b> (estas dos quincenas). Nada de
+              instalar editores ni complementos todavía: preguntas al chat, con las respuestas que te dé
+              <b> creas y editas tú los ficheros</b> (index.html, style.css…), y <b>tú manualmente haces
+              los commits</b> con lo que has preguntado y conseguido en cada paso.
+            </p>
+            <p className="mt-2 text-[15px] text-zinc-700 dark:text-zinc-300">
+              Es un método a propósito <b>manual y sin atajos</b>: así aprendes de verdad qué es cada
+              fichero, cómo se monta una web por dentro y cómo funciona GitHub. El Visual Studio Code con
+              su Copilot integrado llegará más adelante, en otro proyecto, cuando ya domines esto.
             </p>
             <ul className="mt-2 list-disc space-y-1 pl-5 text-[15px] text-zinc-700 dark:text-zinc-300">
-              <li><b>Consejo anti-atasco:</b> 25-30 minutos con Copilot, y si no avanza, cambia la pregunta o guarda la versión buena con un commit antes de seguir probando.</li>
-              <li><b>Consejo de autonomía:</b> en local puedes romper sin miedo — el repo guarda cada paso; <code className="rounded bg-zinc-100 px-1.5 py-0.5 font-mono text-[13px] dark:bg-white/10">git checkout .</code> devuelve la versión anterior.</li>
-              <li><b>Consejo de quincena:</b> dedica la primera semana a construir y la segunda a pulir y probar en tu móvil; entregar a última hora sin probar es perder puntos gratis.</li>
+              <li><b>Pregunta como si hablaras con una persona:</b> explica qué quieres conseguir y por qué; el chat responde mejor a una intención clara que a un «hazme una web».</li>
+              <li><b>Guarda tus preguntas buenas:</b> tus prompts van dentro del commit (o en un comentario del fichero) — son la evidencia de tu proceso que valora la rúbrica.</li>
+              <li><b>Consejo de quincena:</b> primera semana a construir, segunda a pulir y probar en tu móvil; entregar a última hora sin probar es perder puntos gratis.</li>
             </ul>
           </div>
         </div>
@@ -286,19 +291,21 @@ function SvgQuincena2() {
 }
 
 function SvgHerramientas() {
-  // Editor amb espurnes d'IA (Copilot) — sense logos registrats.
+  // Xat de Copilot: bombolles de conversa + espurnes + fitxer creat — sense logos registrats.
   return (
-    <svg viewBox="0 0 120 96" role="img" aria-label="Editor de codi amb assistent d'intel·ligència artificial" className="h-[96px] w-[120px] flex-none">
-      <rect x="6" y="10" width="90" height="64" rx="7" fill="none" stroke="#475569" strokeWidth="2.5" />
-      <line x1="6" y1="22" x2="96" y2="22" stroke="#475569" strokeWidth="2" />
-      <circle cx="14" cy="16" r="2.4" fill="#f87171" /><circle cx="22" cy="16" r="2.4" fill="#fbbf24" /><circle cx="30" cy="16" r="2.4" fill="#34d399" />
-      <line x1="16" y1="33" x2="52" y2="33" stroke="#7c3aed" strokeWidth="3" strokeLinecap="round" />
-      <line x1="24" y1="41" x2="70" y2="41" stroke="#a78bfa" strokeWidth="3" strokeLinecap="round" strokeDasharray="4 4" />
-      <line x1="24" y1="49" x2="80" y2="49" stroke="#a78bfa" strokeWidth="3" strokeLinecap="round" strokeDasharray="4 4" />
-      <line x1="16" y1="57" x2="46" y2="57" stroke="#7c3aed" strokeWidth="3" strokeLinecap="round" />
-      <path d="M104 34 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3 z" fill="#7c3aed" />
-      <path d="M108 62 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2 z" fill="#a78bfa" />
-      <text x="6" y="88" fontSize="10.5" fontWeight="700" fill="#5b21b6">VS Code + Copilot · llicència Conselleria</text>
+    <svg viewBox="0 0 120 96" role="img" aria-label="Xat d'intel·ligència artificial que genera fitxers" className="h-[96px] w-[120px] flex-none">
+      <rect x="6" y="8" width="108" height="66" rx="8" fill="none" stroke="#475569" strokeWidth="2.5" />
+      <line x1="6" y1="20" x2="114" y2="20" stroke="#475569" strokeWidth="2" />
+      <circle cx="14" cy="14" r="2.2" fill="#f87171" /><circle cx="21" cy="14" r="2.2" fill="#fbbf24" /><circle cx="28" cy="14" r="2.2" fill="#34d399" />
+      <rect x="14" y="27" width="52" height="11" rx="5.5" fill="#7c3aed" opacity="0.16" stroke="#7c3aed" strokeWidth="1.5" />
+      <line x1="20" y1="32.5" x2="58" y2="32.5" stroke="#7c3aed" strokeWidth="2.5" strokeLinecap="round" />
+      <rect x="52" y="43" width="54" height="11" rx="5.5" fill="#a78bfa" opacity="0.18" stroke="#7c3aed" strokeWidth="1.5" />
+      <line x1="58" y1="48.5" x2="100" y2="48.5" stroke="#a78bfa" strokeWidth="2.5" strokeLinecap="round" />
+      <rect x="14" y="59" width="44" height="10" rx="5" fill="none" stroke="#475569" strokeWidth="1.8" />
+      <path d="M104 58 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3 z" fill="#7c3aed" />
+      <path d="M40 61 h14 v8 h-14 z" fill="none" stroke="#16a34a" strokeWidth="2" />
+      <text x="18" y="67.5" fontSize="7" fontWeight="700" fill="#16a34a">index</text>
+      <text x="6" y="90" fontSize="9" fontWeight="700" fill="#5b21b6">Copilot · tot per xat</text>
     </svg>
   );
 }

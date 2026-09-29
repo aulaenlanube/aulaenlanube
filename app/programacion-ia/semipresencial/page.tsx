@@ -42,21 +42,9 @@ export default function CursoIASemipresencial() {
         Estás viendo la zona del <b>grupo semipresencial</b>. Mismo método que el presencial —programar
         <b> con</b> IA, no gracias a la IA—, pero con dos diferencias de peso: <b>trabajamos por
         quincenas</b> y <b>todo el curso es proyecto individual</b>: no hay proyecto en grupo. Tu
-        evaluación son tus proyectos, publicados y defendidos.
+        evaluación son tus proyectos, publicados y
+        presentados.
       </p>
-
-      <div className="mt-6 flex flex-col gap-3 rounded-2xl border border-blue-200 dark:border-blue-500/30 bg-blue-50 dark:bg-blue-500/10 p-5 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-[15px] text-blue-900 dark:text-blue-200">
-          ¿Tienes dudas de si estás en el grupo equivocado? El <b>presencial (1CFSD)</b> tiene proyecto en
-          grupo y va por sesiones semanales.
-        </p>
-        <Link
-          href="/programacion-ia/presencial/"
-          className="inline-flex flex-none items-center justify-center rounded-xl bg-blue-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-500"
-        >
-          Ver curso presencial →
-        </Link>
-      </div>
 
       <div className="mt-4 flex flex-col gap-3 rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-5 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-[15px] text-zinc-700 dark:text-zinc-300">
@@ -81,6 +69,7 @@ export default function CursoIASemipresencial() {
       <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2">
         {/* Quincena 1 */}
         <section className="rounded-2xl border-2 border-amber-300 dark:border-amber-500/50 bg-white dark:bg-slate-900 p-6 shadow-sm">
+          <SvgQuincena1 />
           <div className="flex flex-wrap items-center gap-2">
             <span className="rounded-full bg-amber-600 px-3 py-1 text-[11px] font-extrabold uppercase tracking-wider text-white">
               Quincena 1 · EN CURSO
@@ -121,14 +110,16 @@ export default function CursoIASemipresencial() {
             </li>
           </ol>
           <p className="mt-4 rounded-xl bg-amber-50 p-3 text-sm text-amber-900 dark:bg-amber-500/10 dark:text-amber-200">
-            <b>Comprobación del 9 de octubre:</b> el profesor mira tu repo —commits reales, web funcionando
-            en local o en Pages—. Si no hay commits, la quincena cuenta como no trabajada: no se puede
-            recuperar entregando todo hecho al final.
+            <b>Comprobación del 9 de octubre:</b> el profesor mira tu repo: commits reales y la web en
+            marcha. En semipresencial <b>no hace falta trabajar todos los días</b> — vale con que el
+            trabajo exista y se vea en el historial. Si estás más atrasado, dilo antes de esa fecha y lo
+            reorganizamos; no pasa nada por empezar con la quincena 2.
           </p>
         </section>
 
         {/* Quincena 2 */}
         <section className="rounded-2xl border-2 border-zinc-300 dark:border-white/15 bg-white dark:bg-slate-900 p-6 shadow-sm">
+          <SvgQuincena2 />
           <div className="flex flex-wrap items-center gap-2">
             <span className="rounded-full bg-zinc-700 px-3 py-1 text-[11px] font-extrabold uppercase tracking-wider text-white dark:bg-zinc-600">
               Quincena 2 · Próxima
@@ -177,14 +168,36 @@ export default function CursoIASemipresencial() {
         </section>
       </div>
 
+      {/* Herramientas desde casa */}
+      <div className="mt-10 rounded-2xl border-2 border-violet-300 dark:border-violet-500/40 bg-white p-6 shadow-sm dark:bg-slate-900">
+        <div className="flex flex-col gap-5 md:flex-row md:items-center">
+          <SvgHerramientas />
+          <div className="flex-1">
+            <h2 className="text-xl font-extrabold tracking-tight">Tus herramientas desde casa (gratis, con la licència de Conselleria)</h2>
+            <p className="mt-2 text-[15px] text-zinc-700 dark:text-zinc-300">
+              El semipresencial se trabaja con <b>Visual Studio Code + GitHub Copilot</b>: editor y agente
+              de código con licencia educativa de la Conselleria, instalables en tu propio equipo. Es la
+              combinación que vas a usar en la empresa: instálala y actívala en tu equipo con el correo
+              educativo que te da la Conselleria, <b>antes de la quincena 2</b>, que es cuando más la vas
+              a necesitar. Si la licencia de tu cuenta no viene activada, avisa al profesor.
+            </p>
+            <ul className="mt-2 list-disc space-y-1 pl-5 text-[15px] text-zinc-700 dark:text-zinc-300">
+              <li><b>Consejo anti-atasco:</b> 25-30 minutos con Copilot, y si no avanza, cambia la pregunta o guarda la versión buena con un commit antes de seguir probando.</li>
+              <li><b>Consejo de autonomía:</b> en local puedes romper sin miedo — el repo guarda cada paso; <code className="rounded bg-zinc-100 px-1.5 py-0.5 font-mono text-[13px] dark:bg-white/10">git checkout .</code> devuelve la versión anterior.</li>
+              <li><b>Consejo de quincena:</b> dedica la primera semana a construir y la segunda a pulir y probar en tu móvil; entregar a última hora sin probar es perder puntos gratis.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
       {/* Cómo se trabaja */}
       <h2 className="mt-10 text-2xl font-extrabold tracking-tight">Cómo se trabaja en semipresencial</h2>
       <div className="mt-3 grid grid-cols-1 gap-4 md:grid-cols-2">
         <div className="rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-5 text-[15px] text-zinc-800 dark:text-zinc-200">
           <h3 className="font-bold">Tu forma de trabajar (no negociable)</h3>
           <ul className="mt-2 list-disc space-y-1.5 pl-5">
-            <li><b>Git es tu diario:</b> al menos un commit por sesión de trabajo real. Un solo commit gigante el día de entrega = la nota del criterio «Proceso» cae a insuficiente.</li>
-            <li><b>Decide tú, escribe la IA:</b> pide, prueba, rompe, corrige. En la defensa oral tienes que explicar cualquier fichero de tu web.</li>
+            <li><b>Git es tu diario:</b> no hace falta trabajar a diario, pero cada sesión de trabajo real deja sus commits. Un único commit gigante el día de entrega no cuenta como proceso.</li>
+            <li><b>Decide tú, escribe la IA:</b> pide, prueba, rompe, corrige. El proyecto se <b>presenta</b> (no hay defensa oral); si al corregir queda alguna duda, el profesor te pregunta sobre ese fichero concreto y lo aclaras. Variable según el caso.</li>
             <li><b>Nada de clave API expuesta:</b> ni en el repo ni en el chat público del centro. Lo que no sabes explicar, no lo entregas.</li>
             <li><b>Bloqueado &gt; 30 minutos:</b> pregunta (foro del aula o sesión presencial). Atascarse es trabajar; atascarse en silencio es perder la quincena.</li>
           </ul>
@@ -229,5 +242,63 @@ export default function CursoIASemipresencial() {
         — también por quincenas. La planificación se publicará aquí con dos quincenas de antelación.
       </div>
     </div>
+  );
+}
+
+// ——— Il·lustracions de les quincenes (SVG inline, sense dependències) ———
+function SvgQuincena1() {
+  // Navegador brotant: esquelet de la web naixent d'una branca de git.
+  return (
+    <svg viewBox="0 0 300 84" role="img" aria-label="Iniciar la web: navegador amb brot verds sobre una branca de git" className="h-[72px] w-full">
+      <path d="M8 70 C 80 70, 100 70, 150 40 S 240 12, 292 12" fill="none" stroke="#d97706" strokeWidth="3.5" strokeLinecap="round" />
+      <circle cx="8" cy="70" r="7" fill="#f59e0b" />
+      <circle cx="150" cy="40" r="6" fill="#fff" stroke="#d97706" strokeWidth="3" />
+      <rect x="182" y="40" width="46" height="32" rx="4" fill="none" stroke="#475569" strokeWidth="2.5" />
+      <line x1="182" y1="48" x2="228" y2="48" stroke="#475569" strokeWidth="2" />
+      <line x1="187" y1="56" x2="212" y2="56" stroke="#94a3b8" strokeWidth="2.5" strokeLinecap="round" />
+      <line x1="187" y1="63" x2="222" y2="63" stroke="#cbd5e1" strokeWidth="2.5" strokeLinecap="round" />
+      <path d="M244 16 q -8 -14 4 -18 q 2 12 -4 18" fill="#16a34a" />
+      <path d="M256 12 q 10 -12 20 -6 q -8 12 -20 6" fill="#22c55e" />
+    </svg>
+  );
+}
+
+function SvgQuincena2() {
+  // Entrega: checklist + pujada a la nau (publicar + entregar).
+  return (
+    <svg viewBox="0 0 300 84" role="img" aria-label="Entrega: llista de comprovació i publicació" preserveAspectRatio="xMinYMid meet" className="h-[72px] w-full">
+      <rect x="8" y="14" width="56" height="62" rx="6" fill="none" stroke="#475569" strokeWidth="2.5" />
+      {[26, 42, 58].map((y, i) => (
+        <g key={i}>
+          <rect x="16" y={y - 8} width="10" height="10" rx="2" fill="none" stroke="#16a34a" strokeWidth="2" />
+          {i < 3 && <path d={`M18 ${y - 3} l3 3 l5 -6`} fill="none" stroke="#16a34a" strokeWidth="2" strokeLinecap="round" />}
+          <line x1="34" y1={y - 3} x2="56" y2={y - 3} stroke="#94a3b8" strokeWidth="2.5" strokeLinecap="round" />
+        </g>
+      ))}
+      <path d="M84 52 h 96" stroke="#94a3b8" strokeWidth="2.5" strokeDasharray="7 6" strokeLinecap="round" />
+      <path d="M170 52 l-10 -6 v12 z" fill="#94a3b8" />
+      <rect x="200" y="34" width="52" height="34" rx="8" fill="none" stroke="#475569" strokeWidth="2.5" />
+      <path d="M214 56 v-12 m0 0 l-6 6 m6 -6 l6 6" stroke="#2563eb" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+      <text x="204" y="27" fontSize="11" fontWeight="700" fill="#1e40af">web + repo</text>
+      <path d="M276 18 l0 40 m0 -40 l-8 10 m8 -10 l8 10" stroke="#d97706" strokeWidth="3.5" fill="none" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function SvgHerramientas() {
+  // Editor amb espurnes d'IA (Copilot) — sense logos registrats.
+  return (
+    <svg viewBox="0 0 120 96" role="img" aria-label="Editor de codi amb assistent d'intel·ligència artificial" className="h-[96px] w-[120px] flex-none">
+      <rect x="6" y="10" width="90" height="64" rx="7" fill="none" stroke="#475569" strokeWidth="2.5" />
+      <line x1="6" y1="22" x2="96" y2="22" stroke="#475569" strokeWidth="2" />
+      <circle cx="14" cy="16" r="2.4" fill="#f87171" /><circle cx="22" cy="16" r="2.4" fill="#fbbf24" /><circle cx="30" cy="16" r="2.4" fill="#34d399" />
+      <line x1="16" y1="33" x2="52" y2="33" stroke="#7c3aed" strokeWidth="3" strokeLinecap="round" />
+      <line x1="24" y1="41" x2="70" y2="41" stroke="#a78bfa" strokeWidth="3" strokeLinecap="round" strokeDasharray="4 4" />
+      <line x1="24" y1="49" x2="80" y2="49" stroke="#a78bfa" strokeWidth="3" strokeLinecap="round" strokeDasharray="4 4" />
+      <line x1="16" y1="57" x2="46" y2="57" stroke="#7c3aed" strokeWidth="3" strokeLinecap="round" />
+      <path d="M104 34 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3 z" fill="#7c3aed" />
+      <path d="M108 62 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2 z" fill="#a78bfa" />
+      <text x="6" y="88" fontSize="10.5" fontWeight="700" fill="#5b21b6">VS Code + Copilot · llicència Conselleria</text>
+    </svg>
   );
 }

@@ -33,19 +33,6 @@ export default function CursoIAPresencial() {
         trabaja solo el individual.
       </p>
 
-      <div className="mt-6 flex flex-col gap-3 rounded-2xl border border-amber-200 dark:border-amber-500/30 bg-amber-50 dark:bg-amber-500/10 p-5 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-[15px] text-amber-900 dark:text-amber-200">
-          ¿Estás en el grupo <b>semipresencial</b> (1CFSDS)? Tu curso va por quincenas y es distinto:
-          no tiene proyecto en grupo.
-        </p>
-        <Link
-          href="/programacion-ia/semipresencial/"
-          className="inline-flex flex-none items-center justify-center rounded-xl bg-amber-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-amber-700 dark:bg-amber-500 dark:hover:bg-amber-400"
-        >
-          Ir a mi curso (semipresencial) →
-        </Link>
-      </div>
-
       <div className="mt-6 flex flex-col gap-3 rounded-2xl border border-blue-200 dark:border-blue-500/30 bg-blue-50 dark:bg-blue-500/10 p-5 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-[15px] text-blue-900 dark:text-blue-200">
           <b>¿Eres alumno del curso?</b> Entra en tu aula: sesiones de cada proyecto, tus entregas y tu nota

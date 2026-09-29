@@ -414,9 +414,9 @@ function FigFiltros() {
           {txt(f.x, f.y + 27, f.t, "fill-zinc-800 dark:fill-zinc-200", 12)}
         </g>
       ))}
-      <path d="M335 74 L335 84 M335 132 L335 142" strokeWidth={2.5} markerEnd={`url(#fm-${id})`} className="stroke-zinc-400 dark:stroke-zinc-500" fill="none" />
-      {punto("M335 74 L335 88", "2s", "fill-blue-600 dark:fill-blue-400", 4)}
-    </Marco>
+      <path d="M335 76 L335 85" strokeWidth={2.5} markerEnd={`url(#fm-${id})`} className="stroke-zinc-400 dark:stroke-zinc-500" fill="none" />
+      <path d="M335 134 L335 143" strokeWidth={2.5} markerEnd={`url(#fm-${id})`} className="stroke-zinc-400 dark:stroke-zinc-500" fill="none" />
+          </Marco>
   );
 }
 
@@ -579,15 +579,19 @@ function FigJuego() {
       {nodo(30, 20, "INICIO", "botón «Jugar» + récord", "fill-blue-50 dark:fill-blue-500/10 stroke-blue-400 dark:stroke-blue-500/60")}
       {nodo(260, 20, "PREGUNTA / CARTAS", "4 opciones o 8 pares", "fill-zinc-100 dark:fill-slate-800 stroke-zinc-400 dark:stroke-zinc-500")}
       {nodo(490, 20, "¿ACIERTO?", "feedback inmediato", "fill-zinc-100 dark:fill-slate-800 stroke-zinc-400 dark:stroke-zinc-500")}
-      {nodo(478, 130, "MARCADOR", "puntos + tiempo, localStorage", "fill-emerald-50 dark:fill-emerald-500/10 stroke-emerald-400 dark:stroke-emerald-500/60", 176)}
+      <g>
+        <rect x={458} y={130} width={204} height={46} rx={10} className="fill-emerald-50 dark:fill-emerald-500/10 stroke-emerald-400 dark:stroke-emerald-500/60" strokeWidth={1.8} />
+        {txt(560, 150, "MARCADOR", "fill-zinc-900 dark:fill-zinc-100 font-bold", 12)}
+        {txt(560, 166, "puntos y tiempo · localStorage", "fill-zinc-600 dark:fill-zinc-400", 10)}
+      </g>
       {nodo(30, 130, "FIN", "veredicto + «otra vez»", "fill-amber-50 dark:fill-amber-500/10 stroke-amber-400 dark:stroke-amber-500/60")}
       <line x1={180} y1={43} x2={256} y2={43} strokeWidth={2} markerEnd={`url(#fl-${id})`} className="stroke-blue-600 dark:stroke-blue-400" />
       <line x1={410} y1={43} x2={486} y2={43} strokeWidth={2} markerEnd={`url(#fl-${id})`} className="stroke-blue-600 dark:stroke-blue-400" />
-      <path d={`M565 66 L565 126`} strokeWidth={2} markerEnd={`url(#fg-${id})`} className="stroke-emerald-600 dark:stroke-emerald-400" />
-      <path d={`M478 148 C 420 148, 385 95, 345 68`} fill="none" strokeWidth={2} markerEnd={`url(#fl-${id})`} className="stroke-blue-600 dark:stroke-blue-400" />
-      <text x={448} y={104} fontSize={10.5} className="fill-zinc-500 dark:fill-zinc-400">siguiente ronda</text>
-      <path d={`M490 46 C 445 100, 340 112, 186 138`} fill="none" strokeWidth={2} strokeDasharray="5 5" markerEnd={`url(#fm-${id})`} className="stroke-zinc-500 dark:stroke-zinc-400" />
-      <text x={300} y={125} fontSize={10.5} className="fill-zinc-500 dark:fill-zinc-400">3 fallos → fin</text>
+      <path d={`M560 66 L560 126`} strokeWidth={2} markerEnd={`url(#fg-${id})`} className="stroke-emerald-600 dark:stroke-emerald-400" />
+      <path d={`M458 146 C 408 146, 385 95, 345 68`} fill="none" strokeWidth={2} markerEnd={`url(#fl-${id})`} className="stroke-blue-600 dark:stroke-blue-400" />
+      <text x={396} y={124} fontSize={10.5} className="fill-zinc-500 dark:fill-zinc-400">siguiente ronda</text>
+      <path d="M488 52 L186 138" fill="none" strokeWidth={2} strokeDasharray="5 5" markerEnd={`url(#fm-${id})`} className="stroke-zinc-500 dark:stroke-zinc-400" />
+      <text x={268} y={132} fontSize={10.5} className="fill-zinc-500 dark:fill-zinc-400">3 fallos → fin</text>
       {punto("M180 43 L256 43", "2.6s", "fill-blue-600 dark:fill-blue-400", 5)}
       <text x={30} y={212} fontSize={11} className="fill-zinc-500 dark:fill-zinc-400 italic">sin librerías · sin red · teclado y ratón · prefers-reduced-motion respetado</text>
     </Marco>

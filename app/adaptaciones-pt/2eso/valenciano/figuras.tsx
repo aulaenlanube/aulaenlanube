@@ -460,6 +460,74 @@ export function VocalsContacte() {
   );
 }
 
+// Esquema de la p. 28 redibuixat net: nuval central «RONDALES I LLEGENDES» i
+// les cinc caixes grogues amb els elements característics (fórmules, vocabulari,
+// repeticions, onomatopeies, cries). Geometria per files: la caixa grossa de
+// l'esquerra rep 12 línies amb dy=17; les altres, 1-4 línies centrades.
+export function EsquemaRondalles() {
+  const inici = ["«Això era una vegada...»", "«Això era i no era...»", "«Açò diu que era...»", "«Ve't ací que en aquell temps...»"];
+  const final: [string, string][] = [
+    ["«...i visqueren una mala", "fi d'anys»"],
+    ["«...i encara són vius", "si no són morts»"],
+    ["«...i catacric-catacrac,", "conte acabat»"],
+  ];
+  const fletxa = { fill: "none", stroke: "#475569", strokeWidth: 1.8 } as const;
+  const puntaDall = "M525 150 l-5 -9 h10 z";
+  return (
+    <Figura caption="Esquema del llibre (p. 28): el que tenen en comú rondalles i llegendes. Les fórmules d'inici i d'acabament són les primeres a recordar-se.">
+      <svg viewBox="0 0 640 376" role="img" aria-label="Esquema: rondalles i llegendes, amb fórmules d'inici i d'acabament, vocabulari bàsic, repeticions, onomatopeies i cries al lector" className="h-auto w-full min-w-[560px] max-w-[640px]">
+        {/* nuval central */}
+        <ellipse cx={320} cy={70} rx={100} ry={34} fill="#fff" stroke="#0d9488" strokeWidth={2.5} />
+        <Txt x={320} y={66} size={15} peso={800} fill="#0f766e">RONDALES I</Txt>
+        <Txt x={320} y={84} size={15} peso={800} fill="#0f766e">LLEGENDES</Txt>
+
+        {/* connectors amb punta */}
+        <path d="M220 70 H110 V131" {...fletxa} />
+        <path d="M110 140 l-5 -9 h10 z" fill="#475569" />
+        <path d="M320 104 V141" {...fletxa} />
+        <path d="M320 150 l-5 -9 h10 z" fill="#475569" />
+        <path d="M420 70 H525 V141" {...fletxa} />
+        <path d={puntaDall} fill="#475569" />
+        <path d="M405 88 H424 V241 H525" {...fletxa} />
+        <path d="M525 250 l-5 -9 h10 z" fill="#475569" />
+        <path d="M224 80 V255 H231" {...fletxa} />
+        <path d="M240 255 l-9 -5 v10 z" fill="#475569" />
+
+        {/* caixa grossa: fórmules */}
+        <Caja x={10} y={140} w={200} h={224} fill="#fffbeb" stroke="#d97706" />
+        <Txt x={110} y={162} size={12} peso={800} fill="#92400e">Fórmules d'inici:</Txt>
+        {inici.map((t, i) => <Txt key={i} x={110} y={179 + i * 17} size={10} fill="#334155" cursiva>{t}</Txt>)}
+        <Txt x={110} y={256} size={12} peso={800} fill="#92400e">i d'acabament:</Txt>
+        {final.map(([l1, l2], i) => (
+          <g key={i}>
+            <Txt x={110} y={273 + i * 34} size={10} fill="#334155" cursiva>{l1}</Txt>
+            <Txt x={110} y={290 + i * 34} size={10} fill="#334155" cursiva>{l2}</Txt>
+          </g>
+        ))}
+
+        {/* les quatre caixes xicotetes */}
+        <Caja x={240} y={150} w={170} h={46} fill="#fffbeb" stroke="#d97706" />
+        <Txt x={325} y={178} size={11.5} fill="#334155">Vocabulari bàsic.</Txt>
+
+        <Caja x={430} y={150} w={190} h={66} fill="#fffbeb" stroke="#d97706" />
+        <Txt x={525} y={172} size={10.5} fill="#334155">Repetició d'expressions</Txt>
+        <Txt x={525} y={189} size={10.5} fill="#334155">que afavorixen la</Txt>
+        <Txt x={525} y={206} size={10.5} fill="#334155">memorització.</Txt>
+
+        <Caja x={240} y={250} w={170} h={100} fill="#fffbeb" stroke="#d97706" />
+        <Txt x={325} y={276} size={10.5} fill="#334155">Ús d'onomatopeies,</Txt>
+        <Txt x={325} y={293} size={10.5} fill="#334155">embarbussaments, frases</Txt>
+        <Txt x={325} y={310} size={10.5} fill="#334155">fetes, comparacions i</Txt>
+        <Txt x={325} y={327} size={10.5} fill="#334155">expressions populars.</Txt>
+
+        <Caja x={430} y={250} w={190} h={66} fill="#fffbeb" stroke="#d97706" />
+        <Txt x={525} y={276} size={10.5} fill="#334155">Crides al lector per a</Txt>
+        <Txt x={525} y={293} size={10.5} fill="#334155">mantindre'n l'atenció.</Txt>
+      </svg>
+    </Figura>
+  );
+}
+
 // Graella del crucigrama sil·làbic de l'U6 (Activitat 4), redibuixada neta:
 // cada casella quadrada rep la seua síl·laba; els números del llibre van en la
 // cantonada. Clusters connectats (1-6-3-4, 2-7-3) + verticals autònomes (5, 8).
@@ -509,6 +577,7 @@ export const FIGS: Record<string, () => ReactElement> = {
   puntuacio: Puntuacio,
   vocals: Vocals,
   "vocals-contacte": VocalsContacte,
+  "esquema-rondalles": EsquemaRondalles,
   "crucigrama-vocals": CrucigramaVocals,
 };
 

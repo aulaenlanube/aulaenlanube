@@ -10,11 +10,12 @@ import { AP as AP4, ACTS as ACTS4 } from "./bloques/04-sintagmes";
 import { AP as AP5, ACTS as ACTS5 } from "./bloques/05-puntuacio";
 import { AP as AP6, ACTS as ACTS6 } from "./bloques/06-ortografia-vocals";
 import { AP as AP7, ACTS as ACTS7 } from "./bloques/07-vocals-contacte";
+import { AP as AP8, ACTS as ACTS8 } from "./bloques/08-narrativa-oral";
 
 export type { Ap, Act, Nv } from "./tipos";
 export { LABELS } from "./tipos";
 
-export const APS: Ap[] = [AP0, AP1, AP2, AP3, AP4, AP5, AP6, AP7];
+export const APS: Ap[] = [AP0, AP1, AP2, AP3, AP4, AP5, AP6, AP7, AP8];
 
 export const ACTS: Record<string, Act[]> = {
   [AP0.slug]: ACTS0,
@@ -25,6 +26,7 @@ export const ACTS: Record<string, Act[]> = {
   [AP5.slug]: ACTS5,
   [AP6.slug]: ACTS6,
   [AP7.slug]: ACTS7,
+  [AP8.slug]: ACTS8,
 };
 
 export const TEMA = "Tema 1 · Comunicació, llengua i ortografia";

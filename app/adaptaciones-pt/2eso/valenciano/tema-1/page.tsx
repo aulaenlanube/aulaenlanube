@@ -7,7 +7,7 @@ import { APS, ACTS, TEMA } from "../datos";
 export const metadata: Metadata = {
   title: "Tema 1 · Comunicació, llengua i ortografia — Valencià 2n ESO — Adaptaciones PT",
   description:
-    "Tema 1 de Valencià amb adaptacions PT: set blocs, cadascun amb teoria, exemples resolts i sis activitats en cinc nivells (exercici base de 2n d'ESO i adaptacions a 1r d'ESO, 6è, 5è i 4t de primària).",
+    "Tema 1 de Valencià amb adaptacions PT: huit blocs —l'últim, narrativa oral (rondalles i llegendes) del llibre U1—, cadascun amb teoria, exemples resolts i les seues activitats en cinc nivells (exercici base de 2n d'ESO i adaptacions a 1r d'ESO, 6è, 5è i 4t de primària).",
 };
 
 const DESC: Record<string, string> = {
@@ -18,6 +18,8 @@ const DESC: Record<string, string> = {
   "04-sintagmes": "SN, SV, SAdj., SAdv. i SPrep.: la classe depén del nucli; proves de substitució i ampliació.",
   "05-puntuacio": "Coma, punt, punt i coma, dos punts, punts suspensius, signes d'entönació i el guió llarg de diàleg.",
   "06-ortografia-vocals": "E i o obertes o tancades, divergències amb el castellà, la [a] que no s'escriu i dictats de comprovació.",
+  "07-vocals-contacte": "Diftongs, hiatos i triptongs: vocals fortes i febles, dígrafs i regles per a partir mots a final de línia.",
+  "08-narrativa-oral": "Rondalles i llegendes (llibre, U1, p. 28-30): qüestions de «La flor del lliri blau» i de la llegenda de Rotlan amb espais amplis per a escriure, exemple resolt de l'activitat 3 i models de fórmules d'inici i d'acabament.",
 };
 
 export default function PteValenciaTema1() {
@@ -32,7 +34,7 @@ export default function PteValenciaTema1() {
           { title: "Tema 1", path: `${base}/` },
         ]}
       />
-      <span className={chip}>Tema 1 · {APS.length} blocs · {APS.length * 6} activitats × 5 nivells</span>
+      <span className={chip}>Tema 1 · {APS.length} blocs · {APS.reduce((s, a) => s + (ACTS[a.slug]?.length ?? 0), 0)} activitats × 5 nivells</span>
       <h1 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">{TEMA}</h1>
       <p className="mt-4 text-lg text-zinc-600 dark:text-zinc-400">
         Cada bloc porta la seua <b>teoria</b> (explicació curta i accessible), <b>exemples</b>{" "}

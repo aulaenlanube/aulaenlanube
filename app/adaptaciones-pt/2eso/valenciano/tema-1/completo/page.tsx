@@ -3,6 +3,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import PrintButton from "@/components/PrintButton";
 import OposPdfButton from "../../pdf-button";
 import { payloadTema } from "../../exportar";
+import { Part } from "../../ui";
 import { TeoriaBloque } from "../../teoria-bloque";
 import { md } from "../../texto";
 import { Icono, Fig } from "../../figuras";
@@ -76,9 +77,7 @@ export default function TemaCompleto() {
                       <div className="text-xs font-bold uppercase tracking-wide text-blue-700 dark:text-blue-300">{LABELS[l]}</div>
                       {nv.in ? <p className="mt-1 text-sm italic text-zinc-600 dark:text-zinc-400" dangerouslySetInnerHTML={{ __html: md(nv.in) }} /> : null}
                       <ul className="mt-2 space-y-1 text-sm text-zinc-800 dark:text-zinc-200">
-                        {nv.p.map((x, m) => (
-                          <li key={m} dangerouslySetInnerHTML={{ __html: md(x) }} />
-                        ))}
+                        {nv.p.map((x, m) => <Part key={m} s={x} as="li" />)}
                       </ul>
                       <details className="mt-3">
                         <summary className="cursor-pointer text-sm font-semibold text-blue-700 dark:text-blue-300">Veure solució</summary>

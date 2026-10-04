@@ -22,7 +22,7 @@ const MATERIAS = [
   {
     t: "Valenciano",
     href: "/adaptaciones-pt/2eso/valenciano/",
-    d: "Tema 1 de Valencià: 7 blocs (repàs, comunicació, diversitat lingüística, classes de paraules, sintagmes, puntuació i vocals) con 6 activitats cada uno, en 5 niveles: el ejercicio base de 2.º de ESO y sus adaptaciones a 1.º ESO, 6.º, 5.º y 4.º de primaria. Todo el material, en valenciano.",
+    d: "Tema 1 de Valencià: 8 blocs (repàs, comunicació, diversitat lingüística, classes de paraules, sintagmes, puntuació, vocals i narrativa oral) amb les activitats del llibre adaptades, en 5 niveles: el ejercicio base de 2.º de ESO y sus adaptaciones a 1.º ESO, 6.º, 5.º y 4.º de primaria. Todo el material, en valenciano.",
     listo: true,
     emoji: "🟨",
   },

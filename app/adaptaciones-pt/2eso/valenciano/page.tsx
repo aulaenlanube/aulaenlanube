@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 const TEMAS = [
   { n: "Tema 1", t: "Comunicació, llengua i ortografia", href: "/adaptaciones-pt/2eso/valenciano/tema-1/", listo: true,
-    d: "7 blocs: repàs, la comunicació i les funcions del llenguatge, la diversitat lingüística, classes de paraules, sintagmes, signes de puntuació i ortografia de les vocals. Amb els exercicis adaptats ja publicats." },
+    d: "8 blocs: repàs, la comunicació i les funcions del llenguatge, la diversitat lingüística, classes de paraules, sintagmes, signes de puntuació, ortografia de les vocals i narrativa oral (rondalles i llegendes, llibre U1). Amb els exercicis adaptats ja publicats." },
   { n: "Tema 2", t: "El text narratiu: contes i llegendes", href: "", listo: false, d: "En preparació." },
   { n: "Tema 3", t: "Vocals en contacte i dígrafs", href: "", listo: false, d: "En preparació." },
   { n: "Tema 4", t: "El text descriptiu i la publicitat", href: "", listo: false, d: "En preparació." },

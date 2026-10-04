@@ -31,5 +31,5 @@ export const ICONOS = [
 // Claves de figura válidas para `fig` y para «Fig:clave» en la teoría.
 export const FIGURAS = [
   "circuit", "funcions", "paraules", "sintagmes", "puntuacio", "vocals",
-  "vocals-contacte", "crucigrama-vocals",
+  "vocals-contacte", "esquema-rondalles", "crucigrama-vocals",
 ] as const;

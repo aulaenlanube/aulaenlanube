@@ -8,6 +8,25 @@ import type { Ap, Act } from "./tipos";
 import { LABELS } from "./tipos";
 import { FIGS } from "./figuras";
 
+// Marcador d'espai d'escriptura dins de `p` (Bloc 8): «[[espai:N]]» → «[[fill:N]]»
+// del motor PDF. S'aplica sols als nivells que l'usen; els blocs 0-7 mantenen
+// el comportament legacy (línia de text + [[fill]] de 2 renglons darrere).
+const ESPAI_RE = /\[\[espai:(\d+)\]\]/g;
+function pMdEspai(x: string): string[] {
+  const out: string[] = [];
+  let last = 0;
+  let m: RegExpExecArray | null;
+  ESPAI_RE.lastIndex = 0;
+  const seg = (t: string) => { if (t.trim()) out.push(`- ${t.trim()}`); };
+  while ((m = ESPAI_RE.exec(x))) {
+    seg(x.slice(last, m.index));
+    out.push(`[[fill:${m[1]}]]`);
+    last = m.index + m[0].length;
+  }
+  seg(x.slice(last));
+  return out;
+}
+
 export type PdfSec = { title?: string; content: string };
 export type PdfPayload = {
   filename: string;
@@ -142,6 +161,9 @@ function actMd(a: Act): string {
         if (f.sep) L.push("[[fill:1]]");
         if (f.cx > 0) L.push(`  Resposta: ${"_".repeat(14 + (f.cx - 1) * 16)}`);
       });
+    } else if (n.p.some((x) => x.includes("[[espai:"))) {
+      n.p.forEach((x) => pMdEspai(x).forEach((l) => L.push(l)));
+      L.push("");
     } else {
       n.p.forEach((x) => L.push(`- ${x}`, "[[fill]]"));
     }

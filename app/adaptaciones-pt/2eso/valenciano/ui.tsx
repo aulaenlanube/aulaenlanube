@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { md } from "./texto";
 
 // Piezas visuales compartidas por las páginas de Castellano · Adaptaciones PT.
 // Mismo lenguaje que las de matemáticas (tarjetas sky/indigo, chips de nivel,
@@ -53,6 +54,41 @@ export function SeccionTitulo({ emoji, titulo, subtitulo }: { emoji: string; tit
       {subtitulo ? <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">{subtitulo}</p> : null}
     </div>
   );
+}
+
+// Espai d'escriptura: N renglons buits, separats 48 px (prou lloc per a
+// escriure a mà, criteri de l'adaptació). En el PDF eixequen com a [[fill:N]]
+// (veure exportar.ts); ací es dibuixen com a línies puntejades.
+export function Renglons({ n = 3 }: { n?: number }) {
+  return (
+    <div className="mt-1 mb-2" aria-hidden={true}>
+      {Array.from({ length: Math.max(1, Math.min(14, n)) }).map((_, i) => (
+        <div key={i} className="h-12 border-b border-dashed border-zinc-400 dark:border-zinc-500" />
+      ))}
+    </div>
+  );
+}
+
+// Ítem de `p` que pot contindre (o ser completament) el marcador «[[espai:N]]»:
+// la text es dibuixa com a paràgraf i els renglons eixiren en el seu lloc.
+// Per a una fila de llista («li») passau `as="li"` (vista completa).
+const ESPAI_RE = /\[\[espai:(\d+)\]\]/g;
+export function Part({ s, as = "p" }: { s: string; as?: "p" | "li" }) {
+  const out: ReactNode[] = [];
+  let last = 0;
+  let m: RegExpExecArray | null;
+  const push = (txt: string, k: string) => {
+    if (!txt.trim()) return;
+    const html = { __html: md(txt) };
+    out.push(as === "li" ? <li key={k} dangerouslySetInnerHTML={html} /> : <p key={k} dangerouslySetInnerHTML={html} />);
+  };
+  while ((m = ESPAI_RE.exec(s))) {
+    push(s.slice(last, m.index), "t" + last);
+    out.push(<Renglons key={"f" + m.index} n={Number(m[1])} />);
+    last = m.index + m[0].length;
+  }
+  push(s.slice(last), "te");
+  return <>{out}</>;
 }
 
 // Plantilla d'activitat en files: PAROLA | espai de síl·labes | caixes de resposta.

@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "@/components/Link";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import PrintButton from "@/components/PrintButton";
-import { chip, NIVEL_CLS, tarjeta, Plantilla } from "../../../ui";
+import { chip, NIVEL_CLS, tarjeta, Plantilla, Part } from "../../../ui";
 import { md } from "../../../texto";
 import { Icono, Fig } from "../../../figuras";
 import { APS, ACTS, LABELS } from "../../../datos";
@@ -68,7 +68,7 @@ export default async function ActividadPT({ params }: P) {
             {nv.in ? <p className="text-[15px] text-zinc-700 dark:text-zinc-300" dangerouslySetInnerHTML={{ __html: md(nv.in) }} /> : null}
           </div>
           <div className="mt-2 space-y-1 text-[15px] text-zinc-800 dark:text-zinc-200">
-            {nv.p.map((p, j) => <p key={j} dangerouslySetInnerHTML={{ __html: md(p) }} />)}
+            {nv.p.map((p, j) => <Part key={j} s={p} />)}
           </div>
           {nv.files?.length ? <Plantilla files={nv.files} /> : null}
           {nv.ad ? (

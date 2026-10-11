@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: P): Promise<Metadata> {
   if (!a) return {};
   return {
     title: `${a.n} · ${a.t} — Tema 1 Castellano 2.º ESO — Adaptaciones PT`,
-    description: `Teoría, ejemplos resueltos y seis actividades del bloque ${a.n} (${a.t}) del Tema 1 de Lengua Castellana: el ejercicio base de 2.º de ESO y sus cuatro adaptaciones.`,
+    description: `Teoría, ejemplos resueltos y ${ACTS[a.slug]?.length ?? 0} actividades del bloque ${a.n} (${a.t}) del Tema 1 de Lengua Castellana: el ejercicio base de 2.º de ESO y sus adaptaciones.`,
   };
 }
 
@@ -68,7 +68,7 @@ export default async function BloquePT({ params }: P) {
         <h2 className="text-xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 sm:text-2xl">🎯 Actividades</h2>
         <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
           {acts.length} actividades: entra en cada caja para verla completa, con el ejercicio
-          base de 2.º de ESO, sus cuatro adaptaciones y la solución de cada nivel.
+          base de 2.º de ESO, sus adaptaciones y la solución de cada nivel.
         </p>
       </div>
       <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -90,7 +90,7 @@ export default async function BloquePT({ params }: P) {
       </div>
 
       <div className={`${tarjeta} !mt-10 !text-sm`}>
-        <b>Para el profe:</b> las seis actividades de este bloque comparten objetivo, así que son
+        <b>Para el profe:</b> las actividades de este bloque comparten objetivo, así que son
         intercambiables: si un alumno acaba una antes de tiempo, mándale a la siguiente caja. Las
         últimas suelen ser las más abiertas (crear, verbalizar, dramatizar), y las primeras, las
         más guiadas.

@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "@/components/Link";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import PrintButton from "@/components/PrintButton";
-import { chip, NIVEL_CLS, tarjeta } from "../../../ui";
+import { chip, NIVEL_CLS, tarjeta, Part } from "../../../ui";
 import { md } from "../../../texto";
 import { Icono, Fig } from "../../../figuras";
 import { APS, ACTS, LABELS } from "../../../datos";
@@ -68,7 +68,7 @@ export default async function ActividadPT({ params }: P) {
             {nv.in ? <p className="text-[15px] text-zinc-700 dark:text-zinc-300" dangerouslySetInnerHTML={{ __html: md(nv.in) }} /> : null}
           </div>
           <div className="mt-2 space-y-1 text-[15px] text-zinc-800 dark:text-zinc-200">
-            {nv.p.map((p, j) => <p key={j} dangerouslySetInnerHTML={{ __html: md(p) }} />)}
+            {nv.p.map((p, j) => <Part key={j} s={p} />)}
           </div>
           {nv.ad ? (
             <div className="mt-2 rounded-xl border border-zinc-200 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 text-[13px] text-zinc-600 dark:text-zinc-400">
@@ -84,7 +84,7 @@ export default async function ActividadPT({ params }: P) {
       ))}
 
       <div className="mt-8 rounded-2xl border border-zinc-200 dark:border-white/10 bg-zinc-100 dark:bg-white/10 p-5 text-sm text-zinc-700 dark:text-zinc-300">
-        <b>Mismo objetivo en los cinco niveles:</b> arriba va el ejercicio tal y como se plantea
+        <b>Mismo objetivo en todos los niveles:</b> arriba va el ejercicio tal y como se plantea
         en 2.º de ESO; debajo, la misma actividad con más andamiaje (texto más corto, opción
         cerrada, banco de palabras, manipulativo, oral). No cambia la meta, cambia el acceso.
         Adaptación de acceso conforme al Decreto 104/2018 y la Orden 20/2019 (C. Valenciana).

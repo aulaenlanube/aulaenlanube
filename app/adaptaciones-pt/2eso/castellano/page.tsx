@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 const TEMAS = [
   { n: "Tema 1", t: "Comunicación, palabra y literatura", href: "/adaptaciones-pt/2eso/castellano/tema-1/", listo: true,
-    d: "6 bloques: actividades de repaso, la comunicación, sustantivo y adjetivo, derivación nominal y adjetival, los géneros literarios y acentuación. Con los ejercicios adaptados ya publicados." },
+    d: "7 bloques: repaso, comunicación, sustantivo y adjetivo, derivación, géneros literarios, acentuación… y el bloque «1.ª evaluación · Ejercicios del libro» (adjetivo, verbo, derivación verbal, modalidad y sintaxis), con renglones para escribir a mano." },
   { n: "Tema 2", t: "El texto y sus tipos", href: "", listo: false, d: "En preparación." },
   { n: "Tema 3", t: "El verbo y el sintagma verbal", href: "", listo: false, d: "En preparación." },
   { n: "Tema 4", t: "La oración simple", href: "", listo: false, d: "En preparación." },

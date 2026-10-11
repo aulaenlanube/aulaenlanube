@@ -121,6 +121,25 @@ const PDF_NIVELES: { nv: number; lvl: number; bg: string; accent: string }[] = [
 // El emisor SIEMPRE escribe la sintaxis completa (:::box, [[fill]], líneas @);
 // quien filtra niveles y soluciones es el motor, con el 9.º argumento opts de
 // exportPdf.
+// Marcador de espacio de escritura dentro de `p` (Bloque 6): «[[espai:N]]» →
+// «[[fill:N]]» del motor PDF. Solo se aplica a los niveles que lo usan; los
+// bloques 0-5 mantienen el comportamiento legacy ([[fill]] de 2 renglones).
+const ESPAI_RE = /\[\[espai:(\d+)\]\]/g;
+function pMdEspai(x: string): string[] {
+  const out: string[] = [];
+  let last = 0;
+  let m: RegExpExecArray | null;
+  ESPAI_RE.lastIndex = 0;
+  const seg = (t: string) => { if (t.trim()) out.push(`- ${t.trim()}`); };
+  while ((m = ESPAI_RE.exec(x))) {
+    seg(x.slice(last, m.index));
+    out.push(`[[fill:${m[1]}]]`);
+    last = m.index + m[0].length;
+  }
+  seg(x.slice(last));
+  return out;
+}
+
 function actMd(a: Act): string {
   const L: string[] = [];
   if (a.d) L.push(a.d, "");
@@ -133,7 +152,12 @@ function actMd(a: Act): string {
     if (!n) continue;
     L.push(`:::box title="${LABELS[nv]}" lvl=${lvl} bg=${bg} accent=${accent}`);
     if (n.in) L.push("> " + n.in, "");
-    n.p.forEach((x) => L.push(`- ${x}`, "[[fill]]"));
+    if (n.p.some((x) => x.includes("[[espai:"))) {
+      n.p.forEach((x) => pMdEspai(x).forEach((l) => L.push(l)));
+      L.push("");
+    } else {
+      n.p.forEach((x) => L.push(`- ${x}`, "[[fill]]"));
+    }
     L.push("@ Solución:");
     n.s.forEach((x) => L.push("@ " + x));
     if (n.ad) L.push(`~ Adaptación: ${n.ad}`);

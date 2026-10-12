@@ -26,7 +26,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))  # tools/examen → tools → repo
 TS   = os.path.join(ROOT, "app/adaptaciones-pt/2eso/matematicas/exportar.ts")
 BR   = os.path.join(ROOT, "public/branding")
-IMG  = os.path.join(ROOT, "public/img/exams/mat-2eso/edifici-pisos.jpg")
+# (sin IMG: vegeu comentari a ex_texto)
 OUT  = os.path.join(ROOT, "public/exams/mat-2eso/aci1-nombres-enters-2eso-d.pdf")
 FDIR = os.path.join(HERE, "fonts")
 
@@ -134,9 +134,9 @@ def ex_texto(p, y, ex, img=False):
     for t in ex["text"]:
         for ln in wrap(t, "reg", 11, CW - 8):
             T(p, 56.6, y, ln, "reg", 11); y += 16
-    if img and os.path.exists(IMG):
-        iw = 400; ih = iw * 590 / 1296
-        p.insert_image(fitz.Rect((PW-iw)/2, y+14, (PW+iw)/2, y+14+ih), filename=IMG)
+    # (img=True ignorado a propòsit: la imatge gran del ACI original sota
+    # l'Exercici 4 era la taula de divisibilitat de l'antic Exercici 8
+    # «Completa», no un edifici. Retirada 12-10.)
     return y
 
 def cabecera(p):
@@ -163,7 +163,7 @@ chrome(p3, 3, TOT)
 if 1 in e: ex_parts(p1, 274, e[1], "abc3")                       # 1 · combinades · a,b,c,g | d,e,f
 if 2 in e: ex_parts(p1, 500, e[2], "single")                     # 2 · parèntesis · 1 per línia
 if 3 in e: ex_parts(p2, 122, e[3], "pair")                       # 3 · restes portant · 2x2
-if 4 in e: ex_texto (p2, 436, e[4], img=True)                     # 4 · Malena · valencià + imagen
+if 4 in e: ex_texto (p2, 436, e[4])                                 # 4 · Malena · valencià (sin imagen)
 if 5 in e: ex_texto (p3, 122, e[5])                              # 5 · Marc · versió senzilla
 if 6 in e: ex_parts(p3, 258, e[6], "pair")                        # 6 · mul/div · 2x2
 

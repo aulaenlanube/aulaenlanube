@@ -15,6 +15,7 @@ export type PdfPayload = {
   headerSubtitle: string;
   footerTitle: string;
   sections: PdfSec[];
+  lang?: "castellano" | "valenciano";
 };
 
 declare global {
@@ -69,9 +70,9 @@ const chipCls = (sel: boolean) =>
     ? "rounded-full border border-blue-500 bg-blue-600 px-3 py-1 text-xs font-semibold text-white shadow-sm transition"
     : "rounded-full border border-zinc-300 dark:border-white/15 bg-white dark:bg-slate-900 px-3 py-1 text-xs font-semibold text-slate-600 dark:text-slate-300 transition hover:border-blue-300 dark:hover:border-blue-500/40 hover:bg-blue-50 dark:hover:bg-blue-500/10";
 
-export default function OposPdfButton({ payload, label }: { payload: PdfPayload; label?: string }) {
+export default function OposPdfButton({ payload, label, sinSoluciones }: { payload: PdfPayload; label?: string; sinSoluciones?: boolean }) {
   const [chip, setChip] = useState<Chip>(CHIPS[0]);
-  const [conSoluciones, setConSoluciones] = useState(true);
+  const [conSoluciones, setConSoluciones] = useState(!sinSoluciones);
   const [estado, setEstado] = useState<"idle" | "ok" | "err">("idle");
 
   const descargar = async () => {
@@ -85,7 +86,7 @@ export default function OposPdfButton({ payload, label }: { payload: PdfPayload;
         fname,
         (m) => setEstado(m.indexOf("descargado") >= 0 ? "ok" : "idle"),
         payload.headerTitle,
-        "castellano",
+        payload.lang ?? "castellano",
         payload.sections,
         payload.headerSubtitle,
         payload.footerTitle,
@@ -105,6 +106,8 @@ export default function OposPdfButton({ payload, label }: { payload: PdfPayload;
             {c.label}
           </button>
         ))}
+        {sinSoluciones ? null : (
+          <>
         <span className="mx-1 h-4 w-px bg-zinc-300 dark:bg-white/20" aria-hidden />
         <button
           type="button"
@@ -119,6 +122,8 @@ export default function OposPdfButton({ payload, label }: { payload: PdfPayload;
         >
           {conSoluciones ? "Con soluciones" : "Sin soluciones"}
         </button>
+          </>
+        )}
       </span>
       <button
         type="button"

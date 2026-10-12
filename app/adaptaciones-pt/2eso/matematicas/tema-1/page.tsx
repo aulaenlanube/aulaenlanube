@@ -58,6 +58,22 @@ export default function PteTema1() {
         ))}
       </div>
 
+      <div className="mt-6 flex flex-wrap gap-3">
+        <Link
+          href="/adaptaciones-pt/2eso/matematicas/examen/"
+          className="group flex items-center gap-3 rounded-2xl border border-blue-200 dark:border-blue-500/30 bg-blue-50/60 dark:bg-blue-500/10 px-5 py-4 shadow-sm transition hover:border-blue-400 dark:hover:border-blue-400/50"
+        >
+          <span className="text-2xl">📝</span>
+          <span>
+            <b className="text-[15px] text-zinc-900 dark:text-zinc-100">Avaluació 1 · Nombres enters</b>
+            <span className="block text-[13px] text-zinc-600 dark:text-zinc-400">
+              Examen de 6 exercicis (2n ESO D) amb solucions, PDF oficial amb la capçalera del centre i fitxa per a resolver.
+            </span>
+          </span>
+          <span className="text-zinc-300 transition group-hover:translate-x-0.5 group-hover:text-blue-600">→</span>
+        </Link>
+      </div>
+
       <div className="mt-8 rounded-2xl border border-zinc-200 dark:border-white/10 bg-zinc-100 dark:bg-white/10 p-5 text-sm text-zinc-700 dark:text-zinc-300">
         <b>Saberes básicos (anexo III, Decreto 107/2022):</b> números enteros, representación y
         orden en la recta, valor absoluto y opuesto, operaciones y jerarquía, y uso en contextos

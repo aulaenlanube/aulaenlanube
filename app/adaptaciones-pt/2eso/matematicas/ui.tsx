@@ -59,6 +59,18 @@ export function Enunciado({ intro, partes }: { intro?: ReactNode; partes: ReactN
   );
 }
 
+// Espacio de escritura: N renglones vacíos (mismo criterio que el ui de
+// Castellano PT). En el PDF del motor salen como [[fill:N]] (ver exportar.ts).
+export function Renglones({ n = 3 }: { n?: number }) {
+  return (
+    <div className="mt-1 mb-2" aria-hidden={true}>
+      {Array.from({ length: Math.max(1, Math.min(14, n)) }).map((_, i) => (
+        <div key={i} className="h-12 border-b border-dashed border-zinc-400 dark:border-zinc-500" />
+      ))}
+    </div>
+  );
+}
+
 export function Solucion({ partes }: { partes: ReactNode[] }) {
   return (
     <details className={sol}>

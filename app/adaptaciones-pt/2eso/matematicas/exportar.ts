@@ -14,7 +14,80 @@ export type PdfPayload = {
   headerSubtitle: string;
   footerTitle: string;
   sections: PdfSec[];
+  // Idioma del pie del motor («Pàgina X de Y» en valencià). Por defecto castellano.
+  lang?: "castellano" | "valenciano";
 };
+
+// ── Avaluació 1 (ACI 1) · Nombres enters · 2n ESO D ──────────────────────
+// Fuente de verdad del examen: la página /examen/ lo lista y payloadExamen()
+// lo traduce al formato del motor con huecos [[fill:N]] (versión «per a
+// resolver»). La versión oficial maquetada con la plantilla del centre es el
+// PDF estático de public/exams/mat-2eso/aci1-nombres-enters-2eso-d.pdf.
+export type ExamenEx = { n: number; t: string; parts?: string[]; text?: string[]; espai: number };
+
+export const EXAMEN: ExamenEx[] = [
+  { n: 1, t: "Resol", espai: 2, parts: [
+    "**a)** – 3 + 5 =", "**b)** + 12 – 5 =", "**c)** 4 + ( – 2) =",
+    "**d)** – 2 – ( – 3) =", "**e)** – ( – 3 + 8) + 7 =", "**f)** 3 – ( 7 + 5 ) =",
+    "**g)** – 5 + 3 – ( – 8 ) =",
+  ] },
+  { n: 2, t: "Calcula", espai: 3, parts: [
+    "**a)** 5 – ( – 3 + 6) – ( – 5 – 1 ) =",
+    "**b)** – ( 5 + 4 ) – [ –3 – (5 + 7)] =",
+    "**c)** 7 – [ – 2 + ( 5 – 12 ) ] + ( – 6 ) =",
+  ] },
+  { n: 3, t: "Resol les restes amb l'algoritme de la resta (portant)", espai: 5, parts: [
+    "**a)** 5.240 – 3.678 =", "**b)** 10.005 – 7.486 =",
+    "**c)** 7.000 – 3.862 =", "**d)** 23.041 – 15.786 =",
+  ] },
+  { n: 4, t: "Problema de pisos", espai: 4, text: [
+    "La Malena viu al 5é pis. Baixa 6 plantes en ascensor per a anar al traster a arreplegar uns productes de neteja i, després, puja 8 plantes per a netejar la casa dels seus pares. **En quin pis viuen els pares de la Malena?**",
+  ] },
+  { n: 5, t: "Problema de pisos (més senzill)", espai: 4, text: [
+    "En Marc viu al 3r pis. Baixa 5 pisos en ascensor per a anar al garatge i, després, puja 7 pisos per a anar a casa d'un amic. **En quin pis viu l'amic d'En Marc?**",
+  ] },
+  { n: 6, t: "Calcula (multiplicació i divisió d'enters)", espai: 2, parts: [
+    "**a)** ( – 2 ) · 4 =", "**b)** – 3 · ( – 10) =",
+    "**c)** 80 : ( – 40) : 2 =", "**d)** – 15 : [( – 5) · 3] =",
+  ] },
+];
+
+// Soluciones del examen (para el profe; el payload «per a resolver» nunca las lleva).
+export const EXAMEN_SOL: Record<number, string[]> = {
+  1: ["a) +2", "b) +7", "c) +2", "d) +1", "e) +2", "f) –9", "g) +6"],
+  2: ["a) +8", "b) +1", "c) –4"],
+  3: ["a) 1.562", "b) 2.519", "c) 3.138", "d) 7.255"],
+  4: ["5 – 6 + 8 = 7 → al **7é pis**."],
+  5: ["3 – 5 + 7 = 5 → al **5é pis**."],
+  6: ["a) –8", "b) +30", "c) –1", "d) –1"],
+};
+
+// Examen en formato del motor: todo en valencianís, con renglones [[fill:N]]
+// detrás de cada apartado/enunciado y SIN soluciones.
+export function payloadExamen(): PdfPayload {
+  const L: string[] = [
+    "# Avaluació 1 · Nombres enters",
+    "",
+    "Tema 1 — Matemàtiques 2n ESO · Grup 2n ESO D · Curs 26/27",
+    "",
+    "*Escriu les operacions pas a pas, de manera que es puga seguir el procés de resolució. Exercicis sense el procés o raonament corresponent no es consideraran correctes.*",
+    "",
+  ];
+  for (const ex of EXAMEN) {
+    L.push(`## Exercici ${ex.n} — ${ex.t}`, "");
+    if (ex.text) for (const t of ex.text) { L.push(t, ""); }
+    if (ex.parts) for (const p of ex.parts) { L.push(`- ${p}`, `[[fill:${ex.espai}]]`, ""); }
+    else L.push(`[[fill:${ex.espai}]]`, "");
+  }
+  return {
+    filename: "PT-2ESO-Matematicas-T1-Examen-Avaluacio1.pdf",
+    headerTitle: "Avaluació 1 · Nombres enters",
+    headerSubtitle: "Tema 1 · Matemàtiques 2n ESO · Adaptaciones PT",
+    footerTitle: "aulaenlanube.com",
+    lang: "valenciano",
+    sections: [{ content: L.join("\n") }],
+  };
+}
 
 // ── Serializador mínimo de elementos React → HTML (suficiente para SVG) ──
 const esc = (s: string) =>

@@ -140,7 +140,13 @@ function pMdEspai(x: string): string[] {
   return out;
 }
 
-function actMd(a: Act): string {
+// `resolver=true` construye la ficha del alumno: DETRÁS DE CADA APARTADO (a, b,
+// c…) salen renglones de escritura, tenga o no marcador [[espai]] el dato. Las
+// soluciones se suprimen aquí (además de filtrarlas el motor con soluciones:false).
+// FILL_RESOLVER: renglones por defecto cuando el apartado no trae [[espai:N]].
+const FILL_RESOLVER = 3;
+
+function actMd(a: Act, resolver = false): string {
   const L: string[] = [];
   if (a.d) L.push(a.d, "");
   if (a.fig) {
@@ -152,14 +158,32 @@ function actMd(a: Act): string {
     if (!n) continue;
     L.push(`:::box title="${LABELS[nv]}" lvl=${lvl} bg=${bg} accent=${accent}`);
     if (n.in) L.push("> " + n.in, "");
-    if (n.p.some((x) => x.includes("[[espai:"))) {
+    if (resolver) {
+      // Los items `[[espai:N]]` sueltos (formato Q() del bloque 6) se absorben y
+      // fijan el número de renglones del apartado anterior; los incrustados en
+      // el propio texto los traduce pMdEspai. El resto de apartados sale con
+      // FILL_RESOLVER renglones por defecto.
+      for (let pi = 0; pi < n.p.length; pi++) {
+        const x = n.p[pi];
+        if (/^\s*\[\[espai:\d+\]\]\s*$/.test(x)) continue;
+        if (x.includes("[[espai:")) { pMdEspai(x).forEach((l) => L.push(l)); continue; }
+        let nf = FILL_RESOLVER;
+        const nxt = /^\s*\[\[espai:(\d+)\]\]\s*$/.exec(n.p[pi + 1] || "");
+        if (nxt) nf = Math.max(1, Math.min(14, Number(nxt[1])));
+        if (x.trim()) L.push(`- ${x.trim()}`);
+        L.push(`[[fill:${nf}]]`);
+      }
+      L.push("");
+    } else if (n.p.some((x) => x.includes("[[espai:"))) {
       n.p.forEach((x) => pMdEspai(x).forEach((l) => L.push(l)));
       L.push("");
     } else {
       n.p.forEach((x) => L.push(`- ${x}`, "[[fill]]"));
     }
-    L.push("@ Solución:");
-    n.s.forEach((x) => L.push("@ " + x));
+    if (!resolver) {
+      L.push("@ Solución:");
+      n.s.forEach((x) => L.push("@ " + x));
+    }
     if (n.ad) L.push(`~ Adaptación: ${n.ad}`);
     L.push(":::", "");
   }
@@ -194,6 +218,39 @@ export function payloadTema(): PdfPayload {
       title: `${ap.n}. ${ap.t}`,
       content: `## Teoría\n\n${teoriaMd(ap)}\n\n## Ejemplos resueltos\n\n${ejemplosMd(ap)}\n\n## Actividades\n\n${(ACTS[ap.slug] || [])
         .map((a, k) => `### Actividad ${k + 1} — ${a.t}\n\n${actMd(a)}`)
+        .join("\n")}`,
+    })),
+  };
+}
+
+// ── «Versión para resolver» (ficha del alumno) ──
+// Mismo contenido que payloadApartado/payloadTema, pero sin soluciones y con
+// renglones de escritura detrás de CADA apartado (a, b, c…), para imprimir y
+// responder a mano sobre la propia hoja. La construye actMd(a, true).
+export function payloadApartadoResolver(ap: Ap): PdfPayload {
+  const base = payloadApartado(ap);
+  const acts = ACTS[ap.slug] || [];
+  return {
+    ...base,
+    filename: base.filename.replace(/\.pdf$/i, "") + "-resolver.pdf",
+    headerSubtitle: `${base.headerSubtitle} · ficha para resolver`,
+    sections: [
+      { content: `# ${ap.t}\n\n${TEMA} — Lengua Castellana · Adaptaciones PT\n\n_Ficha para resolver: escribe la respuesta en los renglones de cada apartado._` },
+      ...acts.map((a, k) => ({ title: `Actividad ${k + 1} · ${a.t}`, content: actMd(a, true) })),
+    ],
+  };
+}
+
+export function payloadTemaResolver(): PdfPayload {
+  const base = payloadTema();
+  return {
+    ...base,
+    filename: "PT-Castellano-Tema1-completo-resolver.pdf",
+    headerSubtitle: `${base.headerSubtitle} · fichas para resolver`,
+    sections: APS.map((ap) => ({
+      title: `${ap.n}. ${ap.t}`,
+      content: `## Actividades para resolver\n\n${(ACTS[ap.slug] || [])
+        .map((a, k) => `### Actividad ${k + 1} — ${a.t}\n\n${actMd(a, true)}`)
         .join("\n")}`,
     })),
   };

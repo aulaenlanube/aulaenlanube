@@ -8,8 +8,10 @@
 
 import type { Ap, Act } from "../tipos";
 
-// Pregunta + renglones de escritura a mano.
-const Q = (q: string, n: number): string[] => [`**${q}**`, `[[espai:${n}]]`];
+// Pregunta + renglones de escritura a mano, en dos items separados: así la
+// negrita del apartado (**a)**) no se dobla con el marcador [[espai]] y web y
+// PDF lo renderizan limpio.
+const Q = (q: string, n: number): string[] => [q, `[[espai:${n}]]`];
 
 export const AP: Ap = {
   slug: "06-primera-evaluacion-libro",

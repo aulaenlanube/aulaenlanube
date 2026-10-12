@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import PrintButton from "@/components/PrintButton";
 import OposPdfButton from "../../pdf-button";
-import { payloadTema } from "../../exportar";
+import { payloadTema, payloadTemaResolver } from "../../exportar";
 import { Part } from "../../ui";
 import { TeoriaBloque } from "../../teoria-bloque";
 import { md } from "../../texto";
@@ -38,6 +38,7 @@ export default function TemaCompleto() {
         </p>
         <div className="no-print mt-4 flex flex-wrap items-center gap-3">
           <OposPdfButton payload={payloadTema()} />
+          <OposPdfButton payload={payloadTemaResolver()} label="⬇ PDF tema para resolver" sinSoluciones />
           <PrintButton />
         </div>
       </header>

@@ -44,6 +44,31 @@ if (window.OposDownloads) return;
     ];
     const FOOTER_IMG = { file: '/branding/footer.jpg', w: 1024, h: 91 };
     let _brandP = null;
+    // Lee dimensiones y nº de componentes del SOFn del JPEG. El CDN de
+    // Hostinger (HCDN) re-optimiza los JPG al servirlos (header_center pasaba
+    // de 2042x800 a 1600x627): si el XObject /Width//Height no casa con los
+    // bytes reales, el visor descarta el logo y la cabecera sale sin el Simarro
+    // del centro. Con las medidas reales del stream, el PDF vale con o sin CDN.
+    function jpegInfo(bytes) {
+        try {
+            if (!(bytes[0] === 0xFF && bytes[1] === 0xD8)) return null;
+            let i = 2;
+            while (i < bytes.length - 9) {
+                if (bytes[i] !== 0xFF) { i++; continue; }
+                const m = bytes[i + 1];
+                if (m >= 0xC0 && m <= 0xCF && m !== 0xC4 && m !== 0xC8 && m !== 0xCC) {
+                    return {
+                        h: (bytes[i + 5] << 8) | bytes[i + 6],
+                        w: (bytes[i + 7] << 8) | bytes[i + 8],
+                        comps: bytes[i + 9],
+                    };
+                }
+                if (m === 0x01 || (m >= 0xD0 && m <= 0xD9)) { i += 2; continue; }
+                i += 2 + ((bytes[i + 2] << 8) | bytes[i + 3]);
+            }
+        } catch (e) { /* sin info: se queda con la declarada */ }
+        return null;
+    }
     function ensureBranding() {
         if (_brandP) return _brandP;
         _brandP = (async function () {
@@ -53,6 +78,12 @@ if (window.OposDownloads) return;
                     if (!r.ok) return;
                     const buf = await r.arrayBuffer();
                     img.bytes = new Uint8Array(buf);
+                    const info = jpegInfo(img.bytes);
+                    if (info && info.w > 0 && info.h > 0) {
+                        img.w = info.w; img.h = info.h;
+                        img.cs = info.comps === 1 ? '/DeviceGray'
+                               : info.comps === 4 ? '/DeviceCMYK' : '/DeviceRGB';
+                    }
                 } catch (e) { /* sin marca: igual que PP1 */ }
             };
             await Promise.all(LOGOS.map(carga).concat([carga(FOOTER_IMG)]));
@@ -1750,18 +1781,18 @@ const P = BRAND.pdf;
         // ── XObjects de imagen: logo (/Im0) + diagramas SVG rasterizados
         // (/Im1, /Im2, …). Todos JPEG baseline RGB embebidos vía /DCTDecode.
         const xobjs = [];
-        const addImageObj = function (name, bytes, wpx, hpx) {
+        const addImageObj = function (name, bytes, wpx, hpx, cs) {
             const header = (objCount + 1) + ' 0 obj\n'
                 + '<< /Type /XObject /Subtype /Image'
                 + ' /Width ' + wpx + ' /Height ' + hpx
-                + ' /ColorSpace /DeviceRGB /BitsPerComponent 8'
+                + ' /ColorSpace ' + (cs || '/DeviceRGB') + ' /BitsPerComponent 8'
                 + ' /Filter /DCTDecode /Length ' + bytes.byteLength
                 + ' >>\nstream\n';
             const id = addObj({ header: header, binary: bytes, footer: '\nendstream\nendobj' });
             xobjs.push({ name: name, id: id });
         };
-                LOGOS.forEach(function (l, i) { if (l.bytes) addImageObj('Logo' + i, l.bytes, l.w, l.h); });
-        if (FOOTER_IMG.bytes) addImageObj('LogoFoot', FOOTER_IMG.bytes, FOOTER_IMG.w, FOOTER_IMG.h);
+                LOGOS.forEach(function (l, i) { if (l.bytes) addImageObj('Logo' + i, l.bytes, l.w, l.h, l.cs); });
+        if (FOOTER_IMG.bytes) addImageObj('LogoFoot', FOOTER_IMG.bytes, FOOTER_IMG.w, FOOTER_IMG.h, FOOTER_IMG.cs);
         for (let k = 0; k < svgImages.length; k++) {
             addImageObj('Im' + (k + 1), svgImages[k].bytes, svgImages[k].wpx, svgImages[k].hpx);
         }

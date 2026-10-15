@@ -8,6 +8,7 @@ import { CURSOS, CURSO_IDS } from "@/lib/campus/catalogo";
 import { api, haceCuanto, nombreCompleto, type Alumno, type Credencial, type Entrega, type Envio, type Grupo, type GrupoResumen, type NotaProfesor, type Seguimiento } from "@/lib/campus/cliente";
 import { formatoNota } from "@/lib/campus/rubricas";
 import { credencialesTexto, descargarCsv, imprimirCredenciales, parsearLista } from "./exportar";
+import EquiposProf from "./EquiposProf";
 import ProfCorregir from "./ProfCorregir";
 import { Aviso, CajaError, Cargando, cls, mensajeError, Modal, Pildora } from "./ui";
 
@@ -41,7 +42,7 @@ export default function ProfGrupo({ grupoId, ruta, grupos, onCambio }: Props) {
   if (!datos) return <Cargando />;
 
   const { grupo, alumnos } = datos;
-  const pestaña = ruta[2] === "alumnado" ? "alumnado" : ruta[2] === "corregir" ? "corregir" : "seguimiento";
+  const pestaña = ruta[2] === "alumnado" ? "alumnado" : ruta[2] === "equipos" ? "equipos" : ruta[2] === "corregir" ? "corregir" : "seguimiento";
 
   const ponerNota = (n: NotaProfesor | null, entregaId: number, alumnoId: number) =>
     setDatos((d) => {
@@ -97,6 +98,7 @@ export default function ProfGrupo({ grupoId, ruta, grupos, onCambio }: Props) {
         {[
           ["seguimiento", "Seguimiento y notas", `#/grupo/${grupoId}`],
           ["alumnado", `Alumnado (${alumnos.length})`, `#/grupo/${grupoId}/alumnado`],
+          ["equipos", "Equipos", `#/grupo/${grupoId}/equipos`],
         ].map(([id, t, href]) => (
           <a
             key={id}
@@ -109,7 +111,9 @@ export default function ProfGrupo({ grupoId, ruta, grupos, onCambio }: Props) {
         ))}
       </nav>
 
-      {pestaña === "alumnado" ? (
+      {pestaña === "equipos" ? (
+        <EquiposProf grupoId={grupoId} />
+      ) : pestaña === "alumnado" ? (
         <Alumnado
           alumnos={alumnos}
           onEditar={(a) => setModal({ alumno: a })}

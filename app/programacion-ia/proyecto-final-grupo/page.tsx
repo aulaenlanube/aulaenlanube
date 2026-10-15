@@ -155,11 +155,14 @@ export default function CursoIAFinalGrupo() {
       </p>
 
       <div className="mt-10 flex flex-wrap items-center justify-between gap-3 border-t border-zinc-200 dark:border-white/10 pt-5">
-        <Link href="/programacion-ia/proyecto-final-individual/" className="rounded-xl border border-zinc-300 dark:border-white/15 bg-white dark:bg-slate-900 px-5 py-2.5 text-sm font-semibold text-slate-700 dark:text-slate-200 transition hover:bg-zinc-50 dark:hover:bg-white/5">
+        <Link href="/programacion-ia/proyecto-final-individual/" className="rounded-xl border border-zinc-300 dark:border-white/15 bg-white dark:bg-slate-900 px-5 py-2.5 text-sm font-semibold text-slate-700 dark:text-zinc-200 transition hover:bg-zinc-50 dark:hover:bg-white/5">
           ← Proyecto individual
         </Link>
-        <Link href="/programacion-ia/" className="rounded-xl bg-slate-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800 dark:hover:bg-slate-600">
-          Volver al curso →
+        <Link href="/programacion-ia/aula/#/equipos" className="rounded-xl bg-blue-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-500">
+          🧩 Formar mi equipo →
+        </Link>
+        <Link href="/programacion-ia/" className="rounded-xl border border-zinc-300 dark:border-white/15 bg-white dark:bg-slate-900 px-5 py-2.5 text-sm font-semibold text-slate-700 dark:text-zinc-200 transition hover:bg-zinc-50 dark:hover:bg-white/5">
+          Volver al curso
         </Link>
       </div>
     </div>

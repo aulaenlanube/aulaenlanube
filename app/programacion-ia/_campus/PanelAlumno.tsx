@@ -9,6 +9,7 @@ import { CURSOS, PROYECTOS, type ProyectoCatalogo } from "@/lib/campus/catalogo"
 import { api, fechaCorta, haceCuanto, plazoVencido, urlPages, type EntregaAlumno, type Envio, type Grupo, type UsuarioSesion } from "@/lib/campus/cliente";
 import { formatoNota, RUBRICAS } from "@/lib/campus/rubricas";
 import InfoRepo from "./InfoRepo";
+import EquiposAlumno from "./EquiposAlumno";
 import RubricaVista, { NotaGrande } from "./Rubrica";
 import { Aviso, CabeceraPanel, CajaError, CambiarPassword, Cargando, cerrarSesion, cls, mensajeError, Pildora, useHashRuta, useSesion } from "./ui";
 
@@ -67,6 +68,7 @@ export default function PanelAlumno() {
       <nav className="mt-6 flex gap-1 border-b border-zinc-200 dark:border-white/10" aria-label="Secciones del panel">
         {[
           ["curso", "Mi curso"],
+          ["equipos", "Mi equipo"],
           ["notas", "Mis notas"],
           ["cuenta", "Cuenta"],
         ].map(([id, t]) => {
@@ -89,6 +91,8 @@ export default function PanelAlumno() {
           <Aviso tono="ambar">Todavía no estás en ningún grupo del curso. Díselo al profesor para que te asigne.</Aviso>
         ) : vista === "entrega" ? (
           <VistaEntrega key={ruta[1]} entrega={entregas.find((e) => String(e.id) === ruta[1])} onEnvio={actualizarEnvio} volver={() => ir("")} />
+        ) : vista === "equipos" ? (
+          <EquiposAlumno />
         ) : vista === "notas" ? (
           <VistaNotas entregas={entregas} />
         ) : vista === "cuenta" ? (

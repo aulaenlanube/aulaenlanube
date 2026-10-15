@@ -97,6 +97,32 @@ CREATE TABLE IF NOT EXISTS app_campus_envios (
     REFERENCES app_campus_usuarios (id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- Equipos del proyecto en grupo (creado 15-10-2026): 4-5 personas por equipo,
+-- un alumno = un equipo (PK en alumno_id). El curso que lo use decide mostrar la
+-- herramienta; el reparto aleatorio lo lanza el profesorado.
+CREATE TABLE IF NOT EXISTS app_campus_equipos (
+  id         INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  grupo_id   INT UNSIGNED NOT NULL,                -- grupo-clase (app_campus_grupos)
+  nombre     VARCHAR(40)  NOT NULL,
+  creado_por INT UNSIGNED NOT NULL,
+  created_at DATETIME     NOT NULL,
+  UNIQUE KEY uq_equipo (grupo_id, nombre),
+  CONSTRAINT fk_equipo_grupo FOREIGN KEY (grupo_id)
+    REFERENCES app_campus_grupos (id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS app_campus_equipo_miembros (
+  alumno_id  INT UNSIGNED NOT NULL PRIMARY KEY,    -- un alumno, un equipo
+  equipo_id  INT UNSIGNED NOT NULL,
+  es_lider   TINYINT(1)   NOT NULL DEFAULT 0,
+  created_at DATETIME     NOT NULL,
+  KEY k_equipo (equipo_id),
+  CONSTRAINT fk_eqm_equipo FOREIGN KEY (equipo_id)
+    REFERENCES app_campus_equipos (id) ON DELETE CASCADE,
+  CONSTRAINT fk_eqm_alumno FOREIGN KEY (alumno_id)
+    REFERENCES app_campus_usuarios (id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- Calificación de cada entrega. valoraciones = JSON {criterio: {n: nivel, c: comentario}};
 -- minimos = JSON {requisito: bool}. origen 'ia' = propuesta de la corrección
 -- asistida pendiente de revisar; el alumno solo ve las filas con publicada = 1.

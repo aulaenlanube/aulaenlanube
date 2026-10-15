@@ -1,8 +1,9 @@
 "use client";
 
-// Vista de equipos para el profesor (creado 15-10-2026): estado de los equipos
-// del grupo-clase, quién queda suelto y botón de reparto aleatorio de los que
-// no tienen equipo (los equipos formados por el alumnado no se tocan).
+// Vista de equipos para el profesor (creado 15-10-2026; edición completa 15-10-2026):
+// estado de los equipos del grupo-clase, reparto aleatorio de los sueltos y
+// edición total: renombrar equipos, mover alumnos entre equipos, quitar a
+// cualquiera y asignar sueltos al equipo que se elija.
 
 import { useCallback, useEffect, useState } from "react";
 import { api } from "@/lib/campus/cliente";
@@ -28,8 +29,10 @@ const nombre = (p: { nombre: string; apellidos: string }) => `${p.nombre} ${p.ap
 export default function EquiposProf({ grupoId }: { grupoId: number }) {
   const [estado, setEstado] = useState<Estado | null>(null);
   const [error, setError] = useState("");
+  const [aviso, setAviso] = useState("");
   const [ocupado, setOcupado] = useState(false);
   const [confir, setConfir] = useState(false);
+  const [renombrado, setRenombrado] = useState<{ id: number; nombre: string } | null>(null);
   const [vuelta, setVuelta] = useState(0);
 
   const cargar = useCallback(() => {
@@ -47,23 +50,25 @@ export default function EquiposProf({ grupoId }: { grupoId: number }) {
     };
   }, [grupoId, vuelta]);
 
-  const aleatorio = async () => {
+  const accion = async (accion: string, datos: Record<string, unknown>, ok?: string) => {
     setOcupado(true);
+    setAviso("");
     try {
-      const e = await api<Estado>("prof.equipos.aleatorio", { grupo_id: grupoId });
+      const e = await api<Estado>(accion, { grupo_id: grupoId, ...datos });
       setEstado(e);
-      setConfir(false);
+      if (ok) setAviso(ok);
     } catch (e) {
-      setError(mensajeError(e));
+      setAviso(mensajeError(e));
     } finally {
       setOcupado(false);
     }
   };
 
-  const borrarEquipo = async (id: number) => {
+  const aleatorio = async () => {
     setOcupado(true);
     try {
-      setEstado(await api<Estado>("prof.equipo.borrar", { grupo_id: grupoId, equipo_id: id }));
+      setEstado(await api<Estado>("prof.equipos.aleatorio", { grupo_id: grupoId }));
+      setConfir(false);
     } catch (e) {
       setError(mensajeError(e));
     } finally {
@@ -81,9 +86,7 @@ export default function EquiposProf({ grupoId }: { grupoId: number }) {
     <div className="space-y-5">
       <div className="flex flex-wrap items-center gap-3">
         <Pildora tono="gris">{conEquipo} de {total} con equipo</Pildora>
-        {estado.sin_equipo.length > 0 && (
-          <Pildora tono="ambar">{estado.sin_equipo.length} sin equipo</Pildora>
-        )}
+        {estado.sin_equipo.length > 0 && <Pildora tono="ambar">{estado.sin_equipo.length} sin equipo</Pildora>}
         <div className="ml-auto">
           {!confir ? (
             <button type="button" className={cls.btnAzul} disabled={ocupado || !estado.sin_equipo.length} onClick={() => setConfir(true)}>
@@ -99,6 +102,7 @@ export default function EquiposProf({ grupoId }: { grupoId: number }) {
         </div>
       </div>
 
+      {aviso && <Aviso tono={aviso.startsWith("✗") ? "rojo" : "verde"}>{aviso}</Aviso>}
       {estado.avisos?.length ? estado.avisos.map((a, i) => <Aviso key={i} tono="ambar">{a}</Aviso>) : null}
       {estado.creados?.length ? (
         <Aviso tono="verde">
@@ -106,28 +110,91 @@ export default function EquiposProf({ grupoId }: { grupoId: number }) {
         </Aviso>
       ) : null}
 
-      {estado.equipos.length ? (
-        <div className="grid gap-3 sm:grid-cols-2">
-          {estado.equipos.map((e) => (
+      <div className="grid gap-3 sm:grid-cols-2">
+        {estado.equipos.map((e) => {
+          const otros = estado.equipos.filter((x) => x.id !== e.id);
+          const editando = renombrado?.id === e.id;
+          return (
             <div key={e.id} className={`rounded-xl border p-4 ${e.miembros.length >= estado.min ? "border-zinc-200 dark:border-white/10" : "border-amber-300 bg-amber-50/50 dark:border-amber-500/40"}`}>
               <div className="flex items-center gap-2">
-                <strong className="text-[15px]">{e.nombre}</strong>
-                <Pildora tono={e.miembros.length >= estado.min ? "verde" : "ambar"}>{e.miembros.length}</Pildora>
-                <button type="button" className={`${cls.btnMini} ml-auto`} disabled={ocupado} onClick={() => borrarEquipo(e.id)} title="Disolver y dejar a sus miembros sin equipo">
-                  ✕
-                </button>
+                {editando ? (
+                  <>
+                    <input
+                      className={`${cls.input} !w-auto flex-1`}
+                      value={renombrado.nombre}
+                      maxLength={40}
+                      onChange={(ev) => setRenombrado({ id: e.id, nombre: ev.target.value })}
+                      onKeyDown={(ev) => {
+                        if (ev.key === "Enter") {
+                          const n = renombrado.nombre.trim();
+                          setRenombrado(null);
+                          if (n) accion("prof.equipo.renombrar", { equipo_id: e.id, nombre: n }, `✗ Equipo renombrado a «${n}».`);
+                        }
+                        if (ev.key === "Escape") setRenombrado(null);
+                      }}
+                    />
+                    <button type="button" className={cls.btnMini} disabled={ocupado || !renombrado.nombre.trim()} onClick={() => { const n = renombrado.nombre.trim(); setRenombrado(null); if (n) accion("prof.equipo.renombrar", { equipo_id: e.id, nombre: n }, `✗ Equipo renombrado a «${n}».`); }}>Guardar</button>
+                    <button type="button" className={cls.btnMini} onClick={() => setRenombrado(null)}>✕</button>
+                  </>
+                ) : (
+                  <>
+                    <strong className="text-[15px]">{e.nombre}</strong>
+                    <Pildora tono={e.miembros.length >= estado.min ? "verde" : "ambar"}>{e.miembros.length}</Pildora>
+                    <button type="button" className={`${cls.btnMini} ml-auto`} disabled={ocupado} onClick={() => setRenombrado({ id: e.id, nombre: e.nombre })} title="Renombrar equipo">✎</button>
+                    <button type="button" className={cls.btnMini} disabled={ocupado} onClick={() => accion("prof.equipo.borrar", { equipo_id: e.id }, `✗ «${e.nombre}» disuelto: sus miembros pasan a «sin equipo».`)} title="Disolver equipo">✕</button>
+                  </>
+                )}
               </div>
-              <ul className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+
+              <ul className="mt-2 space-y-1">
                 {e.miembros.map((m) => (
-                  <li key={m.id}>{m.lider ? "👑 " : "· "}{nombre(m)}</li>
+                  <li key={m.id} className="flex flex-wrap items-center gap-2 rounded-lg bg-zinc-50 px-2 py-1 text-sm dark:bg-white/5">
+                    <span className="font-semibold">{m.lider ? "👑 " : "· "}{nombre(m)}</span>
+                    <span className="ml-auto flex items-center gap-1">
+                      {otros.length > 0 && (
+                        <select
+                          className="rounded-md border border-zinc-300 bg-white px-1 py-0.5 text-xs dark:border-white/15 dark:bg-slate-900"
+                          value=""
+                          disabled={ocupado}
+                          onChange={(ev) => {
+                            const destino = otros.find((x) => x.id === Number(ev.target.value));
+                            if (destino) accion("prof.equipo.mover", { equipo_id: destino.id, alumno_id: m.id }, `✗ ${nombre(m)} se va a «${destino.nombre}».`);
+                          }}
+                          aria-label={`Mover a ${nombre(m)}`}
+                        >
+                          <option value="">mover…</option>
+                          {otros.map((o) => (
+                            <option key={o.id} value={o.id} disabled={o.miembros.length >= estado.max}>→ {o.nombre} ({o.miembros.length})</option>
+                          ))}
+                        </select>
+                      )}
+                      <button type="button" className={cls.btnMini} disabled={ocupado} onClick={() => accion("prof.equipo.quitar", { alumno_id: m.id }, `✗ ${nombre(m)} queda sin equipo.`)} title="Quitar del equipo (pasa a sin equipo)">−</button>
+                    </span>
+                  </li>
                 ))}
               </ul>
+
+              {estado.sin_equipo.length > 0 && e.miembros.length < estado.max && (
+                <select
+                  className={`${cls.input} mt-2 text-sm`}
+                  value=""
+                  disabled={ocupado}
+                  onChange={(ev) => {
+                    const s = estado.sin_equipo.find((x) => x.id === Number(ev.target.value));
+                    if (s) accion("prof.equipo.anadir", { equipo_id: e.id, alumno_id: s.id }, `✗ ${nombre(s)} asignado a «${e.nombre}».`);
+                  }}
+                  aria-label={`Asignar alguien sin equipo a ${e.nombre}`}
+                >
+                  <option value="">+ asignar alguien sin equipo…</option>
+                  {estado.sin_equipo.map((s) => <option key={s.id} value={s.id}>{nombre(s)}</option>)}
+                </select>
+              )}
             </div>
-          ))}
-        </div>
-      ) : (
-        <Aviso tono="gris">Todavía no hay equipos en este grupo. El alumnado puede formarlos desde su panel («Mi equipo»).</Aviso>
-      )}
+          );
+        })}
+      </div>
+
+      {!estado.equipos.length && <Aviso tono="gris">Todavía no hay equipos en este grupo. El alumnado puede formarlos desde su panel («Mi equipo»).</Aviso>}
 
       {estado.sin_equipo.length ? (
         <section className={cls.tarjeta}>

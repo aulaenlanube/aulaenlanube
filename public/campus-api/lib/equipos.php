@@ -317,3 +317,80 @@ function accion_prof_equipo_borrar(array $in): never
   });
   accion_prof_equipos(['grupo_id' => (int)$g['id']]);
 }
+
+// ── Edición de equipos por el profesorado (creado 15-10-2026) ────────────────
+// El profe puede renombrar, añadir sueltos, quitar y mover entre equipos.
+
+/** Retira a un alumno de su equipo; hereda el liderazgo el más antiguo si era líder. */
+function retirar_miembro(int $alumno_id): void
+{
+  $m = fila('SELECT equipo_id, es_lider FROM app_campus_equipo_miembros WHERE alumno_id = ?', [$alumno_id]);
+  if (!$m) return;
+  $eq = (int)$m['equipo_id'];
+  q('DELETE FROM app_campus_equipo_miembros WHERE alumno_id = ?', [$alumno_id]);
+  $quedan = filas('SELECT alumno_id FROM app_campus_equipo_miembros WHERE equipo_id = ? ORDER BY created_at, alumno_id', [$eq]);
+  if (!$quedan) {
+    q('DELETE FROM app_campus_equipos WHERE id = ?', [$eq]);
+  } elseif ((int)$m['es_lider']) {
+    q('UPDATE app_campus_equipo_miembros SET es_lider = 1 WHERE alumno_id = ?', [(int)$quedan[0]['alumno_id']]);
+  }
+}
+
+function equipo_del_grupo(int $grupo_id, int $equipo_id): array
+{
+  $eq = fila('SELECT id, nombre FROM app_campus_equipos WHERE id = ? AND grupo_id = ?', [$equipo_id, $grupo_id]);
+  if (!$eq) fallo(404, 'Ese equipo no existe en este grupo.');
+  return $eq;
+}
+
+function accion_prof_equipo_renombrar(array $in): never
+{
+  $g = grupo_del_profe(ent($in, 'grupo_id'));
+  $eq = equipo_del_grupo((int)$g['id'], ent($in, 'equipo_id'));
+  $nombre = normalizar_nombre_equipo(txt($in, 'nombre', 40, true, 'nombre'));
+  if (fila('SELECT id FROM app_campus_equipos WHERE grupo_id = ? AND nombre = ? AND id <> ?', [(int)$g['id'], $nombre, (int)$eq['id']])) {
+    fallo(409, 'Ya hay otro equipo con ese nombre en tu clase.');
+  }
+  q('UPDATE app_campus_equipos SET nombre = ? WHERE id = ?', [$nombre, (int)$eq['id']]);
+  responder(prof_equipos_payload($g));
+}
+
+function accion_prof_equipo_anadir(array $in): never
+{
+  $g = grupo_del_profe(ent($in, 'grupo_id'));
+  $eq = equipo_del_grupo((int)$g['id'], ent($in, 'equipo_id'));
+  $alumno = ent($in, 'alumno_id');
+  $valid = validar_companeros((int)$g['id'], [$alumno], 0); // mismo grupo, activo, sin equipo
+  $n = (int)fila('SELECT COUNT(*) n FROM app_campus_equipo_miembros WHERE equipo_id = ?', [(int)$eq['id']])['n'];
+  if ($n >= EQUIPO_MAX) fallo(422, 'El equipo ' . $eq['nombre'] . ' ya tiene ' . EQUIPO_MAX . ' personas.');
+  q('INSERT INTO app_campus_equipo_miembros (alumno_id, equipo_id, es_lider, created_at) VALUES (?, ?, 0, ?)', [$valid[0], (int)$eq['id'], ahora()]);
+  responder(prof_equipos_payload($g));
+}
+
+function accion_prof_equipo_quitar(array $in): never
+{
+  $g = grupo_del_profe(ent($in, 'grupo_id'));
+  $alumno = ent($in, 'alumno_id');
+  $u = fila('SELECT id, grupo_id, nombre, apellidos FROM app_campus_usuarios WHERE id = ? AND grupo_id = ? AND rol = ? AND activo = 1', [$alumno, (int)$g['id'], 'alumno']);
+  if (!$u) fallo(404, 'Ese alumno no está en este grupo.');
+  if (!fila('SELECT 1 x FROM app_campus_equipo_miembros WHERE alumno_id = ?', [$alumno])) fallo(409, 'Ese alumno ya está sin equipo.');
+  retirar_miembro($alumno);
+  responder(prof_equipos_payload($g));
+}
+
+function accion_prof_equipo_mover(array $in): never
+{
+  $g = grupo_del_profe(ent($in, 'grupo_id'));
+  $eq = equipo_del_grupo((int)$g['id'], ent($in, 'equipo_id'));
+  $alumno = ent($in, 'alumno_id');
+  $m = fila('SELECT equipo_id FROM app_campus_equipo_miembros WHERE alumno_id = ?', [$alumno]);
+  if (!$m) fallo(409, 'Ese alumno no tiene equipo: asígnalo con «añadir».');
+  if ((int)$m['equipo_id'] === (int)$eq['id']) fallo(409, 'Ya está en ' . $eq['nombre'] . '.');
+  $n = (int)fila('SELECT COUNT(*) n FROM app_campus_equipo_miembros WHERE equipo_id = ?', [(int)$eq['id']])['n'];
+  if ($n >= EQUIPO_MAX) fallo(422, 'El equipo ' . $eq['nombre'] . ' ya tiene ' . EQUIPO_MAX . ' personas.');
+  transaccion(function () use ($alumno, $eq) {
+    retirar_miembro($alumno);
+    q('INSERT INTO app_campus_equipo_miembros (alumno_id, equipo_id, es_lider, created_at) VALUES (?, ?, 0, ?)', [$alumno, (int)$eq['id'], ahora()]);
+  });
+  responder(prof_equipos_payload($g));
+}

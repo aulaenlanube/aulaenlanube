@@ -40,6 +40,10 @@ const ACCIONES = [
   'prof.equipos' => 'accion_prof_equipos',
   'prof.equipos.aleatorio' => 'accion_prof_equipos_aleatorio',
   'prof.equipo.borrar' => 'accion_prof_equipo_borrar',
+  'prof.equipo.renombrar' => 'accion_prof_equipo_renombrar',
+  'prof.equipo.anadir' => 'accion_prof_equipo_anadir',
+  'prof.equipo.quitar' => 'accion_prof_equipo_quitar',
+  'prof.equipo.mover' => 'accion_prof_equipo_mover',
 
   'prof.resumen' => 'accion_prof_resumen',
   'prof.grupo' => 'accion_prof_grupo',

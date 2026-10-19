@@ -154,6 +154,18 @@ export default function CursoIAFinalGrupo() {
         aprendemos a buscarlo.
       </p>
 
+      <Link
+        href="/programacion-ia/proyecto-final-grupo/sesion-01/"
+        className="mt-5 block rounded-2xl border border-blue-200 dark:border-blue-500/30 bg-blue-50 dark:bg-blue-500/10 p-5 transition hover:-translate-y-0.5 hover:shadow-lg"
+      >
+        <span className="text-[11px] font-extrabold uppercase tracking-wider text-blue-700 dark:text-blue-300">Sesión 1 · lunes 19 oct 2026</span>
+        <h3 className="mt-1 text-lg font-bold">Día 0: del problema a la primera ficha →</h3>
+        <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+          Taller por equipos para encontrar el problema por el que alguien pagaría, la IA del centro de abogado
+          del diablo y ronda de pitch con inversores.
+        </p>
+      </Link>
+
       <div className="mt-10 flex flex-wrap items-center justify-between gap-3 border-t border-zinc-200 dark:border-white/10 pt-5">
         <Link href="/programacion-ia/proyecto-final-individual/" className="rounded-xl border border-zinc-300 dark:border-white/15 bg-white dark:bg-slate-900 px-5 py-2.5 text-sm font-semibold text-slate-700 dark:text-zinc-200 transition hover:bg-zinc-50 dark:hover:bg-white/5">
           ← Proyecto individual

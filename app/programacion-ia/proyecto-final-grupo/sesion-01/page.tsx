@@ -32,8 +32,8 @@ function Paso({ n, t, min, children }: { n: string; t: string; min: string; chil
 
 const AGENDA: [string, string, string][] = [
   ["0:00", "La misión y el listón de junio", "Qué es «terminado» para una startup de este curso"],
-  ["0:10", "Problema antes que idea", "Los 4 filtros y las trampas que matan proyectos"],
-  ["0:20", "Taller por equipos (pasos 1-6)", "De 15 problemas a una ficha de una página, con la IA como abogado del diablo"],
+  ["0:10", "Problema antes que idea + la regla del dinero", "Los 4 filtros, las trampas y por qué todo producto debe poder monetizarse"],
+  ["0:22", "Taller por equipos (pasos 1-6)", "De 15 problemas a una ficha de una página con sus cuentas, y la IA como abogado del diablo"],
   ["1:00", "Ensayo del pitch", "Cinco frases, un portavoz, un minuto de margen"],
   ["1:05", "Ronda de pitch", "3 min de pitch + 3 min de preguntas por equipo"],
   ["1:40", "Ronda de inversión", "Cada persona reparte 100 € ficticios entre los OTROS equipos"],
@@ -58,8 +58,17 @@ WhatsApp, Excel, papel, una app que odia… Si no hace nada, ¿de verdad le duel
 ## 4. Nuestra solución (en una frase)
 Una web/app que permite a [cliente] [hacer X] sin [el dolor].
 
-## 5. Quién paga, cuánto y cómo
-Ej.: el negocio, 9 €/mes, suscripción con Stripe. (El que paga puede no ser el que usa.)
+## 5. Modelo de ingresos (OBLIGATORIO, aunque el proyecto sea altruista)
+- Quién paga (puede no ser quien usa):
+- Por qué paga (qué gana o qué se ahorra):
+- Cómo y cuánto: suscripción / freemium / créditos / comisión / pago único / patrocinio
+  Ej.: el negocio, 9 €/mes, suscripción con Stripe.
+
+### Las cuentas del mantenimiento
+- Coste al mes: servidor __ € + dominio __ € + IA/APIs __ € + otros __ € = __ €/mes
+- Lo que deja cada cliente al mes (tras la comisión de Stripe): __ €
+- Clientes que necesitamos para no perder dinero (coste ÷ lo que deja cada uno): __
+- ¿Es realista conseguirlos? ¿Dónde están?
 
 ## 6. El MVP: lo mínimo que alguien usaría (máx. 3 funciones)
 1.
@@ -98,6 +107,7 @@ export default function StartupSesion1() {
         <span className={meta}>⏱ 2 horas</span>
         <span className={meta}>💬 Chat del centro</span>
         <span className={meta}>🎤 Pitch de 3 min por equipo</span>
+        <span className={meta}>💶 Modelo de ingresos obligatorio</span>
         <span className={meta}>📤 Para el 26 oct: repo + ficha v1 + 5 entrevistas</span>
       </div>
 
@@ -135,8 +145,8 @@ export default function StartupSesion1() {
           <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">Al menos 10 personas que no son de vuestra familia ni de esta clase y lo han usado para lo que sirve.</p>
         </div>
         <div className={card}>
-          <h3 className="text-[15px] font-bold">💳 Se puede pagar</h3>
-          <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">Pasarela de pago con Stripe funcionando: primero en modo test, y si el producto lo merece, en real.</p>
+          <h3 className="text-[15px] font-bold">💳 Se sostiene solo</h3>
+          <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">Tiene un modelo de ingresos pensado y pasarela de pago con Stripe funcionando: primero en modo test, y si el producto lo merece, en real. Como mínimo, sus ingresos pagan lo que cuesta mantenerlo.</p>
         </div>
         <div className={card}>
           <h3 className="text-[15px] font-bold">🧭 Se ve cómo lo hicisteis</h3>
@@ -169,7 +179,7 @@ export default function StartupSesion1() {
         </div>
         <div className={card}>
           <h3 className="text-[15px] font-bold">2 · Alguien paga (y no es vuestra madre)</h3>
-          <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">Sabéis quién sacaría la tarjeta y aproximadamente cuánto. Ojo: quien paga no siempre es quien usa (el bar paga, el cliente reserva).</p>
+          <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">Sabéis quién sacaría la tarjeta, por qué y aproximadamente cuánto. Ojo: quien paga no siempre es quien usa (el bar paga, el cliente reserva). Este filtro no se puede saltar: lo explicamos ahora mismo.</p>
         </div>
         <div className={card}>
           <h3 className="text-[15px] font-bold">3 · Cabe en un MVP de seis semanas</h3>
@@ -189,7 +199,46 @@ export default function StartupSesion1() {
           <li>• <b>«Para todo el mundo»</b>: si es para todos, no sabéis a quién vendérsela el lunes.</li>
         </ul>
       </div>
-      <p className="text-[15px] text-zinc-600 dark:text-zinc-400">
+      <h3 className="mt-8 text-lg font-extrabold tracking-tight">La regla del dinero: todo producto debe poder monetizarse</h3>
+      <p className="mt-1 text-[15px] text-zinc-700 dark:text-zinc-300">
+        Es <b>obligatoria en este proyecto</b>, también si vuestra idea nace para ayudar y no para ganar dinero.
+        Podéis empezar algo sin saber todavía cuánto vais a ganar, pero no sin saber <b>cómo</b> lo podríais
+        ganar. Un producto en Internet cuesta dinero cada mes aunque nadie lo use: servidor, dominio, la IA que
+        llama, el correo, el mantenimiento. Si nadie paga esas facturas, las pagáis vosotros, y el proyecto
+        muere el día que os canséis de pagarlas. Que se cierre una web gratuita que la gente usaba no es
+        altruismo: es dejar tirados a sus usuarios.
+      </p>
+      <div className="my-5 rounded-2xl border border-emerald-200 dark:border-emerald-500/30 bg-emerald-50 dark:bg-emerald-500/10 p-5 text-[15px] text-emerald-900 dark:text-emerald-200">
+        <b>El listón mínimo:</b> los ingresos tienen que cubrir, como poco, lo que cuesta mantener el producto
+        vivo durante años <b>sin que os cueste dinero a vosotros</b>. Todo lo que entre por encima es negocio.
+        Y lo tenéis que demostrar con números en la ficha, no con un «ya veremos».
+      </div>
+
+      <p className="text-[15px] text-zinc-700 dark:text-zinc-300">Formas de monetizar que caben en un producto de este curso:</p>
+      <div className="mt-3 overflow-x-auto rounded-xl border border-zinc-200 dark:border-white/10">
+        <table className="w-full min-w-[600px] border-collapse text-sm">
+          <thead className="bg-zinc-50 text-left dark:bg-white/5">
+            <tr>
+              <th className="px-3 py-2.5 font-bold">Modelo</th>
+              <th className="px-3 py-2.5 font-bold">Cómo funciona</th>
+              <th className="px-3 py-2.5 font-bold">Ejemplo</th>
+            </tr>
+          </thead>
+          <tbody className="[&_td]:px-3 [&_td]:py-2.5 [&_td]:align-top [&_td]:text-zinc-600 dark:[&_td]:text-zinc-400 [&_tr]:border-t [&_tr]:border-zinc-100 dark:[&_tr]:border-white/5">
+            <tr><td className="font-bold !text-zinc-800 dark:!text-zinc-200">Suscripción</td><td>Una cuota al mes o al año por usarlo.</td><td>El club paga 15 €/mes por el sistema de reservas.</td></tr>
+            <tr><td className="font-bold !text-zinc-800 dark:!text-zinc-200">Freemium</td><td>Lo básico gratis para todos; quien necesita más, paga.</td><td>Gratis hasta 20 alumnos; el profe con 5 grupos paga.</td></tr>
+            <tr><td className="font-bold !text-zinc-800 dark:!text-zinc-200">Créditos / pago por uso</td><td>Se paga cada vez que se usa lo que os cuesta dinero (la IA, por ejemplo).</td><td>10 generaciones gratis; 3 € por 50 más.</td></tr>
+            <tr><td className="font-bold !text-zinc-800 dark:!text-zinc-200">Comisión</td><td>Un porcentaje de lo que se mueve gracias a vosotros.</td><td>El 5 % de cada venta del marketplace.</td></tr>
+            <tr><td className="font-bold !text-zinc-800 dark:!text-zinc-200">Paga el negocio, no el usuario</td><td>El usuario lo usa gratis; paga quien gana algo con él.</td><td>Los vecinos consultan gratis; los comercios pagan por aparecer destacados.</td></tr>
+            <tr><td className="font-bold !text-zinc-800 dark:!text-zinc-200">Patrocinio y donaciones</td><td>Empresas o personas que apoyan la causa. Sirve de complemento, pero no basta como único modelo: nadie dona con regularidad durante años.</td><td>Una protectora: adoptar es gratis, una tienda de mascotas patrocina y hay botón de donar con Stripe.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p className="mt-3 text-sm text-zinc-500 dark:text-zinc-400">
+        Publicidad: con pocos usuarios no da ni para el dominio y estropea el producto. No vale como modelo principal.
+      </p>
+
+      <p className="mt-6 text-[15px] text-zinc-600 dark:text-zinc-400">
         ¿Os falta inspiración? En la <Link href="/programacion-ia/proyecto-final-grupo/" className="font-semibold">página del proyecto</Link> tenéis
         cinco tipos de producto con potencial (reservas locales, segunda mano hiperlocal, SaaS para profes,
         comunidad deportiva, micro-SaaS con IA). Usadlos como punto de partida, no como respuesta.
@@ -197,7 +246,7 @@ export default function StartupSesion1() {
 
       <h2 className="mt-10 text-xl font-extrabold tracking-tight">3 · Taller por equipos: de 15 problemas a una ficha</h2>
       <p className="mt-1 text-[15px] text-zinc-600 dark:text-zinc-400">
-        Cuarenta minutos, seis pasos y un cronómetro. Sentaos juntos y abrid un documento compartido (o un
+        Casi cuarenta minutos, seis pasos y un cronómetro. Sentaos juntos y abrid un documento compartido (o un
         papel grande). Quien tome notas ese día no es quien más habla.
       </p>
 
@@ -214,7 +263,7 @@ export default function StartupSesion1() {
         </p>
       </Paso>
 
-      <Paso n="2" t="Ponerlo en común y agrupar" min="8 min">
+      <Paso n="2" t="Ponerlo en común y agrupar" min="6 min">
         <p>
           Cada uno lee los suyos sin defenderlos (nadie critica todavía). Juntad los que se parecen: casi
           siempre aparecen 4-6 temas. Para cada tema, preguntad: <b>¿quién de nosotros conoce a alguien que lo sufra?</b>
@@ -242,7 +291,8 @@ Idea B: [problema en una frase] → [solución en una frase]
 
 Para cada idea:
 1. Las 3 razones más probables por las que fracasaría.
-2. Quién pagaría exactamente y cuánto es realista cobrar.
+2. Quién pagaría exactamente, por qué y cuánto es realista cobrar. Aunque la idea sea
+   altruista, propón al menos 2 formas de monetizarla que no estropeen el producto.
 3. Qué alternativa usan hoy esos clientes (gratis o de pago).
 4. La pregunta que le harías a un cliente para saber si el problema es real.
 Sé directo y breve. No inventes datos: si no lo sabes, dilo.`} />
@@ -260,6 +310,18 @@ Sé directo y breve. No inventes datos: si no lo sabes, dilo.`} />
           lo que tenéis que averiguar hablando con clientes.
         </p>
         <PromptBlock text={FICHA} />
+        <p>
+          <b>La casilla 5 no puede quedar vacía.</b> Para las cuentas del mantenimiento, pedidle a la IA una
+          estimación y luego comprobad los precios en la web de cada proveedor:
+        </p>
+        <PromptBlock text={`Vamos a lanzar este producto: [solución en una frase], para [cliente].
+Esperamos unos [número] usuarios el primer año.
+1. Haz una lista de lo que nos costaría mantenerlo en Internet cada mes: servidor,
+   dominio, base de datos, correo, llamadas a IA o APIs, comisiones de Stripe.
+   Pon un rango de precio para cada cosa y dime de dónde sale cada precio.
+2. Propón 3 formas de monetizarlo y, para cada una, cuántos clientes harían falta
+   para cubrir esos costes.
+3. Dime cuál de las 3 encaja mejor con nuestro cliente y por qué.`} />
         <p className="text-sm text-zinc-600 dark:text-zinc-400">
           Si el MVP se os va de las manos, pedidle a la IA que lo recorte: <i>«Este es nuestro MVP: […].
           Quita todo lo que no sea imprescindible para que un primer cliente lo use una vez y le resuelva
@@ -292,7 +354,7 @@ Sé directo y breve. No inventes datos: si no lo sabes, dilo.`} />
             <li>1. <b>El problema</b>, contado con una persona real («Marta tiene una peluquería y…»).</li>
             <li>2. <b>A quién le pasa</b> y cuántos hay cerca de nosotros.</li>
             <li>3. <b>Nuestra solución</b> en una frase, y qué hace el MVP.</li>
-            <li>4. <b>Cómo cobramos</b>: quién paga, cuánto y por qué lo haría.</li>
+            <li>4. <b>Cómo cobramos</b>: quién paga, cuánto, por qué lo haría y cuántos clientes necesitamos para cubrir el mantenimiento.</li>
             <li>5. <b>Por qué nosotros</b> y cuál es nuestro mayor riesgo.</li>
           </ol>
           <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">Sin diapositivas: la ficha proyectada como mucho. A los 3 minutos se corta.</p>
@@ -303,6 +365,7 @@ Sé directo y breve. No inventes datos: si no lo sabes, dilo.`} />
           <ul className="mt-2 space-y-1 text-sm text-zinc-600 dark:text-zinc-400">
             <li>• ¿Con cuántas personas que lo sufren habéis hablado?</li>
             <li>• ¿Qué usan ahora y por qué se cambiarían?</li>
+            <li>• Si mañana dejáis de poner dinero, ¿quién paga el servidor?</li>
             <li>• ¿Qué es lo primero que construiríais el lunes?</li>
             <li>• ¿Qué tendría que pasar para que lo dejarais?</li>
           </ul>
@@ -322,6 +385,8 @@ Sé directo y breve. No inventes datos: si no lo sabes, dilo.`} />
         </p>
         <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
           La frase del «porque» es lo importante: el dinero dice <i>qué</i> convence, la frase dice <i>por qué</i>.
+          Un inversor de verdad pregunta siempre lo mismo: <b>¿cómo me devolvéis el dinero?</b> Si un equipo no ha
+          explicado cómo gana dinero, no le deis el vuestro, por buena que sea la causa.
           Invertid como si fuera vuestro dinero, no por amistad: el equipo al que le regaláis los votos se
           entera en abril de que su idea no funcionaba.
         </p>
@@ -334,7 +399,7 @@ Sé directo y breve. No inventes datos: si no lo sabes, dilo.`} />
       </p>
       <ul className="mt-3 space-y-2 text-[15px] text-zinc-700 dark:text-zinc-300">
         <li>• <b>Perseverar:</b> la idea aguanta; las preguntas nos dicen qué comprobar.</li>
-        <li>• <b>Ajustar:</b> mismo problema, pero otro cliente u otra forma de cobrar.</li>
+        <li>• <b>Ajustar:</b> mismo problema, pero otro cliente u otra forma de cobrar (si el modelo de ingresos no convenció, es lo primero que se ajusta).</li>
         <li>• <b>Pivotar:</b> volvemos a la otra finalista (o a otro problema del paso 1). Cambiar ahora cuesta una semana; en marzo cuesta el proyecto.</li>
       </ul>
       <p className="mt-3 text-[15px] text-zinc-600 dark:text-zinc-400">
@@ -357,6 +422,8 @@ Sé directo y breve. No inventes datos: si no lo sabes, dilo.`} />
           <li>
             <b>3 · Cinco entrevistas</b> a personas que sufren el problema (fuera de la clase), apuntadas en{" "}
             <code>docs/entrevistas.md</code>: a quién, qué dijo, qué os sorprendió. Repartidlas: una por persona.
+            Al menos dos tienen que ser a <b>quien pagaría</b>, y en ellas averiguad cuánto le cuesta hoy el
+            problema (en tiempo o en dinero): es la mejor pista de cuánto podréis cobrar.
           </li>
         </ol>
       </div>

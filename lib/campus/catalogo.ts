@@ -68,13 +68,13 @@ export const PROYECTOS: Record<string, ProyectoCatalogo> = {
     id: "startup",
     titulo: "Startup en grupo",
     resumen:
-      "El proyecto en grupo del presencial: un producto real de 4-5 personas, desplegado en servidor, con usuarios de fuera y pago con Stripe, construido todo el curso con los agentes del centro.",
+      "El proyecto en grupo del presencial: un producto real de 4-5 personas, desplegado en servidor, con usuarios de fuera, modelo de ingresos obligatorio y pago con Stripe, construido todo el curso con los agentes del centro.",
     href: "/programacion-ia/proyecto-final-grupo/",
     sesiones: [
       {
         id: "s01", n: 1,
         titulo: "Día 0: del problema a la primera ficha",
-        resumen: "19 oct · La meta de junio, los 4 filtros de una buena idea, taller por equipos con la IA de abogado del diablo y ronda de pitch con inversores.",
+        resumen: "19 oct · La meta de junio, los 4 filtros de una buena idea, el modelo de ingresos obligatorio, taller por equipos con la IA de abogado del diablo y ronda de pitch con inversores.",
         href: "/programacion-ia/proyecto-final-grupo/sesion-01/",
       },
     ],

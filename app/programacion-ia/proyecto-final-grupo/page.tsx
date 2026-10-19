@@ -131,6 +131,22 @@ export default function CursoIAFinalGrupo() {
         </div>
       </div>
 
+      <h2 className="mt-8 text-xl font-extrabold tracking-tight">Regla obligatoria: todo producto tiene modelo de ingresos</h2>
+      <p className="mt-1 text-[15px] text-zinc-700 dark:text-zinc-300">
+        Desde el primer día, y <b>aunque vuestra idea sea altruista</b>, tenéis que saber cómo podría ganar dinero.
+        Podéis no saber todavía cuánto, pero sí <b>cómo</b>. Un producto en Internet cuesta dinero cada mes
+        (servidor, dominio, IA, correo, mantenimiento) aunque nadie lo use; si nadie paga esas facturas, las
+        pagáis vosotros, y el producto muere el día que os canséis. Y cerrar algo que la gente usaba no es
+        altruismo: es dejarla tirada.
+      </p>
+      <div className="my-5 rounded-2xl border border-amber-200 dark:border-amber-500/30 bg-amber-50 dark:bg-amber-500/10 p-5 text-[15px] text-amber-900 dark:text-amber-200">
+        <b>El mínimo exigido:</b> un modelo de ingresos analizado con números (qué cuesta mantenerlo al mes,
+        quién paga, cuánto y cuántos clientes hacen falta para cubrirlo) que permita mantener el producto
+        durante años <b>sin que os cueste dinero</b>. Suscripción, freemium, créditos, comisión, que pague el
+        negocio y no el usuario, patrocinio… El modelo se elige; tenerlo no es opcional. Sin él, el proyecto
+        no se da por terminado.
+      </div>
+
       <h2 className="mt-8 text-xl font-extrabold tracking-tight">La regla que lo cambia todo: que sobreviva al curso</h2>
       <p className="mt-1 text-[15px] text-zinc-700 dark:text-zinc-300">
         Este proyecto os va a consumir muchas horas. O se convierte en algo que os importa, o será trabajo
@@ -141,7 +157,7 @@ export default function CursoIAFinalGrupo() {
       </p>
 
       <div className="my-5 rounded-2xl border border-blue-200 dark:border-blue-500/30 bg-blue-50 dark:bg-blue-500/10 p-5 text-[15px] text-blue-900 dark:text-blue-200">
-        <b>Criterio de evaluación (resumen):</b> producto publicado y usable + proceso (sprints, PRs,
+        <b>Criterio de evaluación (resumen):</b> producto publicado y usable + modelo de ingresos que cubre, como mínimo, su mantenimiento + proceso (sprints, PRs,
         commits con historia) + defensa del equipo (cada uno explica su parte y las decisiones comunes) +
         honestidad sobre lo que hizo la IA y lo que decidisteis vosotros. La nota es individual dentro del
         grupo: los equipos se valoran, las personas se evalúan.
@@ -161,8 +177,8 @@ export default function CursoIAFinalGrupo() {
         <span className="text-[11px] font-extrabold uppercase tracking-wider text-blue-700 dark:text-blue-300">Sesión 1 · lunes 19 oct 2026</span>
         <h3 className="mt-1 text-lg font-bold">Día 0: del problema a la primera ficha →</h3>
         <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
-          Taller por equipos para encontrar el problema por el que alguien pagaría, la IA del centro de abogado
-          del diablo y ronda de pitch con inversores.
+          Taller por equipos para encontrar el problema por el que alguien pagaría, la regla del modelo de
+          ingresos, la IA del centro de abogado del diablo y ronda de pitch con inversores.
         </p>
       </Link>
 

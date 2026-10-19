@@ -22,11 +22,11 @@ _[Portada del proyecto](/programacion-ia/web-personal/) · sesiones [1](/program
 **Riesgo known**: el token de GitHub (la mitad se atasca) — mitigado en ep02 y tutorial 1.
 
 ## Startup en grupo (solo presencial) — arranca el 19 oct y dura todo el curso
-_Equipos de 4-5 formados en el campus (15 oct). Producto real: servidor + usuarios de fuera + Stripe. [Página del proyecto](/programacion-ia/proyecto-final-grupo/)._
+_Equipos de 4-5 formados en el campus (15 oct). Producto real: servidor + usuarios de fuera + Stripe. **Modelo de ingresos obligatorio desde el día 1** (también si es altruista): como mínimo cubre su mantenimiento. [Página del proyecto](/programacion-ia/proyecto-final-grupo/)._
 
 | Fecha | Sesión | Qué se hace | Entregable |
 |---|---|---|---|
-| 19 oct | **Sesión 1 · Día 0** (2 h) — [página](/programacion-ia/proyecto-final-grupo/sesion-01/) · [guion docente](/programacion-ia/plan/startup-sesion-01/) | 1.ª hora: misión, 4 filtros, taller problema → ficha con la IA de abogado del diablo. 2.ª hora: pitch de 3' + ronda de inversión ficticia + pivotar o perseverar | 26 oct: repo de la organización + ficha v1 (README) + 5 entrevistas |
+| 19 oct | **Sesión 1 · Día 0** (2 h) — [página](/programacion-ia/proyecto-final-grupo/sesion-01/) · [guion docente](/programacion-ia/plan/startup-sesion-01/) | 1.ª hora: misión, 4 filtros, regla del dinero, taller problema → ficha con la IA de abogado del diablo. 2.ª hora: pitch de 3' + ronda de inversión ficticia + pivotar o perseverar | 26 oct: repo de la organización + ficha v1 (README) + 5 entrevistas |
 
 ## P2 · CLI «tareas con IA» — S6-S9 (19 oct → 13 nov)
 _Mi proyecto del curso: una app de terminal que gestiona MIS ficheros con acciones predefinidas que yo configuro, combinando sistema operativo e IA. Nombre provisional: `simarro-tareas`._

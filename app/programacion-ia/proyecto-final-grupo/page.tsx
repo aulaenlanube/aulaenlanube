@@ -182,6 +182,18 @@ export default function CursoIAFinalGrupo() {
         </p>
       </Link>
 
+      <Link
+        href="/programacion-ia/proyecto-final-grupo/sesion-02/"
+        className="mt-3 block rounded-2xl border border-emerald-200 dark:border-emerald-500/30 bg-emerald-50 dark:bg-emerald-500/10 p-5 transition hover:-translate-y-0.5 hover:shadow-lg"
+      >
+        <span className="text-[11px] font-extrabold uppercase tracking-wider text-emerald-700 dark:text-emerald-300">Sesión 2 · martes 20 oct 2026 · HOY</span>
+        <h3 className="mt-1 text-lg font-bold">La caja, la arquitectura y el sprint 1 →</h3>
+        <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+          Tres horas: repartir el dinero de ayer con consecuencias, decidir arquitectura según el tipo de
+          producto (juego, SaaS de servicio, control por voz) y arrancar el sprint 1 con commits de verdad.
+        </p>
+      </Link>
+
       <div className="mt-10 flex flex-wrap items-center justify-between gap-3 border-t border-zinc-200 dark:border-white/10 pt-5">
         <Link href="/programacion-ia/proyecto-final-individual/" className="rounded-xl border border-zinc-300 dark:border-white/15 bg-white dark:bg-slate-900 px-5 py-2.5 text-sm font-semibold text-slate-700 dark:text-zinc-200 transition hover:bg-zinc-50 dark:hover:bg-white/5">
           ← Proyecto individual

@@ -27,6 +27,7 @@ _Equipos de 4-5 formados en el campus (15 oct). Producto real: servidor + usuari
 | Fecha | Sesión | Qué se hace | Entregable |
 |---|---|---|---|
 | 19 oct | **Sesión 1 · Día 0** (2 h) — [página](/programacion-ia/proyecto-final-grupo/sesion-01/) · [guion docente](/programacion-ia/plan/startup-sesion-01/) | 1.ª hora: misión, 4 filtros, regla del dinero, taller problema → ficha con la IA de abogado del diablo. 2.ª hora: pitch de 3' + ronda de inversión ficticia + pivotar o perseverar | 26 oct: repo de la organización + ficha v1 (README) + 5 entrevistas |
+| 20 oct | **Sesión 2 · Caja + arquitectura + sprint 1** (3 h) — [página](/programacion-ia/proyecto-final-grupo/sesion-02/) | Reparto de la caja recibida ayer (docs/presupuesto.md, auditoría IA) → taller de arquitectura por tipo de producto (juego / SaaS de servicio / voz con confirmación humana) → sprint 1: Issues con dueño+revisor, branches, PRs en parejas → mini-demos 3' | 26 oct: docs/presupuesto.md + docs/decisiones.md + 1 tarea fusionada en main |
 
 ## P2 · CLI «tareas con IA» — S6-S9 (19 oct → 13 nov)
 _Mi proyecto del curso: una app de terminal que gestiona MIS ficheros con acciones predefinidas que yo configuro, combinando sistema operativo e IA. Nombre provisional: `simarro-tareas`._

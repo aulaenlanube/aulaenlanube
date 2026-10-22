@@ -11,7 +11,7 @@ import {
 import { UNIDADES, MATRIZ } from "./unidades";
 import type { Modalidad, UT } from "./unidades";
 
-export type PdfSec = { title?: string; content: string; pagebreak?: boolean };
+export type PdfSec = { title?: string; content: string; pagebreak?: boolean; portada?: Portada };
 export type PdfPayload = {
   filename: string;
   headerTitle: string;
@@ -42,6 +42,13 @@ const G: Record<Modalidad, { grupo: string; nombre: string; regimen: string; rit
 const limpiar = (s: string) =>
   s.replace(/≥/g, ">=").replace(/≤/g, "<=").replace(/€/g, " euros").replace(/[✓✔]/g, "").replace(/ /g, " ");
 
+const limpiarPortada = (p: Portada): Portada => ({
+  ...p,
+  subtitulo: limpiar(p.subtitulo),
+  filas: p.filas.map(([k, v]) => [limpiar(k), limpiar(v)]),
+  lema: { titulo: limpiar(p.lema.titulo), texto: limpiar(p.lema.texto) },
+});
+
 const tabla = (cab: string[], filas: (string | number)[][]) =>
   [`| ${cab.join(" | ")} |`, `|${cab.map(() => "---").join("|")}|`, ...filas.map((f) => `| ${f.map((c) => String(c).replace(/\|/g, "/")).join(" | ")} |`)].join("\n");
 
@@ -51,33 +58,47 @@ const pesoUT = (m: Modalidad, i: number) => Object.values(MATRIZ[m]).reduce((a, 
 
 // ── Portada e índice ──────────────────────────────────────────────────────
 
-function portada(m: Modalidad, uts: UT[]): string {
+export type Portada = {
+  kicker: string;
+  etiqueta: string;
+  titulo: string;
+  subtitulo: string;
+  grupo: string;
+  detalle: string;
+  filas: [string, string][];
+  lema: { titulo: string; texto: string };
+};
+
+// Portada maquetada por el motor (drawPortada): banda de título, grupo y
+// ficha centrados, y el recuadro del proyecto de innovación al pie.
+function portada(m: Modalidad, uts: UT[]): Portada {
   const g = G[m];
-  return `# Programación didáctica
+  return {
+    kicker: "IES Dr. Lluís Simarro · Departamento de Informática y Comunicaciones",
+    etiqueta: "Programación didáctica",
+    titulo: "Módulo 0485 · Programación",
+    subtitulo:
+      "Ciclo formativo de grado superior Desarrollo de Aplicaciones Multiplataforma (primer curso común con Desarrollo de Aplicaciones Web) · Familia profesional de Informática y Comunicaciones",
+    grupo: m === "presencial" ? "1.º DAM/DAW · Régimen presencial" : "1.º DAM · Régimen semipresencial",
+    detalle: `Grupo ${g.grupo} · Curso académico ${CURSO}`,
+    filas: [
+      ["Centro", "IES Dr. Lluís Simarro · Xàtiva (València)"],
+      ["Profesor", DOCENTE],
+      ["Duración", "266 horas · 8 horas semanales"],
+      ["Currículo", "RD 450/2010 (redacción del RD 405/2023) · Decreto 114/2025"],
+      ["Evaluación", m === "presencial" ? "Orden 8/2025 (modificada por la Orden 5/2026)" : "Orden 8/2025 · régimen semipresencial: Orden 30/2022"],
+      ["Organización", `${uts.length} unidades de trabajo, una por proyecto`],
+    ],
+    lema: {
+      titulo: "Proyecto de innovación · Curso de Programación con IA",
+      texto:
+        "El alumnado dirige agentes de inteligencia artificial que escriben el código; su trabajo es especificar, decidir, auditar, probar, integrar y entregar. El código no se memoriza: se audita.",
+    },
+  };
+}
 
-## Módulo profesional 0485 · Programación
-
-**Ciclo formativo de grado superior:** Desarrollo de Aplicaciones Multiplataforma (primer curso común con Desarrollo de Aplicaciones Web)
-
-**Familia profesional:** Informática y Comunicaciones
-
-**Grupo:** ${g.grupo} · ${g.nombre} · ${g.regimen}
-
-**Curso académico:** ${CURSO}
-
-**Duración del módulo:** 266 horas (8 horas semanales), Decreto 114/2025, de 29 de julio, del Consell
-
-**Centro:** IES Dr. Lluís Simarro · Xàtiva (València)
-
-**Departamento:** Informática y Comunicaciones
-
-**Profesor:** ${DOCENTE}
-
-**Proyecto de innovación:** Curso de Programación con IA, el alumnado dirige agentes de inteligencia artificial que escriben el código; su trabajo es especificar, decidir, auditar, probar, integrar y entregar.
-
----
-
-## Índice
+function indice(uts: UT[]): string {
+  return `## Índice
 
 1. Introducción y justificación
 2. Marco normativo de la Formación Profesional
@@ -94,8 +115,8 @@ function portada(m: Modalidad, uts: UT[]): string {
 13. Conclusión
 14. Bibliografía y normativa
 15. Desarrollo de las unidades de trabajo
-${uts.map((u) => `   - UT${u.n}. ${u.titulo}`).join("\n")}
-16. Anexos: normas de uso de la IA, calendario y rúbrica de referencia`;
+${uts.map((u) => `- UT${u.n}. ${u.titulo}`).join("\n")}
+16. Anexos: normas de uso de la IA, calendario y plantilla de especificación`;
 }
 
 // ── 1. Introducción ───────────────────────────────────────────────────────
@@ -223,7 +244,7 @@ function raCe(m: Modalidad): string {
   const uts = UNIDADES[m];
   const bloques = RAS.map((r) => {
     const donde = uts.filter((u) => u.ra[r.n]).map((u) => `UT${u.n}`).join(", ");
-    return `**RA${r.n}. ${r.texto}**
+    return `### RA${r.n}. ${r.texto}
 
 *Peso en la calificación del módulo: ${PESO_RA[r.n]} %. Se trabaja en: ${donde}.*
 
@@ -254,7 +275,7 @@ ${bloques}
 
 ## 5.2. Contenidos básicos
 
-${CONTENIDOS.map((c) => `**${c.bloque}**\n\n${lista(c.items)}`).join("\n\n")}
+${CONTENIDOS.map((c) => `### ${c.bloque}\n\n${lista(c.items)}`).join("\n\n")}
 
 ## 5.3. Mapa de contenidos, RA y unidades de trabajo
 
@@ -603,6 +624,22 @@ ${semi ? "- Orden 30/2022, de 12 de mayo, de la Conselleria de Educación, Cultu
 - MDN Web Docs (developer.mozilla.org), documentación oficial de Python (docs.python.org), GitHub Docs (docs.github.com), documentación de Phaser, SQLAlchemy, PostgreSQL${semi ? "" : " y Stripe"}.`;
 }
 
+// Actividades en tabla; la startup, una tabla por fase («F1 · …») para que
+// cada una quepa en una página.
+function actividades(u: UT): string {
+  const t = (as: UT["actividades"]) =>
+    tabla(["Actividad", "Descripción", "Horas", "Agrupamiento", "Producto"], as.map((a) => [`**${a.t}**`, a.d, a.h, a.agr, a.prod]));
+  const fases = [...new Set(u.actividades.map((a) => /^(F\d) · /.exec(a.t)?.[1]).filter(Boolean))] as string[];
+  if (!fases.length) return t(u.actividades);
+  const nombre: Record<string, string> = { F1: "Fase 1 · Descubrimiento y primeros sprints", F2: "Fase 2 · MVP en producción", F3: "Fase 3 · Lanzamiento y demo-day" };
+  return fases
+    .map((f) => {
+      const as = u.actividades.filter((a) => a.t.startsWith(`${f} · `)).map((a) => ({ ...a, t: a.t.slice(5) }));
+      return `### ${nombre[f] ?? f} (${as.reduce((x, a) => x + a.h, 0)} h)\n\n${t(as)}`;
+    })
+    .join("\n\n");
+}
+
 // ── 15. Desarrollo de cada UT ─────────────────────────────────────────────
 
 function desarrolloUT(m: Modalidad, u: UT, i: number): string {
@@ -614,10 +651,9 @@ function desarrolloUT(m: Modalidad, u: UT, i: number): string {
   const sumaAct = u.actividades.reduce((a, x) => a + x.h, 0);
   const rub =
     u.rubrica === "web-marca"
-      ? `Rúbrica oficial del proyecto, publicada en el campus y explicada en la sesión 3 (niveles: Insuficiente 0 %, En desarrollo 50 %, Competente 80 %, Excelente 100 %).\n\n${tabla(
-          ["Criterio", "Peso", "Insuficiente", "En desarrollo", "Competente", "Excelente"],
-          RUBRICA_WEB_MARCA.criterios.map((c) => [`**${c.nombre}**. ${c.qué}`, c.peso, ...c.niveles]),
-        )}\n\n${tabla(
+      ? `Rúbrica oficial del proyecto, publicada en el campus y explicada en la sesión 3. Cada criterio se valora en cuatro niveles (Insuficiente 0 %, En desarrollo 50 %, Competente 80 %, Excelente 100 %); la nota es la suma de peso por porcentaje sobre 10.\n\n${RUBRICA_WEB_MARCA.criterios
+          .map((c) => `### ${c.nombre} (${c.peso} %)\n\n${c.qué}\n\n${tabla(["Nivel", "Descriptor"], RUBRICA_WEB_MARCA.niveles.map((n, k) => [`**${n.nombre}** (${n.pct} %)`, c.niveles[k]]))}`)
+          .join("\n\n")}\n\n### Vinculación de los criterios con los CE\n\n${tabla(
           ["Criterio", "CE vinculados"],
           [
             ["Contacto real y funcional", "RA5 g, h · RA2 g"],
@@ -667,7 +703,7 @@ ${u.organizacion}
 
 ## 6. Actividades de enseñanza-aprendizaje
 
-${tabla(["Actividad", "Descripción", "Horas", "Agrupamiento", "Producto"], u.actividades.map((a) => [`**${a.t}**`, a.d, a.h, a.agr, a.prod]))}
+${actividades(u)}
 
 **Total: ${sumaAct} horas.**
 
@@ -780,7 +816,8 @@ Días no lectivos considerados: 9 y 12 de octubre, 8 de diciembre, del 22 de dic
 export function payloadProgramacion(m: Modalidad): PdfPayload {
   const uts = UNIDADES[m];
   const secs: PdfSec[] = [
-    { content: portada(m, uts) },
+    { content: "", portada: portada(m, uts) },
+    { content: indice(uts), pagebreak: true },
     { title: "1. Introducción y justificación", content: introduccion(m, uts) },
     { title: "2. Marco normativo de la Formación Profesional", content: marco(m) },
     { title: "3. Contextualización (centro, ciclo, módulo y grupo)", content: contexto(m) },
@@ -807,9 +844,11 @@ export function payloadProgramacion(m: Modalidad): PdfPayload {
     // Cada sección en página nueva con su «## N. Título» (lo que el motor
     // enlaza desde el índice); sus subapartados bajan a nivel 3.
     sections: secs.map((s) =>
-      s.title
-        ? { pagebreak: true, content: limpiar(`## ${s.title}\n\n${s.content.replace(/^## /gm, "### ")}`) }
-        : { content: limpiar(s.content) },
+      s.portada
+        ? { content: "", portada: limpiarPortada(s.portada) }
+        : s.title
+          ? { pagebreak: true, content: limpiar(`## ${s.title}\n\n${s.content.replace(/^## /gm, "### ")}`) }
+          : { ...s, content: limpiar(s.content) },
     ),
   };
 }

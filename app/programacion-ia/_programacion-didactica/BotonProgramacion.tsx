@@ -28,7 +28,7 @@ function cargarMotor(): Promise<void> {
   if (!motorPromise) {
     motorPromise = new Promise<void>((res, rej) => {
       const s = document.createElement("script");
-      s.src = "/opos-pdf.js?v=12";
+      s.src = "/opos-pdf.js?v=15";
       s.onload = () => res();
       s.onerror = () => {
         motorPromise = null;

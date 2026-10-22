@@ -878,6 +878,9 @@ const P = BRAND.pdf;
         if (sections && sections.length) {
             blocks = [];
             sections.forEach(function (sec) {
+                // Portada de documento: página propia con cabecera y pie del
+                // centro y el contenido maquetado y centrado (drawPortada).
+                if (sec.portada) { blocks.push({ type: 'portada', data: sec.portada }); return; }
                 if (!sec.content || !String(sec.content).trim()) return;
                 // `pagebreak: true` sin título: página nueva y el propio
                 // contenido trae su «## N. Título» (numerable en el índice).
@@ -1469,6 +1472,16 @@ const P = BRAND.pdf;
                     // no quepa en ninguna página sigue partiéndose, pero siempre
                     // por un límite «limpio» entre filas completas.
                     for (let t = rowStart; t < instructions.length; t++) instructions[t].keepWithNext = true;
+                    // Tabla entera: la 1.ª fila marca el grupo (si cabe en una
+                    // página, no se parte) y cada fila conoce su cabecera para
+                    // repetirla al continuar en otra página.
+                    const hdrIns = instructions[rowStart];
+                    hdrIns.tableStart = true;
+                    hdrIns.tableSpan = instructions.length - rowStart;
+                    for (let t = rowStart + 1; t < instructions.length; t++) instructions[t].tableHdr = hdrIns;
+                    // La última fila no arrastra el espacio que sigue a la tabla
+                    // (partía tablas que sí cabían); con pie, lo sujeta capGap.
+                    if (!block.caption) instructions[instructions.length - 1].keepWithNext = false;
                     if (block.caption) {
                         // Aire extra antes del pie: sin esto, la última fila
                         // (cuyo alto ya incluye su propio padding interno) deja
@@ -1497,6 +1510,9 @@ const P = BRAND.pdf;
                     break;
                 case '__cover':
                     instructions.push({ cover: block.title });
+                    break;
+                case 'portada':
+                    instructions.push({ portadaDoc: block.data });
                     break;
                 // ── Línea de solución dentro de caja (@ …) ──
                 case 'sol': {
@@ -1597,6 +1613,17 @@ const P = BRAND.pdf;
                     k++;
                     if (isVisible(x)) taken++;
                 }
+                // Si lo que sigue al encabezado es una tabla que cabe en una
+                // página, el grupo la incluye entera: título y tabla saltan
+                // juntos en vez de dejar el título huérfano.
+                for (let t = j; t < k; t++) {
+                    const x = instructions[t];
+                    if (!x.tableStart) continue;
+                    let alto = 0;
+                    for (let r = i; r < t + x.tableSpan && r < instructions.length; r++) alto += lineH(instructions[r]);
+                    if (alto <= contentTop - contentBottom) k = Math.max(k, t + x.tableSpan);
+                    break;
+                }
                 ins.keepStart = true; ins.keepSpan = k - i;
             } else if (ins.kf && (i === 0 || !instructions[i - 1].kf)) {
                 let j = i; while (j < instructions.length && instructions[j].kf) j++;
@@ -1622,6 +1649,15 @@ const P = BRAND.pdf;
         for (let ii = 0; ii < instructions.length; ii++) {
             const instr = instructions[ii];
             if (instr.pagebreak) {
+                // Sobre una página aún vacía (p. ej. tras una portada) no
+                // abre otra: evita páginas en blanco.
+                if (pages[pages.length - 1].length) pages.push([]);
+                currentY = contentTop;
+                continue;
+            }
+            if (instr.portadaDoc) {
+                if (pages[pages.length - 1].length) pages.push([]);
+                pages[pages.length - 1].push(Object.assign({}, instr, { y: contentTop }));
                 pages.push([]);
                 currentY = contentTop;
                 continue;
@@ -1667,6 +1703,13 @@ const P = BRAND.pdf;
             // fila (nunca después), para que la cabecera de la tabla no quede
             // sola tras el salto ni ninguna fila individual quede colgada sin
             // acompañamiento al pie o al inicio de una página (Regla 6).
+            // Tabla entera: si cabe en una página pero no en lo que queda de
+            // esta, empieza en la siguiente (aunque deje hueco).
+            if (instr.tableStart && currentY < contentTop - 0.5) {
+                let alto = 0;
+                for (let r = ii; r < ii + instr.tableSpan && r < instructions.length; r++) alto += lineH(instructions[r]);
+                if (alto <= contentTop - contentBottom && currentY - alto < contentBottom) { pages.push([]); currentY = contentTop; }
+            }
             if (instr.keepWithNext && currentY < contentTop - 0.5) {
                 const nextInstr = instructions[ii + 1];
                 const need2 = lineH(instr) + (nextInstr ? lineH(nextInstr) : 0);
@@ -1690,6 +1733,17 @@ const P = BRAND.pdf;
                 // dejar sitio a la línea de corte de la página de continuación.
                 const continua = enCaja && instr.boxIds.some(function (b) { return !!fragEnCurso[b]; });
                 currentY = contentTop - (continua ? CORTE : 0);
+            }
+            // Diagnóstico opcional (window.__oposTablas = []): tablas partidas.
+            if (instr.tableStart) instr._pag = pages.length;
+            if (instr.tableHdr && instr.tableHdr._pag !== pages.length && Array.isArray(window.__oposTablas)) {
+                window.__oposTablas.push({ desde: instr.tableHdr._pag, hasta: pages.length, filas: instr.tableHdr.tableSpan });
+                instr.tableHdr._pag = pages.length;
+            }
+            // Tabla que continúa en página nueva: repite su fila de cabecera.
+            if (instr.tableHdr && !pages[pages.length - 1].length) {
+                pages[pages.length - 1].push(Object.assign({}, instr.tableHdr, { y: currentY }));
+                currentY -= lineH(instr.tableHdr);
             }
             if (enCaja) {
                 const pgIdx = pages.length - 1;
@@ -1838,6 +1892,59 @@ const P = BRAND.pdf;
             _objCursor += pageAnnots[p].length; // ids de las anotaciones
         }
 
+        // Portada de documento (sections[i].portada): todo centrado bajo la
+        // cabecera del centro. d = { kicker, etiqueta, titulo, subtitulo,
+        // grupo, detalle, filas: [[clave, valor]], lema: { titulo, texto } }.
+        const drawPortada = function (d) {
+            const cx = pageWidth / 2;
+            const BL = [1, 1, 1];
+            const SUAVE = [0.937, 0.953, 0.996];
+            const txt = function (s, x, y, size, font, color) {
+                return C3(color) + ' rg BT /' + font + ' ' + size + ' Tf ' + x.toFixed(2) + ' ' + y.toFixed(2) + ' Td (' + pdfEsc(s) + ') Tj ET\n';
+            };
+            const centro = function (s, y, size, bold, font, color) {
+                return txt(s, cx - helvWidth(s, size, bold) / 2, y, size, font, color);
+            };
+            const rect = function (x, y, w, h, color) { return C3(color) + ' rg ' + x.toFixed(2) + ' ' + y.toFixed(2) + ' ' + w.toFixed(2) + ' ' + h.toFixed(2) + ' re f\n'; };
+            let s = 'q\n';
+            let y = contentTop - 6;
+            if (d.kicker) { s += centro(String(d.kicker).toUpperCase(), y, 9, true, 'F2', P.muted); y -= 20; }
+            // Banda de título
+            const subt = d.subtitulo ? wrapByWidth(String(d.subtitulo), 12, contentWidth - 60, false) : [];
+            const bandH = 98 + subt.length * 16;
+            const bandTop = y;
+            s += rect(margin, bandTop - bandH, contentWidth, bandH, P.primary);
+            s += rect(margin, bandTop - bandH, contentWidth, 4, P.accent);
+            if (d.etiqueta) s += centro(String(d.etiqueta).toUpperCase(), bandTop - 30, 11, true, 'F2', P.accent);
+            s += centro(String(d.titulo || ''), bandTop - 64, 26, true, 'F2', BL);
+            subt.forEach(function (ln, i) { s += centro(ln, bandTop - 92 - i * 16, 12, false, 'F1', BL); });
+            y = bandTop - bandH - 46;
+            if (d.grupo) { s += centro(String(d.grupo), y, 20, true, 'F2', P.primary); y -= 24; }
+            if (d.detalle) { s += centro(String(d.detalle), y, 12, false, 'F1', P.muted); y -= 18; }
+            s += 'q ' + C3(P.accent) + ' RG 2 w ' + (cx - 28) + ' ' + y.toFixed(2) + ' m ' + (cx + 28) + ' ' + y.toFixed(2) + ' l S Q\n';
+            y -= 34;
+            // Ficha: clave alineada a la derecha del eje, valor a la izquierda.
+            const valW = contentWidth / 2 - 24;
+            (d.filas || []).forEach(function (f) {
+                const k = String(f[0]).toUpperCase();
+                s += txt(k, cx - 12 - helvWidth(k, 8.5, true), y, 8.5, 'F2', P.muted);
+                const vs = wrapByWidth(String(f[1]), 11, valW, false);
+                vs.forEach(function (ln, i) { s += txt(ln, cx + 12, y - i * 14, 11, 'F1', P.ink); });
+                y -= vs.length * 14 + 10;
+            });
+            // Recuadro del proyecto, apoyado en el pie de la zona útil.
+            if (d.lema) {
+                const ls = wrapByWidth(String(d.lema.texto || ''), 10.5, contentWidth - 70, false);
+                const boxH = 30 + 18 + ls.length * 14 + 6;
+                const by = contentBottom + 4;
+                s += rect(margin, by, contentWidth, boxH, SUAVE);
+                s += rect(margin, by + boxH - 3, contentWidth, 3, P.accent);
+                s += centro(String(d.lema.titulo || ''), by + boxH - 26, 11, true, 'F2', P.primary);
+                ls.forEach(function (ln, i) { s += centro(ln, by + boxH - 46 - i * 14, 10.5, false, 'F3', P.ink); });
+            }
+            return s + 'Q\n';
+        };
+
         const totalPages = Math.max(1, pages.length);
         const pageObjIds = [];
         for (let p = 0; p < pages.length; p++) {
@@ -1860,6 +1967,7 @@ const P = BRAND.pdf;
             }
             stream += buildHeaderStream();
             for (const instr of page) {
+                if (instr.portadaDoc) { stream += drawPortada(instr.portadaDoc); continue; }
                 if (instr.rule) {
                     const c = instr.color || P.line;
                     const wt = (instr.weight || 0.6).toFixed(2);

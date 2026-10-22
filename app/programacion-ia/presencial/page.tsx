@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "@/components/Link";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import BotonProgramacion from "../_programacion-didactica/BotonProgramacion";
 
 export const metadata: Metadata = {
   title: "Curso de Programación con IA · Presencial (1º DAM/DAW) – Aula en la nube",
@@ -113,6 +114,15 @@ export default function CursoIAPresencial() {
         chat del centro. Según avancemos, subimos de nivel: agentes de código (OpenCode), versionado
         con Git y despliegue real. Criterio en todo: el proyecto funciona, sabes contarlo, y se ve
         que decides tú.
+      </div>
+
+      <div className="mt-6 flex flex-col gap-3 rounded-2xl border border-blue-200 dark:border-blue-500/30 bg-blue-50 dark:bg-blue-500/10 p-5 sm:flex-row sm:items-center sm:justify-between">
+        <p className="text-[15px] text-blue-900 dark:text-blue-200">
+          <b>Programación didáctica del módulo 0485 (curso 2026-27).</b> El documento oficial del grupo
+          presencial: resultados de aprendizaje, las 6 unidades de trabajo (una por proyecto, con la startup
+          como proyecto anual), temporalización, evaluación y atención a la diversidad.
+        </p>
+        <BotonProgramacion modalidad="presencial" />
       </div>
     </div>
   );

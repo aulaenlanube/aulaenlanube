@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "@/components/Link";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import BotonProgramacion from "../_programacion-didactica/BotonProgramacion";
 
 export const metadata: Metadata = {
   title: "Curso de Programación con IA · Semipresencial (1º DAM) – Aula en la nube",
@@ -245,6 +246,15 @@ export default function CursoIASemipresencial() {
         <b>Trimestres siguientes:</b> tras la web de marca toca elegir tu <b>proyecto final individual</b>{" "}
         <Link href="/programacion-ia/proyecto-final-individual/" className="font-semibold text-amber-700 underline dark:text-amber-400">(ver familias y plan para elegirlo bien →)</Link>{" "}
         — también por quincenas. La planificación se publicará aquí con dos quincenas de antelación.
+      </div>
+
+      <div className="mt-6 flex flex-col gap-3 rounded-2xl border border-amber-200 dark:border-amber-500/30 bg-amber-50 dark:bg-amber-500/10 p-5 sm:flex-row sm:items-center sm:justify-between">
+        <p className="text-[15px] text-amber-900 dark:text-amber-200">
+          <b>Programación didáctica del módulo 0485 (curso 2026-27).</b> El documento oficial del grupo
+          semipresencial: resultados de aprendizaje, las 5 unidades de trabajo (una por proyecto), quincenas,
+          tutorías, evaluación y prueba final presencial.
+        </p>
+        <BotonProgramacion modalidad="semipresencial" />
       </div>
     </div>
   );

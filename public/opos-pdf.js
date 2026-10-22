@@ -879,10 +879,12 @@ const P = BRAND.pdf;
             blocks = [];
             sections.forEach(function (sec) {
                 if (!sec.content || !String(sec.content).trim()) return;
-                if (sec.title) {
+                // `pagebreak: true` sin título: página nueva y el propio
+                // contenido trae su «## N. Título» (numerable en el índice).
+                if (sec.title || sec.pagebreak) {
                     if (blocks.length) blocks.push({ type: 'pagebreak' });
-                    blocks.push({ type: 'heading', level: 1, text: String(sec.title) });
                 }
+                if (sec.title) blocks.push({ type: 'heading', level: 1, text: String(sec.title) });
                 const sub = attachCaptions(parseMarkdownBlocks(String(sec.content)));
                 for (const b of sub) blocks.push(b);
             });

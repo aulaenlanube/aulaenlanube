@@ -12,6 +12,7 @@ import { Aviso, CajaError, Cargando, cls, mensajeError, Pildora } from "./ui";
 type EquipoResumen = {
   id: number;
   nombre: string;
+  descripcion: string;
   miembros: number;
   ha_votado: boolean;
   recibido: number;
@@ -127,6 +128,7 @@ export default function InversionAlumno() {
             <div key={e.id} className="flex items-center justify-between gap-3 rounded-xl border border-zinc-200 px-4 py-2.5 dark:border-white/10">
               <div>
                 <div className="font-semibold">{e.nombre}</div>
+                <div className="text-xs text-zinc-600 dark:text-zinc-400">{e.descripcion || <em className="opacity-60">sin descripción</em>}</div>
                 <div className="text-xs text-zinc-500 dark:text-zinc-400">
                   {e.recibido} € recibidos del resto de la clase {e.ha_votado ? "· ya han votado" : "· aún no han votado"}
                 </div>

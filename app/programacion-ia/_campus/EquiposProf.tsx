@@ -10,7 +10,7 @@ import { api } from "@/lib/campus/cliente";
 import { Aviso, CajaError, Cargando, cls, mensajeError, Pildora } from "./ui";
 
 type Miembro = { id: number; nombre: string; apellidos: string; usuario: string; lider: boolean };
-type Equipo = { id: number; nombre: string; created_at: string; miembros: Miembro[] };
+type Equipo = { id: number; nombre: string; descripcion?: string; created_at: string; miembros: Miembro[] };
 type Sueltos = { id: number; nombre: string; apellidos: string; usuario: string };
 type Estado = {
   grupo_id: number;
@@ -33,6 +33,7 @@ export default function EquiposProf({ grupoId }: { grupoId: number }) {
   const [ocupado, setOcupado] = useState(false);
   const [confir, setConfir] = useState(false);
   const [renombrado, setRenombrado] = useState<{ id: number; nombre: string } | null>(null);
+  const [descEd, setDescEd] = useState<{ id: number; texto: string } | null>(null);
   const [vuelta, setVuelta] = useState(0);
 
   const cargar = useCallback(() => {
@@ -145,6 +146,33 @@ export default function EquiposProf({ grupoId }: { grupoId: number }) {
                   </>
                 )}
               </div>
+
+              {(() => {
+                const editD = descEd?.id === e.id;
+                return editD ? (
+                  <div className="mt-2 flex gap-2">
+                    <input
+                      className={`${cls.input} flex-1`}
+                      maxLength={200}
+                      autoFocus
+                      value={descEd.texto}
+                      placeholder="Qué proyecto está desarrollando este equipo"
+                      onChange={(ev) => setDescEd({ id: e.id, texto: ev.target.value })}
+                      onKeyDown={(ev) => {
+                        if (ev.key === "Enter") { const t = descEd.texto.trim(); setDescEd(null); accion("prof.equipo.descripcion", { equipo_id: e.id, descripcion: t }, `✗ Descripción de «${e.nombre}» guardada.`); }
+                        if (ev.key === "Escape") setDescEd(null);
+                      }}
+                    />
+                    <button type="button" className={cls.btnMini} disabled={ocupado} onClick={() => { const t = descEd.texto.trim(); setDescEd(null); accion("prof.equipo.descripcion", { equipo_id: e.id, descripcion: t }, `✗ Descripción de «${e.nombre}» guardada.`); }}>Guardar</button>
+                    <button type="button" className={cls.btnMini} onClick={() => setDescEd(null)}>✕</button>
+                  </div>
+                ) : (
+                  <p className={`mt-1 text-sm ${cls.tenue}`}>
+                    <span className="italic">{e.descripcion?.trim() || "sin descripción del proyecto"}</span>{" "}
+                    <button type="button" className={cls.btnMini} disabled={ocupado} title="Editar descripción" onClick={() => setDescEd({ id: e.id, texto: e.descripcion ?? "" })}>✎</button>
+                  </p>
+                );
+              })()}
 
               <ul className="mt-2 space-y-1">
                 {e.miembros.map((m) => (

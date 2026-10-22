@@ -9,7 +9,7 @@ import { api } from "@/lib/campus/cliente";
 import { Aviso, CajaError, Cargando, cls, mensajeError, Pildora } from "./ui";
 
 type Miembro = { id: number; nombre: string; apellidos: string; usuario: string; lider: boolean };
-type Equipo = { id: number; nombre: string; created_at: string; miembros: Miembro[]; yo_lider?: boolean };
+type Equipo = { id: number; nombre: string; descripcion?: string; created_at: string; miembros: Miembro[]; yo_lider?: boolean };
 type Disponible = { id: number; nombre: string; apellidos: string; usuario: string };
 type Estado = {
   grupo_id: number;
@@ -33,6 +33,7 @@ export default function EquiposAlumno() {
   const [nombreEq, setNombreEq] = useState("");
   const [sel, setSel] = useState<number[]>([]);
   const [confir, setConfir] = useState<"salir" | "disolver" | null>(null);
+  const [descr, setDescr] = useState<string | null>(null);
 
   const cargar = useCallback(() => {
     setError("");
@@ -70,6 +71,8 @@ export default function EquiposAlumno() {
   if (!estado) return <Cargando />;
   const { mi_equipo: mio, equipos, disponibles, min, max } = estado;
   const libre = (disponibles ?? []).filter((d) => !sel.includes(d.id));
+  const descrShown = descr ?? mio?.descripcion ?? "";
+  const descrSucia = descrShown.trim() !== (mio?.descripcion ?? "");
 
   return (
     <div className="space-y-5">
@@ -86,6 +89,23 @@ export default function EquiposAlumno() {
             <h2 className={`${cls.h2} flex-1`}>Tu equipo: {mio.nombre}</h2>
             <Pildora tono={mio.miembros.length >= min ? "verde" : "ambar"}>{mio.miembros.length} de {min}-{max}</Pildora>
             {mio.yo_lider && <Pildora tono="azul">lo creaste tú</Pildora>}
+          </div>
+          <div className="mt-2 rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2 dark:border-white/10 dark:bg-white/5">
+            <label className="block text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+              Qué vais a construir (se ve al votar la inversión)
+            </label>
+            <div className="mt-1 flex gap-2">
+              <input
+                className={`${cls.input} flex-1`}
+                value={descrShown}
+                maxLength={200}
+                placeholder="Ej.: web de facturación para electricistas, con voz para dictar partes"
+                onChange={(ev) => setDescr(ev.target.value)}
+              />
+              <button type="button" className={cls.btn2} disabled={ocupado || !descrSucia} onClick={() => accion("equipos.descripcion", { descripcion: descrShown }, "✗ Descripción guardada ✅")}>
+                Guardar
+              </button>
+            </div>
           </div>
           <ul className="mt-4 grid gap-2 sm:grid-cols-2">
             {mio.miembros.map((m) => (

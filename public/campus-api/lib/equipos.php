@@ -13,7 +13,7 @@ const EQUIPO_MAX = 6;
 function equipos_lista(int $grupo_id): array
 {
   $equipos = filas(
-    'SELECT id, nombre, creado_por, created_at FROM app_campus_equipos
+    'SELECT id, nombre, descripcion, creado_por, created_at FROM app_campus_equipos
       WHERE grupo_id = ? ORDER BY nombre, id',
     [$grupo_id]
   );
@@ -43,6 +43,7 @@ function equipos_lista(int $grupo_id): array
     $salida[] = [
       'id' => (int)$e['id'],
       'nombre' => $e['nombre'],
+      'descripcion' => (string)($e['descripcion'] ?? ''),
       'created_at' => $e['created_at'],
       'miembros' => $por_equipo[(int)$e['id']] ?? [],
     ];
@@ -136,6 +137,7 @@ function accion_equipos_crear(array $in): never
   if (!$grupo) fallo(409, 'Todavía no estás en ningún grupo del curso. Díselo al profesor.');
   if (equipo_de_alumno((int)$u['id'])) fallo(409, 'Ya tienes un equipo. Solo puedes estar en uno.');
   $nombre = normalizar_nombre_equipo(txt($in, 'nombre', 40, true, 'nombre del equipo'));
+  $descr = txt($in, 'descripcion', 200, false);
   $companeros = $in['miembros'] ?? null;
   if (!is_array($companeros)) fallo(422, 'Elige a los compañeros del equipo.');
   if (count($companeros) < EQUIPO_MIN - 1 || count($companeros) > EQUIPO_MAX - 1) {
@@ -143,11 +145,11 @@ function accion_equipos_crear(array $in): never
   }
   $ids = validar_companeros((int)$grupo['id'], $companeros, (int)$u['id']);
 
-  transaccion(function () use ($grupo, $u, $nombre, $ids) {
+  transaccion(function () use ($grupo, $u, $nombre, $descr, $ids) {
     $existe = fila('SELECT id FROM app_campus_equipos WHERE grupo_id = ? AND nombre = ?', [(int)$grupo['id'], $nombre]);
     if ($existe) fallo(409, 'Ya existe un equipo con ese nombre en tu clase. Ponle otro.');
-    q('INSERT INTO app_campus_equipos (grupo_id, nombre, creado_por, created_at) VALUES (?, ?, ?, ?)',
-      [(int)$grupo['id'], $nombre, (int)$u['id'], ahora()]);
+    q('INSERT INTO app_campus_equipos (grupo_id, nombre, descripcion, creado_por, created_at) VALUES (?, ?, ?, ?, ?)',
+      [(int)$grupo['id'], $nombre, $descr, (int)$u['id'], ahora()]);
     $eq = (int)db()->lastInsertId();
     if (!$eq) fallo(500, 'No se pudo crear el equipo.');
     q('INSERT INTO app_campus_equipo_miembros (alumno_id, equipo_id, es_lider, created_at) VALUES (?, ?, 1, ?)', [(int)$u['id'], $eq, ahora()]);
@@ -352,6 +354,35 @@ function accion_prof_equipo_renombrar(array $in): never
     fallo(409, 'Ya hay otro equipo con ese nombre en tu clase.');
   }
   q('UPDATE app_campus_equipos SET nombre = ? WHERE id = ?', [$nombre, (int)$eq['id']]);
+  responder(prof_equipos_payload($g));
+}
+
+/** Descripción del proyecto del equipo (la ve toda la clase al votar la inversión). */
+function normalizar_descripcion(array $in): string
+{
+  $v = $in['descripcion'] ?? '';
+  if (!is_string($v)) fallo(422, 'Campo no válido: descripcion.');
+  $v = trim(preg_replace('/\s+/', ' ', $v));
+  if (mb_strlen($v) > 200) fallo(422, 'La descripción es demasiado larga (máximo 200 caracteres).');
+  return $v;
+}
+
+function accion_equipos_descripcion(array $in): never
+{
+  $u = exigir('alumno');
+  $mi = equipo_de_alumno((int)$u['id']);
+  if (!$mi) fallo(409, 'No tienes equipo.');
+  $v = normalizar_descripcion($in);
+  q('UPDATE app_campus_equipos SET descripcion = ? WHERE id = ?', [$v, (int)$mi['id']]);
+  accion_equipos_estado();
+}
+
+function accion_prof_equipo_descripcion(array $in): never
+{
+  $g = grupo_del_profe(ent($in, 'grupo_id'));
+  $eq = equipo_del_grupo((int)$g['id'], ent($in, 'equipo_id'));
+  $v = normalizar_descripcion($in);
+  q('UPDATE app_campus_equipos SET descripcion = ? WHERE id = ?', [$v, (int)$eq['id']]);
   responder(prof_equipos_payload($g));
 }
 

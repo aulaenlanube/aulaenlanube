@@ -18,6 +18,7 @@ type Voto = {
 type Equipo = {
   id: number;
   nombre: string;
+  descripcion: string;
   miembros: number;
   ha_votado: boolean;
   recibido: number;
@@ -141,7 +142,10 @@ export default function InversionProf({ grupoId }: { grupoId: number }) {
               const nombrePorId = (id: string | number) => datos.equipos.find((x) => x.id === Number(id))?.nombre ?? "?";
               return (
                 <tr key={e.id}>
-                  <td className="font-bold">{e.nombre}</td>
+                  <td className="font-bold">
+                    {e.nombre}
+                    <div className={`text-xs font-normal ${cls.tenue}`}>{e.descripcion || <em className="opacity-60">sin descripción</em>}</div>
+                  </td>
                   <td>{e.miembros}</td>
                   <td className="text-right font-mono text-base font-bold">{e.recibido} €</td>
                   <td className="text-zinc-600 dark:text-zinc-400">

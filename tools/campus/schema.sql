@@ -104,6 +104,7 @@ CREATE TABLE IF NOT EXISTS app_campus_equipos (
   id         INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   grupo_id   INT UNSIGNED NOT NULL,                -- grupo-clase (app_campus_grupos)
   nombre     VARCHAR(40)  NOT NULL,
+  descripcion VARCHAR(200) NOT NULL DEFAULT '',     -- qué proyecto van a hacer (visible en la inversión)
   creado_por INT UNSIGNED NOT NULL,
   created_at DATETIME     NOT NULL,
   UNIQUE KEY uq_equipo (grupo_id, nombre),

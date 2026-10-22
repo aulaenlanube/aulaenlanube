@@ -55,6 +55,7 @@ function inversion_resumen(int $grupo_id): array
     $salida[] = [
       'id' => $e['id'],
       'nombre' => $e['nombre'],
+      'descripcion' => $e['descripcion'] ?? '',
       'miembros' => count($e['miembros']),
       'ha_votado' => isset($por_quien[$e['id']]),
       'recibido' => $recibido[$e['id']],

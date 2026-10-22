@@ -22,6 +22,7 @@ require __DIR__ . '/lib/auth.php';
 require __DIR__ . '/lib/alumno.php';
 require __DIR__ . '/lib/profesor.php';
 require __DIR__ . '/lib/equipos.php';
+require __DIR__ . '/lib/inversion.php';
 
 const ACCIONES = [
   'login' => 'accion_login',
@@ -44,6 +45,12 @@ const ACCIONES = [
   'prof.equipo.anadir' => 'accion_prof_equipo_anadir',
   'prof.equipo.quitar' => 'accion_prof_equipo_quitar',
   'prof.equipo.mover' => 'accion_prof_equipo_mover',
+
+  'inversion.estado' => 'accion_inversion_estado',
+  'inversion.votar' => 'accion_inversion_votar',
+  'prof.inversion' => 'accion_prof_inversion',
+  'prof.inversion.abrir' => 'accion_prof_inversion_abrir',
+  'prof.inversion.reset' => 'accion_prof_inversion_reset',
 
   'prof.resumen' => 'accion_prof_resumen',
   'prof.grupo' => 'accion_prof_grupo',

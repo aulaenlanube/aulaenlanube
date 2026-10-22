@@ -10,6 +10,7 @@ import { api, fechaCorta, haceCuanto, plazoVencido, urlPages, type EntregaAlumno
 import { formatoNota, RUBRICAS } from "@/lib/campus/rubricas";
 import InfoRepo from "./InfoRepo";
 import EquiposAlumno from "./EquiposAlumno";
+import InversionAlumno from "./InversionAlumno";
 import RubricaVista, { NotaGrande } from "./Rubrica";
 import { Aviso, CabeceraPanel, CajaError, CambiarPassword, Cargando, cerrarSesion, cls, mensajeError, Pildora, useHashRuta, useSesion } from "./ui";
 
@@ -69,6 +70,7 @@ export default function PanelAlumno() {
         {[
           ["curso", "Mi curso"],
           ["equipos", "Mi equipo"],
+          ...(grupo?.curso === "presencial" ? [["inversion", "Inversión"]] : []),
           ["notas", "Mis notas"],
           ["cuenta", "Cuenta"],
         ].map(([id, t]) => {
@@ -93,6 +95,8 @@ export default function PanelAlumno() {
           <VistaEntrega key={ruta[1]} entrega={entregas.find((e) => String(e.id) === ruta[1])} onEnvio={actualizarEnvio} volver={() => ir("")} />
         ) : vista === "equipos" ? (
           <EquiposAlumno />
+        ) : vista === "inversion" ? (
+          <InversionAlumno />
         ) : vista === "notas" ? (
           <VistaNotas entregas={entregas} />
         ) : vista === "cuenta" ? (

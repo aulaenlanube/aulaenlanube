@@ -1,13 +1,13 @@
 <?php
 // Campus · herramienta de equipos del proyecto en grupo (creado 15-10-2026).
-// El alumnado crea y gestiona sus equipos (4-5 personas, uno por alumno); el
+// El alumnado crea y gestiona sus equipos (4-6 personas, uno por alumno); el
 // profesorado ve el estado del grupo-clase y puede repartir aleatoriamente a
 // quien no tenga equipo. Solo afecta a alumnos del propio grupo-clase.
 declare(strict_types=1);
 if (!defined('CAMPUS_API')) { http_response_code(404); exit; }
 
 const EQUIPO_MIN = 4;
-const EQUIPO_MAX = 5;
+const EQUIPO_MAX = 6;
 
 /** Todos los equipos de un grupo-clase con sus miembros (orden estables). */
 function equipos_lista(int $grupo_id): array
@@ -254,9 +254,9 @@ function accion_prof_equipos_aleatorio(array $in): never
   $n = count($sobrantes);
   if (!$n) fallo(409, 'No queda nadie sin equipo en este grupo.');
 
-  // nº de equipos: cerca de n/4.5, sin pasarse de 5 por equipo ni dejar equipos de 1
+  // nº de equipos: cerca de n/4.5, sin pasarse del máximo por equipo ni dejar equipos de 1
   $k = max(1, min((int)round($n / 4.5), $n));
-  $k = max($k, (int)ceil($n / EQUIPO_MAX));                       // que quepan todos con ≤5
+  $k = max($k, (int)ceil($n / EQUIPO_MAX));                       // que quepan todos con ≤ EQUIPO_MAX
   if ($n < EQUIPO_MIN) $k = 1;                                     // 1-3 sobrantes: un solo equipo, con aviso
   $base = intdiv($n, $k);
   $rem = $n % $k;                                                 // $rem equipos de $base+1

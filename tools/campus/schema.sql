@@ -123,6 +123,38 @@ CREATE TABLE IF NOT EXISTS app_campus_equipo_miembros (
     REFERENCES app_campus_usuarios (id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- Ronda de inversión (creado 20-10-2026): tras los pitches, cada equipo reparte
+-- dinero ficticio entre los OTROS equipos. Un voto por equipo (el registro lo
+-- hace una persona del equipo pero es único por equipo), nunca al equipo propio,
+-- en múltiplos de 10 hasta el cupo por persona × miembros. El profesor abre y
+-- cierra la ronda desde su panel.
+CREATE TABLE IF NOT EXISTS app_campus_inversion (
+  id         INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  grupo_id   INT UNSIGNED NOT NULL,
+  equipo_id  INT UNSIGNED NOT NULL,                -- quién invierte (un equipo, un voto)
+  invertidor_usuario_id INT UNSIGNED NOT NULL,     -- quién registró el voto
+  repartido  TEXT         NOT NULL,                -- JSON {equipo_objetivo_id: importe}
+  importe_total INT      NOT NULL,
+  created_at DATETIME    NOT NULL,
+  UNIQUE KEY uq_voto_equipo (equipo_id),
+  KEY k_grupo (grupo_id),
+  CONSTRAINT fk_inv_grupo FOREIGN KEY (grupo_id)
+    REFERENCES app_campus_grupos (id) ON DELETE CASCADE,
+  CONSTRAINT fk_inv_equipo FOREIGN KEY (equipo_id)
+    REFERENCES app_campus_equipos (id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Una fila por grupo con el estado de la ronda (abierta/cerrada, cupo, tope).
+CREATE TABLE IF NOT EXISTS app_campus_inversion_config (
+  grupo_id    INT UNSIGNED NOT NULL PRIMARY KEY,
+  abierta     TINYINT(1)   NOT NULL DEFAULT 0,
+  cupo        INT          NOT NULL DEFAULT 100,   -- € ficticios por persona
+  created_at  DATETIME     NOT NULL,
+  updated_at  DATETIME     NOT NULL,
+  CONSTRAINT fk_invcfg_grupo FOREIGN KEY (grupo_id)
+    REFERENCES app_campus_grupos (id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- Calificación de cada entrega. valoraciones = JSON {criterio: {n: nivel, c: comentario}};
 -- minimos = JSON {requisito: bool}. origen 'ia' = propuesta de la corrección
 -- asistida pendiente de revisar; el alumno solo ve las filas con publicada = 1.

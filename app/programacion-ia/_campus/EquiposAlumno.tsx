@@ -1,7 +1,7 @@
 "use client";
 
 // Herramienta de equipos del proyecto en grupo (creado 15-10-2026 a petición de
-// Edu para 1º DAM presencial). El alumnado forma su equipo de 4-5 personas;
+// Edu para 1º DAM presencial). El alumnado forma su equipo de 4-6 personas;
 // quien se queda sin equipo, el profesor lo reparte al azar desde su panel.
 
 import { useCallback, useEffect, useState } from "react";

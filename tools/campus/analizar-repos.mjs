@@ -57,8 +57,17 @@ function gh(ruta) {
 async function cargarPlaywright() {
   if (process.argv.includes("--sin-navegador")) return null;
   const candidatos = ["playwright"];
-  const bin = spawnSync("sh", ["-c", "command -v playwright"], { encoding: "utf8" }).stdout.trim();
-  if (bin) candidatos.push(path.join(path.dirname(fs.realpathSync(bin)), "index.mjs"), path.join(path.dirname(bin), "..", "playwright", "index.mjs"));
+  // mise instala playwright como paquete propio: localizar su node_modules real.
+  try {
+    const bin = spawnSync("sh", ["-c", "command -v playwright"], { encoding: "utf8" }).stdout.trim();
+    if (bin) {
+      const sh = fs.readFileSync(bin, "utf8");
+      const m = sh.match(/mise use [^"]*"npm:playwright(@([\d.]+))?"?/);
+      const ver = m?.[2] ?? spawnSync("sh", ["-c", "playwright --version"], { encoding: "utf8" }).stdout.match(/([\d.]+)\s*$/)?.[1];
+      const raiz = `/home/${process.env.USER}/.local/share/mise/installs/npm-playwright/${ver}`;
+      candidatos.push(path.join(raiz, "node_modules", "playwright", "index.mjs"));
+    }
+  } catch {}
   for (const c of candidatos) {
     try {
       const m = await import(c.startsWith("/") ? `file://${c}` : c);

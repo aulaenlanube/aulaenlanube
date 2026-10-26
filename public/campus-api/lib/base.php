@@ -185,7 +185,23 @@ function json_o_nulo(?string $s): mixed
   return $v === null ? null : $v;
 }
 
-function nota_publica(array $n): array
+/**
+ * Doble corrección (notas.correcciones). Al alumno no le llegan las notas
+ * privadas de cada corrección; al profesor, sí.
+ */
+function correcciones_publicas(?string $json, bool $profesor): ?array
+{
+  $c = json_o_nulo($json);
+  if (!is_array($c)) return null;
+  if (!$profesor) {
+    foreach (['centro', 'opus'] as $k) {
+      if (is_array($c[$k] ?? null)) unset($c[$k]['privado']);
+    }
+  }
+  return $c;
+}
+
+function nota_publica(array $n, bool $profesor = false): array
 {
   return [
     'entrega_id' => (int)$n['entrega_id'],
@@ -195,6 +211,7 @@ function nota_publica(array $n): array
     'nota' => $n['nota'] === null ? null : (float)$n['nota'],
     'no_evaluable' => (bool)$n['no_evaluable'],
     'comentario' => $n['comentario'],
+    'correcciones' => correcciones_publicas($n['correcciones'] ?? null, $profesor),
     'publicada' => (bool)$n['publicada'],
     'publicada_at' => $n['publicada_at'],
     'updated_at' => $n['updated_at'],

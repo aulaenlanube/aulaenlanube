@@ -8,6 +8,7 @@ import Link from "@/components/Link";
 import { CURSOS, PROYECTOS, type ProyectoCatalogo } from "@/lib/campus/catalogo";
 import { api, fechaCorta, haceCuanto, plazoVencido, urlPages, type EntregaAlumno, type Envio, type Grupo, type UsuarioSesion } from "@/lib/campus/cliente";
 import { formatoNota, RUBRICAS } from "@/lib/campus/rubricas";
+import DobleCorreccion from "./DobleCorreccion";
 import InfoRepo from "./InfoRepo";
 import EquiposAlumno from "./EquiposAlumno";
 import InversionAlumno from "./InversionAlumno";
@@ -275,22 +276,24 @@ function VistaEntrega({ entrega: e, onEnvio, volver }: { entrega?: EntregaAlumno
       {e.nota && (
         <section className={`${cls.tarjeta} space-y-4`}>
           <h3 className={cls.h2}>Tu corrección</h3>
-          {rubrica ? (
+          {rubrica && e.nota.correcciones ? (
+            <DobleCorreccion rubrica={rubrica} correcciones={e.nota.correcciones} nota={e.nota.nota} noEvaluable={e.nota.no_evaluable} />
+          ) : rubrica ? (
             <NotaGrande rubrica={rubrica} valoraciones={e.nota.valoraciones ?? {}} minimos={e.nota.minimos ?? {}} />
           ) : (
             <p className="text-4xl font-extrabold">{e.nota.no_evaluable ? "NE" : formatoNota(e.nota.nota)}</p>
           )}
-          {e.nota.no_evaluable && (
+          {e.nota.no_evaluable && !e.nota.correcciones && (
             <Aviso tono="rojo">
               <b>No evaluable:</b> falla algún requisito mínimo (abajo, marcado con ✗). Arréglalo, sube los cambios y
               actualiza la entrega mientras siga abierta: la puntuación de la rúbrica ya te dice cuánto sacarías.
             </Aviso>
           )}
-          {e.nota.comentario && <Aviso tono="azul"><b>Comentario del profesor:</b> <span className="whitespace-pre-line">{e.nota.comentario}</span></Aviso>}
+          {e.nota.comentario && !e.nota.correcciones && <Aviso tono="azul"><b>Comentario del profesor:</b> <span className="whitespace-pre-line">{e.nota.comentario}</span></Aviso>}
           {e.envio && e.nota.updated_at < e.envio.updated_at && (
             <Aviso tono="ambar">Has actualizado la entrega después de esta corrección: el profesor la revisará de nuevo.</Aviso>
           )}
-          {rubrica && <RubricaVista rubrica={rubrica} valoraciones={e.nota.valoraciones ?? {}} minimos={e.nota.minimos ?? {}} />}
+          {rubrica && !e.nota.correcciones && <RubricaVista rubrica={rubrica} valoraciones={e.nota.valoraciones ?? {}} minimos={e.nota.minimos ?? {}} />}
         </section>
       )}
 

@@ -67,6 +67,7 @@ const ACCIONES = [
   'prof.seguimiento' => 'accion_prof_seguimiento',
   'prof.nota.guardar' => 'accion_prof_nota_guardar',
   'prof.nota.borrar' => 'accion_prof_nota_borrar',
+  'prof.nota.estado' => 'accion_prof_nota_estado',
   'prof.notas.publicar' => 'accion_prof_notas_publicar',
 ];
 

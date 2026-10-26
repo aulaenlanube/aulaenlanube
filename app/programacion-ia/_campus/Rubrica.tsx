@@ -7,7 +7,7 @@
 import { calcularNota, formatoNota, type Minimos, type Rubrica, type Valoraciones } from "@/lib/campus/rubricas";
 import { cls } from "./ui";
 
-const TONO_NIVEL = [
+export const TONO_NIVEL = [
   { borde: "border-red-300 dark:border-red-500/50", anillo: "ring-red-300 dark:ring-red-500/50", fondo: "bg-red-50 dark:bg-red-500/15", texto: "text-red-700 dark:text-red-300" },
   { borde: "border-amber-300 dark:border-amber-500/50", anillo: "ring-amber-300 dark:ring-amber-500/50", fondo: "bg-amber-50 dark:bg-amber-500/15", texto: "text-amber-800 dark:text-amber-300" },
   { borde: "border-blue-300 dark:border-blue-500/50", anillo: "ring-blue-300 dark:ring-blue-500/50", fondo: "bg-blue-50 dark:bg-blue-500/15", texto: "text-blue-700 dark:text-blue-300" },

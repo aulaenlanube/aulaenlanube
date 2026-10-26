@@ -66,6 +66,18 @@ export type Envio = {
   updated_at: string;
 };
 
+/** Una de las dos correcciones de la doble corrección (privado: solo lo recibe el profesor). */
+export type CorreccionIA = { valoraciones: Valoraciones; minimos: Minimos; nota: number; no_evaluable: boolean; comentario: string; privado?: string };
+export type InformeFinal = {
+  resumen: string;
+  por_que: string;
+  fortalezas: string[];
+  mejoras: { area: string; que: string; como: string }[];
+  siguientes_pasos: string[];
+};
+/** Doble corrección: modelo del centro + Opus sobre la entrega anonimizada; la nota es la media. */
+export type Correcciones = { modo: "doble"; fecha: string; centro: CorreccionIA; opus: CorreccionIA; informe: InformeFinal | null };
+
 export type Nota = {
   entrega_id: number;
   alumno_id: number;
@@ -74,12 +86,13 @@ export type Nota = {
   nota: number | null;
   no_evaluable: boolean;
   comentario: string | null;
+  correcciones: Correcciones | null;
   publicada: boolean;
   publicada_at: string | null;
   updated_at: string;
 };
 
-export type NotaProfesor = Nota & { origen: "profesor" | "ia"; nota_privada: string | null };
+export type NotaProfesor = Nota & { origen: "profesor" | "ia" | "doble"; nota_privada: string | null };
 
 export type EntregaAlumno = Entrega & { envio: Envio | null; nota: Nota | null };
 

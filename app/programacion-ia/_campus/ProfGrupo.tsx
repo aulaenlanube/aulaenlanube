@@ -235,7 +235,7 @@ function SeguimientoTabla({ datos, onPublicadas, onCambio, onAlta }: { datos: Se
       a.ultimo_acceso ?? "",
       ...entregas.flatMap((e) => {
         const c = celda(e, a, envios, notas);
-        if (c.t === "nota") return [c.nota.no_evaluable ? "NE" : c.nota.nota, c.nota.publicada ? "publicada" : c.nota.origen === "ia" ? "propuesta IA" : "borrador"] as (string | number | null)[];
+        if (c.t === "nota") return [c.nota.no_evaluable ? "NE" : c.nota.nota, c.nota.publicada ? "publicada" : c.nota.origen === "ia" ? "propuesta IA" : c.nota.origen === "doble" ? "doble corrección" : "borrador"] as (string | number | null)[];
         return [null, c.t === "entregada" ? "entregada" : "sin entregar"];
       }),
     ]);
@@ -257,7 +257,7 @@ function SeguimientoTabla({ datos, onPublicadas, onCambio, onAlta }: { datos: Se
               {entregas.map((e) => {
                 const deGrupo = envios.filter((x) => x.entrega_id === e.id && alumnos.some((a) => a.id === x.alumno_id)).length;
                 const pub = notas.filter((n) => n.entrega_id === e.id && n.publicada).length;
-                const porPublicar = notas.filter((n) => n.entrega_id === e.id && !n.publicada && n.origen === "profesor").length;
+                const porPublicar = notas.filter((n) => n.entrega_id === e.id && !n.publicada && (n.origen === "profesor" || n.origen === "doble")).length;
                 return (
                   <th key={e.id} className="min-w-[12rem] px-3 py-2.5 font-bold">
                     <span className="block leading-tight">{e.titulo}</span>
@@ -266,7 +266,7 @@ function SeguimientoTabla({ datos, onPublicadas, onCambio, onAlta }: { datos: Se
                     </span>
                     {porPublicar > 0 && (
                       <button type="button" className={`${cls.btnMini} mt-1`} onClick={() => publicar(e)}>
-                        Publicar {porPublicar} revisada{porPublicar > 1 ? "s" : ""}
+                        Publicar {porPublicar} nota{porPublicar > 1 ? "s" : ""}
                       </button>
                     )}
                   </th>
@@ -298,7 +298,7 @@ function SeguimientoTabla({ datos, onPublicadas, onCambio, onAlta }: { datos: Se
                       <a href={href} className={`${base} ${tono}`}>
                         <span className="text-sm">{textoNota(n)}</span>
                         <span className="font-semibold">
-                          {c.revisar ? "reenviada" : n.publicada ? "✓ publicada" : n.origen === "ia" ? "IA · revisar" : "borrador"}
+                          {c.revisar ? "reenviada" : n.publicada ? "✓ publicada" : n.origen === "ia" ? "IA · revisar" : n.origen === "doble" ? "doble · lista" : "borrador"}
                         </span>
                       </a>
                     </td>

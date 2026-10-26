@@ -13,6 +13,12 @@ try {
     await db.query(fs.readFileSync(path.join(import.meta.dirname, f), "utf8"));
     console.log(`✓ ${f} aplicado en la ${destino()}`);
   }
+  // Columnas añadidas después de crear las tablas (CREATE TABLE IF NOT EXISTS no las añade).
+  const [col] = await db.query("SHOW COLUMNS FROM app_campus_notas LIKE 'correcciones'");
+  if (!col.length) {
+    await db.query("ALTER TABLE app_campus_notas ADD COLUMN correcciones MEDIUMTEXT NULL AFTER nota_privada");
+    console.log("✓ app_campus_notas.correcciones añadida");
+  }
   const [tablas] = await db.query("SHOW TABLES LIKE 'app\\_campus\\_%'");
   const [[{ n }]] = await db.query("SELECT COUNT(*) n FROM app_campus_entregas");
   console.log(`Tablas del campus: ${tablas.map((t) => Object.values(t)[0]).join(", ")}`);

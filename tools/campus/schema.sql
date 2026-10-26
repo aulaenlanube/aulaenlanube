@@ -158,7 +158,9 @@ CREATE TABLE IF NOT EXISTS app_campus_inversion_config (
 
 -- Calificación de cada entrega. valoraciones = JSON {criterio: {n: nivel, c: comentario}};
 -- minimos = JSON {requisito: bool}. origen 'ia' = propuesta de la corrección
--- asistida pendiente de revisar; el alumno solo ve las filas con publicada = 1.
+-- asistida pendiente de revisar; 'doble' = doble corrección (modelo del centro +
+-- Opus anonimizado, nota = media) lista para publicar, con todo el detalle en
+-- correcciones (JSON). El alumno solo ve las filas con publicada = 1.
 CREATE TABLE IF NOT EXISTS app_campus_notas (
   id            INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   entrega_id    INT UNSIGNED NOT NULL,
@@ -169,7 +171,8 @@ CREATE TABLE IF NOT EXISTS app_campus_notas (
   no_evaluable  TINYINT(1)   NOT NULL DEFAULT 0,
   comentario    TEXT         NULL,
   nota_privada  TEXT         NULL,
-  origen        VARCHAR(10)  NOT NULL DEFAULT 'profesor',  -- 'profesor' | 'ia'
+  correcciones  MEDIUMTEXT   NULL,                          -- doble corrección: {centro, opus, informe}
+  origen        VARCHAR(10)  NOT NULL DEFAULT 'profesor',  -- 'profesor' | 'ia' | 'doble'
   publicada     TINYINT(1)   NOT NULL DEFAULT 0,
   publicada_at  DATETIME     NULL,
   updated_at    DATETIME     NOT NULL,

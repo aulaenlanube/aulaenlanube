@@ -4,11 +4,14 @@
 // vivo), rúbrica clicable con la nota calculada al momento, comentarios, y
 // guardar como borrador o publicar. Si la corrección viene de la IA
 // (tools/campus), se marca como propuesta hasta que el profesor la guarda.
+// Una doble corrección (centro + Opus anonimizado) se muestra completa y se
+// publica tal cual; corregir a mano la sustituye.
 
 import { useEffect, useState } from "react";
 import { PROYECTOS, sesionDe } from "@/lib/campus/catalogo";
 import { api, fechaCorta, haceCuanto, nombreCompleto, urlPages, type Alumno, type Entrega, type Envio, type NotaProfesor } from "@/lib/campus/cliente";
 import { calcularNota, formatoNota, RUBRICAS, type Minimos, type Valoraciones } from "@/lib/campus/rubricas";
+import DobleCorreccion from "./DobleCorreccion";
 import InfoRepo from "./InfoRepo";
 import RubricaVista, { NotaGrande } from "./Rubrica";
 import { Aviso, cls, mensajeError, Pildora } from "./ui";
@@ -32,6 +35,7 @@ export default function ProfCorregir({ grupoId, entrega, alumno, envio, nota, an
   const [comentario, setComentario] = useState(nota?.comentario ?? "");
   const [privada, setPrivada] = useState(nota?.nota_privada ?? "");
   const [sucio, setSucio] = useState(false);
+  const [manual, setManual] = useState(false);
   const [estado, setEstado] = useState<{ t: "idle" | "guardando" } | { t: "ok"; m: string } | { t: "error"; e: string }>({ t: "idle" });
 
   // Aviso si se intenta salir con cambios sin guardar (recarga o cierre de pestaña).
@@ -85,6 +89,18 @@ export default function ProfCorregir({ grupoId, entrega, alumno, envio, nota, an
     }
   }
 
+  /** Publica o despublica la corrección tal cual (doble corrección). */
+  async function cambiarEstado(publicar: boolean) {
+    setEstado({ t: "guardando" });
+    try {
+      const r = await api<{ nota: NotaProfesor }>("prof.nota.estado", { entrega_id: entrega.id, alumno_id: alumno.id, publicada: publicar });
+      onNota(r.nota);
+      setEstado({ t: "ok", m: publicar ? "Publicada: el alumno ya la ve." : "Despublicada: vuelve a ser borrador." });
+    } catch (e) {
+      setEstado({ t: "error", e: mensajeError(e) });
+    }
+  }
+
   async function descartar() {
     if (!confirm(`¿Borrar la corrección de ${nombreCompleto(alumno)}? ${nota?.publicada ? "Está publicada: el alumno dejará de verla." : ""}`)) return;
     try {
@@ -108,6 +124,7 @@ export default function ProfCorregir({ grupoId, entrega, alumno, envio, nota, an
     window.location.hash = `/grupo/${grupoId}/corregir/${entrega.id}/${a.id}`;
   };
 
+  const doble = !!(rubrica && nota?.correcciones && !manual);
   const proyecto = PROYECTOS[entrega.proyecto];
   const sesion = sesionDe(entrega.proyecto, entrega.sesion);
   const reenviada = envio && nota && envio.updated_at > nota.updated_at;
@@ -137,6 +154,7 @@ export default function ProfCorregir({ grupoId, entrega, alumno, envio, nota, an
         <h2 className="mt-1 text-2xl font-extrabold tracking-tight">{nombreCompleto(alumno)}</h2>
         <div className="mt-2 flex flex-wrap gap-2">
           {nota?.origen === "ia" && <Pildora tono="ambar">Propuesta de la IA · sin revisar</Pildora>}
+          {doble && <Pildora tono="azul">Doble corrección · centro + Opus anonimizado</Pildora>}
           {nota && (nota.publicada ? <Pildora tono="verde">Publicada</Pildora> : <Pildora tono="gris">Borrador</Pildora>)}
           {reenviada && <Pildora tono="azul">Reenviada tras corregir</Pildora>}
           {envio?.fuera_plazo && <Pildora tono="rojo">Fuera de plazo</Pildora>}
@@ -183,7 +201,9 @@ export default function ProfCorregir({ grupoId, entrega, alumno, envio, nota, an
 
           {/* Rúbrica o nota directa */}
           <section className={cls.tarjeta}>
-            {rubrica ? (
+            {doble ? (
+              <DobleCorreccion rubrica={rubrica!} correcciones={nota!.correcciones!} nota={nota!.nota} noEvaluable={nota!.no_evaluable} profesor />
+            ) : rubrica ? (
               <>
                 <h3 className={`${cls.h2} mb-4`}>{rubrica.titulo}</h3>
                 <RubricaVista
@@ -215,6 +235,33 @@ export default function ProfCorregir({ grupoId, entrega, alumno, envio, nota, an
 
         {/* Resultado y acciones */}
         <aside className="xl:sticky xl:top-20 xl:self-start">
+          {doble ? (
+            <div className={`${cls.tarjeta} space-y-4`}>
+              <p className="text-4xl font-extrabold">{nota!.no_evaluable ? "NE" : formatoNota(nota!.nota)}</p>
+              <p className={`text-sm ${cls.tenue}`}>
+                Media de las dos correcciones (centro {formatoNota(nota!.correcciones!.centro.nota)} · Opus {formatoNota(nota!.correcciones!.opus.nota)}).
+                {nota!.publicada ? " El alumno ya la ve." : " El alumno aún no la ve."}
+              </p>
+              {nota!.nota_privada && (
+                <p className="whitespace-pre-line rounded-xl bg-amber-50 px-3 py-2 text-sm text-amber-900 dark:bg-amber-500/10 dark:text-amber-200">{nota!.nota_privada}</p>
+              )}
+              {estado.t === "error" && <p role="alert" className="text-sm font-semibold text-red-700 dark:text-red-300">{estado.e}</p>}
+              {estado.t === "ok" && <p role="status" className="text-sm font-semibold text-emerald-700 dark:text-emerald-300">✓ {estado.m}</p>}
+              <div className="flex flex-col gap-2">
+                <button type="button" className={nota!.publicada ? cls.btn2 : cls.btnAzul} disabled={estado.t === "guardando"} onClick={() => cambiarEstado(!nota!.publicada)}>
+                  {nota!.publicada ? "Despublicar (pasar a borrador)" : "Publicar"}
+                </button>
+                {siguiente && <button type="button" className={cls.btn2} onClick={() => irA(siguiente)}>Siguiente →</button>}
+                <button
+                  type="button"
+                  className={cls.btn2}
+                  onClick={() => { if (confirm("Corregir a mano sustituye la doble corrección cuando guardes. ¿Seguir?")) setManual(true); }}
+                >
+                  Corregir a mano
+                </button>
+              </div>
+            </div>
+          ) : (
           <div className={`${cls.tarjeta} space-y-4`}>
             {rubrica ? (
               <NotaGrande rubrica={rubrica} valoraciones={valoraciones} minimos={minimos} />
@@ -268,6 +315,7 @@ export default function ProfCorregir({ grupoId, entrega, alumno, envio, nota, an
               {nota && ` Corrección guardada ${haceCuanto(nota.updated_at)}.`}
             </p>
           </div>
+          )}
         </aside>
       </div>
     </div>

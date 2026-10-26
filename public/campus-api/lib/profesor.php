@@ -318,7 +318,7 @@ function accion_prof_seguimiento(array $in): never
     'alumnos' => array_map('alumno_publico', $alumnos),
     'entregas' => array_map('entrega_publica', $entregas),
     'envios' => array_map('envio_publico', $envios),
-    'notas' => array_map(fn($n) => nota_publica($n) + ['origen' => $n['origen'], 'nota_privada' => $n['nota_privada']], $notas),
+    'notas' => array_map(fn($n) => nota_publica($n, true) + ['origen' => $n['origen'], 'nota_privada' => $n['nota_privada']], $notas),
   ]);
 }
 
@@ -354,7 +354,8 @@ function minimos_limpios(mixed $v): ?string
  * Guarda (o publica) la corrección de un alumno. La nota la calcula el panel
  * con la rúbrica compartida (lib/campus/rubricas.ts); aquí solo se valida y se
  * guarda. Al guardar desde el panel, la corrección pasa a ser del profesor
- * (origen 'profesor'), aunque partiera de una propuesta de la IA.
+ * (origen 'profesor'), aunque partiera de una propuesta de la IA o de una
+ * doble corrección (que se descarta: el detalle ya no coincidiría con la nota).
  */
 function accion_prof_nota_guardar(array $in): never
 {
@@ -380,7 +381,7 @@ function accion_prof_nota_guardar(array $in): never
      VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'profesor', ?, ?, ?)
      ON DUPLICATE KEY UPDATE valoraciones = VALUES(valoraciones), minimos = VALUES(minimos), nota = VALUES(nota),
        no_evaluable = VALUES(no_evaluable), comentario = VALUES(comentario), nota_privada = VALUES(nota_privada),
-       origen = 'profesor', publicada = VALUES(publicada), publicada_at = VALUES(publicada_at), updated_at = VALUES(updated_at)",
+       correcciones = NULL, origen = 'profesor', publicada = VALUES(publicada), publicada_at = VALUES(publicada_at), updated_at = VALUES(updated_at)",
     [
       $entregaId, $alumno['id'],
       valoraciones_limpias($in['valoraciones'] ?? null),
@@ -392,7 +393,25 @@ function accion_prof_nota_guardar(array $in): never
     ]
   );
   $n = fila('SELECT * FROM app_campus_notas WHERE entrega_id = ? AND alumno_id = ?', [$entregaId, $alumno['id']]);
-  responder(['nota' => nota_publica($n) + ['origen' => $n['origen'], 'nota_privada' => $n['nota_privada']]]);
+  responder(['nota' => nota_publica($n, true) + ['origen' => $n['origen'], 'nota_privada' => $n['nota_privada']]]);
+}
+
+/** Publica o despublica una corrección tal cual está (p. ej., una doble corrección). */
+function accion_prof_nota_estado(array $in): never
+{
+  exigir('profesor');
+  $entregaId = ent($in, 'entrega_id');
+  $alumno = alumno_de_profesor(ent($in, 'alumno_id'));
+  $n = fila('SELECT * FROM app_campus_notas WHERE entrega_id = ? AND alumno_id = ?', [$entregaId, $alumno['id']]);
+  if (!$n) fallo(404, 'Ese alumno no tiene corrección en esta entrega.');
+  if ($n['origen'] === 'ia') fallo(409, 'Es una propuesta de la IA sin revisar: ábrela y guárdala antes de publicarla.');
+  $publicar = bool_de($in, 'publicada');
+  q(
+    'UPDATE app_campus_notas SET publicada = ?, publicada_at = ? WHERE id = ?',
+    [$publicar ? 1 : 0, $publicar ? ($n['publicada_at'] ?: ahora()) : null, $n['id']]
+  );
+  $n = fila('SELECT * FROM app_campus_notas WHERE id = ?', [$n['id']]);
+  responder(['nota' => nota_publica($n, true) + ['origen' => $n['origen'], 'nota_privada' => $n['nota_privada']]]);
 }
 
 function accion_prof_nota_borrar(array $in): never
@@ -403,9 +422,9 @@ function accion_prof_nota_borrar(array $in): never
 }
 
 /**
- * Publica de golpe las correcciones de una entrega en un grupo. Solo las que
- * ya ha revisado el profesor: las propuestas de la IA sin revisar se quedan
- * como borrador (y se cuentan en la respuesta).
+ * Publica de golpe las correcciones de una entrega en un grupo: las del
+ * profesor y las dobles correcciones. Las propuestas de la IA sin revisar se
+ * quedan como borrador (y se cuentan en la respuesta).
  */
 function accion_prof_notas_publicar(array $in): never
 {
@@ -415,7 +434,7 @@ function accion_prof_notas_publicar(array $in): never
   $st = q(
     "UPDATE app_campus_notas n JOIN app_campus_usuarios u ON u.id = n.alumno_id
         SET n.publicada = 1, n.publicada_at = ?
-      WHERE n.entrega_id = ? AND u.grupo_id = ? AND n.publicada = 0 AND n.origen = 'profesor'",
+      WHERE n.entrega_id = ? AND u.grupo_id = ? AND n.publicada = 0 AND n.origen IN ('profesor', 'doble')",
     [ahora(), $entregaId, $g['id']]
   );
   $sinRevisar = (int)fila(

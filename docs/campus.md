@@ -128,6 +128,28 @@ node tools/campus/importar-propuestas.mjs --entrega 1              #    …y car
   profesor ni notas publicadas (salvo `--forzar`). El profesor abre cada una,
   ajusta y publica; al guardarla pasa a ser suya.
 
+### Doble corrección (centro + Opus anonimizado)
+
+Desde la entrega 1 (26-10-2026) la nota publicada es la **media de dos
+correcciones** con la misma rúbrica: la del modelo del centro (paso 3 con
+`valorar-titan.mjs` → `propuestas.json`) y la de Claude Opus sobre paquetes
+**anonimizados** (código aleatorio A01…, sin nombre, correo, usuario, dominio,
+redes, centro, localidad ni imágenes; el mapa código → alumno solo está en
+`.campus-trabajo/opus-anon/mapa.json`). Opus también redacta, de forma anónima,
+el informe final de cada alumno (`opus-anon/informes/AXX.json`).
+
+```bash
+node tools/campus/importar-doble.mjs --entrega 1 [--simular] [--forzar]
+```
+
+Carga cada fila con `origen = 'doble'` y el detalle en `notas.correcciones`
+(`{centro, opus, informe}`); un mínimo cuenta como cumplido solo si lo dan las
+dos. No publica nada: en el seguimiento salen como «doble · lista» y el botón
+**Publicar N notas** las publica de golpe (o una a una desde su ficha). El
+alumno ve la explicación del método, el informe, la rúbrica con las dos
+valoraciones y los dos comentarios; las notas privadas de cada corrección solo
+las ve el profesor. «Corregir a mano» sustituye la doble corrección.
+
 Las herramientas van contra **producción** por túnel SSH (credenciales en
 `admin/.env.local` y `tools/deploy.env`); con `--local`, contra la BD de Docker.
 

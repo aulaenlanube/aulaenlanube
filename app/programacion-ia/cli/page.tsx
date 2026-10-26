@@ -8,7 +8,7 @@ import { RUBRICA_CLI } from "@/lib/campus/rubricas";
 export const metadata: Metadata = {
   title: "Proyecto 2 · CLI «tareas con IA» — Curso de Programación con IA",
   description:
-    "Proyecto 2: tu propia herramienta de terminal en Python con Typer y uv. Acciones en acciones.json, IA y multiplataforma (Linux, Windows y macOS).",
+    "Proyecto 2: tu herramienta de terminal en Python (Typer + uv), construida con el agente OpenCode y los modelos de IA del centro. Linux, Windows y macOS.",
 };
 
 /* ------------------------------------------------------------------ */
@@ -146,6 +146,7 @@ const INDICE = [
   ["anatomia", "Anatomía de una orden"],
   ["mundo", "Las CLI que usa el mundo"],
   ["ciclo", "Cómo se desarrolla"],
+  ["agente", "Con un agente"],
   ["tecnologias", "Tecnologías"],
   ["multiplataforma", "Multiplataforma"],
   ["instalar", "Instalarla"],
@@ -186,7 +187,7 @@ const HERRAMIENTAS: { cat: string; items: [string, string, string][] }[] = [
     items: [
       ["git", "Control de versiones: la máquina del tiempo de tu código.", "git log --oneline -5"],
       ["gh", "GitHub desde la terminal: repos, issues, PR y releases.", "gh repo create cli-tareas --public"],
-      ["Claude Code · OpenCode", "Agentes de código que viven en la terminal: leen tu repo, ejecutan órdenes y proponen cambios.", "opencode"],
+      ["OpenCode", "Agente de código open source que vive en la terminal: lee tu repo, ejecuta órdenes (con tu permiso) y propone cambios. Primos: Claude Code, Codex CLI, Gemini CLI.", "opencode"],
     ],
   },
   {
@@ -429,7 +430,14 @@ const SEMANAS = [
       "Primeras órdenes: --help, version y listar con tabla Rich.",
       "Instalarla con uv tool install --editable . y lanzarla desde cualquier carpeta.",
     ],
-    producto: "Repo cli-tareas en GitHub con tareas --help, tareas version y tareas listar funcionando, y varios commits que cuentan el proceso.",
+    opencode: [
+      "Instalar OpenCode 1.18.35 y conectarlo a los modelos del centro.",
+      "uv init y .gitignore a mano y primer commit ANTES de abrir OpenCode (/undo necesita git).",
+      "opencode.json de permisos en la raíz del repo.",
+      "/init → AGENTS.md, que revisas y editas tú.",
+      "plan → build para crear cli.py (version + listar), aprobando cada diff; /undo cuando algo sale mal.",
+    ],
+    producto: "Repo cli-tareas en GitHub con tareas --help, tareas version y tareas listar funcionando, opencode.json y AGENTS.md, y varios commits tuyos que cuentan el proceso.",
   },
   {
     n: "Semana 2",
@@ -444,7 +452,13 @@ const SEMANAS = [
       "--simular siempre primero y confirmación antes de borrar; todo en ~/pruebas-tareas.",
       "ADR 0001: por qué configuración externa y no acciones escritas en el código.",
     ],
-    producto: "3 acciones propias funcionando con --simular, tareas validar con mensajes claros, ADR escrito y commits pequeños.",
+    opencode: [
+      "Tu acciones.json lo escribes tú, sin IA.",
+      "Skill del proyecto acciones-json con las reglas del esquema (compruébala con /skills).",
+      "Comando personalizado /nueva-accion para añadir acciones siempre igual.",
+      "Subagente revisor de solo lectura (@revisor) y /review antes de cada commit.",
+    ],
+    producto: "3 acciones propias funcionando con --simular, tareas validar con mensajes claros, ADR escrito, skill + comando + revisor en .opencode/ y commits pequeños.",
   },
 ];
 
@@ -545,17 +559,24 @@ export default function CursoIACliTareas() {
         IA, y se instala con <b>una sola orden</b> en Linux, Windows y macOS.
       </p>
       <p className="mt-3 max-w-3xl text-[15px] text-zinc-600 dark:text-zinc-400">
+        Y la construyes de otra manera: desde este proyecto trabajas de forma <b>agéntica</b> con{" "}
+        <b>OpenCode</b>, un agente de programación open source conectado a los{" "}
+        <b>modelos de IA locales del centro</b>. Tú decides qué se hace y apruebas cada cambio; el
+        agente lee tu repo, propone y edita. El chat queda para consultas.
+      </p>
+      <p className="mt-3 max-w-3xl text-[15px] text-zinc-600 dark:text-zinc-400">
         Por qué importa: los desarrolladores viven en la terminal. Git, los gestores de paquetes, los
         servidores, la integración continua y los propios agentes de IA son CLI. Quien sabe usarlas{" "}
         <b>automatiza</b>; quien sabe <b>construirlas</b> crea herramientas que usan otros.
       </p>
 
-      <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+      <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
         {[
           ["Python 3.12", "+ Typer + uv"],
           ["acciones.json", "tus acciones, fuera del código"],
           ["Sistema + IA", "ficheros reales y modelos"],
           ["3 sistemas", "Linux · Windows · macOS"],
+          ["OpenCode", "agente del centro · modelos locales"],
         ].map(([a, b]) => (
           <div key={a} className="rounded-2xl border border-zinc-200 dark:border-white/10 bg-zinc-50 dark:bg-white/5 p-4">
             <div className="text-[16px] font-extrabold text-zinc-800 dark:text-zinc-100">{a}</div>
@@ -664,8 +685,22 @@ export default function CursoIACliTareas() {
             <h3 className="text-xs font-extrabold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">{g.cat}</h3>
             <div className="mt-2 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {g.items.map(([n, d, ej]) => (
-                <div key={n} className="flex flex-col rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-4 shadow-sm">
-                  <div className="font-mono text-[15px] font-bold text-zinc-800 dark:text-zinc-100">{n}</div>
+                <div
+                  key={n}
+                  className={`flex flex-col rounded-2xl border p-4 shadow-sm ${
+                    n === "OpenCode"
+                      ? "border-blue-300 dark:border-blue-500/50 bg-blue-50/60 dark:bg-blue-500/10 ring-1 ring-blue-300 dark:ring-blue-500/40"
+                      : "border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900"
+                  }`}
+                >
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="font-mono text-[15px] font-bold text-zinc-800 dark:text-zinc-100">{n}</span>
+                    {n === "OpenCode" && (
+                      <span className="rounded-full bg-blue-600 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
+                        La que usarás
+                      </span>
+                    )}
+                  </div>
                   <p className="mt-1 flex-1 text-[13px] text-zinc-600 dark:text-zinc-400">{d}</p>
                   <div className="mt-3 overflow-x-auto rounded-lg bg-zinc-900 px-3 py-2 font-mono text-[12px] whitespace-nowrap text-emerald-300">
                     <span className="select-none text-zinc-500">$ </span>
@@ -742,10 +777,121 @@ export default function CursoIACliTareas() {
       </ol>
       <Nota tono="amber">
         <b>El método del curso:</b> tú <b>escribes</b> la spec y el <C>acciones.json</C> (decides
-        qué hace), el agente o asistente <b>implementa</b>, y tú <b>auditas</b>: lees el código,
-        pruebas casos feos y haces commits pequeños con mensajes que cuentan el proceso. Guarda tus
-        prompts clave en <C>docs/prompts.md</C>. <i>Lo que no sabes explicar, no lo entregas.</i>
+        qué hace), el agente (<b>OpenCode</b>) <b>implementa</b> con tu permiso, y tú{" "}
+        <b>auditas</b>: lees el código, pruebas casos feos y haces commits pequeños con mensajes que
+        cuentan el proceso. Guarda tus prompts clave en <C>docs/prompts.md</C>.{" "}
+        <i>Lo que no sabes explicar, no lo entregas.</i>
       </Nota>
+
+      {/* 5b · Con un agente */}
+      <h2 id="agente" className={h2}>Cómo vas a trabajar: con un agente</h2>
+      <p className={lead}>
+        Hasta ahora le pedías código a un chat y lo copiabas. Desde este proyecto, el código lo
+        escribe un <b>agente</b> dentro de tu repo, y tú diriges. Se usará <b>todo el curso</b>, en
+        presencial y en semipresencial; este proyecto es la introducción.
+      </p>
+      <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div className={card}>
+          <div className="text-xs font-extrabold uppercase tracking-wider text-zinc-400">Para consultas</div>
+          <h3 className="mt-1 text-[16px] font-bold">Chat</h3>
+          <p className={`mt-1 ${muted}`}>
+            Preguntas, responde con texto y tú copias. No ve tu repo ni ejecuta nada: si se
+            equivoca, no se entera. Sigue valiendo para dudas y explicaciones.
+          </p>
+        </div>
+        <div className={`${card} ring-2 ring-blue-300 dark:ring-blue-500/40`}>
+          <div className="text-xs font-extrabold uppercase tracking-wider text-blue-600 dark:text-blue-400">Para construir</div>
+          <h3 className="mt-1 text-[16px] font-bold">Agente (OpenCode)</h3>
+          <p className={`mt-1 ${muted}`}>
+            Lee tus ficheros, propone un plan, edita y lanza órdenes —<b>cada cambio te lo pide
+            primero</b>— y comprueba el resultado. Más potencia, más responsabilidad: tú apruebas y
+            tú auditas.
+          </p>
+        </div>
+      </div>
+
+      <h3 className="mt-8 text-lg font-bold">El flujo de cada sesión (siempre el mismo)</h3>
+      <ol className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {(
+          [
+            ["Tú decides", "Escribes la intención: la spec, tu acciones.json o el criterio de aceptación de la tarea."],
+            ["Plan", "Agente plan (Tab): «explícame cómo lo harías y qué ficheros tocarías». Lees el plan y lo corriges."],
+            ["Build aprobando diffs", "Agente build (Tab): «hazlo». Lees cada diff y cada orden antes de aceptarla."],
+            ["Auditas", "Lees el código y pruebas con --simular en ~/pruebas-tareas, con casos feos. ¿Mal? /undo o le explicas el fallo."],
+            ["Commit tuyo", "git add + git commit los haces tú, pequeños y con un mensaje que cuente el paso. El prompt clave, a docs/prompts.md."],
+            ["Sesión nueva", "/new para cada tarea y /compact si la conversación se alarga: contexto limpio, menos errores."],
+          ] as const
+        ).map(([t, d], i) => (
+          <li key={t} className={`${card} flex gap-3`}>
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-600 text-sm font-extrabold text-white">
+              {i + 1}
+            </span>
+            <div className="min-w-0">
+              <div className="font-bold">{t}</div>
+              <p className={`mt-0.5 ${muted}`}>{d}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <h3 className="mt-8 text-lg font-bold">Qué configuras en tu repo</h3>
+      <p className={`mt-1 max-w-3xl ${muted}`}>
+        La conexión con los modelos del centro va en tu configuración <b>global</b> (con variables
+        de entorno: la clave nunca acaba en un fichero que subas a git). En el repo van las reglas
+        del juego para el agente:
+      </p>
+      <div className="mt-3 overflow-x-auto rounded-2xl border border-zinc-200 dark:border-white/10">
+        <table className="w-full min-w-[560px] border-collapse text-sm">
+          <thead>
+            <tr className="bg-zinc-100 dark:bg-white/10">
+              <th className={`${th} w-[40%]`}>Fichero</th>
+              <th className={`${th} w-[12%]`}>Cuándo</th>
+              <th className={th}>Para qué</th>
+            </tr>
+          </thead>
+          <tbody>
+            {(
+              [
+                ["opencode.json", "Semana 1", "Permisos: qué puede hacer solo (leer, git status), qué te pregunta (editar, casi todas las órdenes) y qué nunca (git push, rm, leer .env)."],
+                ["AGENTS.md", "Semana 1", "Lo genera /init y lo editas tú: stack, órdenes del proyecto y normas (pathlib, utf-8, nada de commits ni push)."],
+                [".opencode/skills/acciones-json/SKILL.md", "Semana 2", "Skill: las reglas de tu acciones.json, que el agente carga cuando toca acciones."],
+                [".opencode/commands/nueva-accion.md", "Semana 2", "Comando /nueva-accion: añadir una acción siempre con los mismos pasos."],
+                [".opencode/agents/revisor.md", "Semana 2", "Subagente revisor de solo lectura: @revisor busca errores y casos feos antes de cada commit."],
+              ] as const
+            ).map(([f, w, d]) => (
+              <tr key={f} className={tr}>
+                <td className="px-3.5 py-2.5 align-top font-mono text-[13px] font-semibold text-zinc-800 dark:text-zinc-200">{f}</td>
+                <td className={`${td} whitespace-nowrap`}>{w}</td>
+                <td className={td}>{d}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className={`mt-2 text-[13px] text-zinc-500 dark:text-zinc-400`}>
+        En clase usamos <b>OpenCode 1.18.35</b> (claves en singular: <C>permission</C>,{" "}
+        <C>agent</C>…). Si un tutorial habla de <C>permissions</C> o <C>agents</C> en plural, es
+        OpenCode 2 y su configuración no es compatible.
+      </p>
+
+      <Nota tono="emerald">
+        <b>El gancho:</b> la herramienta con la que vas a programar tu CLI es… <b>una CLI</b>.
+        OpenCode tiene ayuda, opciones, subcomandos, fichero de configuración y códigos de salida:
+        todo lo que estás a punto de construir. Úsala con ojo de quien la va a imitar.
+      </Nota>
+
+      <Link
+        href="/programacion-ia/opencode/"
+        className="mt-5 flex flex-col gap-1 rounded-2xl border border-blue-300 dark:border-blue-500/50 bg-blue-600 p-5 text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-lg sm:flex-row sm:items-center sm:justify-between"
+      >
+        <span>
+          <span className="block text-[11px] font-extrabold uppercase tracking-wider text-blue-100">Guía</span>
+          <span className="block text-lg font-extrabold">OpenCode con los modelos del centro →</span>
+        </span>
+        <span className="text-sm text-blue-100 sm:max-w-sm">
+          Instalación (Linux, Windows y macOS), conexión, permisos, atajos y el flujo completo paso a paso.
+        </span>
+      </Link>
 
       {/* 6 · Tecnologías */}
       <h2 id="tecnologias" className={h2}>Tecnologías para hacer una CLI</h2>
@@ -1042,7 +1188,7 @@ export default function CursoIACliTareas() {
           <h3 className="mt-1 text-[16px] font-bold text-violet-950 dark:text-violet-100">La capa de IA</h3>
           <p className="mt-1 text-sm text-violet-900 dark:text-violet-200">
             Acciones de tipo IA (resumir, generar README, renombrar por contenido) que llaman a un
-            modelo — los del centro o el que configures. La clave va en un <C>.env</C> ignorado por
+            modelo — los mismos del centro con los que trabaja OpenCode, o el que configures. La clave va en un <C>.env</C> ignorado por
             git desde el primer commit, con un <C>.env.example</C> documentado.
           </p>
         </div>
@@ -1081,6 +1227,16 @@ export default function CursoIACliTareas() {
                 <li key={h}>{h}</li>
               ))}
             </ul>
+            <div className="mt-4 rounded-xl border border-blue-200 dark:border-blue-500/30 bg-blue-50 dark:bg-blue-500/10 p-3">
+              <div className="text-[11px] font-extrabold uppercase tracking-wider text-blue-700 dark:text-blue-300">
+                Hitos de OpenCode
+              </div>
+              <ul className="mt-1.5 list-disc space-y-1 pl-5 text-sm text-blue-950 dark:text-blue-100">
+                {s.opencode.map((h) => (
+                  <li key={h}>{h}</li>
+                ))}
+              </ul>
+            </div>
             <div className="mt-4 flex-1 rounded-xl border border-emerald-200 dark:border-emerald-500/30 bg-emerald-50 dark:bg-emerald-500/10 p-3 text-sm text-emerald-900 dark:text-emerald-200">
               <b>Producto al acabar:</b> {s.producto}
             </div>
@@ -1101,7 +1257,7 @@ export default function CursoIACliTareas() {
           <ul className="mt-3 list-disc space-y-1.5 pl-5 text-sm text-zinc-600 dark:text-zinc-400">
             <li>Es tu <b>segundo proyecto</b>: línea individual de <b>4 h/semana</b> en el aula, en paralelo a la startup en grupo (las otras 4 h).</li>
             <li>Equipos del aula con <b>Linux</b>: la terminal es bash desde el primer minuto.</li>
-            <li>Herramientas: terminal, el agente de código del centro (<b>OpenCode</b>) y el <b>chat del centro</b> con modelos locales.</li>
+            <li>Herramientas: terminal y <b>OpenCode</b> conectado a los <b>modelos de IA locales del centro</b>, en paralelo a la startup. El chat, solo para consultas.</li>
             <li>Cada sesión acaba con commit y push: lo que no está en GitHub no existe.</li>
           </ul>
         </div>
@@ -1113,8 +1269,8 @@ export default function CursoIACliTareas() {
             <li><b>Quincena 3</b> = estas dos semanas (26 oct → 6 nov).</li>
             <li><b>Comprobación de proceso el 6 nov:</b> 3 acciones propias funcionando + ADR + commits reales.</li>
             <li><b>Quincena 4</b> (9 → 20 nov): IA, pruebas, release y <b>entrega el 20 nov</b>.</li>
-            <li>Primera unidad con <b>editor en casa</b>: VS Code con su terminal integrada y el asistente de código que facilite la Conselleria. El chat de Copilot de Microsoft 365 sigue valiendo para preguntar.</li>
-            <li>La terminal se aprende en la <b>tutoría colectiva de arranque</b>, de <b>presencia obligatoria</b> (fecha en el aula virtual).</li>
+            <li>Trabajas con <b>OpenCode también en casa</b>, por ejemplo en la terminal integrada de VS Code, conectado a los modelos del centro. El chat de Copilot de Microsoft 365 queda <b>solo para consultas</b>.</li>
+            <li>La terminal y cómo conectarte desde casa a los modelos del centro se explican en la <b>tutoría colectiva de arranque</b>, de <b>presencia obligatoria</b> (fecha en el aula virtual).</li>
             <li>Tu equipo puede ser Windows, Linux o macOS: la sección multiplataforma es para ti.</li>
           </ul>
         </div>
@@ -1123,11 +1279,18 @@ export default function CursoIACliTareas() {
       <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
         <div className="rounded-2xl border border-dashed border-zinc-300 dark:border-white/15 p-4">
           <div className="text-xs font-extrabold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Después · semana 3</div>
-          <p className={`mt-1 ${muted}`}>Capa IA: <C>.env</C>, modelos del centro y modo sin red.</p>
+          <p className={`mt-1 ${muted}`}>
+            OpenCode: <b>MCP</b> (servidor <C>context7</C> para documentación de librerías, activado
+            solo cuando hace falta). Tu CLI: capa IA que llama a los <b>mismos modelos del centro</b>{" "}
+            desde Python, <C>.env</C> y modo sin red.
+          </p>
         </div>
         <div className="rounded-2xl border border-dashed border-zinc-300 dark:border-white/15 p-4">
           <div className="text-xs font-extrabold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Después · semana 4</div>
-          <p className={`mt-1 ${muted}`}>Pruebas (pytest + GitHub Actions), README, release v1.0 y día de instalación cruzada.</p>
+          <p className={`mt-1 ${muted}`}>
+            Pruebas que escribe el agente y auditas tú (pytest + GitHub Actions), <C>opencode run</C>{" "}
+            no interactivo en scripts, README, release v1.0 y día de instalación cruzada.
+          </p>
         </div>
       </div>
 

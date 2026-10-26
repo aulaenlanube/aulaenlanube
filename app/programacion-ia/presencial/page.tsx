@@ -82,12 +82,28 @@ export default function CursoIAPresencial() {
           <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
             Una aplicación de <b>terminal</b> que trabaja con tus propios ficheros con acciones que defines
             tú en <code className="font-mono">acciones.json</code> (ordenar, renombrar, resumir…), combinando
-            sistema operativo e IA. Python + Typer, instalable con una orden en Linux, Windows y macOS. Va en
-            las 4 horas de línea individual, <b>en paralelo a la startup</b>.
+            sistema operativo e IA. Python + Typer, instalable con una orden en Linux, Windows y macOS. Se
+            construye de forma <b>agéntica con OpenCode</b> y los modelos de IA del centro. Va en las 4 horas de
+            línea individual, <b>en paralelo a la startup</b>.
           </p>
           <p className="mt-3 text-sm font-semibold text-blue-700 dark:text-blue-300">
             Ver qué es una CLI, el plan de las dos primeras semanas y la rúbrica →
           </p>
+        </Link>
+
+        <Link
+          href="/programacion-ia/opencode/"
+          className="block rounded-2xl border border-violet-300 dark:border-violet-500/40 bg-white dark:bg-slate-900 p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg"
+        >
+          <span className={`${tag} border-violet-200 dark:border-violet-500/30 bg-violet-50 dark:bg-violet-500/10 text-violet-700 dark:text-violet-300`}>
+            Guía del curso · desde el proyecto 2
+          </span>
+          <h3 className="text-lg font-bold">OpenCode: tu agente de programación</h3>
+          <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+            El agente open source del instituto, conectado a los modelos de IA locales del centro: instalación,
+            agentes plan y build, permisos, AGENTS.md, comandos, skills y MCP. Lo usarás todo el curso.
+          </p>
+          <p className="mt-3 text-sm font-semibold text-blue-700 dark:text-blue-300">Abrir la guía →</p>
         </Link>
 
         <Link

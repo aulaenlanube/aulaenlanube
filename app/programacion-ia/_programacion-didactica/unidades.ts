@@ -571,15 +571,15 @@ const SEMI: UT[] = [
     trimestre: "1.ª evaluación",
     horas: 32,
     organizacion:
-      "Primera unidad con editor y agente en casa (VS Code con el asistente de código que facilite la Conselleria). La terminal se aprende en la tutoría colectiva de arranque, de presencia obligatoria, porque es el único bloque del curso que exige intervención directa del profesor (Orden 30/2022, art. 27). Comprobación de proceso al final de la quincena 3 y entrega al final de la quincena 4.",
+      "Primera unidad con agente de programación en casa: OpenCode (open source) conectado a los modelos de IA locales del centro, desde la terminal o la de VS Code. La terminal y el agente se aprenden en la tutoría colectiva de arranque, de presencia obligatoria, porque es el único bloque del curso que exige intervención directa del profesor (Orden 30/2022, art. 27). Comprobación de proceso al final de la quincena 3 y entrega al final de la quincena 4.",
     actividades: [
-      { t: "Arranque guiado (presencia obligatoria)", d: "Terminal desde cero (rutas, permisos, PATH), instalación de Python, editor y asistente de código; andamiaje y orden de ayuda funcionando antes de salir del aula.", h: 4, agr: "Gran grupo presencial", prod: "Orden de ayuda funcional" },
+      { t: "Arranque guiado (presencia obligatoria)", d: "Terminal desde cero (rutas, permisos, PATH), instalación de Python, uv y OpenCode conectado a los modelos del centro; andamiaje y orden de ayuda funcionando antes de salir del aula.", h: 4, agr: "Gran grupo presencial", prod: "Orden de ayuda funcional" },
       { t: "Quincena 3 · Acciones predefinidas", d: "Diseño de acciones.json y motor que las ejecuta; ADR sobre configuración externa; vídeo-guía y foro de dudas.", h: 12, agr: "Individual (TC 4 h · TI 8 h)", prod: "3 acciones propias y ADR" },
       { t: "Quincena 4 · IA, pruebas y release", d: "Capa de IA con .env y .gitignore, modo sin red, pruebas de casos feos, README de instalación y release v1.0.", h: 12, agr: "Individual (TC 4 h · TI 8 h)", prod: "Paquete instalable v1.0" },
       { t: "Entrega e instalación cruzada", d: "Entrega en el aula virtual; en tutoría colectiva cada alumno instala la CLI de otro siguiendo su README.", h: 4, agr: "Parejas en tutoría colectiva", prod: "Proyecto evaluado" },
     ],
     instrumentos: INST_SEMI,
-    recursos: ["VS Code y asistente de código facilitado por la Conselleria.", "Python 3 y terminal del equipo propio o del aula.", "Punto de acceso a modelos de IA del centro o modo sin IA.", "Vídeo-guías del profesor y foro del aula."],
+    recursos: ["OpenCode (agente open source) con los modelos de IA locales del centro; VS Code como editor.", "Python 3 y terminal del equipo propio o del aula.", "Punto de acceso a modelos de IA del centro o modo sin IA.", "Vídeo-guías del profesor y foro del aula."],
   },
   {
     ...JUEGO,

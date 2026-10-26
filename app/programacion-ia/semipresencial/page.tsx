@@ -63,7 +63,7 @@ export default function CursoIASemipresencial() {
       <h2 className="mt-10 text-2xl font-extrabold tracking-tight">El ritmo: quincenas</h2>
       <p className="mt-1 max-w-3xl text-[15px] text-zinc-600 dark:text-zinc-400">
         En semipresencial no hay «la clase del miércoles»: cada <b>quincena</b> tiene un objetivo, sus
-        recursos y una fecha. Avanzas tú, con tu editor, el asistente y las páginas de cada sesión; el
+        recursos y una fecha. Avanzas tú, con tu agente (OpenCode) y las páginas de cada sesión; el
         profesor revisa al final de cada quincena. Estas son las dos quincenas del <b>proyecto 2</b>:
       </p>
 
@@ -97,8 +97,8 @@ export default function CursoIASemipresencial() {
               </Link>
             </li>
             <li>
-              <b>Tutoría colectiva de arranque (presencia obligatoria):</b> la terminal desde cero e instalar
-              Python, uv y el editor. Es el único bloque del curso que necesita al profesor a tu lado.
+              <b>Tutoría colectiva de arranque (presencia obligatoria):</b> la terminal desde cero, Python, uv y
+              <b>OpenCode</b> conectado a los modelos del centro. Es el bloque del curso que más necesita al profesor a tu lado.
             </li>
             <li>
               <b>Semana 1:</b>{" "}
@@ -152,18 +152,20 @@ export default function CursoIASemipresencial() {
         <div className="flex flex-col gap-5 md:flex-row md:items-center">
           <SvgHerramientas />
           <div className="flex-1">
-            <h2 className="text-xl font-extrabold tracking-tight">Tus herramientas desde casa: editor, terminal y asistente</h2>
+            <h2 className="text-xl font-extrabold tracking-tight">Desde la CLI trabajas con un agente: OpenCode</h2>
             <p className="mt-2 text-[15px] text-zinc-700 dark:text-zinc-300">
               En la web de marca trabajaste <b>solo con el chat de Copilot</b> y creando los ficheros a mano:
-              ya sabes qué es cada fichero y cómo funciona GitHub. Con la CLI llega el siguiente paso, como
-              estaba previsto: <b>Visual Studio Code</b> con su <b>terminal integrada</b> y el{" "}
-              <b>asistente de código que facilite la Conselleria</b>. El chat de Copilot de Microsoft 365
-              sigue valiendo para preguntar y entender.
+              ya sabes qué es cada fichero y cómo funciona GitHub. Desde el proyecto 2 das el salto a trabajar de
+              forma <b>agéntica</b> con <b>OpenCode</b>, el agente de programación open source que el instituto
+              conecta a sus <b>modelos de IA locales</b>: lee tu proyecto, propone un plan, edita los ficheros y
+              ejecuta órdenes, siempre con tu permiso. Lo abres en una terminal (también en la de VS Code) y lo
+              usarás todo el curso. El chat queda para consultas.
             </p>
             <ul className="mt-2 list-disc space-y-1 pl-5 text-[15px] text-zinc-700 dark:text-zinc-300">
-              <li><b>Tú decides, el asistente programa, tú auditas:</b> la spec y el <code className="rounded bg-zinc-100 px-1 font-mono text-[13px] dark:bg-white/10">acciones.json</code> los escribes tú; lo que genera la IA lo lees, lo pruebas y lo entiendes antes de commitearlo.</li>
-              <li><b>Guarda tus prompts buenos</b> en <code className="rounded bg-zinc-100 px-1 font-mono text-[13px] dark:bg-white/10">docs/prompts.md</code>: son la evidencia de tu proceso.</li>
-              <li><b>Windows, Linux o macOS:</b> cualquiera vale. Las sesiones traen las órdenes para bash y para PowerShell, y tu CLI tiene que funcionar en todos.</li>
+              <li><b>Guía completa:</b> <Link href="/programacion-ia/opencode/" className="font-semibold text-amber-700 underline dark:text-amber-400">OpenCode: tu agente de programación →</Link> (instalación, conexión, agentes, permisos, AGENTS.md, skills, MCP).</li>
+              <li><b>Tú decides, el agente programa, tú auditas:</b> la spec y el <code className="rounded bg-zinc-100 px-1 font-mono text-[13px] dark:bg-white/10">acciones.json</code> son tuyos; cada cambio lo apruebas leyendo el diff y los commits los haces tú.</li>
+              <li><b>Desde casa:</b> en la tutoría colectiva de arranque te explicamos cómo conectar OpenCode a los modelos del centro desde fuera del instituto.</li>
+              <li><b>Windows, Linux o macOS:</b> cualquiera vale. Las sesiones traen las órdenes para bash y para PowerShell.</li>
             </ul>
           </div>
         </div>
@@ -288,7 +290,7 @@ function SvgHerramientas() {
       <path d="M104 58 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3 z" fill="#7c3aed" />
       <path d="M40 61 h14 v8 h-14 z" fill="none" stroke="#16a34a" strokeWidth="2" />
       <text x="18" y="67.5" fontSize="7" fontWeight="700" fill="#16a34a">index</text>
-      <text x="6" y="90" fontSize="9" fontWeight="700" fill="#5b21b6">editor · terminal · IA</text>
+      <text x="6" y="90" fontSize="9" fontWeight="700" fill="#5b21b6">OpenCode · agente</text>
     </svg>
   );
 }

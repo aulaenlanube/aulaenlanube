@@ -36,8 +36,8 @@ export default function CursoIAInicio() {
           <h2 className="mt-3 text-2xl font-extrabold">Curso presencial</h2>
           <p className="mt-2 flex-1 text-[15px] text-zinc-600 dark:text-zinc-400">
             Ritmo semanal en el aula: kickoff, build y demo. Ahora: proyecto 2, la <b>CLI «tareas con
-            IA»</b>, en paralelo al proyecto final <b>en grupo</b> (una startup de 4-5 publicada de
-            verdad). Todos los proyectos, sesiones y rúbricas.
+            IA»</b> construida con el agente <b>OpenCode</b>, en paralelo al proyecto final <b>en grupo</b>
+            (una startup de 4-5 publicada de verdad). Todos los proyectos, sesiones y rúbricas.
           </p>
           <p className="mt-4 text-sm font-bold text-blue-700 group-hover:underline dark:text-blue-300">
             Entrar al curso presencial →
@@ -55,7 +55,7 @@ export default function CursoIAInicio() {
           <p className="mt-2 flex-1 text-[15px] text-zinc-600 dark:text-zinc-400">
             Mismo método, otro formato: <b>planificado por quincenas</b> y <b>solo con proyectos
             individuales</b> — no hay proyecto en grupo. Ahora: quincenas 3 y 4, la <b>CLI «tareas con
-            IA»</b>, tu herramienta de terminal instalable en Linux, Windows y macOS.
+            IA»</b>, tu herramienta de terminal construida con el agente OpenCode.
           </p>
           <p className="mt-4 text-sm font-bold text-amber-700 group-hover:underline dark:text-amber-400">
             Entrar al curso semipresencial →
@@ -73,6 +73,15 @@ export default function CursoIAInicio() {
           className="inline-flex flex-none items-center justify-center rounded-xl bg-blue-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-500"
         >
           Acceso al aula →
+        </Link>
+      </div>
+
+      <div className="mt-6 rounded-2xl border border-violet-200 dark:border-violet-500/30 bg-violet-50 p-5 text-[15px] text-violet-900 dark:bg-violet-500/10 dark:text-violet-200">
+        <b>Tu herramienta de trabajo: OpenCode.</b> Desde el proyecto 2 los dos grupos programan de forma
+        agéntica con OpenCode, el agente open source del instituto conectado a los modelos de IA locales del
+        centro.{" "}
+        <Link href="/programacion-ia/opencode/" className="font-semibold underline">
+          Abrir la guía →
         </Link>
       </div>
 

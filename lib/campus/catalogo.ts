@@ -68,20 +68,20 @@ export const PROYECTOS: Record<string, ProyectoCatalogo> = {
     id: "cli",
     titulo: "CLI «tareas con IA»",
     resumen:
-      "Una aplicación de terminal que gestiona tus propios ficheros con acciones que defines tú en acciones.json (ordenar, renombrar, resumir…), combinando sistema operativo e IA. Python + Typer, instalable con una orden en Linux, Windows y macOS.",
+      "Una aplicación de terminal que gestiona tus propios ficheros con acciones que defines tú en acciones.json (ordenar, renombrar, resumir…), combinando sistema operativo e IA. Python + Typer, construida de forma agéntica con OpenCode y los modelos del centro.",
     href: "/programacion-ia/cli/",
     rubrica: "cli-tareas",
     sesiones: [
       {
         id: "s01", n: 1,
         titulo: "Arranque: la terminal y tu primera orden",
-        resumen: "Terminal desde cero (Linux y Windows), Python y uv, el esqueleto con Typer, .gitignore antes del primer commit y tu comando instalado con --help funcionando.",
+        resumen: "Terminal desde cero (Linux y Windows), Python, uv y OpenCode conectado al centro; AGENTS.md, permisos y tu primera orden construida con el agente.",
         href: "/programacion-ia/cli/sesion-01/",
       },
       {
         id: "s02", n: 2,
         titulo: "Acciones predefinidas: acciones.json y el motor",
-        resumen: "Diseñas tu esquema de acciones, el agente programa el motor que las ejecuta con simulación y confirmación, excepciones propias y tu primer ADR.",
+        resumen: "Diseñas tu esquema de acciones y se lo enseñas al agente con una skill; comando /nueva-accion, subagente revisor, motor con simulación y tu primer ADR.",
         href: "/programacion-ia/cli/sesion-02/",
       },
     ],

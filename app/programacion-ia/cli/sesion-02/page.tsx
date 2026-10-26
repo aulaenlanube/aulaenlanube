@@ -9,7 +9,7 @@ import { RUBRICA_CLI } from "@/lib/campus/rubricas";
 export const metadata: Metadata = {
   title: "Sesión 2 · Acciones predefinidas: acciones.json y el motor — CLI tareas con IA",
   description:
-    "Semana 2 (2-6 nov): diseñas tu acciones.json, lo validas con excepciones propias, el agente programa el motor y escribes tu primer ADR.",
+    "Semana 2 (2-6 nov): diseñas acciones.json y, con OpenCode, creas una skill, un comando y un subagente revisor; el agente programa el motor y tú lo auditas.",
 };
 
 /* ───────────── estilos compartidos ───────────── */
@@ -188,26 +188,35 @@ def cargar(ruta: Path) -> list[dict]:
                 raise AccionNoValida(nombre, "filtro.patron", f"expresión regular rota: {e}")
     return acciones`;
 
-const PROMPT_VALIDAR = `Contexto: proyecto Python 3.12 «cli-tareas» (src layout, Typer + Rich, gestor uv).
-Ya existe src/tareas/cli.py con las órdenes version y listar.
-Te paso mi acciones.json y la documentación de su esquema (del README):
-[pega aquí tu acciones.json y la tabla de campos]
+const PROMPT_VALIDAR_PLAN = `Carga la skill acciones-json y lee @acciones.json.
+Quiero validar acciones.json ANTES de ejecutar nada:
+- src/tareas/errores.py con TareasError, ConfigError y AccionNoValida;
+- src/tareas/config.py con cargar(ruta) -> list[dict];
+- la orden «tareas validar» en src/tareas/cli.py.
+No toques nada todavía: dime qué ficheros crearías o cambiarías, qué clases
+y funciones tendrán y qué casos de error vas a detectar.`;
 
-Tarea, SOLO estos dos ficheros + una orden:
-1. src/tareas/errores.py con TareasError (codigo_salida = 1), ConfigError(TareasError)
-   (codigo_salida = 3) y AccionNoValida(ConfigError), que recibe (accion, campo, motivo)
-   y genera el mensaje «Acción «X», campo «Y»: motivo».
-2. src/tareas/config.py con cargar(ruta: Path) -> list[dict] que:
-   - lea con encoding="utf-8" y Path.expanduser();
-   - si el JSON está roto, lance ConfigError con línea y columna;
-   - compruebe campos obligatorios, tipos conocidos, nombres únicos, campos
-     obligatorios según el tipo y que filtro.patron compila como regex;
-   - todos los mensajes dicen QUÉ acción y QUÉ campo fallan, en español.
-3. Orden «tareas validar» en cli.py: si todo va bien imprime «✔ N acciones válidas»
-   en verde; si no, el mensaje en rojo SIN traceback y sale con el código
-   e.codigo_salida (3 para configuración inválida).
-Reglas: pathlib siempre, nada de os.system ni shell=True, sin dependencias nuevas.
-No toques otros ficheros. Al terminar, explícame en 5 líneas cómo funciona la validación.`;
+const PROMPT_VALIDAR_BUILD = `Hazlo según el plan. Criterio de aceptación:
+- TareasError (codigo_salida = 1), ConfigError (codigo_salida = 3) y
+  AccionNoValida(accion, campo, motivo) → «Acción «X», campo «Y»: motivo».
+- JSON roto → ConfigError con línea y columna.
+- Cada mensaje dice QUÉ acción y QUÉ campo fallan, en español.
+- «tareas validar»: «✔ N acciones válidas» en verde, o el error en rojo
+  SIN traceback y saliendo con e.codigo_salida.
+Solo esos tres ficheros, sin dependencias nuevas.
+Termina ejecutando: uv run tareas validar`;
+
+const PROMPT_MOTOR_BUILD = `Carga la skill acciones-json. Crea src/tareas/acciones.py y src/tareas/motor.py:
+1. acciones.py: dataclass Resultado(origen, destino, estado: hecho | simulado | saltado);
+   clase base abstracta Accion con ejecutar(ficheros, simular) y aplicar(fichero, n, simular)
+   abstracto; fábrica Accion.desde_config(dict) con un registro de subclases (nada de
+   if/elif por tipo); subclases Mover, Copiar, Renombrar y Borrar (destructiva = True).
+2. motor.py: clase Motor(acciones) con seleccionar(carpeta, filtro) y
+   ejecutar(nombre, carpeta, simular) -> list[Resultado]. Sin carpeta, usa "origen".
+   Acción o carpeta inexistente → TareasError con mensaje humano.
+Con simular=True no se toca NADA del disco (ni mkdir). Nunca sobrescribir: sufijo « (1)».
+No toques cli.py y NO ejecutes ninguna acción: las pruebo yo.
+Al terminar, dime qué pasa si ejecuto dos veces seguidas la misma acción de mover y por qué.`;
 
 const ACCIONES_PY = String.raw`# src/tareas/acciones.py (resumido)
 from __future__ import annotations
@@ -350,41 +359,6 @@ class Motor:
         ficheros = self.seleccionar(carpeta, accion.config.get("filtro", {}))
         return accion.ejecutar(ficheros, simular)`;
 
-const PROMPT_MOTOR = `Contexto: proyecto «cli-tareas» (Python 3.12, src layout, Typer + Rich, uv).
-Ya existen errores.py (TareasError, ConfigError, AccionNoValida) y config.py,
-que devuelve la lista de acciones YA validadas. Mi esquema de acciones.json:
-[pega tu acciones.json y la tabla de campos del README]
-
-Tarea: crea src/tareas/acciones.py y src/tareas/motor.py.
-1. acciones.py
-   - dataclass Resultado(origen: Path, destino: Path | None, estado: "hecho" | "simulado" | "saltado").
-   - Clase base abstracta Accion(config: dict) con nombre, descripcion, atributo
-     destructiva (False por defecto), método ejecutar(ficheros, simular) -> list[Resultado]
-     y método abstracto aplicar(fichero, n, simular).
-   - Método estático de fábrica Accion.desde_config(config) que devuelve la subclase
-     según "tipo" (registro de subclases, nada de una cadena de if/elif).
-   - Subclases Mover, Copiar, Renombrar y Borrar (destructiva = True).
-   - Plantillas de nombre con str.format: {fecha:%Y-%m-%d} (fecha de modificación),
-     {n:03}, {ext} (con punto, en minúsculas) y {nombre} (sin extensión).
-2. motor.py: clase Motor(acciones: list[dict]) que crea las acciones con la fábrica,
-   un método estático seleccionar(carpeta, filtro) (extensiones sin distinguir
-   mayúsculas, patron regex sobre el nombre, mas_antiguo_que_dias, mayor_que_mb)
-   y ejecutar(nombre, carpeta, simular) -> list[Resultado]. Si no se pasa carpeta,
-   usa "origen" de la acción. Acción o carpeta inexistente → TareasError con mensaje humano.
-
-Reglas multiplataforma (tiene que funcionar en Linux, Windows y macOS):
-- pathlib.Path siempre; nunca concatenar rutas con "/" o "\\" en cadenas.
-- Path.expanduser() para "~"; encoding="utf-8" si lees o escribes texto.
-- shutil.move y shutil.copy2; NADA de os.system, subprocess ni shell=True.
-- Nombres con tildes y espacios deben funcionar.
-Reglas de seguridad:
-- NUNCA sobrescribir: si el destino existe, añade sufijo « (1)», « (2)»… y dilo en el resultado.
-- Si la carpeta de destino no existe, créala (solo cuando NO se simula).
-- Con simular=True no se toca NADA del disco (ni mkdir).
-- Borrar solo se ejecuta desde la CLI con confirmación o --si (eso lo haremos en cli.py).
-No toques cli.py todavía. Al terminar, dime qué pasa si ejecuto dos veces seguidas
-la misma acción de mover y por qué.`;
-
 const CLI_PY = String.raw`# src/tareas/cli.py (fragmento)
 @app.callback()
 def principal(
@@ -413,19 +387,16 @@ def ejecutar(
         raise typer.Exit(e.codigo_salida)
     pintar_tabla(resultados, simular)  # Rich: fichero → destino → estado`;
 
-const PROMPT_CLI = `Contexto: proyecto «cli-tareas». Ya existen config.cargar(ruta), Motor y las Accion.
-Tarea: amplía SOLO src/tareas/cli.py (Typer + Rich):
+const PROMPT_CLI = `Amplía SOLO @src/tareas/cli.py (Typer + Rich). Ya existen config.cargar, Motor y las Accion.
 1. Opción global --config RUTA en @app.callback (por defecto ./acciones.json), guardada en ctx.obj.
-2. «tareas acciones»: tabla Rich con nombre, tipo y descripción de cada acción.
+2. «tareas acciones»: tabla Rich con nombre, tipo y descripción.
 3. «tareas ejecutar NOMBRE [CARPETA] --simular --si»:
-   - --simular: muestra la tabla «qué fichero → qué destino» con estado «simulado» y no toca nada;
-   - si la acción es destructiva y no hay --simular ni --si, pide confirmación (typer.confirm, abort=True);
-   - al final, resumen: N hechos, N simulados, N saltados; si no hay ficheros que cumplan el filtro, dilo.
-4. Códigos de salida: 0 bien · 1 fallo al ejecutar (TareasError) · 2 uso incorrecto (Typer) ·
-   3 configuración inválida (ConfigError). Nunca un traceback ante errores previsibles:
-   captura TareasError, pinta el mensaje en rojo y sal con typer.Exit(e.codigo_salida).
-Rutas mostradas relativas a la carpeta de trabajo si se puede, para que la tabla quepa.
-No toques acciones.py ni motor.py.`;
+   - --simular: tabla «fichero → destino» con estado «simulado», sin tocar nada;
+   - acción destructiva sin --simular ni --si → typer.confirm(..., abort=True);
+   - resumen final: N hechos, N simulados, N saltados; si ningún fichero cumple el filtro, dilo.
+4. Códigos de salida: 0 bien · 1 TareasError · 2 uso (Typer) · 3 ConfigError.
+   Nunca un traceback ante errores previsibles: mensaje en rojo y typer.Exit(e.codigo_salida).
+No toques acciones.py ni motor.py. Termina con: uv run tareas --help`;
 
 const PRUEBAS_BASH = String.raw`# 1) Una carpeta de pruebas con ficheros feos (tildes, espacios, mayúsculas)
 mkdir -p ~/pruebas-tareas/Descargas
@@ -531,33 +502,117 @@ const AUDITORIA: [string, string][] = [
 ];
 
 const COMMITS = `git add acciones.json README.md
-git commit -m "Esquema de acciones.json con 3 acciones propias, documentado en el README"
+git commit -m "Esquema de acciones.json con mi primera acción, documentado en el README"
+
+git add .opencode/skills/acciones-json/SKILL.md
+git commit -m "Skill acciones-json: el agente carga las reglas de mi esquema"
 
 git add src/tareas/errores.py src/tareas/config.py src/tareas/cli.py
 git commit -m "Validación de acciones.json con ConfigError/AccionNoValida y orden validar (sale con 3)"
 
 git add src/tareas/acciones.py src/tareas/motor.py
-git commit -m "Motor con filtro por extensión, regex, antigüedad y tamaño"
+git commit -m "Motor y clases Accion: --simular no toca el disco y nunca sobrescribe"
 
-git commit -am "Acción mover: crea destino y no sobrescribe (sufijo (1))"
-git commit -am "Acción renombrar con plantilla {fecha} {n} {ext}: probada con tildes y espacios"
-git commit -am "Acción borrar con confirmación y --si; --simular no toca el disco"
-git commit -am "Órdenes acciones y ejecutar con tabla Rich y opción --config"
+git add src/tareas/cli.py
+git commit -m "Órdenes acciones y ejecutar con tabla Rich, --si y --config"
+
+git add .opencode/commands/nueva-accion.md
+git commit -m "Comando /nueva-accion: propone el JSON y espera mi visto bueno"
+
+git add acciones.json
+git commit -m "Acción renombrar-capturas creada con /nueva-accion y probada con --simular"
+
+git add .opencode/agents/revisor.md
+git commit -m "Subagente revisor de solo lectura (edit: deny)"
+
+git add src/tareas/acciones.py
+git commit -m "Arreglo del revisor: nombres con tildes al renombrar"
 
 git add docs/adr/0001-configuracion-externa.md docs/prompts.md
-git commit -m "ADR-0001: por qué configuración externa; prompts de validación y motor"
+git commit -m "ADR-0001: por qué configuración externa; prompts clave de la semana"
 git push`;
 
 const CHECKLIST = [
   "acciones.json con al menos 3 acciones TUYAS (no las del ejemplo) y el esquema documentado en el README.",
-  "«tareas validar» detecta los 4 casos feos con mensajes que dicen qué acción y qué campo fallan, y sale con 3.",
+  "«tareas validar» detecta los casos feos con mensajes que dicen qué acción y qué campo fallan, y sale con 3.",
   "errores.py con TareasError, ConfigError y AccionNoValida; ningún traceback ante errores previsibles.",
   "acciones.py con la clase base Accion, la fábrica desde_config y una subclase por tipo; motor.py con la clase Motor.",
   "«tareas acciones» y «tareas ejecutar NOMBRE [CARPETA] --simular / --si» funcionando, y --config RUTA.",
-  "Probado en ~/pruebas-tareas: siempre --simular primero; nada sobrescrito, nada perdido.",
+  "Probado en ~/pruebas-tareas y con el destino también en pruebas: siempre --simular primero; nada sobrescrito, nada perdido.",
+  ".opencode/skills/acciones-json/SKILL.md en el repo y visible en /skills.",
+  ".opencode/commands/nueva-accion.md en el repo y usado para tu 2.ª y 3.ª acción.",
+  ".opencode/agents/revisor.md en el repo; @revisor o /review antes de cada commit de código.",
   "docs/adr/0001-configuracion-externa.md terminado con TUS razones.",
-  "docs/prompts.md con los prompts clave de la semana y qué tuviste que corregir de lo que generó el agente.",
-  "≥ 10 commits acumulados (los de la Sesión 1 cuentan) con mensajes que cuentan el proceso, y push a GitHub.",
+  "docs/prompts.md con los prompts clave de la semana y qué tuviste que corregir de lo que hizo el agente.",
+  "≥ 10 commits tuyos acumulados (los de la Sesión 1 cuentan) con mensajes que cuentan el proceso, y push a GitHub.",
+];
+
+const SKILL_MD = `---
+name: acciones-json
+description: Reglas del fichero acciones.json de la CLI tareas (campos, tipos, filtros, plantillas y validación). Úsala siempre que crees o cambies acciones o el código que las lee (config.py, acciones.py, motor.py).
+---
+# Esquema de acciones.json
+- Raíz: {"version": 1, "acciones": [...]}. Cada acción: nombre (único, minúsculas-con-guiones), descripcion, tipo.
+- Tipos: mover y copiar (requieren destino), renombrar (requiere plantilla), borrar (siempre pide confirmación salvo --si).
+- filtro opcional: extensiones (lista, en minúsculas), patron (regex válida), mas_antiguo_que_dias, mayor_que_mb.
+- plantilla: huecos {fecha:%Y-%m-%d}, {n:03}, {ext}, {nombre}.
+## Reglas al programar
+- Valida el JSON en config.py ANTES de ejecutar; errores con AccionNoValida(accion, campo, motivo).
+- pathlib y shutil; encoding="utf-8"; nunca shell=True; nunca sobrescribir (destino_libre).
+- Toda acción admite --simular y devuelve list[Resultado].
+- Si añades un campo o un tipo nuevo, documéntalo en el README y en esta skill.`;
+
+const COMANDO_MD = `---
+description: Añade una acción nueva a acciones.json y, si hace falta, el código que la soporta
+agent: build
+---
+Quiero añadir la acción: $ARGUMENTS
+1. Carga la skill acciones-json.
+2. Propón primero la entrada JSON y espera mi visto bueno.
+3. Si el tipo ya existe, solo edita acciones.json. Si no, añade la clase en src/tareas/acciones.py siguiendo el patrón de las demás.
+4. Termina ejecutando \`uv run tareas validar\` y dime qué orden con --simular debo probar yo.
+Estado actual del repo:
+!\`git status --short\``;
+
+const REVISOR_MD = `---
+description: Revisa el código de la CLI tareas sin modificar nada y señala errores, casos feos y problemas multiplataforma
+mode: subagent
+temperature: 0.1
+permission:
+  edit: deny
+  webfetch: deny
+  bash:
+    "*": deny
+    "git diff *": allow
+    "git log *": allow
+    "git status *": allow
+---
+Eres el revisor de código del proyecto (1º DAM). Revisa lo que te indiquen y responde en español con:
+1. Errores seguros (con fichero y línea).
+2. Casos feos sin cubrir: ruta inexistente, carpeta vacía, nombres con tildes o espacios, JSON roto, destino que ya existe.
+3. Problemas en Windows/macOS (rutas, encoding, shell).
+4. Una pregunta que el alumno debería saber responder sobre ese código.
+No reescribas el código: señala y explica.`;
+
+const ESTRUCTURA_OPENCODE = `cli-tareas/
+├── opencode.json                  # permisos del proyecto (Sesión 1)
+├── AGENTS.md                      # normas que el agente lee SIEMPRE (Sesión 1)
+├── acciones.json
+├── .opencode/
+│   ├── skills/
+│   │   └── acciones-json/
+│   │       └── SKILL.md           # paso 2: lo que el agente sabe de tu esquema
+│   ├── commands/
+│   │   └── nueva-accion.md        # paso 5: tu orden /nueva-accion
+│   └── agents/
+│       └── revisor.md             # paso 6: tu subagente @revisor
+└── src/tareas/ …`;
+
+const PERSONALIZAR: [string, string, string, string][] = [
+  ["AGENTS.md", "raíz del repo", "Siempre: entra en todas las conversaciones", "Normas generales del proyecto (stack, órdenes, «no hagas push»)."],
+  ["Skill", ".opencode/skills/NOMBRE/SKILL.md", "El agente, bajo demanda, cuando la description encaja con la tarea", "Conocimiento concreto que no hace falta siempre: tu esquema de acciones.json."],
+  ["Comando", ".opencode/commands/NOMBRE.md", "Tú, escribiendo /NOMBRE argumentos", "Un prompt que repites a menudo, con sus pasos fijos."],
+  ["Subagente", ".opencode/agents/NOMBRE.md", "Tú con @NOMBRE (o el agente principal, si lo necesita)", "Otro agente con su propio papel y sus propios permisos: un revisor que no puede editar."],
 ];
 
 /* ───────────── diagrama ───────────── */
@@ -625,6 +680,9 @@ function Diagrama() {
 }
 
 /* ───────────── página ───────────── */
+const enlace = "font-semibold text-blue-700 underline dark:text-blue-300";
+const h3 = "pt-4 text-lg font-bold text-zinc-900 dark:text-zinc-100";
+
 export default function CliSesion2() {
   const criteriosSemana = RUBRICA_CLI.criterios.filter((c) => ["acciones", "configuracion", "robustez", "diseno"].includes(c.id));
   return (
@@ -642,17 +700,20 @@ export default function CliSesion2() {
       </h1>
       <p className="mt-4 text-lg leading-relaxed text-zinc-600 dark:text-zinc-400">
         Esta semana está la idea central del proyecto: <b>tú decides qué hace tu herramienta escribiendo
-        acciones.json</b>; el agente programa el <b>motor</b> que lo interpreta. A partir de hoy, añadir una
-        acción nueva es <b>editar el JSON, no el código</b>. Partes de lo que dejaste en la{" "}
-        <Link href="/programacion-ia/cli/sesion-01/" className="font-semibold text-blue-700 underline dark:text-blue-300">
+        acciones.json</b>; el agente programa el <b>motor</b> que lo interpreta. Y a la vez das el segundo paso
+        con <b>OpenCode</b>: le enseñas tu esquema con una <b>skill</b>, te creas un <b>comando</b> propio para
+        añadir acciones y un <b>subagente revisor</b> que lee tu código sin poder tocarlo. Partes de lo que
+        dejaste en la{" "}
+        <Link href="/programacion-ia/cli/sesion-01/" className={enlace}>
           Sesión 1
         </Link>
-        : el comando <C>tareas</C> instalado con <C>--help</C>, <C>version</C> y <C>listar</C>, y el repo con su
-        <C>.gitignore</C>.
+        : el comando <C>tareas</C> con <C>--help</C>, <C>version</C> y <C>listar</C>, el repo con su{" "}
+        <C>.gitignore</C>, tu <C>opencode.json</C> de permisos y tu <C>AGENTS.md</C>.
       </p>
       <div className="mt-4 flex flex-wrap gap-2">
         <span className={meta}>🗓 Semana 2 · 2-6 nov</span>
         <span className={meta}>🧩 acciones.json → config → Motor → Accion</span>
+        <span className={meta}>🤖 skill · comando · subagente</span>
         <span className={meta}>🛡 Excepciones propias</span>
         <span className={meta}>📝 Primer ADR</span>
       </div>
@@ -660,15 +721,28 @@ export default function CliSesion2() {
       <div className={`mt-6 ${card}`}>
         <h2 className="text-lg font-extrabold">Producto al acabar la semana</h2>
         <ul className="mt-2 list-disc space-y-1 pl-5 text-[15px] text-zinc-700 dark:text-zinc-300">
-          <li><b>3 acciones propias</b> en acciones.json funcionando, primero con <C>--simular</C>.</li>
-          <li>Las órdenes <C>tareas validar</C> y <C>tareas acciones</C>.</li>
+          <li><b>3 acciones propias</b> en acciones.json funcionando, siempre primero con <C>--simular</C>.</li>
+          <li>Las órdenes <C>tareas validar</C>, <C>tareas acciones</C> y <C>tareas ejecutar</C>.</li>
           <li>Excepciones propias: <C>TareasError</C>, <C>ConfigError</C>, <C>AccionNoValida</C>.</li>
           <li><C>docs/adr/0001-configuracion-externa.md</C> escrito con tus razones.</li>
-          <li><b>≥ 10 commits</b> acumulados en GitHub (los de la Sesión 1 cuentan).</li>
+          <li>
+            En el repo: la skill <C>.opencode/skills/acciones-json/</C>, el comando <C>/nueva-accion</C> y el
+            subagente <C>revisor</C>.
+          </li>
+          <li><b>≥ 10 commits tuyos</b> acumulados en GitHub (los de la Sesión 1 cuentan).</li>
         </ul>
         <p className="mt-3 rounded-xl bg-violet-50 p-3 text-[14px] text-violet-900 dark:bg-violet-500/10 dark:text-violet-200">
           <b>Semipresencial:</b> esto es exactamente lo que se comprueba el <b>viernes 6 de noviembre</b>, al
-          cerrar la quincena 3: 3 acciones propias funcionando, el ADR y commits reales en tu repo.
+          cerrar la quincena 3: 3 acciones propias funcionando, el ADR y commits reales en tu repo. En casa
+          trabajas también con OpenCode (puedes abrirlo en la terminal integrada de VS Code); cómo conectarte
+          desde casa a los modelos del centro lo explica el profesor en la tutoría colectiva de arranque.
+        </p>
+        <p className="mt-3 text-[14px] text-zinc-600 dark:text-zinc-400">
+          ¿Dudas con OpenCode (atajos, permisos, sesiones)? Tienes la{" "}
+          <Link href="/programacion-ia/opencode/" className={enlace}>
+            guía de OpenCode del curso
+          </Link>
+          .
         </p>
       </div>
 
@@ -698,6 +772,7 @@ export default function CliSesion2() {
               ["docker-compose.yml", "Docker", "Qué servicios arrancan, en qué puertos, con qué variables."],
               ["settings.json de VS Code", "VS Code", "Tema, tamaño de letra, formateo al guardar…"],
               ["pyproject.toml", "uv / pip", "Nombre del paquete, versión y el comando tareas."],
+              ["opencode.json · AGENTS.md · .opencode/", "OpenCode", "Qué puede hacer tu agente, qué normas sigue y qué sabe de tu proyecto."],
               ["acciones.json", "TU motor", "Qué hace tu herramienta con tus ficheros."],
             ].map(([f, q, d]) => (
               <tr key={f} className={fila}>
@@ -709,23 +784,43 @@ export default function CliSesion2() {
           </tbody>
         </table>
       </div>
+      <div className={nota}>
+        <b>La misma idea, dos veces.</b> Igual que tu CLI lee <C>acciones.json</C>, OpenCode lee{" "}
+        <C>opencode.json</C>, <C>AGENTS.md</C> y la carpeta <C>.opencode/</C>. Nadie recompila OpenCode para
+        adaptarlo a tu proyecto: <b>tú configuras a tu agente igual que tu usuario configura tu herramienta</b>.
+        Esta semana harás las dos cosas: el <C>acciones.json</C> de tu CLI y tres ficheros nuevos en{" "}
+        <C>.opencode/</C>.
+      </div>
       <p className={p}>
-        El reparto de papeles queda así: el JSON dice <b>qué</b>; <C>config.py</C> comprueba que el JSON tiene
-        sentido <b>antes</b> de tocar un solo fichero; el <C>Motor</C> elige los ficheros que cumplen el filtro;
-        cada <C>Accion</C> sabe hacer <b>una</b> cosa; y la CLI pinta el resultado.
+        El reparto de papeles de tu CLI queda así: el JSON dice <b>qué</b>; <C>config.py</C> comprueba que el
+        JSON tiene sentido <b>antes</b> de tocar un solo fichero; el <C>Motor</C> elige los ficheros que cumplen
+        el filtro; cada <C>Accion</C> sabe hacer <b>una</b> cosa; y la CLI pinta el resultado.
       </p>
       <Diagrama />
       <p className="text-center text-[13px] text-zinc-500 dark:text-zinc-400 sm:hidden">← desliza el diagrama →</p>
+
+      <h2 className={h2}>El método de cada paso (el mismo de la Sesión 1)</h2>
+      <ol className="mt-3 list-decimal space-y-1.5 pl-6 text-[15px] leading-relaxed text-zinc-700 dark:text-zinc-300">
+        <li><b>Tú escribes la intención</b>: el esquema, la acción, el criterio de aceptación.</li>
+        <li><b>Agente plan</b> (<C>Tab</C>): «explícame cómo lo harías y qué ficheros tocarías». Lees el plan y lo corriges.</li>
+        <li><b>Agente build</b> (<C>Tab</C>): «hazlo». Apruebas cada edición y cada orden <b>leyendo el diff</b>.</li>
+        <li>
+          <b>Auditas</b>: lees el código, pruebas en <C>~/pruebas-tareas</C> con <C>--simular</C> y con casos
+          feos. Si algo sale mal, <C>/undo</C> o le explicas el fallo.
+        </li>
+        <li><b>Commit pequeño hecho por ti</b> y el prompt clave a <C>docs/prompts.md</C> (o <C>/export</C> de la sesión).</li>
+        <li><b>Sesión nueva por tarea</b> (<C>/new</C>); <C>/compact</C> si la conversación se alarga.</li>
+      </ol>
 
       {/* ───────────── PASO 1 ───────────── */}
       <Paso n="1" t="Diseña tu esquema (lo haces TÚ, sin IA)">
         <p>
           Esta parte es la que te pertenece: el esquema es <b>la especificación</b> de tu herramienta. Si se lo
-          pides a la IA, tendrás la herramienta de otra persona. Crea <C>acciones.json</C> en la raíz del repo
-          partiendo de este ejemplo:
+          pides a la IA, tendrás la herramienta de otra persona. OpenCode, cerrado. Crea <C>acciones.json</C> en
+          la raíz del repo partiendo de este ejemplo:
         </p>
         <Codigo src={ESQUEMA} lang="JSON" />
-        <h3 className="pt-2 text-lg font-bold text-zinc-900 dark:text-zinc-100">Campo a campo</h3>
+        <h3 className={h3}>Campo a campo</h3>
         <div className={tabla}>
           <table className="w-full min-w-[760px] border-collapse text-sm">
             <thead className="bg-zinc-50 dark:bg-white/5">
@@ -751,7 +846,7 @@ export default function CliSesion2() {
           </table>
         </div>
 
-        <h3 className="pt-4 text-lg font-bold text-zinc-900 dark:text-zinc-100">Tipos de acción</h3>
+        <h3 className={h3}>Tipos de acción</h3>
         <div className={tabla}>
           <table className="w-full min-w-[560px] border-collapse text-sm">
             <thead className="bg-zinc-50 dark:bg-white/5">
@@ -773,7 +868,7 @@ export default function CliSesion2() {
           </table>
         </div>
 
-        <h3 className="pt-4 text-lg font-bold text-zinc-900 dark:text-zinc-100">Filtros: qué ficheros se tocan</h3>
+        <h3 className={h3}>Filtros: qué ficheros se tocan</h3>
         <p>Dentro de <C>filtro</C>. Si pones varios, el fichero tiene que cumplirlos <b>todos</b>.</p>
         <div className={tabla}>
           <table className="w-full min-w-[560px] border-collapse text-sm">
@@ -789,7 +884,7 @@ export default function CliSesion2() {
           </table>
         </div>
 
-        <h3 className="pt-4 text-lg font-bold text-zinc-900 dark:text-zinc-100">Plantillas de nombre</h3>
+        <h3 className={h3}>Plantillas de nombre</h3>
         <p>
           Para <C>renombrar</C>. Son huecos entre llaves que el motor rellena con el formato de Python
           (<C>str.format</C>): lo de detrás de los dos puntos es el formato.
@@ -809,8 +904,9 @@ export default function CliSesion2() {
         </div>
 
         <div className={aviso}>
-          <b>Reto de la semana:</b> borra las acciones de ejemplo y escribe <b>3 acciones para TU vida real</b>.
-          Ideas, de menos a más difícil:
+          <b>Reto de la semana:</b> al final tendrás <b>3 acciones para TU vida real</b> (las del ejemplo no
+          cuentan). La <b>primera la escribes ahora, a mano</b>; la 2.ª y la 3.ª las añadirás en el paso 5 con tu
+          comando <C>/nueva-accion</C>. Ideas, de menos a más difícil:
           <ol className="mt-2 list-decimal space-y-1 pl-5">
             <li><b>Fácil:</b> mover las capturas de pantalla del escritorio a <C>~/Imágenes/Capturas</C> (filtro por extensión).</li>
             <li><b>Media:</b> copiar los apuntes de DAM modificados hace menos de 7 días a una carpeta de copia, o borrar instaladores <C>.exe</C>/<C>.deb</C> de más de 60 días.</li>
@@ -818,14 +914,83 @@ export default function CliSesion2() {
           </ol>
           <p className="mt-2">
             Después, añade al README una sección <b>«Esquema de acciones.json»</b> con la tabla de campos (la
-            tuya, no la de esta página si has cambiado algo). Ese README es lo que pegarás al agente en los pasos
-            siguientes: si el esquema no está escrito, el agente se lo inventa.
+            tuya, no la de esta página si has cambiado algo). Si el esquema no está escrito, el agente se lo
+            inventa: en el paso siguiente se lo enseñas.
           </p>
         </div>
       </Paso>
 
       {/* ───────────── PASO 2 ───────────── */}
-      <Paso n="2" t="Valida antes de ejecutar">
+      <Paso n="2" t="Enseña el esquema a tu agente: tu primera skill">
+        <p>
+          Si en cada prompt tuvieras que pegar tu esquema entero, acabarías harto y, peor, una vez se te olvidaría.
+          Para eso existen las <b>skills</b>: un fichero Markdown con conocimiento concreto (cómo es tu{" "}
+          <C>acciones.json</C> y qué reglas sigue el código que lo lee) que el agente <b>carga cuando lo necesita</b>.
+        </p>
+        <p>Antes de crearla, el mapa de lo que puedes poner en tu repo para personalizar a OpenCode:</p>
+        <div className={tabla}>
+          <table className="w-full min-w-[720px] border-collapse text-sm">
+            <thead className="bg-zinc-50 dark:bg-white/5">
+              <tr>
+                <th className={th}>Pieza</th>
+                <th className={th}>Dónde vive</th>
+                <th className={th}>Quién la activa</th>
+                <th className={th}>Para qué</th>
+              </tr>
+            </thead>
+            <tbody>
+              {PERSONALIZAR.map(([pz, d, q, pq]) => (
+                <tr key={pz} className={fila}>
+                  <td className={`${td} font-semibold`}>{pz}</td>
+                  <td className={`${td} font-mono text-[12px]`}>{d}</td>
+                  <td className={td}>{q}</td>
+                  <td className={td}>{pq}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <Codigo src={ESTRUCTURA_OPENCODE} lang="Text" />
+        <p>
+          Crea la carpeta <C>.opencode/skills/acciones-json/</C> y dentro el fichero <C>SKILL.md</C> (en
+          mayúsculas) con este contenido. Adáptalo a <b>tu</b> esquema si has cambiado campos:
+        </p>
+        <Codigo src={SKILL_MD} lang="Markdown" />
+        <ul className="list-disc space-y-1.5 pl-5">
+          <li>
+            Lo de arriba entre <C>---</C> es el <b>frontmatter</b>. <C>name</C> tiene que ser <b>igual que el
+            nombre de la carpeta</b> (<C>acciones-json</C>), en minúsculas y con guiones.
+          </li>
+          <li>
+            <C>description</C> es lo más importante: el agente solo ve el nombre y la descripción de cada skill, y
+            con eso decide si la carga. Por eso dice <b>qué es</b> y, sobre todo, <b>cuándo usarla</b> («siempre
+            que crees o cambies acciones o el código que las lee»). Sin descripción, la skill no le llega al modelo.
+          </li>
+          <li>
+            Cuando la tarea encaja, el agente llama a su herramienta <C>skill</C> y entonces sí lee el fichero
+            entero. Así no gasta contexto con tu esquema cuando le pides otra cosa.
+          </li>
+          <li>
+            La última regla es para el agente y para ti: <b>si el esquema cambia, la skill cambia</b>. Una skill
+            desactualizada enseña mal.
+          </li>
+        </ul>
+        <div className={nota}>
+          <b>¿Y por qué no meterlo en AGENTS.md?</b> <C>AGENTS.md</C> entra <b>siempre</b>, en cada conversación:
+          ahí van las normas generales (stack, <C>pathlib</C>, «no hagas push»). La skill entra <b>solo cuando
+          hace falta</b>: ahí va el conocimiento detallado de una parte del proyecto. Con los modelos del centro el
+          contexto cuesta, así que AGENTS.md corto y el detalle en skills.
+        </div>
+        <p>
+          <b>Compruébalo.</b> OpenCode no recarga la configuración en caliente: sal (<C>ctrl+c</C>) y vuelve a
+          abrirlo en la carpeta del repo. Escribe <C>/skills</C>: tiene que aparecer <C>acciones-json</C>. Desde
+          la terminal también puedes verlo con <C>opencode debug skill</C>.
+        </p>
+        <Codigo src={'git add .opencode/skills/acciones-json/SKILL.md\ngit commit -m "Skill acciones-json: el agente carga las reglas de mi esquema"'} lang="Bash" />
+      </Paso>
+
+      {/* ───────────── PASO 3 ───────────── */}
+      <Paso n="3" t="Valida antes de ejecutar, con el agente">
         <p>
           Un programa que borra ficheros no puede fiarse de un JSON escrito a mano. Primero se comprueba
           <b> todo</b> el fichero y solo si está bien se toca el disco. Y cuando algo falla, el mensaje tiene que
@@ -833,23 +998,37 @@ export default function CliSesion2() {
           campo «plantilla»: es obligatorio en acciones de tipo renombrar» te lo arregla en 10 segundos.
         </p>
         <p>
-          Para eso creas <b>tus propias excepciones</b>. Heredan unas de otras, así la CLI puede capturar
-          <C>TareasError</C> una sola vez y cada error trae su código de salida:
+          Abre una sesión nueva (<C>/new</C>) y pasa al agente <b>plan</b> con <C>Tab</C>. Fíjate en lo corto que
+          es el prompt: <C>@acciones.json</C> adjunta tu fichero y la skill pone el resto.
+        </p>
+        <PromptBlock text={PROMPT_VALIDAR_PLAN} />
+        <p>
+          Lee el plan. ¿Ha entendido tu esquema? ¿Se olvida de algún caso (nombre repetido, regex rota)? Corrígelo
+          ahí mismo. Cuando el plan te convenza, <C>Tab</C> para pasar a <b>build</b>:
+        </p>
+        <PromptBlock text={PROMPT_VALIDAR_BUILD} />
+        <p>
+          Con tu <C>opencode.json</C> de la Sesión 1, cada edición te pide permiso: <b>lee el diff antes de
+          aceptar</b>. <C>uv run tareas validar</C> sí lo puede ejecutar solo, porque está en tu lista de
+          órdenes permitidas.
+        </p>
+        <p>
+          Para auditar, esto es lo que deberías obtener. Las excepciones heredan unas de otras: la CLI captura
+          <C>TareasError</C> una sola vez y cada error trae su código de salida.
         </p>
         <Codigo src={ERRORES_PY} lang="Python" />
         <p>
-          Y así es, resumido, el <C>config.py</C> que deberías obtener. No lo copies: es la referencia para
-          <b> auditar</b> lo que te genere el agente.
+          Y así es, resumido, <C>config.py</C>. No lo copies: es la referencia para comparar con lo que te haya
+          hecho el agente.
         </p>
         <Codigo src={CONFIG_PY} lang="Python" />
-        <p>El prompt para tu agente (OpenCode en el aula; el asistente de VS Code en casa):</p>
-        <PromptBlock text={PROMPT_VALIDAR} />
-        <p>Prueba la orden y su código de salida:</p>
+        <p>Prueba la orden y su código de salida (en tu terminal, o desde OpenCode con <C>!</C> delante):</p>
         <Codigo src={"uv run tareas validar\necho $?        # Linux/macOS: 0 si es válido, 3 si no\n$LASTEXITCODE   # lo mismo en PowerShell"} lang="Bash" />
-        <h3 className="pt-2 text-lg font-bold text-zinc-900 dark:text-zinc-100">Casos feos para probar a mano</h3>
+        <h3 className={h3}>Casos feos que pruebas TÚ</h3>
         <p>
           Haz una copia (<C>pruebas/roto.json</C>), estropéala a propósito de cada una de estas formas y
-          ejecuta <C>tareas --config pruebas/roto.json validar</C>. Ninguno puede acabar en traceback.
+          ejecuta <C>uv run tareas --config pruebas/roto.json validar</C>. Ninguno puede acabar en traceback. Si
+          alguno falla, explícaselo al agente con el mensaje que has visto, no con «no va».
         </p>
         <div className={tabla}>
           <table className="w-full min-w-[600px] border-collapse text-sm">
@@ -879,8 +1058,8 @@ export default function CliSesion2() {
         </div>
       </Paso>
 
-      {/* ───────────── PASO 3 ───────────── */}
-      <Paso n="3" t="El motor y las acciones en clases">
+      {/* ───────────── PASO 4 ───────────── */}
+      <Paso n="4" t="El motor y las acciones en clases, con el agente">
         <p>
           Aquí aparecen las clases de verdad. Una <b>clase base</b> <C>Accion</C> define lo que toda acción sabe
           hacer (<C>ejecutar</C>) y cada <b>subclase</b> (<C>Mover</C>, <C>Copiar</C>, <C>Renombrar</C>,
@@ -894,20 +1073,31 @@ export default function CliSesion2() {
           ficheros que cumplen el filtro y se los pasa a la acción, que devuelve un informe: una lista de
           <C>Resultado</C> (qué fichero, a qué destino, en qué estado).
         </p>
-        <PromptBlock text={PROMPT_MOTOR} />
+        <p>
+          Sesión nueva (<C>/new</C>). Primero en <b>plan</b>: «Carga la skill acciones-json y explícame cómo
+          harías acciones.py y motor.py: clases, métodos y cómo garantizas que --simular no toca el disco».
+          Cuando el plan te cuadre, en <b>build</b>:
+        </p>
+        <PromptBlock text={PROMPT_MOTOR_BUILD} />
         <div className={nota}>
-          <b>Antes de aceptar el código, léelo.</b> Busca en lo que te genere: ¿hay alguna ruta montada con{" "}
-          <C>+ &quot;/&quot; +</C>? ¿Algún <C>open()</C> sin <C>encoding</C>? ¿Algún <C>os.system</C> o{" "}
-          <C>shell=True</C>? ¿Con <C>simular=True</C> se llama a <C>mkdir</C>, <C>move</C> o <C>unlink</C>? Cada
-          «sí» es un error que tienes que pedir que corrija, y un buen párrafo para <C>docs/prompts.md</C>.
+          <b>Reglas multiplataforma y de seguridad que auditas tú</b> (están en tu AGENTS.md y en la skill, pero
+          que el agente las conozca no significa que las cumpla):
+          <ul className="mt-2 list-disc space-y-1 pl-5">
+            <li><C>pathlib.Path</C> siempre: ninguna ruta montada con <C>+ &quot;/&quot; +</C> ni con <C>\</C>.</li>
+            <li><C>Path.expanduser()</C> para <C>~</C>; <C>encoding=&quot;utf-8&quot;</C> en todo <C>open()</C> o <C>read_text()</C>.</li>
+            <li><C>shutil.move</C> y <C>shutil.copy2</C>; nada de <C>os.system</C>, <C>subprocess</C> ni <C>shell=True</C>.</li>
+            <li>Nombres con tildes y espacios funcionan.</li>
+            <li>Con <C>simular=True</C> no se llama a <C>mkdir</C>, <C>move</C>, <C>rename</C> ni <C>unlink</C>.</li>
+            <li>Nunca se sobrescribe: si el destino existe, sufijo « (1)», « (2)»…</li>
+          </ul>
+          Cada «esto no lo cumple» es un error que le pides corregir y un buen párrafo para{" "}
+          <C>docs/prompts.md</C>.
         </div>
         <p>Código de referencia resumido para auditar:</p>
         <Codigo src={ACCIONES_PY} lang="Python" />
         <Codigo src={MOTOR_PY} lang="Python" />
-      </Paso>
 
-      {/* ───────────── PASO 4 ───────────── */}
-      <Paso n="4" t="La interfaz: acciones, ejecutar y --config">
+        <h3 className={h3}>La interfaz: acciones, ejecutar, --simular, --si y --config</h3>
         <p>La CLI es la capa fina que une todo. Tres piezas nuevas:</p>
         <ul className="list-disc space-y-1 pl-5">
           <li><C>tareas acciones</C>: tabla con nombre, tipo y descripción de lo que hay en acciones.json.</li>
@@ -937,12 +1127,19 @@ export default function CliSesion2() {
             </tbody>
           </table>
         </div>
+        <p>Sesión nueva, plan y luego build con:</p>
         <PromptBlock text={PROMPT_CLI} />
         <p>El fragmento clave de <C>cli.py</C>: fíjate en cómo se captura una sola excepción base para todo.</p>
         <Codigo src={CLI_PY} lang="Python" />
         <p>Lo que deberías ver (fíjate en el sufijo « (1)»: ya había una factura.pdf en el destino):</p>
         <pre className="overflow-x-auto rounded-xl bg-zinc-900 p-4 font-mono text-[12px] leading-snug text-zinc-100">{SALIDA}</pre>
 
+        <div className={aviso}>
+          <b>Las acciones las ejecutas TÚ, no el agente.</b> En tu <C>opencode.json</C>,{" "}
+          <C>uv run tareas ejecutar …</C> no está en la lista de permitidas: si el agente quiere lanzarla, OpenCode
+          te pregunta. <b>Recházalo</b>: podría mover tus ficheros reales. Las pruebas las haces tú, en tu terminal
+          o con <C>!uv run tareas …</C> dentro de OpenCode.
+        </div>
         <div className={aviso}>
           <b>Regla de oro:</b> prueba <b>siempre</b> primero en <C>~/pruebas-tareas</C> y con{" "}
           <C>--simular</C>. Nunca sobre tu carpeta de Descargas de verdad hasta que la simulación diga
@@ -955,14 +1152,97 @@ export default function CliSesion2() {
           a algo como <C>~/pruebas-tareas/Documentos/PDF</C> en tu <C>acciones.json</C> (o usa un{" "}
           <C>--config</C> de pruebas) y vuelve a tus rutas reales solo cuando todo funcione.
         </div>
-        <h3 className="pt-2 text-lg font-bold text-zinc-900 dark:text-zinc-100">Linux y macOS (bash/zsh)</h3>
+        <h3 className={h3}>Linux y macOS (bash/zsh)</h3>
         <Codigo src={PRUEBAS_BASH} lang="Bash" />
-        <h3 className="pt-2 text-lg font-bold text-zinc-900 dark:text-zinc-100">Windows (PowerShell)</h3>
+        <h3 className={h3}>Windows (PowerShell)</h3>
         <Codigo src={PRUEBAS_PS} lang="PowerShell" />
       </Paso>
 
       {/* ───────────── PASO 5 ───────────── */}
-      <Paso n="5" t="Tu primer ADR">
+      <Paso n="5" t="Tu comando /nueva-accion">
+        <p>
+          Añadir una acción siempre sigue los mismos pasos: proponer el JSON, revisarlo, validar y probar con{" "}
+          <C>--simular</C>. Cuando repites un prompt, lo conviertes en un <b>comando personalizado</b>: un
+          fichero Markdown en <C>.opencode/commands/</C> que se invoca con <C>/</C> y su nombre. Crea{" "}
+          <C>.opencode/commands/nueva-accion.md</C>:
+        </p>
+        <Codigo src={COMANDO_MD} lang="Markdown" />
+        <ul className="list-disc space-y-1.5 pl-5">
+          <li>
+            El nombre del fichero es el nombre del comando: <C>nueva-accion.md</C> → <C>/nueva-accion</C>.
+          </li>
+          <li>
+            Frontmatter: <C>description</C> es lo que ves en la lista al escribir <C>/</C>; <C>agent: build</C>{" "}
+            hace que se ejecute con el agente que puede editar (igualmente te pedirá permiso para cada cambio).
+          </li>
+          <li>
+            <C>$ARGUMENTS</C> se sustituye por <b>todo lo que escribas detrás del comando</b>.
+          </li>
+          <li>
+            <C>!`git status --short`</C> ejecuta esa orden en la raíz del repo <b>antes</b> de enviar el prompt y
+            mete su salida: el agente sabe qué ficheros tienes sin guardar.
+          </li>
+          <li>
+            El paso 2 del comando («propón primero la entrada JSON y <b>espera mi visto bueno</b>») es el que
+            mantiene la decisión en tus manos.
+          </li>
+        </ul>
+        <p>Sal de OpenCode, vuelve a abrirlo y úsalo para tu <b>2.ª acción</b>:</p>
+        <Codigo src={'/nueva-accion renombrar-capturas "renombra capturas de pantalla con su fecha"'} lang="Text" />
+        <p>
+          Lee la entrada JSON que te propone: ¿el filtro coge <b>solo</b> las capturas? ¿La plantilla es la que
+          tú quieres? ¿El destino está en <C>~/pruebas-tareas</C> mientras pruebas? Corrige lo que no te guste
+          antes de dar el visto bueno. Al final te dirá qué orden con <C>--simular</C> debes probar: la ejecutas
+          tú. Repite con tu <b>3.ª acción</b> (una idea tuya, no un ejemplo de esta página).
+        </p>
+        <div className={nota}>
+          El comando ahorra escribir, <b>no decidir</b>. Las 3 acciones tienen que ser tuyas: qué hacen, con qué
+          ficheros y por qué te sirven. En la defensa te preguntaré por ellas.
+        </div>
+      </Paso>
+
+      {/* ───────────── PASO 6 ───────────── */}
+      <Paso n="6" t="Tu subagente revisor">
+        <p>
+          El agente que escribe el código no es el mejor para revisarlo: ya está convencido de que está bien. Un{" "}
+          <b>subagente</b> es otro agente, con su propio prompt y sus propios permisos, que trabaja en una
+          conversación aparte y devuelve el resultado. Crea <C>.opencode/agents/revisor.md</C>:
+        </p>
+        <Codigo src={REVISOR_MD} lang="Markdown" />
+        <ul className="list-disc space-y-1.5 pl-5">
+          <li>El nombre del fichero es el nombre del agente: <C>revisor.md</C> → <C>@revisor</C>.</li>
+          <li>
+            <C>mode: subagent</C>: no aparece al cambiar con <C>Tab</C> (eso es para plan y build); se le llama con{" "}
+            <C>@revisor</C>, o el agente principal lo lanza si su <C>description</C> encaja con lo que necesita.
+          </li>
+          <li>
+            <C>permission</C>: <C>edit: deny</C> y <C>webfetch: deny</C> lo dejan en <b>solo lectura</b>; de{" "}
+            <C>bash</C> solo puede usar <C>git diff</C>, <C>git log</C> y <C>git status</C>; cualquier otra orden
+            está bloqueada (<C>"*": deny</C> va primero y las excepciones después: gana la última regla que
+            coincide). Aunque quisiera, no puede «arreglarte» nada ni ejecutar tus acciones.
+          </li>
+          <li><C>temperature: 0.1</C> pide respuestas poco creativas (un revisor tiene que ser previsible), si el modelo del centro la admite; si no, se ignora sin romper nada.</li>
+          <li>El cuerpo es su prompt de sistema: qué revisar y en qué formato responder.</li>
+        </ul>
+        <p>
+          Sal, vuelve a abrir OpenCode (en la terminal, <C>opencode agent list</C> debe mostrar{" "}
+          <C>revisor</C>) y pídele:
+        </p>
+        <Codigo src={"@revisor revisa @src/tareas/motor.py"} lang="Text" />
+        <p>
+          Además, OpenCode trae <C>/review</C>, que revisa los <b>cambios sin commitear</b>. La rutina a partir de
+          hoy: <b>antes de cada commit de código, <C>/review</C> o <C>@revisor</C></b>.
+        </p>
+        <div className={aviso}>
+          <b>Tú decides qué se arregla.</b> El revisor también se equivoca: a veces ve fallos que no existen o
+          propone cosas que no tocan esta semana. Por cada punto, compruébalo (léelo, pruébalo en{" "}
+          <C>~/pruebas-tareas</C>) y decide: lo arreglas (con build, en otra petición), lo apuntas como mejora en
+          el README o lo descartas sabiendo por qué. Y contesta tú la pregunta que te hace al final.
+        </div>
+      </Paso>
+
+      {/* ───────────── PASO 7 ───────────── */}
+      <Paso n="7" t="Tu primer ADR">
         <p>
           Un <b>ADR</b> (<i>Architecture Decision Record</i>, registro de decisión de arquitectura) es un
           documento corto que cuenta <b>una</b> decisión técnica importante: qué decidiste, por qué y qué
@@ -974,14 +1254,18 @@ export default function CliSesion2() {
         <p>
           Tu primera decisión de arquitectura es la de esta semana. Crea{" "}
           <C>docs/adr/0001-configuracion-externa.md</C> con esta plantilla y <b>termínala con TUS razones</b> (los
-          huecos <C>[...]</C>). Puedes pedirle a la IA que te haga de abogado del diablo («dame 3 argumentos
-          contra mi decisión»), pero el texto final es tuyo: en la defensa te preguntaré por él.
+          huecos <C>[...]</C>).
         </p>
         <Codigo src={ADR} lang="Markdown" />
+        <p>
+          Puedes usar al agente en <b>plan</b> (no puede editar) como abogado del diablo: «Lee{" "}
+          <C>@docs/adr/0001-configuracion-externa.md</C> y dame 3 argumentos en contra de mi decisión y una
+          alternativa que no haya considerado». Pero el texto final es tuyo: en la defensa te preguntaré por él.
+        </p>
       </Paso>
 
-      {/* ───────────── PASO 6 ───────────── */}
-      <Paso n="6" t="Audita, prueba en otro sistema y commitea">
+      {/* ───────────── PASO 8 ───────────── */}
+      <Paso n="8" t="Audita, prueba en otro sistema y commitea">
         <p>
           «Lo que no sabes explicar, no lo entregas». Antes de dar por buena cada acción, pasa esta auditoría en
           <C>~/pruebas-tareas</C>:
@@ -1011,12 +1295,15 @@ export default function CliSesion2() {
           raros en una consola antigua. Cada fallo que encuentres y arregles es un commit con historia.
         </p>
         <p>
-          <b>Un commit por pieza</b>, con mensajes que cuenten el proceso. Algo así (los tuyos con tus palabras):
+          <b>Un commit por pieza, hecho por ti</b> (el agente no hace commits ni push: lo dice tu AGENTS.md y lo
+          bloquea tu <C>opencode.json</C>). Los ficheros de <C>.opencode/</C> también se commitean: son parte de
+          tu proyecto. Algo así, con tus palabras:
         </p>
         <Codigo src={COMMITS} lang="Bash" />
         <p>
           Y en <C>docs/prompts.md</C>, los prompts de la validación, del motor y de la CLI, con una línea por
-          prompt de <b>qué tuviste que corregir</b> de lo que generó el agente. Es la prueba de que auditaste.
+          prompt de <b>qué tuviste que corregir</b> de lo que hizo el agente y qué te señaló el revisor. Es la
+          prueba de que auditaste.
         </p>
       </Paso>
 
@@ -1071,18 +1358,18 @@ export default function CliSesion2() {
       <h2 className={h2}>Qué viene después</h2>
       <div className="mt-3 grid gap-4 md:grid-cols-3">
         <div className={card}>
-          <h3 className="font-bold">Semana 3 · Capa IA</h3>
+          <h3 className="font-bold">Semana 3 · MCP y capa IA</h3>
           <p className="mt-1 text-[14px] text-zinc-600 dark:text-zinc-400">
-            Acciones que deciden con un modelo del centro (clasificar, poner nombre por contenido). Claves en
-            <C>.env</C>, nunca en el repo, y <b>modo sin red</b>: si no hay conexión, tu CLI lo explica y sigue con
-            las acciones sin IA.
+            OpenCode con <b>MCP</b>: el servidor <C>context7</C> para consultar documentación de librerías,
+            activado solo cuando hace falta. Y la <b>capa IA de tu CLI</b>: acciones que deciden con los mismos
+            modelos del centro, llamados desde Python, con la clave fuera del repo y <b>modo sin red</b>.
           </p>
         </div>
         <div className={card}>
           <h3 className="font-bold">Semana 4 · Pruebas y release</h3>
           <p className="mt-1 text-[14px] text-zinc-600 dark:text-zinc-400">
-            pytest con carpetas temporales, GitHub Actions en Linux, Windows y macOS, README de instalación,
-            release <b>v1.0</b> y día de instalación cruzada: otra persona instala tu herramienta sin preguntarte.
+            Pruebas con pytest que <b>escribe el agente y auditas tú</b>, <C>opencode run</C> sin interfaz (por
+            ejemplo, en scripts), README de instalación y release <b>v1.0</b>.
           </p>
         </div>
         <div className={card}>
@@ -1093,12 +1380,18 @@ export default function CliSesion2() {
         </div>
       </div>
 
-      <nav className="mt-12 flex flex-col gap-3 border-t border-zinc-200 pt-6 sm:flex-row sm:justify-between dark:border-white/10">
+      <nav className="mt-12 flex flex-col gap-3 border-t border-zinc-200 pt-6 sm:flex-row sm:flex-wrap sm:justify-between dark:border-white/10">
         <Link
           href="/programacion-ia/cli/sesion-01/"
           className="rounded-xl border border-zinc-200 px-4 py-3 text-[15px] font-semibold text-blue-700 hover:bg-zinc-50 dark:border-white/10 dark:text-blue-300 dark:hover:bg-white/5"
         >
           ← Sesión 1 · Arranque: la terminal y tu primera orden
+        </Link>
+        <Link
+          href="/programacion-ia/opencode/"
+          className="rounded-xl border border-zinc-200 px-4 py-3 text-[15px] font-semibold text-blue-700 hover:bg-zinc-50 dark:border-white/10 dark:text-blue-300 dark:hover:bg-white/5"
+        >
+          Guía de OpenCode
         </Link>
         <Link
           href="/programacion-ia/cli/"

@@ -9,7 +9,7 @@ import { highlightCode } from "@/lib/highlight";
 export const metadata: Metadata = {
   title: "Sesión 1 · Arranque: la terminal y tu primera orden — CLI tareas con IA",
   description:
-    "La terminal desde cero, uv, Typer y Git: tu orden «tareas listar» instalada como comando de verdad y tu repo público en GitHub con commits que cuentan.",
+    "La terminal desde cero, uv y Git, y tu orden «tareas listar» construida con el agente OpenCode: plan, diffs que apruebas tú y commits propios.",
 };
 
 /* ───────────── Estilos compartidos ───────────── */
@@ -134,8 +134,8 @@ const INDICE: [string, string][] = [
   ["#paso-0", "0 · Abre la terminal"],
   ["#paso-1", "1 · Supervivencia"],
   ["#paso-2", "2 · Herramientas"],
-  ["#paso-3", "3 · Crea el proyecto"],
-  ["#paso-4", "4 · Git y GitHub"],
+  ["#paso-3", "3 · Proyecto y primer commit"],
+  ["#paso-4", "4 · Prepara a tu agente"],
   ["#paso-5", "5 · Tu primera orden"],
   ["#paso-6", "6 · Instálala"],
   ["#paso-7", "7 · Audita y commitea"],
@@ -229,7 +229,62 @@ uv --version
 uv python install 3.12
 uv python list --only-installed`;
 
-const INIT = String.raw`cd ~                                     # o la carpeta donde guardes tus proyectos
+const OPENCODE_LINUX = String.raw`curl -fsSL https://opencode.ai/install | bash -s -- --version 1.18.35
+# cierra la terminal y abre una nueva (el instalador añade ~/.opencode/bin al PATH)
+opencode --version          # debe decir 1.18.35`;
+
+const OPENCODE_WIN = String.raw`git --version               # Git for Windows: OpenCode lo necesita (ejecuta sus órdenes con Git Bash)
+node --version              # Node LTS; si falla, instálalo desde nodejs.org y abre otra terminal
+npm install -g opencode-ai@1.18.35
+# cierra la terminal y abre una nueva
+opencode --version          # debe decir 1.18.35`;
+
+const CONFIG_DIR_BASH = String.raw`mkdir -p ~/.config/opencode
+code ~/.config/opencode/opencode.json     # o nano, o el editor que uses`;
+
+const CONFIG_DIR_PS = String.raw`New-Item -ItemType Directory -Force "$HOME\.config\opencode" | Out-Null
+code "$HOME\.config\opencode\opencode.json"`;
+
+const CONFIG_GLOBAL = String.raw`{
+  "$schema": "https://opencode.ai/config.json",
+  "autoupdate": false,
+  "provider": {
+    "centro": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "IA del centro",
+      "options": {
+        "baseURL": "{env:CENTRO_IA_URL}",
+        "apiKey": "{env:CENTRO_IA_KEY}"
+      },
+      "models": {
+        "qwen3.8-flash-next": {
+          "name": "Qwen 3.8 Flash-Next (centro)",
+          "limit": { "context": 524288, "output": 65536 },
+          "tool_call": true
+        }
+      }
+    }
+  },
+  "model": "centro/qwen3.8-flash-next",
+  "small_model": "centro/qwen3.8-flash-next"
+}`;
+
+const VARIABLES_BASH = String.raw`# Sustituye lo que va entre comillas por lo que te da el profesor
+echo 'export CENTRO_IA_URL="LA_URL_DEL_PROFESOR"' >> ~/.bashrc     # macOS (zsh): ~/.zshrc
+echo 'export CENTRO_IA_KEY="LA_CLAVE_DEL_PROFESOR"' >> ~/.bashrc
+# cierra la terminal y abre una nueva
+# ¿te equivocaste? Corrige las dos líneas al final de ~/.bashrc con tu editor`;
+
+const VARIABLES_PS = String.raw`setx CENTRO_IA_URL "LA_URL_DEL_PROFESOR"
+setx CENTRO_IA_KEY "LA_CLAVE_DEL_PROFESOR"
+# setx solo afecta a las terminales NUEVAS: cierra esta (y reinicia VS Code)`;
+
+const COMPROBAR_OC = String.raw`opencode models centro              # debe salir: centro/qwen3.8-flash-next
+opencode debug config               # la config que ha leído; la clave sale enmascarada
+opencode run "Responde solo: hola"  # prueba real con el modelo del centro
+# si no contesta y se queda reintentando: Ctrl+C y mira «Si te atascas»`;
+
+const INIT =String.raw`cd ~                                     # o la carpeta donde guardes tus proyectos
 uv init --package --name tareas --python 3.12 cli-tareas
 cd cli-tareas
 uv add typer
@@ -299,18 +354,85 @@ Mi herramienta de línea de órdenes para automatizar tareas repetitivas con fic
 9. **Códigos de salida:** 0 bien · 1 fallo al ejecutar · 2 uso incorrecto · 3 configuración inválida.
 10. **Instalación:** \`uv tool install --editable .\` (lo completo en la semana 4).`;
 
-const PROMPT_CLI = `Contexto: proyecto Python 3.12 gestionado con uv, con src layout. El paquete se llama «tareas» y vive en src/tareas/ (__init__.py ya contiene __version__ = "0.1.0"). Ya he ejecutado uv add typer. Antes de tocar nada, lee README.md (mi spec) y pyproject.toml.
+const OPENCODE_PROYECTO = String.raw`{
+  "$schema": "https://opencode.ai/config.json",
+  "permission": {
+    "edit": "ask",
+    "webfetch": "ask",
+    "external_directory": "ask",
+    "read": { "*": "allow", "*.env": "deny", "*.env.*": "deny", "*.env.example": "allow" },
+    "bash": {
+      "*": "ask",
+      "ls *": "allow",
+      "pwd": "allow",
+      "cat *": "allow",
+      "git status *": "allow",
+      "git diff *": "allow",
+      "git log *": "allow",
+      "uv run tareas --help": "allow",
+      "uv run tareas validar *": "allow",
+      "uv run pytest *": "allow",
+      "git commit *": "ask",
+      "git push *": "deny",
+      "git reset *": "deny",
+      "rm *": "deny",
+      "sudo *": "deny"
+    }
+  },
+  "agent": {
+    "plan": { "permission": { "edit": "deny" } }
+  }
+}`;
 
-Tarea: crea src/tareas/cli.py y src/tareas/__main__.py.
-1. Una app de Typer llamada \`app\`, con la ayuda en español, no_args_is_help=True y add_completion=False.
-2. Orden \`version\`: imprime «tareas X.Y.Z» leyendo __version__ del paquete.
-3. Orden \`listar [CARPETA]\` (por defecto, la carpeta actual): tabla de Rich con las columnas Nombre, Tipo (la extensión, o «carpeta»), Tamaño legible (B, KB, MB, GB) y Modificado (AAAA-MM-DD HH:MM). Primero las carpetas y luego por orden alfabético sin distinguir mayúsculas.
-4. Si la carpeta no existe o no es una carpeta: mensaje claro en español por la salida de error (stderr), sin traza de Python, y código de salida 1. Si está vacía, dilo con un mensaje en lugar de pintar una tabla vacía.
-5. Reglas: pathlib.Path siempre (nada de concatenar rutas con barras ni os.path), expanduser() para aceptar ~, nada de os.system ni subprocess. Escapa los nombres de fichero para que Rich no interprete los corchetes como estilos. Si un fichero no se puede leer (enlace roto, sin permisos), sáltalo sin romper.
-6. __main__.py para que también funcione «uv run python -m tareas».
-7. Comprueba que en pyproject.toml, [project.scripts] dice: tareas = "tareas.cli:app".
+const ABRIR_OC = String.raw`cd ~/cli-tareas        # o donde creaste el proyecto
+opencode`;
 
-No añadas más órdenes ni dependencias. Al terminar, explícame en 5 viñetas qué hace cada función y dime qué órdenes ejecuto para probarlo en Linux y en Windows.`;
+const AGENTS_MD = `# tareas · CLI de tareas con ficheros (proyecto de 1º DAM)
+## Stack y órdenes
+- Python 3.12 + Typer + Rich, gestionado con uv (src layout, paquete src/tareas).
+- Ejecutar: \`uv run tareas --help\` · Validar config: \`uv run tareas validar\` · Pruebas (semana 4): \`uv run pytest\`.
+## Normas
+- Mensajes y comentarios en español; código claro antes que listo.
+- pathlib siempre, encoding="utf-8", nada de os.system ni shell=True: tiene que funcionar en Linux, Windows y macOS.
+- Nunca ejecutes acciones sobre carpetas reales: solo en ~/pruebas-tareas y con --simular.
+- No toques .env ni escribas claves en ningún fichero. No hagas git push ni commits: los hace el alumno.
+- Antes de cambiar un fichero, explica en 2-3 líneas qué vas a hacer.`;
+
+const COMMIT_AGENTE = String.raw`git status                  # deben aparecer opencode.json y AGENTS.md, y nada más
+git add opencode.json AGENTS.md
+git commit -m "Añade opencode.json con los permisos del agente y AGENTS.md con las normas del proyecto"
+git push`;
+
+const COMMIT_SPEC = String.raw`git add README.md
+git commit -m "Escribe la spec v0 de la herramienta en el README"`;
+
+const PROMPT_PLAN = `Lee @README.md y @pyproject.toml. Quiero src/tareas/cli.py (app de Typer llamada app) y src/tareas/__main__.py con dos órdenes: version y listar [CARPETA].
+No escribas código todavía: dime qué ficheros crearías, qué funciones tendría cada uno y cómo tratarías la carpeta inexistente, la vacía, los nombres con corchetes y los ficheros que no se pueden leer.
+
+Criterio de aceptación:
+- uv run tareas sin argumentos muestra la ayuda, en español y sin autocompletado.
+- version imprime «tareas 0.1.0» leyendo __version__ del paquete.
+- listar (por defecto la carpeta actual, acepta ~) pinta una tabla Rich: Nombre, Tipo (extensión o «carpeta»), Tamaño legible, Modificado (AAAA-MM-DD HH:MM). Carpetas primero, luego alfabético sin distinguir mayúsculas.
+- Carpeta inexistente o que no es carpeta: mensaje en stderr, sin traza, código 1. Carpeta vacía: aviso en vez de tabla vacía.
+- pathlib, sin os.system ni subprocess, sin dependencias nuevas. uv run python -m tareas también funciona.`;
+
+const PROMPT_CORRIGE = `Dos cambios al plan:
+1. Escapa los nombres con rich.markup.escape para que [borrador].pdf salga entero.
+2. Si un fichero da error al leer su fecha o tamaño (enlace roto, sin permisos), sáltalo sin romper la tabla.
+Repíteme el plan corregido en 5 líneas.`;
+
+const PROMPT_BUILD = `Hazlo con el plan corregido. Toca solo src/tareas/cli.py y src/tareas/__main__.py.
+Cuando acabes, ejecuta uv run tareas --help y dime qué órdenes pruebo yo en ~/pruebas-tareas.`;
+
+const PROBAR_EN_OC = `!uv run tareas version
+!uv run tareas listar ~/pruebas-tareas
+!uv run tareas listar /no/existe; echo $?`;
+
+const PROMPT_FALLO = `!uv run tareas listar ~/pruebas-tareas/contrato.docx; echo $?
+Sale una traza de Python y código 1; esperaba el mensaje de error en stderr y código 1, sin traza.
+Corrige solo eso en @src/tareas/cli.py y explícame en 2 líneas qué fallaba.`;
+
+const PROMPT_MENSAJE = `Mira git diff y git status y propón un mensaje de commit en español, en imperativo, de una línea, que cuente qué cambia y para qué. No hagas el commit.`;
 
 const CLI_PY = String.raw`"""Interfaz de línea de órdenes: aquí solo hay órdenes, opciones y salida."""
 
@@ -426,14 +548,15 @@ const DESINSTALAR = String.raw`uv tool uninstall tareas`;
 const PROMPTS_MD = `# Prompts clave del proyecto
 
 ## 2026-10-27 · Primera orden: listar
-**Herramienta:** OpenCode / asistente de VS Code / chat del centro (modelo: ________)
-**Prompt:** (pega aquí el prompt tal cual lo enviaste)
-**Qué me dio:** cli.py con version y listar. Funcionaba a la primera: sí / no.
-**Qué cambié yo y por qué:** ej.: no escapaba los nombres con corchetes; [foto].jpg salía sin corchetes.
+**Herramienta:** OpenCode 1.18.35 · modelo centro/qwen3.8-flash-next
+**Prompt del plan (agente plan):** (pégalo tal cual lo enviaste)
+**Qué corregí del plan:** ej.: no escapaba los nombres con corchetes; [foto].jpg salía sin corchetes.
+**Diffs que rechacé o deshice (/undo) y por qué:** ej.: quería añadir la librería humanize.
+**Funcionaba a la primera:** sí / no. Qué fallo le expliqué: ________
 **Qué aprendí:** ej.: typer.Exit(code=1) termina con código 1 sin traza.`;
 
-const COMMITS = String.raw`git add README.md
-git commit -m "Escribe la spec v0 de la herramienta en el README"
+const COMMITS = String.raw`git status                  # ¿solo cli.py y __main__.py? Nada de .env ni .venv
+git diff                    # repásalo una última vez
 git add src/tareas/cli.py src/tareas/__main__.py
 git commit -m "Añade las órdenes version y listar con tabla Rich"
 git add docs/prompts.md
@@ -542,6 +665,35 @@ function DiagramaRutas() {
   );
 }
 
+/* ───────────── Flujo de trabajo con el agente ───────────── */
+
+const FLUJO: [string, string, ReactNode][] = [
+  ["1", "Tú", <>Escribes la intención: spec, criterio de aceptación.</>],
+  ["2", "plan", <>«Explícame cómo lo harías»: lees y corriges el plan.</>],
+  ["3", "build", <>«Hazlo»: apruebas cada edición y cada orden leyendo el diff.</>],
+  ["4", "Tú", <>Auditas y pruebas con <C>!uv run tareas …</C>. Si falla: <C>/undo</C> o le explicas el fallo.</>],
+  ["5", "Tú", <>Commit pequeño hecho por ti. Prompt clave a <C>docs/prompts.md</C>.</>],
+  ["6", "/new", <>Sesión nueva para la siguiente tarea.</>],
+];
+
+function FlujoAgente() {
+  return (
+    <ol className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3" aria-label="Flujo de trabajo con OpenCode">
+      {FLUJO.map(([n, quien, texto]) => (
+        <li key={n} className="rounded-xl border border-zinc-200 bg-white p-3 dark:border-white/10 dark:bg-slate-900">
+          <p className="flex items-center gap-2 text-[13px] font-bold">
+            <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-[12px] text-white">
+              {n}
+            </span>
+            <span className="text-blue-700 dark:text-blue-300">{quien}</span>
+          </p>
+          <p className="mt-1.5 text-sm text-zinc-700 dark:text-zinc-300">{texto}</p>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
 /* ───────────── Página ───────────── */
 
 export default function CliSesion1() {
@@ -560,8 +712,9 @@ export default function CliSesion1() {
           Arranque: la terminal y tu primera orden
         </h1>
         <p className="mt-4 text-lg text-zinc-600 dark:text-zinc-400">
-          Esta semana pierdes el miedo a la pantalla negra. Aprendes a moverte por la terminal, instalas las
-          herramientas, creas tu proyecto en Python y, con ayuda de la IA, escribes tu primera orden. Todo paso a
+          Esta semana pierdes el miedo a la pantalla negra y empiezas a programar como se programa ya: con un{" "}
+          <b>agente</b>. Aprendes a moverte por la terminal, instalas las herramientas, creas tu proyecto en Python
+          y construyes tu primera orden con <b>OpenCode</b>: tú decides y apruebas, el agente escribe. Todo paso a
           paso: si nunca has abierto una terminal, empiezas en el paso 0 y llegas igual que el resto.
         </p>
 
@@ -572,9 +725,9 @@ export default function CliSesion1() {
           <Lista
             items={[
               <>Tu comando <C>tareas</C> instalado: lo escribes en cualquier carpeta y responde.</>,
-              <><C>tareas --help</C> y <C>tareas listar</C> funcionando (tabla con nombre, tipo, tamaño y fecha).</>,
-              <>Un repo <b>público</b> en GitHub con un <C>.gitignore</C> correcto desde el primer commit.</>,
-              <>Al menos <b>4 commits</b> con mensajes que cuentan qué has hecho.</>,
+              <><C>tareas --help</C>, <C>tareas version</C> y <C>tareas listar</C> funcionando (tabla con nombre, tipo, tamaño y fecha), <b>construidos con OpenCode</b> aprobando tú cada cambio.</>,
+              <>Un repo <b>público</b> en GitHub con <C>.gitignore</C> correcto desde el primer commit, <C>opencode.json</C> (los permisos de tu agente) y <C>AGENTS.md</C> (sus normas).</>,
+              <>Al menos <b>4 commits hechos por ti</b> con mensajes que cuentan qué has hecho.</>,
             ]}
           />
         </div>
@@ -584,29 +737,49 @@ export default function CliSesion1() {
           <span className={meta}>🐧 Linux primero · 🪟 Windows · 🍎 macOS</span>
           <span className={meta}>🧭 100 % guiada</span>
           <span className={meta}>📦 Python 3.12 · uv · Typer</span>
+          <span className={meta}>🤖 OpenCode 1.18.35</span>
         </div>
 
         <div className="mt-6 grid gap-4 md:grid-cols-2">
           <div className={tarjeta}>
             <h2 className="text-[15px] font-bold">🏫 Grupo presencial</h2>
             <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-              Trabajas en los <b>equipos Linux del aula</b>: sigue los bloques de bash. Para que la IA escriba
-              código usas el <b>agente del centro (OpenCode)</b> y, para preguntar, el <b>chat del centro</b>{" "}
-              (modelos locales). Son 4 h de línea individual que van en paralelo a las 4 h de la startup en
-              grupo: no mezcles los repos.
+              Trabajas en los <b>equipos Linux del aula</b>: sigue los bloques de bash. El código lo construyes
+              con <b>OpenCode conectado a los modelos del centro</b>; el <b>chat del centro</b> queda para
+              consultas. Son 4 h de línea individual que van en paralelo a las 4 h de la startup en grupo: no
+              mezcles los repos.
             </p>
           </div>
           <div className={tarjeta}>
             <h2 className="text-[15px] font-bold">🏠 Grupo semipresencial</h2>
             <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-              La terminal se aprende en la <b>tutoría colectiva de arranque</b>, de presencia{" "}
-              <b>obligatoria</b> (fecha en el aula virtual): trae tu portátil. En casa trabajas con{" "}
-              <b>VS Code</b>, su terminal integrada y el asistente de código que facilite la Conselleria; el chat
-              de Copilot de Microsoft 365 sigue valiendo para preguntar. Si tu equipo es <b>Windows</b>, sigue los
-              bloques de <b>PowerShell</b>. El 6 nov hay comprobación de proceso.
+              La terminal y la puesta en marcha se hacen en la <b>tutoría colectiva de arranque</b>, de presencia{" "}
+              <b>obligatoria</b> (fecha en el aula virtual): trae tu portátil. Allí el profesor explica cómo
+              conectarte desde casa a los modelos del centro. En casa usas <b>OpenCode en la terminal integrada de
+              VS Code</b>; el chat de Copilot de Microsoft 365 queda solo para consultas. Si tu equipo es{" "}
+              <b>Windows</b>, sigue los bloques de <b>PowerShell</b>. El 6 nov hay comprobación de proceso.
             </p>
           </div>
         </div>
+
+        <Link
+          href="/programacion-ia/opencode/"
+          className="mt-4 flex items-center justify-between gap-4 rounded-2xl border border-violet-200 bg-violet-50 p-4 hover:bg-violet-100 dark:border-violet-500/30 dark:bg-violet-500/10 dark:hover:bg-violet-500/20"
+        >
+          <span className="min-w-0">
+            <span className="block text-[15px] font-bold text-violet-900 dark:text-violet-200">
+              🤖 Guía completa: OpenCode, tu agente de programación
+            </span>
+            <span className="mt-1 block text-sm text-violet-800 dark:text-violet-300">
+              La usarás todo el curso: instalación, conexión, agentes, permisos, AGENTS.md, skills y MCP. Esta
+              sesión te da lo justo para empezar; la guía, el resto. Y fíjate: la herramienta con la que programas
+              tu CLI es… una CLI.
+            </span>
+          </span>
+          <span aria-hidden className="flex-none text-xl text-violet-700 dark:text-violet-300">
+            →
+          </span>
+        </Link>
 
         <nav aria-label="Pasos de la sesión" className="mt-6 flex flex-wrap gap-2">
           {INDICE.map(([href, t]) => (
@@ -770,24 +943,26 @@ PS C:\Users\ana\pruebas-tareas>        Windows (PowerShell): PS carpeta>`}
 
         {/* ───────────── PASO 2 ───────────── */}
         <H2 id="paso-2">
-          Paso 2 · Instala las herramientas <Tiempo>20 min</Tiempo>
+          Paso 2 · Instala las herramientas: git, uv y OpenCode <Tiempo>35 min</Tiempo>
         </H2>
         <P>
-          Necesitas dos cosas: <b>git</b> (ya lo usaste en la web de marca) y <b>uv</b>, el gestor de proyectos
-          Python que usaremos: crea el proyecto, instala Python, gestiona dependencias y entornos virtuales y
-          convierte tu código en un comando. Una sola herramienta en lugar de cinco (pip, venv, pipx,
-          pyenv...). En los equipos del aula ya puede estar instalado: compruébalo con <C>uv --version</C> antes
+          Necesitas tres cosas: <b>git</b> (ya lo usaste en la web de marca), <b>uv</b>, el gestor de proyectos
+          Python que usaremos (crea el proyecto, instala Python, gestiona dependencias y entornos virtuales y
+          convierte tu código en un comando: una sola herramienta en lugar de pip, venv, pipx y pyenv), y{" "}
+          <b>OpenCode</b>, el agente que va a escribir código contigo. En los equipos del aula puede que ya estén
+          instalados: compruébalo con <C>git --version</C>, <C>uv --version</C> y <C>opencode --version</C> antes
           de instalar nada.
         </P>
+
+        <H3>2.1 · git y uv</H3>
         <p className="mt-4 text-sm font-bold text-zinc-800 dark:text-zinc-200">🐧🍎 Linux y macOS</p>
         <Codigo code={UV_LINUX} />
         <p className="mt-4 text-sm font-bold text-zinc-800 dark:text-zinc-200">🪟 Windows (PowerShell)</p>
         <Codigo lang="PowerShell" code={UV_WIN} />
         <P>
-          Al final debes ver tres versiones: git (cualquiera reciente), uv y un Python <b>3.12 o superior</b>.
-          Fíjate en que el instalador de uv es un script descargado de internet que se ejecuta en tu máquina:
-          está bien porque viene de la web oficial de Astral, pero <b>nunca</b> lo hagas con una URL que no
-          conoces.
+          Debes ver git (cualquiera reciente), uv y un Python <b>3.12 o superior</b>. Fíjate en que el instalador
+          de uv es un script descargado de internet que se ejecuta en tu máquina: está bien porque viene de la web
+          oficial de Astral, pero <b>nunca</b> lo hagas con una URL que no conoces.
         </P>
         <div className={aviso}>
           <b>«uv: orden no encontrada» / «uv no se reconoce como nombre de un cmdlet»</b> justo después de
@@ -802,13 +977,76 @@ PS C:\Users\ana\pruebas-tareas>        Windows (PowerShell): PS carpeta>`}
           comando. Funciona, pero son más pasos y en clase todo irá con uv.
         </P>
 
+        <H3>2.2 · OpenCode 1.18.35 (versión fijada)</H3>
+        <P>
+          En clase usamos exactamente la <b>1.18.35</b>. Conviven OpenCode 1 y OpenCode 2, con configuraciones
+          incompatibles: si instalas «la última» te llevas la 2 y nada de lo que copies de estas páginas
+          funcionará.
+        </P>
+        <p className="mt-4 text-sm font-bold text-zinc-800 dark:text-zinc-200">🐧🍎 Linux y macOS</p>
+        <Codigo code={OPENCODE_LINUX} />
+        <p className="mt-4 text-sm font-bold text-zinc-800 dark:text-zinc-200">🪟 Windows (PowerShell)</p>
+        <Codigo lang="PowerShell" code={OPENCODE_WIN} />
+        <Lista
+          items={[
+            <>El script de Linux/macOS instala en <C>~/.opencode/bin</C> y añade esa carpeta al PATH: por eso hay que abrir una terminal nueva.</>,
+            <>En Windows, OpenCode necesita <b>Git for Windows</b> porque ejecuta sus órdenes con Git Bash, y <b>Node LTS</b> para instalarse con npm. Alternativa que recomienda su documentación: WSL (Ubuntu dentro de Windows) y el script de Linux.</>,
+            <><b>No</b> uses <C>brew install opencode</C> ni <C>pacman -S opencode</C>: instalan la versión 2.</>,
+            <>Si un tutorial habla de <C>permissions</C> o <C>agents</C> en <b>plural</b>, es de OpenCode 2. Nosotros escribimos <C>permission</C>, <C>agent</C> y <C>provider</C> en singular.</>,
+          ]}
+        />
+
+        <H3>2.3 · Conéctalo con los modelos del centro</H3>
+        <P>
+          OpenCode no trae inteligencia propia: habla con un modelo de IA. Usaremos los <b>modelos locales del
+          instituto</b> (un servidor del centro con API compatible con OpenAI). La configuración va en tu carpeta
+          personal, <b>no en el repo</b>: crea la carpeta y abre el fichero con tu editor.
+        </P>
+        <div className="grid min-w-0 gap-x-4 md:grid-cols-2">
+          <div className="min-w-0">
+            <p className="mt-2 text-sm font-bold text-zinc-800 dark:text-zinc-200">🐧🍎 bash</p>
+            <Codigo code={CONFIG_DIR_BASH} />
+          </div>
+          <div className="min-w-0">
+            <p className="mt-2 text-sm font-bold text-zinc-800 dark:text-zinc-200">🪟 PowerShell</p>
+            <Codigo lang="PowerShell" code={CONFIG_DIR_PS} />
+          </div>
+        </div>
+        <P>Pega esto tal cual (no cambies nada: la dirección y la clave salen de variables de entorno):</P>
+        <Codigo lang="JSON · ~/.config/opencode/opencode.json" code={CONFIG_GLOBAL} />
+        <Lista
+          items={[
+            <><C>provider.centro</C>: un proveedor que llamamos «centro», compatible con la API de OpenAI.</>,
+            <><C>{"{env:CENTRO_IA_URL}"}</C> y <C>{"{env:CENTRO_IA_KEY}"}</C>: OpenCode lee la dirección y la clave de dos variables de entorno. Así la clave no está escrita en ningún fichero que pueda acabar en git.</>,
+            <><C>model</C>: el modelo que usa por defecto, en formato <C>proveedor/modelo</C>.</>,
+            <><C>&quot;autoupdate&quot;: false</C>: que no se actualice solo (y se pase a la 2).</>,
+            <>Si tu editor marca <C>provider</C> como «deprecated», ignóralo: el esquema publicado ya es el de la versión 2.</>,
+          ]}
+        />
+        <P>
+          Ahora las dos variables. La dirección (termina en <C>/v1</C>) y la clave te las da el profesor en clase
+          o en el aula virtual. <b>No las publiques</b> en el repo, en el README ni en ningún chat.
+        </P>
+        <p className="mt-4 text-sm font-bold text-zinc-800 dark:text-zinc-200">🐧🍎 bash (Linux y macOS)</p>
+        <Codigo code={VARIABLES_BASH} />
+        <p className="mt-4 text-sm font-bold text-zinc-800 dark:text-zinc-200">🪟 PowerShell (Windows)</p>
+        <Codigo lang="PowerShell" code={VARIABLES_PS} />
+        <P>En una terminal nueva, comprueba que todo encaja:</P>
+        <Codigo code={COMPROBAR_OC} />
+        <div className={info}>
+          <b>Semipresencial:</b> desde casa, cómo llegar al servidor del centro lo explica el profesor en la{" "}
+          <b>tutoría colectiva de arranque</b>. Hasta entonces, deja hecha la instalación y la config: si{" "}
+          <C>opencode models centro</C> ya lista el modelo, la parte que depende de ti está bien.
+        </div>
+
         {/* ───────────── PASO 3 ───────────── */}
         <H2 id="paso-3">
-          Paso 3 · Crea el proyecto <Tiempo>20 min</Tiempo>
+          Paso 3 · Crea el proyecto a mano y haz el primer commit <Tiempo>35 min</Tiempo>
         </H2>
         <P>
-          Ve a la carpeta donde guardas tus proyectos (no dentro de <C>pruebas-tareas</C> ni dentro del repo de
-          la web de marca) y crea el proyecto:
+          El esqueleto lo haces <b>tú</b>, sin agente: son cuatro órdenes y así sabes qué hay en tu repo antes de
+          dejar entrar a nadie. Ve a la carpeta donde guardas tus proyectos (no dentro de <C>pruebas-tareas</C>{" "}
+          ni dentro del repo de la web de marca):
         </P>
         <Codigo code={INIT} />
         <P>Qué significa cada trozo de la orden importante:</P>
@@ -829,17 +1067,17 @@ PS C:\Users\ana\pruebas-tareas>        Windows (PowerShell): PS carpeta>`}
             [<C key="a">src/tareas/__init__.py</C>, "Convierte la carpeta en un paquete de Python. Aquí guardaremos la versión.", "Sí"],
             [<C key="a">.python-version</C>, "Qué Python usa uv en este proyecto (3.12).", "Sí"],
             [<C key="a">uv.lock</C>, "Las versiones EXACTAS de todo lo instalado. Así en otro ordenador se instala lo mismo.", "Sí"],
-            [<C key="a">README.md</C>, "La portada del repo. Hoy pondrás aquí tu spec.", "Sí"],
+            [<C key="a">README.md</C>, "La portada del repo. En el paso 5 pondrás aquí tu spec.", "Sí"],
             [<C key="a">.venv/</C>, "El entorno virtual: Python y librerías de este proyecto. Pesa mucho y se regenera con uv sync.", "NO"],
             [<C key="a">.git/</C>, "uv ya ha hecho git init por ti. Es la historia del repo.", "(es el repo)"],
           ]}
         />
         <H3>Dos ajustes a mano</H3>
         <P>
-          Abre la carpeta en tu editor (en el aula, el que uses con OpenCode; en casa, <C>code .</C> abre VS
-          Code aquí). Primero, en <C>pyproject.toml</C>, cambia la línea de <C>[project.scripts]</C>: ese
-          bloque dice «cuando instalen esto, crea un comando <C>tareas</C> que ejecute el objeto <C>app</C> del
-          módulo <C>tareas/cli.py</C>». Rellena también la descripción.
+          Abre la carpeta en tu editor (en casa, <C>code .</C> abre VS Code aquí). Primero, en{" "}
+          <C>pyproject.toml</C>, cambia la línea de <C>[project.scripts]</C>: ese bloque dice «cuando instalen
+          esto, crea un comando <C>tareas</C> que ejecute el objeto <C>app</C> del módulo{" "}
+          <C>tareas/cli.py</C>». Rellena también la descripción.
         </P>
         <Codigo lang="TOML" code={PYPROJECT} />
         <P>
@@ -848,30 +1086,33 @@ PS C:\Users\ana\pruebas-tareas>        Windows (PowerShell): PS carpeta>`}
         </P>
         <Codigo lang="Python" code={INIT_PY} />
         <P>
-          Todavía no funciona <C>uv run tareas</C>: falta <C>cli.py</C>, que llega en el paso 5. Si lo pruebas
-          ahora verás <C>ModuleNotFoundError: No module named &apos;tareas.cli&apos;</C>, y es normal.
+          Todavía no funciona <C>uv run tareas</C>: falta <C>cli.py</C>, que construirá el agente en el paso 5. Si
+          lo pruebas ahora verás <C>ModuleNotFoundError: No module named &apos;tareas.cli&apos;</C>, y es normal.
         </P>
 
-        {/* ───────────── PASO 4 ───────────── */}
-        <H2 id="paso-4">
-          Paso 4 · .gitignore, .gitattributes y GitHub <Tiempo>25 min</Tiempo>
-        </H2>
+        <H3>.gitignore y .gitattributes antes de nada</H3>
         <P>
-          <b>Antes</b> del primer commit decides qué no entra nunca en el repo. Un secreto que llega a un
-          commit se queda en el historial aunque lo borres después, y en la semana 3 tendrás una clave en{" "}
-          <C>.env</C>. Sustituye el <C>.gitignore</C> que ha creado uv por este (el de uv no incluye{" "}
-          <C>.env</C>):
+          <b>Antes</b> del primer commit decides qué no entra nunca en el repo. Un secreto que llega a un commit se
+          queda en el historial aunque lo borres después, y en la semana 3 tendrás una clave en <C>.env</C>.
+          Sustituye el <C>.gitignore</C> que ha creado uv por este (el de uv no incluye <C>.env</C>):
         </P>
         <Codigo lang=".gitignore" code={GITIGNORE} />
         <P>
-          Y crea <C>.gitattributes</C> con una sola línea. Hace que Git guarde los saltos de línea igual venga
-          el fichero de Windows (CRLF) o de Linux/macOS (LF): sin ella, un compañero con Windows te cambiaría
-          todas las líneas de todos los ficheros en un solo commit.
+          Y crea <C>.gitattributes</C> con una sola línea. Hace que Git guarde los saltos de línea igual venga el
+          fichero de Windows (CRLF) o de Linux/macOS (LF): sin ella, un compañero con Windows te cambiaría todas
+          las líneas de todos los ficheros en un solo commit.
         </P>
         <Codigo lang=".gitattributes" code={GITATTRIBUTES} />
+
+        <H3>Primer commit, ANTES de abrir OpenCode</H3>
+        <div className={info}>
+          <b>¿Por qué ahora y no después?</b> OpenCode guarda una instantánea de tus ficheros antes de cada
+          cambio, en un git interno suyo (no crea commits en tu repo), y con ella <C>/undo</C> deshace lo que haya
+          hecho el agente. Para eso necesita que la carpeta sea un repositorio git, y reconoce tu proyecto por su
+          primer commit. <b>Sin git y sin commit, <C>/undo</C> no puede devolverte tus ficheros.</b>
+        </div>
         <P>
-          Ahora el primer commit. Si Git te pregunta quién eres o no lo tienes configurado en este equipo, repasa
-          la{" "}
+          Si Git te pregunta quién eres o no lo tienes configurado en este equipo, repasa la{" "}
           <Link href="/programacion-ia/sesion-02/#configuracion" className={enlace}>
             configuración global de la sesión 2 de la web de marca
           </Link>
@@ -895,35 +1136,193 @@ PS C:\Users\ana\pruebas-tareas>        Windows (PowerShell): PS carpeta>`}
           <C>.gitignore</C>, y que <b>no</b> se ve <C>.venv</C>.
         </P>
 
-        {/* ───────────── PASO 5 ───────────── */}
-        <H2 id="paso-5">
-          Paso 5 · Tu primera orden con Typer <Tiempo>60 min</Tiempo>
+        {/* ───────────── PASO 4 ───────────── */}
+        <H2 id="paso-4">
+          Paso 4 · Prepara a tu agente: permisos y AGENTS.md <Tiempo>35 min</Tiempo>
         </H2>
         <P>
-          Así trabajaremos todo el proyecto: <b>tú decides</b> (escribes la spec), <b>la IA implementa</b>,{" "}
-          <b>tú auditas</b> (lees el código y lo pruebas con casos feos) y <b>tú commiteas</b>. La IA no decide
-          qué hace tu herramienta.
+          Un <b>chat</b> solo genera texto y tú copias y pegas. Un <b>agente</b> además usa herramientas: lee tus
+          ficheros, los edita y ejecuta órdenes en tu terminal, mira el resultado y decide el siguiente paso.
+          Por eso, antes de dejarlo trabajar, decides <b>qué puede hacer solo, qué te tiene que preguntar y qué
+          tiene prohibido</b>. Eso va en un <C>opencode.json</C> en la raíz de <C>cli-tareas</C>, que sí se sube
+          al repo (no lleva ninguna clave).
         </P>
-        <H3>5.1 · Escribe la spec en el README (10 líneas, 15 min)</H3>
+        <Codigo lang="JSON · cli-tareas/opencode.json" code={OPENCODE_PROYECTO} />
+        <Tabla
+          min={600}
+          cab={["Regla", "Qué significa", "Por qué así"]}
+          filas={[
+            [<><C>allow</C> · <C>ask</C> · <C>deny</C></>, "Lo hace sin preguntar · te pregunta antes · bloqueado.", "Tres niveles de confianza; tú los decides."],
+            [<C key="a">&quot;edit&quot;: &quot;ask&quot;</C>, "Cada vez que quiera crear o cambiar un fichero te enseña el diff y espera.", <>En la semana 1 es <b>obligatorio</b>: lees cada cambio antes de aceptarlo.</>],
+            [<><C>read</C> con <C>*.env</C> en <C>deny</C></>, "Puede leer todo el proyecto menos tus ficheros de secretos.", <>Tu clave de la semana 3 no debe viajar al modelo. <C>.env.example</C> sí (no lleva claves).</>],
+            [<><C>bash</C>: <C>&quot;*&quot;: &quot;ask&quot;</C></>, "Cualquier orden pregunta, salvo las de la lista.", <>Las de solo mirar (<C>ls</C>, <C>git status</C>, <C>git diff</C>, <C>uv run tareas --help</C>) no hacen daño y van en <C>allow</C>.</>],
+            [<><C>uv run tareas ejecutar …</C> (no está)</>, "Cae en el «*»: pregunta.", "Desde la semana 2 esa orden mueve y borra ficheros: nunca sin que tú lo veas."],
+            [<><C>git push</C>, <C>git reset</C>, <C>rm</C>, <C>sudo</C> en <C>deny</C></>, "Prohibidos para el agente.", <>El push y los commits son tuyos. Borrar o reescribir historia, nunca.</>],
+            [<C key="a">agent.plan</C>, <>El agente <b>plan</b> no puede editar nada; las órdenes siguen las reglas de arriba (rm, git push… siguen bloqueadas).</>, "Así plan es de verdad «solo pensar». Si le pusieras bash: ask aquí, anularía los deny de arriba."],
+          ]}
+        />
+        <div className={aviso}>
+          <b>Gana la ÚLTIMA regla que coincide.</b> Por eso el <C>&quot;*&quot;: &quot;ask&quot;</C> va primero
+          (regla general) y los <C>deny</C> al final (excepciones que mandan). Si pusieras un{" "}
+          <C>&quot;*&quot;: &quot;allow&quot;</C> debajo, anularía todos los <C>deny</C>. Y nunca arranques
+          OpenCode con <C>--auto</C> (aprueba todo sin preguntar).
+        </div>
+
+        <H3>Abre OpenCode en la carpeta del proyecto</H3>
         <P>
-          Copia esta plantilla en tu <C>README.md</C> y rellena los huecos <b>tú</b>, sin IA. Piensa en una tarea
-          real que te aburra: ordenar descargas, renombrar fotos del móvil, limpiar temporales, organizar apuntes
-          por asignatura...
+          Trabaja con <b>dos terminales</b>: una con OpenCode y otra para ti (git, pruebas). En VS Code, el botón{" "}
+          <C>+</C> o «dividir» de la terminal; en el aula, otra pestaña.
+        </P>
+        <Codigo code={ABRIR_OC} />
+        <P>
+          Lo que ves es una <b>TUI</b> (interfaz de texto): un programa de terminal con ventanas y atajos. La
+          herramienta con la que vas a programar tu CLI es… otra CLI. Fíjate en cómo está hecha: es lo que estás
+          aprendiendo a construir.
+        </P>
+        <Tabla
+          min={560}
+          cab={["Tecla / texto", "Qué hace"]}
+          filas={[
+            [<C key="a">Tab</C>, <>Cambia de agente: <b>build</b> (hace cambios) ↔ <b>plan</b> (solo piensa y propone). Lo ves abajo, junto al modelo.</>],
+            [<C key="a">@fichero</C>, <>Adjunta un fichero al mensaje (con búsqueda: escribe <C>@READ</C> y elige). Es como decir «mira esto».</>],
+            [<C key="a">!orden</C>, <>Ejecuta una orden tuya en la terminal y le pasa la salida al agente: <C>!uv run tareas --help</C>.</>],
+            [<C key="a">Esc</C>, "Interrumpe al agente mientras responde (si se va por las ramas)."],
+            [<><C>ctrl+x</C> y luego <C>u</C> · <C>/undo</C></>, <>Deshace tu último mensaje <b>y los cambios en ficheros</b> que provocó. <C>/redo</C> lo rehace.</>],
+            [<C key="a">/new</C>, "Sesión nueva (conversación limpia). Una por tarea."],
+            [<C key="a">/compact</C>, "Resume la conversación cuando se alarga, para no llenar la memoria del modelo."],
+            [<C key="a">/export</C>, "Exporta la conversación a Markdown."],
+            [<><C>ctrl+p</C> · <C>/help</C></>, "Paleta de comandos y ayuda."],
+            [<C key="a">ctrl+c</C>, <>Sale de OpenCode. <C>opencode -c</C> continúa la última sesión.</>],
+          ]}
+        />
+
+        <H3>/init: el AGENTS.md del proyecto</H3>
+        <P>
+          <C>AGENTS.md</C> es un fichero en la raíz con las <b>normas de tu proyecto para el agente</b>: con qué
+          está hecho, cómo se ejecuta y qué no debe hacer nunca. OpenCode lo lee al empezar cada sesión, así no
+          tienes que repetirlo en cada mensaje. Escribe en OpenCode (agente build):
+        </P>
+        <PromptBlock text="/init" />
+        <P>
+          Analiza el repo y te propone un <C>AGENTS.md</C>. Como tienes <C>edit: ask</C>, te enseñará el fichero
+          antes de escribirlo: léelo y acéptalo. Después <b>edítalo tú</b> en tu editor hasta que diga esto (o
+          algo muy parecido; si <C>/init</C> no lo genera bien, créalo tú directamente con esta plantilla):
+        </P>
+        <Codigo lang="Markdown · cli-tareas/AGENTS.md" code={AGENTS_MD} />
+        <P>
+          Cada línea tiene un motivo: la de <C>~/pruebas-tareas</C> protege tus ficheros reales, la de{" "}
+          <C>.env</C> tus claves y la de «explica antes de cambiar» te da tiempo a decir que no. Los cambios en{" "}
+          <C>opencode.json</C> no se aplican en caliente: si lo tocas, sal (<C>ctrl+c</C>) y vuelve a abrir{" "}
+          <C>opencode</C>.
+        </P>
+        <P>En tu otra terminal, el commit de la configuración del agente:</P>
+        <Codigo code={COMMIT_AGENTE} />
+
+        {/* ───────────── PASO 5 ───────────── */}
+        <H2 id="paso-5">
+          Paso 5 · Tu primera orden, de forma agéntica <Tiempo>75 min</Tiempo>
+        </H2>
+        <P>
+          Así trabajaremos todo el curso, en todas las sesiones: <b>tú decides</b>, el agente propone,{" "}
+          <b>tú corriges el plan</b>, el agente implementa, <b>tú apruebas cada cambio</b>, <b>tú pruebas</b> y{" "}
+          <b>tú commiteas</b>. El agente no decide qué hace tu herramienta.
+        </P>
+        <FlujoAgente />
+
+        <H3>5.1 · Escribe la spec en el README (tú, sin IA · 15 min)</H3>
+        <P>
+          Copia esta plantilla en tu <C>README.md</C> y rellena los huecos <b>tú</b>. Piensa en una tarea real que
+          te aburra: ordenar descargas, renombrar fotos del móvil, limpiar temporales, organizar apuntes por
+          asignatura... Es lo que leerá el agente para saber qué construir.
         </P>
         <PromptBlock text={SPEC} />
-        <H3>5.2 · Pide el código al agente</H3>
+        <Codigo code={COMMIT_SPEC} />
+
+        <H3>5.2 · Agente plan: que te cuente cómo lo haría</H3>
         <P>
-          En el aula, abre <b>OpenCode</b> dentro de la carpeta <C>cli-tareas</C>; en casa, el{" "}
-          <b>asistente de VS Code</b> con la carpeta abierta. Si solo tienes un chat, pégale además el contenido
-          de <C>README.md</C> y <C>pyproject.toml</C>, y crea tú los ficheros con lo que te devuelva. Este es el
-          prompt:
+          Pulsa <C>Tab</C> hasta que abajo ponga <b>plan</b>. En plan no puede tocar ningún fichero (lo dice tu{" "}
+          <C>opencode.json</C>), así que puedes pedirle ideas sin miedo. Envía:
         </P>
-        <PromptBlock text={PROMPT_CLI} />
-        <H3>5.3 · El código de referencia (para auditar lo que te dé la IA)</H3>
+        <PromptBlock text={PROMPT_PLAN} />
+        <P>
+          El texto es corto porque el agente <b>lee</b> tu repo: con <C>@README.md</C> y <C>@pyproject.toml</C> ya
+          tiene el contexto. Lo que no puede faltar es el <b>criterio de aceptación</b>: cómo sabrás tú que está
+          bien. Lee su plan buscando esto:
+        </P>
+        <Check
+          items={[
+            <>¿Toca <b>solo</b> <C>src/tareas/cli.py</C> y <C>src/tareas/__main__.py</C>? Si quiere cambiar más ficheros, pregunta por qué.</>,
+            <>¿Añade dependencias nuevas? No hacen falta: Typer ya trae Rich.</>,
+            <>¿Usa <C>pathlib</C> y <C>expanduser()</C>? ¿Dice qué hace con la carpeta inexistente, la vacía y los corchetes?</>,
+            <>¿Hay algo que no entiendes? Pregúntalo <b>ahora</b>, antes de que escriba código.</>,
+          ]}
+        />
+        <P>Corrige el plan con un mensaje corto, por ejemplo:</P>
+        <PromptBlock text={PROMPT_CORRIGE} />
+
+        <H3>5.3 · Agente build: «hazlo», y tú apruebas cada cambio</H3>
+        <P>
+          Pulsa <C>Tab</C> para volver a <b>build</b> y envía:
+        </P>
+        <PromptBlock text={PROMPT_BUILD} />
+        <P>
+          Ahora el agente trabaja y, cada vez que quiera escribir un fichero o ejecutar una orden que no está en
+          tu lista de <C>allow</C>, <b>se para y te pregunta</b>. Puedes contestar:
+        </P>
+        <Tabla
+          min={520}
+          cab={["Respuesta", "Qué hace", "Cuándo"]}
+          filas={[
+            [<b key="a">once</b>, "Lo permite solo esta vez.", <>Lo normal esta semana: lees, entiendes y aceptas.</>],
+            [<b key="a">always</b>, "Permite eso mismo durante el resto de la sesión.", <>Solo para órdenes inofensivas que se repiten. <b>Nunca</b> para ediciones esta semana.</>],
+            [<b key="a">reject</b>, "Lo rechaza. El agente lo ve y busca otra forma.", "Si no entiendes el cambio o no es lo que pediste. Después explícale por qué."],
+          ]}
+        />
+        <P>Qué mirar en cada diff (líneas en verde: se añaden; en rojo: se quitan):</P>
+        <Check
+          items={[
+            <>¿Es el <b>fichero</b> que esperabas? ¿Toca algo fuera de <C>src/tareas/</C>? Ojo especial con <C>pyproject.toml</C> y <C>uv.lock</C>.</>,
+            <>¿Borra algo tuyo (líneas en rojo que no esperabas)?</>,
+            <>¿Rutas escritas a mano con <C>&quot;/&quot;</C> o <C>{'"\\"'}</C>, <C>os.system</C>, <C>subprocess</C> o <C>shell=True</C>? Rechaza y pide <C>pathlib</C>.</>,
+            <>¿Los mensajes al usuario están en español y los errores van por stderr?</>,
+            <>Si te pide ejecutar una orden: léela entera. ¿Sabes qué hace? ¿Toca algo fuera de <C>cli-tareas</C>? Si no lo tienes claro, <b>reject</b> y pregunta.</>,
+          ]}
+        />
+
+        <H3>5.4 · Pruébalo tú</H3>
+        <P>
+          Que el agente diga «hecho» no significa que funcione. Pruébalo sin salir de OpenCode con <C>!</C> (la
+          salida le llega también al agente):
+        </P>
+        <PromptBlock text={PROBAR_EN_OC} />
+        <P>Y en tu otra terminal, la batería completa:</P>
+        <Codigo code={PROBAR_BASH} />
+        <Codigo lang="PowerShell" code={PROBAR_PS} />
+        <P>
+          <C>echo $?</C> (bash) y <C>$LASTEXITCODE</C> (PowerShell) muestran el <b>código de salida</b> de la
+          última orden: 0 si fue bien y otro número si falló. Los scripts y GitHub Actions deciden con él si algo
+          ha funcionado, así que tu herramienta debe devolver el correcto. Nuestro convenio: 0 bien · 1 fallo al
+          ejecutar · 2 error de uso (lo pone Typer) · 3 configuración inválida (semana 2).
+        </P>
+
+        <H3>5.5 · Si algo sale mal: /undo o explícale el fallo</H3>
+        <Lista
+          items={[
+            <><b>Lo ha estropeado o se ha ido por las ramas</b>: <C>Esc</C> si aún está trabajando y luego <C>/undo</C> (o <C>ctrl+x u</C>). Tus ficheros vuelven a como estaban antes de ese mensaje. Reformula y vuelve a intentarlo.</>,
+            <><b>Funciona casi, pero falla un caso</b>: no lo arregles a ciegas ni le digas «no funciona». Dale la orden, lo que sale y lo que esperabas, con el fichero:</>,
+          ]}
+        />
+        <PromptBlock text={PROMPT_FALLO} />
+        <P>
+          <C>/undo</C> deshace ficheros, pero <b>no</b> lo que ya salió de tu equipo (un <C>git push</C>) ni lo que
+          instaló. Por eso el push lo tiene prohibido y lo haces tú.
+        </P>
+
+        <H3>5.6 · Lo que deberías tener: audítalo contra esto</H3>
         <P>
           No hace falta que tu <C>cli.py</C> sea idéntico, pero debe hacer lo mismo. Compáralo línea a línea: si
           al tuyo le falta algo de lo que hay aquí (el <C>escape</C>, el <C>typer.Exit(code=1)</C>, el{" "}
-          <C>expanduser()</C>), pregúntale a la IA por qué y decide tú.
+          <C>expanduser()</C>), pregúntale al agente en <b>plan</b> por qué no lo puso y decide tú.
         </P>
         <Codigo lang="Python · src/tareas/cli.py" code={CLI_PY} />
         <Codigo lang="Python · src/tareas/__main__.py" code={MAIN_PY} />
@@ -935,15 +1334,6 @@ PS C:\Users\ana\pruebas-tareas>        Windows (PowerShell): PS carpeta>`}
             <>El error va a <C>Console(stderr=True)</C>: la salida de errores, separada de la normal. Así otro programa puede distinguir resultado y error.</>,
           ]}
         />
-        <H3>5.4 · Pruébalo</H3>
-        <Codigo code={PROBAR_BASH} />
-        <Codigo lang="PowerShell" code={PROBAR_PS} />
-        <P>
-          <C>echo $?</C> (bash) y <C>$LASTEXITCODE</C> (PowerShell) muestran el <b>código de salida</b> de la
-          última orden: 0 si fue bien y otro número si falló. Los scripts y GitHub Actions deciden con él si algo
-          ha funcionado, así que tu herramienta debe devolver el correcto. Nuestro convenio: 0 bien · 1 fallo al
-          ejecutar · 2 error de uso (lo pone Typer) · 3 configuración inválida (semana 2).
-        </P>
 
         {/* ───────────── PASO 6 ───────────── */}
         <H2 id="paso-6">
@@ -951,7 +1341,8 @@ PS C:\Users\ana\pruebas-tareas>        Windows (PowerShell): PS carpeta>`}
         </H2>
         <P>
           <C>uv run tareas</C> solo funciona dentro de la carpeta del proyecto. Para que <C>tareas</C> funcione en
-          cualquier sitio, como <C>git</C> o <C>ls</C>, instálala:
+          cualquier sitio, como <C>git</C>, <C>ls</C> u <C>opencode</C>, instálala (en tu terminal, no se lo pidas
+          al agente):
         </P>
         <Codigo code={INSTALAR} />
         <P>
@@ -968,34 +1359,34 @@ PS C:\Users\ana\pruebas-tareas>        Windows (PowerShell): PS carpeta>`}
 
         {/* ───────────── PASO 7 ───────────── */}
         <H2 id="paso-7">
-          Paso 7 · Audita y commitea <Tiempo>30 min</Tiempo>
+          Paso 7 · Audita y commitea TÚ <Tiempo>30 min</Tiempo>
         </H2>
         <P>
-          «Lo que no sabes explicar, no lo entregas». Antes de cada commit con código de la IA, repasa esta
-          lista. Si algo falla, pídele el arreglo a la IA, pero entiende qué ha cambiado.
+          «Lo que no sabes explicar, no lo entregas». Aprobar los diffs no basta: antes del commit, repasa esta
+          lista. Si algo falla, pídele el arreglo al agente, pero entiende qué ha cambiado.
         </P>
         <Check
           items={[
-            <>¿Entiendo <b>cada línea</b> de <C>cli.py</C>? Si hay una que no, pregúntale a la IA «explícame esta línea como si fuera mi primer año» hasta que sí.</>,
+            <>¿Entiendo <b>cada línea</b> de <C>cli.py</C>? Si hay una que no, pregúntale en <b>plan</b>: «explícame la línea N de @src/tareas/cli.py como si fuera mi primer año».</>,
             <>¿Qué pasa con una <b>carpeta vacía</b>? <C>mkdir ~/pruebas-tareas/vacia && tareas listar ~/pruebas-tareas/vacia</C></>,
             <>¿Y con una <b>ruta con espacios</b>? <C>tareas listar &quot;~/pruebas-tareas/carpeta con espacios&quot;</C> (créala antes). Ojo: entre comillas, <C>~</C> no lo expande la terminal; lo tiene que hacer tu código con <C>expanduser()</C>.</>,
             <>¿Y con un <b>fichero en vez de carpeta</b>? <C>tareas listar ~/pruebas-tareas/contrato.docx; echo $?</C> → mensaje y 1.</>,
             <>¿Y un nombre con <b>corchetes</b>? <C>touch ~/pruebas-tareas/&quot;[borrador].pdf&quot;</C> y lístalo: el nombre tiene que salir entero.</>,
             <>¿Funciona <b>en Windows</b>? Busca en el código barras escritas a mano dentro de rutas (<C>&quot;/&quot;</C>), <C>os.system</C>, <C>shell=True</C> o ficheros abiertos sin <C>encoding=&quot;utf-8&quot;</C>. Si tienes Windows, pruébalo; si no, pide a alguien que lo pruebe.</>,
             <>¿<C>tareas --help</C> se entiende sin haber leído el código? ¿Está en español?</>,
-            <>¿La IA ha añadido dependencias u órdenes que no pediste? Mira <C>git diff pyproject.toml</C>.</>,
+            <>¿El agente ha añadido dependencias u órdenes que no pediste? Mira <C>git diff pyproject.toml</C> y <C>git status</C>.</>,
           ]}
         />
-        <H3>Guarda tus prompts en docs/prompts.md</H3>
+        <H3>El agente propone el mensaje; el commit lo haces tú</H3>
         <P>
-          Crea <C>docs/prompts.md</C> y apunta cada prompt importante con lo que cambiaste tú. Es tu cuaderno de
-          bitácora y una parte de la nota de proceso: demuestra que dirigiste a la IA, no al revés.
+          El agente tiene prohibido el push y los commits los tiene que preguntar; además tu <C>AGENTS.md</C> le
+          dice que no los haga. Pídele solo el texto:
         </P>
-        <PromptBlock text={PROMPTS_MD} />
-        <H3>Commits pequeños con mensajes que cuentan</H3>
+        <PromptBlock text={PROMPT_MENSAJE} />
         <P>
-          Un commit = un paso con sentido. El mensaje dice <b>qué cambia y para qué</b>, en imperativo, como si
-          terminara la frase «Este commit...».
+          Léelo, cámbialo si no cuenta bien lo que hiciste, y commitea tú en tu terminal. Un commit = un paso con
+          sentido. El mensaje dice <b>qué cambia y para qué</b>, en imperativo, como si terminara la frase «Este
+          commit...».
         </P>
         <Codigo code={COMMITS} />
         <Tabla
@@ -1004,14 +1395,24 @@ PS C:\Users\ana\pruebas-tareas>        Windows (PowerShell): PS carpeta>`}
             [<C key="a">cambios</C>, <C key="b">Añade la orden listar con tabla Rich</C>],
             [<C key="a">arreglos</C>, <C key="b">Devuelve código 1 si la carpeta no existe</C>],
             [<C key="a">asdf</C>, <C key="b">Escapa nombres con corchetes en la tabla</C>],
-            [<C key="a">lo que me ha dado la IA</C>, <C key="b">Guarda en docs/prompts.md el prompt de listar y lo que corregí</C>],
+            [<C key="a">lo que me ha dado la IA</C>, <C key="b">Guarda en docs/prompts.md el plan de listar y lo que corregí</C>],
             [<C key="a">version final final 2</C>, <C key="b">Escribe la spec v0 en el README</C>],
           ]}
         />
+        <H3>Guarda tus prompts en docs/prompts.md</H3>
         <P>
-          Con el commit del paso 4 y estos tres ya tienes <b>4 commits</b>. Si al auditar has corregido algo,
-          mejor: es un commit más, y de los que mejor cuentan el proceso.
+          Crea <C>docs/prompts.md</C> y apunta los prompts clave con lo que corregiste tú. Es tu cuaderno de
+          bitácora y una parte de la nota de proceso: demuestra que dirigiste al agente, no al revés. Si quieres
+          guardar la conversación entera, <C>/export</C> (o <C>ctrl+x x</C>) la exporta a Markdown y la abre en tu
+          editor; guárdala dentro de <C>docs/</C> y revisa que no contenga ninguna clave antes del commit.
         </P>
+        <PromptBlock text={PROMPTS_MD} />
+        <div className={info}>
+          <b>Una sesión por tarea.</b> Cuando termines algo y lo commitees, <C>/new</C> para empezar limpio la
+          siguiente (por ejemplo, «arreglar los corchetes»). Las conversaciones largas confunden al modelo; si una
+          se alarga, <C>/compact</C>. Con el commit del proyecto, el de <C>opencode.json</C> + <C>AGENTS.md</C>, el
+          de la spec, el de <C>cli.py</C> y el de <C>docs/prompts.md</C> ya tienes <b>5 commits tuyos</b>.
+        </div>
 
         {/* ───────────── CHECKLIST FINAL ───────────── */}
         <H2 id="final">Checklist de la semana (el producto)</H2>
@@ -1020,14 +1421,18 @@ PS C:\Users\ana\pruebas-tareas>        Windows (PowerShell): PS carpeta>`}
             items={[
               <>Tengo <C>~/pruebas-tareas</C> con los ficheros de ejemplo (pdf, jpg, tmp viejos y nuevos, uno con espacios).</>,
               <><C>git --version</C>, <C>uv --version</C> y Python 3.12 o superior funcionan.</>,
+              <><C>opencode --version</C> dice <b>1.18.35</b> y <C>opencode models centro</C> lista <C>centro/qwen3.8-flash-next</C>.</>,
+              <>La URL y la clave del centro están en variables de entorno, <b>no</b> en ningún fichero del repo.</>,
               <>El proyecto <C>cli-tareas</C> tiene <C>pyproject.toml</C> con <C>tareas = &quot;tareas.cli:app&quot;</C>.</>,
-              <><C>.gitignore</C> (con <C>.env</C> y <C>.venv/</C>) y <C>.gitattributes</C> estaban en el <b>primer</b> commit.</>,
+              <><C>.gitignore</C> (con <C>.env</C> y <C>.venv/</C>) y <C>.gitattributes</C> estaban en el <b>primer</b> commit, hecho antes de abrir OpenCode.</>,
+              <>El repo tiene <C>opencode.json</C> con los permisos del proyecto y un <C>AGENTS.md</C> que he revisado y editado yo.</>,
               <>El README tiene mi spec de 10 líneas, rellenada por mí.</>,
+              <>He construido <C>cli.py</C> con <b>plan → build</b>, aprobando cada diff, y he usado <C>/undo</C> o le he explicado un fallo al menos una vez.</>,
               <>Desde cualquier carpeta: <C>tareas --help</C>, <C>tareas version</C> y <C>tareas listar ~/pruebas-tareas</C> funcionan.</>,
               <><C>tareas listar /no/existe</C> da un mensaje claro y código de salida 1.</>,
-              <><C>docs/prompts.md</C> tiene al menos el prompt de hoy y lo que cambié.</>,
-              <>El repo es <b>público</b> en GitHub, tiene <b>al menos 4 commits</b> con mensajes que cuentan y no contiene <C>.venv</C>.</>,
-              <>Sé explicar en voz alta qué hace cada línea de <C>cli.py</C>.</>,
+              <><C>docs/prompts.md</C> tiene al menos el prompt del plan y lo que corregí.</>,
+              <>El repo es <b>público</b> en GitHub, tiene <b>al menos 4 commits hechos por mí</b> con mensajes que cuentan y no contiene <C>.venv</C> ni <C>.env</C>.</>,
+              <>Sé explicar en voz alta qué hace cada línea de <C>cli.py</C> y cada regla de <C>opencode.json</C>.</>,
             ]}
           />
         </div>
@@ -1036,9 +1441,10 @@ PS C:\Users\ana\pruebas-tareas>        Windows (PowerShell): PS carpeta>`}
         <H2 id="atascos">Si te atascas</H2>
         <P>
           Antes de pedir ayuda, <b>lee el mensaje de error entero</b>: casi siempre dice qué pasa. Si no lo
-          entiendes, pégalo en el chat con la orden que escribiste y tu sistema operativo. Estos son los
-          habituales:
+          entiendes, pégalo en el chat con la orden que escribiste y tu sistema operativo (sin claves). Estos son
+          los habituales:
         </P>
+        <H3>Terminal, uv y Git</H3>
         <Tabla
           min={640}
           cab={["Lo que ves", "Qué pasa", "Arreglo"]}
@@ -1101,6 +1507,58 @@ PS C:\Users\ana\pruebas-tareas>        Windows (PowerShell): PS carpeta>`}
             ],
           ]}
         />
+        <H3>OpenCode</H3>
+        <Tabla
+          min={640}
+          cab={["Lo que ves", "Qué pasa", "Arreglo"]}
+          filas={[
+            [
+              <><C>opencode: orden no encontrada</C> · «no se reconoce como nombre de un cmdlet»</>,
+              <>La terminal es anterior a la instalación, o la carpeta del programa (<C>~/.opencode/bin</C>, o la de npm global en Windows) no está en el PATH.</>,
+              "Abre una terminal nueva (o reinicia VS Code). Si sigue, repite la instalación del paso 2.2 y mira el mensaje final del instalador.",
+            ],
+            [
+              <><C>opencode --version</C> dice 2.x</>,
+              <>Lo instalaste con <C>brew install opencode</C>, <C>pacman</C> o «la última versión».</>,
+              <>Desinstálalo con el mismo gestor y repite el paso 2.2 con la versión fijada <C>1.18.35</C>.</>,
+            ],
+            [
+              <><C>opencode models centro</C> no lista nada</>,
+              <>La config global no está donde toca, tiene un error de JSON, o usa claves en plural (de la V2).</>,
+              <><C>opencode debug config</C> te dice qué ha leído y dónde falla. Revisa la ruta <C>~/.config/opencode/opencode.json</C> y que diga <C>provider</C> en singular.</>,
+            ],
+            [
+              <><C>Cannot connect to API</C> · <C>opencode run</C> se queda reintentando sin fin</>,
+              "No llega al servidor del centro: variable vacía, dirección mal copiada (sin /v1) o no estás en la red del centro.",
+              <><C>Ctrl+C</C>. Abre una terminal nueva (después de <C>setx</C> o de editar <C>.bashrc</C> es obligatorio) y repite. Desde casa, sigue lo que explicó el profesor en la tutoría. Si en el aula le pasa a todos, avisa.</>,
+            ],
+            [
+              "Error 401 / 403",
+              "La clave no llega o está mal copiada.",
+              <>Revisa <C>CENTRO_IA_KEY</C> en una terminal nueva y <C>opencode debug config</C> (la clave sale enmascarada).</>,
+            ],
+            [
+              "Me pregunta permiso para todo",
+              <>Es lo que has configurado: <C>edit: ask</C> y <C>bash &quot;*&quot;: ask</C>.</>,
+              <>Es lo correcto esta semana. Para una orden inofensiva que se repite, responde <b>always</b>. Nunca <C>--auto</C>.</>,
+            ],
+            [
+              <><C>/undo</C> no devuelve los ficheros</>,
+              "La carpeta no es un repositorio git o no tiene ningún commit.",
+              <>Haz el primer commit (paso 3) y vuelve a abrir <C>opencode</C>. Mientras tanto, <C>git restore fichero</C> si ya estaba commiteado.</>,
+            ],
+            [
+              <><C>V2 permissions are not supported by OpenCode V1</C></>,
+              <>Has copiado configuración de OpenCode 2 (<C>permissions</C> en plural).</>,
+              <>Usa el <C>opencode.json</C> de esta página: <C>permission</C>, en singular.</>,
+            ],
+            [
+              <>He cambiado <C>opencode.json</C> y no hace caso</>,
+              "La configuración solo se lee al arrancar.",
+              <>Sal con <C>ctrl+c</C> y vuelve a abrir <C>opencode</C> (o <C>opencode -c</C> para seguir la sesión).</>,
+            ],
+          ]}
+        />
 
         {/* ───────────── SIGUIENTE ───────────── */}
         <div className={`mt-10 ${tarjeta}`}>
@@ -1109,8 +1567,10 @@ PS C:\Users\ana\pruebas-tareas>        Windows (PowerShell): PS carpeta>`}
           </p>
           <p className="mt-2 text-[15px] text-zinc-700 dark:text-zinc-300">
             Tu herramienta deja de listar y empieza a <b>hacer</b>: describes tus acciones en{" "}
-            <C>acciones.json</C> (mover, renombrar, borrar...) y escribes el motor que las ejecuta, siempre con{" "}
-            <C>--simular</C> primero. Trae pensadas tus 3 acciones del punto 6 de la spec.
+            <C>acciones.json</C> (mover, renombrar, borrar...) y el motor que las ejecuta, siempre con{" "}
+            <C>--simular</C> primero. Y tu agente sube de nivel: una <b>skill</b> con las reglas de tu{" "}
+            <C>acciones.json</C>, un <b>comando</b> propio <C>/nueva-accion</C> y un <b>subagente revisor</b> de
+            solo lectura. Trae pensadas tus 3 acciones del punto 6 de la spec.
           </p>
           <div className="mt-4 flex flex-wrap gap-3">
             <Link
@@ -1118,6 +1578,12 @@ PS C:\Users\ana\pruebas-tareas>        Windows (PowerShell): PS carpeta>`}
               className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-bold text-white hover:bg-blue-700"
             >
               Sesión 2 · Acciones predefinidas →
+            </Link>
+            <Link
+              href="/programacion-ia/opencode/"
+              className="rounded-xl border border-zinc-300 px-4 py-2 text-sm font-bold text-zinc-800 hover:bg-zinc-100 dark:border-white/15 dark:text-zinc-200 dark:hover:bg-white/10"
+            >
+              Guía de OpenCode
             </Link>
             <Link
               href="/programacion-ia/cli/"

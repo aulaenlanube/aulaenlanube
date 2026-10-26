@@ -42,11 +42,11 @@ export default function CodeBlock({
     <div className="aeln-code overflow-hidden rounded-xl bg-[#0f172a] shadow-lg ring-1 ring-slate-700/60">
       {/* Barra superior */}
       <div className="flex items-center justify-between gap-3 border-b border-slate-700/60 bg-[#111c33] px-4 py-2.5">
-        <div className="flex items-center gap-2">
-          <span className="h-3 w-3 rounded-full bg-[#ff5f56]" aria-hidden />
-          <span className="h-3 w-3 rounded-full bg-[#ffbd2e]" aria-hidden />
-          <span className="h-3 w-3 rounded-full bg-[#27c93f]" aria-hidden />
-          <span className="ml-2 text-xs font-semibold uppercase tracking-wider text-slate-400">
+        <div className="flex min-w-0 items-center gap-2">
+          <span className="h-3 w-3 flex-none rounded-full bg-[#ff5f56]" aria-hidden />
+          <span className="h-3 w-3 flex-none rounded-full bg-[#ffbd2e]" aria-hidden />
+          <span className="h-3 w-3 flex-none rounded-full bg-[#27c93f]" aria-hidden />
+          <span className="ml-2 min-w-0 truncate text-xs font-semibold uppercase tracking-wider text-slate-400">
             {lang}
           </span>
         </div>

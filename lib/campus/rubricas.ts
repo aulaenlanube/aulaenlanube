@@ -115,8 +115,95 @@ export const RUBRICA_WEB_MARCA: Rubrica = {
   ],
 };
 
+// Proyecto 2 (presencial y semipresencial). Criterios, pesos, mínimos y nivel
+// «Excelente» tal como figuran en la programación didáctica (UT2).
+export const RUBRICA_CLI: Rubrica = {
+  id: "cli-tareas",
+  titulo: "Rúbrica · CLI «tareas con IA»",
+  niveles: NIVELES,
+  minimos: [
+    { id: "instalacion", texto: "Se instala siguiendo el README y la orden de ayuda (--help) funciona." },
+    { id: "acciones", texto: "Al menos 3 acciones propias definidas en el fichero de configuración (acciones.json) funcionan." },
+    { id: "secretos", texto: "Ninguna clave ni secreto en el repositorio ni en su historial." },
+    { id: "git", texto: "Historial git real: mínimo 10 commits con mensajes que cuentan el proceso." },
+  ],
+  criterios: [
+    {
+      id: "acciones", nombre: "Acciones predefinidas funcionando", peso: 20,
+      qué: "Lo que tu herramienta hace de verdad con tus ficheros.",
+      niveles: [
+        "Ninguna acción funciona de principio a fin, o solo el ejemplo de partida.",
+        "1-2 acciones propias que funcionan en el caso fácil; salida confusa o efectos inesperados.",
+        "3-4 acciones propias útiles, con salida clara (qué se ha hecho y sobre qué ficheros) y modo simulación.",
+        "5 o más acciones propias útiles, combinables, con salida clara y sin efectos sorpresa (simulación previa o confirmación antes de borrar o sobrescribir).",
+      ],
+    },
+    {
+      id: "configuracion", nombre: "Configuración externa (acciones.json)", peso: 15,
+      qué: "Las acciones viven en un fichero que escribes tú, no dentro del código.",
+      niveles: [
+        "Las acciones están escritas a mano dentro del código.",
+        "Existe acciones.json pero el código lo lee sin comprobar nada: un error en el JSON rompe el programa.",
+        "Esquema propio documentado en el README; el JSON se valida antes de ejecutar y los errores dicen qué campo falla.",
+        "Además: añadir una acción no exige tocar el código y hay un ADR que justifica por qué configuración externa y no código.",
+      ],
+    },
+    {
+      id: "ia", nombre: "Capa IA, secretos y modo sin red", peso: 15,
+      qué: "IA donde aporta, sin filtrar claves y sin depender de ella para todo.",
+      niveles: [
+        "Sin IA, o con la clave escrita en el código o subida al repositorio.",
+        "Una acción con IA que funciona, pero si no hay red o falta la clave la CLI se rompe con un traceback.",
+        "Al menos 2 acciones con IA útiles; clave en .env (ignorado por git desde el primer commit) y .env.example documentado.",
+        "Al menos 2 acciones con IA útiles; ninguna clave en el historial; si no hay red, la CLI lo explica y sigue con las acciones sin IA.",
+      ],
+    },
+    {
+      id: "robustez", nombre: "Robustez: excepciones y entradas feas", peso: 15,
+      qué: "Qué pasa cuando el usuario se equivoca o el disco no es como esperabas.",
+      niveles: [
+        "Cualquier error (ruta inexistente, JSON roto) termina en un traceback.",
+        "Se capturan algunos errores, con mensajes genéricos («error»).",
+        "Errores previsibles controlados con mensajes humanos y código de salida distinto de 0; nunca se pierde un fichero por un fallo a medias.",
+        "Excepciones propias (ConfigError, AccionNoValida…) con mensajes humanos; ningún traceback ante errores previsibles; aserciones en desarrollo.",
+      ],
+    },
+    {
+      id: "diseno", nombre: "Diseño en clases y módulos", peso: 10,
+      qué: "Cómo está organizado el código por dentro.",
+      niveles: [
+        "Todo en un único fichero sin funciones ni clases.",
+        "Funciones separadas, pero interfaz, lógica y ficheros mezclados.",
+        "Módulos separados (cli, motor, acciones, configuración) y clases con una responsabilidad clara.",
+        "Responsabilidades separadas (interfaz, motor, acciones, proveedor IA), visibilidad cuidada y métodos estáticos con sentido (p. ej., fábricas desde la configuración).",
+      ],
+    },
+    {
+      id: "pruebas", nombre: "Pruebas y calidad", peso: 15,
+      qué: "Cómo demuestras que funciona y que sigue funcionando.",
+      niveles: [
+        "Sin pruebas automáticas.",
+        "Alguna prueba del camino feliz que el alumno no sabe explicar.",
+        "Pruebas con pytest del camino feliz y de al menos 1 caso feo, en carpetas temporales (nunca sobre tus ficheros reales).",
+        "Pruebas que cubren el camino feliz y 3 casos feos, ejecutadas en GitHub Actions y auditadas por el alumno (sabe explicar cada aserción).",
+      ],
+    },
+    {
+      id: "entrega", nombre: "Instalación, documentación y proceso", peso: 10,
+      qué: "Que otra persona la instale y la use sin preguntarte nada.",
+      niveles: [
+        "Sin README o sin instrucciones para instalarla.",
+        "README con pasos manuales (clonar, crear entorno, ejecutar el .py).",
+        "Se instala con una orden (uv tool install / pipx install desde GitHub) y queda disponible como comando en cualquier carpeta; README con ejemplos.",
+        "Se instala con una orden siguiendo el README; release v1.0 etiquetada con changelog; historial con ramas y PR legibles.",
+      ],
+    },
+  ],
+};
+
 export const RUBRICAS: Record<string, Rubrica> = {
   [RUBRICA_WEB_MARCA.id]: RUBRICA_WEB_MARCA,
+  [RUBRICA_CLI.id]: RUBRICA_CLI,
 };
 
 /** Valoración de un criterio: nivel elegido (índice en Rubrica.niveles) y comentario opcional. */

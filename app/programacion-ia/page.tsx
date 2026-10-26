@@ -35,9 +35,9 @@ export default function CursoIAInicio() {
           </span>
           <h2 className="mt-3 text-2xl font-extrabold">Curso presencial</h2>
           <p className="mt-2 flex-1 text-[15px] text-zinc-600 dark:text-zinc-400">
-            Ritmo semanal en el aula: kickoff, build y demo. Web personal de marca en marcha, proyecto
-            final <b>individual</b> y proyecto final <b>en grupo</b> (una startup de 4-5 publicada de
-            verdad). Todos los proyectos, sesiones y la rúbrica.
+            Ritmo semanal en el aula: kickoff, build y demo. Ahora: proyecto 2, la <b>CLI «tareas con
+            IA»</b>, en paralelo al proyecto final <b>en grupo</b> (una startup de 4-5 publicada de
+            verdad). Todos los proyectos, sesiones y rúbricas.
           </p>
           <p className="mt-4 text-sm font-bold text-blue-700 group-hover:underline dark:text-blue-300">
             Entrar al curso presencial →
@@ -54,8 +54,8 @@ export default function CursoIAInicio() {
           <h2 className="mt-3 text-2xl font-extrabold">Curso semipresencial</h2>
           <p className="mt-2 flex-1 text-[15px] text-zinc-600 dark:text-zinc-400">
             Mismo método, otro formato: <b>planificado por quincenas</b> y <b>solo con proyectos
-            individuales</b> — no hay proyecto en grupo. Ahora: quincena 1, iniciar la web personal de
-            marca; quincena 2, entregarla con su repositorio de GitHub.
+            individuales</b> — no hay proyecto en grupo. Ahora: quincenas 3 y 4, la <b>CLI «tareas con
+            IA»</b>, tu herramienta de terminal instalable en Linux, Windows y macOS.
           </p>
           <p className="mt-4 text-sm font-bold text-amber-700 group-hover:underline dark:text-amber-400">
             Entrar al curso semipresencial →

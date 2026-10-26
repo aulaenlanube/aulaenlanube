@@ -6,7 +6,7 @@ import BotonProgramacion from "../_programacion-didactica/BotonProgramacion";
 export const metadata: Metadata = {
   title: "Curso de Programación con IA · Semipresencial (1º DAM) – Aula en la nube",
   description:
-    "Grupo semipresencial (1CFSDS) del Curso de Programación con IA del IES Simarro: trabajo por quincenas, proyecto individual (web personal de marca) sin proyecto en grupo.",
+    "Grupo semipresencial (1CFSDS) del Curso de Programación con IA del IES Simarro: trabajo por quincenas y proyectos individuales. Ahora: CLI «tareas con IA».",
 };
 
 const chip =
@@ -63,108 +63,86 @@ export default function CursoIASemipresencial() {
       <h2 className="mt-10 text-2xl font-extrabold tracking-tight">El ritmo: quincenas</h2>
       <p className="mt-1 max-w-3xl text-[15px] text-zinc-600 dark:text-zinc-400">
         En semipresencial no hay «la clase del miércoles»: cada <b>quincena</b> tiene un objetivo, sus
-        recursos y una fecha de entrega. Avanzas tú, con el chat del centro y los tutoriales; el profesor
-        revisa al final de cada quincena. Estas son las dos quincenas activas ahora mismo:
+        recursos y una fecha. Avanzas tú, con tu editor, el asistente y las páginas de cada sesión; el
+        profesor revisa al final de cada quincena. Estas son las dos quincenas del <b>proyecto 2</b>:
       </p>
 
+      <div className="mt-4 rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-[15px] text-emerald-900 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-200">
+        <b>Quincenas 1 y 2 · Web personal de marca — terminadas.</b> La corrección (con la rúbrica detallada
+        y tu informe) aparece en tu aula cuando el profesor la publica.{" "}
+        <Link href="/programacion-ia/acceso/" className="font-semibold underline">Ir al aula →</Link>
+      </div>
+
       <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2">
-        {/* Quincena 1 */}
+        {/* Quincena 3 */}
         <section className="rounded-2xl border-2 border-amber-300 dark:border-amber-500/50 bg-white dark:bg-slate-900 p-6 shadow-sm">
-          <SvgQuincena1 />
+          <SvgQuincena3 />
           <div className="flex flex-wrap items-center gap-2">
             <span className="rounded-full bg-amber-600 px-3 py-1 text-[11px] font-extrabold uppercase tracking-wider text-white">
-              Quincena 1 · EN CURSO
+              Quincena 3 · EN CURSO
             </span>
-            <span className="text-sm font-bold text-zinc-500 dark:text-zinc-400">29 sep → 9 oct</span>
+            <span className="text-sm font-bold text-zinc-500 dark:text-zinc-400">26 oct → 6 nov</span>
           </div>
-          <h3 className="mt-3 text-xl font-extrabold">Iniciar la web personal de marca</h3>
+          <h3 className="mt-3 text-xl font-extrabold">Arrancar tu CLI «tareas con IA»</h3>
           <p className="mt-1 text-[15px] text-zinc-600 dark:text-zinc-400">
-            <b>Objetivo de la quincena:</b> tu web funcionando en local, sección a sección, con su repositorio
-            GitHub creado y con commits desde el primer día. <b>No se entrega nada al acabar:</b> se entrega
-            el trabajo de dentro (git) y la web completa llega en la quincena 2.
+            <b>Objetivo de la quincena:</b> tu herramienta de terminal instalada como comando, con{" "}
+            <b>3 acciones propias</b> definidas en tu <code className="rounded bg-zinc-100 px-1.5 py-0.5 font-mono text-[13px] dark:bg-white/10">acciones.json</code>{" "}
+            funcionando (con modo simulación), su primer ADR y commits reales desde el primer día.
           </p>
           <ol className="mt-3 list-decimal space-y-1.5 pl-5 text-[15px] text-zinc-800 dark:text-zinc-200">
             <li>
-              Lee el proyecto y su anatomía de 6 secciones:{" "}
-              <Link href="/programacion-ia/web-personal/" className="font-semibold text-amber-700 underline dark:text-amber-400">
-                Web personal de marca →
+              Lee el proyecto: qué es una CLI, sus partes, las tecnologías y cómo se instala:{" "}
+              <Link href="/programacion-ia/cli/" className="font-semibold text-amber-700 underline dark:text-amber-400">
+                CLI «tareas con IA» →
               </Link>
             </li>
             <li>
-              <b>Sesiones 1 y 2</b> (toca la sesión 3 al final, cuando quieras ver cómo se corrige):
-              <ul className="mt-1 list-none space-y-1 pl-0">
-                <li>· <Link href="/programacion-ia/sesion-01/" className="text-amber-700 underline dark:text-amber-400">Sesión 1 — crear tu web con el chat del centro</Link></li>
-                <li>· <Link href="/programacion-ia/sesion-02/" className="text-amber-700 underline dark:text-amber-400">Sesión 2 — GitHub en carne viva</Link></li>
-              </ul>
+              <b>Tutoría colectiva de arranque (presencia obligatoria):</b> la terminal desde cero e instalar
+              Python, uv y el editor. Es el único bloque del curso que necesita al profesor a tu lado.
             </li>
             <li>
-              Crea tu repo <code className="rounded bg-zinc-100 px-1.5 py-0.5 font-mono text-[13px] dark:bg-white/10">web-marca</code> en GitHub (público),
-              enlázalo a tu carpeta y haz <b>al menos 6 commits</b> con mensajes honestos esta quincena.
+              <b>Semana 1:</b>{" "}
+              <Link href="/programacion-ia/cli/sesion-01/" className="text-amber-700 underline dark:text-amber-400">Sesión 1 — la terminal y tu primera orden</Link>:
+              repo <code className="rounded bg-zinc-100 px-1.5 py-0.5 font-mono text-[13px] dark:bg-white/10">cli-tareas</code> público, <code className="rounded bg-zinc-100 px-1.5 py-0.5 font-mono text-[13px] dark:bg-white/10">.gitignore</code> antes
+              del primer commit y <code className="rounded bg-zinc-100 px-1.5 py-0.5 font-mono text-[13px] dark:bg-white/10">tareas --help</code> funcionando.
             </li>
             <li>
-              Apoya con los tutoriales cuando atores: <Link href={`${RUTA}github-pages/`} className="text-amber-700 underline dark:text-amber-400">T1 GitHub</Link>{" "}
-              y <Link href={`${RUTA}medios/`} className="text-amber-700 underline dark:text-amber-400">T4 Medios</Link> son los de esta quincena.
-            </li>
-            <li>
-              Apunta en tu cuaderno de decisiones (o en <code className="rounded bg-zinc-100 px-1.5 py-0.5 font-mono text-[13px] dark:bg-white/10">README.md</code>)
-              qué decidiste tú y qué pidió la IA: esto se valora.
+              <b>Semana 2:</b>{" "}
+              <Link href="/programacion-ia/cli/sesion-02/" className="text-amber-700 underline dark:text-amber-400">Sesión 2 — acciones.json y el motor</Link>:
+              tu esquema de acciones, validación, excepciones propias y el ADR de la configuración externa.
             </li>
           </ol>
           <p className="mt-4 rounded-xl bg-amber-50 p-3 text-sm text-amber-900 dark:bg-amber-500/10 dark:text-amber-200">
-            <b>Comprobación del 9 de octubre:</b> el profesor mira tu repo: commits reales y la web en
-            marcha. En semipresencial <b>no hace falta trabajar todos los días</b> — vale con que el
-            trabajo exista y se vea en el historial. Si estás más atrasado, dilo antes de esa fecha y lo
-            reorganizamos; no pasa nada por empezar con la quincena 2.
+            <b>Comprobación del 6 de noviembre:</b> el profesor mira tu repo: 3 acciones propias que funcionan,
+            el ADR y un historial de commits real. No se pone nota todavía; si vas atrasado, dilo antes de esa
+            fecha y lo reorganizamos.
           </p>
         </section>
 
-        {/* Quincena 2 */}
+        {/* Quincena 4 */}
         <section className="rounded-2xl border-2 border-zinc-300 dark:border-white/15 bg-white dark:bg-slate-900 p-6 shadow-sm">
-          <SvgQuincena2 />
+          <SvgQuincena4 />
           <div className="flex flex-wrap items-center gap-2">
             <span className="rounded-full bg-zinc-700 px-3 py-1 text-[11px] font-extrabold uppercase tracking-wider text-white dark:bg-zinc-600">
-              Quincena 2 · Próxima
+              Quincena 4 · Próxima
             </span>
-            <span className="text-sm font-bold text-zinc-500 dark:text-zinc-400">12 oct → 23 oct</span>
+            <span className="text-sm font-bold text-zinc-500 dark:text-zinc-400">9 nov → 20 nov</span>
           </div>
-          <h3 className="mt-3 text-xl font-extrabold">Entregar la web de marca (con su repo)</h3>
+          <h3 className="mt-3 text-xl font-extrabold">IA, pruebas y versión 1.0</h3>
           <p className="mt-1 text-[15px] text-zinc-600 dark:text-zinc-400">
-            <b>Objetivo de la quincena:</b> terminar la web pulida, publicarla en GitHub Pages y{" "}
-            <b>ENTREGAR: URL de tu web + URL de tu repositorio</b>. La nota sale de la rúbrica aplicada
-            sobre el repo del día de la entrega.
+            <b>Objetivo de la quincena:</b> la capa de IA (con la clave fuera del repositorio y un modo sin
+            red), pruebas automáticas de los casos feos, README de instalación y la <b>release v1.0</b> que
+            cualquiera instala con una orden. <b>Entrega el 20 de noviembre</b> desde el aula: URL del repo.
           </p>
-          <ol className="mt-3 list-decimal space-y-1.5 pl-5 text-[15px] text-zinc-800 dark:text-zinc-200">
-            <li>
-              <b>Sesión 3</b> — lectura obligatoria antes de pulir:{" "}
-              <Link href="/programacion-ia/sesion-03/" className="font-semibold text-amber-700 underline dark:text-amber-400">
-                Por qué programamos así + la rúbrica completa
-              </Link>
-              . Ahí están los 4 requisitos mínimos y los 7 criterios: cada punto te dice exactamente qué
-              hacer para subir.
-            </li>
-            <li>
-              Sube de nivel con lo que puntúa: <Link href={`${RUTA}api-externa/`} className="text-amber-700 underline dark:text-amber-400">T2 API externa</Link>,{" "}
-              <Link href={`${RUTA}chatbot/`} className="text-amber-700 underline dark:text-amber-400">T3 chatbot</Link>,{" "}
-              <Link href={`${RUTA}medios/`} className="text-amber-700 underline dark:text-amber-400">T4 medios</Link>. Una vía de
-              contacto que <b>funcione de verdad</b> es requisito mínimo.
-            </li>
-            <li>
-              Publica en GitHub Pages (tutorial 1) y comprueba la web en tu móvil (requisito mínimo:
-              responsive probado en dispositivo).
-            </li>
-            <li>
-              Historial git limpio: commits con mensajes que cuenten el trabajo, sin claves ni basura
-              subida. Se corrige sobre el repo, no sobre promesas.
-            </li>
-            <li>
-              <b>Entrega el 23 de octubre</b> desde el aula: <code className="rounded bg-zinc-100 px-1.5 py-0.5 font-mono text-[13px] dark:bg-white/10">URL web + URL repo</code>.
-              Con la entrega, un párrafo de 3 líneas: qué decidiste tú, qué harías distinto.
-            </li>
-          </ol>
+          <ul className="mt-3 list-disc space-y-1.5 pl-5 text-[15px] text-zinc-800 dark:text-zinc-200">
+            <li>Acciones con IA (resumir, generar el README de una carpeta, renombrar por contenido) con <code className="rounded bg-zinc-100 px-1.5 py-0.5 font-mono text-[13px] dark:bg-white/10">.env</code> ignorado por git.</li>
+            <li>pytest + GitHub Actions en Linux, Windows y macOS.</li>
+            <li>Tutoría final de <b>instalación cruzada</b>: instalas la CLI de un compañero siguiendo solo su README.</li>
+          </ul>
           <p className="mt-4 rounded-xl bg-zinc-100 p-3 text-sm text-zinc-700 dark:bg-white/5 dark:text-zinc-300">
-            <b>Hasta el último minuto hay puntos en la mesa:</b> la rúbrica premia la iteración. Mejorar el
-            contacto, añadir un widget real o unos SVG propios la última semana vale igual que hacerlo en
-            la primera.
+            Las páginas de las sesiones 3 y 4 se publican aquí antes de que empiece la quincena. La rúbrica
+            completa ya está en la{" "}
+            <Link href="/programacion-ia/cli/" className="font-semibold underline">portada del proyecto</Link>.
           </p>
         </section>
       </div>
@@ -174,23 +152,18 @@ export default function CursoIASemipresencial() {
         <div className="flex flex-col gap-5 md:flex-row md:items-center">
           <SvgHerramientas />
           <div className="flex-1">
-            <h2 className="text-xl font-extrabold tracking-tight">Tus herramientas desde casa: el chat de Copilot (Microsoft 365)</h2>
+            <h2 className="text-xl font-extrabold tracking-tight">Tus herramientas desde casa: editor, terminal y asistente</h2>
             <p className="mt-2 text-[15px] text-zinc-700 dark:text-zinc-300">
-              Tu cuenta de <b>Microsoft 365 del centro</b> incluye <b>Copilot</b>, y su <b>chat</b> es
-              <b> lo único que vas a usar en este primer proyecto</b> (estas dos quincenas). Nada de
-              instalar editores ni complementos todavía: preguntas al chat, con las respuestas que te dé
-              <b> creas y editas tú los ficheros</b> (index.html, style.css…), y <b>tú manualmente haces
-              los commits</b> con lo que has preguntado y conseguido en cada paso.
-            </p>
-            <p className="mt-2 text-[15px] text-zinc-700 dark:text-zinc-300">
-              Es un método a propósito <b>manual y sin atajos</b>: así aprendes de verdad qué es cada
-              fichero, cómo se monta una web por dentro y cómo funciona GitHub. El Visual Studio Code con
-              su Copilot integrado llegará más adelante, en otro proyecto, cuando ya domines esto.
+              En la web de marca trabajaste <b>solo con el chat de Copilot</b> y creando los ficheros a mano:
+              ya sabes qué es cada fichero y cómo funciona GitHub. Con la CLI llega el siguiente paso, como
+              estaba previsto: <b>Visual Studio Code</b> con su <b>terminal integrada</b> y el{" "}
+              <b>asistente de código que facilite la Conselleria</b>. El chat de Copilot de Microsoft 365
+              sigue valiendo para preguntar y entender.
             </p>
             <ul className="mt-2 list-disc space-y-1 pl-5 text-[15px] text-zinc-700 dark:text-zinc-300">
-              <li><b>Pregunta como si hablaras con una persona:</b> explica qué quieres conseguir y por qué; el chat responde mejor a una intención clara que a un «hazme una web».</li>
-              <li><b>Guarda tus preguntas buenas:</b> tus prompts van dentro del commit (o en un comentario del fichero) — son la evidencia de tu proceso que valora la rúbrica.</li>
-              <li><b>Consejo de quincena:</b> primera semana a construir, segunda a pulir y probar en tu móvil; entregar a última hora sin probar es perder puntos gratis.</li>
+              <li><b>Tú decides, el asistente programa, tú auditas:</b> la spec y el <code className="rounded bg-zinc-100 px-1 font-mono text-[13px] dark:bg-white/10">acciones.json</code> los escribes tú; lo que genera la IA lo lees, lo pruebas y lo entiendes antes de commitearlo.</li>
+              <li><b>Guarda tus prompts buenos</b> en <code className="rounded bg-zinc-100 px-1 font-mono text-[13px] dark:bg-white/10">docs/prompts.md</code>: son la evidencia de tu proceso.</li>
+              <li><b>Windows, Linux o macOS:</b> cualquiera vale. Las sesiones traen las órdenes para bash y para PowerShell, y tu CLI tiene que funcionar en todos.</li>
             </ul>
           </div>
         </div>
@@ -219,16 +192,21 @@ export default function CursoIASemipresencial() {
       </div>
 
       {/* Misma información que el presencial */}
-      <h2 className="mt-10 text-2xl font-extrabold tracking-tight">Todo lo que puntúa (igual que en presencial)</h2>
-      <div className="mt-3 grid grid-cols-1 gap-4 md:grid-cols-3">
+      <h2 className="mt-10 text-2xl font-extrabold tracking-tight">Proyectos y evaluación (igual que en presencial)</h2>
+      <div className="mt-3 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Link href="/programacion-ia/web-personal/" className="block rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg">
           <span className="mb-2 inline-block rounded-full border border-blue-200 bg-blue-50 px-2.5 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-blue-700 dark:border-blue-500/30 dark:bg-blue-500/10 dark:text-blue-300">Proyecto</span>
           <h3 className="text-lg font-bold">Web personal de marca</h3>
-          <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">Qué es, anatomía de 6 secciones y todos los recursos. Es el proyecto de estas dos quincenas.</p>
+          <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">Proyecto 1 (quincenas 1 y 2): qué es, anatomía de 6 secciones y todos los recursos.</p>
+        </Link>
+        <Link href="/programacion-ia/cli/" className="block rounded-2xl border-2 border-amber-300 dark:border-amber-500/50 bg-white dark:bg-slate-900 p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg">
+          <span className="mb-2 inline-block rounded-full border border-amber-200 bg-amber-50 px-2.5 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-amber-700 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-300">Proyecto 2 · ahora</span>
+          <h3 className="text-lg font-bold">CLI «tareas con IA»</h3>
+          <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">Quincenas 3 y 4: tu herramienta de terminal con acciones propias, IA y release v1.0. Incluye su rúbrica.</p>
         </Link>
         <Link href="/programacion-ia/sesion-03/" className="block rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg">
           <span className="mb-2 inline-block rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-emerald-700 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-300">Evaluación</span>
-          <h3 className="text-lg font-bold">La rúbrica, al detalle</h3>
+          <h3 className="text-lg font-bold">La rúbrica de la web, al detalle</h3>
           <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">4 requisitos mínimos + 7 criterios con 4 niveles de concreción sobre 100 puntos. Tu hoja de ruta para la máxima nota.</p>
         </Link>
         <div className="rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-5 shadow-sm">
@@ -243,7 +221,7 @@ export default function CursoIASemipresencial() {
       </div>
 
       <div className="mt-6 rounded-2xl border border-zinc-200 dark:border-white/10 bg-zinc-100 dark:bg-white/10 p-5 text-[15px]">
-        <b>Trimestres siguientes:</b> tras la web de marca toca elegir tu <b>proyecto final individual</b>{" "}
+        <b>Después:</b> tras la CLI viene el videojuego (quincenas 5 y 6) y, en los trimestres siguientes, tu <b>proyecto final individual</b>{" "}
         <Link href="/programacion-ia/proyecto-final-individual/" className="font-semibold text-amber-700 underline dark:text-amber-400">(ver familias y plan para elegirlo bien →)</Link>{" "}
         — también por quincenas. La planificación se publicará aquí con dos quincenas de antelación.
       </div>
@@ -261,41 +239,36 @@ export default function CursoIASemipresencial() {
 }
 
 // ——— Il·lustracions de les quincenes (SVG inline, sense dependències) ———
-function SvgQuincena1() {
-  // Navegador brotant: esquelet de la web naixent d'una branca de git.
+function SvgQuincena3() {
+  // Terminal con una orden y su salida: arrancar la CLI.
   return (
-    <svg viewBox="0 0 300 84" role="img" aria-label="Iniciar la web: navegador amb brot verds sobre una branca de git" className="h-[72px] w-full">
-      <path d="M8 70 C 80 70, 100 70, 150 40 S 240 12, 292 12" fill="none" stroke="#d97706" strokeWidth="3.5" strokeLinecap="round" />
-      <circle cx="8" cy="70" r="7" fill="#f59e0b" />
-      <circle cx="150" cy="40" r="6" fill="#fff" stroke="#d97706" strokeWidth="3" />
-      <rect x="182" y="40" width="46" height="32" rx="4" fill="none" stroke="#475569" strokeWidth="2.5" />
-      <line x1="182" y1="48" x2="228" y2="48" stroke="#475569" strokeWidth="2" />
-      <line x1="187" y1="56" x2="212" y2="56" stroke="#94a3b8" strokeWidth="2.5" strokeLinecap="round" />
-      <line x1="187" y1="63" x2="222" y2="63" stroke="#cbd5e1" strokeWidth="2.5" strokeLinecap="round" />
-      <path d="M244 16 q -8 -14 4 -18 q 2 12 -4 18" fill="#16a34a" />
-      <path d="M256 12 q 10 -12 20 -6 q -8 12 -20 6" fill="#22c55e" />
+    <svg viewBox="0 0 300 84" role="img" aria-label="Terminal con la orden tareas --help y su salida" className="h-[72px] w-full">
+      <rect x="8" y="6" width="200" height="72" rx="8" fill="#0f172a" stroke="#475569" strokeWidth="2" />
+      <circle cx="20" cy="17" r="3" fill="#f87171" /><circle cx="30" cy="17" r="3" fill="#fbbf24" /><circle cx="40" cy="17" r="3" fill="#34d399" />
+      <text x="18" y="40" fontSize="12" fontFamily="monospace" fontWeight="700" fill="#fbbf24">$</text>
+      <text x="30" y="40" fontSize="12" fontFamily="monospace" fill="#e2e8f0">tareas --help</text>
+      <line x1="18" y1="52" x2="120" y2="52" stroke="#64748b" strokeWidth="3" strokeLinecap="round" />
+      <line x1="18" y1="64" x2="160" y2="64" stroke="#64748b" strokeWidth="3" strokeLinecap="round" />
+      <path d="M226 26 h44 a6 6 0 0 1 6 6 v34 a6 6 0 0 1 -6 6 h-44 a6 6 0 0 1 -6 -6 v-34 a6 6 0 0 1 6 -6 z" fill="none" stroke="#d97706" strokeWidth="2.5" />
+      <text x="230" y="44" fontSize="10" fontFamily="monospace" fontWeight="700" fill="#d97706">{"{ }"}</text>
+      <text x="228" y="62" fontSize="9" fontWeight="700" fill="#92400e">acciones</text>
     </svg>
   );
 }
 
-function SvgQuincena2() {
-  // Entrega: checklist + pujada a la nau (publicar + entregar).
+function SvgQuincena4() {
+  // Release: commits que acaban en la etiqueta v1.0.
   return (
-    <svg viewBox="0 0 300 84" role="img" aria-label="Entrega: llista de comprovació i publicació" preserveAspectRatio="xMinYMid meet" className="h-[72px] w-full">
-      <rect x="8" y="14" width="56" height="62" rx="6" fill="none" stroke="#475569" strokeWidth="2.5" />
-      {[26, 42, 58].map((y, i) => (
-        <g key={i}>
-          <rect x="16" y={y - 8} width="10" height="10" rx="2" fill="none" stroke="#16a34a" strokeWidth="2" />
-          {i < 3 && <path d={`M18 ${y - 3} l3 3 l5 -6`} fill="none" stroke="#16a34a" strokeWidth="2" strokeLinecap="round" />}
-          <line x1="34" y1={y - 3} x2="56" y2={y - 3} stroke="#94a3b8" strokeWidth="2.5" strokeLinecap="round" />
-        </g>
+    <svg viewBox="0 0 300 84" role="img" aria-label="Historial de commits que termina en la versión 1.0" preserveAspectRatio="xMinYMid meet" className="h-[72px] w-full">
+      <line x1="16" y1="46" x2="196" y2="46" stroke="#94a3b8" strokeWidth="3" strokeLinecap="round" />
+      {[16, 60, 104, 148].map((x) => (
+        <circle key={x} cx={x} cy="46" r="7" fill="#fff" stroke="#475569" strokeWidth="2.5" />
       ))}
-      <path d="M84 52 h 96" stroke="#94a3b8" strokeWidth="2.5" strokeDasharray="7 6" strokeLinecap="round" />
-      <path d="M170 52 l-10 -6 v12 z" fill="#94a3b8" />
-      <rect x="206" y="40" width="52" height="30" rx="8" fill="none" stroke="#475569" strokeWidth="2.5" />
-      <path d="M220 58 v-8 m0 0 l-6 6 m6 -6 l6 6" stroke="#2563eb" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-      <text x="210" y="28" fontSize="11" fontWeight="700" fill="#1e40af">web + repo</text>
-      <path d="M280 24 l0 34 m0 -34 l-8 10 m8 -10 l8 10" stroke="#d97706" strokeWidth="3.5" fill="none" strokeLinecap="round" />
+      <circle cx="196" cy="46" r="9" fill="#d97706" />
+      <path d="M212 30 h52 l14 16 l-14 16 h-52 z" fill="#fef3c7" stroke="#d97706" strokeWidth="2.5" strokeLinejoin="round" />
+      <text x="222" y="51" fontSize="13" fontWeight="800" fill="#92400e">v1.0</text>
+      <path d="M60 22 l6 -10 l6 10" fill="none" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" />
+      <text x="40" y="76" fontSize="10" fontWeight="700" fill="#475569">IA · pruebas · README</text>
     </svg>
   );
 }
@@ -315,7 +288,7 @@ function SvgHerramientas() {
       <path d="M104 58 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3 z" fill="#7c3aed" />
       <path d="M40 61 h14 v8 h-14 z" fill="none" stroke="#16a34a" strokeWidth="2" />
       <text x="18" y="67.5" fontSize="7" fontWeight="700" fill="#16a34a">index</text>
-      <text x="6" y="90" fontSize="9" fontWeight="700" fill="#5b21b6">Copilot · tot per xat</text>
+      <text x="6" y="90" fontSize="9" fontWeight="700" fill="#5b21b6">editor · terminal · IA</text>
     </svg>
   );
 }

@@ -64,6 +64,28 @@ export const PROYECTOS: Record<string, ProyectoCatalogo> = {
       },
     ],
   },
+  cli: {
+    id: "cli",
+    titulo: "CLI «tareas con IA»",
+    resumen:
+      "Una aplicación de terminal que gestiona tus propios ficheros con acciones que defines tú en acciones.json (ordenar, renombrar, resumir…), combinando sistema operativo e IA. Python + Typer, instalable con una orden en Linux, Windows y macOS.",
+    href: "/programacion-ia/cli/",
+    rubrica: "cli-tareas",
+    sesiones: [
+      {
+        id: "s01", n: 1,
+        titulo: "Arranque: la terminal y tu primera orden",
+        resumen: "Terminal desde cero (Linux y Windows), Python y uv, el esqueleto con Typer, .gitignore antes del primer commit y tu comando instalado con --help funcionando.",
+        href: "/programacion-ia/cli/sesion-01/",
+      },
+      {
+        id: "s02", n: 2,
+        titulo: "Acciones predefinidas: acciones.json y el motor",
+        resumen: "Diseñas tu esquema de acciones, el agente programa el motor que las ejecuta con simulación y confirmación, excepciones propias y tu primer ADR.",
+        href: "/programacion-ia/cli/sesion-02/",
+      },
+    ],
+  },
   startup: {
     id: "startup",
     titulo: "Startup en grupo",
@@ -87,14 +109,14 @@ export const CURSOS: Record<CursoId, CursoCatalogo> = {
     nombre: "Programación con IA · Presencial",
     corto: "Presencial",
     descripcion: "1º DAM/DAW en el aula (1CFSD): kickoff, build y demo cada semana. Con proyecto final en grupo.",
-    proyectos: ["web-marca", "startup"],
+    proyectos: ["web-marca", "cli", "startup"],
   },
   semipresencial: {
     id: "semipresencial",
     nombre: "Programación con IA · Semipresencial",
     corto: "Semipresencial",
     descripcion: "1º DAM semipresencial (1CFSDS): trabajo por QUINCENAS, solo proyectos individuales — sin proyecto en grupo. Entregas: proceso en git a mitad de quincena y proyecto completo al cierre.",
-    proyectos: ["web-marca"],
+    proyectos: ["web-marca", "cli"],
   },
 };
 

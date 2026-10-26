@@ -32,6 +32,8 @@ _Equipos de 4-5 formados en el campus (15 oct). Producto real: servidor + usuari
 ## P2 · CLI «tareas con IA» — S6-S9 (19 oct → 13 nov)
 _Mi proyecto del curso: una app de terminal que gestiona MIS ficheros con acciones predefinidas que yo configuro, combinando sistema operativo e IA. Nombre provisional: `simarro-tareas`._
 
+> **Arranque real: 26 oct 2026** (presencial, en paralelo a la startup; semipresencial, quincenas 3 y 4). Páginas públicas: [portada](/programacion-ia/cli/) · [Sesión 1 · terminal y primera orden (26-30 oct)](/programacion-ia/cli/sesion-01/) · [Sesión 2 · acciones.json y el motor (2-6 nov)](/programacion-ia/cli/sesion-02/). Stack: Python 3.12 + Typer + uv; comando de ejemplo `tareas`. Rúbrica `RUBRICA_CLI` (lib/campus/rubricas.ts, id `cli-tareas`) ya disponible para crear entregas en el campus.
+
 | S | Semana | Qué se hace | Entregable |
 |---|--------|-------------|------------|
 | S6 | 19 oct | **Kickoff + terminal**: qué es una CLI y para qué sirve un dev. Live Server → terminal: rutas, `ls`, `cd`, `mkdir`, permisos. Instalar Python y el andamiaje con el agente: primera orden que funciona | `--ayuda` funcional en su equipo |

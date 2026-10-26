@@ -6,7 +6,7 @@ import BotonProgramacion from "../_programacion-didactica/BotonProgramacion";
 export const metadata: Metadata = {
   title: "Curso de Programación con IA · Presencial (1º DAM/DAW) – Aula en la nube",
   description:
-    "Grupo presencial del Curso de Programación con IA (IES Simarro): web personal de marca en marcha, proyecto final individual y proyecto final en grupo.",
+    "Grupo presencial del Curso de Programación con IA (IES Simarro): proyecto 2 CLI «tareas con IA» en marcha, en paralelo a la startup en grupo.",
 };
 
 const chip =
@@ -58,7 +58,7 @@ export default function CursoIAPresencial() {
           className="block rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg"
         >
           <span className={`${tag} border-blue-200 dark:border-blue-500/30 bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-300`}>
-            En marcha · presencial y semipresencial
+            Proyecto 1 · terminado
           </span>
           <h3 className="text-lg font-bold">Web personal de marca</h3>
           <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
@@ -68,6 +68,25 @@ export default function CursoIAPresencial() {
           </p>
           <p className="mt-3 text-sm font-semibold text-blue-700 dark:text-blue-300">
             Ver proyecto, material y sesión 1 →
+          </p>
+        </Link>
+
+        <Link
+          href="/programacion-ia/cli/"
+          className="block rounded-2xl border-2 border-blue-300 dark:border-blue-500/50 bg-white dark:bg-slate-900 p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg"
+        >
+          <span className={`${tag} border-blue-200 dark:border-blue-500/30 bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-300`}>
+            Proyecto 2 · en marcha desde el 26 oct · presencial y semipresencial
+          </span>
+          <h3 className="text-lg font-bold">CLI «tareas con IA»</h3>
+          <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+            Una aplicación de <b>terminal</b> que trabaja con tus propios ficheros con acciones que defines
+            tú en <code className="font-mono">acciones.json</code> (ordenar, renombrar, resumir…), combinando
+            sistema operativo e IA. Python + Typer, instalable con una orden en Linux, Windows y macOS. Va en
+            las 4 horas de línea individual, <b>en paralelo a la startup</b>.
+          </p>
+          <p className="mt-3 text-sm font-semibold text-blue-700 dark:text-blue-300">
+            Ver qué es una CLI, el plan de las dos primeras semanas y la rúbrica →
           </p>
         </Link>
 

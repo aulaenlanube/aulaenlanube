@@ -68,8 +68,8 @@ export default function CursoIASemipresencial() {
       </p>
 
       <div className="mt-4 rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-[15px] text-emerald-900 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-200">
-        <b>Quincenas 1 y 2 · Web personal de marca — terminadas.</b> La corrección (con la rúbrica detallada
-        y tu informe) aparece en tu aula cuando el profesor la publica.{" "}
+        <b>Quincenas 1 y 2 · Web personal de marca — terminadas y corregidas.</b> Tu nota ya está publicada en
+        el aula, con la rúbrica detallada, las dos correcciones y tu informe final con las áreas de mejora.{" "}
         <Link href="/programacion-ia/acceso/" className="font-semibold underline">Ir al aula →</Link>
       </div>
 
@@ -112,7 +112,13 @@ export default function CursoIASemipresencial() {
               tu esquema de acciones, validación, excepciones propias y el ADR de la configuración externa.
             </li>
           </ol>
-          <p className="mt-4 rounded-xl bg-amber-50 p-3 text-sm text-amber-900 dark:bg-amber-500/10 dark:text-amber-200">
+          <p className="mt-4 rounded-xl border border-amber-300 bg-white p-3 text-sm text-amber-900 dark:border-amber-500/40 dark:bg-slate-900 dark:text-amber-200">
+            <b>La «Entrega 2 · CLI» ya está abierta en tu aula:</b> entrega la URL de tu repositorio público en cuanto
+            lo crees y sigue haciendo commits; se corrige lo que haya en el repo. Allí tienes también todas las
+            instrucciones y los requisitos mínimos.{" "}
+            <Link href="/programacion-ia/acceso/" className="font-semibold underline">Ir al aula →</Link>
+          </p>
+          <p className="mt-3 rounded-xl bg-amber-50 p-3 text-sm text-amber-900 dark:bg-amber-500/10 dark:text-amber-200">
             <b>Comprobación del 6 de noviembre:</b> el profesor mira tu repo: 3 acciones propias que funcionan,
             el ADR y un historial de commits real. No se pone nota todavía; si vas atrasado, dilo antes de esa
             fecha y lo reorganizamos.

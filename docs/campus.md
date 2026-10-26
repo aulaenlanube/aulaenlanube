@@ -109,7 +109,7 @@ En Claude Code basta con pedir **`/corregir-entrega 1`** (skill en
 ```bash
 node tools/campus/exportar-entregas.mjs --entrega 1 [--grupo 3]   # 1. qué se ha entregado
 node tools/campus/analizar-repos.mjs --entrega 1                   # 2. clona y recoge evidencias
-#                                                                    3. la IA valora → propuestas.json
+node tools/campus/valorar-opus.mjs 1 [usuario]                     # 3. Claude Opus valora → propuestas-ia.json
 node tools/campus/importar-propuestas.mjs --entrega 1 --simular    # 4. comprobar…
 node tools/campus/importar-propuestas.mjs --entrega 1              #    …y cargar como borradores
 ```

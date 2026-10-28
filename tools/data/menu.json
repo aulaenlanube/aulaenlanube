@@ -174,6 +174,16 @@
   ]
  },
  {
+  "title": "ESO y Bachillerato",
+  "url": "/materiales/",
+  "children": [
+   {
+    "title": "1.º ESO · Música",
+    "url": "/materiales/1eso/musica/"
+   }
+  ]
+ },
+ {
   "title": "Zona Hardware",
   "url": "/hardware/",
   "children": [

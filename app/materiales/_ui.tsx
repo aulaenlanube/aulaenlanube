@@ -106,11 +106,22 @@ export function Apartat({
   );
 }
 
+/** Texto con marcado mínimo: **negrita** y *cursiva*. */
+export function R({ s }: { s: string }) {
+  return (
+    <>
+      {s.split(/(\*\*[^*]+\*\*|\*[^*]+\*)/g).map((p, i) =>
+        p.startsWith("**") ? <b key={i}>{p.slice(2, -2)}</b> : p.startsWith("*") && p.length > 2 ? <i key={i}>{p.slice(1, -1)}</i> : p,
+      )}
+    </>
+  );
+}
+
 /** Definición literal del libro (los «quadres morats»): hay que saberla de memoria. */
-export function Definicio({ children }: { children: ReactNode }) {
+export function Definicio({ etiqueta, children }: { etiqueta: string; children: ReactNode }) {
   return (
     <div className="mt-4 rounded-xl border-2 border-violet-300 dark:border-violet-500/40 bg-violet-50 dark:bg-violet-500/10 px-4 py-3">
-      <div className="text-[11px] font-bold uppercase tracking-wider text-violet-700 dark:text-violet-300">Definició · de memòria</div>
+      <div className="text-[11px] font-bold uppercase tracking-wider text-violet-700 dark:text-violet-300">{etiqueta}</div>
       <p className="mt-1 text-[17px] leading-relaxed text-violet-950 dark:text-violet-100">{children}</p>
     </div>
   );

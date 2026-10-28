@@ -305,5 +305,8 @@ img[src*="s.w.org/images/core/emoji"] {
   @variant dark { background: rgba(255,255,255,.06); }}
 @media print{.pte-teoria table{font-size:.8rem}}
 
+/* Materiales ESO/Bachillerato: páginas bilingües (selector Valencià / Castellano) */
+[data-idioma="ca"] .solo-es, [data-idioma="es"] .solo-ca { display: none !important; }
+
 .print-head{display:none}
 @media print{.print-head{display:block;margin-bottom:1rem;border-bottom:2px solid #334155;padding-bottom:.4rem}}

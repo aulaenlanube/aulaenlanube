@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import type { Idioma } from "../_idioma";
 import { GLIFOS, type NombreGlifo } from "./glifos";
 
 // ════════════════════════════════════════════════════════════════════════════
@@ -17,7 +18,7 @@ import { GLIFOS, type NombreGlifo } from "./glifos";
 // blanca (silencio), apoyada en la 3.ª; el resto de silencios, centrados en ella.
 // ════════════════════════════════════════════════════════════════════════════
 
-function Glifo({ n, x, y, sp }: { n: NombreGlifo; x: number; y: number; sp: number }) {
+export function Glifo({ n, x, y, sp }: { n: NombreGlifo; x: number; y: number; sp: number }) {
   return <path d={GLIFOS[n].d} transform={`translate(${x} ${y}) scale(${sp / 250})`} />;
 }
 
@@ -74,9 +75,15 @@ const ONDA_SOROLL = onda(320, 260, (t) =>
   18 * Math.sin((2 * Math.PI * t) / 37) + 13 * Math.sin((2 * Math.PI * t) / 17 + 1) + 8 * Math.sin((2 * Math.PI * t) / 7.3 + 2),
 );
 
-export function OnesSoSoroll() {
+const ONES = {
+  ca: { so: "So", soroll: "Soroll", reg: "ona ordenada i regular", irr: "ona desordenada i irregular", aria: "A l'esquerra, l'ona d'un so: ordenada i regular. A la dreta, l'ona d'un soroll: desordenada i irregular." },
+  es: { so: "Sonido", soroll: "Ruido", reg: "onda ordenada y regular", irr: "onda desordenada e irregular", aria: "A la izquierda, la onda de un sonido: ordenada y regular. A la derecha, la onda de un ruido: desordenada e irregular." },
+};
+
+export function OnesSoSoroll({ l }: { l: Idioma }) {
+  const t = ONES[l];
   return (
-    <Lienzo w={600} h={152} etiqueta="A l'esquerra, l'ona d'un so: ordenada i regular. A la dreta, l'ona d'un soroll: desordenada i irregular.">
+    <Lienzo w={600} h={152} etiqueta={t.aria}>
       <g stroke="var(--dg-gris-borde)" strokeWidth={1} strokeDasharray="4 4">
         <line x1={14} x2={286} y1={60} y2={60} />
         <line x1={314} x2={586} y1={60} y2={60} />
@@ -84,12 +91,12 @@ export function OnesSoSoroll() {
       <path d={ONDA_SO} fill="none" stroke="var(--dg-azul-linea)" strokeWidth={3} strokeLinejoin="round" />
       <path d={ONDA_SOROLL} fill="none" stroke="var(--dg-rosa-linea)" strokeWidth={3} strokeLinejoin="round" />
       <g textAnchor="middle" fontSize={17} fontWeight={700}>
-        <text x={150} y={122} fill="var(--dg-azul-fuerte)">So</text>
-        <text x={450} y={122} fill="var(--dg-rosa-fuerte)">Soroll</text>
+        <text x={150} y={122} fill="var(--dg-azul-fuerte)">{t.so}</text>
+        <text x={450} y={122} fill="var(--dg-rosa-fuerte)">{t.soroll}</text>
       </g>
       <g textAnchor="middle" fontSize={16} fill="var(--dg-suave)">
-        <text x={150} y={144}>ona ordenada i regular</text>
-        <text x={450} y={144}>ona desordenada i irregular</text>
+        <text x={150} y={144}>{t.reg}</text>
+        <text x={450} y={144}>{t.irr}</text>
       </g>
     </Lienzo>
   );
@@ -97,11 +104,17 @@ export function OnesSoSoroll() {
 
 // ── Pentagrama: línies, espais i clau de sol ────────────────────────────────
 
-export function PentagramaParts() {
+const PENTA = {
+  ca: { linia: "línia", espai: "espai", aria: "Pentagrama de cinc línies i quatre espais, numerats de baix a dalt, amb la clau de sol a la segona línia i la nota sol sobre la mateixa línia." },
+  es: { linia: "línea", espai: "espacio", aria: "Pentagrama de cinco líneas y cuatro espacios, numerados de abajo arriba, con la clave de sol en la segunda línea y la nota sol sobre esa misma línea." },
+};
+
+export function PentagramaParts({ l }: { l: Idioma }) {
   const sp = 20;
   const y0 = 40;
+  const t = PENTA[l];
   return (
-    <Lienzo w={470} h={160} etiqueta="Pentagrama de cinc línies i quatre espais, numerats de baix a dalt, amb la clau de sol a la segona línia i la nota sol sobre la mateixa línia.">
+    <Lienzo w={490} h={160} etiqueta={t.aria}>
       {[0, 1, 2, 3].map((i) => (
         <rect key={i} x={8} y={y0 + i * sp} width={292} height={sp} fill="var(--dg-ambar-suave)" />
       ))}
@@ -112,10 +125,10 @@ export function PentagramaParts() {
       <BarraFinal x={300} y0={y0} sp={sp} />
       <g fontSize={16} fontWeight={600}>
         {[1, 2, 3, 4, 5].map((n) => (
-          <text key={n} x={318} y={y0 + (5 - n) * sp + 5.5} fill="var(--dg-azul-fuerte)">línia {n}</text>
+          <text key={n} x={318} y={y0 + (5 - n) * sp + 5.5} fill="var(--dg-azul-fuerte)">{t.linia} {n}</text>
         ))}
         {[1, 2, 3, 4].map((n) => (
-          <text key={n} x={398} y={y0 + (4 - n) * sp + sp / 2 + 5.5} fill="var(--dg-ambar-fuerte)">espai {n}</text>
+          <text key={n} x={402} y={y0 + (4 - n) * sp + sp / 2 + 5.5} fill="var(--dg-ambar-fuerte)">{t.espai} {n}</text>
         ))}
       </g>
     </Lienzo>
@@ -126,12 +139,12 @@ export function PentagramaParts() {
 
 const NOTES = ["do", "re", "mi", "fa", "sol", "la", "si", "do"];
 
-export function EscalaDo() {
+export function EscalaDo({ l }: { l: Idioma }) {
   const sp = 14;
   const y0 = 34;
   const amplada = (GLIFOS.noteheadWhole.w * sp) / 250;
   return (
-    <Lienzo w={592} h={150} etiqueta="Les notes musicals en clau de sol, de més greu a més aguda: do, re, mi, fa, sol, la, si i do.">
+    <Lienzo w={592} h={150} etiqueta={l === "ca" ? "Les notes musicals en clau de sol, de més greu a més aguda: do, re, mi, fa, sol, la, si i do." : "Las notas musicales en clave de sol, de más grave a más aguda: do, re, mi, fa, sol, la, si y do."}>
       <Pauta x1={6} x2={582} y0={y0} sp={sp} />
       <Glifo n="gClef" x={10} y={y0 + 3 * sp} sp={sp} />
       {NOTES.map((nom, i) => {
@@ -164,24 +177,36 @@ const CAPS: Record<Figura, { cap: NombreGlifo; pal?: number; bandera?: NombreGli
   semicorxera: { cap: "noteheadBlack", pal: 4, bandera: "flag16thUp", silenci: "rest16th", linia: 2 },
 };
 
+/** Figura sola amb plica amunt: cap en (x, y), mida de pentagrama `sp`. */
+export function Nota({ f, x, y, sp }: { f: Figura; x: number; y: number; sp: number }) {
+  const c = CAPS[f];
+  const dreta = x + (GLIFOS[c.cap].w * sp) / 250;
+  const gruix = sp * 0.12;
+  const dalt = c.pal ? y - c.pal * sp : 0;
+  return (
+    <g>
+      <Glifo n={c.cap} x={x} y={y} sp={sp} />
+      {c.pal && <rect x={dreta - gruix} y={dalt} width={gruix} height={y - 0.168 * sp - dalt} />}
+      {c.bandera && <Glifo n={c.bandera} x={dreta - gruix} y={dalt} sp={sp} />}
+    </g>
+  );
+}
+
+/** El silenci d'una figura. `y` és la 3a línia (la del mig) del pentagrama imaginari. */
+export function Silenci({ f, x, y, sp }: { f: Figura; x: number; y: number; sp: number }) {
+  const c = CAPS[f];
+  return <Glifo n={c.silenci} x={x} y={y + (c.linia - 2) * sp} sp={sp} />;
+}
+
 /** Una figura (en la 2.ª línia, plica amunt) i el seu silenci, sobre un pentagrama curt. */
-export function FiguraISilenci({ f }: { f: Figura }) {
+export function FiguraISilenci({ f, etiqueta }: { f: Figura; etiqueta: string }) {
   const sp = 12;
   const y0 = 36;
-  const c = CAPS[f];
-  const xNota = 28;
-  const yNota = y0 + 3 * sp;
-  const dreta = xNota + (GLIFOS[c.cap].w * sp) / 250;
-  const gruix = sp * 0.12;
-  const dalt = c.pal ? yNota - c.pal * sp : 0;
-  const xSilenci = 92;
   return (
-    <Lienzo w={140} h={100} etiqueta={`Figura ${f} i el seu silenci`}>
+    <Lienzo w={140} h={100} etiqueta={etiqueta}>
       <Pauta x1={6} x2={134} y0={y0} sp={sp} />
-      <Glifo n={c.cap} x={xNota} y={yNota} sp={sp} />
-      {c.pal && <rect x={dreta - gruix} y={dalt} width={gruix} height={yNota - 0.168 * sp - dalt} />}
-      {c.bandera && <Glifo n={c.bandera} x={dreta - gruix} y={dalt} sp={sp} />}
-      <Glifo n={c.silenci} x={xSilenci} y={y0 + c.linia * sp} sp={sp} />
+      <Nota f={f} x={28} y={y0 + 3 * sp} sp={sp} />
+      <Silenci f={f} x={92} y={y0 + 2 * sp} sp={sp} />
     </Lienzo>
   );
 }
@@ -243,9 +268,9 @@ function Tornada({ xDesti }: { xDesti: number }) {
   );
 }
 
-export function RepetirDesDelPrincipi() {
+export function RepetirDesDelPrincipi({ etiqueta }: { etiqueta: string }) {
   return (
-    <Lienzo w={240} h={92} etiqueta="Barra de repetició al final: cal tornar a tocar el fragment des del principi.">
+    <Lienzo w={240} h={92} etiqueta={etiqueta}>
       <Pauta x1={10} x2={222} y0={Y0_REP} sp={SP_REP} />
       <Negra x={50} pas={2} />
       <Negra x={95} pas={4} />
@@ -256,9 +281,9 @@ export function RepetirDesDelPrincipi() {
   );
 }
 
-export function RepetirEntreBarres() {
+export function RepetirEntreBarres({ etiqueta }: { etiqueta: string }) {
   return (
-    <Lienzo w={240} h={92} etiqueta="Dues barres de repetició: cal repetir el fragment comprés entre les dues barres.">
+    <Lienzo w={240} h={92} etiqueta={etiqueta}>
       <Pauta x1={10} x2={222} y0={Y0_REP} sp={SP_REP} />
       <Negra x={26} pas={1} />
       <RepeticioInici x={60} />
@@ -276,7 +301,7 @@ export function RepetirEntreBarres() {
 const LLETRA: Record<string, NombreGlifo> = { p: "dynamicPiano", m: "dynamicMezzo", f: "dynamicForte" };
 
 /** Escriu un matís (pp, mf…) amb les lletres de Bravura, centrat en `cx`. */
-function Matis({ text, cx, y, sp }: { text: string; cx: number; y: number; sp: number }) {
+export function Matis({ text, cx, y, sp }: { text: string; cx: number; y: number; sp: number }) {
   const lletres = [...text].map((l) => LLETRA[l]);
   const amples = lletres.map((n) => (GLIFOS[n].w * sp) / 250);
   const inici = cx - amples.reduce((a, b) => a + b, 0) / 2;
@@ -290,22 +315,32 @@ function Matis({ text, cx, y, sp }: { text: string; cx: number; y: number; sp: n
 }
 
 export const MATISOS = [
-  { m: "pp", nom: "pianissimo", sentit: "molt suau" },
-  { m: "p", nom: "piano", sentit: "suau" },
-  { m: "mp", nom: "mezzopiano", sentit: "mig suau" },
-  { m: "mf", nom: "mezzoforte", sentit: "mig fort" },
-  { m: "f", nom: "forte", sentit: "fort" },
-  { m: "ff", nom: "fortissimo", sentit: "molt fort" },
+  { m: "pp", nom: "pianissimo" },
+  { m: "p", nom: "piano" },
+  { m: "mp", nom: "mezzopiano" },
+  { m: "mf", nom: "mezzoforte" },
+  { m: "f", nom: "forte" },
+  { m: "ff", nom: "fortissimo" },
 ];
 const ALTURES = [18, 32, 46, 60, 76, 92];
 
-export function EsquemaVolum() {
+const VOLUM = {
+  ca: {
+    cresc: "crescendo (cresc.): de suau a fort →",
+    dim: "← diminuendo (dim.): de fort a suau",
+    aria: "Matisos d'intensitat de més suau a més fort: pianissimo, piano, mezzopiano, mezzoforte, forte i fortissimo. El crescendo va de suau a fort i el diminuendo, de fort a suau.",
+  },
+  es: {
+    cresc: "crescendo (cresc.): de suave a fuerte →",
+    dim: "← diminuendo (dim.): de fuerte a suave",
+    aria: "Matices de intensidad de más suave a más fuerte: pianissimo, piano, mezzopiano, mezzoforte, forte y fortissimo. El crescendo va de suave a fuerte y el diminuendo, de fuerte a suave.",
+  },
+};
+
+export function EsquemaVolum({ l }: { l: Idioma }) {
+  const t = VOLUM[l];
   return (
-    <Lienzo
-      w={600}
-      h={352}
-      etiqueta="Matisos d'intensitat de més suau a més fort: pianissimo, piano, mezzopiano, mezzoforte, forte i fortissimo. El crescendo va de suau a fort i el diminuendo, de fort a suau."
-    >
+    <Lienzo w={600} h={352} etiqueta={t.aria}>
       {MATISOS.map((x, i) => {
         const cx = 50 + i * 100;
         return (
@@ -329,8 +364,8 @@ export function EsquemaVolum() {
         <path d="M 40 293 L 560 305 L 40 317" stroke="var(--dg-rosa-linea)" />
       </g>
       <g textAnchor="middle" fontSize={16} fontWeight={600}>
-        <text x={300} y={276} fill="var(--dg-verde-fuerte)">crescendo (cresc.): de suau a fort →</text>
-        <text x={300} y={342} fill="var(--dg-rosa-fuerte)">← diminuendo (dim.): de fort a suau</text>
+        <text x={300} y={276} fill="var(--dg-verde-fuerte)">{t.cresc}</text>
+        <text x={300} y={342} fill="var(--dg-rosa-fuerte)">{t.dim}</text>
       </g>
     </Lienzo>
   );

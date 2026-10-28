@@ -28,9 +28,9 @@ export const CURSOS: Curso[] = [
           {
             n: 1,
             t: "El so i les seues qualitats",
-            d: "So, soroll i silenci; altura, duració, intensitat i timbre. Figures i silencis, matisos i barres de repetició.",
+            d: "So, soroll i silenci; altura, duració, intensitat i timbre. Mapa conceptual d'una pàgina (PDF i imatge), esquema detallat i preguntes de repàs.",
             href: "/materiales/1eso/musica/tema-1/",
-            idioma: "Valencià",
+            idioma: "Valencià · Castellano",
           },
         ],
       },

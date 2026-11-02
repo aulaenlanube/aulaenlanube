@@ -12,18 +12,22 @@ import { useState } from "react";
 // · `grande`: letra de 16 px y barra con rótulo (páginas para vídeo).
 // · `ajustar`: parte las líneas largas con sangría francesa (por defecto). Con
 //   `false` la línea no se parte y la caja se desliza en horizontal.
+// · `rotuloCopiar`: texto del botón (p. ej. «copiar el fichero» cuando se ve
+//   solo un trozo y se copia entero).
 export default function PromptBlock({
   text,
   lineas,
   etiqueta,
   grande = false,
   ajustar = true,
+  rotuloCopiar = "copiar",
 }: {
   text: string;
   lineas?: string[];
   etiqueta?: string;
   grande?: boolean;
   ajustar?: boolean;
+  rotuloCopiar?: string;
 }) {
   const [ok, setOk] = useState(false);
   const filas = lineas ?? text.split("\n");
@@ -85,7 +89,7 @@ export default function PromptBlock({
           aria-label={`Copiar ${etiqueta ?? "prompt"}`}
           className="shrink-0 rounded-md px-3 py-1 text-base font-medium text-slate-300 ring-1 ring-slate-600/70 transition-colors hover:bg-slate-700/60 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
         >
-          {ok ? "copiado ✓" : "copiar"}
+          {ok ? "copiado ✓" : rotuloCopiar}
         </button>
       </figcaption>
       <span className="sr-only" role="status" aria-live="polite">

@@ -106,6 +106,7 @@ export default function BucleAgente({ uid = "bucle" }: { uid?: string }) {
           </text>
         </svg>
       </div>
+      <p className="mt-1 text-center text-base text-zinc-500 dark:text-zinc-400 lg:hidden">Desliza el diagrama de lado para verlo entero</p>
       <figcaption className="mt-3 text-center text-lg text-zinc-700 dark:text-zinc-300">
         Un chat da <b>una</b> respuesta. Un agente da <b>muchas vueltas</b> a este bucle hasta acabar la tarea.
       </figcaption>

@@ -403,21 +403,36 @@ export function Regla({ tipo, regla, children }: { tipo: TipoPermiso; regla: str
 
 // ── Código y terminal ───────────────────────────────────────────────────────
 
-/** Código en PromptBlock: una línea, un elemento (`data-linea`). */
+/**
+ * Código en PromptBlock: una línea, un elemento (`data-linea`). Con `rango`
+ * ([desde, hasta], contando desde 1) se ve solo ese trozo, pero el botón copia
+ * el fichero entero: así un fichero largo se enseña en varias pantallas.
+ */
 export function Codigo({
   code,
   kind = "sh",
   etiqueta,
   ajustar = true,
+  rango,
 }: {
   code: string;
   kind?: Kind;
   etiqueta?: string;
   ajustar?: boolean;
+  rango?: [number, number];
 }) {
   const p = pintar(code, kind);
   const rotulo = etiqueta ?? { sh: "Terminal", json: "JSON", md: "Markdown", txt: "Texto" }[kind];
-  return <PromptBlock text={p.code} lineas={p.lines} etiqueta={rotulo} grande ajustar={ajustar} />;
+  return (
+    <PromptBlock
+      text={p.code}
+      lineas={rango ? p.lines.slice(rango[0] - 1, rango[1]) : p.lines}
+      etiqueta={rotulo}
+      grande
+      ajustar={ajustar}
+      rotuloCopiar={rango ? "copiar el fichero" : "copiar"}
+    />
+  );
 }
 
 /** Prompt para pegar en el agente, a 16 px. */
@@ -552,7 +567,7 @@ export function LineaTiempo({ hitos }: { hitos: Hito[] }) {
             }`}
           />
           <div
-            className={`grid grid-cols-1 gap-x-5 gap-y-2 !px-4 !py-3 md:grid-cols-[12rem_minmax(0,1fr)] ${h.futuro ? cls.suave : cls.tarjeta}`}
+            className={`grid grid-cols-1 gap-x-5 gap-y-2 !px-4 !py-2.5 md:grid-cols-[12rem_minmax(0,1fr)] ${h.futuro ? cls.suave : cls.tarjeta}`}
           >
             <div>
               <h3 className="text-xl font-extrabold text-zinc-900 dark:text-zinc-100">{h.titulo}</h3>
@@ -563,11 +578,12 @@ export function LineaTiempo({ hitos }: { hitos: Hito[] }) {
                 </Link>
               ) : null}
             </div>
-            <ul
-              className={`grid list-disc grid-cols-1 gap-x-8 gap-y-1 pl-5 text-base leading-snug text-zinc-700 marker:text-zinc-400 dark:text-zinc-300 lg:grid-cols-2`}
-            >
+            {/* Columnas de texto (no rejilla): los puntos fluyen sin dejar huecos entre filas. */}
+            <ul className="list-disc gap-x-8 pl-5 text-base leading-snug text-zinc-700 marker:text-zinc-400 dark:text-zinc-300 lg:columns-2">
               {h.puntos.map((p) => (
-                <li key={p}>{p}</li>
+                <li key={p} className="mb-1 break-inside-avoid">
+                  {p}
+                </li>
               ))}
             </ul>
           </div>

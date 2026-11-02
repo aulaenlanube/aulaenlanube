@@ -1,9 +1,42 @@
 import type { Metadata } from "next";
-import type { ReactNode } from "react";
 import Link from "@/components/Link";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import CodeBlock from "@/components/CodeBlock";
+import PromptBlock from "@/components/PromptBlock";
 import { RUBRICA_CLI } from "@/lib/campus/rubricas";
+import {
+  AntesDespues,
+  Arbol,
+  Aviso,
+  Bloque,
+  C,
+  Checklist,
+  Chip,
+  CriterioRubrica,
+  DosColumnas,
+  LineaTiempo,
+  TONO,
+  Tarjeta,
+  Terminal,
+  cls,
+  type Hito,
+  type NodoArbol,
+  type Tono,
+} from "../_video/piezas";
+import { QuienHace } from "../opencode/figuras";
+import {
+  AnatomiaOrden,
+  Calendario,
+  CapasTerminal,
+  CicloDesarrollo,
+  DelNombreAlCodigo,
+  PesosRubrica,
+  RecorridoOrden,
+  TareaAOrden,
+  TresSistemas,
+  Tuberia,
+  TyperDeduce,
+} from "./figuras";
+import { pintar, type Kind } from "./resaltado";
 
 export const metadata: Metadata = {
   title: "Proyecto 2 · CLI «tareas con IA» — Curso de Programación con IA",
@@ -11,130 +44,21 @@ export const metadata: Metadata = {
     "Proyecto 2: tu herramienta de terminal en Python (Typer + uv), construida con el agente OpenCode y los modelos de IA del centro. Linux, Windows y macOS.",
 };
 
-/* ------------------------------------------------------------------ */
-/* Resaltado mínimo para shell, Python, JSON y TOML (en compilación).  */
-/* ------------------------------------------------------------------ */
+// Página pensada para grabarse (docs/paginas-para-video.md): cada <Bloque> es
+// una pantalla de 16:9 con una sola idea y lo que cuenta cada pieza está
+// escrito, sin pulsar ni pasar el ratón. El hilo del proyecto (una herramienta
+// útil para ti, que automatiza lo que te hace perder tiempo) va en la portada.
 
-type Kind = "sh" | "py" | "json" | "toml" | "txt";
-
-const PY_KW = new Set([
-  "def", "import", "from", "return", "if", "else", "elif", "for", "in", "class", "with",
-  "as", "try", "except", "raise", "not", "and", "or", "None", "True", "False", "pass",
-]);
-
-const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-const span = (c: string, t: string) => `<span class="tok-${c}">${esc(t)}</span>`;
-
-function pintarLinea(l: string, kind: Kind): string {
-  if (kind === "txt") return esc(l);
-  let out = "";
-  let i = 0;
-  const n = l.length;
-  while (i < n) {
-    const c = l[i];
-    const prev = i === 0 ? " " : l[i - 1];
-    // Comentarios con # (shell, PowerShell, Python, TOML)
-    if (c === "#" && kind !== "json" && /\s/.test(prev)) {
-      out += span("com", l.slice(i));
-      break;
-    }
-    // Cadenas
-    if (c === '"' || (c === "'" && kind !== "json")) {
-      let j = i + 1;
-      while (j < n && l[j] !== c) {
-        if (l[j] === "\\") j++;
-        j++;
-      }
-      out += span("str", l.slice(i, j + 1));
-      i = j + 1;
-      continue;
-    }
-    // Opciones de línea de órdenes: --simular, -n, -ExecutionPolicy…
-    if (kind === "sh" && c === "-" && /\s/.test(prev) && /[A-Za-z-]/.test(l[i + 1] ?? "")) {
-      let j = i;
-      while (j < n && /[^\s=]/.test(l[j])) j++;
-      out += span("kw", l.slice(i, j));
-      i = j;
-      continue;
-    }
-    // Decoradores de Python
-    if (kind === "py" && c === "@") {
-      let j = i + 1;
-      while (j < n && /[\w.]/.test(l[j])) j++;
-      out += span("ann", l.slice(i, j));
-      i = j;
-      continue;
-    }
-    // Tablas de TOML: [project.scripts]
-    if (kind === "toml" && c === "[" && i === 0) {
-      out += span("type", l);
-      break;
-    }
-    // Palabras
-    if (/[A-Za-z_]/.test(c)) {
-      let j = i;
-      while (j < n && /\w/.test(l[j])) j++;
-      const w = l.slice(i, j);
-      if (kind === "py" && PY_KW.has(w)) out += span("ctrl", w);
-      else if (kind === "sh" && out.replace(/<[^>]+>/g, "").trim() === "") out += span("fn", w);
-      else if (kind === "json" && (w === "true" || w === "false" || w === "null")) out += span("lit", w);
-      else out += esc(w);
-      i = j;
-      continue;
-    }
-    // Números
-    if (/\d/.test(c) && kind !== "sh") {
-      let j = i;
-      while (j < n && /[\d.]/.test(l[j])) j++;
-      out += span("num", l.slice(i, j));
-      i = j;
-      continue;
-    }
-    out += esc(c);
-    i++;
-  }
-  return out;
-}
-
-function pintar(raw: string, kind: Kind) {
-  const code = raw.replace(/^\n+/, "").replace(/\s+$/, "");
-  return { code, lines: code.split("\n").map((l) => pintarLinea(l, kind)) };
-}
-
-function Codigo({ code, kind = "sh", lang }: { code: string; kind?: Kind; lang?: string }) {
-  const etiqueta =
-    lang ?? { sh: "Terminal", py: "Python", json: "JSON", toml: "TOML", txt: "Salida" }[kind];
-  return <CodeBlock {...pintar(code, kind)} lang={etiqueta} />;
-}
-
-/* ------------------------------------------------------------------ */
-/* Estilos compartidos                                                 */
-/* ------------------------------------------------------------------ */
-
-const chip =
-  "inline-block rounded-full border border-blue-200 dark:border-blue-500/30 bg-blue-50 dark:bg-blue-500/10 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-blue-700 dark:text-blue-300";
-const card =
-  "rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-5 shadow-sm";
-const h2 = "mt-12 scroll-mt-20 text-2xl font-extrabold tracking-tight";
-const lead = "mt-2 max-w-3xl text-[15px] text-zinc-600 dark:text-zinc-400";
-const muted = "text-sm text-zinc-600 dark:text-zinc-400";
-const code = "rounded bg-zinc-100 dark:bg-white/10 px-1 py-0.5 font-mono text-[13px]";
-const th = "px-3.5 py-2.5 text-left font-bold";
-const td = "px-3.5 py-2.5 align-top text-zinc-600 dark:text-zinc-400";
-const tr = "border-t border-zinc-200 dark:border-white/10";
-
-function C({ children }: { children: ReactNode }) {
-  return <code className={code}>{children}</code>;
-}
-
-function Nota({ tono = "blue", children }: { tono?: "blue" | "amber" | "emerald" | "rose"; children: ReactNode }) {
-  const t = {
-    blue: "border-blue-200 dark:border-blue-500/30 bg-blue-50 dark:bg-blue-500/10 text-blue-900 dark:text-blue-200",
-    amber: "border-amber-200 dark:border-amber-500/30 bg-amber-50 dark:bg-amber-500/10 text-amber-900 dark:text-amber-200",
-    emerald: "border-emerald-200 dark:border-emerald-500/30 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-900 dark:text-emerald-200",
-    rose: "border-rose-200 dark:border-rose-500/30 bg-rose-50 dark:bg-rose-500/10 text-rose-900 dark:text-rose-200",
-  }[tono];
-  return <div className={`mt-5 rounded-2xl border p-5 text-[15px] ${t}`}>{children}</div>;
+/**
+ * Código en PromptBlock con el resaltado de esta página (Python y TOML incluidos).
+ * Los espacios que alinean los comentarios se pintan no separables: al partir
+ * una línea en móvil no cuelgan fuera del bloque. Lo que se copia es el original.
+ */
+function Codigo({ code, kind = "sh", etiqueta, ajustar = true }: { code: string; kind?: Kind; etiqueta?: string; ajustar?: boolean }) {
+  const p = pintar(code, kind);
+  const lineas = p.lines.map((l) => l.replace(/ {2,}(?=<span class="tok-com">)/g, (m) => "&nbsp;".repeat(m.length)));
+  const rotulo = etiqueta ?? { sh: "Terminal", py: "Python", json: "JSON", toml: "TOML", txt: "Salida" }[kind];
+  return <PromptBlock text={p.code} lineas={lineas} etiqueta={rotulo} grande ajustar={ajustar} />;
 }
 
 /* ------------------------------------------------------------------ */
@@ -142,6 +66,7 @@ function Nota({ tono = "blue", children }: { tono?: "blue" | "amber" | "emerald"
 /* ------------------------------------------------------------------ */
 
 const INDICE = [
+  ["perder-tiempo", "Tu herramienta"],
   ["que-es", "Qué es una CLI"],
   ["anatomia", "Anatomía de una orden"],
   ["mundo", "Las CLI que usa el mundo"],
@@ -155,30 +80,31 @@ const INDICE = [
   ["evaluacion", "Cómo se evalúa"],
 ] as const;
 
-const GUI_CLI = [
-  ["Gana la GUI (ventanas y ratón)", "emerald", [
-    "Explorar algo que no conoces: ves las opciones en pantalla.",
-    "Tareas visuales: retocar una foto, maquetar, editar vídeo a mano.",
-    "Usuarios que no quieren aprender órdenes.",
-  ]],
-  ["Gana la CLI (texto y teclado)", "blue", [
-    "Automatizar y repetir: la misma orden hoy, mañana y 300 veces.",
-    "Encadenar herramientas con tuberías (|): la salida de una es la entrada de otra.",
-    "Servidores sin pantalla: el 90 % de Internet se administra por SSH.",
-    "Scripts, tareas programadas (cron) e integración continua (CI): nadie hace clic ahí.",
-    "Dejar rastro: una orden se copia, se documenta y se repite exacta.",
-  ]],
-] as const;
+const IDEAS: [number, string, string, string][] = [
+  [1, "Renombrar", "Fotos con su fecha (2026-10-26_001.jpg), quitar espacios y tildes de nombres, numerar entregas.", "sistema"],
+  [2, "Ordenar", "Descargas por tipo (PDF, imágenes, comprimidos, instaladores) o apuntes por asignatura según el nombre.", "sistema"],
+  [3, "Limpiar y detectar", "Temporales con más de 30 días, duplicados por hash (mismo contenido, distinto nombre), informe de espacio en disco por carpeta.", "sistema"],
+  [4, "Resumir con IA", "Resumir PDFs o textos largos, generar el README de una carpeta de proyecto, convertir apuntes desordenados en Markdown limpio.", "IA"],
+  [5, "Renombrar por contenido con IA", "La IA lee el principio de cada documento y propone un nombre que diga lo que es (con --simular primero).", "IA"],
+  [6, "Acciones encadenadas", "Ordenar → quitar duplicados → resumir lo nuevo → informe final. Una orden, varios pasos.", "sistema + IA"],
+];
 
-const PIEZAS: [string, string, string, Kind][] = [
-  ["Ayuda (--help)", "Toda CLI decente se explica sola. Es lo primero que pruebas con una herramienta nueva y lo primero que se evalúa en la tuya.", "tareas --help\ntareas ejecutar --help", "sh"],
-  ["Argumentos vs opciones", "Argumento: dato posicional, normalmente obligatorio (QUÉ). Opción: empieza por - o --, tiene nombre y suele ser opcional (CÓMO). Un flag es una opción sí/no.", "tareas listar ~/Descargas            # argumento\ntareas listar ~/Descargas --json     # + opción (flag)\ntareas --config otro.json acciones   # opción con valor", "sh"],
-  ["stdin, stdout y stderr", "Tres canales: entrada estándar, salida estándar (resultados) y salida de error (avisos y fallos). Separarlos permite redirigir solo lo útil.", "tareas listar > lista.txt          # stdout a un fichero\ntareas validar 2> errores.txt      # stderr a otro\ntareas listar --json | jq length   # tubería: stdout entra en jq", "sh"],
-  ["Códigos de salida", "Al acabar, el programa devuelve un número: 0 = todo bien, distinto de 0 = algo falló. Los scripts y la CI deciden con él. En tu CLI: 0 bien · 1 fallo al ejecutar · 2 error de uso · 3 configuración inválida.", "tareas validar\necho $?            # bash/zsh → 0, 1, 2 o 3\necho $LASTEXITCODE # PowerShell", "sh"],
-  ["Variables de entorno", "Valores que el sistema le pasa al programa sin escribirlos en la orden: rutas, idioma, claves de API (nunca en el código).", "export TAREAS_MODELO=llama3   # bash/zsh\n$env:TAREAS_MODELO = \"llama3\"  # PowerShell", "sh"],
-  ["Fichero de configuración", "Lo que cambia poco y no quieres teclear cada vez. En tu proyecto, las acciones viven en acciones.json, no en el código.", "tareas acciones                     # usa ./acciones.json\ntareas --config ~/mis.json acciones", "sh"],
-  ["Formato de salida", "Para personas: tablas y colores. Para máquinas: --json (estable, sin colores). Una buena CLI ofrece las dos.", "tareas listar ~/Descargas          # tabla bonita\ntareas listar ~/Descargas --json   # para otro programa", "sh"],
-  ["Interactiva vs no interactiva", "Antes de borrar, pregunta (¿Seguro? [s/N]). Pero en un script nadie responde: --si confirma sin preguntar. Y --simular enseña qué haría sin tocar nada.", "tareas ejecutar limpiar-temporales --simular\ntareas ejecutar limpiar-temporales        # pregunta\ntareas ejecutar limpiar-temporales --si   # no pregunta", "sh"],
+const PIEZAS: [string, string, string][] = [
+  ["Ayuda (--help)", "Toda CLI decente se explica sola. Es lo primero que pruebas con una herramienta nueva y lo primero que se evalúa en la tuya.", "tareas --help\ntareas ejecutar --help"],
+  ["Argumentos vs opciones", "Argumento: dato posicional, normalmente obligatorio (QUÉ). Opción: empieza por - o --, tiene nombre y suele ser opcional (CÓMO). Un flag es una opción sí/no.", "tareas listar ~/Descargas            # argumento\ntareas listar ~/Descargas --json     # + opción (flag)\ntareas --config otro.json acciones   # opción con valor"],
+  ["stdin, stdout y stderr", "Tres canales: entrada estándar, salida estándar (resultados) y salida de error (avisos y fallos). Separarlos permite redirigir solo lo útil.", "tareas listar > lista.txt          # stdout a un fichero\ntareas validar 2> errores.txt      # stderr a otro\ntareas listar --json | jq length   # tubería: stdout entra en jq"],
+  ["Códigos de salida", "Al acabar, el programa devuelve un número: 0 = todo bien, distinto de 0 = algo falló. Los scripts y la CI deciden con él. En tu CLI: 0 bien · 1 fallo al ejecutar · 2 error de uso · 3 configuración inválida.", "tareas validar\necho $?            # bash/zsh → 0, 1, 2 o 3\necho $LASTEXITCODE # PowerShell"],
+  ["Variables de entorno", "Valores que el sistema le pasa al programa sin escribirlos en la orden: rutas, idioma, claves de API (nunca en el código).", "export TAREAS_MODELO=llama3   # bash/zsh\n$env:TAREAS_MODELO = \"llama3\"  # PowerShell"],
+  ["Fichero de configuración", "Lo que cambia poco y no quieres teclear cada vez. En tu proyecto, las acciones viven en acciones.json, no en el código.", "tareas acciones                     # usa ./acciones.json\ntareas --config ~/mis.json acciones"],
+  ["Formato de salida", "Para personas: tablas y colores. Para máquinas: --json (estable, sin colores). Una buena CLI ofrece las dos.", "tareas listar ~/Descargas          # tabla bonita\ntareas listar ~/Descargas --json   # para otro programa"],
+  ["Interactiva vs no interactiva", "Antes de borrar, pregunta (¿Seguro? [s/N]). Pero en un script nadie responde: --si confirma sin preguntar. Y --simular enseña qué haría sin tocar nada.", "tareas ejecutar limpiar-temporales --simular\ntareas ejecutar limpiar-temporales        # pregunta\ntareas ejecutar limpiar-temporales --si   # no pregunta"],
+];
+
+const GRUPOS_PIEZAS: [string, number][] = [
+  ["Ayuda y argumentos", 0],
+  ["Canales y salida del programa", 2],
+  ["Entorno y configuración", 4],
+  ["Formato y preguntas", 6],
 ];
 
 const HERRAMIENTAS: { cat: string; items: [string, string, string][] }[] = [
@@ -231,15 +157,6 @@ const HERRAMIENTAS: { cat: string; items: [string, string, string][] }[] = [
   },
 ];
 
-const IDEAS: [string, string, string, string][] = [
-  ["1", "Renombrar", "Fotos con su fecha (2026-10-26_001.jpg), quitar espacios y tildes de nombres, numerar entregas.", "sistema"],
-  ["2", "Ordenar", "Descargas por tipo (PDF, imágenes, comprimidos, instaladores) o apuntes por asignatura según el nombre.", "sistema"],
-  ["3", "Limpiar y detectar", "Temporales con más de 30 días, duplicados por hash (mismo contenido, distinto nombre), informe de espacio en disco por carpeta.", "sistema"],
-  ["4", "Resumir con IA", "Resumir PDFs o textos largos, generar el README de una carpeta de proyecto, convertir apuntes desordenados en Markdown limpio.", "IA"],
-  ["5", "Renombrar por contenido con IA", "La IA lee el principio de cada documento y propone un nombre que diga lo que es (con --simular primero).", "IA"],
-  ["6", "Acciones encadenadas", "Ordenar → quitar duplicados → resumir lo nuevo → informe final. Una orden, varios pasos.", "sistema + IA"],
-];
-
 const CICLO: [string, string, string][] = [
   ["Spec de 10 líneas", "Para quién es, qué problema resuelve, qué órdenes tendrá, qué NO hará. Si no cabe en 10 líneas, aún no sabes qué quieres.", "docs/spec.md"],
   ["Interfaz", "Las órdenes y opciones exactas, como las teclearía alguien. Se diseña antes que el código: es el contrato con quien la usa.", "tareas --help"],
@@ -248,6 +165,23 @@ const CICLO: [string, string, string][] = [
   ["Pruebas", "pytest comprueba que cada acción hace lo que dice en una carpeta temporal. Si cambias algo y se rompe, te enteras antes que tu usuario.", "tests/"],
   ["Empaquetado e instalación", "pyproject.toml con su entry point: tu programa se convierte en un comando que se instala con una orden.", "uv tool install"],
   ["Release", "Versión etiquetada (v1.0.0), notas de cambios y README con instalación probada en otro sistema.", "git tag v1.0.0"],
+];
+
+const FLUJO: [string, string][] = [
+  ["Tú decides", "Escribes la intención: la spec, tu acciones.json o el criterio de aceptación de la tarea."],
+  ["Plan", "Agente plan (Shift+Tab): «explícame cómo lo harías y qué ficheros tocarías». Lees el plan y lo corriges."],
+  ["Build aprobando diffs", "Agente build (Shift+Tab): «hazlo». Lees cada diff y cada orden antes de aceptarla."],
+  ["Auditas", "Lees el código y pruebas con --simular en ~/pruebas-tareas, con casos feos. ¿Mal? /undo o le explicas el fallo."],
+  ["Commit tuyo", "git add + git commit los haces tú, pequeños y con un mensaje que cuente el paso. El prompt clave, a docs/prompts.md."],
+  ["Sesión nueva", "/new para cada tarea y /compact si la conversación se alarga: contexto limpio, menos errores."],
+];
+
+const FICHEROS_REPO: [string, string, string][] = [
+  ["opencode.json", "Semana 1", "Permisos: qué puede hacer solo (leer, git status), qué te pregunta (editar, casi todas las órdenes) y qué nunca (git push, rm, leer .env)."],
+  ["AGENTS.md", "Semana 1", "Lo genera /init y lo editas tú: stack, órdenes del proyecto y normas (pathlib, utf-8, nada de commits ni push)."],
+  [".opencode/skills/acciones-json/SKILL.md", "Semana 2", "Skill: las reglas de tu acciones.json, que el agente carga cuando toca acciones."],
+  [".opencode/commands/nueva-accion.md", "Semana 2", "Comando /nueva-accion: añadir una acción siempre con los mismos pasos."],
+  [".opencode/agents/revisor.md", "Semana 2", "Subagente revisor de solo lectura: se lo pides por su nombre y busca errores y casos feos antes de cada commit."],
 ];
 
 const TECNOLOGIAS: [string, string, string, string][] = [
@@ -268,42 +202,18 @@ const POR_QUE = [
 ] as const;
 
 const REGLAS: { regla: string; mal: string; bien: string; por: string }[] = [
-  {
-    regla: "Rutas con pathlib, nunca concatenando",
-    mal: "ruta = carpeta + \"/\" + nombre",
-    bien: "ruta = Path(carpeta) / nombre",
-    por: "Windows usa \\ y Linux /. Path elige el separador correcto por ti.",
-  },
-  {
-    regla: "La ~ hay que expandirla",
-    mal: "open(\"~/Descargas/lista.txt\")",
-    bien: "Path(\"~/Descargas\").expanduser() / \"lista.txt\"",
-    por: "~ lo entiende la shell, no Python. Sin expanduser() busca una carpeta llamada «~».",
-  },
-  {
-    regla: "Codificación explícita",
-    mal: "Path(\"acciones.json\").read_text()",
-    bien: "Path(\"acciones.json\").read_text(encoding=\"utf-8\")",
-    por: "En Windows la codificación por defecto puede no ser UTF-8: las tildes y la ñ se rompen.",
-  },
-  {
-    regla: "Nada de shell=True ni os.system",
-    mal: "os.system(\"mv \" + origen + \" \" + destino)",
-    bien: "shutil.move(origen, destino)",
-    por: "mv no existe en PowerShell clásico, un nombre con espacios lo rompe y abre la puerta a inyecciones.",
-  },
-  {
-    regla: "Saltos de línea normalizados",
-    mal: "(sin .gitattributes)",
-    bien: "# .gitattributes\n* text=auto",
-    por: "Windows usa CRLF y Linux LF. Sin esto, git marca cambios fantasma en todas las líneas.",
-  },
-  {
-    regla: "Colores con Rich",
-    mal: "print(\"\\033[31mError\\033[0m\")",
-    bien: "console.print(\"[red]Error[/red]\")",
-    por: "Los códigos ANSI a mano salen como basura en algunas consolas. Rich detecta lo que soporta cada una.",
-  },
+  { regla: "Rutas con pathlib, nunca concatenando", mal: "ruta = carpeta + \"/\" + nombre", bien: "ruta = Path(carpeta) / nombre", por: "Windows usa \\ y Linux /. Path elige el separador correcto por ti." },
+  { regla: "La ~ hay que expandirla", mal: "open(\"~/Descargas/lista.txt\")", bien: "Path(\"~/Descargas\").expanduser() / \"lista.txt\"", por: "~ lo entiende la shell, no Python. Sin expanduser() busca una carpeta llamada «~»." },
+  { regla: "Codificación explícita", mal: "Path(\"acciones.json\").read_text()", bien: "Path(\"acciones.json\").read_text(encoding=\"utf-8\")", por: "En Windows la codificación por defecto puede no ser UTF-8: las tildes y la ñ se rompen." },
+  { regla: "Nada de shell=True ni os.system", mal: "os.system(\"mv \" + origen + \" \" + destino)", bien: "shutil.move(origen, destino)", por: "mv no existe en PowerShell clásico, un nombre con espacios lo rompe y abre la puerta a inyecciones." },
+  { regla: "Saltos de línea normalizados", mal: "(sin .gitattributes)", bien: "# .gitattributes\n* text=auto", por: "Windows usa CRLF y Linux LF. Sin esto, git marca cambios fantasma en todas las líneas." },
+  { regla: "Colores con Rich", mal: "print(\"\\033[31mError\\033[0m\")", bien: "console.print(\"[red]Error[/red]\")", por: "Los códigos ANSI a mano salen como basura en algunas consolas. Rich detecta lo que soporta cada una." },
+];
+
+const GRUPOS_REGLAS: [string, number][] = [
+  ["Rutas y la ~", 0],
+  ["Codificación y órdenes del sistema", 2],
+  ["Saltos de línea y colores", 4],
 ];
 
 const EQUIV: [string, string, string][] = [
@@ -343,24 +253,23 @@ const CAMPOS: [string, string][] = [
   ["confirmar", "true en acciones destructivas: pregunta antes de actuar salvo que pases --si."],
 ];
 
-const ESTRUCTURA = String.raw`
-cli-tareas/
-├── pyproject.toml        # [project.scripts] tareas = "tareas.cli:app"
-├── README.md
-├── .gitignore            # .venv/, __pycache__/, .env, *.egg-info, dist/
-├── .gitattributes        # * text=auto
-├── acciones.json         # TUS acciones (lo escribes tú)
-├── docs/adr/0001-configuracion-externa.md
-├── src/tareas/
-│   ├── __init__.py       # __version__ = "0.1.0"
-│   ├── __main__.py       # permite: python -m tareas
-│   ├── cli.py            # interfaz Typer: órdenes, opciones, salida
-│   ├── config.py         # leer y VALIDAR acciones.json
-│   ├── motor.py          # clase Motor: ejecuta una Accion sobre una carpeta
-│   ├── acciones.py       # clases Accion (mover, renombrar, copiar, borrar…)
-│   └── errores.py        # TareasError, ConfigError, AccionNoValida
-└── tests/                # semana 4
-`;
+const ESTRUCTURA: NodoArbol[] = [
+  { nombre: "pyproject.toml", nivel: 0, nota: '[project.scripts] tareas = "tareas.cli:app"' },
+  { nombre: "README.md", nivel: 0 },
+  { nombre: ".gitignore", nivel: 0, nota: ".venv/, __pycache__/, .env, *.egg-info, dist/" },
+  { nombre: ".gitattributes", nivel: 0, nota: "* text=auto" },
+  { nombre: "acciones.json", nivel: 0, nota: "TUS acciones (lo escribes tú)", tono: "ambar" },
+  { nombre: "docs/adr/0001-configuracion-externa.md", nivel: 0 },
+  { nombre: "src/tareas/", nivel: 0, carpeta: true },
+  { nombre: "__init__.py", nivel: 1, nota: '__version__ = "0.1.0"' },
+  { nombre: "__main__.py", nivel: 1, nota: "permite: python -m tareas" },
+  { nombre: "cli.py", nivel: 1, nota: "interfaz Typer: órdenes, opciones, salida", tono: "azul" },
+  { nombre: "config.py", nivel: 1, nota: "leer y VALIDAR acciones.json" },
+  { nombre: "motor.py", nivel: 1, nota: "clase Motor: ejecuta una Accion sobre una carpeta", tono: "morado" },
+  { nombre: "acciones.py", nivel: 1, nota: "clases Accion (mover, renombrar, copiar, borrar…)", tono: "morado" },
+  { nombre: "errores.py", nivel: 1, nota: "TareasError, ConfigError, AccionNoValida" },
+  { nombre: "tests/", nivel: 0, carpeta: true, nota: "semana 4" },
+];
 
 const ACCIONES_JSON = String.raw`
 {
@@ -375,6 +284,94 @@ const ACCIONES_JSON = String.raw`
   ]
 }
 `;
+
+// Lo que hace cada acción del ejemplo, con ficheros inventados para verlo.
+type Ejemplo = {
+  titulo: string;
+  linea: [number, number];
+  orden: string;
+  aviso?: string;
+  antes: { titulo: string; raiz: string; nodos: NodoArbol[] };
+  despues: { titulo: string; raiz: string; nodos: NodoArbol[] };
+};
+
+const EJEMPLOS: Ejemplo[] = [
+  {
+    titulo: "Qué hace ordenar-descargas",
+    linea: [4, 5],
+    orden: "tareas ejecutar ordenar-descargas",
+    antes: {
+      titulo: "Descargas, antes",
+      raiz: "~/",
+      nodos: [
+        { nombre: "Descargas/", nivel: 0, carpeta: true },
+        { nombre: "apuntes-tema1.pdf", nivel: 1 },
+        { nombre: "contrato.docx", nivel: 1 },
+        { nombre: "foto-playa.jpg", nivel: 1 },
+        { nombre: "Documentos/PDF/", nivel: 0, carpeta: true },
+      ],
+    },
+    despues: {
+      titulo: "Descargas, después",
+      raiz: "~/",
+      nodos: [
+        { nombre: "Descargas/", nivel: 0, carpeta: true },
+        { nombre: "foto-playa.jpg", nivel: 1, nota: "no es PDF ni docx: se queda" },
+        { nombre: "Documentos/PDF/", nivel: 0, carpeta: true },
+        { nombre: "apuntes-tema1.pdf", nivel: 1, tono: "verde" },
+        { nombre: "contrato.docx", nivel: 1, tono: "verde" },
+      ],
+    },
+  },
+  {
+    titulo: "Qué hace renombrar-fotos",
+    linea: [6, 7],
+    orden: "tareas ejecutar renombrar-fotos ~/Imágenes/viaje",
+    antes: {
+      titulo: "Fotos, antes",
+      raiz: "~/Imágenes/viaje/",
+      nodos: [
+        { nombre: "IMG_2041.jpg", nivel: 0 },
+        { nombre: "IMG_2042.jpg", nivel: 0 },
+        { nombre: "Captura de pantalla.png", nivel: 0 },
+        { nombre: "notas.txt", nivel: 0 },
+      ],
+    },
+    despues: {
+      titulo: "Fotos, después",
+      raiz: "~/Imágenes/viaje/",
+      nodos: [
+        { nombre: "2026-10-26_001.jpg", nivel: 0, tono: "verde" },
+        { nombre: "2026-10-26_002.jpg", nivel: 0, tono: "verde" },
+        { nombre: "2026-10-26_003.png", nivel: 0, tono: "verde" },
+        { nombre: "notas.txt", nivel: 0, nota: "no es una foto: se queda" },
+      ],
+    },
+  },
+  {
+    titulo: "Qué hace limpiar-temporales",
+    linea: [8, 9],
+    orden: "tareas ejecutar limpiar-temporales ~/pruebas-tareas",
+    aviso: "Antes de borrar pregunta: ¿Seguro? [s/N]",
+    antes: {
+      titulo: "Temporales, antes",
+      raiz: "~/pruebas-tareas/",
+      nodos: [
+        { nombre: "cache-viejo.tmp", nivel: 0, nota: "hace 45 días" },
+        { nombre: "sesion.tmp", nivel: 0, nota: "hace 2 días" },
+        { nombre: "informe.pdf", nivel: 0 },
+      ],
+    },
+    despues: {
+      titulo: "Temporales, después",
+      raiz: "~/pruebas-tareas/",
+      nodos: [
+        { nombre: "sesion.tmp", nivel: 0, nota: "menos de 30 días: se queda" },
+        { nombre: "informe.pdf", nivel: 0, nota: "no es .tmp: se queda" },
+      ],
+    },
+  },
+];
 
 const HOLA_PY = `
 import typer
@@ -431,7 +428,7 @@ const SEMANAS = [
       "Instalarla con uv tool install --editable . y lanzarla desde cualquier carpeta.",
     ],
     opencode: [
-      "Instalar OpenCode 1.18.35 y conectarlo a los modelos del centro.",
+      "Instalar OpenCode (la última versión estable) y conectarlo a los modelos del centro.",
       "uv init y .gitignore a mano y primer commit ANTES de abrir OpenCode (/undo necesita git).",
       "opencode.json de permisos en la raíz del repo.",
       "/init → AGENTS.md, que revisas y editas tú.",
@@ -456,78 +453,128 @@ const SEMANAS = [
       "Tu acciones.json lo escribes tú, sin IA.",
       "Skill del proyecto acciones-json con las reglas del esquema (compruébala con /skills).",
       "Comando personalizado /nueva-accion para añadir acciones siempre igual.",
-      "Subagente revisor de solo lectura (@revisor) y /review antes de cada commit.",
+      "Subagente revisor de solo lectura y /review antes de cada commit.",
     ],
     producto: "3 acciones propias funcionando con --simular, tareas validar con mensajes claros, ADR escrito, skill + comando + revisor en .opencode/ y commits pequeños.",
   },
 ];
 
+const RUTA: Hito[] = [
+  { titulo: "Semana 1", fecha: "26-30 oct", enlace: { texto: SEMANAS[0].sesion, href: SEMANAS[0].href }, puntos: SEMANAS[0].hace },
+  { titulo: "Semana 2", fecha: "2-6 nov", enlace: { texto: SEMANAS[1].sesion, href: SEMANAS[1].href }, puntos: SEMANAS[1].hace },
+  {
+    titulo: "Semana 3",
+    fecha: "después",
+    futuro: true,
+    puntos: [
+      "OpenCode: MCP (servidor context7 para documentación de librerías, activado solo cuando hace falta).",
+      "Tu CLI: capa IA que llama a los mismos modelos del centro desde Python, .env y modo sin red.",
+    ],
+  },
+  {
+    titulo: "Semana 4",
+    fecha: "después",
+    futuro: true,
+    puntos: [
+      "Pruebas que escribe el agente y auditas tú (pytest + GitHub Actions).",
+      "opencode run no interactivo en scripts, README, release v1.0 y día de instalación cruzada.",
+    ],
+  },
+];
+
+const GRUPOS_RUBRICA: [string, number[]][] = [
+  ["Rúbrica: acciones y configuración", [0, 1]],
+  ["Rúbrica: IA y robustez", [2, 3]],
+  ["Rúbrica: diseño y pruebas", [4, 5]],
+  ["Rúbrica: instalación y proceso", [6]],
+];
+
 /* ------------------------------------------------------------------ */
-/* Diagrama: anatomía de una orden                                     */
+/* Piezas propias de esta página                                       */
 /* ------------------------------------------------------------------ */
 
-const SEGMENTOS = [
-  { t: "tareas", x: 20, w: 78, label: "programa", d1: "el comando", d2: "instalado", c: "slate" },
-  { t: "ejecutar", x: 110, w: 97, label: "subcomando", d1: "qué hacer", d2: "(un verbo)", c: "blue" },
-  { t: "ordenar-descargas", x: 219, w: 183, label: "argumento 1", d1: "qué acción ejecutar", d2: "(de acciones.json)", c: "emerald" },
-  { t: "~/Descargas", x: 414, w: 126, label: "argumento 2", d1: "sobre qué carpeta", d2: "(opcional)", c: "emerald" },
-  { t: "--simular", x: 552, w: 106, label: "opción (flag)", d1: "cómo: enseña qué", d2: "haría, sin tocar", c: "amber" },
-] as const;
-
-const COLOR_SEG = {
-  slate: { rect: "fill-slate-500/10 stroke-slate-500", txt: "fill-slate-700 dark:fill-slate-200" },
-  blue: { rect: "fill-blue-500/10 stroke-blue-500", txt: "fill-blue-700 dark:fill-blue-300" },
-  emerald: { rect: "fill-emerald-500/10 stroke-emerald-500", txt: "fill-emerald-700 dark:fill-emerald-300" },
-  amber: { rect: "fill-amber-500/10 stroke-amber-500", txt: "fill-amber-700 dark:fill-amber-300" },
-} as const;
-
-function DiagramaOrden() {
+/** Dificultad de 1 a 6 en puntos dibujados (sin texto: no compite con el contraste). */
+function Dificultad({ n }: { n: number }) {
   return (
-    <div className={`${card} mt-5 overflow-x-auto`}>
-      <svg
-        viewBox="0 0 680 160"
-        className="mx-auto block w-full min-w-[620px] max-w-3xl"
-        role="img"
-        aria-label="Anatomía de la orden tareas ejecutar ordenar-descargas ~/Descargas --simular: tareas es el programa, ejecutar el subcomando, ordenar-descargas y ~/Descargas son argumentos y --simular es una opción."
-      >
-        {SEGMENTOS.map((s) => {
-          const k = COLOR_SEG[s.c];
-          const cx = s.x + s.w / 2;
-          return (
-            <g key={s.t}>
-              <rect x={s.x} y={20} width={s.w} height={40} rx={8} className={k.rect} strokeWidth={1.5} />
-              <text
-                x={cx}
-                y={45}
-                textAnchor="middle"
-                className={`${k.txt} font-mono`}
-                fontSize={16}
-                fontWeight={700}
+    <svg viewBox="0 0 84 12" width={84} height={12} role="img" aria-label={`Dificultad ${n} de 6`} className="shrink-0">
+      {[0, 1, 2, 3, 4, 5].map((i) => (
+        <circle key={i} cx={6 + i * 14} cy={6} r={5} className={i < n ? "fill-amber-500 dark:fill-amber-400" : "fill-zinc-300 dark:fill-zinc-600"} />
+      ))}
+    </svg>
+  );
+}
+
+/** Regla multiplataforma: la regla y su porqué a un lado; MAL y BIEN, al otro. */
+function ReglaSistema({ r }: { r: (typeof REGLAS)[number] }) {
+  return (
+    <div className={`${cls.tarjeta} grid min-w-0 grid-cols-1 gap-x-6 gap-y-3 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]`}>
+      <div className="min-w-0">
+        <h4 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">{r.regla}</h4>
+        <p className={`mt-2 ${cls.texto}`}>{r.por}</p>
+      </div>
+      <div className="min-w-0 space-y-2 self-center font-mono text-base">
+        <div className="flex gap-3 overflow-x-auto rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 dark:border-rose-500/30 dark:bg-rose-500/10">
+          <span className="shrink-0 font-sans font-extrabold text-rose-700 dark:text-rose-300">MAL</span>
+          <span className="whitespace-pre text-rose-900 dark:text-rose-100">{r.mal}</span>
+        </div>
+        <div className="flex gap-3 overflow-x-auto rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 dark:border-emerald-500/30 dark:bg-emerald-500/10">
+          <span className="shrink-0 font-sans font-extrabold text-emerald-700 dark:text-emerald-300">BIEN</span>
+          <span className="whitespace-pre text-emerald-900 dark:text-emerald-100">{r.bien}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/** Texto en el que las opciones (-x, --help…) no se parten por el guion al saltar de línea. */
+function SinPartirOpciones({ texto }: { texto: string }) {
+  return texto.split(" ").map((t, i) => (
+    <span key={i}>
+      {i > 0 ? " " : ""}
+      {t.startsWith("-") ? <span className="whitespace-nowrap">{t}</span> : t}
+    </span>
+  ));
+}
+
+const th = "px-4 py-2.5 text-left text-base font-bold text-zinc-800 dark:text-zinc-100";
+const tdMono = "px-4 py-2 align-top font-mono text-base text-zinc-800 dark:text-zinc-200";
+
+/**
+ * Herramientas por categoría: nombre, para qué y un ejemplo de orden. Sin
+ * `categoria` cuando el título del bloque ya la dice (no se repite el encabezado).
+ */
+function Herramientas({ grupos, categoria = true }: { grupos: typeof HERRAMIENTAS; categoria?: boolean }) {
+  return (
+    <div className="space-y-5">
+      {grupos.map((g) => (
+        <div key={g.cat}>
+          {categoria ? <h4 className="text-base font-extrabold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">{g.cat}</h4> : null}
+          <ul className="mt-2 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {g.items.map(([n, d, ej]) => (
+              <li
+                key={n}
+                className={`flex min-w-0 flex-col rounded-2xl border p-4 ${
+                  n === "OpenCode"
+                    ? "border-blue-400 bg-blue-50 dark:border-blue-400/60 dark:bg-blue-500/10"
+                    : "border-zinc-200 bg-white dark:border-white/10 dark:bg-slate-900"
+                }`}
               >
-                {s.t}
-              </text>
-              <path
-                d={`M ${s.x + 4} 68 v 6 h ${s.w - 8} v -6 M ${cx} 74 v 14`}
-                fill="none"
-                className="stroke-zinc-400 dark:stroke-zinc-500"
-                strokeWidth={1.5}
-              />
-              <text x={cx} y={106} textAnchor="middle" fontSize={13} fontWeight={800} className={k.txt}>
-                {s.label}
-              </text>
-              <text x={cx} y={124} textAnchor="middle" fontSize={11} className="fill-zinc-600 dark:fill-zinc-400">
-                {s.d1}
-              </text>
-              <text x={cx} y={139} textAnchor="middle" fontSize={11} className="fill-zinc-600 dark:fill-zinc-400">
-                {s.d2}
-              </text>
-            </g>
-          );
-        })}
-      </svg>
-      <p className="mt-3 text-center text-sm text-zinc-500 dark:text-zinc-400">
-        Se lee como una frase: <i>«herramienta, haz esto, con esto, aquí, de esta manera»</i>.
-      </p>
+                <span className="flex flex-wrap items-center gap-2">
+                  <span className="font-mono text-lg font-bold text-zinc-900 dark:text-zinc-50">{n}</span>
+                  {n === "OpenCode" ? <Chip>la que usarás</Chip> : null}
+                </span>
+                <span className={`mt-1 flex-1 text-base leading-snug text-zinc-700 dark:text-zinc-300`}>{d}</span>
+                <code className="mt-2 block whitespace-pre-wrap rounded-lg bg-[#0b1120] px-3 py-1.5 font-mono text-base text-emerald-300 [overflow-wrap:anywhere]">
+                  <span aria-hidden className="select-none text-slate-400">
+                    ${" "}
+                  </span>
+                  <SinPartirOpciones texto={ej} />
+                </code>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
     </div>
   );
 }
@@ -539,825 +586,882 @@ function DiagramaOrden() {
 export default function CursoIACliTareas() {
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-6">
-      <Breadcrumbs
-        items={[
-          { title: "Curso de Programación con IA", path: "/programacion-ia/" },
-          { title: "CLI tareas con IA", path: "/programacion-ia/cli/" },
-        ]}
-      />
+      {/* Portada */}
+      <section data-bloque className="max-w-[1100px]">
+        <Breadcrumbs
+          grande
+          items={[
+            { title: "Curso de Programación con IA", path: "/programacion-ia/" },
+            { title: "CLI tareas con IA", path: "/programacion-ia/cli/" },
+          ]}
+        />
+        <Chip>Proyecto 2 · CLI tareas con IA · Presencial y semipresencial</Chip>
+        <h1 className="mt-3 text-4xl font-extrabold tracking-tight sm:text-5xl">
+          Tu propia herramienta de terminal: <span className="text-blue-600 dark:text-blue-400">tareas</span>
+        </h1>
+        <p className="mt-4 max-w-4xl text-lg leading-relaxed text-zinc-700 dark:text-zinc-300">
+          Vas a construir una <b>CLI</b>: un programa que se usa escribiendo órdenes en la terminal y que trabaja con{" "}
+          <b>tus ficheros</b> — ordena descargas, renombra fotos, limpia temporales, resume documentos — mediante{" "}
+          <b>acciones que defines tú</b> en un fichero <C>acciones.json</C>. Combina lo que sabe hacer el sistema operativo
+          con lo que sabe hacer la IA, y se instala con <b>una sola orden</b> en Linux, Windows y macOS.
+        </p>
 
-      {/* 1 · Cabecera */}
-      <span className={chip}>Proyecto 2 · CLI tareas con IA · Presencial y semipresencial</span>
-      <h1 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-5xl">
-        Tu propia herramienta de terminal: <span className="text-blue-600 dark:text-blue-400">tareas</span>
-      </h1>
-      <p className="mt-4 max-w-3xl text-lg text-zinc-600 dark:text-zinc-400">
-        Vas a construir una <b>CLI</b>: un programa que se usa escribiendo órdenes en la terminal y
-        que trabaja con <b>tus ficheros</b> — ordena descargas, renombra fotos, limpia temporales,
-        resume documentos — mediante <b>acciones que defines tú</b> en un fichero{" "}
-        <C>acciones.json</C>. Combina lo que sabe hacer el sistema operativo con lo que sabe hacer la
-        IA, y se instala con <b>una sola orden</b> en Linux, Windows y macOS.
-      </p>
-      <p className="mt-3 max-w-3xl text-[15px] text-zinc-600 dark:text-zinc-400">
-        Y la construyes de otra manera: desde este proyecto trabajas de forma <b>agéntica</b> con{" "}
-        <b>OpenCode</b>, un agente de programación open source conectado a los{" "}
-        <b>modelos de IA locales del centro</b>. Tú decides qué se hace y apruebas cada cambio; el
-        agente lee tu repo, propone y edita. El chat queda para consultas.
-      </p>
-      <p className="mt-3 max-w-3xl text-[15px] text-zinc-600 dark:text-zinc-400">
-        Por qué importa: los desarrolladores viven en la terminal. Git, los gestores de paquetes, los
-        servidores, la integración continua y los propios agentes de IA son CLI. Quien sabe usarlas{" "}
-        <b>automatiza</b>; quien sabe <b>construirlas</b> crea herramientas que usan otros.
-      </p>
+        <div className={`mt-5 rounded-2xl border p-5 ${TONO.verde.caja}`}>
+          <p className={`text-base font-bold uppercase tracking-wider ${TONO.verde.texto}`}>El hilo del proyecto 2</p>
+          <p className="mt-1 text-xl font-bold text-emerald-950 dark:text-emerald-50">
+            Cada uno se construye una herramienta útil para sí mismo, y reutilizable.
+          </p>
+          <ol className="mt-3 grid grid-cols-1 gap-3 md:grid-cols-3">
+            {[
+              "Detectas una tarea que te hace perder tiempo",
+              "La automatizas con tu propia CLI, construida con OpenCode",
+              "La reutilizas: una orden, cada vez que la necesites",
+            ].map((t, i) => (
+              <li key={t} className="flex items-start gap-3 text-lg font-semibold text-emerald-950 dark:text-emerald-100">
+                <span aria-hidden className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-base font-extrabold ${TONO.verde.disco}`}>
+                  {i + 1}
+                </span>
+                {t}
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
 
-      <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-        {[
-          ["Python 3.12", "+ Typer + uv"],
-          ["acciones.json", "tus acciones, fuera del código"],
-          ["Sistema + IA", "ficheros reales y modelos"],
-          ["3 sistemas", "Linux · Windows · macOS"],
-          ["OpenCode", "agente del centro · modelos locales"],
-        ].map(([a, b]) => (
-          <div key={a} className="rounded-2xl border border-zinc-200 dark:border-white/10 bg-zinc-50 dark:bg-white/5 p-4">
-            <div className="text-[16px] font-extrabold text-zinc-800 dark:text-zinc-100">{a}</div>
-            <div className="mt-0.5 text-[13px] text-zinc-600 dark:text-zinc-400">{b}</div>
-          </div>
-        ))}
-      </div>
+      <Bloque titulo="En esta página">
+        <nav aria-label="En esta página">
+          <ol className="grid grid-cols-1 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+            {INDICE.map(([id, t], i) => (
+              <li key={id}>
+                <a
+                  href={`#${id}`}
+                  className="flex h-full items-center gap-3 rounded-xl border border-zinc-200 bg-white px-3 py-2.5 text-base font-semibold text-zinc-800 transition hover:border-blue-300 dark:border-white/10 dark:bg-slate-900 dark:text-zinc-200 dark:hover:border-blue-500/50"
+                >
+                  <span aria-hidden className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-base font-extrabold ${TONO.azul.disco}`}>
+                    {i + 1}
+                  </span>
+                  {t}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+      </Bloque>
 
-      <nav aria-label="En esta página" className="mt-6 flex flex-wrap gap-2">
-        {INDICE.map(([id, t], i) => (
-          <a
-            key={id}
-            href={`#${id}`}
-            className="rounded-full border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 px-3 py-1 text-[13px] font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-blue-300 hover:text-blue-700 dark:hover:border-blue-500/50 dark:hover:text-blue-300"
-          >
-            {i + 1}. {t}
-          </a>
-        ))}
-      </nav>
+      {/* 1 · Lo que te hace perder tiempo */}
+      <Bloque
+        id="perder-tiempo"
+        titulo="Tareas que te hacen perder tiempo"
+        entradilla={
+          <>
+            Tus acciones tienen que resolver <b>un problema tuyo</b>: mira tu carpeta de descargas y piensa qué te gustaría
+            no volver a hacer a mano. Estas son ideas, de menos a más difícil; empieza por arriba. Las de IA llegan en la
+            semana 3.
+          </>
+        }
+      >
+        <ol className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
+          {IDEAS.map(([n, t, d, tipo]) => (
+            <li key={t} className={`${cls.tarjeta} flex min-w-0 flex-col !p-4`}>
+              <span className="flex items-center gap-2">
+                <span aria-hidden className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-base font-extrabold ${TONO.azul.disco}`}>
+                  {n}
+                </span>
+                <span className="text-xl font-bold leading-tight text-zinc-900 dark:text-zinc-100">{t}</span>
+              </span>
+              <span className="mt-2 flex items-center gap-3">
+                <Chip tono={tipo === "sistema" ? "gris" : "morado"}>{tipo}</Chip>
+                <Dificultad n={n} />
+              </span>
+              <span className={`mt-2 ${cls.texto}`}>{d}</span>
+            </li>
+          ))}
+        </ol>
+      </Bloque>
+
+      <Bloque titulo="De la tarea pesada a una orden" nivel={3}>
+        <TareaAOrden />
+      </Bloque>
+
+      <Bloque titulo="Por qué importa" nivel={3}>
+        <div className="space-y-3">
+          <p className={`max-w-4xl text-lg ${cls.texto}`}>
+            Los desarrolladores viven en la terminal. Git, los gestores de paquetes, los servidores, la integración continua
+            y los propios agentes de IA son CLI. Quien sabe usarlas <b>automatiza</b>; quien sabe <b>construirlas</b> crea
+            herramientas que usan otros.
+          </p>
+          <p className={`max-w-4xl text-lg ${cls.texto}`}>
+            Y la construyes de otra manera: desde este proyecto trabajas de forma <b>agéntica</b> con <b>OpenCode</b>, un
+            agente de programación open source conectado a los <b>modelos de IA locales del centro</b>. Tú decides qué se
+            hace y apruebas cada cambio; el agente lee tu repo, propone y edita. El chat queda para consultas.
+          </p>
+        </div>
+        <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+          {[
+            ["Python 3.12", "+ Typer + uv"],
+            ["acciones.json", "tus acciones, fuera del código"],
+            ["Sistema + IA", "ficheros reales y modelos"],
+            ["3 sistemas", "Linux · Windows · macOS"],
+            ["OpenCode", "agente del centro · modelos locales"],
+          ].map(([a, b]) => (
+            <div key={a} className={`${cls.suave} !p-4`}>
+              <p className="text-lg font-extrabold text-zinc-900 dark:text-zinc-100">{a}</p>
+              <p className={cls.tenue}>{b}</p>
+            </div>
+          ))}
+        </div>
+      </Bloque>
 
       {/* 2 · Qué es una CLI */}
-      <h2 id="que-es" className={h2}>Qué es una CLI</h2>
-      <p className={lead}>
-        <b>CLI</b> (<i>Command Line Interface</i>, interfaz de línea de órdenes) es un programa que
-        se controla escribiendo texto: tecleas una orden, pulsas Intro, el programa hace su trabajo,
-        escribe un resultado y termina. Sin ventanas, sin botones. Lo contrario es una <b>GUI</b>{" "}
-        (<i>Graphical User Interface</i>): ventanas, menús y ratón.
-      </p>
-      <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2">
-        {GUI_CLI.map(([t, tono, items]) => (
-          <div key={t} className={card}>
-            <h3
-              className={`text-[16px] font-bold ${tono === "blue" ? "text-blue-700 dark:text-blue-300" : "text-emerald-700 dark:text-emerald-300"}`}
-            >
-              {t}
-            </h3>
-            <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-zinc-600 dark:text-zinc-400">
-              {items.map((x) => (
-                <li key={x}>{x}</li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
+      <Bloque
+        id="que-es"
+        titulo="Qué es una CLI"
+        entradilla={
+          <>
+            <b>CLI</b> (<i>Command Line Interface</i>, interfaz de línea de órdenes) es un programa que se controla
+            escribiendo texto: tecleas una orden, pulsas Intro, el programa hace su trabajo, escribe un resultado y termina.
+            Sin ventanas, sin botones. Lo contrario es una <b>GUI</b> (<i>Graphical User Interface</i>): ventanas, menús y
+            ratón.
+          </>
+        }
+      >
+        <DosColumnas
+          a={{
+            antetitulo: "ventanas y ratón",
+            titulo: "Gana la GUI",
+            tono: "verde",
+            puntos: [
+              "Explorar algo que no conoces: ves las opciones en pantalla.",
+              "Tareas visuales: retocar una foto, maquetar, editar vídeo a mano.",
+              "Usuarios que no quieren aprender órdenes.",
+            ],
+          }}
+          b={{
+            antetitulo: "texto y teclado",
+            titulo: "Gana la CLI",
+            tono: "azul",
+            puntos: [
+              "Automatizar y repetir: la misma orden hoy, mañana y 300 veces.",
+              "Encadenar herramientas con tuberías (|): la salida de una es la entrada de otra.",
+              "Servidores sin pantalla: el 90 % de Internet se administra por SSH.",
+              "Scripts, tareas programadas (cron) e integración continua (CI): nadie hace clic ahí.",
+              "Dejar rastro: una orden se copia, se documenta y se repite exacta.",
+            ],
+          }}
+        />
+      </Bloque>
 
-      <h3 className="mt-8 text-lg font-bold">Terminal, shell y CLI: no es lo mismo</h3>
-      <div className="mt-3 grid grid-cols-1 gap-4 md:grid-cols-3">
-        <div className={card}>
-          <div className="text-xs font-extrabold uppercase tracking-wider text-zinc-400">La ventana</div>
-          <h4 className="mt-1 font-bold">Terminal</h4>
-          <p className={`mt-1 ${muted}`}>
-            La aplicación que muestra texto y recoge lo que tecleas: Terminal de Linux o macOS,
-            Windows Terminal, la terminal integrada de VS Code.
-          </p>
+      <Bloque titulo="Terminal, shell y CLI: no es lo mismo" nivel={3}>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          <Tarjeta titulo="Terminal" nivel={4} antetitulo="La ventana">
+            <p>La aplicación que muestra texto y recoge lo que tecleas: Terminal de Linux o macOS, Windows Terminal, la terminal integrada de VS Code.</p>
+          </Tarjeta>
+          <Tarjeta titulo="Shell" nivel={4} antetitulo="El intérprete">
+            <p>
+              El programa que lee tu orden y la lanza: <b>bash</b> (Linux), <b>zsh</b> (macOS), <b>PowerShell</b> (Windows).
+              Cada una tiene su sintaxis: por eso hay órdenes que cambian de un sistema a otro.
+            </p>
+          </Tarjeta>
+          <Tarjeta titulo="CLI" nivel={4} antetitulo="El programa">
+            <p>
+              La herramienta que la shell ejecuta: <C>git</C>, <C>curl</C>, <C>uv</C>… y, dentro de dos semanas,{" "}
+              <C>tareas</C>. Funciona igual desde cualquier shell.
+            </p>
+          </Tarjeta>
         </div>
-        <div className={card}>
-          <div className="text-xs font-extrabold uppercase tracking-wider text-zinc-400">El intérprete</div>
-          <h4 className="mt-1 font-bold">Shell</h4>
-          <p className={`mt-1 ${muted}`}>
-            El programa que lee tu orden y la lanza: <b>bash</b> (Linux), <b>zsh</b> (macOS),{" "}
-            <b>PowerShell</b> (Windows). Cada una tiene su sintaxis: por eso hay órdenes que cambian
-            de un sistema a otro.
-          </p>
-        </div>
-        <div className={card}>
-          <div className="text-xs font-extrabold uppercase tracking-wider text-zinc-400">El programa</div>
-          <h4 className="mt-1 font-bold">CLI</h4>
-          <p className={`mt-1 ${muted}`}>
-            La herramienta que la shell ejecuta: <C>git</C>, <C>curl</C>, <C>uv</C>… y, dentro de
-            dos semanas, <C>tareas</C>. Funciona igual desde cualquier shell.
-          </p>
-        </div>
-      </div>
-      <p className={`mt-3 ${muted}`}>
-        Resumen: abres una <b>terminal</b>, dentro corre una <b>shell</b>, y en ella escribes órdenes
-        que lanzan <b>CLI</b>.
-      </p>
+      </Bloque>
+
+      <Bloque titulo="Una dentro de otra" nivel={3}>
+        <CapasTerminal />
+      </Bloque>
 
       {/* 3 · Anatomía */}
-      <h2 id="anatomia" className={h2}>Anatomía de una orden</h2>
-      <p className={lead}>
-        Esta es una orden real de tu futura herramienta. Separada en piezas se entiende todo lo
-        demás:
-      </p>
-      <DiagramaOrden />
-      <p className={`mt-6 ${lead}`}>Y estas son las otras piezas que tiene cualquier CLI seria (y tendrá la tuya):</p>
-      <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
-        {PIEZAS.map(([t, d, ej, k]) => (
-          <div key={t} className={`${card} flex flex-col`}>
-            <h3 className="text-[16px] font-bold">{t}</h3>
-            <p className={`mt-1 mb-3 flex-1 ${muted}`}>{d}</p>
-            <Codigo code={ej} kind={k} />
+      <Bloque
+        id="anatomia"
+        titulo="Anatomía de una orden"
+        entradilla="Esta es una orden real de tu futura herramienta. Separada en piezas se entiende todo lo demás:"
+      >
+        <AnatomiaOrden />
+      </Bloque>
+
+      {GRUPOS_PIEZAS.map(([titulo, i], k) => (
+        <Bloque
+          key={titulo}
+          titulo={titulo}
+          nivel={3}
+          entradilla={k === 0 ? "Y estas son las otras piezas que tiene cualquier CLI seria (y tendrá la tuya):" : undefined}
+        >
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+            {PIEZAS.slice(i, i + 2).map(([t, d, ej]) => (
+              <Tarjeta key={t} titulo={t} nivel={4} className="flex flex-col">
+                <p className="mb-3">{d}</p>
+                <Codigo code={ej} />
+              </Tarjeta>
+            ))}
           </div>
-        ))}
-      </div>
+        </Bloque>
+      ))}
 
       {/* 4 · Las CLI que usa el mundo */}
-      <h2 id="mundo" className={h2}>Las CLI que usa el mundo</h2>
-      <p className={lead}>
-        Muchas de las herramientas más potentes de la informática no tienen ventanas. Algunas que
-        verás (o usarás) este curso:
-      </p>
-      <div className="mt-5 space-y-6">
-        {HERRAMIENTAS.map((g) => (
-          <div key={g.cat}>
-            <h3 className="text-xs font-extrabold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">{g.cat}</h3>
-            <div className="mt-2 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {g.items.map(([n, d, ej]) => (
-                <div
-                  key={n}
-                  className={`flex flex-col rounded-2xl border p-4 shadow-sm ${
-                    n === "OpenCode"
-                      ? "border-blue-300 dark:border-blue-500/50 bg-blue-50/60 dark:bg-blue-500/10 ring-1 ring-blue-300 dark:ring-blue-500/40"
-                      : "border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900"
-                  }`}
-                >
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="font-mono text-[15px] font-bold text-zinc-800 dark:text-zinc-100">{n}</span>
-                    {n === "OpenCode" && (
-                      <span className="rounded-full bg-blue-600 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
-                        La que usarás
-                      </span>
-                    )}
-                  </div>
-                  <p className="mt-1 flex-1 text-[13px] text-zinc-600 dark:text-zinc-400">{d}</p>
-                  <div className="mt-3 overflow-x-auto rounded-lg bg-zinc-900 px-3 py-2 font-mono text-[12px] whitespace-nowrap text-emerald-300">
-                    <span className="select-none text-zinc-500">$ </span>
-                    {ej}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-      <Nota>
-        <b>Truco para la vida:</b> antes de buscar en Google cómo se usa una orden, prueba{" "}
-        <C>orden --help</C>, <C>tldr orden</C> o <C>man orden</C>. Y si tu herramienta no se explica
-        así de bien, aún no está terminada.
-      </Nota>
+      <Bloque
+        id="mundo"
+        titulo="Las CLI que usa el mundo"
+        entradilla="Muchas de las herramientas más potentes de la informática no tienen ventanas. Algunas que verás (o usarás) este curso:"
+      >
+        <Herramientas grupos={HERRAMIENTAS.slice(0, 1)} />
+      </Bloque>
 
-      <h3 className="mt-10 text-lg font-bold">Ideas de acciones para tu herramienta</h3>
-      <p className={lead}>
-        De menos a más difícil. Empieza por arriba; las de IA llegan en la semana 3. Tus acciones
-        tienen que resolver <b>un problema tuyo</b>: mira tu carpeta de descargas y piensa qué te
-        gustaría no volver a hacer a mano.
-      </p>
-      <ol className="mt-4 space-y-3">
-        {IDEAS.map(([n, t, d, tipo]) => (
-          <li key={n} className="flex gap-4 rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-4 shadow-sm">
-            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-blue-600 font-extrabold text-white">
-              {n}
-            </span>
-            <div className="min-w-0 flex-1">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="font-bold">{t}</span>
-                <span
-                  className={`rounded-full px-2 py-0.5 text-[11px] font-bold uppercase tracking-wider ${
-                    tipo === "sistema"
-                      ? "bg-zinc-100 dark:bg-white/10 text-zinc-600 dark:text-zinc-300"
-                      : "bg-violet-100 dark:bg-violet-500/15 text-violet-700 dark:text-violet-300"
-                  }`}
-                >
-                  {tipo}
-                </span>
-                <span className="text-[12px] tracking-widest text-amber-500" aria-label={`Dificultad ${n} de 6`}>
-                  {"●".repeat(Number(n))}
-                  <span className="text-zinc-300 dark:text-zinc-600">{"●".repeat(6 - Number(n))}</span>
-                </span>
-              </div>
-              <p className={`mt-1 ${muted}`}>{d}</p>
-            </div>
-          </li>
-        ))}
-      </ol>
+      <Bloque titulo="Red, descargas y multimedia" nivel={3}>
+        <Herramientas grupos={HERRAMIENTAS.slice(1, 3)} />
+      </Bloque>
+
+      <Bloque titulo="Búsqueda y entornos" nivel={3}>
+        <Herramientas grupos={HERRAMIENTAS.slice(3, 5)} />
+      </Bloque>
+
+      <Bloque titulo="Ayuda e IA" nivel={3}>
+        <Herramientas grupos={HERRAMIENTAS.slice(5)} categoria={false} />
+      </Bloque>
+
+      <Bloque titulo="Encadenar herramientas" nivel={3}>
+        <Tuberia />
+      </Bloque>
+
+      <Aviso titulo="Truco para la vida" tono="azul">
+        <p>
+          Antes de buscar en Google cómo se usa una orden, prueba <C>orden --help</C>, <C>tldr orden</C> o <C>man orden</C>.
+          Y si tu herramienta no se explica así de bien, aún no está terminada.
+        </p>
+      </Aviso>
 
       {/* 5 · Ciclo */}
-      <h2 id="ciclo" className={h2}>Cómo se desarrolla una CLI de verdad</h2>
-      <p className={lead}>
-        Las herramientas profesionales no salen de un prompt gigante. Salen de este ciclo, paso a
-        paso, con un commit al acabar cada uno. Es el que seguirás:
-      </p>
-      <ol className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        {CICLO.map(([t, d, ej], i) => (
-          <li key={t} className={`${card} relative flex flex-col`}>
-            <span className="text-3xl font-extrabold text-blue-600/25 dark:text-blue-400/30">{String(i + 1).padStart(2, "0")}</span>
-            <h3 className="mt-1 text-[16px] font-bold">{t}</h3>
-            <p className={`mt-1 flex-1 ${muted}`}>{d}</p>
-            <span className="mt-3 w-fit rounded-md bg-zinc-100 dark:bg-white/10 px-2 py-0.5 font-mono text-[12px] text-zinc-700 dark:text-zinc-300">
-              {ej}
-            </span>
-          </li>
-        ))}
-        <li className="flex flex-col justify-center rounded-2xl border border-dashed border-blue-300 dark:border-blue-500/40 p-5 text-sm text-blue-900 dark:text-blue-200">
-          <b>Y vuelta a empezar.</b> Cada acción nueva repasa el ciclo en pequeño: spec → interfaz →
-          motor → casos feos → prueba → commit.
-        </li>
-      </ol>
-      <Nota tono="amber">
-        <b>El método del curso:</b> tú <b>escribes</b> la spec y el <C>acciones.json</C> (decides
-        qué hace), el agente (<b>OpenCode</b>) <b>implementa</b> con tu permiso, y tú{" "}
-        <b>auditas</b>: lees el código, pruebas casos feos y haces commits pequeños con mensajes que
-        cuentan el proceso. Guarda tus prompts clave en <C>docs/prompts.md</C>.{" "}
-        <i>Lo que no sabes explicar, no lo entregas.</i>
-      </Nota>
-
-      {/* 5b · Con un agente */}
-      <h2 id="agente" className={h2}>Cómo vas a trabajar: con un agente</h2>
-      <p className={lead}>
-        Hasta ahora le pedías código a un chat y lo copiabas. Desde este proyecto, el código lo
-        escribe un <b>agente</b> dentro de tu repo, y tú diriges. Se usará <b>todo el curso</b>, en
-        presencial y en semipresencial; este proyecto es la introducción.
-      </p>
-      <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2">
-        <div className={card}>
-          <div className="text-xs font-extrabold uppercase tracking-wider text-zinc-400">Para consultas</div>
-          <h3 className="mt-1 text-[16px] font-bold">Chat</h3>
-          <p className={`mt-1 ${muted}`}>
-            Preguntas, responde con texto y tú copias. No ve tu repo ni ejecuta nada: si se
-            equivoca, no se entera. Sigue valiendo para dudas y explicaciones.
-          </p>
-        </div>
-        <div className={`${card} ring-2 ring-blue-300 dark:ring-blue-500/40`}>
-          <div className="text-xs font-extrabold uppercase tracking-wider text-blue-600 dark:text-blue-400">Para construir</div>
-          <h3 className="mt-1 text-[16px] font-bold">Agente (OpenCode)</h3>
-          <p className={`mt-1 ${muted}`}>
-            Lee tus ficheros, propone un plan, edita y lanza órdenes —<b>cada cambio te lo pide
-            primero</b>— y comprueba el resultado. Más potencia, más responsabilidad: tú apruebas y
-            tú auditas.
-          </p>
-        </div>
-      </div>
-
-      <h3 className="mt-8 text-lg font-bold">El flujo de cada sesión (siempre el mismo)</h3>
-      <ol className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {(
-          [
-            ["Tú decides", "Escribes la intención: la spec, tu acciones.json o el criterio de aceptación de la tarea."],
-            ["Plan", "Agente plan (Tab): «explícame cómo lo harías y qué ficheros tocarías». Lees el plan y lo corriges."],
-            ["Build aprobando diffs", "Agente build (Tab): «hazlo». Lees cada diff y cada orden antes de aceptarla."],
-            ["Auditas", "Lees el código y pruebas con --simular en ~/pruebas-tareas, con casos feos. ¿Mal? /undo o le explicas el fallo."],
-            ["Commit tuyo", "git add + git commit los haces tú, pequeños y con un mensaje que cuente el paso. El prompt clave, a docs/prompts.md."],
-            ["Sesión nueva", "/new para cada tarea y /compact si la conversación se alarga: contexto limpio, menos errores."],
-          ] as const
-        ).map(([t, d], i) => (
-          <li key={t} className={`${card} flex gap-3`}>
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-600 text-sm font-extrabold text-white">
-              {i + 1}
-            </span>
-            <div className="min-w-0">
-              <div className="font-bold">{t}</div>
-              <p className={`mt-0.5 ${muted}`}>{d}</p>
-            </div>
-          </li>
-        ))}
-      </ol>
-
-      <h3 className="mt-8 text-lg font-bold">Qué configuras en tu repo</h3>
-      <p className={`mt-1 max-w-3xl ${muted}`}>
-        La conexión con los modelos del centro va en tu configuración <b>global</b> (con variables
-        de entorno: la clave nunca acaba en un fichero que subas a git). En el repo van las reglas
-        del juego para el agente:
-      </p>
-      <div className="mt-3 overflow-x-auto rounded-2xl border border-zinc-200 dark:border-white/10">
-        <table className="w-full min-w-[560px] border-collapse text-sm">
-          <thead>
-            <tr className="bg-zinc-100 dark:bg-white/10">
-              <th className={`${th} w-[40%]`}>Fichero</th>
-              <th className={`${th} w-[12%]`}>Cuándo</th>
-              <th className={th}>Para qué</th>
-            </tr>
-          </thead>
-          <tbody>
-            {(
-              [
-                ["opencode.json", "Semana 1", "Permisos: qué puede hacer solo (leer, git status), qué te pregunta (editar, casi todas las órdenes) y qué nunca (git push, rm, leer .env)."],
-                ["AGENTS.md", "Semana 1", "Lo genera /init y lo editas tú: stack, órdenes del proyecto y normas (pathlib, utf-8, nada de commits ni push)."],
-                [".opencode/skills/acciones-json/SKILL.md", "Semana 2", "Skill: las reglas de tu acciones.json, que el agente carga cuando toca acciones."],
-                [".opencode/commands/nueva-accion.md", "Semana 2", "Comando /nueva-accion: añadir una acción siempre con los mismos pasos."],
-                [".opencode/agents/revisor.md", "Semana 2", "Subagente revisor de solo lectura: @revisor busca errores y casos feos antes de cada commit."],
-              ] as const
-            ).map(([f, w, d]) => (
-              <tr key={f} className={tr}>
-                <td className="px-3.5 py-2.5 align-top font-mono text-[13px] font-semibold text-zinc-800 dark:text-zinc-200">{f}</td>
-                <td className={`${td} whitespace-nowrap`}>{w}</td>
-                <td className={td}>{d}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <p className={`mt-2 text-[13px] text-zinc-500 dark:text-zinc-400`}>
-        En clase usamos <b>OpenCode 1.18.35</b> (claves en singular: <C>permission</C>,{" "}
-        <C>agent</C>…). Si un tutorial habla de <C>permissions</C> o <C>agents</C> en plural, es
-        OpenCode 2 y su configuración no es compatible.
-      </p>
-
-      <Nota tono="emerald">
-        <b>El gancho:</b> la herramienta con la que vas a programar tu CLI es… <b>una CLI</b>.
-        OpenCode tiene ayuda, opciones, subcomandos, fichero de configuración y códigos de salida:
-        todo lo que estás a punto de construir. Úsala con ojo de quien la va a imitar.
-      </Nota>
-
-      <Link
-        href="/programacion-ia/opencode/"
-        className="mt-5 flex flex-col gap-1 rounded-2xl border border-blue-300 dark:border-blue-500/50 bg-blue-600 p-5 text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-lg sm:flex-row sm:items-center sm:justify-between"
+      <Bloque
+        id="ciclo"
+        titulo="Cómo se desarrolla una CLI de verdad"
+        entradilla="Las herramientas profesionales no salen de un prompt gigante. Salen de este ciclo, paso a paso, con un commit al acabar cada uno. Es el que seguirás:"
       >
-        <span>
-          <span className="block text-[11px] font-extrabold uppercase tracking-wider text-blue-100">Guía</span>
-          <span className="block text-lg font-extrabold">OpenCode con los modelos del centro →</span>
-        </span>
-        <span className="text-sm text-blue-100 sm:max-w-sm">
-          Instalación (Linux, Windows y macOS), conexión, permisos, atajos y el flujo completo paso a paso.
-        </span>
-      </Link>
+        <CicloDesarrollo />
+      </Bloque>
 
-      {/* 6 · Tecnologías */}
-      <h2 id="tecnologias" className={h2}>Tecnologías para hacer una CLI</h2>
-      <p className={lead}>Casi cualquier lenguaje sirve. Cada uno paga un precio distinto:</p>
-      <div className="mt-4 overflow-x-auto rounded-2xl border border-zinc-200 dark:border-white/10">
-        <table className="w-full min-w-[760px] border-collapse text-sm">
-          <thead>
-            <tr className="bg-zinc-100 dark:bg-white/10">
-              <th className={`${th} w-[19%]`}>Opción</th>
-              <th className={th}>A favor</th>
-              <th className={th}>En contra</th>
-              <th className={`${th} w-[19%]`}>CLI famosas hechas así</th>
-            </tr>
-          </thead>
-          <tbody>
-            {TECNOLOGIAS.map(([o, pro, contra, fam], i) => (
-              <tr key={o} className={`${tr} ${i === 0 ? "bg-blue-50/60 dark:bg-blue-500/10" : ""}`}>
-                <td className="px-3.5 py-2.5 align-top font-bold text-zinc-800 dark:text-zinc-200">
-                  {o}
-                  {i === 0 && (
-                    <span className="mt-1 block w-fit rounded-full bg-blue-600 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
-                      La del curso
-                    </span>
-                  )}
-                </td>
-                <td className={td}>{pro}</td>
-                <td className={td}>{contra}</td>
-                <td className={`${td} italic`}>{fam}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      <h3 className="mt-8 text-lg font-bold">Por qué Python 3 + Typer + uv</h3>
-      <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {POR_QUE.map(([t, d]) => (
-          <div key={t} className="rounded-2xl border border-zinc-200 dark:border-white/10 bg-zinc-50 dark:bg-white/5 p-4">
-            <div className="font-bold text-zinc-800 dark:text-zinc-100">{t}</div>
-            <p className="mt-1 text-[13px] text-zinc-600 dark:text-zinc-400">{d}</p>
-          </div>
-        ))}
-      </div>
-      <p className={`mt-6 ${lead}`}>
-        Un «hola mundo» con Typer. Fíjate: no escribes nada sobre la ayuda ni sobre cómo leer los
-        argumentos. Typer lo deduce de <C>nombre: str</C>, <C>veces: int = 1</C> y{" "}
-        <C>gritar: bool = False</C>.
-      </p>
-      <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <div className="min-w-0">
-          <Codigo code={HOLA_PY} kind="py" lang="hola.py" />
-        </div>
-        <div className="min-w-0 space-y-4">
-          <Codigo
-            code={`uv run --with typer hola.py Ana --veces 2 --gritar\n# HOLA, ANA\n# HOLA, ANA\nuv run --with typer hola.py --help`}
-            kind="sh"
-          />
-          <Codigo code={HOLA_HELP} kind="txt" lang="Salida de --help" />
-        </div>
-      </div>
-      <p className={`mt-3 ${muted}`}>
-        Argumento obligatorio, opciones con valor por defecto, un flag con su contrario y
-        autocompletado para tu shell. Gratis.
-      </p>
-
-      {/* 7 · Multiplataforma */}
-      <h2 id="multiplataforma" className={h2}>Multiplataforma: Linux primero, pero en todas partes</h2>
-      <p className={lead}>
-        En el aula trabajas en <b>Linux</b>. Pero tu herramienta la instalará gente con{" "}
-        <b>Windows</b> y <b>macOS</b> (y si eres de semipresencial, tu propio equipo puede ser
-        cualquiera de los tres). Python lo pone fácil si respetas seis reglas:
-      </p>
-      <div className="mt-5 grid grid-cols-1 gap-4 lg:grid-cols-2">
-        {REGLAS.map((r) => (
-          <div key={r.regla} className={card}>
-            <h3 className="text-[16px] font-bold">{r.regla}</h3>
-            <div className="mt-3 space-y-2 font-mono text-[12.5px]">
-              <div className="flex gap-2 overflow-x-auto rounded-lg border border-rose-200 dark:border-rose-500/30 bg-rose-50 dark:bg-rose-500/10 px-3 py-2">
-                <span className="shrink-0 font-sans text-[11px] font-extrabold text-rose-700 dark:text-rose-300">MAL</span>
-                <span className="whitespace-pre text-rose-900 dark:text-rose-200">{r.mal}</span>
-              </div>
-              <div className="flex gap-2 overflow-x-auto rounded-lg border border-emerald-200 dark:border-emerald-500/30 bg-emerald-50 dark:bg-emerald-500/10 px-3 py-2">
-                <span className="shrink-0 font-sans text-[11px] font-extrabold text-emerald-700 dark:text-emerald-300">BIEN</span>
-                <span className="whitespace-pre text-emerald-900 dark:text-emerald-200">{r.bien}</span>
-              </div>
-            </div>
-            <p className={`mt-3 ${muted}`}>{r.por}</p>
-          </div>
-        ))}
-      </div>
-      <p className={`mt-4 ${muted}`}>
-        Y en la semana 4, GitHub Actions ejecutará tus pruebas en Ubuntu, Windows y macOS a la vez
-        en cada <C>git push</C>: si algo solo funciona en tu equipo, te enterarás.
-      </p>
-
-      <h3 className="mt-8 text-lg font-bold">Equivalencias bash ↔ PowerShell</h3>
-      <p className={`mt-1 ${muted}`}>
-        PowerShell tiene alias con los nombres de Linux (<C>ls</C>, <C>cp</C>, <C>mv</C>…), pero
-        las opciones no siempre coinciden. Entre paréntesis, el nombre «de verdad» del cmdlet.
-      </p>
-      <div className="mt-3 overflow-x-auto rounded-2xl border border-zinc-200 dark:border-white/10">
-        <table className="w-full min-w-[620px] border-collapse text-sm">
-          <thead>
-            <tr className="bg-zinc-100 dark:bg-white/10">
-              <th className={`${th} w-[24%]`}>Quiero…</th>
-              <th className={th}>bash / zsh (Linux, macOS)</th>
-              <th className={th}>PowerShell (Windows)</th>
-            </tr>
-          </thead>
-          <tbody>
-            {EQUIV.map(([q, b, p]) => (
-              <tr key={q} className={tr}>
-                <td className="px-3.5 py-2 align-top font-semibold text-zinc-800 dark:text-zinc-200">{q}</td>
-                <td className="px-3.5 py-2 align-top font-mono text-[13px] text-zinc-700 dark:text-zinc-300">{b}</td>
-                <td className="px-3.5 py-2 align-top font-mono text-[13px] text-zinc-700 dark:text-zinc-300">{p}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      {/* 8 · Instalar */}
-      <h2 id="instalar" className={h2}>Instalarla para que sea útil</h2>
-      <p className={lead}>
-        Un script que solo funciona con <C>python src/tareas/cli.py</C> desde su carpeta es un
-        ejercicio. Una herramienta se teclea por su nombre desde <b>cualquier carpeta</b>. ¿Cómo lo
-        consigue <C>git</C>?
-      </p>
-      <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2">
-        <div className={card}>
-          <h3 className="text-[16px] font-bold">El PATH</h3>
-          <p className={`mt-1 ${muted}`}>
-            Cuando escribes <C>tareas</C>, la shell busca un ejecutable con ese nombre en una lista
-            de carpetas: la variable de entorno <b>PATH</b>. Un comando está «instalado» cuando hay
-            un ejecutable suyo en alguna de ellas.
-          </p>
-          <div className="mt-3">
-            <Codigo code={`echo $PATH        # bash/zsh\n$env:Path          # PowerShell\nwhich tareas       # ¿cuál se ejecuta? (Get-Command en Windows)`} />
-          </div>
-        </div>
-        <div className={card}>
-          <h3 className="text-[16px] font-bold">El entry point</h3>
-          <p className={`mt-1 ${muted}`}>
-            En <C>pyproject.toml</C> declaras qué función se ejecuta al teclear el comando. Al
-            instalar, uv crea el ejecutable <C>tareas</C> en una carpeta del PATH (
-            <C>~/.local/bin</C> en Linux y macOS).
-          </p>
-          <div className="mt-3">
-            <Codigo code={`[project.scripts]\ntareas = "tareas.cli:app"   # comando = "módulo:objeto"`} kind="toml" lang="pyproject.toml" />
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-3">
-        <div className={`${card} flex flex-col`}>
-          <span className="w-fit rounded-full bg-blue-50 dark:bg-blue-500/10 px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider text-blue-700 dark:text-blue-300">
-            Mientras desarrollas
-          </span>
-          <p className={`mt-2 mb-3 flex-1 ${muted}`}>
-            Modo editable: cada cambio que guardas se nota al momento, sin reinstalar.
-          </p>
-          <Codigo code={`cd cli-tareas\nuv tool install --editable .\ntareas --help`} />
-        </div>
-        <div className={`${card} flex flex-col`}>
-          <span className="w-fit rounded-full bg-emerald-50 dark:bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-300">
-            Para otra persona
-          </span>
-          <p className={`mt-2 mb-3 flex-1 ${muted}`}>
-            Directamente desde tu repo público de GitHub. Con uv o, si no lo tiene, con pipx.
-          </p>
-          <Codigo
-            code={`uv tool install git+https://github.com/TU-USUARIO/cli-tareas\n# o bien\npipx install git+https://github.com/TU-USUARIO/cli-tareas`}
-          />
-        </div>
-        <div className={`${card} flex flex-col`}>
-          <span className="w-fit rounded-full bg-rose-50 dark:bg-rose-500/10 px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider text-rose-700 dark:text-rose-300">
-            Desinstalar
-          </span>
-          <p className={`mt-2 mb-3 flex-1 ${muted}`}>
-            Una buena herramienta se va igual de limpia que llegó. Su configuración de usuario (si
-            la hay) se borra aparte.
-          </p>
-          <Codigo code={`uv tool uninstall tareas\nuv tool list        # comprobar que ya no está`} />
-        </div>
-      </div>
-
-      <div className="mt-4 overflow-x-auto rounded-2xl border border-zinc-200 dark:border-white/10">
-        <table className="w-full min-w-[560px] border-collapse text-sm">
-          <thead>
-            <tr className="bg-zinc-100 dark:bg-white/10">
-              <th className={`${th} w-[30%]`}>Dónde vive cada cosa</th>
-              <th className={th}>Linux / macOS</th>
-              <th className={th}>Windows</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr className={tr}>
-              <td className="px-3.5 py-2 font-semibold">El comando instalado</td>
-              <td className="px-3.5 py-2 font-mono text-[13px]">~/.local/bin/tareas</td>
-              <td className="px-3.5 py-2 font-mono text-[13px]">%USERPROFILE%\.local\bin\tareas.exe</td>
-            </tr>
-            <tr className={tr}>
-              <td className="px-3.5 py-2 font-semibold">acciones.json (por defecto)</td>
-              <td className="px-3.5 py-2 font-mono text-[13px]" colSpan={2}>
-                ./acciones.json, en la carpeta donde lanzas la orden, o la que indiques con --config
-              </td>
-            </tr>
-            <tr className={tr}>
-              <td className="px-3.5 py-2 font-semibold">Config de usuario (avance)</td>
-              <td className="px-3.5 py-2 font-mono text-[13px]">~/.config/tareas/</td>
-              <td className="px-3.5 py-2 font-mono text-[13px]">%APPDATA%\tareas\</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <p className={`mt-2 text-[13px] text-zinc-500 dark:text-zinc-400`}>
-        La ruta de config de usuario no se escribe a mano: la librería <C>platformdirs</C> devuelve
-        la correcta en cada sistema.
-      </p>
-
-      <Nota tono="emerald">
-        <b>Cómo comprobar que funciona en otro sistema</b>
-        <ol className="mt-2 list-decimal space-y-1 pl-5 text-[14px]">
-          <li>Pide a un compañero (mejor con otro sistema operativo) que siga <b>solo tu README</b>, sin ayuda tuya.</li>
-          <li>Instala con la orden de <C>uv tool install git+…</C> y prueba <C>tareas --help</C> y <C>tareas version</C> desde otra carpeta.</li>
-          <li>Crea una carpeta de pruebas con ficheros de ejemplo y lanza cada acción con <C>--simular</C> y luego de verdad.</li>
-          <li>Prueba un nombre con tildes y espacios (<C>Apuntes de Física.pdf</C>) y una ruta con <C>~</C>.</li>
-          <li>Rompe a propósito el <C>acciones.json</C>: <C>tareas validar</C> debe decir qué falla y salir con código 3.</li>
-          <li>Desinstala y comprueba que <C>tareas</C> ya no existe. Todo lo que haya fallado, al README o a un issue.</li>
+      <Bloque titulo="El ciclo, paso a paso" nivel={3}>
+        <ol className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {CICLO.map(([t, d, ej], i) => (
+            <li key={t} className={`${cls.tarjeta} flex min-w-0 flex-col !p-4`}>
+              <span aria-hidden className="text-2xl font-extrabold text-blue-700 dark:text-blue-300">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span className="text-lg font-bold text-zinc-900 dark:text-zinc-100">{t}</span>
+              <span className="mt-1 flex-1 text-base leading-snug text-zinc-700 dark:text-zinc-300">{d}</span>
+              <code className="mt-2 w-fit rounded-md bg-zinc-100 px-2 py-0.5 font-mono text-base text-zinc-800 dark:bg-white/10 dark:text-zinc-200">
+                {ej}
+              </code>
+            </li>
+          ))}
         </ol>
-      </Nota>
+      </Bloque>
 
-      {/* 9 · El proyecto */}
-      <h2 id="proyecto" className={h2}>El proyecto: qué tiene que hacer tu CLI</h2>
-      <p className={lead}>
-        El comando de ejemplo se llama <C>tareas</C> y el repo <C>cli-tareas</C> (público en
-        GitHub). Puedes elegir otro nombre, pero estas son las órdenes de referencia:
-      </p>
-      <div className="mt-4 overflow-x-auto rounded-2xl border border-zinc-200 dark:border-white/10">
-        <table className="w-full min-w-[560px] border-collapse text-sm">
-          <thead>
-            <tr className="bg-zinc-100 dark:bg-white/10">
-              <th className={`${th} w-[42%]`}>Orden</th>
-              <th className={th}>Qué hace</th>
-            </tr>
-          </thead>
-          <tbody>
-            {ORDENES.map(([o, d]) => (
-              <tr key={o} className={tr}>
-                <td className="px-3.5 py-2 align-top font-mono text-[13px] font-semibold text-zinc-800 dark:text-zinc-200">{o}</td>
-                <td className={`${td} py-2`}>{d}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <p className={`mt-3 ${muted}`}>
-        Códigos de salida: <b>0</b> bien · <b>1</b> fallo al ejecutar · <b>2</b> error de uso (lo
-        pone Typer) · <b>3</b> configuración inválida.
-      </p>
+      <Aviso titulo="El método del curso" tono="ambar">
+        <p>
+          Tú <b>escribes</b> la spec y el <C>acciones.json</C> (decides qué hace), el agente (<b>OpenCode</b>){" "}
+          <b>implementa</b> con tu permiso, y tú <b>auditas</b>: lees el código, pruebas casos feos y haces commits pequeños
+          con mensajes que cuentan el proceso. Guarda tus prompts clave en <C>docs/prompts.md</C>.
+        </p>
+        <p>
+          <i>Lo que no sabes explicar, no lo entregas.</i>
+        </p>
+      </Aviso>
 
-      <h3 className="mt-8 text-lg font-bold">acciones.json: el corazón del proyecto</h3>
-      <p className={`mt-1 max-w-3xl ${muted}`}>
-        Las acciones no se escriben en el código: se describen en este fichero y el motor las
-        interpreta. Este es el esquema de referencia; tú lo adaptas a tus acciones y lo documentas
-        en tu README.
-      </p>
-      <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
-        <div className="min-w-0">
-          <Codigo code={ACCIONES_JSON} kind="json" lang="acciones.json" />
+      {/* 6 · Con un agente */}
+      <Bloque
+        id="agente"
+        titulo="Cómo vas a trabajar: con un agente"
+        entradilla={
+          <>
+            Hasta ahora le pedías código a un chat y lo copiabas. Desde este proyecto, el código lo escribe un <b>agente</b>{" "}
+            dentro de tu repo, y tú diriges. Se usará <b>todo el curso</b>, en presencial y en semipresencial; este proyecto
+            es la introducción.
+          </>
+        }
+      >
+        <DosColumnas
+          a={{
+            antetitulo: "Para consultas",
+            titulo: "Chat",
+            tono: "gris",
+            puntos: [
+              "Preguntas, responde con texto y tú copias.",
+              "No ve tu repo ni ejecuta nada: si se equivoca, no se entera.",
+              "Sigue valiendo para dudas y explicaciones.",
+            ],
+          }}
+          b={{
+            antetitulo: "Para construir",
+            titulo: "Agente (OpenCode)",
+            tono: "azul",
+            puntos: [
+              "Lee tus ficheros, propone un plan, edita y lanza órdenes.",
+              "Cada cambio te lo pide primero, y comprueba el resultado.",
+              "Más potencia, más responsabilidad: tú apruebas y tú auditas.",
+            ],
+          }}
+        />
+      </Bloque>
+
+      <Bloque titulo="El flujo de cada sesión" nivel={3} entradilla="Siempre el mismo:">
+        <QuienHace />
+      </Bloque>
+
+      <Bloque titulo="Los seis pasos del flujo" nivel={3}>
+        <ol className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {FLUJO.map(([t, d], i) => (
+            <li key={t} className={`${cls.tarjeta} flex min-w-0 gap-3 !p-4`}>
+              <span aria-hidden className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-base font-extrabold ${TONO.azul.disco}`}>
+                {i + 1}
+              </span>
+              <span className="min-w-0">
+                <span className="block text-lg font-bold text-zinc-900 dark:text-zinc-100">{t}</span>
+                <span className="mt-0.5 block text-base leading-snug text-zinc-700 dark:text-zinc-300">{d}</span>
+              </span>
+            </li>
+          ))}
+        </ol>
+      </Bloque>
+
+      <Bloque
+        titulo="Qué configuras en tu repo"
+        nivel={3}
+        entradilla={
+          <>
+            La conexión con los modelos del centro va en tu configuración <b>global</b> (con variables de entorno: la clave
+            nunca acaba en un fichero que subas a git). En el repo van las reglas del juego para el agente:
+          </>
+        }
+      >
+        <ul className="grid grid-cols-1 gap-3 lg:grid-cols-2">
+          {FICHEROS_REPO.map(([f, w, d]) => (
+            <li key={f} className={`${cls.tarjeta} min-w-0 !p-4`}>
+              <span className="flex flex-wrap items-center gap-2">
+                <code className="font-mono text-base font-bold text-zinc-900 [overflow-wrap:anywhere] dark:text-zinc-50">{f}</code>
+                <Chip tono={w === "Semana 1" ? "azul" : "morado"}>{w}</Chip>
+              </span>
+              <span className={`mt-1 block ${cls.texto}`}>{d}</span>
+            </li>
+          ))}
+        </ul>
+        <p className={`mt-3 ${cls.tenue}`}>
+          Usamos la última versión estable de OpenCode 2. Cómo se instala, se conecta y se configura, en la guía.
+        </p>
+      </Bloque>
+
+      <Aviso titulo="El gancho: OpenCode es una CLI" tono="verde">
+        <p>
+          La herramienta con la que vas a programar tu CLI es… <b>una CLI</b>. OpenCode tiene ayuda, opciones,
+          subcomandos, fichero de configuración y códigos de salida: todo lo que estás a punto de construir. Úsala con ojo de
+          quien la va a imitar.
+        </p>
+        <Link
+          href="/programacion-ia/opencode/"
+          className="mt-1 inline-flex flex-wrap items-center gap-x-3 rounded-xl bg-blue-600 px-5 py-3 text-lg font-bold text-white transition hover:bg-blue-700 dark:bg-blue-500 dark:text-slate-950 dark:hover:bg-blue-400"
+        >
+          Guía: OpenCode con los modelos del centro →
+        </Link>
+      </Aviso>
+
+      {/* 7 · Tecnologías */}
+      <Bloque id="tecnologias" titulo="Tecnologías para hacer una CLI" entradilla="Casi cualquier lenguaje sirve. Cada uno paga un precio distinto:">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+          {TECNOLOGIAS.slice(0, 3).map(([o, pro, contra, fam], i) => (
+            <Tecnologia key={o} o={o} pro={pro} contra={contra} fam={fam} delCurso={i === 0} />
+          ))}
         </div>
-        <dl className="min-w-0 space-y-2">
-          {CAMPOS.map(([k, v]) => (
-            <div key={k} className="rounded-xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 px-3.5 py-2.5">
-              <dt className="font-mono text-[13px] font-bold text-blue-700 dark:text-blue-300">{k}</dt>
-              <dd className="mt-0.5 text-[13px] text-zinc-600 dark:text-zinc-400">{v}</dd>
+      </Bloque>
+
+      <Bloque titulo="Rust y scripts de shell" nivel={3}>
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+          {TECNOLOGIAS.slice(3).map(([o, pro, contra, fam]) => (
+            <Tecnologia key={o} o={o} pro={pro} contra={contra} fam={fam} />
+          ))}
+        </div>
+      </Bloque>
+
+      <Bloque titulo="Por qué Python 3 + Typer + uv" nivel={3}>
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {POR_QUE.map(([t, d]) => (
+            <Tarjeta key={t} titulo={t} nivel={4} suave>
+              <p>{d}</p>
+            </Tarjeta>
+          ))}
+        </div>
+      </Bloque>
+
+      <Bloque
+        titulo="Un hola mundo con Typer"
+        nivel={3}
+        entradilla={
+          <>
+            Fíjate: no escribes nada sobre la ayuda ni sobre cómo leer los argumentos. Typer lo deduce de{" "}
+            <C>nombre: str</C>, <C>veces: int = 1</C> y <C>gritar: bool = False</C>.
+          </>
+        }
+      >
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,620px)_minmax(0,1fr)]">
+          <Codigo code={HOLA_PY} kind="py" etiqueta="hola.py" ajustar={false} />
+          <Terminal
+            lineas={[
+              { o: "uv run --with typer hola.py Ana --veces 2 --gritar" },
+              { s: "HOLA, ANA" },
+              { s: "HOLA, ANA" },
+            ]}
+          />
+        </div>
+      </Bloque>
+
+      <Bloque titulo="Lo que Typer deduce de los tipos" nivel={3}>
+        <TyperDeduce />
+      </Bloque>
+
+      <Bloque titulo="La ayuda que genera Typer" nivel={3}>
+        <Codigo code={HOLA_HELP} kind="txt" etiqueta="Salida de: uv run --with typer hola.py --help" ajustar={false} />
+      </Bloque>
+
+      {/* 8 · Multiplataforma */}
+      <Bloque
+        id="multiplataforma"
+        titulo="Multiplataforma: Linux primero"
+        entradilla={
+          <>
+            …pero en todas partes. En el aula trabajas en <b>Linux</b>. Pero tu herramienta la instalará gente con{" "}
+            <b>Windows</b> y <b>macOS</b> (y si eres de semipresencial, tu propio equipo puede ser cualquiera de los tres).
+            Python lo pone fácil si respetas seis reglas.
+          </>
+        }
+      >
+        <TresSistemas />
+      </Bloque>
+
+      {GRUPOS_REGLAS.map(([titulo, i], k) => (
+        <Bloque key={titulo} titulo={titulo} nivel={3}>
+          <div className="space-y-4">
+            {REGLAS.slice(i, i + 2).map((r) => (
+              <ReglaSistema key={r.regla} r={r} />
+            ))}
+          </div>
+          {k === GRUPOS_REGLAS.length - 1 ? (
+            <p className={`mt-4 ${cls.texto}`}>
+              Y en la semana 4, GitHub Actions ejecutará tus pruebas en Ubuntu, Windows y macOS a la vez en cada{" "}
+              <C>git push</C>: si algo solo funciona en tu equipo, te enterarás.
+            </p>
+          ) : null}
+        </Bloque>
+      ))}
+
+      <Bloque
+        titulo="Equivalencias bash ↔ PowerShell"
+        nivel={3}
+        entradilla={
+          <>
+            PowerShell tiene alias con los nombres de Linux (<C>ls</C>, <C>cp</C>, <C>mv</C>…), pero las opciones no siempre
+            coinciden. Entre paréntesis, el nombre «de verdad» del cmdlet.
+          </>
+        }
+      >
+        <div className="overflow-x-auto rounded-2xl border border-zinc-200 dark:border-white/10">
+          <table className="w-full min-w-[720px] border-collapse">
+            <thead>
+              <tr className="bg-zinc-100 dark:bg-white/10">
+                <th className={`${th} w-[22%]`}>Quiero…</th>
+                <th className={`${th} w-[30%]`}>bash / zsh (Linux, macOS)</th>
+                <th className={th}>PowerShell (Windows)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {EQUIV.map(([q, b, p]) => (
+                <tr key={q} className="border-t border-zinc-200 dark:border-white/10">
+                  <th scope="row" className="px-4 py-1.5 text-left align-top text-base font-semibold text-zinc-800 dark:text-zinc-200">
+                    {q}
+                  </th>
+                  <td className={`${tdMono} !py-1.5`}>{b}</td>
+                  <td className={`${tdMono} !py-1.5`}>{p}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Bloque>
+
+      {/* 9 · Instalar */}
+      <Bloque
+        id="instalar"
+        titulo="Instalarla para que sea útil"
+        entradilla={
+          <>
+            Un script que solo funciona con <C>python src/tareas/cli.py</C> desde su carpeta es un ejercicio. Una
+            herramienta se teclea por su nombre desde <b>cualquier carpeta</b>. ¿Cómo lo consigue <C>git</C>?
+          </>
+        }
+      >
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <Tarjeta titulo="El PATH" nivel={4} className="flex flex-col">
+            <p className="mb-3">
+              Cuando escribes <C>tareas</C>, la shell busca un ejecutable con ese nombre en una lista de carpetas: la variable
+              de entorno <b>PATH</b>. Un comando está «instalado» cuando hay un ejecutable suyo en alguna de ellas.
+            </p>
+            <Codigo code={`echo $PATH        # bash/zsh\n$env:Path          # PowerShell\nwhich tareas       # ¿cuál se ejecuta? (Get-Command en Windows)`} />
+          </Tarjeta>
+          <Tarjeta titulo="El entry point" nivel={4} className="flex flex-col">
+            <p className="mb-3">
+              En <C>pyproject.toml</C> declaras qué función se ejecuta al teclear el comando. Al instalar, uv crea el
+              ejecutable <C>tareas</C> en una carpeta del PATH (<C>~/.local/bin</C> en Linux y macOS).
+            </p>
+            <Codigo code={`[project.scripts]\ntareas = "tareas.cli:app"   # comando = "módulo:objeto"`} kind="toml" etiqueta="pyproject.toml" />
+          </Tarjeta>
+        </div>
+      </Bloque>
+
+      <Bloque titulo="Del nombre a tu código" nivel={3}>
+        <DelNombreAlCodigo />
+      </Bloque>
+
+      <Bloque titulo="Instalar y desinstalar" nivel={3}>
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+          <Tarjeta titulo="Mientras desarrollas" nivel={4} tono="azul" className="flex flex-col">
+            <p className="mb-3">Modo editable: cada cambio que guardas se nota al momento, sin reinstalar.</p>
+            <Codigo code={`cd cli-tareas\nuv tool install --editable .\ntareas --help`} />
+          </Tarjeta>
+          <Tarjeta titulo="Para otra persona" nivel={4} tono="verde" className="flex flex-col">
+            <p className="mb-3">Directamente desde tu repo público de GitHub. Con uv o, si no lo tiene, con pipx.</p>
+            <Codigo code={`uv tool install git+https://github.com/TU-USUARIO/cli-tareas\n# o bien\npipx install git+https://github.com/TU-USUARIO/cli-tareas`} />
+          </Tarjeta>
+          <Tarjeta titulo="Desinstalar" nivel={4} tono="rosa" className="flex flex-col">
+            <p className="mb-3">Una buena herramienta se va igual de limpia que llegó. Su configuración de usuario (si la hay) se borra aparte.</p>
+            <Codigo code={`uv tool uninstall tareas\nuv tool list        # comprobar que ya no está`} />
+          </Tarjeta>
+        </div>
+      </Bloque>
+
+      <Bloque titulo="Dónde vive cada cosa" nivel={3}>
+        <div className="overflow-x-auto rounded-2xl border border-zinc-200 dark:border-white/10">
+          <table className="w-full min-w-[720px] border-collapse">
+            <thead>
+              <tr className="bg-zinc-100 dark:bg-white/10">
+                <th className={`${th} w-[28%]`}>Qué</th>
+                <th className={th}>Linux / macOS</th>
+                <th className={th}>Windows</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-t border-zinc-200 dark:border-white/10">
+                <th scope="row" className="px-4 py-2 text-left align-top text-base font-semibold text-zinc-800 dark:text-zinc-200">
+                  El comando instalado
+                </th>
+                <td className={tdMono}>~/.local/bin/tareas</td>
+                <td className={`${tdMono} [overflow-wrap:anywhere]`}>%USERPROFILE%\.local\bin\tareas.exe</td>
+              </tr>
+              <tr className="border-t border-zinc-200 dark:border-white/10">
+                <th scope="row" className="px-4 py-2 text-left align-top text-base font-semibold text-zinc-800 dark:text-zinc-200">
+                  acciones.json (por defecto)
+                </th>
+                <td className={tdMono} colSpan={2}>
+                  ./acciones.json, en la carpeta donde lanzas la orden, o la que indiques con --config
+                </td>
+              </tr>
+              <tr className="border-t border-zinc-200 dark:border-white/10">
+                <th scope="row" className="px-4 py-2 text-left align-top text-base font-semibold text-zinc-800 dark:text-zinc-200">
+                  Config de usuario (avance)
+                </th>
+                <td className={tdMono}>~/.config/tareas/</td>
+                <td className={tdMono}>%APPDATA%\tareas\</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p className={`mt-3 ${cls.texto}`}>
+          La ruta de config de usuario no se escribe a mano: la librería <C>platformdirs</C> devuelve la correcta en cada
+          sistema.
+        </p>
+      </Bloque>
+
+      <Bloque titulo="Cómo comprobar que funciona en otro sistema" nivel={3}>
+        <ol className="grid grid-cols-1 gap-x-8 gap-y-3 lg:grid-cols-2">
+          {[
+            <>Pide a un compañero (mejor con otro sistema operativo) que siga <b>solo tu README</b>, sin ayuda tuya.</>,
+            <>Instala con la orden de <C>uv tool install git+…</C> y prueba <C>tareas --help</C> y <C>tareas version</C> desde otra carpeta.</>,
+            <>Crea una carpeta de pruebas con ficheros de ejemplo y lanza cada acción con <C>--simular</C> y luego de verdad.</>,
+            <>Prueba un nombre con tildes y espacios (<C>Apuntes de Física.pdf</C>) y una ruta con <C>~</C>.</>,
+            <>Rompe a propósito el <C>acciones.json</C>: <C>tareas validar</C> debe decir qué falla y salir con código 3.</>,
+            <>Desinstala y comprueba que <C>tareas</C> ya no existe. Todo lo que haya fallado, al README o a un issue.</>,
+          ].map((x, i) => (
+            <li key={i} className={`flex gap-3 ${cls.texto}`}>
+              <span aria-hidden className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-base font-extrabold ${TONO.verde.disco}`}>
+                {i + 1}
+              </span>
+              <span>{x}</span>
+            </li>
+          ))}
+        </ol>
+      </Bloque>
+
+      {/* 10 · El proyecto */}
+      <Bloque
+        id="proyecto"
+        titulo="El proyecto: qué tiene que hacer tu CLI"
+        entradilla={
+          <>
+            El comando de ejemplo se llama <C>tareas</C> y el repo <C>cli-tareas</C> (público en GitHub). Puedes elegir otro
+            nombre, pero estas son las órdenes de referencia:
+          </>
+        }
+      >
+        <dl className="grid grid-cols-1 gap-x-6 gap-y-2 lg:grid-cols-2">
+          {ORDENES.map(([o, d]) => (
+            <div key={o} className="border-b border-zinc-200 pb-2 dark:border-white/10">
+              <dt className="font-mono text-base font-bold text-zinc-900 dark:text-zinc-50">{o}</dt>
+              <dd className={cls.texto}>{d}</dd>
             </div>
           ))}
         </dl>
-      </div>
+        <p className={`mt-3 ${cls.texto}`}>
+          Códigos de salida: <b>0</b> bien · <b>1</b> fallo al ejecutar · <b>2</b> error de uso (lo pone Typer) · <b>3</b>{" "}
+          configuración inválida.
+        </p>
+      </Bloque>
 
-      <h3 className="mt-8 text-lg font-bold">Estructura del repositorio</h3>
-      <p className={`mt-1 max-w-3xl ${muted}`}>
-        Cada fichero tiene un único trabajo. La regla de oro: <C>cli.py</C> habla con la persona,{" "}
-        <C>motor.py</C> y <C>acciones.py</C> hacen el trabajo, <C>config.py</C> desconfía del JSON.
-      </p>
-      <div className="mt-4">
-        <Codigo code={ESTRUCTURA} kind="sh" lang="cli-tareas/" />
-      </div>
+      <Bloque
+        titulo="acciones.json: el corazón del proyecto"
+        nivel={3}
+        entradilla="Las acciones no se escriben en el código: se describen en este fichero y el motor las interpreta. Este es el esquema de referencia; tú lo adaptas a tus acciones y lo documentas en tu README."
+      >
+        <Codigo code={ACCIONES_JSON} kind="json" etiqueta="acciones.json" />
+      </Bloque>
 
-      <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
-        <div className="rounded-2xl border border-violet-200 dark:border-violet-500/30 bg-violet-50 dark:bg-violet-500/10 p-5">
-          <span className="text-[11px] font-extrabold uppercase tracking-wider text-violet-700 dark:text-violet-300">Avance · semana 3</span>
-          <h3 className="mt-1 text-[16px] font-bold text-violet-950 dark:text-violet-100">La capa de IA</h3>
-          <p className="mt-1 text-sm text-violet-900 dark:text-violet-200">
-            Acciones de tipo IA (resumir, generar README, renombrar por contenido) que llaman a un
-            modelo — los mismos del centro con los que trabaja OpenCode, o el que configures. La clave va en un <C>.env</C> ignorado por
-            git desde el primer commit, con un <C>.env.example</C> documentado.
-          </p>
-        </div>
-        <div className="rounded-2xl border border-zinc-200 dark:border-white/10 bg-zinc-50 dark:bg-white/5 p-5">
-          <span className="text-[11px] font-extrabold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Avance · semana 3</span>
-          <h3 className="mt-1 text-[16px] font-bold">Modo sin red</h3>
-          <p className={`mt-1 ${muted}`}>
-            Si no hay red o falta la clave, tu CLI no revienta con un traceback: lo explica en una
-            línea y sigue ofreciendo todas las acciones que no necesitan IA.
-          </p>
-        </div>
-      </div>
-
-      <Nota tono="rose">
-        <b>Seguridad desde el día 1.</b> <C>.gitignore</C> con <C>.env</C> antes del primer commit;
-        nunca claves en el repo ni en el chat; acciones destructivas siempre con <C>--simular</C>{" "}
-        primero y confirmación; y prueba <b>siempre</b> en <C>~/pruebas-tareas</C>, nunca en tus
-        ficheros reales hasta que funcione.
-      </Nota>
-
-      {/* 10 · Planificación */}
-      <h2 id="planificacion" className={h2}>Planificación: las dos primeras semanas</h2>
-      <div className="mt-5 grid grid-cols-1 gap-4 lg:grid-cols-2">
-        {SEMANAS.map((s) => (
-          <div key={s.n} className={`${card} flex flex-col`}>
-            <div className="flex flex-wrap items-baseline justify-between gap-2">
-              <span className="text-xs font-extrabold uppercase tracking-wider text-blue-700 dark:text-blue-300">{s.n}</span>
-              <span className="rounded-full bg-zinc-100 dark:bg-white/10 px-2.5 py-0.5 text-[12px] font-bold text-zinc-700 dark:text-zinc-300">{s.fechas}</span>
+      <Bloque titulo="Campo a campo" nivel={3}>
+        <dl className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {CAMPOS.map(([k, v]) => (
+            <div key={k} className={`${cls.tarjeta} !px-4 !py-3`}>
+              <dt className="font-mono text-base font-bold text-blue-700 dark:text-blue-300">{k}</dt>
+              <dd className="mt-0.5 text-base leading-snug text-zinc-700 dark:text-zinc-300">{v}</dd>
             </div>
-            <h3 className="mt-2 text-[17px] font-extrabold">{s.sesion}</h3>
-            <p className="mt-2 text-sm text-zinc-700 dark:text-zinc-300">
-              <b>Objetivo:</b> {s.objetivo}
+          ))}
+        </dl>
+      </Bloque>
+
+      {EJEMPLOS.map((e) => (
+        <Bloque key={e.titulo} titulo={e.titulo} nivel={3}>
+          <PromptBlock
+            text={pintar(ACCIONES_JSON, "json").code}
+            lineas={pintar(ACCIONES_JSON, "json").lines.slice(e.linea[0] - 1, e.linea[1])}
+            etiqueta="acciones.json · esta acción"
+            grande
+            rotuloCopiar="copiar el fichero"
+          />
+          <div className="mt-4">
+            <AntesDespues antes={e.antes} despues={e.despues} orden={e.orden} aviso={e.aviso} />
+          </div>
+        </Bloque>
+      ))}
+
+      <Bloque titulo="Estructura del repositorio" nivel={3} entradilla="Cada fichero tiene un único trabajo.">
+        <Arbol raiz="cli-tareas/" nodos={ESTRUCTURA} tono="azul" />
+      </Bloque>
+
+      <Bloque titulo="Por dónde pasa una orden" nivel={3}>
+        <RecorridoOrden />
+      </Bloque>
+
+      <Bloque titulo="Avance: la capa de IA y el modo sin red" nivel={3}>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <Tarjeta titulo="La capa de IA" nivel={4} antetitulo="Semana 3" tono="morado">
+            <p>
+              Acciones de tipo IA (resumir, generar README, renombrar por contenido) que llaman a un modelo — los mismos del
+              centro con los que trabaja OpenCode, o el que configures. La clave va en un <C>.env</C> ignorado por git desde el
+              primer commit, con un <C>.env.example</C> documentado.
             </p>
-            <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-zinc-600 dark:text-zinc-400">
-              {s.hace.map((h) => (
-                <li key={h}>{h}</li>
-              ))}
-            </ul>
-            <div className="mt-4 rounded-xl border border-blue-200 dark:border-blue-500/30 bg-blue-50 dark:bg-blue-500/10 p-3">
-              <div className="text-[11px] font-extrabold uppercase tracking-wider text-blue-700 dark:text-blue-300">
-                Hitos de OpenCode
-              </div>
-              <ul className="mt-1.5 list-disc space-y-1 pl-5 text-sm text-blue-950 dark:text-blue-100">
+          </Tarjeta>
+          <Tarjeta titulo="Modo sin red" nivel={4} antetitulo="Semana 3" tono="gris">
+            <p>
+              Si no hay red o falta la clave, tu CLI no revienta con un traceback: lo explica en una línea y sigue ofreciendo
+              todas las acciones que no necesitan IA.
+            </p>
+          </Tarjeta>
+        </div>
+      </Bloque>
+
+      <Aviso titulo="Seguridad desde el día 1" tono="rosa">
+        <p>
+          <C>.gitignore</C> con <C>.env</C> antes del primer commit; nunca claves en el repo ni en el chat; acciones
+          destructivas siempre con <C>--simular</C> primero y confirmación.
+        </p>
+        <p>
+          Y prueba <b>siempre</b> en <C>~/pruebas-tareas</C>, nunca en tus ficheros reales hasta que funcione.
+        </p>
+      </Aviso>
+
+      {/* 11 · Planificación */}
+      <Bloque id="planificacion" titulo="Planificación: las dos primeras semanas">
+        <LineaTiempo hitos={RUTA} />
+      </Bloque>
+
+      {SEMANAS.map((s) => (
+        <Bloque key={s.n} titulo={`Qué haces la ${s.n.toLowerCase()}`} nivel={3}>
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+            <Tarjeta titulo={`Objetivo · ${s.n.toLowerCase()}`} nivel={4} tono="azul" className="flex flex-col">
+              <p>{s.objetivo}</p>
+              <Link
+                href={s.href}
+                className="mt-4 inline-flex w-fit items-center gap-1 rounded-xl bg-blue-600 px-4 py-2 text-base font-bold text-white transition hover:bg-blue-700 dark:bg-blue-500 dark:text-slate-950 dark:hover:bg-blue-400"
+              >
+                Ir a la sesión →
+              </Link>
+            </Tarjeta>
+            <Tarjeta titulo={`OpenCode · ${s.n.toLowerCase()}`} nivel={4} tono="morado">
+              <ul className="list-disc space-y-1 pl-5 marker:text-zinc-400">
                 {s.opencode.map((h) => (
                   <li key={h}>{h}</li>
                 ))}
               </ul>
-            </div>
-            <div className="mt-4 flex-1 rounded-xl border border-emerald-200 dark:border-emerald-500/30 bg-emerald-50 dark:bg-emerald-500/10 p-3 text-sm text-emerald-900 dark:text-emerald-200">
-              <b>Producto al acabar:</b> {s.producto}
-            </div>
-            <Link
-              href={s.href}
-              className="mt-4 inline-flex w-fit items-center gap-1 rounded-xl bg-blue-600 px-4 py-2 text-sm font-bold text-white transition hover:bg-blue-700"
-            >
-              Ir a la sesión →
-            </Link>
+            </Tarjeta>
+            <Tarjeta titulo={`Producto · ${s.n.toLowerCase()}`} nivel={4} tono="verde">
+              <p>
+                <SinPartirOpciones texto={s.producto} />
+              </p>
+            </Tarjeta>
           </div>
-        ))}
-      </div>
+        </Bloque>
+      ))}
 
-      <h3 className="mt-8 text-lg font-bold">Cómo se organiza cada grupo</h3>
-      <div className="mt-3 grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <div className={card}>
-          <span className={chip}>Presencial</span>
-          <ul className="mt-3 list-disc space-y-1.5 pl-5 text-sm text-zinc-600 dark:text-zinc-400">
-            <li>Es tu <b>segundo proyecto</b>: línea individual de <b>4 h/semana</b> en el aula, en paralelo a la startup en grupo (las otras 4 h).</li>
-            <li>Equipos del aula con <b>Linux</b>: la terminal es bash desde el primer minuto.</li>
-            <li>Herramientas: terminal y <b>OpenCode</b> conectado a los <b>modelos de IA locales del centro</b>, en paralelo a la startup. El chat, solo para consultas.</li>
-            <li>Cada sesión acaba con commit y push: lo que no está en GitHub no existe.</li>
-          </ul>
-        </div>
-        <div className={card}>
-          <span className="inline-block rounded-full border border-violet-200 dark:border-violet-500/30 bg-violet-50 dark:bg-violet-500/10 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-violet-700 dark:text-violet-300">
-            Semipresencial
-          </span>
-          <ul className="mt-3 list-disc space-y-1.5 pl-5 text-sm text-zinc-600 dark:text-zinc-400">
-            <li><b>Quincena 3</b> = estas dos semanas (26 oct → 6 nov).</li>
-            <li><b>Comprobación de proceso el 6 nov:</b> 3 acciones propias funcionando + ADR + commits reales.</li>
-            <li><b>Quincena 4</b> (9 → 20 nov): IA, pruebas, release y <b>entrega el 20 nov</b>.</li>
-            <li>Trabajas con <b>OpenCode también en casa</b>, por ejemplo en la terminal integrada de VS Code, conectado a los modelos del centro. El chat de Copilot de Microsoft 365 queda <b>solo para consultas</b>.</li>
-            <li>La terminal y cómo conectarte desde casa a los modelos del centro se explican en la <b>tutoría colectiva de arranque</b>, de <b>presencia obligatoria</b> (fecha en el aula virtual).</li>
-            <li>Tu equipo puede ser Windows, Linux o macOS: la sección multiplataforma es para ti.</li>
-          </ul>
-        </div>
-      </div>
+      <Bloque titulo="El calendario de los dos grupos" nivel={3}>
+        <Calendario />
+      </Bloque>
 
-      <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
-        <div className="rounded-2xl border border-dashed border-zinc-300 dark:border-white/15 p-4">
-          <div className="text-xs font-extrabold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Después · semana 3</div>
-          <p className={`mt-1 ${muted}`}>
-            OpenCode: <b>MCP</b> (servidor <C>context7</C> para documentación de librerías, activado
-            solo cuando hace falta). Tu CLI: capa IA que llama a los <b>mismos modelos del centro</b>{" "}
-            desde Python, <C>.env</C> y modo sin red.
-          </p>
+      <Bloque titulo="Cómo se organiza cada grupo" nivel={3}>
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+          <Tarjeta titulo="Presencial" nivel={4} tono="azul">
+            <ul className="list-disc space-y-1.5 pl-5 marker:text-zinc-400">
+              <li>
+                Es tu <b>segundo proyecto</b>: línea individual de <b>4 h/semana</b> en el aula, en paralelo a la startup en
+                grupo (las otras 4 h).
+              </li>
+              <li>
+                Equipos del aula con <b>Linux</b>: la terminal es bash desde el primer minuto.
+              </li>
+              <li>
+                Herramientas: terminal y <b>OpenCode</b> conectado a los <b>modelos de IA locales del centro</b>. El chat, solo
+                para consultas.
+              </li>
+              <li>Cada sesión acaba con commit y push: lo que no está en GitHub no existe.</li>
+            </ul>
+          </Tarjeta>
+          <Tarjeta titulo="Semipresencial" nivel={4} tono="morado">
+            <ul className="list-disc space-y-1.5 pl-5 marker:text-zinc-400">
+              <li>
+                <b>Quincena 3</b> = estas dos semanas; <b>comprobación de proceso el 6 nov</b>: 3 acciones propias
+                funcionando + ADR + commits reales.
+              </li>
+              <li>
+                <b>Quincena 4</b> (9 → 20 nov): IA, pruebas, release y <b>entrega el 20 nov</b>.
+              </li>
+              <li>
+                <b>OpenCode también en casa</b> (por ejemplo, en la terminal de VS Code), conectado a los modelos del centro. El
+                chat de Copilot de Microsoft 365,{" "}
+                <b>solo para consultas</b>.
+              </li>
+              <li>
+                Terminal y conexión desde casa: en la <b>tutoría colectiva de arranque</b>, de <b>presencia obligatoria</b>{" "}
+                (fecha en el aula virtual). Tu equipo puede ser Windows, Linux o macOS.
+              </li>
+            </ul>
+          </Tarjeta>
         </div>
-        <div className="rounded-2xl border border-dashed border-zinc-300 dark:border-white/15 p-4">
-          <div className="text-xs font-extrabold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Después · semana 4</div>
-          <p className={`mt-1 ${muted}`}>
-            Pruebas que escribe el agente y auditas tú (pytest + GitHub Actions), <C>opencode run</C>{" "}
-            no interactivo en scripts, README, release v1.0 y día de instalación cruzada.
-          </p>
+      </Bloque>
+
+      {/* 12 · Evaluación */}
+      <Bloque
+        id="evaluacion"
+        titulo="Cómo se evalúa"
+        entradilla={
+          <>
+            Primero, la puerta de entrada: si falla <b>cualquiera</b> de estos mínimos, el proyecto no se evalúa (aunque el
+            resto esté genial).
+          </>
+        }
+      >
+        <Checklist items={RUBRICA_CLI.minimos.map((m) => ({ texto: m.texto }))} />
+      </Bloque>
+
+      <Bloque titulo="Cuánto pesa cada criterio" nivel={3}>
+        <PesosRubrica />
+      </Bloque>
+
+      {GRUPOS_RUBRICA.map(([titulo, ids], k) => (
+        <Bloque
+          key={titulo}
+          titulo={titulo}
+          nivel={3}
+          entradilla={k === 0 ? "Cada criterio, casilla a casilla. Apunta a la última: Excelente." : undefined}
+        >
+          <div className="space-y-6">
+            {ids.map((i) => {
+              const c = RUBRICA_CLI.criterios[i];
+              return (
+                <CriterioRubrica key={c.id} nombre={c.nombre} peso={c.peso} que={c.qué} niveles={RUBRICA_CLI.niveles} descriptores={c.niveles} resaltar={3} />
+              );
+            })}
+          </div>
+          {k === GRUPOS_RUBRICA.length - 1 ? (
+            <p className={`mt-6 ${cls.texto}`}>
+              La tienes también en el campus del aula. Léela antes de empezar, no después de entregar.
+            </p>
+          ) : null}
+        </Bloque>
+      ))}
+
+      {/* 13 · Enlaces */}
+      <Bloque titulo="Enlaces">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            ["/programacion-ia/opencode/", "Guía de OpenCode", "Instalación, conexión, permisos y flujo con el agente."],
+            ["/programacion-ia/acceso/", "Acceso al aula", "Campus: entregas, rúbrica completa y notas."],
+            ["/programacion-ia/presencial/", "Grupo presencial", "Horario, proyectos y avisos del grupo."],
+            ["/programacion-ia/semipresencial/", "Grupo semipresencial", "Quincenas, tutorías y entregas."],
+          ].map(([href, t, d]) => (
+            <Link
+              key={href}
+              href={href}
+              className="rounded-2xl border border-zinc-200 bg-white p-5 transition hover:border-blue-300 dark:border-white/10 dark:bg-slate-900 dark:hover:border-blue-500/50"
+            >
+              <span className="block text-xl font-bold text-zinc-900 dark:text-zinc-100">{t} →</span>
+              <span className={`mt-1 block ${cls.texto}`}>{d}</span>
+            </Link>
+          ))}
         </div>
-      </div>
+      </Bloque>
+    </div>
+  );
+}
 
-      {/* 11 · Evaluación */}
-      <h2 id="evaluacion" className={h2}>Cómo se evalúa</h2>
-      <p className={lead}>
-        Primero, la puerta de entrada: si falla <b>cualquiera</b> de estos mínimos, el proyecto no se
-        evalúa (aunque el resto esté genial).
-      </p>
-      <ul className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
-        {RUBRICA_CLI.minimos.map((m) => (
-          <li key={m.id} className="flex gap-3 rounded-2xl border border-amber-200 dark:border-amber-500/30 bg-amber-50 dark:bg-amber-500/10 p-4 text-sm text-amber-950 dark:text-amber-100">
-            <span aria-hidden className="font-extrabold text-amber-600 dark:text-amber-400">✓</span>
-            {m.texto}
-          </li>
-        ))}
-      </ul>
-      <p className={`mt-6 ${lead}`}>
-        Después, {RUBRICA_CLI.criterios.length} criterios con su peso. Esto es lo que hay que hacer
-        para el <b>Excelente</b> en cada uno:
-      </p>
-      <div className="mt-4 overflow-x-auto rounded-2xl border border-zinc-200 dark:border-white/10">
-        <table className="w-full min-w-[640px] border-collapse text-sm">
-          <thead>
-            <tr className="bg-zinc-100 dark:bg-white/10">
-              <th className={`${th} w-[26%]`}>Criterio</th>
-              <th className={`${th} w-[9%] text-right`}>Peso</th>
-              <th className={th}>Nivel Excelente</th>
-            </tr>
-          </thead>
-          <tbody>
-            {RUBRICA_CLI.criterios.map((c) => (
-              <tr key={c.id} className={tr}>
-                <td className="px-3.5 py-2.5 align-top">
-                  <div className="font-bold text-zinc-800 dark:text-zinc-200">{c.nombre}</div>
-                  <div className="mt-0.5 text-[12px] text-zinc-500 dark:text-zinc-400">{c.qué}</div>
-                </td>
-                <td className="px-3.5 py-2.5 text-right align-top font-mono font-bold text-blue-700 dark:text-blue-300">{c.peso} %</td>
-                <td className={td}>{c.niveles[3]}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <p className={`mt-3 ${muted}`}>
-        La rúbrica completa, con los cuatro niveles (
-        {RUBRICA_CLI.niveles.map((n) => n.nombre).join(", ")}) de cada criterio, está en el campus
-        del aula. Léela antes de empezar, no después de entregar.
-      </p>
-
-      {/* 12 · Enlaces */}
-      <div className="mt-12 grid grid-cols-1 gap-3 sm:grid-cols-3">
-        {[
-          ["/programacion-ia/acceso/", "Acceso al aula", "Campus: entregas, rúbrica completa y notas."],
-          ["/programacion-ia/presencial/", "Grupo presencial", "Horario, proyectos y avisos del grupo."],
-          ["/programacion-ia/semipresencial/", "Grupo semipresencial", "Quincenas, tutorías y entregas."],
-        ].map(([href, t, d]) => (
-          <Link
-            key={href}
-            href={href}
-            className="rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg"
-          >
-            <span className="block text-[16px] font-bold">{t} →</span>
-            <span className="mt-1 block text-sm text-zinc-600 dark:text-zinc-400">{d}</span>
-          </Link>
-        ))}
-      </div>
+/** Una tecnología: a favor, en contra y CLI famosas hechas así. */
+function Tecnologia({ o, pro, contra, fam, delCurso = false }: { o: string; pro: string; contra: string; fam: string; delCurso?: boolean }) {
+  const tono: Tono = delCurso ? "azul" : "gris";
+  return (
+    <div className={`min-w-0 rounded-2xl border-2 bg-white p-4 dark:bg-slate-900 ${TONO[tono].linea}`}>
+      <span className="flex flex-wrap items-center gap-2">
+        <h4 className={`text-xl font-bold ${TONO[tono].texto}`}>{o}</h4>
+        {delCurso ? <Chip>la del curso</Chip> : null}
+      </span>
+      <dl className="mt-2 space-y-2">
+        <div>
+          <dt className="text-base font-bold text-emerald-700 dark:text-emerald-300">A favor</dt>
+          <dd className={`${cls.texto} leading-snug`}>{pro}</dd>
+        </div>
+        <div>
+          <dt className="text-base font-bold text-rose-700 dark:text-rose-300">En contra</dt>
+          <dd className={`${cls.texto} leading-snug`}>{contra}</dd>
+        </div>
+        <div>
+          <dt className="text-base font-bold text-zinc-600 dark:text-zinc-400">Hechas así</dt>
+          <dd className={`${cls.texto} italic leading-snug`}>{fam}</dd>
+        </div>
+      </dl>
     </div>
   );
 }

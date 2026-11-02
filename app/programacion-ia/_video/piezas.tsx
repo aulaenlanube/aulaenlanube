@@ -639,14 +639,18 @@ export function Arbol({ raiz, nodos, titulo, tono = "gris" }: { raiz: string; no
         </div>
         {nodos.map((n, i) => (
           <div key={i} className="flex items-start whitespace-pre">
-            <span aria-hidden className="select-none text-zinc-400 dark:text-zinc-500">
+            {/* Ramas en zinc-500 / zinc-400: con un gris más claro no pasan el AA en oscuro. */}
+            <span aria-hidden className="select-none text-zinc-500 dark:text-zinc-400">
               {ramas[i]}
             </span>
-            <span className="flex items-start gap-2">
+            <span className="flex min-w-0 items-start gap-2">
               <IconoNodo carpeta={n.carpeta} />
-              <span data-linea={i + 1} className={n.tono ? `font-bold ${TONO[n.tono].texto}` : "text-zinc-800 dark:text-zinc-200"}>
+              <span
+                data-linea={i + 1}
+                className={`min-w-0 whitespace-normal ${n.tono ? `font-bold ${TONO[n.tono].texto}` : "text-zinc-800 dark:text-zinc-200"}`}
+              >
                 {n.nombre}
-                {n.nota ? <span className="font-sans text-zinc-600 dark:text-zinc-400">{`  ${n.nota}`}</span> : null}
+                {n.nota ? <span className="ml-3 font-sans font-normal text-zinc-600 dark:text-zinc-400">{n.nota}</span> : null}
               </span>
             </span>
           </div>
@@ -656,26 +660,33 @@ export function Arbol({ raiz, nodos, titulo, tono = "gris" }: { raiz: string; no
   );
 }
 
-/** Antes → orden → después: lo que hace una acción con tus ficheros. */
+/**
+ * Antes → orden → después: lo que hace una acción con tus ficheros. Si hay
+ * más de uno en la página, cada árbol lleva su `titulo` («Antes: Descargas…»):
+ * la cámara no distingue dos h4 que se llaman igual.
+ */
 export function AntesDespues({
   antes,
   despues,
   orden,
+  aviso,
 }: {
-  antes: { raiz: string; nodos: NodoArbol[] };
-  despues: { raiz: string; nodos: NodoArbol[] };
+  antes: { titulo?: string; raiz: string; nodos: NodoArbol[] };
+  despues: { titulo?: string; raiz: string; nodos: NodoArbol[] };
   orden: string;
+  aviso?: ReactNode;
 }) {
   return (
     <div className="grid grid-cols-1 items-center gap-4 lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]">
-      <Arbol titulo="Antes" raiz={antes.raiz} nodos={antes.nodos} tono="gris" />
+      <Arbol titulo={antes.titulo ?? "Antes"} raiz={antes.raiz} nodos={antes.nodos} tono="gris" />
       <div className="flex flex-col items-center gap-2">
-        <code className="max-w-[16rem] rounded-lg bg-[#0b1120] px-3 py-2 text-center font-mono text-base text-emerald-300 [overflow-wrap:anywhere]">{orden}</code>
-        <span aria-hidden className="text-3xl font-bold text-zinc-400 lg:rotate-0">
+        <code className="max-w-[15rem] rounded-lg bg-[#0b1120] px-3 py-2 text-center font-mono text-base text-emerald-300 [overflow-wrap:anywhere]">{orden}</code>
+        {aviso ? <span className="max-w-[15rem] text-center text-base font-semibold text-amber-700 dark:text-amber-300">{aviso}</span> : null}
+        <span aria-hidden className="text-3xl font-bold text-zinc-500 dark:text-zinc-400">
           →
         </span>
       </div>
-      <Arbol titulo="Después" raiz={despues.raiz} nodos={despues.nodos} tono="verde" />
+      <Arbol titulo={despues.titulo ?? "Después"} raiz={despues.raiz} nodos={despues.nodos} tono="verde" />
     </div>
   );
 }

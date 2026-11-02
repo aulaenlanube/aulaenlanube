@@ -4,10 +4,14 @@ import type { NavLink } from "@/lib/content";
 const linkCls =
   "rounded hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600";
 
-export default function Breadcrumbs({ items }: { items: NavLink[] }) {
+// `grande`: letra de 16 px (páginas que se graban para los vídeos del curso).
+export default function Breadcrumbs({ items, grande = false }: { items: NavLink[]; grande?: boolean }) {
   if (!items || items.length === 0) return null;
   return (
-    <nav aria-label="Migas de pan" className="mb-4 text-xs text-zinc-500 dark:text-zinc-400">
+    <nav
+      aria-label="Migas de pan"
+      className={`mb-4 ${grande ? "text-base" : "text-xs"} text-zinc-500 dark:text-zinc-400`}
+    >
       <ol className="flex flex-wrap items-center gap-1">
         <li>
           <Link href="/" className={linkCls}>

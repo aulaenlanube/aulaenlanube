@@ -592,3 +592,156 @@ export function LineaTiempo({ hitos }: { hitos: Hito[] }) {
     </ol>
   );
 }
+
+// ── Árbol de carpetas ───────────────────────────────────────────────────────
+
+/** Un nodo del árbol: `nivel` 0 cuelga de la raíz; `nota` va detrás, más tenue. */
+export type NodoArbol = { nombre: string; nivel: number; carpeta?: boolean; nota?: string; tono?: Tono };
+
+function IconoNodo({ carpeta }: { carpeta?: boolean }) {
+  return carpeta ? (
+    <svg viewBox="0 0 20 16" width={20} height={16} aria-hidden className="mt-1 shrink-0 fill-amber-400">
+      <path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h5l2 2h8A1.5 1.5 0 0 1 19 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 1 13.5z" />
+    </svg>
+  ) : (
+    <svg viewBox="0 0 16 20" width={16} height={20} aria-hidden className="mt-0.5 shrink-0 fill-zinc-400 dark:fill-zinc-500">
+      <path d="M2.5 1h7L14 5.5v12a1.5 1.5 0 0 1-1.5 1.5h-10A1.5 1.5 0 0 1 1 17.5v-15A1.5 1.5 0 0 1 2.5 1z" />
+    </svg>
+  );
+}
+
+/**
+ * Árbol de carpetas en monoespaciada. Cada fila es su propio elemento
+ * (`data-linea`) y su texto empieza por el nombre del fichero: las ramas
+ * (├─ └─ │) van aparte, fuera del texto, para que la cámara lo encuentre.
+ */
+export function Arbol({ raiz, nodos, titulo, tono = "gris" }: { raiz: string; nodos: NodoArbol[]; titulo?: string; tono?: Tono }) {
+  // ¿Hay más abajo otro nodo del mismo nivel antes de salir de esta rama?
+  const sigue = (i: number, nivel: number) => {
+    for (let j = i + 1; j < nodos.length; j++) {
+      if (nodos[j].nivel < nivel) return false;
+      if (nodos[j].nivel === nivel) return true;
+    }
+    return false;
+  };
+  const ramas = nodos.map((n, i) => {
+    let prefijo = "";
+    for (let k = 0; k < n.nivel; k++) prefijo += sigue(i, k) ? "│  " : "   ";
+    return prefijo + (sigue(i, n.nivel) ? "├─ " : "└─ ");
+  });
+  return (
+    <figure className={`min-w-0 rounded-2xl border bg-white p-4 dark:bg-slate-900 ${TONO[tono].linea}`}>
+      {titulo ? <h4 className={`mb-2 text-xl font-bold ${TONO[tono].texto}`}>{titulo}</h4> : null}
+      <div className="overflow-x-auto font-mono text-base leading-[1.6]">
+        <div className="flex items-start gap-2 font-bold text-zinc-900 dark:text-zinc-50">
+          <IconoNodo carpeta />
+          <span data-linea={0}>{raiz}</span>
+        </div>
+        {nodos.map((n, i) => (
+          <div key={i} className="flex items-start whitespace-pre">
+            <span aria-hidden className="select-none text-zinc-400 dark:text-zinc-500">
+              {ramas[i]}
+            </span>
+            <span className="flex items-start gap-2">
+              <IconoNodo carpeta={n.carpeta} />
+              <span data-linea={i + 1} className={n.tono ? `font-bold ${TONO[n.tono].texto}` : "text-zinc-800 dark:text-zinc-200"}>
+                {n.nombre}
+                {n.nota ? <span className="font-sans text-zinc-600 dark:text-zinc-400">{`  ${n.nota}`}</span> : null}
+              </span>
+            </span>
+          </div>
+        ))}
+      </div>
+    </figure>
+  );
+}
+
+/** Antes → orden → después: lo que hace una acción con tus ficheros. */
+export function AntesDespues({
+  antes,
+  despues,
+  orden,
+}: {
+  antes: { raiz: string; nodos: NodoArbol[] };
+  despues: { raiz: string; nodos: NodoArbol[] };
+  orden: string;
+}) {
+  return (
+    <div className="grid grid-cols-1 items-center gap-4 lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]">
+      <Arbol titulo="Antes" raiz={antes.raiz} nodos={antes.nodos} tono="gris" />
+      <div className="flex flex-col items-center gap-2">
+        <code className="max-w-[16rem] rounded-lg bg-[#0b1120] px-3 py-2 text-center font-mono text-base text-emerald-300 [overflow-wrap:anywhere]">{orden}</code>
+        <span aria-hidden className="text-3xl font-bold text-zinc-400 lg:rotate-0">
+          →
+        </span>
+      </div>
+      <Arbol titulo="Después" raiz={despues.raiz} nodos={despues.nodos} tono="verde" />
+    </div>
+  );
+}
+
+// ── Checklist y rúbrica ─────────────────────────────────────────────────────
+
+/** Lista de comprobación: casillas dibujadas (sin pulsar), cada punto un <li>. */
+export function Checklist({ items }: { items: { texto: ReactNode; detalle?: ReactNode }[] }) {
+  return (
+    <ul className="grid grid-cols-1 gap-x-8 gap-y-3 lg:grid-cols-2">
+      {items.map((it, i) => (
+        <li key={i} className={`flex gap-3 ${cls.texto}`}>
+          <span aria-hidden className="mt-1 h-5 w-5 shrink-0 rounded-md border-2 border-zinc-400 dark:border-zinc-500" />
+          <span>
+            <span className={cls.fuerte}>{it.texto}</span>
+            {it.detalle ? <span className="block text-zinc-600 dark:text-zinc-400">{it.detalle}</span> : null}
+          </span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+const NIVEL_TONO: Tono[] = ["rosa", "ambar", "azul", "verde"];
+
+/**
+ * Un criterio de la rúbrica casilla a casilla: los cuatro niveles en fila, con
+ * su porcentaje y su descriptor literal. `resaltar` marca la casilla a la que
+ * apunta la semana (índice 0-3). Los nombres de nivel van en <dt> (se repiten
+ * en cada criterio); el descriptor, en <dd>, es el texto único que se enfoca.
+ */
+export function CriterioRubrica({
+  nombre,
+  peso,
+  que,
+  niveles,
+  descriptores,
+  resaltar,
+}: {
+  nombre: string;
+  peso: number;
+  que: string;
+  niveles: { nombre: string; pct: number }[];
+  descriptores: string[];
+  resaltar?: number;
+}) {
+  return (
+    <div>
+      <div className="flex flex-wrap items-baseline gap-x-3">
+        <h4 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">{nombre}</h4>
+        <Chip tono="gris">peso {peso}</Chip>
+      </div>
+      <p className={`mt-1 ${cls.tenue}`}>{que}</p>
+      <dl className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        {niveles.map((n, i) => (
+          <div
+            key={n.nombre}
+            className={`rounded-xl border p-3 ${TONO[NIVEL_TONO[i]].caja} ${resaltar === i ? "ring-2 ring-offset-2 ring-blue-500 ring-offset-white dark:ring-blue-400 dark:ring-offset-slate-950" : ""}`}
+          >
+            <dt className={`text-base font-bold ${TONO[NIVEL_TONO[i]].tinta}`}>
+              {n.nombre} · {n.pct} %
+            </dt>
+            <dd className={`mt-1 text-base leading-snug ${TONO[NIVEL_TONO[i]].tinta}`}>{descriptores[i]}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  );
+}

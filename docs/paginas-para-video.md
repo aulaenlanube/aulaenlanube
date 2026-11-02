@@ -14,6 +14,13 @@ línea a línea mientras habla la voz. La cámara **localiza los elementos por s
 etiqueta y el texto con que empiezan**: `h2:Paso 3 · …`, `li:read…`,
 `text:Planifica`.
 
+Las mismas reglas valen para el **Seminario de IA para docentes**
+(`/seminario-ia-docentes/`, serie «Seminario de IA para docentes · en pantalla»
+del canal IA para docentes): importa las piezas de `programacion-ia/_video/` y
+añade las suyas en `app/seminario-ia-docentes/_ui.tsx` (cabecera de sesión con
+el hilo, vídeo resumen, «Para ampliar», tarea). Lo que solo tiene sentido en la
+web lleva la clase `sem-solo-web` y no sale en la grabación.
+
 Se graba siempre con **`?video`** en la URL
 (`/programacion-ia/opencode/?video`). Ese modo (`_video/ModoVideo.tsx` +
 `app/globals.css`) quita lo fijo que taparía el contenido —la barra de menú deja

@@ -20,6 +20,12 @@ Datos clave del sitio:
 - [Curso de Visual Studio Code para Java](https://aulaenlanube.com/curso-visual-studio-code-java/): configurar y usar VS Code para Java.
 - [Curso de redes informáticas](https://aulaenlanube.com/curso-redes-informaticas/): conceptos de redes.
 
+## IA para docentes
+
+- [Seminario de IA para docentes](https://aulaenlanube.com/seminario-ia-docentes/): cinco sesiones prácticas para docentes de FP, ESO y Bachillerato de la Comunitat Valenciana (Copilot con la cuenta @edu.gva.es, protección de datos, preparar clases, evaluar y corregir, planificar y construir una herramienta propia con OpenCode).
+- [Biblioteca de prompts para docentes](https://aulaenlanube.com/seminario-ia-docentes/prompts/): los prompts del seminario ordenados por momento del curso.
+- [Cuaderno de evaluación por criterios](https://aulaenlanube.com/seminario-ia-docentes/tu-herramienta/): herramienta web de ejemplo construida con un agente de IA, con la cadena de prompts que la creó.
+
 ## Ofimática y Google
 
 - [Todos los cursos](https://aulaenlanube.com/cursos/): catálogo completo de cursos.

@@ -22,9 +22,12 @@ const PIEZAS: { titulo: string; lineas: [string, string] }[] = [
 
 /** `actual`: la sesión que se resalta (sin él, todas en color: la portada). */
 export function HiloSeminario({ actual, uid = "hilo" }: { actual?: number; uid?: string }) {
-  const pie = actual
-    ? `Hoy, en la sesión ${actual}: ${SESIONES[actual - 1].pieza.toLowerCase()}. La sesión 5 junta todas las piezas.`
-    : "Cada sesión deja una pieza; en la sesión 5 las juntas en tu propia herramienta.";
+  const pie =
+    actual === 5
+      ? "Hoy, en la sesión 5: juntas todas las piezas en tu propia herramienta."
+      : actual
+        ? `Hoy, en la sesión ${actual}: ${SESIONES[actual - 1].pieza.toLowerCase()}. La sesión 5 junta todas las piezas.`
+        : "Cada sesión deja una pieza; en la sesión 5 las juntas en tu propia herramienta.";
   return (
     <Figura
       uid={uid}

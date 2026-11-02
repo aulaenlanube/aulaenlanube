@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Cuaderno de evaluación por criterios</title>
+<style>
+:root{
+  --fondo:#f4f4f6; --panel:#ffffff; --texto:#1c1c22; --suave:#57575f;
+  --borde:#d7d7df; --acento:#8a2657; --acentoContraste:#ffffff;
+  --fila:#fafafb; --filaFuerte:#efeff2;
+  --avisoFondo:#fff5d6; --avisoTexto:#5b4300; --avisoBorde:#d8b951;
+  --errorFondo:#ffe4e4; --errorTexto:#8a1212; --errorBorde:#d66a6a;
+  --okFondo:#e2f6e5; --okTexto:#1a5c26;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --fondo:#17171c; --panel:#23232b; --texto:#f1f1f6; --suave:#b9b9c5;
+    --borde:#3c3c48; --acento:#e8a4c4; --acentoContraste:#1c1020;
+    --fila:#1f1f26; --filaFuerte:#2a2a33;
+    --avisoFondo:#3d3313; --avisoTexto:#ffdf94; --avisoBorde:#8a7420;
+    --errorFondo:#4a1d1d; --errorTexto:#ffb3b3; --errorBorde:#a04a4a;
+    --okFondo:#1e3a24; --okTexto:#a8e2b2;
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:sans-serif;background:var(--fondo);color:var(--texto);line-height:1.45}
+header{padding:.6rem 1rem;background:var(--panel);border-bottom:1px solid var(--borde);display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;justify-content:space-between}
+header h1{font-size:1.05rem;margin:0}
+.acciones{display:flex;flex-wrap:wrap;gap:.4rem}
+button{font:inherit;padding:.35rem .7rem;border:1px solid var(--borde);border-radius:6px;background:var(--panel);color:var(--texto);cursor:pointer}
+button:hover{border-color:var(--acento)}
+button.principal{background:var(--acento);color:var(--acentoContraste);border-color:var(--acento)}
+nav[role="tablist"]{display:flex;flex-wrap:wrap;gap:.25rem;padding:.5rem 1rem 0;background:var(--fondo)}
+nav button{border-radius:8px 8px 0 0;border-bottom:none;background:var(--filaFuerte)}
+nav button[aria-selected="true"]{background:var(--panel);font-weight:bold;border-color:var(--borde)}
+main{padding:1rem;max-width:1200px;margin:0 auto}
+.pestana{display:none}
+.pestana.activa{display:block}
+section{background:var(--panel);border:1px solid var(--borde);border-radius:10px;padding:1rem;margin-bottom:1rem}
+h2{font-size:1.1rem;margin:.2rem 0 .6rem}
+h3{font-size:1rem;margin:.8rem 0 .4rem}
+.raros{font-size:.9rem;color:var(--suave)}
+.banner{padding:.55rem .8rem;border-radius:8px;margin:.5rem 0;font-size:.95rem}
+.banner.aviso{background:var(--avisoFondo);color:var(--avisoTexto);border:1px solid var(--avisoBorde)}
+.banner.error{background:var(--errorFondo);color:var(--errorTexto);border:1px solid var(--errorBorde)}
+.banner.ok{background:var(--okFondo);color:var(--okTexto)}
+.banner.info{background:var(--filaFuerte);border:1px solid var(--borde)}
+.tarjeta{border:1px solid var(--borde);border-radius:8px;padding:.8rem;margin:.7rem 0;background:var(--fila)}
+.fila{display:flex;flex-wrap:wrap;gap:.5rem;align-items:end}
+.fila label{display:block;font-size:.85rem;margin-bottom:.15rem}
+.campoNombre{flex:2 1 220px}
+.campoNombre input{width:100%}
+.campoPeso{flex:0 1 90px}
+.campoPeso input{width:100%}
+input{font:inherit;padding:.3rem .45rem;border:1px solid var(--borde);border-radius:6px;background:var(--panel);color:var(--texto)}
+:focus-visible{outline:3px solid var(--acento);outline-offset:1px}
+table{border-collapse:collapse;width:100%;font-size:.95rem}
+th,td{border:1px solid var(--borde);padding:.35rem .5rem;text-align:left;vertical-align:top}
+thead th{background:var(--filaFuerte)}
+tbody tr:nth-child(even){background:var(--fila)}
+td input{width:100%;min-width:4rem}
+td.cAsig input{min-width:6ch;max-width:11ch;text-align:right}
+input.errorNota{border:2px solid var(--errorBorde);background:var(--errorFondo)}
+th.num,td.num{text-align:right}
+.critCabecera{max-width:14rem;word-break:break-word}
+.criteriosTabla a{color:inherit}
+ul.listaAvisos{margin:.3rem 0;padding-left:1.2rem}
+li.rouge{color:var(--errorTexto)}
+.sinDatos{color:var(--suave);font-style:italic}
+.okMini{color:var(--okTexto);font-size:.9rem;margin:.2rem 0}
+.errorMini{color:var(--errorTexto);font-size:.9rem;margin:.2rem 0}
+.pie{margin-top:.6rem;font-size:.85rem;color:var(--suave)}
+@media print{
+  body{background:#fff;color:#000;font-size:10pt}
+  header,nav,button,.sinImprimir{display:none !important}
+  .pestana{display:none}
+  .pestana.activa{display:block}
+  main{max-width:none;padding:0}
+  section{border:none;padding:0;margin:0;background:#fff}
+  table{border-color:#000}
+  th,td{border:1px solid #000;background:#fff !important;color:#000}
+  input{border:none;color:#000;font-weight:bold;background:#fff}
+  th a{color:#000;text-decoration:none}
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>Cuaderno de evaluación por criterios</h1>
+  <div class="acciones">
+    <button type="button" id="btnExportarJson">Exportar copia (JSON)</button>
+    <button type="button" id="btnImportarJson">Importar copia</button>
+    <button type="button" id="btnExportarCsv">Exportar notas finales (CSV)</button>
+    <button type="button" id="btnImprimir">Imprimir</button>
+    <input type="file" id="ficheroImportar" accept=".json,application/json" hidden>
+  </div>
+</header>
+
+<nav role="tablist" aria-label="Secciones del cuaderno">
+  <button role="tab" id="tab-config" aria-controls="sec-config" aria-selected="true">1. Configuración</button>
+  <button role="tab" id="tab-alumnado" aria-controls="sec-alumnado" aria-selected="false" tabindex="-1">2. Alumnado</button>
+  <button role="tab" id="tab-actividades" aria-controls="sec-actividades" aria-selected="false" tabindex="-1">3. Actividades</button>
+  <button role="tab" id="tab-notas" aria-controls="sec-notas" aria-selected="false" tabindex="-1">4. Notas</button>
+  <button role="tab" id="tab-resultados" aria-controls="sec-resultados" aria-selected="false" tabindex="-1">5. Resultados</button>
+</nav>
+
+<main>
+  <!-- 1. CONFIGURACIÓN -->
+  <section class="pestana activa" id="sec-config" role="tabpanel" aria-labelledby="tab-config">
+    <h2>Configuración</h2>
+    <fieldset style="border:1px solid var(--borde);border-radius:8px">
+      <legend>Modo de evaluación</legend>
+      <div class="fila">
+        <label><input type="radio" name="modo" value="FP"> FP: resultados de aprendizaje (RA) y criterios de evaluación (CE)</label>
+        <label><input type="radio" name="modo" value="ESO"> ESO / Bachillerato: competencias específicas y criterios de evaluación</label>
+      </div>
+      <p class="raros">Cambiar de modo solo cambia los rótulos; no se borra nada.</p>
+    </fieldset>
+
+    <div id="avisoPesosBloques" role="status"></div>
+
+    <h3>Bloques (<span data-rotulo="bloque"></span>) y su peso en la nota final</h3>
+    <div id="listaBloques"></div>
+    <button type="button" class="principal" data-accion="anadirBloque">Añadir bloque</button>
+    <button type="button" data-accion="cargarEjemplo" title="Rellena un caso de prueba completo. Si ya hay datos, pide confirmación antes de sustituirlos.">Cargar ejemplo</button>
+    <p class="raros">«Cargar ejemplo» rellena un caso de prueba (2 bloques, 3 criterios, 3 alumnos ficticios y 2 actividades con sus notas). Si ya hay datos, pide confirmación antes de sustituirlos.</p>
+    <p class="raros">Los pesos conviene que sumen 100. Si no lo hacen, se avisa pero se calcula igual, tomando los pesos tal cual.</p>
+  </section>
+
+  <!-- 2. ALUMNADO -->
+  <section class="pestana" id="sec-alumnado" role="tabpanel" aria-labelledby="tab-alumnado" hidden>
+    <h2>Alumnado</h2>
+    <div class="banner aviso" role="status">⚠️ Estos datos solo están guardados en <strong>este navegador, en este ordenador</strong>. No se envían a ningún sitio. Haz copias con «Exportar copia (JSON)» para no perderlos.</div>
+    <h3>Dar de alta</h3>
+    <div class="fila">
+      <div class="campoNombre">
+        <label for="nuevoAlumnoNombre">Nombre del alumno o alumna</label>
+        <input id="nuevoAlumnoNombre" type="text" placeholder="Nombre y apellidos">
+      </div>
+      <button type="button" class="principal" data-accion="anadirAlumno">Añadir</button>
+    </div>
+    <p class="raros">El código se genera solo (A01, A02…), pero puedes editarlo si lo necesitas.</p>
+    <div id="tablaAlumnos"></div>
+  </section>
+
+  <!-- 3. ACTIVIDADES -->
+  <section class="pestana" id="sec-actividades" role="tabpanel" aria-labelledby="tab-actividades" hidden>
+    <h2>Actividades e instrumentos</h2>
+    <div class="fila">
+      <div class="campoNombre">
+        <label for="nuevaActNombre">Nombre de la actividad o instrumento</label>
+        <input id="nuevaActNombre" type="text" placeholder="Examen 1, práctica de laboratorio, exposición…">
+      </div>
+      <button type="button" class="principal" data-accion="anadirActividad">Añadir</button>
+    </div>
+    <div id="listaActividades"></div>
+  </section>
+
+  <!-- 4. NOTAS -->
+  <section class="pestana" id="sec-notas" role="tabpanel" aria-labelledby="tab-notas" hidden>
+    <h2>Notas</h2>
+    <p class="raros">Notas de 0 a 10 con un decimal (puedes escribir con coma o con punto). Una casilla vacía significa «no evaluado»: no entra en los cálculos. Si escribes algo que no sea una nota de 0 a 10, la casilla se marca en rojo, avisa y conserva la nota anterior.</p>
+    <div id="avisoNotas" role="alert"></div>
+    <div id="tablaNotas"></div>
+  </section>
+
+  <!-- 5. RESULTADOS -->
+  <section class="pestana" id="sec-resultados" role="tabpanel" aria-labelledby="tab-resultados" hidden>
+    <h2>Resultados</h2>
+    <p class="raros">Nota de cada criterio = media de las actividades que lo evalúan (solo las que tienen nota). Nota de un bloque = media ponderada de sus criterios evaluados, usando su peso. Nota final = media ponderada de los bloques evaluados, usando su peso.</p>
+    <div id="avisosResultados" role="status"></div>
+    <div id="tablaResultados"></div>
+  </section>
+</main>
+
+<footer class="pie sinImprimir">
+  Hecho con OpenCode y el modelo gratuito GLM-5.3-Flash Free en el Seminario de IA para docentes.
+  <a href="https://aulaenlanube.com/seminario-ia-docentes/tu-herramienta/" target="_blank" rel="noopener noreferrer">Cómo se hizo, mensaje a mensaje</a>.
+</footer>
+
+<script>
+'use strict';
+const CLAVE = 'cuadernoEvaluacion';
+
+const ROTULOS = {
+  FP: {
+    bloqueCorto: 'RA',
+    bloque: 'Resultado de aprendizaje (RA)',
+    bloques: 'Resultados de aprendizaje (RA)',
+    criterioCorto: 'CE',
+    criterio: 'Criterio de evaluación (CE)',
+    criterios: 'Criterios de evaluación (CE)',
+    dentroDe: 'dentro de este RA',
+    notaBloque: 'Nota RA',
+    añadirCriterio: 'Añadir CE'
+  },
+  ESO: {
+    bloqueCorto: 'Competencia específica',
+    bloque: 'Competencia específica',
+    bloques: 'Competencias específicas',
+    criterioCorto: 'Criterio de evaluación',
+    criterio: 'Criterio de evaluación',
+    criterios: 'Criterios de evaluación',
+    dentroDe: 'dentro de esta competencia',
+    notaBloque: 'Nota de la competencia',
+    añadirCriterio: 'Añadir criterio'
+  }
+};
+
+let state = cargar();
+if (!state || typeof state !== 'object') state = { modo: 'FP', bloques: [], criterios: [], alumnos: [], actividades: [], notas: {} };
+if (!Array.isArray(state.bloques)) state.bloques = [];
+if (!Array.isArray(state.criterios)) state.criterios = [];
+if (!Array.isArray(state.alumnos)) state.alumnos = [];
+if (!Array.isArray(state.actividades)) state.actividades = [];
+if (typeof state.notas !== 'object' || !state.notas) state.notas = {};
+if (state.modo !== 'ESO') state.modo = 'FP';
+
+let contadorIds = 1;
+function nuevoId() { return 'id' + (contadorIds++) + '_' + Math.floor(Math.random() * 1e6); }
+
+/* ---------- utilidades ---------- */
+function guardar() { try { localStorage.setItem(CLAVE, JSON.stringify(state)); } catch (e) { console.error(e); } }
+function cargar() {
+  try { return JSON.parse(localStorage.getItem(CLAVE)); } catch (e) { return null; }
+}
+function esc(s) {
+  s = String(s ?? '');
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+function rot(cls) { return ROTULOS[state.modo][cls]; }
+function parseNum(v) {
+  const s = String(v ?? '').trim().replace(',', '.');
+  if (!s) return null;
+  const n = Number(s);
+  return Number.isFinite(n) ? n : null;
+}
+function pesoDe(v) { const n = parseNum(v); return n == null ? 0 : Math.max(0, n); }
+function fmt(n) { return n == null ? '' : (Math.round(n * 10) / 10).toFixed(1).replace('.', ','); }
+/* etiqueta del alumno: «A01 · Nombre», o solo «A01» si no tiene nombre */
+function etiquetaAlumnoHtml(a, i) {
+  const codigo = esc(a.codigo || 'A' + (i + 1));
+  const nombre = String(a.nombre || '').trim();
+  return nombre ? codigo + ' · ' + esc(nombre) : codigo;
+}
+/* norma corta de un criterio: de «CE1.2. Interpreta…» se queda «CE1.2» para los avisos */
+function nombreCriterioCorto(c) {
+  const nombre = String(c.nombre || '').trim();
+  if (!nombre) return rot('criterioCorto');
+  const partes = nombre.split('.');
+  if (partes.length > 1 && partes[0].length <= 8 && /\d/.test(partes[0]) && /^\s*\d+$/.test(partes[1] || '')) {
+    return partes[0] + '.' + partes[1].trim();
+  }
+  if (partes[0].length <= 8 && /\d/.test(partes[0])) return partes[0];
+  return nombre;
+}
+
+/* ---------- cálculos ---------- */
+function notaCriterio(alumnoId, criterioId) {
+  const notas = [];
+  for (const act of state.actividades) {
+    if (!act.criterios.includes(criterioId)) continue;
+    const n = parseNum((state.notas[alumnoId] || {})[act.id]);
+    if (n != null) notas.push(n);
+  }
+  if (!notas.length) return null;
+  return notas.reduce((s, x) => s + x, 0) / notas.length;
+}
+function notaBloque(alumnoId, bloqueId) {
+  let suma = 0, pesos = 0;
+  for (const c of state.criterios) {
+    if (c.bloqueId !== bloqueId) continue;
+    const n = notaCriterio(alumnoId, c.id);
+    if (n == null) continue;
+    const p = pesoDe(c.peso);
+    suma += n * p; pesos += p;
+  }
+  return pesos > 0 ? suma / pesos : null;
+}
+function notaFinal(alumnoId) {
+  let suma = 0, pesos = 0;
+  for (const b of state.bloques) {
+    const n = notaBloque(alumnoId, b.id);
+    if (n == null) continue;
+    const p = pesoDe(b.peso);
+    suma += n * p; pesos += p;
+  }
+  return pesos > 0 ? suma / pesos : null;
+}
+function criteriosDeBloque(bloqueId) { return state.criterios.filter(c => c.bloqueId === bloqueId); }
+function actividadNota(alumnoId, actId) { return parseNum((state.notas[alumnoId] || {})[actId]); }
+function criterioTieneNotas(criterioId) {
+  return state.alumnos.some(a => notaCriterio(a.id, criterioId) != null);
+}
+function bloqueTieneNotas(bloqueId) {
+  return criteriosDeBloque(bloqueId).some(c => criterioTieneNotas(c.id));
+}
+
+/* ---------- pestañas ---------- */
+const pestanas = ['tab-config', 'tab-alumnado', 'tab-actividades', 'tab-notas', 'tab-resultados'];
+function activarPestana(idTab) {
+  for (const t of pestanas) {
+    const btn = document.getElementById(t);
+    const sec = document.getElementById(btn.getAttribute('aria-controls'));
+    const activo = t === idTab;
+    btn.setAttribute('aria-selected', String(activo));
+    btn.tabIndex = activo ? 0 : -1;
+    sec.hidden = !activo;
+    sec.classList.toggle('activa', activo);
+  }
+}
+document.querySelector('nav[role="tablist"]').addEventListener('click', e => {
+  const btn = e.target.closest('[role="tab"]');
+  if (btn) activarPestana(btn.id);
+});
+document.addEventListener('keydown', e => {
+  if (!e.target.matches('nav [role="tab"]')) return;
+  let i = pestanas.indexOf(e.target.id);
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') i = (i + 1) % pestanas.length;
+  else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') i = (i - 1 + pestanas.length) % pestanas.length;
+  else if (e.key === 'Home') i = 0;
+  else if (e.key === 'End') i = pestanas.length - 1;
+  else return;
+  e.preventDefault();
+  document.getElementById(pestanas[i]).focus();
+  activarPestana(pestanas[i]);
+});
+
+/* nota no válida: se avisa sin tocar nada */
+function avisarNotaInvalida(casilla, texto, num) {
+  const al = state.alumnos.find(x => x.id === casilla.dataset.alumno);
+  const act = state.actividades.find(x => x.id === casilla.dataset.act);
+  const motivo = num == null
+    ? '«' + texto + '» no es una nota.'
+    : 'El valor ' + texto + ' no está entre 0 y 10.';
+  const zona = document.getElementById('avisoNotas');
+  if (zona) {
+    zona.className = 'banner error';
+    zona.textContent = '⚠️ Nota de ' + (al ? (al.nombre || al.codigo) : 'el alumno') +
+      ' en ' + (act ? act.nombre : 'la actividad') + ': ' + motivo +
+      ' Escribe una nota de 0 a 10 (puede llevar coma). La casilla conserva la nota anterior.';
+  }
+  casilla.setAttribute('aria-invalid', 'true');
+  casilla.setAttribute('aria-describedby', 'avisoNotas');
+}
+function limpiarAvisoNotas(casilla) {
+  const zona = document.getElementById('avisoNotas');
+  if (zona) { zona.className = ''; zona.textContent = ''; }
+  if (casilla) {
+    casilla.classList.remove('errorNota');
+    casilla.removeAttribute('aria-invalid');
+    casilla.removeAttribute('aria-describedby');
+  }
+}
+
+/* ---------- ediciones en línea (sin recargar todo) ---------- */
+document.addEventListener('input', e => {
+  const t = e.target;
+  if (t.dataset.edicion === 'bloqueNombre') {
+    const b = state.bloques.find(x => x.id === t.dataset.id);
+    if (b) { b.nombre = t.value; guardar(); }
+  } else if (t.dataset.edicion === 'bloquePeso') {
+    const b = state.bloques.find(x => x.id === t.dataset.id);
+    if (b) { b.peso = t.value; guardar(); actualizarAvisos(); }
+  } else if (t.dataset.edicion === 'criterioNombre') {
+    const c = state.criterios.find(x => x.id === t.dataset.id);
+    if (c) { c.nombre = t.value; guardar(); }
+  } else if (t.dataset.edicion === 'criterioPeso') {
+    const c = state.criterios.find(x => x.id === t.dataset.id);
+    if (c) { c.peso = t.value; guardar(); actualizarAvisos(); }
+  } else if (t.dataset.edicion === 'alumnoCodigo') {
+    const a = state.alumnos.find(x => x.id === t.dataset.id);
+    if (a) { a.codigo = t.value; guardar(); }
+  } else if (t.dataset.edicion === 'alumnoNombre') {
+    const a = state.alumnos.find(x => x.id === t.dataset.id);
+    if (a) { a.nombre = t.value; guardar(); }
+  } else if (t.dataset.edicion === 'actividadNombre') {
+    const a = state.actividades.find(x => x.id === t.dataset.id);
+    if (a) { a.nombre = t.value; guardar(); }
+  } else if (t.dataset.edicion === 'nota') {
+    const texto = t.value.trim();
+    const num = texto === '' ? null : parseNum(texto);
+    if (texto !== '' && (num == null || num < 0 || num > 10)) {
+      /* no válida: no se cambia nada en silencio, se conserva la nota de state */
+      t.classList.add('errorNota');
+      avisarNotaInvalida(t, texto, num);
+    } else {
+      const al = state.notas[t.dataset.alumno] || (state.notas[t.dataset.alumno] = {});
+      if (texto === '') delete al[t.dataset.act];
+      else al[t.dataset.act] = Math.round(num * 10) / 10;
+      limpiarAvisoNotas(t);
+      guardar();
+    }
+  }
+});
+/* al salir de la casilla de nota: se restaura lo que había si era inválida, o se normaliza el formato */
+document.addEventListener('change', e => {
+  if (e.target.dataset.edicion !== 'nota') return;
+  if (e.target.getAttribute('aria-invalid') === 'true') {
+    /* se recupera la nota guardada: no se pierde nada */
+    const previa = (state.notas[e.target.dataset.alumno] || {})[e.target.dataset.act];
+    e.target.value = previa == null ? '' : fmt(previa);
+    limpiarAvisoNotas(e.target);
+  } else if (e.target.value.trim() !== '') {
+    e.target.value = fmt(parseNum(e.target.value));
+  }
+});
+document.addEventListener('change', e => {
+  if (e.target.name === 'modo') {
+    state.modo = e.target.value;
+    guardar();
+    render();
+  }
+  if (e.target.dataset.edicion === 'actCriterio') {
+    const act = state.actividades.find(x => x.id === e.target.dataset.act);
+    if (!act) return;
+    const cid = e.target.dataset.criterio;
+    act.criterios = e.target.checked
+      ? act.criterios.concat(cid)
+      : act.criterios.filter(x => x !== cid);
+    guardar();
+  }
+});
+
+/* ---------- acciones (botones) ---------- */
+document.addEventListener('click', e => {
+  const btn = e.target.closest('[data-accion]');
+  if (!btn) return;
+  const acc = btn.dataset.accion, id = btn.dataset.id;
+
+  if (acc === 'anadirBloque') {
+    state.bloques.push({ id: nuevoId(), nombre: '', peso: '' });
+    render(); guardar();
+  } else if (acc === 'quitarBloque') {
+    const b = state.bloques.find(x => x.id === id);
+    if (!b) return;
+    if (!confirm('¿Quitar el bloque «' + (b.nombre || rot('bloqueCorto')) + '»? Se quitan también sus criterios de todas las actividades.')) return;
+    state.bloques = state.bloques.filter(x => x.id !== id);
+    state.criterios = state.criterios.filter(c => c.bloqueId !== id);
+    for (const act of state.actividades) act.criterios = act.criterios.filter(cid => criteriosExiste(cid));
+    /* las notas de actividades que siguen existiendo se conservan; las de actividades quitadas se ignoran */
+    render(); guardar();
+  } else if (acc === 'anadirCriterio') {
+    state.criterios.push({ id: nuevoId(), bloqueId: id, nombre: '', peso: '' });
+    render(); guardar();
+  } else if (acc === 'quitarCriterio') {
+    const c = state.criterios.find(x => x.id === id);
+    if (!c) return;
+    if (!confirm('¿Quitar este ' + rot('criterio') + '? Se quita de todas las actividades.')) return;
+    state.criterios = state.criterios.filter(x => x.id !== id);
+    for (const act of state.actividades) act.criterios = act.criterios.filter(cid => criteriosExiste(cid));
+    render(); guardar();
+  } else if (acc === 'anadirAlumno') {
+    const entrada = document.getElementById('nuevoAlumnoNombre');
+    const nombre = entrada.value.trim();
+    if (!nombre) { entrada.focus(); return; }
+    let maxNum = 0;
+    for (const a of state.alumnos) {
+      const m = /^A(\d+)$/.exec(a.codigo.trim());
+      if (m) maxNum = Math.max(maxNum, Number(m[1]));
+    }
+    state.alumnos.push({ id: nuevoId(), codigo: 'A' + String(maxNum + 1).padStart(2, '0'), nombre });
+    entrada.value = '';
+    render(); guardar();
+  } else if (acc === 'quitarAlumno') {
+    const a = state.alumnos.find(x => x.id === id);
+    if (!a) return;
+    if (!confirm('¿Quitar a «' + (a.nombre || a.codigo) + '» y todas sus notas?')) return;
+    state.alumnos = state.alumnos.filter(x => x.id !== id);
+    delete state.notas[id];
+    render(); guardar();
+  } else if (acc === 'anadirActividad') {
+    const entrada = document.getElementById('nuevaActNombre');
+    const nombre = entrada.value.trim();
+    if (!nombre) { entrada.focus(); return; }
+    state.actividades.push({ id: nuevoId(), nombre, criterios: [] });
+    entrada.value = '';
+    render(); guardar();
+  } else if (acc === 'quitarActividad') {
+    const act = state.actividades.find(x => x.id === id);
+    if (!act) return;
+    if (!confirm('¿Quitar la actividad «' + act.nombre + '» y sus notas?')) return;
+    state.actividades = state.actividades.filter(x => x.id !== id);
+    for (const aid of Object.keys(state.notas)) {
+      if (state.notas[aid]) delete state.notas[aid][id];
+    }
+    render(); guardar();
+  } else if (acc === 'anadirAlumnoRapido') {
+    activarPestana('tab-alumnado');
+    document.getElementById('nuevoAlumnoNombre').focus();
+  } else if (acc === 'anadirActividadRapida') {
+    activarPestana('tab-actividades');
+    document.getElementById('nuevaActNombre').focus();
+  } else if (acc === 'cargarEjemplo') {
+    const hayDatos = state.bloques.length || state.criterios.length || state.alumnos.length || state.actividades.length;
+    if (hayDatos && !confirm('Ya hay datos guardados: se sustituirán por el ejemplo.\nSi te interesan, exporta antes una copia con «Exportar copia (JSON)».\n¿Sustituir por el ejemplo?')) return;
+    state = crearEjemplo();
+    render();
+  }
+});
+function criteriosExiste(cid) { return state.criterios.some(c => c.id === cid); }
+
+/* ---------- ejemplo de demostración ---------- */
+function crearEjemplo() {
+  const b1 = nuevoId(), b2 = nuevoId();
+  const c11 = nuevoId(), c12 = nuevoId(), c21 = nuevoId();
+  const a1 = nuevoId(), a2 = nuevoId(), a3 = nuevoId();
+  const t1 = nuevoId(), t2 = nuevoId();
+  return {
+    modo: 'FP',
+    bloques: [
+      { id: b1, nombre: 'RA1. Diagnóstico del sistema', peso: '40' },
+      { id: b2, nombre: 'RA2. Configuración del equipo', peso: '60' }
+    ],
+    criterios: [
+      { id: c11, bloqueId: b1, nombre: 'CE1.1. Identifica los elementos del sistema', peso: '60' },
+      { id: c12, bloqueId: b1, nombre: 'CE1.2. Interpreta el informe de diagnóstico', peso: '40' },
+      { id: c21, bloqueId: b2, nombre: 'CE2.1. Configura los parámetros del equipo', peso: '100' }
+    ],
+    alumnos: [
+      { id: a1, codigo: 'A01', nombre: 'Ana Torres (ficticia)' },
+      { id: a2, codigo: 'A02', nombre: 'Bruno Gil (ficticio)' },
+      { id: a3, codigo: 'A03', nombre: 'Carla Ruiz (ficticia)' }
+    ],
+    actividades: [
+      { id: t1, nombre: 'Examen 1 (CE1.1 y CE2.1)', criterios: [c11, c21] },
+      { id: t2, nombre: 'Práctica 1 (CE1.2)', criterios: [c12] }
+    ],
+    notas: {
+      [a1]: { [t1]: '8', [t2]: '6,5' },
+      [a2]: { [t1]: '7', [t2]: '5' },
+      /* a la tercera alumna le falta la práctica: así se ve el aviso de criterio sin notas */
+      [a3]: { [t1]: '6' }
+    }
+  };
+}
+
+/* ---------- render ---------- */
+function render() {
+  sincronizarModoUI();
+  document.querySelectorAll('[data-rotulo]').forEach(el => { el.textContent = rot(el.dataset.rotulo); });
+  renderConfig();
+  renderAlumnos();
+  renderActividades();
+  renderNotas();
+  renderResultados();
+  actualizarAvisos();
+  guardar();
+}
+
+function sincronizarModoUI() {
+  document.querySelectorAll('input[name="modo"]').forEach(r => { r.checked = r.value === state.modo; });
+}
+
+function renderConfig() {
+  const cont = document.getElementById('listaBloques');
+  if (!state.bloques.length) {
+    cont.innerHTML = '<p class="sinDatos">Todavía no hay bloques. Añade el primero con el botón de abajo.</p>';
+    return;
+  }
+  cont.innerHTML = state.bloques.map((b, i) => {
+    const crits = criteriosDeBloque(b.id);
+    const filaCriterio = (c, j) => `
+      <div class="fila">
+        <div class="campoNombre">
+          <label for="cn-${c.id}">${rot('criterioCorto')} ${i + 1}.${j + 1}: nombre</label>
+          <input id="cn-${c.id}" type="text" data-edicion="criterioNombre" data-id="${c.id}" value="${esc(c.nombre)}" aria-label="${rot('criterioCorto')} ${i + 1}.${j + 1}: nombre">
+        </div>
+        <div class="campoPeso">
+          <label for="cp-${c.id}">Peso %</label>
+          <input id="cp-${c.id}" type="text" inputmode="decimal" data-edicion="criterioPeso" data-id="${c.id}" value="${esc(c.peso)}" aria-label="Peso del ${rot('criterioCorto')} ${i + 1}.${j + 1}, en porcentaje">
+        </div>
+        <button type="button" data-accion="quitarCriterio" data-id="${c.id}" aria-label="Quitar ${rot('criterioCorto')} ${i + 1}.${j + 1}">Quitar</button>
+      </div>`;
+    return `
+      <div class="tarjeta" data-bloque="${b.id}">
+        <div class="fila">
+          <div class="campoNombre">
+            <label for="bn-${b.id}">${rot('bloqueCorto')} ${i + 1}: nombre</label>
+            <input id="bn-${b.id}" type="text" data-edicion="bloqueNombre" data-id="${b.id}" value="${esc(b.nombre)}" aria-label="${rot('bloqueCorto')} ${i + 1}: nombre">
+          </div>
+          <div class="campoPeso">
+            <label for="bp-${b.id}">Peso %</label>
+            <input id="bp-${b.id}" type="text" inputmode="decimal" data-edicion="bloquePeso" data-id="${b.id}" value="${esc(b.peso)}" aria-label="Peso del ${rot('bloqueCorto')} ${i + 1} en la nota final, en porcentaje">
+          </div>
+          <button type="button" data-accion="quitarBloque" data-id="${b.id}" aria-label="Quitar ${rot('bloqueCorto')} ${i + 1} y sus criterios">Quitar</button>
+        </div>
+        <div class="criteriosGrupo">
+          <h4>${rot('criterios')} <span class="raros">(${rot('dentroDe')}); sus pesos conviene que sumen 100</span></h4>
+          ${crits.length ? crits.map(filaCriterio).join('') : '<p class="sinDatos">Sin criterios todavía.</p>'}
+          <p data-avisopesoscriterios="${b.id}"></p>
+          <button type="button" data-accion="anadirCriterio" data-id="${b.id}" aria-label="Añadir ${rot('criterioCorto')} al ${rot('bloqueCorto')} ${i + 1}">${rot('añadirCriterio')}</button>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function renderAlumnos() {
+  const cont = document.getElementById('tablaAlumnos');
+  if (!state.alumnos.length) {
+    cont.innerHTML = '<p class="sinDatos">Todavía no hay alumnado. Escribe un nombre arriba y pulsa «Añadir».</p>';
+    return;
+  }
+  cont.innerHTML = `
+    <table>
+      <caption>Lista de alumnado</caption>
+      <thead><tr><th scope="col">Código</th><th scope="col">Nombre</th><th scope="col"><span class="sinImprimir">Acciones</span></th></tr></thead>
+      <tbody>
+        ${state.alumnos.map((a, i) => `
+          <tr>
+            <td><input type="text" data-edicion="alumnoCodigo" data-id="${a.id}" value="${esc(a.codigo)}" aria-label="Código del alumno ${i + 1}"></td>
+            <td><input type="text" data-edicion="alumnoNombre" data-id="${a.id}" value="${esc(a.nombre)}" aria-label="Nombre del alumno ${i + 1}"></td>
+            <td><button type="button" class="sinImprimir" data-accion="quitarAlumno" data-id="${a.id}" aria-label="Quitar al alumno ${esc(a.codigo || 'nuevo')}">Quitar</button></td>
+          </tr>`).join('')}
+      </tbody>
+    </table>`;
+}
+
+function renderActividades() {
+  const cont = document.getElementById('listaActividades');
+  if (!state.actividades.length) {
+    cont.innerHTML = '<p class="sinDatos">Todavía no hay actividades. Escribe un nombre arriba y pulsa «Añadir».</p>';
+    return;
+  }
+  const hayBloques = state.bloques.length > 0;
+  cont.innerHTML = state.actividades.map((act, i) => {
+    let casillas;
+    if (!hayBloques) {
+      casillas = '<p class="sinDatos">Antes crea algún bloque en Configuración para poder marcar qué criterios evalúa esta actividad.</p>';
+    } else if (!state.criterios.length) {
+      casillas = '<p class="sinDatos">Aún no hay criterios: añade criterios dentro de los bloques en Configuración.</p>';
+    } else {
+      casillas = state.bloques.map((b, bi) => {
+        const crits = criteriosDeBloque(b.id);
+        if (!crits.length) return '';
+        const marcados = crits.filter(c => act.criterios.includes(c.id)).length;
+        return `<fieldset style="border:1px solid var(--borde);border-radius:6px;margin:.4rem 0">
+          <legend>${esc(b.nombre || rot('bloqueCorto') + ' ' + (bi + 1))} <span class="raros">(${marcados}/${crits.length})</span></legend>
+          ${crits.map((c, ci) => `
+            <label style="display:block;margin:.15rem 0">
+              <input type="checkbox" data-edicion="actCriterio" data-act="${act.id}" data-criterio="${c.id}" ${act.criterios.includes(c.id) ? 'checked' : ''}>
+              ${esc(c.nombre || rot('criterioCorto') + ' ' + (bi + 1) + '.' + (ci + 1))}
+            </label>`).join('')}
+        </fieldset>`;
+      }).join('') || '<p class="sinDatos">Ningún bloque tiene criterios todavía.</p>';
+    }
+    return `
+      <div class="tarjeta" data-act="${act.id}">
+        <div class="fila">
+          <div class="campoNombre">
+            <label for="an-${act.id}">Actividad ${i + 1}: nombre</label>
+            <input id="an-${act.id}" type="text" data-edicion="actividadNombre" data-id="${act.id}" value="${esc(act.nombre)}" aria-label="Actividad ${i + 1}: nombre">
+          </div>
+          <button type="button" class="sinImprimir" data-accion="quitarActividad" data-id="${act.id}" aria-label="Quitar la actividad ${esc(act.nombre)}">Quitar</button>
+        </div>
+        <p class="raros">¿Qué criterios evalúa esta actividad?</p>
+        ${casillas}
+      </div>`;
+  }).join('');
+}
+
+function renderNotas() {
+  const cont = document.getElementById('tablaNotas');
+  if (!state.bloques.length || !state.criterios.length) {
+    cont.innerHTML = '<p class="sinDatos">Primero configura bloques y criterios en Configuración.</p>';
+    return;
+  }
+  if (!state.alumnos.length) {
+    cont.innerHTML = '<p class="sinDatos">Primero da de alta alumnado en la pestaña Alumnado.</p> <button type="button" data-accion="anadirAlumnoRapido">Ir a Alumnado</button>';
+    return;
+  }
+  if (!state.actividades.length) {
+    cont.innerHTML = '<p class="sinDatos">Primero crea alguna actividad en la pestaña Actividades.</p> <button type="button" data-accion="anadirActividadRapida">Ir a Actividades</button>';
+    return;
+  }
+  cont.innerHTML = `
+    <div style="overflow-x:auto">
+    <table>
+      <caption class="sinImprimir">Cruce de alumnado y actividades. Marca una nota de 0 a 10 en cada casilla evaluada.</caption>
+      <thead>
+        <tr>
+          <th scope="col">Alumno</th>
+          ${state.actividades.map((act, i) => `<th scope="col" title="${esc(act.nombre)}">${esc(act.nombre || 'Actividad ' + (i + 1))}</th>`).join('')}
+        </tr>
+      </thead>
+      <tbody>
+        ${state.alumnos.map((a, i) => `
+          <tr>
+            <th scope="row" title="${esc(String(a.nombre || '').trim())}">${etiquetaAlumnoHtml(a, i)}</th>
+            ${state.actividades.map(act => {
+              const v = (state.notas[a.id] || {})[act.id];
+              return `<td class="cAsig"><input type="text" inputmode="decimal" placeholder="—" data-edicion="nota" data-alumno="${a.id}" data-act="${act.id}" value="${v == null ? '' : fmt(parseNum(v))}" aria-label="Nota de ${esc(a.nombre || a.codigo)} en ${esc(act.nombre)}"></td>`;
+            }).join('')}
+          </tr>`).join('')}
+      </tbody>
+    </table>
+    </div>`;
+}
+
+function renderResultados() {
+  const cont = document.getElementById('tablaResultados');
+  if (!state.bloques.length || !state.criterios.length) {
+    cont.innerHTML = '<p class="sinDatos">Primero configura bloques y criterios en Configuración.</p>';
+    return;
+  }
+  if (!state.alumnos.length) {
+    cont.innerHTML = '<p class="sinDatos">Primero da de alta alumnado en la pestaña Alumnado.</p>';
+    return;
+  }
+  let cols = '<th scope="col" rowspan="2">Alumno</th>';
+  let sub = '';
+  for (const b of state.bloques) {
+    const crits = criteriosDeBloque(b.id);
+    cols += `<th scope="colgroup" colspan="${crits.length + 1}" title="${esc(b.nombre)}">${esc(b.nombre || rot('bloqueCorto'))}</th>`;
+    for (const c of crits) sub += `<th scope="col" class="critCabecera" title="${esc(c.nombre)}">${esc(c.nombre || rot('criterioCorto'))}</th>`;
+    sub += `<th scope="col">${rot('notaBloque')}</th>`;
+  }
+  cols += `<th scope="col" rowspan="2">Nota final</th>`;
+  const filas = state.alumnos.map((a, i) => {
+    let celdas = '';
+    for (const b of state.bloques) {
+      const crits = criteriosDeBloque(b.id);
+      for (const c of crits) {
+        const n = notaCriterio(a.id, c.id);
+        celdas += `<td class="num" title="${esc(c.nombre)}">${fmt(n) || '—'}</td>`;
+      }
+      const nb = notaBloque(a.id, b.id);
+      celdas += `<td class="num"><strong>${fmt(nb) || '—'}</strong></td>`;
+    }
+    const nf = notaFinal(a.id);
+    return `<tr>
+      <th scope="row">${etiquetaAlumnoHtml(a, i)}</th>
+      ${celdas}
+      <td class="num"><strong>${fmt(nf) || '—'}</strong></td>
+    </tr>`;
+  }).join('');
+  cont.innerHTML = `
+    <div style="overflow-x:auto">
+    <table>
+      <caption>Resultados por criterio, por bloque y nota final</caption>
+      <thead><tr>${cols}</tr><tr>${sub}</tr></thead>
+      <tbody>${filas}</tbody>
+    </table>
+    </div>`;
+}
+
+function actualizarAvisos() {
+  /* pesos de bloques */
+  const avisosBloques = document.getElementById('avisoPesosBloques');
+  const sumaB = state.bloques.reduce((s, b) => s + pesoDe(b.peso), 0);
+  const nombres = state.bloques.map((b, i) => (b.nombre || rot('bloqueCorto') + ' ' + (i + 1)) + ': ' + fmt(pesoDe(b.peso)) + '%');
+  if (!state.bloques.length) {
+    avisosBloques.innerHTML = '';
+    avisosBloques.className = '';
+  } else if (Math.abs(sumaB - 100) < 0.001) {
+    avisosBloques.innerHTML = 'Los pesos de los bloques suman 100. ✔';
+    avisosBloques.className = 'banner ok';
+  } else {
+    avisosBloques.innerHTML = '⚠️ Los pesos de los bloques suman <strong>' + fmt(sumaB) + '%</strong> (deberían sumar 100%). Se calcula igual, con estos pesos. Detalle: ' + nombres.join(' · ');
+    avisosBloques.className = 'banner error';
+  }
+  /* pesos de criterios de cada bloque */
+  state.bloques.forEach((b, i) => {
+    const el = document.querySelector('[data-avisopesoscriterios="' + b.id + '"]');
+    if (!el) return;
+    const crits = criteriosDeBloque(b.id);
+    const sumaC = crits.reduce((s, c) => s + pesoDe(c.peso), 0);
+    if (!crits.length) { el.textContent = ''; el.className = ''; }
+    else if (Math.abs(sumaC - 100) < 0.001) { el.textContent = 'Pesos de los criterios: 100%. ✔'; el.className = 'okMini'; }
+    else {
+      el.innerHTML = '⚠️ Los pesos de los criterios de este bloque suman <strong>' + fmt(sumaC) + '%</strong> (deberían sumar 100%). Se calcula igual.';
+      el.className = 'errorMini';
+    }
+  });
+  /* avisos de resultados */
+  const avisosR = document.getElementById('avisosResultados');
+  const sinNotasC = state.criterios.filter(c => !criterioTieneNotas(c.id));
+  const sinNotasB = state.bloques.filter(b => !bloqueTieneNotas(b.id));
+  let html = '';
+  if (sinNotasC.length) {
+    html += '<div class="banner aviso"><strong>' + rot('criterios') + ' sin ninguna nota todavía</strong> (no entran en los cálculos):<ul class="listaAvisos">' +
+      sinNotasC.map(c => {
+        const b = state.bloques.find(x => x.id === c.bloqueId);
+        return '<li>' + esc(b ? b.nombre : '') + ' → ' + esc(c.nombre || rot('criterioCorto')) + '</li>';
+      }).join('') + '</ul></div>';
+  }
+  sinNotasB.forEach(b => {
+    if (criteriosDeBloque(b.id).length && sinNotasC.length === criteriosDeBloque(b.id).length) {
+      html += '<div class="banner aviso">El bloque <strong>' + esc(b.nombre) + '</strong> no tiene ninguna nota: no contará en la nota final.</div>';
+    }
+  });
+  /* alumnos con algún criterio sin nota: su nota final es provisional */
+  const alumnosConHuecos = state.alumnos
+    .map(a => ({ a, faltan: state.criterios.filter(c => notaCriterio(a.id, c.id) == null) }))
+    .filter(x => x.faltan.length);
+  if (alumnosConHuecos.length) {
+    html += '<div class="banner aviso"><strong>Notas pendientes:</strong> a estos alumnos les faltan criterios y su nota final es provisional:<ul class="listaAvisos">' +
+      alumnosConHuecos.map(x => {
+        const quien = etiquetaAlumnoHtml(x.a, state.alumnos.indexOf(x.a));
+        const nombres = x.faltan.map(c => esc(nombreCriterioCorto(c)));
+        const verbo = x.faltan.length === 1 ? 'falta' : 'faltan';
+        return '<li>' + quien + ': ' + verbo + ' ' + nombres.join(', ') + '</li>';
+      }).join('') + '</ul></div>';
+  }
+  if (state.criterios.length && state.alumnos.length && sinNotasC.length === 0 && alumnosConHuecos.length === 0) {
+    html += '<div class="banner ok">Todos los criterios tienen notas para todo el alumnado. ✔</div>';
+  }
+  avisosR.innerHTML = html;
+}
+
+/* ---------- copias, CSV e impresión ---------- */
+function descargar(nombre, contenido, tipo) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([contenido], { type: tipo }));
+  a.download = nombre;
+  document.body.appendChild(a);
+  a.click();
+  URL.revokeObjectURL(a.href);
+  a.remove();
+}
+document.getElementById('btnExportarJson').addEventListener('click', () => {
+  const fecha = new Date().toISOString().slice(0, 10);
+  descargar('cuaderno-evaluacion-' + fecha + '.json', JSON.stringify(state, null, 2), 'application/json');
+});
+document.getElementById('btnImportarJson').addEventListener('click', () => {
+  document.getElementById('ficheroImportar').click();
+});
+document.getElementById('ficheroImportar').addEventListener('change', e => {
+  const fichero = e.target.files[0];
+  if (!fichero) return;
+  const lector = new FileReader();
+  lector.onload = () => {
+    try {
+      const datos = JSON.parse(lector.result);
+      if (typeof datos !== 'object' || !Array.isArray(datos.bloques) ||
+          !Array.isArray(datos.criterios) || !Array.isArray(datos.alumnos) ||
+          !Array.isArray(datos.actividades) || typeof datos.notas !== 'object') {
+        throw new Error('estructura no válida');
+      }
+      if (!confirm('Esto reemplazará todos los datos guardados en este navegador por los del fichero. ¿Continuar?')) return;
+      state = datos;
+      render();
+      alert('Copia importada correctamente.');
+    } catch (err) {
+      alert('No he podido leer la copia: comprueba que es el fichero JSON exportado desde esta herramienta.');
+    }
+  };
+  lector.readAsText(fichero);
+  e.target.value = '';
+});
+document.getElementById('btnExportarCsv').addEventListener('click', () => {
+  if (!state.alumnos.length) { alert('No hay alumnado todavía.'); return; }
+  const sep = ';';
+  const cab = ['Código', 'Nombre'];
+  for (const b of state.bloques) cab.push((b.nombre || rot('bloqueCorto')) + ' — nota del bloque');
+  cab.push('Nota final');
+  const lineas = [cab.join(sep)];
+  for (const a of state.alumnos) {
+    const celdas = [a.codigo || '', a.nombre || ''];
+    for (const b of state.bloques) {
+      const n = notaBloque(a.id, b.id);
+      celdas.push(n == null ? '' : fmt(n));
+    }
+    const nf = notaFinal(a.id);
+    celdas.push(nf == null ? '' : fmt(nf));
+    lineas.push(celdas.map(c => String(c).replace(/"/g, '""')).map(c => '"' + c + '"').join(sep));
+  }
+  descargar('cuaderno-notas-finales.csv', '\uFEFF' + lineas.join('\r\n'), 'text/csv;charset=utf-8');
+});
+document.getElementById('btnImprimir').addEventListener('click', () => window.print());
+
+/* ---------- arranque ---------- */
+render();
+</script>
+</body>
+</html>

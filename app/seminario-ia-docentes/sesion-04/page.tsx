@@ -799,7 +799,7 @@ export default function Sesion4() {
             detalle: (
               <>
                 Sigue el paso de instalación de la{" "}
-                <Link href={`${RAIZ}sesion-05/`} className={cls.enlace}>
+                <Link href={`${RAIZ}sesion-05/#instalar`} className={cls.enlace}>
                   sesión 5
                 </Link>{" "}
                 y ábrelo una vez. Si tu portátil no te deja instalar, no pasa nada: la sesión 5 tiene un plan B.

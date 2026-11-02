@@ -98,6 +98,39 @@ export default function SeminarioPortada() {
         </ol>
       </Bloque>
 
+      {/* La herramienta de ejemplo */}
+      <Bloque
+        id="ejemplo"
+        etiqueta="El ejemplo resuelto"
+        titulo="Así acaba la sesión 5"
+        entradilla={
+          <>
+            Un <b>cuaderno de evaluación por criterios</b> para FP (RA y CE) y para ESO y Bachillerato (competencias y
+            criterios), hecho de cero por un agente de IA con ocho mensajes. Funciona sin internet y los datos no salen
+            de tu navegador. Ábrelo, pruébalo y mira la conversación que lo creó.
+          </>
+        }
+      >
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <a
+            href={`${RAIZ}herramientas/cuaderno-evaluacion/index.html`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`block rounded-2xl border p-5 transition hover:-translate-y-0.5 hover:shadow-lg ${TONO.ambar.caja}`}
+          >
+            <span className={`block text-xl font-bold ${TONO.ambar.tinta}`}>Abrir el cuaderno de evaluación →</span>
+            <span className={`mt-1 block ${cls.texto}`}>Un solo fichero: pruébalo con datos inventados o descárgalo.</span>
+          </a>
+          <Link
+            href={`${RAIZ}tu-herramienta/`}
+            className={`block rounded-2xl border p-5 transition hover:-translate-y-0.5 hover:shadow-lg ${TONO.rosa.caja}`}
+          >
+            <span className={`block text-xl font-bold ${TONO.rosa.tinta}`}>Ver cómo se hizo, paso a paso →</span>
+            <span className={`mt-1 block ${cls.texto}`}>El encargo, las reglas del agente y los ocho mensajes reales.</span>
+          </Link>
+        </div>
+      </Bloque>
+
       {/* Tres reglas */}
       <Bloque
         id="reglas"

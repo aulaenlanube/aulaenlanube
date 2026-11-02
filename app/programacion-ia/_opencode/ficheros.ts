@@ -147,3 +147,21 @@ export const MCP_JSON = String.raw`
   }
 }
 `;
+
+// Variables de entorno: la dirección y la clave del servidor del centro, y el
+// certificado del instituto. El servidor va por https con una CA propia
+// (ca-ies-simarro.crt, se descarga de la página «Certificado del centro» de la
+// plataforma); sin NODE_EXTRA_CA_CERTS, opencode run reintenta sin fin.
+// Comprobado con OpenCode 2.2.5 contra el servidor real el 2026-11-02.
+export const VARIABLES_SH = String.raw`
+# Añade al final de ~/.bashrc (o ~/.zshrc en macOS)
+export CENTRO_IA_URL="…"
+export CENTRO_IA_KEY="…"
+export NODE_EXTRA_CA_CERTS="$HOME/ca-ies-simarro.crt"
+`;
+
+export const VARIABLES_PS = String.raw`
+setx CENTRO_IA_URL "…"
+setx CENTRO_IA_KEY "…"
+setx NODE_EXTRA_CA_CERTS "$HOME\ca-ies-simarro.crt"
+`;

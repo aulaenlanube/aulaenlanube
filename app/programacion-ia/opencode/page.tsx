@@ -28,7 +28,17 @@ import {
   type Tono,
 } from "../_video/piezas";
 import { CaminoPeticion, CapasFusion, CuandoSeCarga, DondeVive, FlujoPermiso, QuienHace, Subagentes } from "./figuras";
-import { AGENTS_MD, CONFIG_GLOBAL, CONFIG_PROYECTO, MCP_JSON, NUEVA_ACCION_MD, REVISOR_MD, SKILL_MD } from "../_opencode/ficheros";
+import {
+  AGENTS_MD,
+  CONFIG_GLOBAL,
+  CONFIG_PROYECTO,
+  MCP_JSON,
+  NUEVA_ACCION_MD,
+  REVISOR_MD,
+  SKILL_MD,
+  VARIABLES_PS,
+  VARIABLES_SH,
+} from "../_opencode/ficheros";
 
 export const metadata: Metadata = {
   title: "OpenCode: tu agente de programación — Curso de Programación con IA",
@@ -240,7 +250,7 @@ const ERRORES: { titulo: string; items: [string, string, string][] }[] = [
     titulo: "Errores al conectar",
     items: [
       ["/models no enseña el modelo del centro", "La config no está donde OpenCode la busca, el JSON tiene un error o el proveedor no se llama centro.", "opencode debug paths config te dice la ruta; revisa el fichero y el nombre."],
-      ["opencode run se queda esperando", "El servidor no responde: URL mal escrita, falta /v1, no estás en la red del centro o el servidor está caído.", "Ctrl+C. Revisa CENTRO_IA_URL (termina en /v1) y que estás en la red del aula; si sigue, avisa al profesor."],
+      ["opencode run se queda esperando", "El servidor no responde o no se fía de él: URL mal escrita, falta /v1 o el certificado, no estás en la red del centro o el servidor está caído.", "Ctrl+C. Revisa CENTRO_IA_URL (/v1), NODE_EXTRA_CA_CERTS y la red del aula; si sigue, avisa al profesor."],
       ["Error 401/403 o «clave no válida»", "La variable no existe en esa terminal: {env:VAR} se sustituye por una cadena vacía. Falta export, o la terminal es anterior al setx.", "echo $CENTRO_IA_KEY (bash) o echo $env:CENTRO_IA_KEY (PowerShell). Si sale vacío: export en ~/.bashrc o setx, y terminal NUEVA."],
     ],
   },
@@ -862,12 +872,14 @@ export default function GuiaOpenCode() {
           </>
         }
       >
+        <p className={`mb-4 text-lg ${cls.texto}`}>
+          Antes, descarga el <b>certificado del centro</b> (<C>ca-ies-simarro.crt</C>) desde la página «Certificado del
+          centro» de la plataforma y déjalo en tu carpeta personal. El servidor va por https con un certificado del propio
+          instituto: la tercera variable le dice a OpenCode que se fíe de él.
+        </p>
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-          <Codigo
-            code={`# Añade al final de ~/.bashrc (o ~/.zshrc en macOS)\nexport CENTRO_IA_URL="…"\nexport CENTRO_IA_KEY="…"`}
-            etiqueta="Linux / macOS / WSL"
-          />
-          <Codigo code={`setx CENTRO_IA_URL "…"\nsetx CENTRO_IA_KEY "…"`} etiqueta="Windows (PowerShell)" />
+          <Codigo code={VARIABLES_SH} etiqueta="Linux / macOS / WSL" />
+          <Codigo code={VARIABLES_PS} etiqueta="Windows (PowerShell)" />
         </div>
         <p className={`mt-4 text-lg ${cls.texto}`}>
           Y después, <b>abre una terminal nueva</b>: las variables solo existen en las terminales que se abren después.
@@ -887,8 +899,8 @@ export default function GuiaOpenCode() {
         <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]">
           <Tarjeta titulo="Si se queda esperando" tono="ambar">
             <p>
-              Si <C>opencode run</C> no responde, el servidor no contesta. Sal con <b>Ctrl+C</b> y revisa la URL y que estás
-              en la red del centro.
+              Si <C>opencode run</C> no responde, el servidor no contesta. Sal con <b>Ctrl+C</b> y revisa la URL, el
+              certificado y que estás en la red del centro.
             </p>
           </Tarjeta>
           <Anatomia

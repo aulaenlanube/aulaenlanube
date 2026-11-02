@@ -55,12 +55,19 @@ apaga el desplazamiento suave, para que la cámara mande sobre el movimiento.
 | `Tarjeta`, `Lista`, `Chip`, `C` | Tarjeta con título (h3/h4), viñetas, píldora y código en línea. |
 | `DosColumnas` | «X frente a Y»: chat/agente, plan/build, proyecto/global. |
 | `Permiso`, `Regla`, `IconoPermiso` | allow / ask / deny con su icono a la vista. |
-| `Codigo`, `Prompt` | `PromptBlock` a 16 px con rótulo; `Codigo` además resalta (`resaltado.ts`). |
+| `Codigo`, `Prompt` | `PromptBlock` a 16 px con rótulo; `Codigo` además resalta (`resaltado.ts`). Con `rango` enseña solo unas líneas y el botón copia el fichero entero: así un fichero largo se reparte en varias pantallas. |
 | `Terminal` | Órdenes y su salida real, cada línea un elemento; el `$` va fuera del texto de la línea y el botón copia solo las órdenes. |
 | `Teclas` | Atajos con teclas dibujadas: `ctrl+x u`. |
 | `Anatomia` | Una orden troceada con el nombre de cada parte (programa, subcomando, argumento, opción…). |
 | `LineaTiempo` | Hitos en vertical (semanas, sesiones), con fecha, enlace y puntos. |
 | `bucle.tsx` | El bucle del agente en SVG, sin interacción. |
+| `svg.tsx` | Primitivas de los diagramas: `Figura` (marco 1:1 con sus flechas), `Caja`, `Flecha`, `Zona`, `T`. Cada caja es un `<g data-caja>` para que el revisor compruebe que sus textos no se salen. |
+
+**Al menos un diagrama por sección**: un bloque de texto se entiende, pero en
+vídeo se *ve* un dibujo (el camino de una petición, el recorrido de un permiso,
+dónde vive cada fichero, capas que se fusionan, quién hace cada paso…). Los de
+la guía de OpenCode están en `app/programacion-ia/opencode/figuras.tsx`, con la
+geometría apuntada encima de cada uno.
 
 Reglas de dibujo de los SVG: las de los diagramas del curso (paleta en tokens
 `--dg-*`, pintado 1:1 con `maxWidth = minWidth = ancho del viewBox` dentro de un
@@ -89,7 +96,9 @@ node tools/video/revisar-pagina.mjs /programacion-ia/opencode/ --base http://loc
 Mide en Chromium (oscuro, `?video`, 1280×720 y luego 390×844): tamaño de cada
 bloque, encabezados repetidos o largos, pasos mal numerados, letra por debajo de
 16 px (también en los SVG), contraste AA del texto sobre su fondo real, dos
-elementos que empiezan igual, elementos fijos a la vista, cosas que solo
+elementos que empiezan igual (o uno que es el principio de otro, como «sí» y
+«sí, solo esta vez»), textos de un SVG que se salen de su caja o se pisan,
+elementos fijos a la vista, cosas que solo
 aparecen con el ratón, contenido escondido en un desplazamiento lateral y texto
 que se sale en móvil. Con `--capturas` deja una imagen por bloque: hay que
 mirarlas. Sale con código 1 si encuentra algo.

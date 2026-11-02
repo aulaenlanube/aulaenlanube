@@ -727,7 +727,8 @@ export default function GuiaOpenCode() {
           <Tarjeta titulo="Windows nativo" className="flex flex-col">
             <ol className="list-decimal space-y-1 pl-5">
               <li>
-                Instala <b>Git for Windows</b>: sin git no hay <C>/undo</C> de ficheros.
+                Instala <b>Git for Windows</b>: OpenCode ejecuta sus órdenes con Git Bash (sin él, con PowerShell) y sin git
+                no hay <C>/undo</C> de ficheros.
               </li>
               <li>
                 Descarga el zip oficial:{" "}

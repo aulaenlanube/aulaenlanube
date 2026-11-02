@@ -8,7 +8,9 @@
 //   · encabezados h1-h4 únicos y cortos; los «Paso N · …» son h2 y van seguidos;
 //   · ningún texto visible por debajo de 16 px (también el de los SVG);
 //   · contraste AA del texto HTML sobre su fondo real (con transparencias);
-//   · prefijos únicos: dos h2/h3/h4/li/<text> no pueden empezar igual;
+//   · prefijos únicos: dos h2/h3/h4/li/<text> no pueden empezar igual, ni ser
+//     uno el principio de otro;
+//   · en los SVG, cada texto dentro de su caja (<g data-caja>) y sin pisarse;
 //   · nada fijo o pegajoso a la vista, nada invisible que dependa del ratón;
 //   · nada escondido en un desplazamiento horizontal a 1280 ni desbordes en móvil.
 //
@@ -194,6 +196,49 @@ function medir({ MAX_W, MAX_H, MIN_PX, PREFIJO, movil }) {
     if (prefijos.has(clave) && prefijos.get(clave) !== t) problemas.push(`dos ${clave}… empiezan igual`);
     else if (prefijos.has(clave)) problemas.push(`repetido ${clave}`);
     prefijos.set(clave, t);
+  }
+
+  // 4b · Un texto que es el principio de otro de la misma etiqueta («Tú» y
+  // «Tú pides»): la cámara, que busca por el comienzo, no sabría cuál es.
+  const porEtiqueta = new Map();
+  for (const el of candidatos) {
+    const t = norm(el.textContent);
+    if (!t) continue;
+    const tag = el.tagName.toLowerCase();
+    if (!porEtiqueta.has(tag)) porEtiqueta.set(tag, new Set());
+    porEtiqueta.get(tag).add(t);
+  }
+  for (const [tag, textos] of porEtiqueta) {
+    const lista = [...textos];
+    for (const a of lista) {
+      for (const b of lista) {
+        if (a !== b && b.startsWith(a)) problemas.push(`«${tag}:${a}» es el principio de «${tag}:${b.slice(0, 40)}»`);
+      }
+    }
+  }
+
+  // 4c · Geometría de los SVG: textos dentro de su caja y sin pisarse.
+  for (const svg of document.querySelectorAll("[data-bloque] svg")) {
+    for (const g of svg.querySelectorAll("g[data-caja]")) {
+      const marco = g.querySelector("rect")?.getBBox();
+      if (!marco) continue;
+      for (const t of g.querySelectorAll("text")) {
+        const c = t.getBBox();
+        if (c.x < marco.x + 4 || c.y < marco.y + 2 || c.x + c.width > marco.x + marco.width - 4 || c.y + c.height > marco.y + marco.height - 2) {
+          problemas.push(`texto fuera de su caja en un SVG: «${norm(t.textContent).slice(0, 40)}»`);
+        }
+      }
+    }
+    const textos = [...svg.querySelectorAll("text")].map((t) => ({ t: norm(t.textContent), c: t.getBBox() }));
+    for (let i = 0; i < textos.length; i++) {
+      for (let j = i + 1; j < textos.length; j++) {
+        const a = textos[i].c;
+        const b = textos[j].c;
+        const ancho = Math.min(a.x + a.width, b.x + b.width) - Math.max(a.x, b.x);
+        const alto = Math.min(a.y + a.height, b.y + b.height) - Math.max(a.y, b.y);
+        if (ancho > 1 && alto > 3) problemas.push(`textos que se pisan en un SVG: «${textos[i].t.slice(0, 30)}» y «${textos[j].t.slice(0, 30)}»`);
+      }
+    }
   }
 
   // 5 · Nada fijo a la vista

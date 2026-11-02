@@ -55,12 +55,12 @@ apaga el desplazamiento suave, para que la cámara mande sobre el movimiento.
 | `Tarjeta`, `Lista`, `Chip`, `C` | Tarjeta con título (h3/h4), viñetas, píldora y código en línea. |
 | `DosColumnas` | «X frente a Y»: chat/agente, plan/build, proyecto/global. |
 | `Permiso`, `Regla`, `IconoPermiso` | allow / ask / deny con su icono a la vista. |
-| `Codigo`, `Prompt` | `PromptBlock` a 16 px con rótulo; `Codigo` además resalta (`resaltado.ts`). Con `rango` enseña solo unas líneas y el botón copia el fichero entero: así un fichero largo se reparte en varias pantallas. |
+| `Codigo`, `Prompt` | `PromptBlock` a 16 px con rótulo; `Codigo` además resalta (`resaltado.ts`: shell, JSON, Markdown, Python y TOML; uno solo para todas las páginas, no hagas copias). Con `rango` enseña solo unas líneas y el botón copia el fichero entero: así un fichero largo se reparte en varias pantallas. |
 | `Terminal` | Órdenes y su salida real, cada línea un elemento; el `$` va fuera del texto de la línea y el botón copia solo las órdenes. |
 | `Teclas` | Atajos con teclas dibujadas: `ctrl+x u`. |
 | `Anatomia` | Una orden troceada con el nombre de cada parte (programa, subcomando, argumento, opción…). |
 | `LineaTiempo` | Hitos en vertical (semanas, sesiones), con fecha, enlace y puntos. |
-| `Arbol`, `AntesDespues` | Árbol de carpetas en monoespaciada (cada fila, su elemento; las ramas ├─ └─ van fuera del texto) y el par antes → orden → después para enseñar qué hace una acción con tus ficheros. |
+| `Arbol`, `AntesDespues` | Árbol de carpetas en monoespaciada (cada fila, su elemento; las ramas ├─ └─ van fuera del texto) y el par antes → orden → después para enseñar qué hace una acción con tus ficheros. Con varios pares en la página, cada árbol lleva su `titulo` («Descargas, antes»): la cámara no distingue dos h4 iguales. |
 | `Checklist` | Lista de comprobación con casillas dibujadas (sin pulsar). |
 | `CriterioRubrica` | Un criterio de la rúbrica casilla a casilla: los cuatro niveles con su porcentaje y su descriptor literal; `resaltar` marca la casilla a la que apunta la semana. |
 | `bucle.tsx` | El bucle del agente en SVG, sin interacción. |

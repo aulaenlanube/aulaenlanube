@@ -1,9 +1,15 @@
 // Resaltado mínimo (en compilación) para los bloques de código de las páginas
-// del curso: shell, JSON y Markdown con frontmatter. Devuelve el código limpio
+// del curso: shell, JSON, Markdown con frontmatter, Python y TOML. Devuelve el código limpio
 // (lo que se copia) y el HTML de cada línea por separado, que es lo que pinta
 // PromptBlock: una línea, un elemento.
 
-export type Kind = "sh" | "json" | "md" | "txt";
+export type Kind = "sh" | "json" | "md" | "py" | "toml" | "txt";
+
+const PY_KW = new Set([
+  "def", "class", "import", "from", "return", "if", "else", "elif", "for", "in", "while", "with", "as",
+  "try", "except", "raise", "not", "and", "or", "is", "pass", "lambda", "yield", "continue", "break",
+]);
+const PY_LIT = new Set(["None", "True", "False"]);
 
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const span = (c: string, t: string) => `<span class="tok-${c}">${esc(t)}</span>`;
@@ -16,13 +22,13 @@ function pintarLinea(l: string, kind: Kind): string {
   while (i < n) {
     const c = l[i];
     const prev = i === 0 ? " " : l[i - 1];
-    // Comentarios con # (shell y PowerShell)
-    if (c === "#" && kind === "sh" && /\s/.test(prev)) {
+    // Comentarios con # (shell, PowerShell, Python y TOML)
+    if (c === "#" && kind !== "json" && /\s/.test(prev)) {
       out += span("com", l.slice(i));
       break;
     }
     // Cadenas
-    if (c === '"' || (c === "'" && kind === "sh")) {
+    if (c === '"' || (c === "'" && kind !== "json")) {
       let j = i + 1;
       while (j < n && l[j] !== c) {
         if (l[j] === "\\") j++;
@@ -48,19 +54,34 @@ function pintarLinea(l: string, kind: Kind): string {
       i = j;
       continue;
     }
+    // Decoradores de Python: @app.command()
+    if (kind === "py" && c === "@") {
+      let j = i + 1;
+      while (j < n && /[\w.]/.test(l[j])) j++;
+      out += span("ann", l.slice(i, j));
+      i = j;
+      continue;
+    }
+    // Tablas de TOML: [project.scripts]
+    if (kind === "toml" && c === "[" && i === 0) {
+      out += span("type", l);
+      break;
+    }
     // Palabras
     if (/[A-Za-z_]/.test(c)) {
       let j = i;
       while (j < n && /[\w]/.test(l[j])) j++;
       const w = l.slice(i, j);
-      if (kind === "sh" && out.replace(/<[^>]+>/g, "").trim() === "") out += span("fn", w);
+      if (kind === "py" && PY_KW.has(w)) out += span("ctrl", w);
+      else if (kind === "py" && PY_LIT.has(w)) out += span("lit", w);
+      else if (kind === "sh" && out.replace(/<[^>]+>/g, "").trim() === "") out += span("fn", w);
       else if (kind === "json" && (w === "true" || w === "false" || w === "null")) out += span("lit", w);
       else out += esc(w);
       i = j;
       continue;
     }
     // Números
-    if (/\d/.test(c) && kind === "json") {
+    if (/\d/.test(c) && kind !== "sh") {
       let j = i;
       while (j < n && /[\d.]/.test(l[j])) j++;
       out += span("num", l.slice(i, j));

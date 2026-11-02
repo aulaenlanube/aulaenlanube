@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "@/components/Link";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import PromptBlock from "@/components/PromptBlock";
 import { RUBRICA_CLI } from "@/lib/campus/rubricas";
 import {
   AntesDespues,
@@ -11,6 +10,7 @@ import {
   C,
   Checklist,
   Chip,
+  Codigo,
   CriterioRubrica,
   DosColumnas,
   LineaTiempo,
@@ -36,7 +36,6 @@ import {
   Tuberia,
   TyperDeduce,
 } from "./figuras";
-import { pintar, type Kind } from "./resaltado";
 
 export const metadata: Metadata = {
   title: "Proyecto 2 · CLI «tareas con IA» — Curso de Programación con IA",
@@ -48,18 +47,6 @@ export const metadata: Metadata = {
 // una pantalla de 16:9 con una sola idea y lo que cuenta cada pieza está
 // escrito, sin pulsar ni pasar el ratón. El hilo del proyecto (una herramienta
 // útil para ti, que automatiza lo que te hace perder tiempo) va en la portada.
-
-/**
- * Código en PromptBlock con el resaltado de esta página (Python y TOML incluidos).
- * Los espacios que alinean los comentarios se pintan no separables: al partir
- * una línea en móvil no cuelgan fuera del bloque. Lo que se copia es el original.
- */
-function Codigo({ code, kind = "sh", etiqueta, ajustar = true }: { code: string; kind?: Kind; etiqueta?: string; ajustar?: boolean }) {
-  const p = pintar(code, kind);
-  const lineas = p.lines.map((l) => l.replace(/ {2,}(?=<span class="tok-com">)/g, (m) => "&nbsp;".repeat(m.length)));
-  const rotulo = etiqueta ?? { sh: "Terminal", py: "Python", json: "JSON", toml: "TOML", txt: "Salida" }[kind];
-  return <PromptBlock text={p.code} lineas={lineas} etiqueta={rotulo} grande ajustar={ajustar} />;
-}
 
 /* ------------------------------------------------------------------ */
 /* Datos                                                               */
@@ -1247,13 +1234,7 @@ export default function CursoIACliTareas() {
 
       {EJEMPLOS.map((e) => (
         <Bloque key={e.titulo} titulo={e.titulo} nivel={3}>
-          <PromptBlock
-            text={pintar(ACCIONES_JSON, "json").code}
-            lineas={pintar(ACCIONES_JSON, "json").lines.slice(e.linea[0] - 1, e.linea[1])}
-            etiqueta="acciones.json · esta acción"
-            grande
-            rotuloCopiar="copiar el fichero"
-          />
+          <Codigo code={ACCIONES_JSON} kind="json" etiqueta="acciones.json · esta acción" rango={e.linea} />
           <div className="mt-4">
             <AntesDespues antes={e.antes} despues={e.despues} orden={e.orden} aviso={e.aviso} />
           </div>

@@ -422,11 +422,14 @@ export function Codigo({
   rango?: [number, number];
 }) {
   const p = pintar(code, kind);
-  const rotulo = etiqueta ?? { sh: "Terminal", json: "JSON", md: "Markdown", txt: "Texto" }[kind];
+  // Los espacios que alinean un comentario van no separables: al partir la
+  // línea en móvil no cuelgan fuera del bloque. Lo que se copia es el original.
+  const lineas = p.lines.map((l) => l.replace(/ {2,}(?=<span class="tok-com">)/g, (m) => "&nbsp;".repeat(m.length)));
+  const rotulo = etiqueta ?? { sh: "Terminal", json: "JSON", md: "Markdown", py: "Python", toml: "TOML", txt: "Texto" }[kind];
   return (
     <PromptBlock
       text={p.code}
-      lineas={rango ? p.lines.slice(rango[0] - 1, rango[1]) : p.lines}
+      lineas={rango ? lineas.slice(rango[0] - 1, rango[1]) : lineas}
       etiqueta={rotulo}
       grande
       ajustar={ajustar}

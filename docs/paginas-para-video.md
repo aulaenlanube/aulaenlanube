@@ -60,6 +60,9 @@ apaga el desplazamiento suave, para que la cámara mande sobre el movimiento.
 | `Teclas` | Atajos con teclas dibujadas: `ctrl+x u`. |
 | `Anatomia` | Una orden troceada con el nombre de cada parte (programa, subcomando, argumento, opción…). |
 | `LineaTiempo` | Hitos en vertical (semanas, sesiones), con fecha, enlace y puntos. |
+| `Arbol`, `AntesDespues` | Árbol de carpetas en monoespaciada (cada fila, su elemento; las ramas ├─ └─ van fuera del texto) y el par antes → orden → después para enseñar qué hace una acción con tus ficheros. |
+| `Checklist` | Lista de comprobación con casillas dibujadas (sin pulsar). |
+| `CriterioRubrica` | Un criterio de la rúbrica casilla a casilla: los cuatro niveles con su porcentaje y su descriptor literal; `resaltar` marca la casilla a la que apunta la semana. |
 | `bucle.tsx` | El bucle del agente en SVG, sin interacción. |
 | `svg.tsx` | Primitivas de los diagramas: `Figura` (marco 1:1 con sus flechas), `Caja`, `Flecha`, `Zona`, `T`. Cada caja es un `<g data-caja>` para que el revisor compruebe que sus textos no se salen. |
 
@@ -68,6 +71,11 @@ vídeo se *ve* un dibujo (el camino de una petición, el recorrido de un permiso
 dónde vive cada fichero, capas que se fusionan, quién hace cada paso…). Los de
 la guía de OpenCode están en `app/programacion-ia/opencode/figuras.tsx`, con la
 geometría apuntada encima de cada uno.
+
+Los ficheros de OpenCode que copia el alumnado (config global, `opencode.json` del
+proyecto, `AGENTS.md`, agente revisor, comando, skill, MCP) viven en
+`app/programacion-ia/_opencode/ficheros.ts`: la guía y las sesiones los importan
+de ahí, así nunca se contradicen.
 
 Reglas de dibujo de los SVG: las de los diagramas del curso (paleta en tokens
 `--dg-*`, pintado 1:1 con `maxWidth = minWidth = ancho del viewBox` dentro de un

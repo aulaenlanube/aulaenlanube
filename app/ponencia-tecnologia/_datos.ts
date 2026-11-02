@@ -156,6 +156,11 @@ export const RECURSOS: { t: string; d: string; u: string }[] = [
     u: "https://insignias.org",
   },
   {
+    t: "Seminario de IA para docentes",
+    d: "Cinco sesiones para FP y Secundaria: Copilot con la cuenta del centro, el semáforo de datos de la guía del CEFIRE, preparar clases, evaluar sin que la IA ponga la nota, tu asistente de Copilot y una herramienta propia hecha con un agente.",
+    u: "/seminario-ia-docentes/",
+  },
+  {
     t: "Curso de programación con IA",
     d: "El curso largo del autor sobre programar con IA: GitHub, agentes y proyectos reales, sesión a sesión. Si el bloque 5 te sabe a poco, sigue por ahí.",
     u: "/programacion-ia/",

@@ -314,7 +314,7 @@ Dime también qué has dado por supuesto que yo no te había dicho.`}
 
       <Rejilla cols={3}>
         <Tarjeta tono="ambar" titulo="Si se te agotan las peticiones">
-          El plan gratuito de Copilot da 50 peticiones de chat al mes y se van rápido. Solicita el
+          El plan gratuito de Copilot trae un cupo mensual pequeño y se va rápido (desde junio de 2026 GitHub lo cuenta en créditos). Solicita el
           programa educativo de GitHub —<Dentro href="/ponencia-tecnologia/02-herramientas-gratuitas/">bloque 2</Dentro>— o
           reparte el trabajo: pocas peticiones largas y bien escritas rinden más que muchas cortas.
         </Tarjeta>

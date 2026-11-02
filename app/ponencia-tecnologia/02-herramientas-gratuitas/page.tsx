@@ -23,7 +23,7 @@ import {
 export const metadata: Metadata = {
   title: "Bloque 2 · Copilot: el kit que ya tienes — IA para opositores de Tecnología — Aula en la Nube",
   description:
-    "Qué incluye exactamente Copilot con la cuenta educativa de la Generalitat Valenciana (Microsoft 365 A1 y A3), qué es GitHub Copilot y por qué el profesorado verificado puede tener Copilot Pro gratis, cuál abrir para cada encargo y qué datos no se meten nunca en un chat.",
+    "Qué incluye exactamente Microsoft Copilot Chat con la cuenta educativa de la Generalitat Valenciana (Microsoft 365 A1 y A3), qué es Enseñar, qué es GitHub Copilot y por qué el profesorado verificado puede tener Copilot Pro gratis, cuál abrir para cada encargo y qué datos no se meten nunca en un chat según la guía del CEFIRE de 2026-2027.",
 };
 
 const { atras, adelante } = vecinos(2);
@@ -76,24 +76,27 @@ export default function Bloque2() {
           hace falta A3 para nada de lo que se ve en esta sesión.
         </Tarjeta>
         <Tarjeta tono="verde" titulo="A3 · familias concretas">
-          Desde octubre de 2025 se asigna a FP de Informática y Comunicaciones, Administración y
-          Gestión, y Comercio y Marketing; centros a distancia; conservatorios profesionales;
-          enseñanzas artísticas superiores; EOI; y CEFIRE. Añade las aplicaciones de escritorio, 100
-          GB de correo y 1 TB de OneDrive.
+          Desde octubre de 2025 la tienen la FP de grado medio y superior de Informática y
+          Comunicaciones, Administración y Gestión, y Comercio y Marketing; la educación a distancia;
+          los conservatorios profesionales; el ISEACV; las EOI; y el profesorado de los CEFIRE y de
+          las unidades de orientación. Añade las aplicaciones de escritorio, 100 GB de correo y 1 TB
+          de OneDrive.
         </Tarjeta>
       </Rejilla>
       <P>
-        En ambos casos, entrando con la cuenta del centro, <b>Copilot Chat</b> te da chat con
-        búsqueda en la web, <b>subida y análisis de ficheros</b>, <b>generación de imágenes</b>,{" "}
-        <b>cuadernos</b> (reúnes tus fuentes y preguntas solo sobre ellas, con guía de estudio y
-        mapa mental), <b>páginas</b> (un borrador que se edita y se comparte) y el agente educativo{" "}
-        <b>Study and Learn</b>. Y algo que no es un detalle menor: <b>protección de datos de la
-        organización</b> — lo que le pegas con la cuenta institucional no alimenta el entrenamiento
-        de los modelos, cosa que sí puede ocurrir con una cuenta personal gratuita.
+        En ambos casos, entrando con la cuenta del centro en <b>copilot.cloud.microsoft</b>,{" "}
+        <b>Microsoft Copilot Chat</b> te da chat con búsqueda en la web, <b>subida y análisis de
+        ficheros</b>, <b>generación de imágenes</b>, <b>Cuadernos</b> (reúnes tus fuentes y
+        preguntas solo sobre ellas), <b>Enseñar</b> (el espacio para docentes: planes de lección y de
+        unidad, rúbricas, cuestionarios que crean un Forms y actividades), <b>agentes propios</b> y
+        el agente educativo <b>Estudiar y aprender</b>. Y algo que no es un detalle menor:{" "}
+        <b>protección de datos de empresa</b> —el escudo verde de arriba a la derecha—: lo que le
+        pegas con la cuenta institucional no alimenta el entrenamiento de los modelos, cosa que sí
+        puede ocurrir con una cuenta personal gratuita.
       </P>
 
       <Nota tono="ambar" titulo="Compruébalo tú, hoy, y no te fíes de lo que viste el curso pasado">
-        Esto se mueve deprisa. En abril de 2026 Microsoft retiró el Copilot Chat que aparecía{" "}
+        Esto se mueve deprisa. El 15 de abril de 2026 Microsoft retiró el Copilot Chat que aparecía{" "}
         <i>dentro</i> de Word, Excel, PowerPoint y OneNote para quien no tiene la licencia de pago en
         organizaciones grandes, y muchos docentes se encontraron con que el botón había desaparecido
         —el Copilot Chat de la aplicación propia, de la web y de Outlook siguió funcionando—. Por eso
@@ -115,8 +118,8 @@ export default function Bloque2() {
         bien={{
           titulo: "Con Copilot Pro de docente verificado",
           items: [
-            "Completado de código ilimitado mientras escribes.",
-            "Puedes elegir el modelo: no todos rinden igual según lo que pidas.",
+            "1.500 créditos de IA al mes (desde junio de 2026 GitHub lo cuenta así).",
+            "Puedes elegir el modelo; los más caros, como Claude Opus, quedan fuera de Pro.",
             "Modo agente completo, que es el que monta las aplicaciones del bloque 5.",
             "Además, GitHub Team gratis (repositorios privados sin límite) y GitHub Classroom.",
           ],
@@ -124,16 +127,17 @@ export default function Bloque2() {
         mal={{
           titulo: "Con el plan gratuito normal",
           items: [
-            "2.000 completados de código al mes.",
-            "50 peticiones de chat al mes: se agotan en una tarde de laboratorio.",
-            "Sin elección de modelo: te toca el que el sistema decida.",
-            "Modo agente sí, pero sin el agente que trabaja solo en la nube.",
+            "Un cupo mensual mucho más pequeño, contado en créditos.",
+            "Se agota en una tarde de laboratorio con el agente.",
+            "Menos modelos donde elegir.",
+            "Modo agente sí, pero con ese mismo cupo pequeño.",
           ],
         }}
       />
       <Nota tono="verde" titulo="Hazlo esta semana, aunque todavía no programes">
-        La verificación no es inmediata y el plan gratuito normal se agota enseguida en cuanto
-        empiezas a trabajar con un agente. Solicítalo en{" "}
+        La verificación no es inmediata —y entre abril y junio de 2026 GitHub llegó a pausar las
+        altas de Pro, ya reabiertas— y el plan gratuito normal se agota enseguida en cuanto empiezas
+        a trabajar con un agente. Solicítalo en{" "}
         <Fuera href="https://github.com/education/teachers">github.com/education/teachers</Fuera>. Y
         si a ti no te aplica —porque aún no estás en activo—, el modo agente también existe en el
         plan gratuito: rinde menos, pero para el laboratorio de la sesión llega.
@@ -260,20 +264,24 @@ Dime qué parte de esta actividad fallaría si el grupo llega más flojo de lo q
           <>
             <b>Antes de usar una herramienta con el alumnado, mira Appsedu.</b> Es el catálogo oficial
             de aplicaciones evaluadas por la Conselleria junto al Delegado de Protección de Datos, con
-            estado de autorizada o no autorizada. Citarlo en una defensa demuestra que conoces el
-            terreno real de un centro valenciano.
+            estado de autorizada o no autorizada, y la guía del CEFIRE pide usar con el alumnado solo
+            lo que figura ahí. Ojo: a noviembre de 2026, ni Copilot, ni ChatGPT, ni Gemini aparecen.
+            Citarlo en una defensa demuestra que conoces el terreno real de un centro valenciano.
           </>,
           <>
-            <b>Edad del alumnado.</b> En las cuentas educativas, el acceso del alumnado menor de 13
-            años está bloqueado, y entre 13 y 17 depende de que el centro lo habilite expresamente.
-            No es una decisión que tomes tú en tu aula: la toma el centro.
+            <b>Edad del alumnado.</b> En las cuentas educativas, Copilot Chat para el alumnado es a
+            partir de 13 años y viene desactivado: lo activa el administrador de la cuenta, que aquí
+            es la Conselleria. No es una decisión que tomes tú en tu aula.
           </>,
           <>
-            <b>Y una cautela honesta:</b> no hay a día de hoy una instrucción publicada de la
-            Conselleria específica sobre uso de IA generativa en centros. Lo que sí hay es{" "}
-            <b>formación</b>: un CEFIRE específico de Inteligencia Artificial y Pensamiento
-            Computacional creado en 2025 y un plan de alfabetización en IA para el profesorado. Si en
-            una defensa citas normativa autonómica de IA, asegúrate de que existe.
+            <b>Lo que sí hay ya, y conviene citar bien:</b> la guía del CEFIRE para planificar la
+            formación en IA del curso 2026-2027 (10 de septiembre de 2026) declara Copilot con la
+            cuenta @edu.gva.es <i>«solució corporativa d&apos;IA»</i>: si hace falta tratar datos
+            personales, solo ahí y lo mínimo; las categorías especiales —salud, NEE, situación
+            familiar—, nunca, ni siquiera en Copilot. No es un decreto: las instrucciones de inicio de
+            curso no regulan la IA generativa. Si en una defensa citas normativa autonómica de IA,
+            asegúrate de que existe y de que es la versión vigente: la guía del curso anterior decía
+            lo contrario sobre Copilot.
           </>,
         ]}
       />
@@ -286,9 +294,10 @@ Dime qué parte de esta actividad fallaría si el grupo llega más flojo de lo q
         tono="morado"
         items={[
           <>
-            <b>Hoy, cinco minutos:</b> entra con la cuenta del centro y abre Copilot Chat. Comprueba
-            que te deja subir un fichero y generar una imagen. Ya tienes los bloques 3 y 4
-            cubiertos.
+            <b>Hoy, cinco minutos:</b> entra en copilot.cloud.microsoft con la cuenta del centro.
+            Comprueba que arriba a la derecha sale el escudo verde («Protección de datos de empresa se
+            aplica a este chat»), que te deja subir un fichero y generar una imagen, y echa un vistazo a
+            «Enseñar». Ya tienes los bloques 3 y 4 cubiertos.
           </>,
           <>
             <b>Hoy, diez minutos:</b> cuenta de GitHub y solicitud del programa educativo. Mientras
@@ -307,9 +316,16 @@ Dime qué parte de esta actividad fallaría si el grupo llega más flojo de lo q
         ]}
       />
 
+      <Nota tono="azul" titulo="¿Quieres el kit completo, paso a paso?">
+        Todo esto —Copilot, el semáforo de datos de la guía del CEFIRE, «Enseñar», los agentes y una
+        herramienta propia construida con un agente— está desarrollado en cinco sesiones en el{" "}
+        <Dentro href="/seminario-ia-docentes/">Seminario de IA para docentes</Dentro>.
+      </Nota>
+
       <Cierre tono="morado">
         <b>Lo que te llevas de este bloque:</b> tienes pagado, con la cuenta del centro, un chat con
-        protección de datos, ficheros, imágenes, cuadernos y un agente educativo. Y con una
+        protección de datos, ficheros, imágenes, cuadernos, las herramientas de «Enseñar» y un
+        agente educativo. Y con una
         verificación de diez minutos, la versión de pago del Copilot que programa. La pregunta ya no
         es qué herramienta usar: es{" "}
         <b>qué quieres que exista cuando termines</b>. El resto es el árbol de decisión.

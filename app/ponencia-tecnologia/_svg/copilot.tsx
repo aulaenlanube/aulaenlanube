@@ -113,8 +113,8 @@ type Herramienta = {
 const COL_MS: Herramienta[] = [
   { id: "chat", x: 16, w: 119, tono: "azul", glifo: "chat", lineas: ["Copilot", "Chat"] },
   { id: "imagenes", x: 145, w: 119, tono: "morado", glifo: "imagen", lineas: ["Imágenes", "y láminas"] },
-  { id: "cuadernos", x: 274, w: 119, tono: "morado", glifo: "cuaderno", lineas: ["Cuadernos", "y páginas"] },
-  { id: "study", x: 403, w: 119, tono: "verde", glifo: "documento", lineas: ["Study and", "Learn"] },
+  { id: "cuadernos", x: 274, w: 119, tono: "morado", glifo: "cuaderno", lineas: ["Cuadernos", "y Enseñar"] },
+  { id: "study", x: 403, w: 119, tono: "verde", glifo: "documento", lineas: ["Estudiar y", "aprender"] },
 ];
 
 const COL_GH: Herramienta[] = [
@@ -128,15 +128,15 @@ const PASOS_MAPA: Paso[] = [
     tono: "azul",
     titulo: "Tu cuenta @edu.gva.es es la llave",
     texto:
-      "Todo lo de la izquierda cuelga de la Identitat Digital con la que entras al correo del centro. La Conselleria asigna licencia educativa de Microsoft 365 a todo el profesorado, alumnado y personal de los centros públicos de titularidad de la Generalitat, en dos modalidades: A1 y A3. Desde octubre de 2025, las A3 van a familias concretas de FP, centros a distancia, conservatorios, enseñanzas artísticas superiores, EOI y CEFIRE; el resto del profesorado, un IES ordinario incluido, tiene A1: Office solo en web, 50 GB de correo, 100 GB de OneDrive y Teams.",
-    clave: "Con A1 o con A3, Copilot Chat entra igual. No hay que instalar ni pagar nada aparte.",
+      "Todo lo de la izquierda cuelga de la Identitat Digital con la que entras al correo del centro. La Conselleria asigna licencia educativa de Microsoft 365 a todo el profesorado, alumnado y personal de los centros públicos de titularidad de la Generalitat, en dos modalidades: A1 y A3. Desde octubre de 2025, la A3 la tienen la FP de Informática y Comunicaciones, Administración y Gestión y Comercio y Marketing, la educación a distancia, los conservatorios, el ISEACV, las EOI y el profesorado de los CEFIRE y de las unidades de orientación; el resto del profesorado, un IES ordinario incluido, tiene A1: Office solo en web, 50 GB de correo, 100 GB de OneDrive y Teams.",
+    clave: "Con A1 o con A3, Microsoft Copilot Chat entra igual, en copilot.cloud.microsoft. No hay que instalar ni pagar nada aparte.",
   },
   {
     id: "chat",
     tono: "azul",
-    titulo: "Copilot Chat · tu mesa de trabajo",
+    titulo: "Microsoft Copilot Chat · tu mesa de trabajo",
     texto:
-      "Es donde vas a pasar el 80 % del tiempo: esqueletos de tema, reformulaciones al lenguaje del currículo, supuestos didácticos, rúbricas, correos difíciles y el simulador de tribunal. Con la cuenta del centro incluye búsqueda web, subida y análisis de ficheros, y protección de datos: lo que le pegas no alimenta el entrenamiento de los modelos. Se abre en la aplicación de Copilot, en el navegador, en Edge, en Outlook y en Teams.",
+      "Es donde vas a pasar el 80 % del tiempo: esqueletos de tema, reformulaciones al lenguaje del currículo, supuestos didácticos, rúbricas, correos difíciles y el simulador de tribunal. Con la cuenta del centro incluye búsqueda web, subida y análisis de ficheros, y protección de datos de empresa (el escudo verde de arriba a la derecha): lo que le pegas no alimenta el entrenamiento de los modelos. Se abre en copilot.cloud.microsoft, en la aplicación de Copilot y en Outlook; dentro de Word, Excel y PowerPoint ya no, salvo con licencia de pago.",
     clave: "Si solo te quedas con una herramienta de toda la sesión, que sea esta.",
   },
   {
@@ -150,24 +150,24 @@ const PASOS_MAPA: Paso[] = [
   {
     id: "cuadernos",
     tono: "morado",
-    titulo: "Cuadernos y páginas",
+    titulo: "Cuadernos y Enseñar",
     texto:
-      "La parte que casi nadie usa y la que más tiempo ahorra a medio plazo. Un cuaderno reúne tus fuentes —apuntes, normativa, un PDF largo— y a partir de ahí preguntas solo sobre ellas, con guía de estudio y mapa mental incluidos. Una página es un borrador que se queda abierto, se edita y se comparte con un compañero de preparación.",
+      "La parte que casi nadie usa y la que más tiempo ahorra a medio plazo. Un cuaderno reúne tus fuentes —apuntes, normativa, un PDF largo— y a partir de ahí preguntas solo sobre ellas. Y «Enseñar» es el espacio para docentes, gratis con la cuenta del centro: planes de lección y de unidad, rúbricas, cuestionarios que crean un Forms y actividades. No trae el currículo valenciano ni la FP: tus criterios los pegas tú en la descripción.",
     clave: "Un cuaderno por tema fuerte: dentro metes tus fuentes y preguntas solo sobre lo tuyo.",
   },
   {
     id: "study",
     tono: "verde",
-    titulo: "Study and Learn · el agente educativo",
+    titulo: "Estudiar y aprender · el agente educativo",
     texto:
-      "Un agente de Microsoft pensado para estudiar, disponible con las licencias educativas A1, A3 y A5 y con Copilot Chat activado. En vez de darte la respuesta, te guía con preguntas hasta que la sacas tú. Para un opositor es un compañero de repaso; para tu futura aula, la forma de que el alumnado use IA sin que le resuelva el ejercicio.",
+      "Un agente de Microsoft pensado para estudiar (en inglés, Study and Learn), anclado en la barra lateral de Copilot con las licencias educativas A1, A3 y A5. En vez de darte la respuesta, te guía con preguntas hasta que la sacas tú. Para un opositor es un compañero de repaso; para tu futura aula, la forma de que el alumnado use IA sin que le resuelva el ejercicio.",
   },
   {
     id: "cuenta-gh",
     tono: "verde",
     titulo: "Tu cuenta de GitHub, aparte y gratuita",
     texto:
-      "Esta no depende del centro: te la abres tú en dos minutos. Y aquí está la mejor noticia de este bloque: GitHub Education ofrece GitHub Copilot Pro sin coste al profesorado verificado. Se solicita en github.com/education/teachers con el correo institucional y una prueba del vínculo laboral, y GitHub revisa la elegibilidad cada mes.",
+      "Esta no depende del centro: te la abres tú en dos minutos. Y aquí está la mejor noticia de este bloque: GitHub Education ofrece GitHub Copilot Pro sin coste al profesorado verificado: desde junio de 2026, con 1.500 créditos de IA al mes. Se solicita en github.com/education/teachers con el correo institucional y una prueba del vínculo laboral, y GitHub revisa la elegibilidad cada mes.",
     clave: "Solicítalo hoy aunque todavía no vayas a programar: la verificación tarda, y el plan gratuito normal se queda corto enseguida.",
   },
   {
@@ -275,7 +275,7 @@ export function MapaCopilot() {
       ancho={AMPLIO}
       alto={alto}
       pasos={PASOS_MAPA}
-      etiqueta="Mapa de Copilot: de la cuenta del centro cuelgan Copilot Chat, la generación de imágenes, los cuadernos y páginas, y el agente Study and Learn; de una cuenta de GitHub cuelgan Copilot en VS Code y su modo agente."
+      etiqueta="Mapa de Copilot: de la cuenta del centro cuelgan Copilot Chat, la generación de imágenes, los Cuadernos y Enseñar, y el agente Estudiar y aprender; de una cuenta de GitHub cuelgan Copilot en VS Code y su modo agente."
       pie="Dos cuentas, seis herramientas, un solo nombre comercial. Pulsa cualquiera para ver qué hace y cuándo usarla."
       dibuja={(ctx) => (
         <>

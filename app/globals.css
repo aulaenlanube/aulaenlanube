@@ -203,6 +203,11 @@ html[data-video] .aeln-aviso-cookies {
 html[data-video] .aeln-barra-menu {
   position: static;
 }
+/* Lo que solo tiene sentido en la web (el vídeo resumen del seminario de IA
+   para docentes): en la grabación no sale, porque el vídeo es la página. */
+html[data-video] .sem-solo-web {
+  display: none !important;
+}
 /* El movimiento lo pone la cámara: los saltos de scroll, instantáneos. */
 html[data-video] {
   scroll-behavior: auto;

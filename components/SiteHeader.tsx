@@ -102,7 +102,7 @@ export default function SiteHeader({
   return (
     <>
       {/* Barra de menú (azul oscuro, fija al hacer scroll) */}
-      <div className="sticky top-0 z-50 border-b border-transparent bg-slate-700 text-white shadow-sm dark:border-white/10 dark:bg-slate-900">
+      <div className="aeln-barra-menu sticky top-0 z-50 border-b border-transparent bg-slate-700 text-white shadow-sm dark:border-white/10 dark:bg-slate-900">
         <div className="mx-auto w-full max-w-7xl px-4">
           {/* Nav escritorio */}
           <nav className="hidden w-full items-center justify-between lg:flex">

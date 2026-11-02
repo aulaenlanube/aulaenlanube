@@ -193,6 +193,21 @@ body {
   }
 }
 
+/* Modo grabación (?video en las páginas del curso de IA, ver
+   docs/paginas-para-video.md): nada fijo encima del contenido y sin
+   desplazamiento suave. */
+html[data-video] .aeln-arriba,
+html[data-video] .aeln-aviso-cookies {
+  display: none !important;
+}
+html[data-video] .aeln-barra-menu {
+  position: static;
+}
+/* El movimiento lo pone la cámara: los saltos de scroll, instantáneos. */
+html[data-video] {
+  scroll-behavior: auto;
+}
+
 /* Red de seguridad: cualquier emoji-imagen (de WordPress) que se cuele se
    muestra a tamaño de texto, no enorme. */
 img.emoji,

@@ -159,3 +159,11 @@ tarjetas `rounded-2xl` con las equivalencias claro/oscuro de arriba, chips y
 botones de las sesiones del curso. Las clases compartidas viven en
 `app/programacion-ia/_campus/ui.tsx` (`cls`): usarlas en vez de repetir cadenas.
 Son `noindex` y no afectan a la paridad SEO.
+
+## Páginas del curso que se graban en vídeo
+
+Las páginas de proyecto y de sesión del Curso de Programación con IA que salen en
+la serie «Tutoriales en pantalla» siguen además
+[paginas-para-video.md](paginas-para-video.md): un bloque por pantalla de
+1100×620, piezas de `app/programacion-ia/_video/`, nada por debajo de 16 px y
+revisión con `tools/video/revisar-pagina.mjs`. Se graban con `?video` en la URL.

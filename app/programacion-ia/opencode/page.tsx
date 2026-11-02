@@ -27,16 +27,18 @@ import {
   type TipoPermiso,
   type Tono,
 } from "../_video/piezas";
+import { CaminoPeticion, CapasFusion, CuandoSeCarga, DondeVive, FlujoPermiso, QuienHace, Subagentes } from "./figuras";
 
 export const metadata: Metadata = {
   title: "OpenCode: tu agente de programación — Curso de Programación con IA",
   description:
-    "Guía de OpenCode 1.18.35 para el curso: instalación, conexión a los modelos del centro, agentes, permisos, AGENTS.md, comandos, skills y MCP.",
+    "Guía de OpenCode 2 para el curso: instalación, conexión a los modelos del centro, agentes, permisos, AGENTS.md, comandos, skills y MCP.",
 };
 
 // Página pensada para grabarse (docs/paginas-para-video.md): cada <Bloque> es
 // una pantalla de 16:9 con una sola idea, los pasos se titulan «Paso N · …» y
 // todo lo que cuenta cada pieza está escrito, sin pulsar ni pasar el ratón.
+// Versión: la última estable de OpenCode 2 (documentación en opencode.ai/v2/docs).
 
 /* ------------------------------------------------------------------ */
 /* Datos                                                               */
@@ -77,14 +79,14 @@ const HERRAMIENTAS: { grupo: string; tono: Tono; items: [string, string, string]
     items: [
       ["edit", "Cambia unas líneas concretas de un fichero que ya existe.", "Te enseña el diff antes de aplicarlo (si está en ask)."],
       ["write", "Crea un fichero nuevo o lo reescribe entero.", "Lo controla el mismo permiso que edit."],
-      ["bash", "Ejecuta una orden en la terminal: uv run, git status, ls…", "La más potente y la más peligrosa: por eso pregunta."],
+      ["shell", "Ejecuta una orden en la terminal: uv run, git status, ls…", "La más potente y la más peligrosa: por eso pregunta."],
     ],
   },
   {
     grupo: "Para organizarse",
     tono: "verde",
     items: [
-      ["task", "Lanza un subagente (general, explore o uno tuyo) para una subtarea.", "Trabaja en una sesión hija y te devuelve un resumen."],
+      ["subagent", "Lanza un subagente (general, explore o uno tuyo) para una subtarea.", "Trabaja en una sesión hija y te devuelve un resumen."],
       ["todowrite", "Mantiene una lista de pasos pendientes y hechos.", "Verás la lista tachándose mientras trabaja."],
       ["skill", "Carga una skill (conocimiento extra) cuando la necesita.", "Solo carga la que le sirve, no todas."],
       ["question", "Te hace una pregunta con opciones cuando duda.", "Respóndela: es mejor que dejarle adivinar."],
@@ -92,45 +94,53 @@ const HERRAMIENTAS: { grupo: string; tono: Tono; items: [string, string, string]
   },
 ];
 
-// [teclas (alternativas), comando, para qué]
-const ATAJOS: [string[], string, string][] = [
-  [["Tab", "Shift+Tab"], "", "Cambia de agente primario: build ↔ plan"],
-  [["Esc"], "", "Interrumpe la respuesta en curso"],
-  [["ctrl+p"], "", "Paleta con todos los comandos"],
-  [["ctrl+x n"], "/new", "Sesión nueva (una por tarea)"],
-  [["ctrl+x l"], "/sessions", "Lista de sesiones para retomar una"],
-  [["ctrl+x m"], "/models", "Elegir modelo"],
-  [["ctrl+x c"], "/compact", "Resume la conversación para liberar contexto"],
-  [["ctrl+x u"], "/undo", "Deshace tu último mensaje, sus respuestas y sus cambios en ficheros"],
-  [["ctrl+x r"], "/redo", "Rehace lo deshecho"],
-  [["ctrl+x x"], "/export", "Exporta la conversación a Markdown"],
-  [["ctrl+c"], "/exit", "Salir"],
-  [[], "/init", "Crea o mejora el AGENTS.md del proyecto"],
-  [[], "/review", "Revisa los cambios sin commit (o un commit o rama)"],
-  [[], "/skills", "Explora las skills que ve el agente"],
-  [[], "/mcps", "Servidores MCP; espacio los activa o desactiva"],
-  [[], "/help", "Ayuda"],
+// [teclas, comando, para qué]
+const ATAJOS: [string, string, string][] = [
+  ["shift+tab", "", "Cambia de agente: build ↔ plan"],
+  ["ctrl+x a", "/agents", "Elegir agente de la lista"],
+  ["Esc", "", "Interrumpe la respuesta en curso"],
+  ["ctrl+p", "", "Paleta con todos los comandos"],
+  ["ctrl+x n", "/new", "Sesión nueva (una por tarea)"],
+  ["ctrl+x l", "/sessions", "Lista de sesiones para retomar una"],
+  ["ctrl+x m", "/models", "Elegir modelo"],
+  ["ctrl+x c", "", "Compacta la conversación para liberar contexto"],
+  ["ctrl+x u", "/undo", "Deshace tu último mensaje y lo que hizo después"],
+  ["ctrl+x r", "/redo", "Rehace lo deshecho"],
+  ["ctrl+x x", "", "Exporta la sesión a tu editor"],
+  ["ctrl+x e", "/editor", "Escribe la petición en tu editor"],
+  ["ctrl+c", "", "Salir (también ctrl+d o ctrl+x q)"],
 ];
 
+const SIN_ATAJO: [string, string][] = [
+  ["/connect", "Conecta un proveedor de modelos"],
+  ["/mcps", "Servidores MCP: conectar o desconectar"],
+  ["/diff", "Revisa los cambios en una vista de diferencias"],
+  ["/btw", "Pregunta al margen: la respuesta no entra en la conversación"],
+];
+
+// [veredicto, regla («acción · recurso → efecto»), qué significa]
 const REGLAS_FICHEROS: [TipoPermiso, string, string][] = [
-  ["ask", '"edit": "ask"', "Cada edición o fichero nuevo te enseña el diff y espera tu sí. En la semana 1 es obligatorio: lees todo lo que entra en tu repo."],
-  ["ask", '"webfetch": "ask"', "Si quiere leer una web, pregunta. Así sabes de dónde saca la información."],
-  ["ask", '"external_directory": "ask"', "Nada fuera de la carpeta del proyecto sin preguntar (tu carpeta personal, otras prácticas…)."],
-  ["allow", '"read": { "*": "allow", … }', "Puede leer cualquier fichero del proyecto sin preguntar…"],
-  ["deny", '"*.env": "deny", "*.env.*": "deny"', "…salvo los .env con claves: esos ni los ve. Va DESPUÉS del \"*\" porque gana la última que coincide."],
-  ["allow", '"*.env.example": "allow"', "La plantilla sin claves sí puede leerla (va al final para volver a permitirla)."],
+  ["ask", "edit · * → ask", "Cada edición o fichero nuevo te enseña el diff y espera tu sí. En la semana 1 es obligatorio: lees todo lo que entra en tu repo."],
+  ["ask", "webfetch · * → ask", "Si quiere leer una web, pregunta. Así sabes de dónde saca la información."],
+  ["ask", "external_directory · * → ask", "Nada fuera de la carpeta del proyecto sin preguntar (tu carpeta personal, otras prácticas…). De fábrica no pregunta: por eso la regla."],
+  ["allow", "read · * → allow", "Puede leer cualquier fichero del proyecto sin preguntar…"],
+  ["deny", "read · *.env, *.env.* → deny", "…salvo los .env con claves: esos ni los ve. Van DESPUÉS del «*» porque gana la última que coincide."],
+  ["allow", "read · *.env.example → allow", "La plantilla sin claves sí puede leerla (va al final para volver a permitirla)."],
 ];
 
 const REGLAS_ORDENES: [TipoPermiso, string, string][] = [
-  ["ask", '"bash": { "*": "ask", … }', "Regla general: cualquier orden pregunta. Es la primera para que las demás la puedan matizar."],
-  ["allow", '"ls *", "pwd", "cat *"', "Mirar carpetas y ficheros no rompe nada: allow."],
-  ["allow", '"git status *", "git diff *", "git log *"', "Consultar git tampoco: allow. El agente puede ver qué ha cambiado."],
-  ["allow", '"uv run tareas --help", "uv run tareas validar *"', "Probar la ayuda y validar acciones.json es inofensivo: allow."],
-  ["allow", '"uv run pytest *"', "Pasar las pruebas (semana 4): allow."],
-  ["ask", '"git commit *": "ask"', "Los commits los haces tú; si te lo propone, te pregunta (y normalmente dirás que no)."],
-  ["deny", '"git push *", "git reset *": "deny"', "Subir o reescribir historia: nunca el agente."],
-  ["deny", '"rm *", "sudo *": "deny"', "Borrar ficheros o usar permisos de administrador: prohibido. Al final del bloque, para que nada los pise."],
-  ["deny", '"agent": { "plan": … }', "Al agente plan le quita editar; sus órdenes siguen tus reglas de bash (explicado en Agentes)."],
+  ["ask", "shell · * → ask", "Regla general: cualquier orden pregunta. Es la primera para que las demás la puedan matizar."],
+  ["allow", "shell · ls *, pwd, cat * → allow", "Mirar carpetas y ficheros no rompe nada."],
+  ["allow", "shell · git status *, git diff *, git log * → allow", "Consultar git tampoco. El agente puede ver qué ha cambiado."],
+  ["allow", "shell · uv run tareas --help, uv run tareas validar * → allow", "Probar la ayuda y validar acciones.json es inofensivo."],
+  ["allow", "shell · uv run pytest * → allow", "Pasar las pruebas (semana 4)."],
+  ["ask", "shell · git commit * → ask", "Los commits los haces tú; si te lo propone, te pregunta (y normalmente dirás que no)."],
+];
+
+const REGLAS_NUNCA: [TipoPermiso, string, string][] = [
+  ["deny", "shell:git push *, shell:git reset * → deny", "Subir o reescribir historia: nunca el agente."],
+  ["deny", "shell:rm *, shell:sudo * → deny", "Borrar ficheros o usar permisos de administrador: prohibido."],
+  ["deny", "agents.plan · edit * → deny", "Al agente plan le quita editar; sus órdenes siguen tus reglas de shell (explicado en Agentes)."],
 ];
 
 const COMPARA_FILAS = ["Qué es", "Cuándo se carga", "Quién lo dispara", "Gasta contexto", "Ejemplo del curso", "Dónde"];
@@ -146,10 +156,10 @@ const COMPARA: { titulo: string; tono: Tono; valores: string[] }[] = [
     valores: [
       "Conocimiento especializado",
       "Solo cuando el agente decide que le sirve",
-      "El agente (herramienta skill)",
-      "Solo nombre y descripción hasta que se usa",
+      "El agente (herramienta skill) o tú con @id",
+      "Solo id y descripción hasta que se usa",
       "Reglas del esquema de acciones.json",
-      ".opencode/skills/<nombre>/SKILL.md",
+      ".opencode/skills/<id>/SKILL.md",
     ],
   },
   {
@@ -161,11 +171,11 @@ const COMPARA: { titulo: string; tono: Tono; valores: string[] }[] = [
 
 const FLUJO: { quien: "Tú" | "Plan" | "Build"; titulo: string; texto: string; ej: string }[] = [
   { quien: "Tú", titulo: "Escribe la intención", texto: "Spec, entrada de acciones.json o criterio de aceptación. Qué quieres y cómo sabrás que está bien.", ej: "docs/spec.md" },
-  { quien: "Plan", titulo: "Pide un plan", texto: "Tab a plan: «explícame cómo lo harías y qué ficheros tocarías». Lo lees y lo corriges.", ej: "Tab → plan" },
-  { quien: "Build", titulo: "Que lo haga", texto: "Tab a build: «hazlo». Apruebas cada edición y cada orden leyendo el diff.", ej: "Tab → build" },
+  { quien: "Plan", titulo: "Pide un plan", texto: "Shift+Tab a plan: «explícame cómo lo harías y qué ficheros tocarías». Lo lees y lo corriges.", ej: "shift+tab → plan" },
+  { quien: "Build", titulo: "Que lo haga", texto: "Shift+Tab a build: «hazlo». Apruebas cada edición y cada orden leyendo el diff.", ej: "shift+tab → build" },
   { quien: "Tú", titulo: "Audita", texto: "Lee el código y prueba en ~/pruebas-tareas con --simular y casos feos. Si sale mal: /undo o le explicas el fallo.", ej: "!uv run tareas …" },
-  { quien: "Tú", titulo: "Commit pequeño", texto: "git add + git commit con un mensaje que cuenta el paso. Guarda el prompt clave en docs/prompts.md (o /export).", ej: "git commit" },
-  { quien: "Tú", titulo: "Sesión nueva", texto: "Una sesión por tarea (/new) y /compact si la conversación se alarga.", ej: "/new" },
+  { quien: "Tú", titulo: "Commit pequeño", texto: "git add + git commit con un mensaje que cuenta el paso. Guarda el prompt clave en docs/prompts.md (o exporta la sesión).", ej: "git commit" },
+  { quien: "Tú", titulo: "Sesión nueva", texto: "Una sesión por tarea (/new) y compacta (ctrl+x c) si la conversación se alarga.", ej: "/new" },
 ];
 
 const QUIEN: Record<"Tú" | "Plan" | "Build", Tono> = { Tú: "verde", Plan: "morado", Build: "azul" };
@@ -176,10 +186,10 @@ const RUTA: Hito[] = [
     fecha: "26-30 oct",
     enlace: { texto: "Sesión 1 · Arranque", href: "/programacion-ia/cli/sesion-01/" },
     puntos: [
-      "Instalar la 1.18.35 y conectarla con los modelos del centro.",
-      "Antes de abrir OpenCode, a mano: uv init, .gitignore y primer commit (sin git no hay /undo).",
+      "Instalar OpenCode y conectarlo con los modelos del centro.",
+      "Antes de abrir OpenCode, a mano: uv init, .gitignore y git init (sin git no hay /undo).",
       "opencode.json de permisos del proyecto.",
-      "/init → AGENTS.md, que luego editas tú.",
+      "AGENTS.md: te lo propone el agente y lo editas tú.",
       "plan → build para crear cli.py (version + listar), aprobando diffs; /undo; commits tuyos.",
     ],
   },
@@ -189,9 +199,9 @@ const RUTA: Hito[] = [
     enlace: { texto: "Sesión 2 · acciones.json y el motor", href: "/programacion-ia/cli/sesion-02/" },
     puntos: [
       "Tu acciones.json, escrito por ti sin IA.",
-      "Skill del proyecto acciones-json (compruébala con /skills).",
+      "Skill del proyecto acciones-json (pruébala con @acciones-json).",
       "Comando personalizado /nueva-accion.",
-      "Subagente revisor (@revisor) y /review antes de cada commit.",
+      "Subagente revisor y /diff antes de cada commit.",
     ],
   },
   {
@@ -199,7 +209,7 @@ const RUTA: Hito[] = [
     fecha: "avance",
     futuro: true,
     puntos: [
-      "MCP: context7 para documentación de librerías, desactivado por defecto y activado solo cuando hace falta.",
+      "MCP: context7 para documentación de librerías, apagado por defecto y encendido solo cuando hace falta.",
       "La capa IA de TU CLI llamando desde Python a los mismos modelos del centro (CENTRO_IA_URL / CENTRO_IA_KEY, modo sin red).",
     ],
   },
@@ -216,42 +226,32 @@ const ERRORES: { titulo: string; items: [string, string, string][] }[] = [
   {
     titulo: "Errores al instalar",
     items: [
-      ["opencode: command not found (o «no se reconoce» en Windows)", "La terminal se abrió antes de instalar y no tiene el PATH nuevo; o la instalación de npm no está en el PATH.", "Cierra y abre la terminal. Linux/macOS: el script instala en ~/.opencode/bin. Windows: comprueba npm install -g y abre una terminal nueva."],
-      ["opencode --version no dice 1.18.35", "Lo instalaste con brew, pacman u otro gestor que trae OpenCode 2, o se actualizó.", "Desinstala esa versión e instala con el script o npm fijando 1.18.35; deja \"autoupdate\": false."],
-      ["En Linux no puedo copiar ni pegar", "Falta la utilidad de portapapeles.", "xclip o xsel (X11), wl-clipboard (Wayland)."],
+      ["opencode: command not found (o «no se reconoce» en Windows)", "La terminal se abrió antes de instalar y no tiene el PATH nuevo, o la carpeta del zip no está en el PATH.", "Cierra y abre la terminal. En Windows, comprueba que la carpeta donde descomprimiste el zip está en el PATH."],
+      ["opencode --version dice 1.algo", "Tienes OpenCode 1: otro instalador, un paquete antiguo (opencode-ai) o un mise anterior a la versión de octubre de 2026.", "Desinstálalo e instala con el script de la v2 (o npm install -g @opencode/cli)."],
     ],
   },
   {
     titulo: "Errores al conectar",
     items: [
-      ["opencode models centro no muestra nada", "La config no está en ~/.config/opencode/opencode.json, el JSON tiene un error o el id del proveedor no es centro.", "opencode debug config para ver qué config lee; revisa la ruta y el nombre."],
-      ["opencode run se queda reintentando sin fin", "El servidor no responde: URL mal escrita, falta /v1, no estás en la red del centro o el servidor está caído.", "Ctrl+C. Revisa CENTRO_IA_URL (termina en /v1) y que estás en la red del aula; si sigue, avisa al profesor."],
+      ["/models no enseña el modelo del centro", "La config no está donde OpenCode la busca, el JSON tiene un error o el proveedor no se llama centro.", "opencode debug paths config te dice la ruta; revisa el fichero y el nombre."],
+      ["opencode run se queda esperando", "El servidor no responde: URL mal escrita, falta /v1, no estás en la red del centro o el servidor está caído.", "Ctrl+C. Revisa CENTRO_IA_URL (termina en /v1) y que estás en la red del aula; si sigue, avisa al profesor."],
       ["Error 401/403 o «clave no válida»", "La variable no existe en esa terminal: {env:VAR} se sustituye por una cadena vacía. Falta export, o la terminal es anterior al setx.", "echo $CENTRO_IA_KEY (bash) o echo $env:CENTRO_IA_KEY (PowerShell). Si sale vacío: export en ~/.bashrc o setx, y terminal NUEVA."],
     ],
   },
   {
     titulo: "Errores de configuración",
     items: [
-      ["Expected array, got \"npx …\" mcp.x.command y no arranca", "El command de un MCP local está escrito como cadena.", "\"command\": [\"npx\", \"-y\", \"paquete\"]: siempre un array."],
-      ["bad file reference: \"{file:…}\" … does not exist", "Usas {file:…} apuntando a un fichero que no existe: OpenCode se niega a arrancar.", "Crea el fichero o corrige la ruta. En el curso usamos {env:…}, no {file:…}."],
-      ["V2 permissions are not supported by OpenCode V1", "Has copiado configuración de OpenCode 2 (\"permissions\" en plural).", "Claves en singular: permission, agent, provider, command, mcp."],
-      ["Mis agentes o proveedores no aparecen", "Están bajo \"agents\" o \"providers\" (claves V2): la 1.18 las ignora sin avisar.", "Renómbralas a agent y provider."],
+      ["Mis permisos, agentes o proveedores no hacen caso", "Has copiado configuración de OpenCode 1: permission, agent, provider o bash en singular.", "En OpenCode 2: permissions (lista de reglas), agents, providers y shell."],
+      ["Un MCP local no arranca", "El command está escrito como cadena, o el servidor está directamente bajo mcp.", "\"command\": [\"npx\", \"-y\", \"paquete\"] siempre como array, y cada servidor dentro de mcp.servers."],
+      ["Una skill no aparece", "Le falta description, o la carpeta no se llama como el id que usas.", "La carpeta es el id; description es obligatoria para que el agente la vea."],
     ],
   },
   {
     titulo: "Errores mientras trabajas",
     items: [
-      ["He cambiado la config y no hace caso", "La configuración no se recarga en caliente.", "Sal de OpenCode y vuelve a abrirlo."],
-      ["/undo no revierte los ficheros", "El proyecto no es un repositorio git (o no tiene commits).", "git init, git add y un primer commit antes de abrir OpenCode."],
-      ["Se ejecutó algo que creía prohibido", "Una regla \"*\": \"allow\" posterior (otra config o el agente) gana a tu deny.", "Pon los deny al final del bloque; compruébalo con opencode debug agent build."],
-    ],
-  },
-  {
-    titulo: "Errores con el agente",
-    items: [
-      ["Una skill no aparece en /skills", "name distinto de la carpeta, sin description, o frontmatter mal escrito.", "opencode debug skill y revisa el frontmatter."],
-      ["Pregunta permiso para todo", "bash con \"*\": \"ask\" y pocas excepciones.", "Es lo esperado al principio. Añade allow solo para órdenes seguras, o responde always en la sesión."],
-      ["Respuestas cortadas o «context length exceeded»", "Conversación muy larga o demasiados MCP y skills cargados.", "/compact o /new; desactiva los MCP que no uses."],
+      ["/undo no revierte los ficheros", "El proyecto no es un repositorio git, o el fichero está ignorado por git o pasa de 2 MiB.", "git init antes de abrir OpenCode (los commits no hacen falta)."],
+      ["Se ejecutó algo que creía prohibido", "Una regla «*: allow» posterior (otra config o un agente) gana a tu deny.", "Lo que nunca debe pasar, en policies: solo pueden negar y nada las deshace."],
+      ["Respuestas cortadas o «context length exceeded»", "Conversación muy larga o demasiados MCP y skills cargados.", "Compacta (ctrl+x c) o abre sesión nueva (/new); apaga los MCP que no uses."],
     ],
   },
 ];
@@ -263,53 +263,60 @@ const ERRORES: { titulo: string; items: [string, string, string][] }[] = [
 const CONFIG_GLOBAL = String.raw`
 {
   "$schema": "https://opencode.ai/config.json",
-  "autoupdate": false,
-  "provider": {
+  "model": "centro/qwen3.8-flash-next",
+  "providers": {
     "centro": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "IA del centro",
-      "options": {
-        "baseURL": "{env:CENTRO_IA_URL}",
-        "apiKey": "{env:CENTRO_IA_KEY}"
-      },
+      "package": "@opencode/ai/providers/openai-compatible",
+      "env": ["CENTRO_IA_KEY"],
+      "settings": { "baseURL": "{env:CENTRO_IA_URL}" },
       "models": {
         "qwen3.8-flash-next": {
           "name": "Qwen 3.8 Flash-Next (centro)",
           "limit": { "context": 524288, "output": 65536 },
-          "tool_call": true
+          "capabilities": { "tools": true, "input": ["text"], "output": ["text"] }
         }
       }
     }
-  },
-  "model": "centro/qwen3.8-flash-next",
-  "small_model": "centro/qwen3.8-flash-next"
+  }
 }
 `;
 
-// Las reglas van agrupadas por línea igual que en «Reglas para ficheros» y
-// «Reglas para órdenes»: cada línea del fichero es una fila de esas listas.
+// Se enseña en tres trozos (ficheros 1-10, órdenes 11-22, lo que nunca hará
+// 23-34) y cada trozo copia el fichero entero. Si cambia el número de líneas,
+// hay que mover los rangos de los tres bloques.
 const CONFIG_PROYECTO = String.raw`
 {
   "$schema": "https://opencode.ai/config.json",
-  "permission": {
-    "edit": "ask",
-    "webfetch": "ask",
-    "external_directory": "ask",
-    "read": { "*": "allow", "*.env": "deny", "*.env.*": "deny",
-              "*.env.example": "allow" },
-    "bash": {
-      "*": "ask",
-      "ls *": "allow", "pwd": "allow", "cat *": "allow",
-      "git status *": "allow", "git diff *": "allow", "git log *": "allow",
-      "uv run tareas --help": "allow", "uv run tareas validar *": "allow",
-      "uv run pytest *": "allow",
-      "git commit *": "ask",
-      "git push *": "deny", "git reset *": "deny",
-      "rm *": "deny", "sudo *": "deny"
+  "permissions": [
+    { "action": "edit", "resource": "*", "effect": "ask" },
+    { "action": "webfetch", "resource": "*", "effect": "ask" },
+    { "action": "external_directory", "resource": "*", "effect": "ask" },
+    { "action": "read", "resource": "*", "effect": "allow" },
+    { "action": "read", "resource": "*.env", "effect": "deny" },
+    { "action": "read", "resource": "*.env.*", "effect": "deny" },
+    { "action": "read", "resource": "*.env.example", "effect": "allow" },
+    { "action": "shell", "resource": "*", "effect": "ask" },
+    { "action": "shell", "resource": "ls *", "effect": "allow" },
+    { "action": "shell", "resource": "pwd", "effect": "allow" },
+    { "action": "shell", "resource": "cat *", "effect": "allow" },
+    { "action": "shell", "resource": "git status *", "effect": "allow" },
+    { "action": "shell", "resource": "git diff *", "effect": "allow" },
+    { "action": "shell", "resource": "git log *", "effect": "allow" },
+    { "action": "shell", "resource": "uv run tareas --help", "effect": "allow" },
+    { "action": "shell", "resource": "uv run tareas validar *", "effect": "allow" },
+    { "action": "shell", "resource": "uv run pytest *", "effect": "allow" },
+    { "action": "shell", "resource": "git commit *", "effect": "ask" }
+  ],
+  "policies": [
+    { "action": "tool.use", "resource": "shell:git push *", "effect": "deny" },
+    { "action": "tool.use", "resource": "shell:git reset *", "effect": "deny" },
+    { "action": "tool.use", "resource": "shell:rm *", "effect": "deny" },
+    { "action": "tool.use", "resource": "shell:sudo *", "effect": "deny" }
+  ],
+  "agents": {
+    "plan": {
+      "permissions": [{ "action": "edit", "resource": "*", "effect": "deny" }]
     }
-  },
-  "agent": {
-    "plan": { "permission": { "edit": "deny" } }
   }
 }
 `;
@@ -331,15 +338,13 @@ const REVISOR_MD = String.raw`
 ---
 description: Revisa el código de la CLI tareas sin modificar nada y señala errores, casos feos y problemas multiplataforma
 mode: subagent
-temperature: 0.1
-permission:
-  edit: deny
-  webfetch: deny
-  bash:
-    "*": deny
-    "git diff *": allow
-    "git log *": allow
-    "git status *": allow
+permissions:
+  - { action: edit, resource: "*", effect: deny }
+  - { action: webfetch, resource: "*", effect: deny }
+  - { action: shell, resource: "*", effect: deny }
+  - { action: shell, resource: "git diff *", effect: allow }
+  - { action: shell, resource: "git log *", effect: allow }
+  - { action: shell, resource: "git status *", effect: allow }
 ---
 Eres el revisor de código del proyecto (1º DAM). Revisa lo que te indiquen y responde en español con:
 1. Errores seguros (con fichero y línea).
@@ -383,15 +388,17 @@ const MCP_JSON = String.raw`
 {
   "$schema": "https://opencode.ai/config.json",
   "mcp": {
-    "context7": {
-      "type": "remote",
-      "url": "https://mcp.context7.com/mcp",
-      "enabled": false
-    },
-    "apuntes": {
-      "type": "local",
-      "command": ["npx", "-y", "@modelcontextprotocol/server-filesystem", "./docs"],
-      "enabled": false
+    "servers": {
+      "context7": {
+        "type": "remote",
+        "url": "https://mcp.context7.com/mcp",
+        "disabled": true
+      },
+      "apuntes": {
+        "type": "local",
+        "command": ["npx", "-y", "@modelcontextprotocol/server-filesystem", "./docs"],
+        "disabled": true
+      }
     }
   }
 }
@@ -477,7 +484,7 @@ function EsquemaTui() {
                 <span className="rounded bg-blue-500/25 px-1.5 text-blue-200">Build</span>{" "}
                 <span className="text-zinc-300">Qwen 3.8 Flash-Next (centro)</span>
               </span>
-              <span className="text-zinc-400">tab agentes · ctrl+p comandos</span>
+              <span className="text-zinc-400">shift+tab agentes · ctrl+p comandos</span>
             </div>
           </div>
         </div>
@@ -503,9 +510,9 @@ function EsquemaTui() {
  * por su texto) y la casilla ganadora de cada columna va resaltada.
  */
 const REGLAS_EJEMPLO: [string, TipoPermiso][] = [
-  ['"*": ask', "ask"],
-  ['"git diff *": allow', "allow"],
-  ['"rm *": deny', "deny"],
+  ["shell · * → ask", "ask"],
+  ["shell · git diff * → allow", "allow"],
+  ["shell · rm * → deny", "deny"],
 ];
 const ORDENES_EJEMPLO: { orden: string; coincide: boolean[]; resultado: TipoPermiso }[] = [
   { orden: "git diff src/tareas/cli.py", coincide: [true, true, false], resultado: "allow" },
@@ -571,49 +578,50 @@ function TablaCoincidencias() {
   );
 }
 
-/** Reglas que coinciden con una orden: gana la última. */
-function Coincidencias({
-  orden,
+/**
+ * Un trozo del opencode.json del proyecto y sus reglas explicadas. Con
+ * `tituloReglas`, las reglas van en la pantalla siguiente (no caben debajo).
+ */
+function TrozoConfig({
+  titulo,
+  rango,
+  parte,
   reglas,
-  resultado,
-  pie,
+  tituloReglas,
 }: {
-  orden: string;
-  reglas: { patron: string; accion: TipoPermiso; coincide: boolean; origen?: string }[];
-  resultado: TipoPermiso;
-  pie?: ReactNode;
+  titulo: string;
+  rango: [number, number];
+  parte: number;
+  reglas: [TipoPermiso, string, string][];
+  tituloReglas?: string;
 }) {
-  const ganadora = reglas.map((r) => r.coincide).lastIndexOf(true);
+  const codigo = <Codigo code={CONFIG_PROYECTO} kind="json" etiqueta={`cli-tareas/opencode.json · parte ${parte} de 3`} ajustar={false} rango={rango} />;
+  const lista = (
+    <ul className="grid grid-cols-1 gap-x-8 gap-y-4 lg:grid-cols-2">
+      {reglas.map(([t, r, d]) => (
+        <Regla key={r} tipo={t} regla={r}>
+          {d}
+        </Regla>
+      ))}
+    </ul>
+  );
+  if (!tituloReglas) {
+    return (
+      <Bloque titulo={titulo} nivel={3}>
+        {codigo}
+        <div className="mt-5">{lista}</div>
+      </Bloque>
+    );
+  }
   return (
-    <div className={cls.tarjeta}>
-      <p className="font-mono text-lg text-zinc-600 dark:text-zinc-400">
-        orden: <span className="font-bold text-zinc-900 dark:text-zinc-50">{orden}</span>
-      </p>
-      <ol className="mt-3 space-y-2 font-mono text-base">
-        {reglas.map((r, i) => (
-          <li
-            key={r.patron + i}
-            className={`flex items-center justify-between gap-3 rounded-lg border px-3 py-1.5 ${
-              i === ganadora
-                ? "border-blue-500 bg-blue-50 text-zinc-900 dark:border-blue-400 dark:bg-blue-500/15 dark:text-zinc-50"
-                : r.coincide
-                  ? "border-zinc-300 text-zinc-800 dark:border-white/20 dark:text-zinc-200"
-                  : "border-dashed border-zinc-300 text-zinc-500 dark:border-white/15 dark:text-zinc-400"
-            }`}
-          >
-            <span>
-              {r.origen ? <span className="font-sans text-zinc-600 dark:text-zinc-400">{r.origen} · </span> : null}
-              &quot;{r.patron}&quot;: {r.accion}
-            </span>
-            <span className="shrink-0 font-sans font-bold">{i === ganadora ? "gana ✓" : r.coincide ? "coincide" : "no coincide"}</span>
-          </li>
-        ))}
-      </ol>
-      <p className={`mt-3 flex items-center gap-2 ${cls.texto}`}>
-        Resultado: <IconoPermiso tipo={resultado} tam={24} /> <b className="font-mono">{resultado}</b>
-      </p>
-      {pie ? <p className={`mt-2 ${cls.texto}`}>{pie}</p> : null}
-    </div>
+    <>
+      <Bloque titulo={titulo} nivel={3}>
+        {codigo}
+      </Bloque>
+      <Bloque titulo={tituloReglas} nivel={3}>
+        {lista}
+      </Bloque>
+    </>
   );
 }
 
@@ -669,7 +677,7 @@ export default function GuiaOpenCode() {
 
         <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
           {[
-            ["OpenCode 1.18.35", "la versión de clase"],
+            ["OpenCode 2", "la última versión estable"],
             ["Modelos del centro", "nada sale del instituto"],
             ["Tú decides", "permisos y diffs"],
             ["Todo el curso", "del proyecto 2 en adelante"],
@@ -746,8 +754,8 @@ export default function GuiaOpenCode() {
         nivel={3}
         entradilla={
           <>
-            Son las que tiene el agente <b>build</b> en la versión de clase. Los permisos (más abajo) deciden cuáles usa
-            solo, cuáles te pregunta y cuáles tiene prohibidas.
+            Son las que tiene el agente <b>build</b>. Los permisos (más abajo) deciden cuáles usa solo, cuáles te pregunta
+            y cuáles tiene prohibidas.
           </>
         }
       >
@@ -824,50 +832,8 @@ export default function GuiaOpenCode() {
         </div>
       </Bloque>
 
-      <Bloque
-        titulo="Ojo con la versión"
-        nivel={3}
-        entradilla={
-          <>
-            En clase usamos <b>OpenCode 1.18.35</b> (la línea OpenCode 1). Existe ya <b>OpenCode 2</b>, que cambia la
-            configuración.
-          </>
-        }
-      >
-        <DosColumnas
-          nivel={4}
-          centro="no es lo mismo que"
-          a={{
-            antetitulo: "En clase",
-            titulo: "OpenCode 1.18.35",
-            tono: "verde",
-            puntos: [
-              <>
-                Claves en singular: <C>permission</C>, <C>agent</C>, <C>provider</C>, <C>command</C>, <C>mcp</C>.
-              </>,
-              <>
-                Si tu editor marca las claves en singular como <i>deprecated</i>, ignóralo: el esquema publicado ya es el
-                de la V2.
-              </>,
-            ],
-          }}
-          b={{
-            antetitulo: "No la uses",
-            titulo: "OpenCode 2",
-            tono: "rosa",
-            puntos: [
-              <>
-                Claves en plural (<C>permissions</C>, <C>agents</C>, <C>providers</C>) que la 1.18 no entiende.
-              </>,
-              <>
-                Si un tutorial habla de <C>permissions</C> o <C>agents</C> en plural, es OpenCode 2.
-              </>,
-              <>
-                <b>No instales con <C>brew install opencode</C> ni con <C>pacman -S opencode</C></b>: esos traen la V2.
-              </>,
-            ],
-          }}
-        />
+      <Bloque titulo="El camino de tu petición" nivel={3}>
+        <CaminoPeticion />
       </Bloque>
 
       {/* 3 · Instalación */}
@@ -875,34 +841,42 @@ export default function GuiaOpenCode() {
         id="instalar"
         n={1}
         titulo="Instala OpenCode"
-        entradilla="En los equipos del aula ya lo tienes preparado o lo instalas en la primera sesión. En casa (semipresencial), elige tu sistema:"
+        entradilla={
+          <>
+            Usamos la <b>última versión estable de OpenCode 2</b>. El número exacto importa poco: lo que vas a aprender es
+            a trabajar con un agente. En los equipos del aula lo instalas en la primera sesión; en casa (semipresencial),
+            elige tu sistema:
+          </>
+        }
       >
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
           <Tarjeta titulo="Linux y macOS" className="flex flex-col">
             <p className="mb-3">
-              El script oficial, fijando la versión. Instala en <C>~/.opencode/bin</C> y lo añade al PATH. Después,{" "}
-              <b>abre una terminal nueva</b>.
+              El script oficial. Después, <b>abre una terminal nueva</b>. (También vale <C>npm install -g @opencode/cli</C>.)
             </p>
-            <Codigo code={`curl -fsSL https://opencode.ai/install | bash -s -- --version 1.18.35`} />
+            <Codigo code={`curl -fsSL https://opencode.ai/v2/install | bash`} />
           </Tarjeta>
           <Tarjeta titulo="Windows nativo" className="flex flex-col">
-            <ol className="mb-3 list-decimal space-y-1 pl-5">
+            <ol className="list-decimal space-y-1 pl-5">
               <li>
-                Instala <b>Git for Windows</b> (OpenCode usa Git Bash para ejecutar órdenes).
+                Instala <b>Git for Windows</b>: sin git no hay <C>/undo</C> de ficheros.
               </li>
               <li>
-                Instala <b>Node.js LTS</b> (trae npm).
+                Descarga el zip oficial:{" "}
+                <a className={cls.enlace} href="https://opencode.ai/update/api/latest/cli/opencode/opencode-windows-x64.zip">
+                  opencode-windows-x64.zip
+                </a>
+                .
               </li>
-              <li>En una terminal nueva de PowerShell:</li>
+              <li>
+                Descomprímelo en una carpeta tuya (por ejemplo <C>C:\opencode</C>) y añade esa carpeta al <b>PATH</b>.
+              </li>
+              <li>Abre una terminal nueva de PowerShell.</li>
             </ol>
-            <Codigo code={`npm install -g opencode-ai@1.18.35`} etiqueta="PowerShell" />
           </Tarjeta>
           <Tarjeta titulo="Windows con WSL" className="flex flex-col">
-            <p className="mb-3">
-              La alternativa que recomienda la documentación: un Linux dentro de Windows. Si ya usas WSL (Ubuntu), dentro
-              de su terminal usa el script de Linux:
-            </p>
-            <Codigo code={`curl -fsSL https://opencode.ai/install | bash -s -- --version 1.18.35`} etiqueta="Terminal de WSL" />
+            <p className="mb-3">Un Linux dentro de Windows. Si ya usas WSL (Ubuntu), dentro de su terminal usa el script de Linux:</p>
+            <Codigo code={`curl -fsSL https://opencode.ai/v2/install | bash`} etiqueta="Terminal de WSL" />
             <p className="mt-3">
               Ojo: en WSL las variables de entorno y la config van en el <C>~</C> de Linux, no en el de Windows.
             </p>
@@ -910,14 +884,14 @@ export default function GuiaOpenCode() {
         </div>
       </Paso>
 
-      <Paso n={2} titulo="Comprueba la versión">
+      <Paso n={2} titulo="Comprueba que está bien">
         <Junto
           codigo={
             <Terminal
               lineas={[
-                { o: "opencode --version", c: "# debe decir 1.18.35" },
-                { s: "1.18.35", tono: "ok" },
-                { o: "opencode debug paths", c: "# dónde guarda config, datos y logs" },
+                { o: "opencode --version", c: "# debe decir v2.algo" },
+                { s: "opencode v2.2.5", tono: "ok" },
+                { o: "opencode debug paths config", c: "# dónde busca tu config global" },
               ]}
             />
           }
@@ -930,16 +904,13 @@ export default function GuiaOpenCode() {
                     terminales abiertas antes de instalar no conocen el PATH nuevo.
                   </>,
                   <>
-                    La versión no es la 1.18.35: revisa cómo lo instalaste (mira{" "}
+                    Dice 1.algo: tienes OpenCode 1 de otro instalador. Mira{" "}
                     <a className={cls.enlace} href="#errores">
                       Errores típicos
                     </a>
-                    ).
+                    .
                   </>,
-                  <>
-                    En Linux, para copiar y pegar dentro de OpenCode hace falta <C>xclip</C>, <C>xsel</C> o{" "}
-                    <C>wl-clipboard</C>.
-                  </>,
+                  "Cualquier 2.x reciente vale: en clase usamos la última estable.",
                 ]}
               />
             </Tarjeta>
@@ -961,8 +932,8 @@ export default function GuiaOpenCode() {
         }
       >
         <p className={`mb-4 ${cls.texto}`}>
-          Ruta: <C>~/.config/opencode/opencode.json</C> (en Windows, <C>%USERPROFILE%\.config\opencode\opencode.json</C>).
-          Crea la carpeta y ábrelo con tu editor:
+          Ruta: <C>~/.config/opencode/opencode.json</C>. Si dudas (Windows, WSL…), <C>opencode debug paths config</C> te
+          dice la carpeta exacta. Créala y abre el fichero con tu editor:
         </p>
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
           <Codigo code={`mkdir -p ~/.config/opencode\ncode ~/.config/opencode/opencode.json   # o nano`} etiqueta="bash / zsh" />
@@ -978,38 +949,48 @@ export default function GuiaOpenCode() {
         titulo="Pega la configuración"
         entradilla={
           <>
-            Tal cual. No hay ninguna dirección ni clave escrita: <C>{"{env:CENTRO_IA_URL}"}</C> y{" "}
-            <C>{"{env:CENTRO_IA_KEY}"}</C> le dicen a OpenCode que las lea de dos <b>variables de entorno</b>.
+            Tal cual. No hay ninguna dirección ni clave escrita: las dos salen de <b>variables de entorno</b> (el paso 5).
           </>
         }
-        junto={<Codigo code={CONFIG_GLOBAL} kind="json" etiqueta="~/.config/opencode/opencode.json" ajustar={false} />}
       >
-        <Lista
-          className={cls.texto}
-          items={[
+        <Codigo code={CONFIG_GLOBAL} kind="json" etiqueta="~/.config/opencode/opencode.json" ajustar={false} />
+      </Paso>
+
+      <Bloque titulo="Qué hace cada clave" nivel={3}>
+        <ul className={`grid grid-cols-1 gap-x-8 gap-y-3 lg:grid-cols-2 ${cls.texto}`}>
+          {[
             <>
-              <C>autoupdate: false</C>: que no se actualice solo (seguimos en 1.18.35).
+              <C>centro</C> (en <C>providers</C>): el nombre del proveedor; es lo que va antes de la barra en <C>model</C>.
             </>,
             <>
-              <C>centro</C>: el nombre del proveedor; es lo que va antes de la barra en <C>model</C>.
+              <C>package</C> <C>openai-compatible</C>: el servidor del centro habla el mismo «idioma» que la API de OpenAI.
             </>,
             <>
-              <C>@ai-sdk/openai-compatible</C>: el servidor del centro habla el mismo «idioma» que la API de OpenAI.
+              <C>{'"env": ["CENTRO_IA_KEY"]'}</C>: de qué variable de entorno sale la clave.
+            </>,
+            <>
+              <C>{"{env:CENTRO_IA_URL}"}</C>: la dirección del servidor, leída de otra variable.
             </>,
             <>
               <C>limit</C>: cuánto contexto y salida admite el modelo. Sin esto OpenCode no sabe cuándo resumir la
               conversación.
             </>,
             <>
-              <C>tool_call: true</C>: el modelo sabe usar herramientas. Sin eso no hay agente, solo chat.
+              <C>{'"tools": true'}</C>: el modelo sabe usar herramientas. Sin eso no hay agente, solo chat.
             </>,
             <>
-              <C>model</C> y <C>small_model</C>: el modelo de trabajo y el de tareas ligeras (títulos de sesión…). Aquí, el
-              mismo.
+              <C>model</C>: el modelo que usa por defecto, en formato <C>proveedor/modelo</C>.
             </>,
-          ]}
-        />
-      </Paso>
+          ].map((x, i) => (
+            <li key={i} className="flex gap-3">
+              <span aria-hidden className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-base font-extrabold ${TONO.azul.disco}`}>
+                {i + 1}
+              </span>
+              <span>{x}</span>
+            </li>
+          ))}
+        </ul>
+      </Bloque>
 
       <Paso
         n={5}
@@ -1035,17 +1016,16 @@ export default function GuiaOpenCode() {
       <Paso n={6} titulo="Comprueba la conexión">
         <Terminal
           lineas={[
-            { o: "opencode models centro", c: "# debe salir centro/qwen3.8-flash-next" },
+            { o: "opencode models", c: "# entre ellos, el del centro" },
             { s: "centro/qwen3.8-flash-next", tono: "ok" },
-            { o: "opencode debug config", c: "# config final; la clave sale enmascarada" },
             { o: 'opencode run "Responde solo: hola"', c: "# prueba real con el modelo" },
           ]}
         />
         <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]">
           <Tarjeta titulo="Si se queda esperando" tono="ambar">
             <p>
-              Si <C>opencode run</C> se queda esperando sin fin, el servidor no responde: OpenCode reintenta para siempre.
-              Sal con <b>Ctrl+C</b> y revisa la URL y que estás en la red del centro.
+              Si <C>opencode run</C> no responde, el servidor no contesta. Sal con <b>Ctrl+C</b> y revisa la URL y que estás
+              en la red del centro.
             </p>
           </Tarjeta>
           <Anatomia
@@ -1105,14 +1085,14 @@ export default function GuiaOpenCode() {
           </Tarjeta>
           <Tarjeta titulo="@fichero" nivel={4} mono tono="azul">
             <p>
-              Adjunta un fichero (con búsqueda difusa): <C>@src/tareas/cli.py</C>. También invoca subagentes:{" "}
-              <C>@explore …</C>.
+              Adjunta un fichero (con búsqueda): <C>@src/tareas/cli.py</C>, o solo unas líneas:{" "}
+              <C>@src/tareas/cli.py#20-45</C>.
             </p>
           </Tarjeta>
           <Tarjeta titulo="!orden" nivel={4} mono tono="azul">
             <p>
-              Ejecuta una orden tú mismo y el agente ve la salida: <C>!uv run tareas --help</C>. Escribir <C>/</C> abre la
-              lista de comandos.
+              Con <C>!</C> al principio de la caja vacía entras en modo shell: la orden se ejecuta en tu proyecto y su
+              salida queda en la sesión. <b>Esc</b> para salir. Con <C>/</C> ves los comandos.
             </p>
           </Tarjeta>
         </div>
@@ -1134,19 +1114,12 @@ export default function GuiaOpenCode() {
         }
       >
         <ul className="grid grid-cols-1 gap-x-6 gap-y-2 lg:grid-cols-2">
-          {ATAJOS.filter(([t]) => t.length).map(([teclas, comando, para]) => (
+          {ATAJOS.map(([teclas, comando, para]) => (
             <li
-              key={teclas.join()}
-              className="grid grid-cols-[auto_minmax(0,1fr)] items-baseline gap-x-3 gap-y-1 border-b border-zinc-200 pb-2 dark:border-white/10 sm:grid-cols-[11rem_6rem_minmax(0,1fr)]"
+              key={teclas}
+              className="grid grid-cols-[auto_minmax(0,1fr)] items-baseline gap-x-3 gap-y-1 border-b border-zinc-200 pb-2 dark:border-white/10 sm:grid-cols-[8.5rem_6rem_minmax(0,1fr)]"
             >
-              <span className="flex flex-wrap items-center gap-1">
-                {teclas.map((t, i) => (
-                  <span key={t} className="inline-flex items-center gap-1">
-                    {i > 0 ? <span className="text-zinc-500 dark:text-zinc-400">/</span> : null}
-                    <Teclas combo={t} />
-                  </span>
-                ))}
-              </span>
+              <Teclas combo={teclas} />
               <code className="font-mono text-base font-bold text-blue-700 dark:text-blue-300">{comando}</code>
               <span className={`col-span-2 sm:col-span-1 ${cls.texto}`}>{para}</span>
             </li>
@@ -1156,7 +1129,7 @@ export default function GuiaOpenCode() {
 
       <Bloque titulo="Comandos de barra sin atajo" nivel={3} entradilla="Escribe / en la caja y aparece la lista entera.">
         <ul className="grid grid-cols-1 gap-x-6 gap-y-2 lg:grid-cols-2">
-          {ATAJOS.filter(([t]) => !t.length).map(([, comando, para]) => (
+          {SIN_ATAJO.map(([comando, para]) => (
             <li
               key={comando}
               className="grid grid-cols-[6.5rem_minmax(0,1fr)] items-baseline gap-2 border-b border-zinc-200 pb-2 dark:border-white/10"
@@ -1171,21 +1144,21 @@ export default function GuiaOpenCode() {
       <Bloque titulo="Una sesión por tarea" nivel={3}>
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
           <Tarjeta titulo="Sesiones" nivel={4}>
-            <p className="mb-3">
-              Cada conversación es una <b>sesión</b> y se guarda. Abre una nueva para cada tarea (<C>/new</C>), recupera
-              una anterior con <C>/sessions</C>, o continúa la última desde la terminal:
-            </p>
-            <Codigo code={`opencode -c            # continúa la última sesión\nopencode session list  # lista de sesiones`} />
-          </Tarjeta>
-          <Tarjeta titulo="/compact" nivel={4} mono>
             <p>
-              Resume la conversación para liberar contexto. OpenCode lo hace solo cuando se llena, pero hacerlo tú al
-              cambiar de fase (o abrir <C>/new</C>) da mejores resultados: un modelo con menos ruido se equivoca menos.
+              Cada conversación es una <b>sesión</b> y se guarda. Abre una nueva para cada tarea (<C>/new</C>) y recupera
+              una anterior con <C>/sessions</C>.
             </p>
           </Tarjeta>
-          <Tarjeta titulo="/export" nivel={4} mono>
+          <Tarjeta titulo="Compactar" nivel={4}>
             <p>
-              Exporta la conversación a Markdown y la abre en tu editor. Útil para guardar el prompt clave y lo que
+              <Teclas combo="ctrl+x c" /> resume la conversación para liberar contexto. OpenCode lo hace solo cuando se
+              llena, pero hacerlo tú al cambiar de fase (o abrir <C>/new</C>) da mejores resultados: un modelo con menos
+              ruido se equivoca menos.
+            </p>
+          </Tarjeta>
+          <Tarjeta titulo="Exportar" nivel={4}>
+            <p>
+              <Teclas combo="ctrl+x x" /> exporta la sesión a tu editor. Útil para guardar el prompt clave y lo que
               respondió en <C>docs/prompts.md</C>, que forma parte de tu proceso evaluable.
             </p>
           </Tarjeta>
@@ -1197,8 +1170,8 @@ export default function GuiaOpenCode() {
         nivel={3}
         entradilla={
           <>
-            <C>/undo</C> borra tu último mensaje, sus respuestas y <b>revierte los cambios en ficheros</b>; <C>/redo</C> lo
-            restaura.
+            <C>/undo</C> deshace tu último mensaje y lo que hizo el agente después; tu mensaje vuelve a la caja para que lo
+            corrijas. Se confirma al enviarlo: <C>/redo</C> antes de enviar lo cancela.
           </>
         }
       >
@@ -1208,17 +1181,23 @@ export default function GuiaOpenCode() {
           a={{
             titulo: "Deshace",
             tono: "verde",
-            puntos: ["Tu último mensaje y sus respuestas.", "Los cambios que hizo en tus ficheros."],
+            puntos: ["Tu último mensaje y sus respuestas.", "Los ficheros que cambió el agente desde entonces."],
           }}
           b={{
             titulo: "No deshace efectos externos",
             tono: "rosa",
-            puntos: ["Un paquete instalado.", "Una orden que movió ficheros fuera.", <>Un <C>git push</C>.</>],
+            puntos: [
+              "Un paquete instalado o una orden que tocó cosas fuera.",
+              <>
+                Un <C>git push</C>.
+              </>,
+              "Ficheros ignorados por git o de más de 2 MiB.",
+            ],
           }}
         />
         <p className={`mt-4 ${cls.texto}`}>
-          Funciona con <b>instantáneas internas</b> que OpenCode guarda aparte: <b>no hace commits en tu repo</b>. Pero
-          necesita que el proyecto <b>sea un repositorio git con al menos un commit</b>.
+          Funciona con <b>instantáneas internas</b>: <b>no hace commits</b> ni toca tu rama. Pero necesita que el proyecto{" "}
+          <b>sea un repositorio git</b> (<C>git init</C>); los commits no hacen falta.
         </p>
       </Bloque>
 
@@ -1241,8 +1220,8 @@ export default function GuiaOpenCode() {
             tono: "morado",
             puntos: [
               "Para pensar: analizar, proponer, revisar un plan.",
-              "No puede editar ficheros (salvo sus propios planes).",
-              "Ojo: de fábrica bash NO está restringido.",
+              "No edita los ficheros del proyecto (solo sus propios planes).",
+              "Ojo: sus órdenes siguen tus reglas de shell.",
             ],
           }}
           b={{
@@ -1253,49 +1232,39 @@ export default function GuiaOpenCode() {
           }}
         />
         <p className={`mt-4 flex flex-wrap items-center gap-2 text-lg ${cls.texto}`}>
-          <Teclas combo="Tab" /> alterna entre build y plan (mira la barra inferior).
+          <Teclas combo="shift+tab" /> alterna entre build y plan (mira la barra inferior).
         </p>
       </Bloque>
 
       <Aviso titulo="Plan solo bloquea ediciones" tono="ambar">
         <p>
-          El agente plan de fábrica no puede escribir ficheros, pero sí ejecutar órdenes con tus permisos generales. Y si
-          tu configuración dice <C>{'"edit": "ask"'}</C>, esa regla le alcanza también a plan.
+          El agente plan de fábrica no escribe ficheros, pero sí ejecuta órdenes con tus permisos. Y si tu configuración
+          dice <C>edit · * → ask</C>, esa regla le alcanza también a plan.
         </p>
         <p>
-          Por eso el <C>opencode.json</C> del proyecto le pone <C>{'"edit": "deny"'}</C> y deja que las órdenes sigan tus
-          reglas de bash (las peligrosas siguen en deny). Ojo: si le pusieras <C>{'"bash": "ask"'}</C>, anularías esos
-          deny y <C>rm</C> pasaría a «preguntar». Compruébalo con <C>opencode debug agent plan</C>.
+          Por eso el <C>opencode.json</C> del proyecto le añade a plan su propio <C>edit · * → deny</C>: las reglas de un
+          agente van después de las generales y ganan. Ojo: si le pusieras <C>shell · * → ask</C>, anularías los deny de
+          órdenes. Por eso lo que nunca debe pasar va en <b>policies</b>, que nadie deshace.
         </p>
       </Aviso>
 
       <Bloque titulo="Subagentes: general y explore" nivel={3}>
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
           <Tarjeta titulo="general" nivel={4} mono tono="morado" antetitulo="subagente">
-            <p>Investigación y tareas de varios pasos. Puede modificar ficheros.</p>
-            <p className="mt-2 text-zinc-600 dark:text-zinc-400">Una subtarea que no quieres que ensucie tu conversación.</p>
+            <p>Investigación y tareas de varios pasos. Puede modificar ficheros, pero no lanzar otros subagentes.</p>
           </Tarjeta>
           <Tarjeta titulo="explore" nivel={4} mono tono="morado" antetitulo="subagente">
-            <p>Solo lectura: busca y lee (no edita), aunque puede ejecutar órdenes.</p>
-            <p className="mt-2 text-zinc-600 dark:text-zinc-400">«¿Dónde se valida el JSON?», «¿qué usa a motor.py?»</p>
+            <p>Solo busca y lee (no edita), aunque puede ejecutar órdenes. «¿Dónde se valida el JSON?»</p>
           </Tarjeta>
           <Tarjeta titulo="Cómo se invocan" nivel={4}>
-            <Lista
-              items={[
-                <>
-                  Con <C>@</C>: <C>@explore busca dónde se lee acciones.json</C>.
-                </>,
-                <>
-                  El agente principal también puede lanzarlos solo (herramienta <C>task</C>), eligiéndolos por su
-                  descripción.
-                </>,
-                "Trabajan en una sesión hija: su exploración no llena tu contexto.",
-              ]}
-            />
+            <p>
+              Pídeselo con palabras: «Usa el subagente explore para buscar dónde se lee acciones.json». El agente también
+              los lanza solo (herramienta <C>subagent</C>).
+            </p>
           </Tarjeta>
         </div>
-        <div className="mt-4 max-w-2xl">
-          <Codigo code={`opencode agent list         # agentes cargados\nopencode debug agent plan   # reglas efectivas de uno`} />
+        <div className="mt-4">
+          <Subagentes />
         </div>
       </Bloque>
 
@@ -1307,13 +1276,14 @@ export default function GuiaOpenCode() {
       >
         <div className="space-y-3">
           <p className={cls.texto}>
-            Un fichero Markdown en <C>.opencode/agents/</C>: el nombre del fichero es el nombre del agente, el frontmatter
-            su configuración (<C>description</C> es obligatoria; <C>mode: subagent</C>, <C>temperature</C>,{" "}
-            <C>permission</C>…) y el cuerpo, su prompt. Es el revisor de la semana 2.
+            Un fichero Markdown en <C>.opencode/agents/</C>: el nombre del fichero es el id del agente, el frontmatter su
+            configuración (<C>description</C>, <C>mode: subagent</C>, <C>permissions</C>…) y el cuerpo, su prompt. Es el
+            revisor de la semana 2.
           </p>
           <p className={cls.texto}>
-            Se usa así: <C>@revisor revisa src/tareas/motor.py</C>. No puede editar ni navegar por la web; solo mirar diffs
-            e historial sin preguntar. Como es un fichero del repo, el revisor viaja con tu proyecto.
+            Se usa pidiéndoselo: «Usa el subagente revisor para revisar src/tareas/motor.py». No puede editar ni navegar por
+            la web; solo mirar diffs e historial. Ojo: un subagente tuyo solo tiene <b>sus</b> permisos, no hereda los del
+            agente que lo llama.
           </p>
         </div>
       </Bloque>
@@ -1324,8 +1294,8 @@ export default function GuiaOpenCode() {
         titulo="Permisos"
         entradilla={
           <>
-            De fábrica, OpenCode tiene casi todo en <b>allow</b>: edita y ejecuta órdenes sin preguntar. En el curso eso no
-            vale. Cada herramienta (y cada orden de bash) acaba en una de tres respuestas:
+            De fábrica, OpenCode lo permite casi todo: edita y ejecuta órdenes sin preguntar. En el curso eso no vale. Cada
+            herramienta (y cada orden de la terminal) acaba en una de tres respuestas:
           </>
         }
       >
@@ -1334,23 +1304,29 @@ export default function GuiaOpenCode() {
           <Permiso tipo="ask" texto="Se para, te enseña qué va a hacer y espera." />
           <Permiso tipo="deny" texto="Bloqueado. Ni lo intenta." />
         </div>
-        <div className={`mt-4 ${cls.suave}`}>
-          <p className={cls.texto}>Cuando pregunta, respondes:</p>
-          <ul className="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-3">
-            {[
-              ["once", "solo esta vez"],
-              ["always", "lo mismo durante el resto de la sesión"],
-              ["reject", "no"],
-            ].map(([a, d]) => (
-              <li key={a} className={cls.texto}>
-                <code className="font-mono font-bold text-zinc-900 dark:text-zinc-50">{a}</code> · {d}
-              </li>
-            ))}
-          </ul>
-          <p className={`mt-2 ${cls.texto}`}>
-            Las órdenes que te pregunta, <b>léelas antes de aceptar</b>.
-          </p>
-        </div>
+      </Bloque>
+
+      <Bloque titulo="Qué pasa cuando quiere actuar" nivel={3}>
+        <FlujoPermiso />
+      </Bloque>
+
+      <Bloque
+        titulo="Anatomía de una regla"
+        nivel={3}
+        entradilla="En OpenCode 2 los permisos son una lista de reglas. Cada regla tiene tres partes:"
+      >
+        <Anatomia
+          etiqueta="Anatomía de una regla de permisos"
+          partes={[
+            { texto: '{ "action": "shell",', nombre: "qué herramienta", tono: "morado" },
+            { texto: '"resource": "git diff *",', nombre: "sobre qué", tono: "azul" },
+            { texto: '"effect": "allow" }', nombre: "qué pasa", tono: "verde" },
+          ]}
+        />
+        <p className={`mt-4 ${cls.texto}`}>
+          El <C>*</C> significa «cualquier cosa»: <C>git diff *</C> vale para <C>git diff</C> y para <C>git diff src/</C>.
+          Si ninguna regla coincide, OpenCode pregunta.
+        </p>
       </Bloque>
 
       <Bloque
@@ -1358,9 +1334,8 @@ export default function GuiaOpenCode() {
         nivel={3}
         entradilla={
           <>
-            Las reglas se leen de arriba abajo y, si varias coinciden, <b>manda la última</b>. Por eso <C>&quot;*&quot;</C>{" "}
-            va primero (lo general) y las excepciones después, con los <C>deny</C> al final. El <C>*</C> significa
-            «cualquier cosa»: <C>git diff *</C> vale para <C>git diff</C> y para <C>git diff src/</C>.
+            Las reglas se leen de arriba abajo y, si varias coinciden, <b>manda la última</b>. Por eso la general (
+            <C>*</C>) va primero y las excepciones después.
           </>
         }
       >
@@ -1376,31 +1351,24 @@ export default function GuiaOpenCode() {
             solo reglas. Se fusiona con tu config global.
           </>
         }
-        anchoJunto={760}
-        junto={<Codigo code={CONFIG_PROYECTO} kind="json" etiqueta="cli-tareas/opencode.json" ajustar={false} />}
       >
-        <p className={cls.texto}>Cada línea del fichero es una regla de las dos listas que vienen ahora.</p>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          <Tarjeta titulo="1 · Ficheros" nivel={4} tono="azul">
+            <p>Qué puede leer y editar, y qué hace con la web y con lo que está fuera del proyecto.</p>
+          </Tarjeta>
+          <Tarjeta titulo="2 · Órdenes" nivel={4} tono="morado">
+            <p>Qué órdenes de terminal ejecuta solo y cuáles te pregunta.</p>
+          </Tarjeta>
+          <Tarjeta titulo="3 · Lo que nunca hará" nivel={4} tono="rosa">
+            <p>Las políticas (policies), que solo pueden negar, y el freno de edición del agente plan.</p>
+          </Tarjeta>
+        </div>
+        <p className={`mt-4 ${cls.texto}`}>Lo verás en tres trozos; el botón de cada uno copia el fichero entero.</p>
       </Bloque>
 
-      <Bloque titulo="Reglas para ficheros" nivel={3}>
-        <ul className="grid grid-cols-1 gap-x-8 gap-y-5 lg:grid-cols-2">
-          {REGLAS_FICHEROS.map(([t, r, d]) => (
-            <Regla key={r} tipo={t} regla={r}>
-              {d}
-            </Regla>
-          ))}
-        </ul>
-      </Bloque>
-
-      <Bloque titulo="Reglas para órdenes" nivel={3}>
-        <ul className="grid grid-cols-1 gap-x-8 gap-y-4 lg:grid-cols-2">
-          {REGLAS_ORDENES.map(([t, r, d]) => (
-            <Regla key={r} tipo={t} regla={r}>
-              {d}
-            </Regla>
-          ))}
-        </ul>
-      </Bloque>
+      <TrozoConfig titulo="Parte 1: ficheros" tituloReglas="Reglas para ficheros" parte={1} rango={[1, 10]} reglas={REGLAS_FICHEROS} />
+      <TrozoConfig titulo="Parte 2: órdenes" tituloReglas="Reglas para órdenes" parte={2} rango={[11, 22]} reglas={REGLAS_ORDENES} />
+      <TrozoConfig titulo="Parte 3: lo que nunca hará" parte={3} rango={[23, 34]} reglas={REGLAS_NUNCA} />
 
       <Aviso titulo="¿Por qué ejecutar no está permitido?" tono="ambar" icono={<IconoPermiso tipo="ask" tam={36} />}>
         <p>
@@ -1418,34 +1386,19 @@ export default function GuiaOpenCode() {
         nivel={3}
         entradilla={
           <>
-            Las configuraciones (global, proyecto, agente) se <b>fusionan</b>, no se sustituyen. Si la global dice{" "}
-            <C>{'"rm *": "deny"'}</C> y otra posterior dice <C>{'"*": "allow"'}</C>, el resultado queda en ese orden… y como
-            gana la última, <b><C>rm</C> queda permitido</b>.
+            Las configuraciones (la base de OpenCode, la global, la del proyecto y la de cada agente) se <b>fusionan</b> en
+            ese orden. Si la global dice <C>rm * → deny</C> y otra posterior dice <C>* → allow</C>, gana la última:{" "}
+            <b>rm queda permitido</b>. Las políticas lo arreglan: van al final y solo pueden negar.
           </>
         }
       >
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <Coincidencias
-            orden="rm -r build"
-            reglas={[
-              { patron: "rm *", accion: "deny", coincide: true, origen: "global" },
-              { patron: "*", accion: "allow", coincide: true, origen: "posterior" },
-            ]}
-            resultado="allow"
-          />
-          <Tarjeta titulo="Solución" nivel={4} tono="verde">
-            <p>
-              Repite los <C>deny</C> importantes <b>después</b> del <C>&quot;*&quot;</C> en el mismo bloque (como hace el
-              fichero del proyecto) y compruébalo con <C>opencode debug agent build</C>.
-            </p>
-          </Tarjeta>
-        </div>
+        <CapasFusion />
       </Bloque>
 
-      <Aviso titulo="Nunca uses --auto" tono="rosa" icono={<IconoPermiso tipo="deny" tam={36} />}>
+      <Aviso titulo="No apruebes a ciegas" tono="rosa" icono={<IconoPermiso tipo="deny" tam={36} />}>
         <p>
-          <C>opencode --auto</C> (o el «auto-approve» de la paleta) aprueba solo todo lo que está en ask. Es decir:{" "}
-          <b>desactiva tu revisión</b>.
+          Responder <b>always</b> guarda la orden como regla allow del proyecto: úsalo solo con órdenes inofensivas. Y nada
+          de modos que lo aprueben todo solo: desactivan tu revisión.
         </p>
         <p>
           Un modelo que entiende mal una petición puede borrar, sobrescribir o ejecutar lo que no debe, y tú ni lo verás.
@@ -1468,39 +1421,15 @@ export default function GuiaOpenCode() {
         <Codigo code={AGENTS_MD} kind="md" etiqueta="cli-tareas/AGENTS.md" />
       </Bloque>
 
-      <Bloque titulo="Proyecto frente a global" nivel={3}>
-        <DosColumnas
-          nivel={4}
-          a={{
-            antetitulo: "Se sube a git",
-            titulo: "Proyecto",
-            tono: "azul",
-            puntos: [
-              <>
-                <C>AGENTS.md</C> en la raíz del repo.
-              </>,
-              "Cualquiera (o cualquier agente) que abra tu repo hereda las normas.",
-            ],
-          }}
-          b={{
-            antetitulo: "Solo en tu equipo",
-            titulo: "Global",
-            tono: "morado",
-            puntos: [
-              <>
-                <C>~/.config/opencode/AGENTS.md</C>.
-              </>,
-              "Tus preferencias personales para todos los proyectos («respóndeme en español»).",
-            ],
-          }}
-        />
+      <Bloque titulo="Dónde vive cada fichero" nivel={3}>
+        <DondeVive />
       </Bloque>
 
-      <Bloque titulo="Créalo con /init y mejóralo" nivel={3}>
+      <Bloque titulo="Créalo y mejóralo" nivel={3}>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <Tarjeta titulo="Créalo con /init" nivel={4}>
+          <Tarjeta titulo="Créalo con el agente" nivel={4}>
             <p>
-              <C>/init</C> analiza el repo, puede hacerte alguna pregunta y crea (o mejora) el <C>AGENTS.md</C>. Después{" "}
+              Pídele al agente plan que analice el repo y te proponga un <C>AGENTS.md</C>. Después lo escribes y{" "}
               <b>lo editas tú</b>: quita lo que sobra, añade tus normas. Corto y concreto: se carga siempre y ocupa
               contexto.
             </p>
@@ -1534,18 +1463,18 @@ export default function GuiaOpenCode() {
                 items={[
                   <>
                     <b>Frontmatter</b>: <C>description</C> (lo que ves en la lista), <C>agent</C> (con qué agente se
-                    ejecuta) y, si quieres, <C>model</C> o <C>subtask: true</C> (como subtarea, sin ensuciar tu
-                    conversación).
+                    ejecuta) y, si quieres, <C>model</C> o <C>subagent: true</C> (en una sesión hija).
                   </>,
                   <>
                     <C>$ARGUMENTS</C>: todo lo que escribes detrás del comando. <C>$1</C>, <C>$2</C>…: cada argumento por
                     separado (entre comillas si lleva espacios).
                   </>,
                   <>
-                    <C>!`orden`</C>: ejecuta la orden al lanzar el comando y mete su salida en el prompt.
+                    <C>!`orden`</C>: mete la salida de la orden en el prompt. Se ejecuta fuera de tus permisos: solo
+                    órdenes de confianza.
                   </>,
                   <>
-                    <C>@fichero</C>: adjunta un fichero.
+                    Un <C>@fichero</C> dentro del comando no se adjunta: adjúntalo en la caja al lanzarlo.
                   </>,
                 ]}
               />
@@ -1581,26 +1510,26 @@ export default function GuiaOpenCode() {
         titulo="Skills: conocimiento bajo demanda"
         entradilla={
           <>
-            Una <b>skill</b> es un paquete de conocimiento que el agente <b>carga solo cuando lo necesita</b>. El agente ve
-            una lista con el nombre y la descripción de cada skill; si una le sirve para lo que está haciendo, la carga con
-            la herramienta <C>skill</C> y lee el contenido completo. Así no gasta contexto en lo que no toca.
+            Una <b>skill</b> es un paquete de conocimiento que el agente <b>carga solo cuando lo necesita</b>. Ve una lista
+            con el id y la descripción de cada skill; si una le sirve, la carga con la herramienta <C>skill</C> y lee el
+            contenido completo. Así no gasta contexto en lo que no toca. Tú también puedes cargarla escribiendo{" "}
+            <C>@id</C>.
           </>
         }
       >
         <Tarjeta titulo="Dónde y cómo">
           <ul className="grid list-disc grid-cols-1 gap-x-8 gap-y-2 pl-5 marker:text-zinc-400 lg:grid-cols-2">
             <li>
-              Una carpeta por skill: <C>.opencode/skills/&lt;nombre&gt;/SKILL.md</C>.
+              Una carpeta por skill: <C>.opencode/skills/&lt;id&gt;/SKILL.md</C>.
             </li>
             <li>
-              <C>name</C>: minúsculas, números y guiones, y <b>igual que el nombre de la carpeta</b>.
+              El <b>id</b> es el nombre de la carpeta; <C>name</C> es solo una etiqueta.
             </li>
             <li>
-              <C>description</C>: obligatoria. Di <b>qué hace y cuándo usarla</b>: es lo único que el agente lee para
-              decidir.
+              <C>description</C>: imprescindible. Di <b>qué hace y cuándo usarla</b>: sin ella el agente ni la ve.
             </li>
             <li>
-              Compruébalo con <C>/skills</C> en la TUI (o <C>opencode debug skill</C>).
+              Pruébala con <C>@acciones-json</C> en la caja y mira si el agente la sigue.
             </li>
           </ul>
         </Tarjeta>
@@ -1632,6 +1561,10 @@ export default function GuiaOpenCode() {
         </p>
       </Bloque>
 
+      <Bloque titulo="Cuándo entra cada cosa en el contexto" nivel={3}>
+        <CuandoSeCarga />
+      </Bloque>
+
       {/* 11 · MCP */}
       <Bloque
         id="mcp"
@@ -1644,9 +1577,9 @@ export default function GuiaOpenCode() {
             enchufas.
           </>
         }
-      >
-        <Codigo code={MCP_JSON} kind="json" etiqueta="opencode.json (bloque mcp)" ajustar={false} />
-      </Bloque>
+        anchoJunto={600}
+        junto={<Codigo code={MCP_JSON} kind="json" etiqueta="opencode.json (bloque mcp)" />}
+      />
 
       <Bloque titulo="remote frente a local" nivel={3}>
         <DosColumnas
@@ -1668,18 +1601,19 @@ export default function GuiaOpenCode() {
             puntos: [
               <>
                 <C>command</C> es un <b>array</b> (<C>[&quot;npx&quot;, &quot;-y&quot;, …]</C>), nunca una cadena: si no,
-                OpenCode no arranca.
+                no arranca.
               </>,
             ],
           }}
         />
         <ul className={`mt-4 list-disc space-y-1.5 pl-5 marker:text-zinc-400 ${cls.texto}`}>
           <li>
-            <C>enabled: false</C>: definido pero apagado. Lo enciendes cuando lo necesitas.
+            Cada servidor va dentro de <C>mcp.servers</C>. <C>disabled: true</C>: definido pero apagado; lo enciendes
+            cuando lo necesitas.
           </li>
           <li>
-            <C>opencode mcp list</C>: estado de cada servidor. En la TUI, <C>/mcps</C> los lista y la barra espaciadora
-            los enciende o apaga.
+            <C>opencode mcp list</C>: estado de cada servidor. En la TUI, <C>/mcps</C> los conecta o desconecta (sin tocar
+            la config).
           </li>
         </ul>
       </Bloque>
@@ -1689,9 +1623,9 @@ export default function GuiaOpenCode() {
           <div className={`rounded-2xl border p-5 ${TONO.ambar.caja}`}>
             <h4 className={`text-xl font-bold ${TONO.ambar.tinta}`}>Gastan contexto</h4>
             <p className={`mt-2 text-base leading-relaxed ${TONO.ambar.tinta}`}>
-              Cada servidor encendido añade la descripción de <b>todas</b> sus herramientas a cada petición. Dos o tres MCP
-              pueden comerse buena parte del contexto y hacer que el agente use peor sus herramientas. Por eso context7 va
-              con <C>enabled: false</C> y se activa solo cuando hace falta (semana 3).
+              Cada servidor conectado añade la descripción de <b>todas</b> sus herramientas al contexto. Dos o tres MCP
+              pueden comerse buena parte y hacer que el agente use peor sus herramientas. Por eso context7 va con{" "}
+              <C>disabled: true</C> y se enciende solo cuando hace falta (semana 3).
             </p>
           </div>
           <div className={`rounded-2xl border p-5 ${TONO.rosa.caja}`}>
@@ -1699,13 +1633,12 @@ export default function GuiaOpenCode() {
             <p className={`mt-2 text-base leading-relaxed ${TONO.rosa.tinta}`}>
               Un MCP local ejecuta código con tus permisos; uno remoto recibe lo que el agente le envía. Solo servidores
               conocidos y de confianza, y si piden token, nunca en claro:{" "}
-              <C>{'"headers": { "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}" }'}</C>.
+              <C>{'"headers": { "Authorization": "Bearer {env:DOCS_API_KEY}" }'}</C>.
             </p>
           </div>
         </div>
         <p className={`mt-4 ${cls.texto}`}>
-          Detalle: <C>opencode mcp add</C> escribe en tu config <b>global</b>, aunque estés dentro del proyecto. Si quieres
-          el MCP en el proyecto, edita su <C>opencode.json</C> a mano.
+          Detalle: <C>opencode mcp add</C> lo añade al proyecto; con <C>--global</C>, a todos tus proyectos.
         </p>
       </Bloque>
 
@@ -1715,6 +1648,10 @@ export default function GuiaOpenCode() {
         titulo="El flujo de trabajo del curso"
         entradilla="El mismo en todas las sesiones. Si te saltas un paso, lo notarás (y se notará en tus commits)."
       >
+        <QuienHace />
+      </Bloque>
+
+      <Bloque titulo="El flujo, paso a paso" nivel={3}>
         <ol className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {FLUJO.map((p, i) => (
             <li key={p.titulo} className={`${cls.tarjeta} flex flex-col !p-4`}>
@@ -1724,7 +1661,7 @@ export default function GuiaOpenCode() {
                 </span>
                 <Chip tono={QUIEN[p.quien]}>{p.quien}</Chip>
               </div>
-              <h3 className="mt-1 text-xl font-bold text-zinc-900 dark:text-zinc-100">{p.titulo}</h3>
+              <h4 className="mt-1 text-xl font-bold text-zinc-900 dark:text-zinc-100">{p.titulo}</h4>
               <p className={`mt-1 flex-1 ${cls.texto}`}>{p.texto}</p>
               <code className="mt-2 w-fit rounded-md bg-zinc-100 px-2 py-0.5 font-mono text-base text-zinc-800 dark:bg-white/10 dark:text-zinc-200">
                 {p.ej}
@@ -1742,9 +1679,9 @@ export default function GuiaOpenCode() {
             <><b>Plan antes de build</b>: corregir un plan cuesta segundos; corregir código, horas.</>,
             <><b>Lee cada diff</b> antes de aceptarlo. Si no lo entiendes, pregunta antes de aceptar.</>,
             <>Adjunta solo los ficheros necesarios con <C>@</C>, no «lee todo el proyecto».</>,
-            <><C>/compact</C> cuando la conversación se alargue.</>,
+            <>Compacta (<C>ctrl+x c</C>) cuando la conversación se alargue.</>,
             <><b>Commits pequeños hechos por ti</b>, con mensajes que cuentan el paso.</>,
-            <><b>Guarda tus prompts</b> clave en <C>docs/prompts.md</C> (o <C>/export</C>).</>,
+            <><b>Guarda tus prompts</b> clave en <C>docs/prompts.md</C> (o exporta la sesión).</>,
           ].map((x, i) => (
             <li key={i} className="flex gap-3">
               <IconoPermiso tipo="allow" tam={24} />
@@ -1759,8 +1696,8 @@ export default function GuiaOpenCode() {
           {[
             <><b>Secretos</b>: las claves solo en variables de entorno. Nunca en el código, en <C>opencode.json</C> ni en el chat.</>,
             <><C>.env</C> en el <C>.gitignore</C> <b>antes</b> del primer commit; el agente tiene prohibido leerlo.</>,
-            <><b>Permisos</b> del proyecto siempre activos: <C>edit: ask</C>, bash en ask, <C>rm</C>/<C>sudo</C>/<C>git push</C> en deny.</>,
-            <><b>Nunca <C>--auto</C></b>.</>,
+            <><b>Permisos</b> del proyecto siempre activos: edición y órdenes en ask; <C>rm</C>, <C>sudo</C> y <C>git push</C> en policies.</>,
+            <><b>Nunca apruebes a ciegas</b>: <b>always</b> solo para órdenes inofensivas.</>,
             <><b>Nunca en carpetas reales</b>: las acciones de tu CLI se prueban en <C>~/pruebas-tareas</C> y con <C>--simular</C>.</>,
             <>No abras OpenCode en tu carpeta personal (<C>~</C>): ábrelo dentro del proyecto.</>,
           ].map((x, i) => (
@@ -1784,10 +1721,10 @@ export default function GuiaOpenCode() {
       <Bloque titulo="Más adelante en el curso" nivel={3}>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {[
-            ["Plugins", "Código JavaScript/TypeScript que reacciona a lo que hace el agente: por ejemplo, impedir que lea ciertos ficheros."],
-            ["Herramientas propias", "Le das al agente herramientas nuevas escritas por ti en .opencode/tools/."],
-            ["opencode run en scripts", "Sin interfaz: un script o la CI le pasa una tarea. Siempre con permisos exactos (nunca --auto) y con un tiempo máximo, porque si el servidor no responde reintenta sin fin."],
-            ["opencode github", "El agente responde a comentarios en issues y PR de GitHub. Ojo: los servidores de GitHub no llegan a la red del centro."],
+            ["Plugins", "Código que amplía OpenCode o reacciona a lo que hace el agente: por ejemplo, impedir que lea ciertos ficheros."],
+            ["opencode run en scripts", "Sin interfaz: un script o la CI le pasa una tarea. Siempre con permisos exactos y con un tiempo máximo, por si el servidor no responde."],
+            ["opencode mini", "Una interfaz mínima en la terminal, para tareas rápidas sin la pantalla completa."],
+            ["Escritorio y web", "El mismo agente con otra cara: OpenCode también tiene app de escritorio y versión web."],
           ].map(([t, d]) => (
             <Tarjeta key={t} titulo={t} nivel={4} suave>
               <p>{d}</p>
@@ -1800,15 +1737,11 @@ export default function GuiaOpenCode() {
       <Bloque
         id="errores"
         titulo="Errores típicos y soluciones"
-        entradilla={
-          <>
-            Antes de pedir ayuda, busca aquí el síntoma. Para diagnosticar casi todo: <C>opencode debug config</C>.
-          </>
-        }
+        entradilla="Antes de pedir ayuda, busca aquí el síntoma. Para diagnosticar casi todo:"
       >
         <div className="max-w-3xl">
           <Codigo
-            code={`opencode debug config        # config final fusionada (claves enmascaradas)\nopencode debug agent build   # permisos efectivos de un agente\nopencode debug skill         # skills que encuentra\nopencode mcp list            # estado de los MCP`}
+            code={`opencode --version        # qué versión tienes\nopencode debug paths      # dónde están la config, los datos y los logs\nopencode debug config     # la config final, ya fusionada\nopencode mcp list         # estado de los MCP`}
             etiqueta="Diagnóstico"
           />
         </div>
@@ -1857,11 +1790,11 @@ export default function GuiaOpenCode() {
         </div>
         <p className={`mt-5 ${cls.texto}`}>
           Documentación oficial:{" "}
-          <a href="https://opencode.ai/docs" target="_blank" rel="noopener noreferrer" className={cls.enlace}>
-            opencode.ai/docs
+          <a href="https://opencode.ai/v2/docs" target="_blank" rel="noopener noreferrer" className={cls.enlace}>
+            opencode.ai/v2/docs
           </a>
-          . Ya describe la versión 1.19, pero lo esencial coincide con la 1.18.35 de clase. No sigas la documentación de
-          OpenCode 2 (<C>/v2/docs</C>) ni los tutoriales con claves en plural.
+          . Si un tutorial usa <C>permission</C>, <C>agent</C> o <C>bash</C> en singular, es de OpenCode 1: la idea es la
+          misma, la sintaxis no.
         </p>
       </Bloque>
     </div>

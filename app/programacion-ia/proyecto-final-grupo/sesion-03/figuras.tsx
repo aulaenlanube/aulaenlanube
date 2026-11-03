@@ -7,12 +7,12 @@ import { Caja, Figura, Flecha, T, TINTA, Zona, fuerte, linea, suave, type TonoSv
 // busca por su comienzo.
 
 /* ------------------------------------------------------------------ */
-/* El kit de arranque: lo que hay al acabar la clase                    */
-/* Zona del repo 16..560 × 16..364. Raíz a y = 80; hijos cada 32 desde  */
-/* y = 116 (el último, a 340); conector a x = 46, texto a x = 72. El     */
-/* más largo (docs/arquitectura.md · sistema y datos ≈ 379) acaba en 451.*/
-/* Columna derecha 580..984: «En GitHub» 16..216 (filas 80·116·152·188)  */
-/* y «En el campus» 232..364 (filas 296·328). Texto a x = 604.           */
+/* Hoy frente a lo que viene en el sprint 1                             */
+/* Dos zonas de 474 × 300: «Hoy» 16..490 y «A partir de ahora» 510..984. */
+/* Hoy: raíz a y = 80 (x = 36), cuatro hojas cada 32 desde y = 116, texto */
+/* a x = 72 (la más larga, «docs/entrevistas/ · las que tengáis» ≈ 339,  */
+/* acaba en 411); debajo, dos puntos de GitHub a y = 252 y 284 (x = 40). */
+/* Sprint 1: seis puntos cada 36 desde y = 80 (x = 534, texto a 550).    */
 /* ------------------------------------------------------------------ */
 
 type Hoja = { f: string; nota?: string };
@@ -59,71 +59,65 @@ function Punto({ x, y, tono, children }: { x: number; y: number; tono: TonoSvg; 
   );
 }
 
+const SPRINT_1 = [
+  "Las cinco entrevistas",
+  "Recorrido del cliente",
+  "La arquitectura en Mermaid",
+  "AGENTS.md para los agentes",
+  "Todo por PR, con revisión",
+  "Rama main protegida",
+];
+
 export function KitArranque() {
   return (
     <Figura
       uid="kit"
       ancho={1000}
-      alto={380}
-      etiqueta="El kit de arranque al acabar la clase. En el repo: README con la ficha v1, AGENTS.md con las reglas de los agentes, la plantilla de PR, y en docs el acuerdo de equipo, las entrevistas, el recorrido del primer cliente, las decisiones y la arquitectura. En GitHub: el sprint 1 con tres issues con responsable y revisor, main protegida o todo por PR, un PR revisado por pieza y aulaenlanube con acceso. En el campus: cada persona entrega el enlace del repo con su rol y su PR."
-      pie="A la izquierda, los ficheros; a la derecha, lo que se ve en GitHub y lo que entrega cada persona en el campus."
+      alto={332}
+      etiqueta="Lo que se entrega hoy y lo que viene después. Hoy, en el repo: README con la ficha v1, docs/equipo.md con roles y reglas, docs/decisiones.md con la idea y el stack, y en docs/entrevistas las que tengáis; en GitHub, el sprint 1 con tres issues con responsable y aulaenlanube con acceso. A partir de ahora, durante el sprint 1: las cinco entrevistas, el recorrido del cliente, la arquitectura en Mermaid, AGENTS.md para los agentes, todo por PR con revisión y la rama main protegida."
+      pie="A la izquierda, lo de hoy: poco, pero las bases. A la derecha, lo que desarrolláis durante el sprint 1, hasta el 17 de noviembre."
     >
-      <Zona x={16} y={16} w={544} h={348} tono="azul" rotulo="En el repo" />
-      <Zona x={580} y={16} w={404} h={200} tono="morado" rotulo="En GitHub" />
-      <Zona x={580} y={232} w={404} h={132} tono="verde" rotulo="En el campus" />
+      <Zona x={16} y={16} w={474} h={300} tono="azul" rotulo="Hoy · la entrega" />
+      <Zona x={510} y={16} w={474} h={300} tono="gris" rotulo="A partir de ahora · sprint 1" />
       <ArbolSvg
         x={36}
         raiz="tu-startup/"
         tono="azul"
         hojas={[
           { f: "README.md", nota: "la ficha v1" },
-          { f: "AGENTS.md", nota: "reglas de los agentes" },
-          { f: ".github/pull_request_template.md" },
-          { f: "docs/equipo.md", nota: "el acuerdo" },
-          { f: "docs/entrevistas/", nota: "una por persona" },
-          { f: "docs/recorrido.md", nota: "el primer cliente" },
+          { f: "docs/equipo.md", nota: "roles y reglas" },
           { f: "docs/decisiones.md", nota: "idea y stack" },
-          { f: "docs/arquitectura.md", nota: "sistema y datos" },
+          { f: "docs/entrevistas/", nota: "las que tengáis" },
         ]}
       />
-      <Punto x={604} y={80} tono="morado">
+      <Punto x={40} y={252} tono="morado">
         Sprint 1: 3 issues con dueño
       </Punto>
-      <Punto x={604} y={116} tono="morado">
-        Rama main protegida, o todo por PR
-      </Punto>
-      <Punto x={604} y={152} tono="morado">
-        Un PR revisado por pieza
-      </Punto>
-      <Punto x={604} y={188} tono="morado">
+      <Punto x={40} y={284} tono="morado">
         aulaenlanube con acceso
       </Punto>
-      <Punto x={604} y={296} tono="verde">
-        Cada uno: repo, rol y PR
-      </Punto>
-      <Punto x={604} y={328} tono="verde">
-        Hoy, antes de las 23:59
-      </Punto>
+      {SPRINT_1.map((t, i) => (
+        <Punto key={t} x={534} y={80 + i * 36} tono="gris">
+          {t}
+        </Punto>
+      ))}
     </Figura>
   );
 }
 
 /* ------------------------------------------------------------------ */
-/* Quién tira de cada pieza                                             */
-/* Seis filas de 50 de alto cada 62 desde y = 16 (16·78·140·202·264·326).*/
+/* Quién tira de cada pieza hoy                                         */
+/* Cinco filas de 50 de alto cada 62 desde y = 16 (16·78·140·202·264).  */
 /* Rol: caja 16..256. Pieza: caja 330..984. Flecha horizontal por el    */
 /* centro de la fila, de 256 a 324 (6 antes del borde).                 */
-/* Texto más largo: «La ficha v1 y el tablero del sprint» (35 × 11,5 ≈  */
-/* 403) en una caja de 654.                                             */
 /* ------------------------------------------------------------------ */
 
 const REPARTO: [string, string, TonoSvg][] = [
-  ["Producto", "La ficha v1 y el tablero del sprint", "azul"],
-  ["Calidad", "El acuerdo de equipo y la plantilla de PR", "verde"],
-  ["Lead técnico", "Las decisiones (ADR) y el AGENTS.md", "morado"],
-  ["Datos/IA", "La arquitectura: sistema y datos", "ambar"],
-  ["Diseño/contenido", "El recorrido del primer cliente", "rosa"],
-  ["Todo el equipo", "Una entrevista por persona", "gris"],
+  ["Producto", "La ficha v1 (README.md)", "azul"],
+  ["Calidad", "Roles y reglas (docs/equipo.md)", "verde"],
+  ["Lead técnico", "Idea y stack (docs/decisiones.md)", "morado"],
+  ["Datos/IA o diseño", "Las 3 primeras issues del sprint 1", "ambar"],
+  ["Todo el equipo", "Su entrevista, si ya la tiene", "gris"],
 ];
 
 export function RepartoPiezas() {
@@ -132,9 +126,9 @@ export function RepartoPiezas() {
     <Figura
       uid={u}
       ancho={1000}
-      alto={392}
-      etiqueta="Quién tira de cada pieza del kit. Producto: la ficha v1 y el tablero del sprint. Calidad: el acuerdo de equipo y la plantilla de PR. Lead técnico: las decisiones y el AGENTS.md. Datos e IA: la arquitectura, sistema y datos. Diseño y contenido: el recorrido del primer cliente. Todo el equipo: una entrevista por persona."
-      pie="Si sois tres, alguien lleva dos piezas; si sois seis, una pieza se hace en pareja. Decidís todos; escribe quien la lleva."
+      alto={330}
+      etiqueta="Quién tira de cada pieza hoy. Producto: la ficha v1 en el README. Calidad: roles y reglas en docs/equipo.md. Lead técnico: idea y stack en docs/decisiones.md. Datos e IA o diseño: las tres primeras issues del sprint 1. Todo el equipo: cada uno su entrevista, si ya la tiene."
+      pie="Si sois tres, alguien lleva dos piezas; si sois seis, una se hace en pareja. Cada persona sube algo con su cuenta: es su aportación."
     >
       {REPARTO.map(([rol, pieza, tono], i) => {
         const y = 16 + i * 62;
@@ -314,11 +308,11 @@ export function AccesoEntrega() {
       uid={u}
       ancho={1000}
       alto={132}
-      etiqueta="Acceso y entrega en tres pasos. Uno: si el repo es privado, invitáis a aulaenlanube con rol Read. Dos: el profe acepta la invitación; hasta entonces no ve nada. Tres: cada persona entrega en el campus el repo, su rol y su PR, hoy antes de las 23:59."
+      etiqueta="Acceso y entrega en tres pasos. Uno: si el repo es privado, invitáis a aulaenlanube con rol Read. Dos: el profe acepta la invitación; hasta entonces no ve nada. Tres: cada persona entrega en el campus el repo, su rol y su parte, hoy antes de las 23:59."
     >
       <Caja x={16} y={16} w={290} h={100} tono="morado" titulo="Invitar a aulaenlanube" lineas={["solo si el repo es privado", "con el rol Read"]} />
       <Caja x={353} y={16} w={290} h={100} tono="ambar" titulo="El profe acepta" lineas={["hasta entonces", "no puede ver nada"]} />
-      <Caja x={690} y={16} w={290} h={100} tono="verde" titulo="Cada persona entrega" lineas={["el repo, su rol y su PR", "en el campus del curso"]} />
+      <Caja x={690} y={16} w={290} h={100} tono="verde" titulo="Cada persona entrega" lineas={["el repo, su rol y su parte", "en el campus del curso"]} />
       <Flecha uid={u} d="M306 66 H347" tono="morado" />
       <Flecha uid={u} d="M643 66 H684" tono="ambar" />
     </Figura>

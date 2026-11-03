@@ -107,8 +107,8 @@ export const PROYECTOS: Record<string, ProyectoCatalogo> = {
       },
       {
         id: "s03", n: 3,
-        titulo: "Kickoff: el repo que arranca la startup",
-        resumen: "3 nov · El kit de arranque: ficha v1, entrevistas, acuerdo de equipo, decisiones, arquitectura, AGENTS.md y tablero del sprint 1, cada pieza con su PR. Se entrega hoy.",
+        titulo: "Punto de seguimiento: las bases de la startup",
+        resumen: "3 nov · Entrega corta para organizaros: ficha v1 con números, roles y reglas, idea y stack, entrevistas y las 3 primeras issues del sprint 1. Y lo que se desarrolla a partir de ahora.",
         href: "/programacion-ia/proyecto-final-grupo/sesion-03/",
       },
     ],

@@ -23,72 +23,21 @@ import {
 import { AccesoEntrega, KitArranque, RepartoPiezas, SistemaReservas, TableroSprint, UnaPiezaUnPR } from "./figuras";
 
 export const metadata: Metadata = {
-  title: "Startup · Sesión 3 · Kickoff: el repo que arranca la startup — Curso de Programación con IA",
+  title: "Startup · Sesión 3 · Punto de seguimiento: las bases de vuestra startup — Curso de Programación con IA",
   description:
-    "Tercera sesión del proyecto en grupo (1º DAM presencial, 3 de noviembre de 2026, 3 horas): el kit de arranque de una startup de verdad —ficha v1, entrevistas, acuerdo de equipo, decisiones, arquitectura, AGENTS.md y tablero del sprint 1—, cada pieza con su rama y su PR, y la entrega en el campus.",
+    "Tercera sesión del proyecto en grupo (1º DAM presencial, 3 de noviembre de 2026): punto de seguimiento con una entrega corta —ficha v1 con números, roles y reglas, idea y stack, entrevistas y las tres primeras issues del sprint 1— y el resto de la sesión para avanzar. Después, lo que se desarrolla durante el sprint 1.",
 };
 
 // Página para vídeo (docs/paginas-para-video.md): cada <Bloque>/<Paso> es una
 // pantalla de 1100×620 como mucho. Las plantillas largas van enteras en sus
 // constantes y se enseñan por trozos con `rango`; el botón copia siempre la
-// plantilla entera.
+// plantilla entera. Hoy es un punto de seguimiento: los «Paso N» son solo lo que
+// se entrega hoy; lo demás va después, en «A desarrollar a partir de ahora».
 
-/* ───────────── plantillas que copia el equipo ───────────── */
-
-const ISSUE_KIT = `## Kit de arranque · entrega del 3 de noviembre
-- [ ] README.md · ficha v1 con el modelo de ingresos (producto)
-- [ ] docs/entrevistas/ · una entrevista por persona (todo el equipo)
-- [ ] docs/equipo.md · el acuerdo de equipo (calidad)
-- [ ] .github/pull_request_template.md (calidad)
-- [ ] docs/recorrido.md · el primer cliente en 5 pasos (diseño)
-- [ ] docs/decisiones.md · 001 la idea y 002 el stack (lead técnico)
-- [ ] docs/arquitectura.md · sistema y datos (datos/IA)
-- [ ] AGENTS.md · reglas para los agentes (lead técnico)
-- [ ] Sprint 1: 3 issues con responsable y revisor (producto)
-- [ ] main protegida, o la regla «todo por PR» (lead técnico)
-- [ ] aulaenlanube con acceso, si el repo es privado
-- [ ] Cada persona: su entrega en el campus`;
-
-const EQUIPO_MD = `# Acuerdo de equipo — [nombre de la startup]
-03/11/2026 · Lo aprobamos todos en el PR.
-
-## Roles
-- [Nombre] · producto: qué se hace y en qué orden; habla con clientes
-- [Nombre] · lead técnico: arquitectura, stack y fusiones
-- [Nombre] · calidad: revisiones; que nada llegue roto a main
-- [Nombre] · datos/IA: modelo de datos, prompts y APIs
-- [Nombre] · diseño/contenido: pantallas y textos
-
-## Cómo trabajamos
-- Avisos por [canal]; las decisiones, en issues: lo que no está escrito no se decidió.
-- Al empezar cada clase, 5 minutos: qué hice, qué haré, qué me bloquea.
-- Decide quien lleva el área, después de escuchar; si no hay acuerdo, se vota.
-- Nadie sube a main: rama y PR, y nadie fusiona su propio PR.
-
-## «Terminado» significa
-- Cumple el criterio de aceptación de su issue.
-- Lo ha probado otra persona del equipo, no solo quien lo hizo.
-- No hay claves ni datos personales en el repo.
-- El PR cuenta qué hizo el agente y qué decidimos nosotros.
-
-## Si alguien no cumple
-Primero se habla en el equipo; si se repite, en la retro del sprint;
-si sigue, se habla con el profe, con las issues y los PR delante.`;
-
-const PR_TEMPLATE = `## Qué cambia
-Issue: #
-
-## Cómo lo he probado
-
-## Qué hizo el agente y qué decidí yo
-
-## Para quien revisa
-- [ ] Cumple el criterio de aceptación de la issue
-- [ ] Lo he probado yo, no solo quien lo hizo
-- [ ] Sin claves ni datos personales`;
+/* ───────────── plantillas de hoy ───────────── */
 
 const FICHA_V1 = `# [Nombre] — ficha v1
-> [Qué es, en una frase, y para quién]. Estado: kickoff (3 nov 2026).
+> [Qué es, en una frase, y para quién]. Estado: 3 nov 2026, arrancando.
 
 **Equipo:** [Nombre] (producto) · [Nombre] (lead técnico) · [Nombre] (calidad) · …
 
@@ -121,10 +70,37 @@ Lo que NO hacemos todavía: …
 Lo que nos dijeron en el pitch y en las entrevistas, y qué hemos cambiado por ello.
 
 ## El mayor riesgo
-Lo que, si resulta falso, hunde la idea, y cómo lo comprobaremos antes del [fecha].
+Lo que, si resulta falso, hunde la idea, y cómo lo comprobaremos antes del [fecha].`;
 
-## Documentos
-[Acuerdo](docs/equipo.md) · [Recorrido](docs/recorrido.md) · [Decisiones](docs/decisiones.md) · [Arquitectura](docs/arquitectura.md)`;
+const EQUIPO_MD = `# Cómo trabajamos — [nombre de la startup]
+03/11/2026
+
+## Roles
+- [Nombre] · producto: qué se hace y en qué orden; habla con clientes
+- [Nombre] · lead técnico: arquitectura, stack y fusiones
+- [Nombre] · calidad: revisiones; que nada llegue roto a main
+- [Nombre] · datos/IA: modelo de datos, prompts y APIs
+- [Nombre] · diseño/contenido: pantallas y textos
+
+## Reglas
+- Avisos por [canal]; las decisiones, en issues: lo que no está escrito no se decidió.
+- Al empezar cada clase, 5 minutos: qué hice, qué haré, qué me bloquea.
+- Nadie da por bueno su propio trabajo: lo revisa otra persona.
+- Si alguien no cumple, primero se habla en el equipo; si sigue, con el profe.`;
+
+const DECISIONES_MD = `# Decisiones del equipo
+Una decisión por bloque, con fecha. No se borran: si cambiamos de idea, se añade otra.
+
+## 001 · Por qué esta idea (19/10/2026)
+- Decisión: [A]. Descartada: [B].
+- Por qué: [lo que dijeron el pitch, la inversión y las entrevistas].
+
+## 002 · El stack (03/11/2026)
+- Producto de tipo [juego / SaaS de servicio / voz], equipo de [N].
+- Decisión: [interfaz] + [servidor] + [base de datos].
+- Por qué: es lo más aburrido que funciona; [quién del equipo ya lo conoce].
+- Descartado: [alternativa], porque [...].
+- Nos obliga a aprender: [qué], y lo aprende [quién].`;
 
 const ENTREVISTA_MD = `# Entrevista 01 · [a qué se dedica, sin apellidos]
 Fecha: __/__/2026 · La hizo: [tu nombre] · ¿Es quien pagaría? sí / no
@@ -140,6 +116,43 @@ Fecha: __/__/2026 · La hizo: [tu nombre] · ¿Es quien pagaría? sí / no
 ## Qué cambia en la ficha
 - …`;
 
+const ISSUE_SPRINT = `Título: Reservar una pista
+Como [jugador], quiero [reservar una pista libre desde el móvil]
+para [no tener que llamar al club].
+
+Criterio de aceptación
+- Dado [que la pista 2 está libre a las 18:00],
+  cuando [la reservo],
+  entonces [aparece ocupada para los demás y me llega la confirmación].
+
+Lleva: @… · Revisa: @… · Etiqueta: sprint-1`;
+
+const COMENTARIO_ENTREGA = `Rol: lead técnico
+Hoy he hecho: docs/decisiones.md (la idea y el stack)
+Enlace: https://github.com/vuestra-org/vuestro-repo/commit/…`;
+
+const PROMPT_FICHA = `Actúa como un inversor que ya puso dinero en nuestra startup y quiere saber si
+lo va a recuperar. Esta es nuestra ficha v1 y estas, las notas de las entrevistas:
+[pega README.md] [pega docs/entrevistas/]
+1. ¿Qué afirma la ficha que las entrevistas NO demuestran?
+2. ¿Cuadran las cuentas del mantenimiento? Rehaz la división y dime si falta algún coste.
+3. ¿Qué función del MVP quitarías y por qué?
+No inventes datos: si algo no se puede saber con lo que te paso, dilo.`;
+
+/* ───────────── plantillas del sprint 1 ───────────── */
+
+const PR_TEMPLATE = `## Qué cambia
+Issue: #
+
+## Cómo lo he probado
+
+## Qué hizo el agente y qué decidí yo
+
+## Para quien revisa
+- [ ] Cumple el criterio de aceptación de la issue
+- [ ] Lo he probado yo, no solo quien lo hizo
+- [ ] Sin claves ni datos personales`;
+
 const RECORRIDO_MD = `# El recorrido del primer cliente (MVP)
 Quién: [Marta, dueña de una peluquería en Xàtiva].
 Qué quiere conseguir: [llenar la agenda sin pasarse la tarde en WhatsApp].
@@ -151,22 +164,6 @@ Qué quiere conseguir: [llenar la agenda sin pasarse la tarde en WhatsApp].
 5. Termina cuando [ha conseguido qué], y se va con [qué].
 
 Boceto de las pantallas: docs/img/boceto.jpg (una foto del papel vale).`;
-
-const DECISIONES_MD = `# Decisiones del equipo
-Una decisión por bloque, con fecha. No se borran: si cambiamos de idea, se añade otra que la sustituye.
-
-## 001 · Por qué esta idea (19/10/2026)
-- Contexto: las dos finalistas eran [A] y [B].
-- Decisión: [A].
-- Por qué: [lo que dijeron el pitch, la inversión y las entrevistas].
-- Descartado: [B], porque [...].
-
-## 002 · El stack (03/11/2026)
-- Contexto: producto de tipo [juego / SaaS de servicio / voz], equipo de [N], servidor del curso.
-- Decisión: [interfaz] + [servidor] + [base de datos].
-- Por qué: es lo más aburrido que funciona; [quién del equipo ya lo conoce].
-- Descartado: [alternativa], porque [...].
-- Consecuencias: [lo que nos obliga a aprender o a pagar].`;
 
 const ARQUITECTURA_MD = `# Arquitectura (v1)
 
@@ -215,31 +212,6 @@ Ninguna librería nueva sin preguntar: cada una, su decisión en docs/decisiones
 - Datos personales reales: los datos de prueba se inventan.
 - Cambios grandes sin plan: primero propones, después programas.`;
 
-const ISSUE_SPRINT = `Título: Reservar una pista
-Como [jugador], quiero [reservar una pista libre desde el móvil]
-para [no tener que llamar al club].
-
-Criterio de aceptación
-- Dado [que la pista 2 está libre a las 18:00],
-  cuando [la reservo],
-  entonces [aparece ocupada para los demás y me llega la confirmación].
-
-Lleva: @… · Revisa: @… · Etiqueta: sprint-1 · Hito: Sprint 1`;
-
-const COMENTARIO_ENTREGA = `Rol: lead técnico
-Mi PR: https://github.com/vuestra-org/vuestro-repo/pull/3
-He revisado: #4 (le pedí que quitara un teléfono real de los datos de prueba)`;
-
-/* ───────────── prompts ───────────── */
-
-const PROMPT_FICHA = `Actúa como un inversor que ya puso dinero en nuestra startup y quiere saber si
-lo va a recuperar. Esta es nuestra ficha v1 y estas, las notas de las entrevistas:
-[pega README.md] [pega docs/entrevistas/]
-1. ¿Qué afirma la ficha que las entrevistas NO demuestran?
-2. ¿Cuadran las cuentas del mantenimiento? Rehaz la división y dime si falta algún coste.
-3. ¿Qué función del MVP quitarías y por qué?
-No inventes datos: si algo no se puede saber con lo que te paso, dilo.`;
-
 const PROMPT_ARQUITECTURA = `Lee docs/decisiones.md y el MVP de README.md.
 Escribe docs/arquitectura.md con dos diagramas en Mermaid que GitHub sepa pintar:
 1. flowchart LR con quién usa el producto, dónde corre y con qué servicios habla
@@ -259,33 +231,24 @@ Revisa el AGENTS.md que has generado con estas condiciones:
 
 const INDICE: [string, string][] = [
   ["hoy", "Lo que entregáis hoy"],
-  ["agenda", "Las tres horas"],
-  ["paso-1", "Paso 1 · Auditoría y reparto"],
-  ["paso-2", "Paso 2 · Acuerdo de equipo"],
-  ["paso-3", "Paso 3 · Una rama por pieza"],
-  ["paso-4", "Paso 4 · La ficha v1"],
+  ["sesion", "Cómo va la sesión"],
+  ["paso-1", "Paso 1 · Repartid las piezas"],
+  ["paso-2", "Paso 2 · La ficha v1"],
+  ["paso-3", "Paso 3 · Roles y reglas"],
+  ["paso-4", "Paso 4 · Idea y stack"],
   ["paso-5", "Paso 5 · Las entrevistas"],
-  ["paso-6", "Paso 6 · El recorrido"],
-  ["paso-7", "Paso 7 · Las decisiones"],
-  ["paso-8", "Paso 8 · La arquitectura"],
-  ["paso-9", "Paso 9 · AGENTS.md"],
-  ["paso-10", "Paso 10 · Revisar y fusionar"],
-  ["paso-11", "Paso 11 · El sprint 1"],
-  ["paso-12", "Paso 12 · Acceso y entrega"],
-  ["readout", "Tres minutos por equipo"],
+  ["paso-6", "Paso 6 · Las 3 primeras issues"],
+  ["paso-7", "Paso 7 · Acceso y entrega"],
+  ["resto", "El resto de la sesión"],
+  ["despues", "A partir de ahora"],
   ["rubrica", "Lo que se mira"],
 ];
 
-const AGENDA: [string, string, string][] = [
-  ["0:00", "Kickoff", "Qué es hoy, qué se entrega y el reparto de piezas"],
-  ["0:10", "Auditoría y reparto", "Paso 1: qué tenéis ya, qué falta y quién lo lleva"],
-  ["0:25", "El acuerdo de equipo", "Paso 2: todos juntos, una sola conversación"],
-  ["0:45", "Cada pieza, su rama", "Pasos 3-9: en paralelo, cada persona con la suya"],
-  ["1:40", "Descanso", "10 minutos"],
-  ["1:50", "Revisión cruzada", "Paso 10: cada PR lo lee otra persona antes de fusionar"],
-  ["2:10", "El tablero del sprint 1", "Paso 11: 3 issues con responsable y revisor"],
-  ["2:30", "Readout", "3 minutos por equipo, con el repo proyectado"],
-  ["2:50", "Acceso y entrega", "Paso 12: invitación al profe y entrega en el campus"],
+const SESION: [string, string, string][] = [
+  ["0:00", "Punto de seguimiento", "Qué se entrega hoy y qué queda para el sprint 1"],
+  ["0:10", "La entrega", "Pasos 1-6: cada pieza, una persona; corto y verdadero"],
+  ["0:55", "Acceso y entrega", "Paso 7: invitación al profe y entrega en el campus"],
+  ["1:00", "A seguir avanzando", "El sprint 1 de vuestro producto; el profe pasa por cada equipo"],
 ];
 
 const HITOS: Hito[] = [
@@ -296,15 +259,15 @@ const HITOS: Hito[] = [
     puntos: ["Del problema a la ficha v0", "Pitch y ronda de inversión", "El presupuesto ficticio", "Arquitectura por tipo de producto"],
   },
   {
-    titulo: "Kickoff",
+    titulo: "Seguimiento 1",
     fecha: "Hoy · martes 3 nov",
-    puntos: ["El kit de arranque en el repo", "Una pieza por persona, con su PR", "Entrega en el campus, hoy"],
+    puntos: ["Ficha v1, roles, idea y stack", "Las 3 primeras issues", "Entrega en el campus, hoy"],
   },
   {
     titulo: "Sprint 1",
     fecha: "Hasta el 17 nov",
     futuro: true,
-    puntos: ["Las 3 tareas del tablero", "Cada PR, revisado", "Mini-demo de 3 minutos al cerrar"],
+    puntos: ["Las 3 issues, programadas", "El resto del kit, pieza a pieza", "Mini-demo de 3 minutos al cerrar"],
   },
   {
     titulo: "Sprints 2 y 3",
@@ -321,17 +284,10 @@ const HITOS: Hito[] = [
 ];
 
 export default function StartupSesion3() {
-  const criterio = (id: string) => RUBRICA_STARTUP_ARRANQUE.criterios.find((c) => c.id === id)!;
   const rubrica = (id: string) => {
-    const c = criterio(id);
+    const c = RUBRICA_STARTUP_ARRANQUE.criterios.find((x) => x.id === id)!;
     return (
-      <CriterioRubrica
-        nombre={c.nombre}
-        peso={c.peso}
-        que={c.qué}
-        niveles={RUBRICA_STARTUP_ARRANQUE.niveles}
-        descriptores={c.niveles}
-      />
+      <CriterioRubrica nombre={c.nombre} peso={c.peso} que={c.qué} niveles={RUBRICA_STARTUP_ARRANQUE.niveles} descriptores={c.niveles} />
     );
   };
   return (
@@ -347,12 +303,12 @@ export default function StartupSesion3() {
           ]}
         />
         <Chip>Startup en grupo · Sesión 3 · Martes 3 nov 2026</Chip>
-        <h1 className="mt-3 text-4xl font-extrabold tracking-tight">Kickoff: el repo que arranca vuestra startup</h1>
+        <h1 className="mt-3 text-4xl font-extrabold tracking-tight">Punto de seguimiento: las bases de vuestra startup</h1>
         <p className="mt-4 max-w-4xl text-lg leading-relaxed text-zinc-700 dark:text-zinc-300">
-          Cuando una startup de verdad arranca, lo primero no es programar: es una reunión de <b>kickoff</b> de la que
-          todo el mundo sale sabiendo <b>qué se construye, para quién, quién lleva cada cosa y cómo se trabaja</b>. Y todo
-          eso queda escrito en el repo, para que lo lea quien entra después: un compañero, un inversor o el agente de IA
-          que va a programar con vosotros. Hoy hacéis vuestro kickoff y lo <b>entregáis hoy mismo</b>.
+          Hoy no es un día de entregar mucho: es un <b>punto de seguimiento</b>. Recogemos lo que estaba pendiente para
+          el 26 de octubre en una versión corta, la que cualquier startup tiene escrita a las dos semanas de arrancar:
+          <b> qué construís, cómo se paga, quién hace qué y por dónde empezáis</b>. Os lleva alrededor de una hora y os
+          sirve para organizaros; el resto de la sesión, a seguir avanzando.
         </p>
         <div className={`mt-5 rounded-2xl border p-5 ${TONO.verde.caja}`}>
           <p className={`text-base font-bold uppercase tracking-wider ${TONO.verde.texto}`}>El hilo del proyecto en grupo</p>
@@ -360,15 +316,14 @@ export default function StartupSesion3() {
             En junio, alguien de fuera usa vuestro producto y lo paga.
           </p>
           <p className="mt-2 text-lg text-emerald-950 dark:text-emerald-100">
-            Hoy ponéis los cimientos: no un producto, sino las decisiones que lo hacen posible, escritas, revisadas y
-            firmadas por todo el equipo. Primera versión: corta y verdadera, no larga y perfecta.
+            Hoy dejáis escritas las bases: primera versión, corta y verdadera. Lo demás lo iréis construyendo durante el
+            sprint 1, pieza a pieza.
           </p>
         </div>
         <div className="mt-5 flex flex-wrap gap-2">
           <Chip tono="gris">👥 Por equipos</Chip>
-          <Chip tono="gris">⏱ 3 horas</Chip>
-          <Chip tono="gris">🧰 El kit de arranque</Chip>
-          <Chip tono="gris">🔀 Una pieza, un PR</Chip>
+          <Chip tono="gris">⏱ Entrega: alrededor de una hora</Chip>
+          <Chip tono="gris">🚀 El resto: a avanzar</Chip>
           <Chip tono="rosa">📤 Entrega: hoy, antes de las 23:59</Chip>
         </div>
       </section>
@@ -396,11 +351,11 @@ export default function StartupSesion3() {
       {/* ───────────── HOY ───────────── */}
       <Bloque
         id="hoy"
-        titulo="Lo que entregáis hoy: el kit de arranque"
+        titulo="Lo que entregáis hoy, y lo que viene después"
         entradilla={
           <>
-            Ocho ficheros cortos en el repo de la organización, el sprint 1 en GitHub y una entrega por persona en el
-            campus. Es lo que quedó pendiente de las sesiones{" "}
+            Cuatro ficheros cortos en el repo, las 3 primeras tareas en GitHub y una entrega por persona en el campus. Es
+            lo esencial de lo que quedó pendiente de las sesiones{" "}
             <Link href="/programacion-ia/proyecto-final-grupo/sesion-01/" className={cls.enlace}>
               1
             </Link>{" "}
@@ -408,18 +363,18 @@ export default function StartupSesion3() {
             <Link href="/programacion-ia/proyecto-final-grupo/sesion-02/" className={cls.enlace}>
               2
             </Link>
-            , ordenado como lo haría un equipo profesional:
+            . Lo de la derecha no es para hoy: lo vais desarrollando durante el sprint 1.
           </>
         }
       >
         <KitArranque />
       </Bloque>
 
-      <Bloque titulo="Por qué empezar así" nivel={3} entradilla="Con agentes, programar es barato. Lo caro es que cinco personas y cinco agentes tiren cada uno hacia un lado.">
+      <Bloque titulo="Por qué ahora" nivel={3} entradilla="Con agentes, programar es barato. Lo caro es que cinco personas y cinco agentes tiren cada uno hacia un lado.">
         <DosColumnas
           centro="o bien"
           a={{
-            titulo: "Directos al código",
+            titulo: "Sin bases escritas",
             antetitulo: "Lo que sale solo",
             tono: "rosa",
             puntos: [
@@ -429,12 +384,12 @@ export default function StartupSesion3() {
             ],
           }}
           b={{
-            titulo: "Con kickoff",
+            titulo: "Con las bases en el repo",
             antetitulo: "Lo que hacen los equipos que acaban",
             tono: "verde",
             puntos: [
               "El README dice qué se construye: cualquiera lo explica en un minuto.",
-              "AGENTS.md hace que todos los agentes sigan las mismas reglas.",
+              "Cada persona sabe qué lleva y quién se lo revisa.",
               "Cada decisión tiene fecha y motivo: cambiar de idea es barato.",
             ],
           }}
@@ -443,11 +398,11 @@ export default function StartupSesion3() {
 
       <Aviso titulo="¿Ya habéis empezado a programar?" tono="ambar">
         <p>
-          Perfecto, no tiréis nada. Pasa en las startups reales: el código va por delante de las decisiones. Hoy las
-          ponéis por escrito, y muchas veces descubriréis alguna que <b>no habíais tomado</b> aunque creyerais que sí.
+          Perfecto, no tiréis nada: seguid después de entregar. Las bases de hoy ponen por escrito lo que ya habéis
+          decidido, y a veces descubren algo que no habíais decidido aunque creyerais que sí.
         </p>
         <p>
-          Si el código está en el repo personal de alguien, pasadlo hoy a la organización del equipo: en el repo,{" "}
+          Si el código está en el repo personal de alguien, pasadlo a la organización del equipo: en el repo,{" "}
           <b>Settings → General → Danger Zone → Transfer ownership</b>. Se conservan los commits, las issues y los PR.
         </p>
       </Aviso>
@@ -463,9 +418,9 @@ export default function StartupSesion3() {
         </p>
       </Aviso>
 
-      <Bloque id="agenda" titulo="Las tres horas" entradilla="Primero, juntos; después, cada uno con su pieza; al final, revisión cruzada y entrega.">
+      <Bloque id="sesion" titulo="Cómo va la sesión" entradilla="Una hora para la entrega y el resto para avanzar. Las horas son orientativas.">
         <ol className="space-y-1.5">
-          {AGENDA.map(([h, t, d]) => (
+          {SESION.map(([h, t, d]) => (
             <li
               key={h}
               className={`grid grid-cols-[3.5rem_minmax(0,1fr)] items-baseline gap-x-4 !py-2 md:grid-cols-[3.5rem_14rem_minmax(0,1fr)] ${cls.tarjeta}`}
@@ -478,113 +433,25 @@ export default function StartupSesion3() {
         </ol>
       </Bloque>
 
-      {/* ───────────── JUNTOS ───────────── */}
+      {/* ───────────── LA ENTREGA DE HOY ───────────── */}
       <Paso
         id="paso-1"
         n={1}
-        titulo="Auditoría y reparto"
+        titulo="Repartid las piezas"
         entradilla={
           <>
-            Proyectad el repo de la organización y repasad la lista: lo que ya está, se marca; lo que falta, se le pone
-            dueño. Copiadla en una issue nueva, «Kit de arranque»: GitHub pinta las casillas y os dice cuánto os falta.
+            Cinco minutos. Cada pieza, una persona según su rol, y así cada uno sube algo con su cuenta. ¿Aún no hay
+            organización ni repo? Lo primero: en GitHub, <b>+ → New organization</b> (plan gratuito), un repositorio dentro
+            y todo el equipo invitado.
           </>
         }
-        junto={<Codigo code={ISSUE_KIT} kind="md" etiqueta="Issue #1 · Kit de arranque" />}
-        anchoJunto={700}
       >
-        <p className={cls.texto}>
-          ¿Aún no hay organización ni repo? Lo primero: en GitHub, <b>+ → New organization</b> (plan gratuito), un
-          repositorio dentro y todo el equipo invitado. Lo hace el lead técnico mientras los demás leen el paso 2.
-        </p>
-      </Paso>
-
-      <Bloque titulo="Quién tira de cada pieza" nivel={3} entradilla="Cada pieza tiene un dueño según su rol: la escribe, abre su PR y responde a la revisión.">
         <RepartoPiezas />
-      </Bloque>
+      </Paso>
 
       <Paso
         id="paso-2"
         n={2}
-        titulo="El acuerdo de equipo"
-        entradilla={
-          <>
-            Veinte minutos, todo el equipo, una sola conversación: cómo vais a trabajar hasta junio. Escribe calidad en{" "}
-            <C>docs/equipo.md</C>; decidís todos. Es la pieza que más se agradece en febrero, cuando hay un conflicto.
-          </>
-        }
-        junto={<Codigo code={EQUIPO_MD} kind="md" etiqueta="docs/equipo.md" rango={[1, 15]} />}
-      />
-
-      <Bloque
-        titulo="Lo que significa «terminado»"
-        nivel={3}
-        entradilla={
-          <>
-            La segunda mitad del acuerdo es la más importante. La <b>definición de terminado</b> es lo que se comprueba
-            antes de fusionar, y el último apartado evita que un conflicto se pudra en silencio.
-          </>
-        }
-        junto={<Codigo code={EQUIPO_MD} kind="md" etiqueta="docs/equipo.md" rango={[17, 25]} />}
-      >
-        <p className={cls.texto}>
-          Calidad añade también <C>.github/pull_request_template.md</C>: GitHub lo pone solo en cada PR nuevo.
-        </p>
-        <div className="mt-4">
-          <Codigo code={PR_TEMPLATE} kind="md" etiqueta=".github/pull_request_template.md" />
-        </div>
-      </Bloque>
-
-      <Paso
-        id="paso-3"
-        n={3}
-        titulo="Una pieza, una rama, un PR"
-        entradilla={
-          <>
-            A partir de aquí cada persona trabaja en su pieza, en paralelo. Nadie escribe en <C>main</C>: cada pieza va
-            en su rama, sube a GitHub y entra por un pull request que revisa otra persona. Así practicáis hoy, con
-            documentos, el flujo que usaréis todo el curso con código.
-          </>
-        }
-      >
-        <UnaPiezaUnPR />
-      </Paso>
-
-      <Bloque
-        titulo="Las órdenes de cada pieza"
-        nivel={3}
-        entradilla={
-          <>
-            Igual que en la <Link href="/programacion-ia/sesion-02/" className={cls.enlace}>sesión de Git</Link> del primer
-            proyecto. Cada pieza, en su fichero: así dos ramas nunca tocan el mismo y no hay conflictos al fusionar.
-          </>
-        }
-        junto={
-          <Terminal
-            titulo="Tu pieza, de la rama al PR"
-            lineas={[
-              { o: "git switch main" },
-              { o: "git pull", c: "# main al día antes de empezar" },
-              { o: "git switch -c docs/ficha-v1" },
-              { s: "Switched to a new branch 'docs/ficha-v1'", tono: "ok" },
-              { s: "  (escribes README.md, con el agente o a mano)" },
-              { o: "git add README.md" },
-              { o: 'git commit -m "docs: ficha v1 con el modelo de ingresos"' },
-              { o: "git push -u origin docs/ficha-v1" },
-            ]}
-          />
-        }
-      >
-        <p className={cls.texto}>
-          En GitHub sale el botón <b>Compare &amp; pull request</b>: lo abrís, rellenáis la plantilla y en{" "}
-          <b>Reviewers</b> elegís a quien os revisa. Las entrevistas van una por fichero precisamente por esto: cinco
-          personas escribiendo a la vez y ningún conflicto.
-        </p>
-      </Bloque>
-
-      {/* ───────────── LAS PIEZAS ───────────── */}
-      <Paso
-        id="paso-4"
-        n={4}
         titulo="La ficha v1 (README)"
         entradilla={
           <>
@@ -613,29 +480,56 @@ export default function StartupSesion3() {
         entradilla={
           <>
             El apartado nuevo de la v1: lo que os dijeron el pitch y las entrevistas, y qué habéis cambiado por ello. Una
-            ficha que no ha cambiado nada desde el 19 de octubre es sospechosa. Al final, el riesgo y el índice de docs.
+            ficha que no ha cambiado nada desde el 19 de octubre es sospechosa. Al final, el mayor riesgo.
           </>
         }
-        junto={<Codigo code={FICHA_V1} kind="md" etiqueta="README.md" rango={[31, 38]} />}
+        junto={<Codigo code={FICHA_V1} kind="md" etiqueta="README.md" rango={[31, 35]} />}
+      >
+        <p className={cls.texto}>Si os sobran cinco minutos, pasadla por la IA del centro haciendo de inversor exigente:</p>
+        <div className="mt-4">
+          <Prompt text={PROMPT_FICHA} etiqueta="Prompt · la IA audita la ficha" />
+        </div>
+      </Bloque>
+
+      <Paso
+        id="paso-3"
+        n={3}
+        titulo="Roles y reglas"
+        entradilla={
+          <>
+            Diez minutos, todo el equipo, una sola conversación: quién hace qué y cuatro reglas para trabajar juntos hasta
+            junio. Lo escribe calidad en <C>docs/equipo.md</C>; lo decidís todos.
+          </>
+        }
+        junto={<Codigo code={EQUIPO_MD} kind="md" etiqueta="docs/equipo.md" />}
       />
 
-      <Bloque
-        titulo="La IA, de inversor exigente"
-        nivel={3}
-        entradilla="Antes de abrir el PR, producto pasa la ficha por la IA del centro. No para que la apruebe: para que encuentre lo que no se sostiene."
-      >
-        <Prompt text={PROMPT_FICHA} etiqueta="Prompt · la IA audita la ficha" />
-      </Bloque>
+      <Paso
+        id="paso-4"
+        n={4}
+        titulo="Idea y stack"
+        entradilla={
+          <>
+            El lead técnico deja escritas las dos primeras decisiones: <b>por qué esta idea</b> y <b>con qué la vais a
+            construir</b>. Para el stack, el taller de la{" "}
+            <Link href="/programacion-ia/proyecto-final-grupo/sesion-02/" className={cls.enlace}>
+              sesión 2
+            </Link>{" "}
+            por tipo de producto. La regla: lo más aburrido que funcione.
+          </>
+        }
+        junto={<Codigo code={DECISIONES_MD} kind="md" etiqueta="docs/decisiones.md" />}
+      />
 
       <Paso
         id="paso-5"
         n={5}
-        titulo="Las entrevistas"
+        titulo="Las entrevistas que tengáis"
         entradilla={
           <>
             Cada persona sube <b>la suya</b>, en su fichero: <C>docs/entrevistas/01-peluquera.md</C>,{" "}
-            <C>02-dueno-gimnasio.md</C>… Sin apellidos ni teléfonos: a qué se dedica y nada más. Si ya teníais un{" "}
-            <C>docs/entrevistas.md</C>, seguid con él.
+            <C>02-dueno-gimnasio.md</C>… Así nadie pisa a nadie. Sin apellidos ni teléfonos: a qué se dedica y nada más.
+            Si ya teníais un <C>docs/entrevistas.md</C>, seguid con él.
           </>
         }
         junto={<Codigo code={ENTREVISTA_MD} kind="md" etiqueta="docs/entrevistas/01-….md" />}
@@ -643,8 +537,8 @@ export default function StartupSesion3() {
         <div className={`rounded-2xl border p-5 ${TONO.rosa.caja}`}>
           <p className={`text-lg font-bold ${TONO.rosa.tinta}`}>¿No la has hecho todavía?</p>
           <p className={`mt-1 text-lg ${TONO.rosa.tinta}`}>
-            Escribe a quién se la vas a hacer y cuándo, y súbela así. Una entrevista inventada es peor que ninguna: os
-            hace construir para alguien que no existe.
+            Hoy sube lo que tengas; las cinco, durante el sprint 1. Una entrevista inventada es peor que ninguna: os hace
+            construir para alguien que no existe.
           </p>
         </div>
       </Paso>
@@ -652,51 +546,177 @@ export default function StartupSesion3() {
       <Paso
         id="paso-6"
         n={6}
-        titulo="El recorrido del primer cliente"
+        titulo="Las 3 primeras issues"
         entradilla={
           <>
-            Diseño (o producto, si no hay diseño) cuenta en cinco pasos lo que hace vuestro primer cliente con el MVP,
-            de principio a fin. Es lo que todo el equipo tiene que tener en la cabeza cuando programa.
+            Por dónde empezáis a construir: el MVP partido en <b>3 issues</b> en GitHub, cada una una función de principio a
+            fin que se pueda enseñar, con la etiqueta <C>sprint-1</C> y una persona que la lleva. Si en la sesión 2 ya las
+            creasteis, revisadlas.
           </>
         }
-        junto={<Codigo code={RECORRIDO_MD} kind="md" etiqueta="docs/recorrido.md" />}
       >
-        <p className={cls.texto}>
-          Si un paso necesita una función que no está en las 3 del MVP, una de las dos cosas está mal: el recorrido o el
-          MVP. Decidid cuál y apuntadlo.
-        </p>
+        <TableroSprint />
       </Paso>
+
+      <Bloque
+        titulo="Una issue que se puede comprobar"
+        nivel={3}
+        entradilla={
+          <>
+            Hoy basta con el título y quien la lleva. Si os da tiempo, añadid quién la revisa y el criterio de aceptación en
+            «dado… cuando… entonces…»: es lo que convierte una tarea en algo que otra persona puede comprobar.
+          </>
+        }
+        junto={<Codigo code={ISSUE_SPRINT} kind="md" etiqueta="Issue · sprint-1" />}
+      />
 
       <Paso
         id="paso-7"
         n={7}
-        titulo="Las decisiones (ADR)"
+        titulo="Acceso y entrega en el campus"
         entradilla={
           <>
-            El lead técnico escribe las dos primeras decisiones del equipo: <b>por qué esta idea</b> y{" "}
-            <b>por qué este stack</b>, con lo que descartasteis. Para el stack, el taller de la{" "}
-            <Link href="/programacion-ia/proyecto-final-grupo/sesion-02/" className={cls.enlace}>
-              sesión 2
-            </Link>{" "}
-            por tipo de producto: juego, SaaS de servicio o voz.
+            El repo puede ser <b>público o privado</b>: lo decidís vosotros (es vuestro producto). Si es privado, en el
+            repo: <b>Settings → Collaborators and teams → Add people</b>, la cuenta <C>aulaenlanube</C> con el rol{" "}
+            <b>Read</b>.
           </>
         }
-        junto={<Codigo code={DECISIONES_MD} kind="md" etiqueta="docs/decisiones.md" />}
       >
-        <p className={cls.texto}>
-          La regla: <b>la arquitectura más aburrida que funcione</b>. Si nadie del equipo conoce una tecnología, la
-          decisión tiene que decir quién la va a aprender y cuándo.
-        </p>
+        <AccesoEntrega />
       </Paso>
 
-      <Paso
-        id="paso-8"
-        n={8}
-        titulo="La arquitectura en un dibujo"
-        entradilla="Datos/IA dibuja el sistema y sus datos. Así es el de una app de reservas de pádel:"
+      <Bloque
+        titulo="Lo que escribe cada persona"
+        nivel={3}
+        entradilla={
+          <>
+            Entrega <b>cada persona del equipo</b>, en su{" "}
+            <Link href="/programacion-ia/aula/" className={cls.enlace}>
+              aula del campus
+            </Link>
+            : el mismo enlace del repo para todos y, en el comentario, tres líneas tuyas. Se puede actualizar mientras la
+            entrega esté abierta.
+          </>
+        }
+        junto={<Codigo code={COMENTARIO_ENTREGA} kind="txt" etiqueta="Comentario de la entrega" />}
       >
+        <p className={cls.texto}>La nota es individual dentro del grupo: tu parte, subida con tu cuenta, es lo que la demuestra.</p>
+      </Bloque>
+
+      {/* ───────────── EL RESTO DE LA SESIÓN ───────────── */}
+      <Bloque
+        id="resto"
+        titulo="El resto de la sesión: a avanzar"
+        entradilla="Entregado lo de hoy, el tiempo es vuestro y de vuestro producto."
+      >
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          <Tarjeta titulo="Seguimiento con el profe" antetitulo="Cinco minutos por equipo" tono="ambar">
+            El profe pasa por cada mesa con vuestro README abierto: qué habéis decidido, qué os bloquea y qué vais a enseñar
+            al cerrar el sprint 1.
+          </Tarjeta>
+          <Tarjeta titulo="Arrancad el sprint 1" antetitulo="Lo principal" tono="azul">
+            Cada uno coge su issue y empieza a construirla con su agente, en su propia rama.
+          </Tarjeta>
+          <Tarjeta titulo="Adelantad una pieza" antetitulo="Si queréis" tono="verde">
+            Cualquiera de las de «a partir de ahora»: el recorrido, la arquitectura o el AGENTS.md.
+          </Tarjeta>
+        </div>
+      </Bloque>
+
+      {/* ───────────── A PARTIR DE AHORA ───────────── */}
+      <Bloque
+        id="despues"
+        titulo="A desarrollar a partir de ahora"
+        entradilla={
+          <>
+            No es para hoy. Es lo que completa las bases de un equipo profesional y lo vais haciendo durante el sprint 1,
+            hasta el 17 de noviembre, a la vez que programáis. Abajo tenéis cada pieza con su plantilla.
+          </>
+        }
+      >
+        <Checklist
+          items={[
+            { texto: "Las cinco entrevistas", detalle: "Dos, al menos, a quien pagaría: cuánto le cuesta hoy el problema." },
+            { texto: "Todo por rama y PR", detalle: "Con la plantilla de PR y otra persona que revisa y fusiona." },
+            { texto: "El recorrido del primer cliente", detalle: "Lo que hace con el MVP, en cinco pasos." },
+            { texto: "La arquitectura en un dibujo", detalle: "El sistema y sus datos, en Mermaid." },
+            { texto: "AGENTS.md común", detalle: "Las mismas reglas para todos los agentes del equipo." },
+            { texto: "main protegida", detalle: "Nadie sube a main sin un PR revisado." },
+          ]}
+        />
+      </Bloque>
+
+      <Bloque
+        titulo="Una pieza, una rama, un PR"
+        entradilla={
+          <>
+            La forma de trabajar desde ahora: nadie escribe en <C>main</C>. Cada pieza, de código o de documentación, va en su
+            rama, sube a GitHub y entra por un pull request que revisa otra persona.
+          </>
+        }
+      >
+        <UnaPiezaUnPR />
+      </Bloque>
+
+      <Bloque
+        titulo="Las órdenes de cada pieza"
+        nivel={3}
+        entradilla={
+          <>
+            Igual que en la <Link href="/programacion-ia/sesion-02/" className={cls.enlace}>sesión de Git</Link> del primer
+            proyecto. En GitHub sale el botón <b>Compare &amp; pull request</b>: lo abrís y en <b>Reviewers</b> elegís a quien os
+            revisa.
+          </>
+        }
+        junto={
+          <Terminal
+            titulo="Tu pieza, de la rama al PR"
+            lineas={[
+              { o: "git switch main" },
+              { o: "git pull", c: "# main al día antes de empezar" },
+              { o: "git switch -c docs/recorrido" },
+              { s: "Switched to a new branch 'docs/recorrido'", tono: "ok" },
+              { s: "  (escribes docs/recorrido.md, con el agente o a mano)" },
+              { o: "git add docs/recorrido.md" },
+              { o: 'git commit -m "docs: recorrido del primer cliente"' },
+              { o: "git push -u origin docs/recorrido" },
+            ]}
+          />
+        }
+      />
+
+      <Bloque
+        titulo="La plantilla de PR y main protegida"
+        nivel={3}
+        entradilla={
+          <>
+            Calidad añade <C>.github/pull_request_template.md</C>: GitHub la pone sola en cada PR nuevo. Si el repo es
+            público, proteged <C>main</C> en <b>Settings → Branches → Add rule</b>, con «Require a pull request before
+            merging».
+          </>
+        }
+        junto={<Codigo code={PR_TEMPLATE} kind="md" etiqueta=".github/pull_request_template.md" />}
+      >
+        <p className={cls.texto}>
+          En un repo privado de una organización gratuita, GitHub puede no dejaros proteger <C>main</C>. Entonces la
+          protección es una regla del equipo, y se nota en el historial: ningún commit directo a main.
+        </p>
+      </Bloque>
+
+      <Bloque
+        titulo="El recorrido del primer cliente"
+        entradilla={
+          <>
+            Diseño (o producto) cuenta en cinco pasos lo que hace vuestro primer cliente con el MVP, de principio a fin. Si
+            un paso necesita una función que no está en las 3 del MVP, una de las dos cosas está mal: decidid cuál.
+          </>
+        }
+        junto={<Codigo code={RECORRIDO_MD} kind="md" etiqueta="docs/recorrido.md" />}
+      />
+
+      <Bloque titulo="La arquitectura en un dibujo" entradilla="Datos/IA dibuja el sistema y sus datos. Así es el de una app de reservas de pádel:">
         <SistemaReservas />
-      </Paso>
+      </Bloque>
 
       <Bloque
         titulo="El dibujo, en Mermaid"
@@ -704,8 +724,7 @@ export default function StartupSesion3() {
         entradilla={
           <>
             No hace falta ninguna herramienta de dibujo: GitHub pinta solo los diagramas <b>Mermaid</b> que escribís en un{" "}
-            <C>.md</C>. El de arriba y sus datos son estas pocas líneas. El agente las escribe bien; vosotros comprobáis
-            que dibujan lo que habéis decidido.
+            <C>.md</C>. El agente las escribe bien; vosotros comprobáis que dibujan lo que habéis decidido.
           </>
         }
         junto={<Codigo code={ARQUITECTURA_MD} kind="md" etiqueta="docs/arquitectura.md" />}
@@ -713,9 +732,7 @@ export default function StartupSesion3() {
         <Prompt text={PROMPT_ARQUITECTURA} etiqueta="Prompt · al agente" />
       </Bloque>
 
-      <Paso
-        id="paso-9"
-        n={9}
+      <Bloque
         titulo="AGENTS.md: reglas para los agentes"
         entradilla={
           <>
@@ -744,133 +761,14 @@ export default function StartupSesion3() {
         <Prompt text={PROMPT_AGENTS} etiqueta="Prompt · en OpenCode" />
       </Bloque>
 
-      {/* ───────────── REVISAR Y PLANIFICAR ───────────── */}
-      <Paso
-        id="paso-10"
-        n={10}
-        titulo="Revisar y fusionar"
-        entradilla="Después del descanso, cada PR lo lee otra persona. Revisar documentos es lo mismo que revisar código: se busca lo que no cuadra."
-      >
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <Tarjeta titulo="Quien revisa" tono="azul">
-            <Checklist
-              items={[
-                { texto: "Lee el fichero entero", detalle: "Y lo compara con la ficha: ¿dice lo mismo?" },
-                { texto: "Deja un comentario útil", detalle: "Una pregunta o un hueco; «LGTM» no cuenta." },
-                { texto: "Aprueba y fusiona", detalle: "Approve → Merge. Nunca fusiona su propio PR." },
-              ]}
-            />
-          </Tarjeta>
-          <Tarjeta titulo="Lo que más se escapa" tono="ambar">
-            <Checklist
-              items={[
-                { texto: "Cuentas que no cuadran", detalle: "Coste ÷ lo que deja cada cliente: rehacedla." },
-                { texto: "Un MVP con seis funciones", detalle: "Si el recorrido no las usa, sobran." },
-                { texto: "Datos personales reales", detalle: "Un teléfono o un apellido no pueden ir al repo." },
-              ]}
-            />
-          </Tarjeta>
-        </div>
-      </Paso>
-
-      <Paso
-        id="paso-11"
-        n={11}
-        titulo="El tablero del sprint 1"
-        entradilla={
-          <>
-            Producto y calidad convierten el MVP en <b>3 issues verticales</b> (cada una, una función de principio a fin
-            que se puede enseñar), con la etiqueta <C>sprint-1</C>, el hito «Sprint 1» y una persona que la lleva y otra
-            que la revisa. Si en la sesión 2 ya las creasteis, revisadlas con esta plantilla.
-          </>
-        }
-      >
-        <TableroSprint />
-      </Paso>
-
-      <Bloque
-        titulo="Una issue que se puede comprobar"
-        nivel={3}
-        entradilla={
-          <>
-            El criterio de aceptación en «dado… cuando… entonces…» es lo que convierte una tarea en algo que alguien puede
-            revisar. Y si el repo es público, proteged <C>main</C>: <b>Settings → Branches → Add rule</b>, con «Require a
-            pull request before merging».
-          </>
-        }
-        junto={<Codigo code={ISSUE_SPRINT} kind="md" etiqueta="Issue · sprint-1" />}
-      >
-        <p className={cls.texto}>
-          En un repo privado de una organización gratuita, GitHub puede no dejaros proteger <C>main</C>. Entonces la
-          protección es la regla del acuerdo de equipo, y se nota en el historial: ningún commit directo a main.
-        </p>
-      </Bloque>
-
-      {/* ───────────── ENTREGA ───────────── */}
-      <Paso
-        id="paso-12"
-        n={12}
-        titulo="Acceso y entrega en el campus"
-        entradilla={
-          <>
-            El repo puede ser <b>público o privado</b>: lo decidís vosotros (es vuestro producto). Si es privado, en el
-            repo: <b>Settings → Collaborators and teams → Add people</b>, la cuenta <C>aulaenlanube</C> con el rol{" "}
-            <b>Read</b>.
-          </>
-        }
-      >
-        <AccesoEntrega />
-      </Paso>
-
-      <Bloque
-        titulo="Lo que escribe cada persona"
-        nivel={3}
-        entradilla={
-          <>
-            Entrega <b>cada persona del equipo</b>, en su{" "}
-            <Link href="/programacion-ia/aula/" className={cls.enlace}>
-              aula del campus
-            </Link>
-            : el mismo enlace del repo para todos y, en el comentario, tres líneas tuyas. Se puede actualizar mientras la
-            entrega esté abierta.
-          </>
-        }
-        junto={<Codigo code={COMENTARIO_ENTREGA} kind="txt" etiqueta="Comentario de la entrega" />}
-      >
-        <p className={cls.texto}>
-          La nota es individual dentro del grupo: tu PR y tu revisión son lo que demuestra tu parte.
-        </p>
-      </Bloque>
-
-      {/* ───────────── CIERRE ───────────── */}
-      <Bloque
-        id="readout"
-        titulo="Tres minutos por equipo"
-        entradilla="El cierre de un kickoff: cada equipo proyecta su repo y lo cuenta. Sin diapositivas; el README es la diapositiva."
-      >
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <Tarjeta titulo="El producto" antetitulo="Minuto 1" tono="azul">
-            Problema, cliente y cómo cobra, en tres frases.
-          </Tarjeta>
-          <Tarjeta titulo="La regla que os importa" antetitulo="Minuto 2" tono="verde">
-            Una del acuerdo de equipo, y por qué la habéis puesto.
-          </Tarjeta>
-          <Tarjeta titulo="El sprint 1" antetitulo="Minuto 3" tono="morado">
-            Las 3 issues y quién lleva cada una.
-          </Tarjeta>
-          <Tarjeta titulo="Una pregunta de la clase" antetitulo="Al final" tono="ambar">
-            La que más dudas haya generado. Responde quien no ha hablado.
-          </Tarjeta>
-        </div>
-      </Bloque>
-
+      {/* ───────────── LO QUE SE MIRA ───────────── */}
       <Bloque
         id="rubrica"
-        titulo="Lo que se mira: los mínimos"
+        titulo="Lo que se mira hoy: los mínimos"
         entradilla={
           <>
-            Es una <b>entrega de proceso</b>: es apta si cumple los tres mínimos. La rúbrica dice cómo está cada pieza y
-            es la base sobre la que se revisa la fase 1 en diciembre.
+            Es una <b>entrega de proceso</b>: es apta si cumple los tres mínimos. La rúbrica solo mira lo que se pide hoy y
+            dice cómo están las bases; lo de «a partir de ahora» se verá en la revisión de la fase 1.
           </>
         }
       >
@@ -891,11 +789,7 @@ export default function StartupSesion3() {
         </div>
       </Bloque>
 
-      <Bloque
-        titulo="La rúbrica: tu aportación"
-        nivel={3}
-        entradilla="Los cuatro criterios de arriba son del equipo; este es solo tuyo."
-      >
+      <Bloque titulo="La rúbrica: tu aportación" nivel={3} entradilla="Los cuatro criterios de arriba son del equipo; este es solo tuyo.">
         {rubrica("aportacion")}
       </Bloque>
 

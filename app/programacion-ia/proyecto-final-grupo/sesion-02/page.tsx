@@ -252,10 +252,10 @@ Nuestra sección del taller de hoy: [juego / SaaS de servicio / voz].
           <b>Fecha nueva:</b> estaba prevista para el lunes 26 de octubre y se entrega el <b>martes 3 de noviembre</b>.
           La{" "}
           <Link href="/programacion-ia/proyecto-final-grupo/sesion-03/" className="font-semibold underline underline-offset-2">
-            Sesión 3 · Kickoff
+            Sesión 3 · Punto de seguimiento
           </Link>{" "}
-          lo ordena todo en un kit de arranque (con el acuerdo de equipo, el recorrido del cliente, la arquitectura y
-          el AGENTS.md) y explica cómo entregarlo en el campus.
+          dice qué se entrega hoy (una versión corta: ficha, roles, idea y stack, entrevistas y las primeras issues),
+          qué se desarrolla durante el sprint 1 y cómo entregarlo en el campus.
         </p>
         <ol className="space-y-2 text-sm">
           <li><b>1 · Repo completo:</b> ficha v1 como <code>README.md</code>, <code>docs/presupuesto.md</code> y <code>docs/decisiones.md</code> con lo de hoy, y el kanban con el sprint-1 asignado.</li>
@@ -269,7 +269,7 @@ Nuestra sección del taller de hoy: [juego / SaaS de servicio / voz].
           ← Sesión 1 · Día 0
         </Link>
         <Link href="/programacion-ia/proyecto-final-grupo/sesion-03/" className="rounded-xl bg-blue-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-500">
-          Sesión 3 · Kickoff →
+          Sesión 3 · Seguimiento →
         </Link>
         <Link href="/programacion-ia/proyecto-final-grupo/" className="rounded-xl border border-zinc-300 dark:border-white/15 bg-white dark:bg-slate-900 px-5 py-2.5 text-sm font-semibold text-slate-700 dark:text-zinc-200 transition hover:bg-zinc-50 dark:hover:bg-white/5">
           El proyecto en grupo →

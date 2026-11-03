@@ -411,9 +411,9 @@ Esperamos unos [número] usuarios el primer año.
       <div className="mt-3 rounded-2xl border border-red-200 dark:border-red-500/30 bg-red-50 dark:bg-red-500/10 p-5 text-[15px] text-red-900 dark:text-red-200">
         <p className="mb-3 text-sm">
           <b>Fecha nueva:</b> estaba prevista para el lunes 26 de octubre y se entrega el <b>martes 3 de noviembre</b>,
-          dentro del kit de arranque de la{" "}
+          en el punto de seguimiento de la{" "}
           <Link href="/programacion-ia/proyecto-final-grupo/sesion-03/" className="font-semibold underline underline-offset-2">
-            Sesión 3 · Kickoff
+            Sesión 3
           </Link>
           , con la entrega en el campus.
         </p>

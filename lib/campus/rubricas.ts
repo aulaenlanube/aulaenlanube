@@ -201,14 +201,15 @@ export const RUBRICA_CLI: Rubrica = {
   ],
 };
 
-// Startup en grupo (solo presencial) · entrega de proceso del kickoff
-// (sesión 3, 3-11-2026). Es la foto del arranque: los mínimos deciden el apto
-// y la puntuación dice cómo está cada pieza del kit. Cuatro criterios miran el
-// repo del equipo (igual para todos sus miembros) y uno, la aportación de cada
-// persona: la nota es individual dentro del grupo.
+// Startup en grupo (solo presencial) · punto de seguimiento 1 (sesión 3,
+// 3-11-2026): entrega corta de proceso, no una tarea de tres horas. Los mínimos
+// deciden el apto y la puntuación dice cómo están las bases. Solo mira lo que se
+// pide ese día (ficha, roles y reglas, idea y stack, entrevistas que haya,
+// sprint 1); el resto del kit se desarrolla durante el sprint 1. Cuatro
+// criterios miran el repo del equipo y uno, la aportación de cada persona.
 export const RUBRICA_STARTUP_ARRANQUE: Rubrica = {
   id: "startup-arranque",
-  titulo: "Rúbrica · Startup: kit de arranque",
+  titulo: "Rúbrica · Startup: punto de seguimiento 1",
   niveles: NIVELES,
   minimos: [
     { id: "acceso", texto: "El profesor puede ver el repositorio del equipo: es público o la cuenta aulaenlanube tiene acceso." },
@@ -217,7 +218,7 @@ export const RUBRICA_STARTUP_ARRANQUE: Rubrica = {
   ],
   criterios: [
     {
-      id: "ficha", nombre: "Ficha v1 y modelo de ingresos", peso: 25,
+      id: "ficha", nombre: "Ficha v1 y modelo de ingresos", peso: 30,
       qué: "Qué problema resolvéis, para quién, y cómo se paga el producto.",
       niveles: [
         "No hay README o es la plantilla sin rellenar.",
@@ -231,39 +232,39 @@ export const RUBRICA_STARTUP_ARRANQUE: Rubrica = {
       qué: "Lo que dicen las personas que sufren el problema, no lo que el equipo cree.",
       niveles: [
         "No hay entrevistas, o están inventadas.",
-        "1-2 entrevistas, o solo opiniones sobre la idea («le gustaría usarla»).",
-        "Al menos 3 entrevistas reales con a quién, qué contó de su experiencia y qué os sorprendió; al menos una a quien pagaría.",
-        "5 o más, dos de ellas a quien pagaría con lo que hoy le cuesta el problema, y una conclusión que cambia algo de la ficha.",
+        "Solo opiniones sobre la idea («le gustaría usarla»), o entrevistas sin decir qué contó la persona.",
+        "Al menos 2 entrevistas reales con a quién, qué contó de su experiencia y qué os sorprendió.",
+        "3 o más, alguna a quien pagaría con lo que hoy le cuesta el problema, y una conclusión que cambia algo de la ficha.",
       ],
     },
     {
-      id: "decisiones", nombre: "Decisiones y arquitectura", peso: 20,
-      qué: "Qué habéis decidido construir y con qué, y por qué.",
+      id: "decisiones", nombre: "Idea y stack decididos", peso: 20,
+      qué: "Por qué esta idea y con qué la vais a construir, por escrito.",
       niveles: [
         "Nada escrito sobre la idea ni sobre la tecnología.",
         "Se nombra el stack, sin alternativas ni motivos.",
-        "Decisiones por escrito (por qué esta idea, por qué este stack) con alternativas descartadas, y el dibujo del sistema.",
-        "Además, el modelo de datos con sus entidades y relaciones, y lo que NO se construye todavía, todo coherente con el MVP de la ficha.",
+        "Por qué esta idea y por qué este stack, cada uno con la alternativa descartada y el motivo.",
+        "Además, lo que el stack os obliga a aprender (y quién lo aprende) y lo que NO se construye todavía.",
       ],
     },
     {
-      id: "equipo", nombre: "Forma de trabajar del equipo", peso: 20,
-      qué: "Cómo os organizáis las personas y los agentes para no pisaros.",
+      id: "equipo", nombre: "Organización del equipo", peso: 15,
+      qué: "Quién hace qué y cómo vais a trabajar a partir de hoy.",
       niveles: [
-        "Ni acuerdo de equipo ni tablero.",
-        "Roles repartidos, pero sin acuerdo de equipo o con el tablero vacío.",
-        "Acuerdo de equipo con definición de terminado y revisión, AGENTS.md común, y 3 tareas del sprint 1 con responsable y revisor.",
-        "Además, cada tarea con su criterio de aceptación y main protegida (o la regla «todo por PR» cumplida en el historial).",
+        "Ni roles por escrito ni tareas en GitHub.",
+        "Roles repartidos, pero sin reglas de trabajo o sin tareas en GitHub.",
+        "Roles y reglas por escrito, y las 3 primeras tareas del sprint 1 en Issues, cada una con su responsable.",
+        "Además, cada tarea con otra persona que la revisa y un criterio de aceptación que se puede comprobar.",
       ],
     },
     {
       id: "aportacion", nombre: "Tu aportación de hoy", peso: 20,
       qué: "Lo que has hecho tú, visible en GitHub con tu cuenta. Este criterio es individual.",
       niveles: [
-        "Ningún commit ni PR tuyo.",
-        "Commits tuyos subidos directamente a main, sin PR ni revisión.",
-        "Una pieza del kit hecha por ti en su rama, con su PR revisado por otra persona y fusionado.",
-        "Además, has revisado el PR de otra persona del equipo con algún comentario útil (no solo «LGTM»).",
+        "Ningún commit tuyo.",
+        "Algún commit tuyo, pero sin contenido propio (un retoque, una línea).",
+        "Una parte de la entrega hecha por ti y subida con tu cuenta: tu entrevista, tu rol, una pieza o una issue.",
+        "Además, tu parte entró por una rama y un PR que revisó otra persona del equipo.",
       ],
     },
   ],

@@ -199,11 +199,11 @@ export default function CursoIAFinalGrupo() {
         className="mt-3 block rounded-2xl border border-emerald-200 dark:border-emerald-500/30 bg-emerald-50 dark:bg-emerald-500/10 p-5 transition hover:-translate-y-0.5 hover:shadow-lg"
       >
         <span className="text-[11px] font-extrabold uppercase tracking-wider text-emerald-700 dark:text-emerald-300">Sesión 3 · martes 3 nov 2026 · HOY · se entrega hoy</span>
-        <h3 className="mt-1 text-lg font-bold">Kickoff: el repo que arranca la startup →</h3>
+        <h3 className="mt-1 text-lg font-bold">Punto de seguimiento: las bases de vuestra startup →</h3>
         <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
-          El kit de arranque de un equipo profesional: ficha v1 con números, entrevistas, acuerdo de equipo,
-          recorrido del cliente, decisiones, arquitectura, AGENTS.md y el tablero del sprint 1, cada pieza con su
-          rama y su PR. Entrega en el campus, hoy.
+          Una entrega corta para organizaros (ficha v1 con números, roles y reglas, idea y stack, entrevistas y las
+          3 primeras issues del sprint 1) y el resto de la sesión para avanzar. Más lo que se desarrolla a partir de
+          ahora: recorrido, arquitectura, AGENTS.md y todo por PR.
         </p>
       </Link>
 

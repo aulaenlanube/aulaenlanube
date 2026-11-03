@@ -26,13 +26,14 @@ export default function CursoIAVideos() {
         El curso, en vídeo — semana a semana
       </h1>
       <p className="mt-4 max-w-3xl text-lg text-zinc-600 dark:text-zinc-400">
-        Cada semana un vídeo contando cómo va el curso: el método, los proyectos, la clase aumentada.
-        Toca uno para verlo con su guion a la vista — porque contar el proceso incluye contar cómo se
-        prepara.
+        Cada semana un vídeo contando cómo va el curso: el método, los proyectos, la clase aumentada y
+        los tutoriales de cada sesión. Toca uno para verlo con su guion o sus capítulos a la vista —
+        porque contar el proceso incluye contar cómo se prepara.
       </p>
       <div className="mt-4 rounded-2xl border border-zinc-200 dark:border-white/10 bg-zinc-100 dark:bg-white/10 p-4 text-sm text-zinc-600 dark:text-zinc-400">
-        <b>Formato:</b> vídeo corto (~10 min), grabado el viernes por la mañana, publicado el domingo
-        por la noche. Los guiones se publican tal cual se usan: sin humo.
+        <b>Formato:</b> un vídeo por semana, de 10 a 20 minutos. Hasta el vídeo 3, a cámara y con el
+        guion publicado tal cual se usó. Desde el 4, la propia web de cada sesión en pantalla, con mi voz
+        clonada con IA: el guion es esa página, enlazada en cada vídeo con sus capítulos.
       </div>
 
       <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -66,7 +67,7 @@ export default function CursoIAVideos() {
               <span className="mt-1.5 block text-[15px] font-bold leading-snug">{v.titulo}</span>
               <span className="mt-1.5 flex-1 block text-sm text-zinc-600 dark:text-zinc-400">{v.resumen}</span>
               <span className="mt-3 block text-sm font-semibold text-blue-700 dark:text-blue-300 group-hover:underline">
-                Ver vídeo y guion →
+                {v.bloques.length ? "Ver vídeo y guion →" : v.capitulos?.length ? "Ver vídeo y capítulos →" : "Ver vídeo →"}
               </span>
             </span>
           </Link>

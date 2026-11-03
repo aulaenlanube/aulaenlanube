@@ -55,7 +55,9 @@ Grabación viernes/sábado → publicación domingo. Norma de gancho (22-sep): a
 |---|---|---|---|
 | ep01 | S1 | «Soy profe de DAM y este año no voy a enseñar a programar como hasta ahora» | ✔ publicado |
 | ep02 | S2 | «Crear una web real desde cero sin escribir una línea de código» (arranque de P1 + git) | ✔ publicado |
-| ep03 | S3 | La rúbrica por dentro: iterar contra criterios, no contra gustos | 🔶 esta semana |
+| ep03 | S3 | GitHub y APIs: push, pull y un widget del tiempo con la IA del instituto ([me9YRc-2L0c](/programacion-ia/video-semana/ep03/)) | ✔ publicado 7 oct |
+| ep04 | — | Tutorial 1 · GitHub Pages. Cambio de formato: la web de la sesión en pantalla con voz clonada ([yZ4eZT4dP34](/programacion-ia/video-semana/ep04/)) | ✔ publicado 1 nov |
+| ep05 | — | Tutorial 2 · API externa: «Tu web cobra vida» ([p919S-4siww](/programacion-ia/video-semana/ep05/)) | ✔ publicado 2 nov |
 | … | — | un episodio por semana; los días de release (S4, S8, S12) llevan vídeo propio de producto | plan |
 
 [Índice de la serie →](/programacion-ia/video-semana/) · Playlist «Curso de Programación con IA» cuando haya 4+ episodios.

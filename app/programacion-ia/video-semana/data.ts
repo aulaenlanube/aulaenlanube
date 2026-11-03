@@ -1,7 +1,10 @@
 // ── Serie semanal «El curso, en vídeo» ─────────────────────────────────────
-// Cada semana: añadir una entrada con su guion y, al subirlo, el id de YouTube.
+// Cada semana: añadir una entrada y, al subirlo, el id de YouTube.
 // El índice (/video-semana/) pinta un bloque-tarjeta por vídeo; cada tarjeta
 // enlaza a su página (/video-semana/ep01/) con el reproductor y el guion.
+// Hasta el vídeo 3 se grababa a cámara con guion propio (`bloques`). Desde el 4
+// el vídeo recorre la página del tutorial con voz clonada: el guion es esa
+// página (`pagina`) y la ficha lleva los capítulos de YouTube (`capitulos`).
 
 export type BloqueGuion = { h: string; dur?: string; p: string };
 
@@ -12,7 +15,10 @@ export type Video = {
   titulo: string;
   youtubeId: string | null; // poner el id cuando esté publicado
   resumen: string;
-  bloques: BloqueGuion[];
+  bloques: BloqueGuion[]; // guion de la grabación (vacío si el guion es la página)
+  puntos?: string[]; // «En este vídeo», cuando no hay guion publicado
+  capitulos?: [string, string][]; // [«2:27», «Paso 1 · Activar GitHub Pages»]
+  pagina?: { texto: string; href: string }; // la página del curso que se ve en el vídeo
 };
 
 export const VIDEOS: Video[] = [
@@ -84,6 +90,81 @@ export const VIDEOS: Video[] = [
         h: "CIERRE (9:45-10:15, a cámara)",
         p: "Tu deber, si te ha servido: carpeta vacía, tres ficheros, un repo con tu nombre. En media hora lo tienes. Suscríbete si quieres ver cómo se programa en 2026 contado desde dentro de un aula pública. Vídeo nuevo el domingo.",
       },
+    ],
+  },
+  {
+    ep: "ep03",
+    semana: "Vídeo 03",
+    fecha: "Miércoles 07-10 publicación",
+    titulo: "GitHub y APIs: subes tu web, entiendes push y pull, y le conectas datos reales",
+    youtubeId: "me9YRc-2L0c",
+    resumen:
+      "El proyecto sube a GitHub con commits de verdad: push, pull y Visual Studio Code para trabajar sin memorizar comandos. Después, lo que pasó en clase: la rúbrica del Proyecto 1 (conectar la web con varias APIs), qué es una API y un widget del tiempo con selector de ciudades hecho con la IA del instituto, errores incluidos.",
+    bloques: [],
+    puntos: [
+      "Retomamos donde lo dejamos: cómo ocultar tu correo en los commits.",
+      "Subimos el proyecto a GitHub: qué hacen git push y git pull.",
+      "Trabajar sin memorizar comandos con Visual Studio Code: un cambio, un commit, sincronizar y comprobar en GitHub qué líneas han cambiado.",
+      "La rúbrica del Proyecto 1: como mínimo, conectar la web con varias APIs.",
+      "Qué es una API, y un widget del tiempo con selector de ciudades hecho con la IA del instituto, con sus errores incluidos.",
+    ],
+    pagina: { texto: "La web del curso: Git y GitHub, errores típicos y la rúbrica del Proyecto 1", href: "/programacion-ia/sesion-02/" },
+  },
+  {
+    ep: "ep04",
+    semana: "Vídeo 04",
+    fecha: "Domingo 01-11 publicación",
+    titulo: "GitHub Pages: publica tu web y deja tu repo como lo revisa el profe",
+    youtubeId: "yZ4eZT4dP34",
+    resumen:
+      "Tutorial 1 del primer proyecto: la web personal publicada con GitHub Pages y el repositorio como lo reviso cuando corrijo (commits atómicos, issues, una pull request y un README técnico). Desde este vídeo el curso cambia de formato: ya no salgo a cámara; se ve la web de cada sesión, la misma que usa el alumnado, con mi voz clonada con IA.",
+    bloques: [],
+    pagina: { texto: "Tutorial 1 · GitHub Pages, con todos los prompts", href: "/programacion-ia/tutoriales/github-pages/" },
+    capitulos: [
+      ["0:00", "Apertura"],
+      ["0:11", "Lo que vas a aprender"],
+      ["0:35", "Cómo funciona el curso"],
+      ["1:43", "Qué suma en la rúbrica"],
+      ["2:27", "Paso 1 · Activar GitHub Pages"],
+      ["4:21", "Paso 2 · .nojekyll y rutas"],
+      ["5:40", "Paso 3 · Lo que no se sube"],
+      ["6:24", "Paso 4 · Commits atómicos"],
+      ["8:12", "Paso 5 · Issues"],
+      ["8:48", "Paso 6 · Ramas y PR"],
+      ["9:35", "Paso 7 · README, prompts y v1"],
+      ["10:21", "Cómo revisa el profe tu repo"],
+      ["11:03", "Errores típicos de Pages"],
+      ["11:44", "Si has subido el token"],
+      ["12:28", "Plan de 4 días"],
+      ["13:10", "Cierre"],
+    ],
+  },
+  {
+    ep: "ep05",
+    semana: "Vídeo 05",
+    fecha: "Lunes 02-11 publicación",
+    titulo: "Tu web cobra vida: conecta una API sin escribir código",
+    youtubeId: "p919S-4siww",
+    resumen:
+      "Tutorial 2 del primer proyecto: tu web deja de ser un cartel con un widget que pide datos reales a una API y los pinta solo. Qué es una API y qué es un JSON, más de 2.000 APIs gratis en public-apis, cómo dirigir a la IA para que escriba el widget con condiciones y cómo seguir el recorrido del dato en el F12 para explicarlo en la defensa.",
+    bloques: [],
+    pagina: { texto: "Tutorial 2 · API externa, con todos los prompts", href: "/programacion-ia/tutoriales/api-externa/" },
+    capitulos: [
+      ["0:00", "Apertura"],
+      ["0:16", "Lo que vas a aprender"],
+      ["0:42", "Cómo funciona el curso"],
+      ["1:55", "Qué suma en la rúbrica"],
+      ["2:37", "Qué es una API y qué es JSON"],
+      ["4:10", "Más de 2.000 APIs gratis"],
+      ["5:23", "Paso 1 · Decide qué mostrar"],
+      ["6:15", "Paso 2 · Pide 3 variantes"],
+      ["6:56", "Paso 3 · api.js con condiciones"],
+      ["7:50", "Paso 4 · Conecta y prueba"],
+      ["8:53", "Paso 5 · El recorrido en el F12"],
+      ["9:50", "Pasos 6 y 7 · Commits e iteraciones"],
+      ["10:33", "Errores típicos"],
+      ["11:51", "Las preguntas de la defensa"],
+      ["12:38", "Cierre"],
     ],
   },
 ];

@@ -11,7 +11,61 @@ export function generateStaticParams() {
 const chip =
   "inline-block rounded-full border border-blue-200 dark:border-blue-500/30 bg-blue-50 dark:bg-blue-500/10 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-blue-700 dark:text-blue-300";
 
+/** «12:28» → 748 (segundos), para enlazar cada capítulo a su minuto en YouTube. */
+function segundos(t: string): number {
+  return t.split(":").reduce((acc, x) => acc * 60 + Number(x), 0);
+}
+
+/** Lo que no es guion: qué trata el vídeo, sus capítulos y la página del curso que se ve. */
+function Contenido({ v }: { v: Video }) {
+  if (!v.puntos?.length && !v.capitulos?.length && !v.pagina) return null;
+  return (
+    <div className="mt-8 space-y-6">
+      {v.pagina && (
+        <Link
+          href={v.pagina.href}
+          className="block rounded-2xl border border-blue-200 dark:border-blue-500/30 bg-blue-50 dark:bg-blue-500/10 p-4 transition hover:-translate-y-0.5 hover:shadow-lg"
+        >
+          <span className="text-[11px] font-extrabold uppercase tracking-wider text-blue-700 dark:text-blue-300">La página que se ve en el vídeo</span>
+          <span className="mt-1 block text-[15px] font-bold">{v.pagina.texto} →</span>
+        </Link>
+      )}
+      {v.puntos?.length ? (
+        <div>
+          <h2 className="text-sm font-extrabold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">En este vídeo</h2>
+          <ul className="mt-2 list-disc space-y-1.5 pl-5 text-[15px] leading-relaxed text-zinc-700 marker:text-zinc-400 dark:text-zinc-300">
+            {v.puntos.map((p) => (
+              <li key={p}>{p}</li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+      {v.capitulos?.length && v.youtubeId ? (
+        <div>
+          <h2 className="text-sm font-extrabold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Capítulos</h2>
+          <ol className="mt-2 grid grid-cols-1 gap-x-6 gap-y-1 sm:grid-cols-2">
+            {v.capitulos.map(([t, titulo]) => (
+              <li key={t} className="flex gap-3 text-[15px]">
+                <a
+                  href={`https://www.youtube.com/watch?v=${v.youtubeId}&t=${segundos(t)}s`}
+                  target="_blank"
+                  rel="noopener"
+                  className="w-12 flex-none font-mono font-semibold text-blue-700 underline-offset-2 hover:underline dark:text-blue-300"
+                >
+                  {t}
+                </a>
+                <span className="text-zinc-700 dark:text-zinc-300">{titulo}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 function Guion({ v }: { v: Video }) {
+  if (!v.bloques.length) return null;
   return (
     <div className="mt-8">
       <h2 className="text-sm font-extrabold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
@@ -88,6 +142,7 @@ export default async function VideoEpisodio({ params }: { params: Promise<{ ep: 
         </div>
       )}
 
+      <Contenido v={v} />
       <Guion v={v} />
 
       <div className="mt-10 flex flex-wrap items-center justify-between gap-3 border-t border-zinc-200 dark:border-white/10 pt-5">

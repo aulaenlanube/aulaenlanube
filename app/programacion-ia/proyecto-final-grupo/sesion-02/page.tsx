@@ -37,7 +37,7 @@ const AGENDA: [string, string, string][] = [
   ["1:25", "Descanso", "10 min"],
   ["1:35", "Sprint 1: del MVP a las tareas", "3 tareas verticales, branches, vuestro agente y vuestras reglas"],
   ["2:25", "Mini-demo entre equipos", "3 min por equipo: qué habéis montado hoy"],
-  ["2:50", "Cierre y deberes", "Qué hay que traer el lunes 26"],
+  ["2:50", "Cierre y deberes", "Qué se entrega (ahora, el martes 3 nov)"],
 ];
 
 const PRESUPUESTO = `# Presupuesto del equipo — [nombre del proyecto]
@@ -246,8 +246,17 @@ Nuestra sección del taller de hoy: [juego / SaaS de servicio / voz].
         Quien no haya tocado el teclado hoy, mañana no tiene demo que contar.
       </div>
 
-      <h2 className="mt-8 text-xl font-extrabold tracking-tight">Para el lunes 26 de octubre</h2>
+      <h2 className="mt-8 text-xl font-extrabold tracking-tight">Lo que se entrega (martes 3 de noviembre)</h2>
       <div className="mt-3 rounded-2xl border border-red-200 dark:border-red-500/30 bg-red-50 dark:bg-red-500/10 p-5 text-[15px] text-red-900 dark:text-red-200">
+        <p className="mb-3 text-sm">
+          <b>Fecha nueva:</b> estaba prevista para el lunes 26 de octubre y se entrega el <b>martes 3 de noviembre</b>.
+          La{" "}
+          <Link href="/programacion-ia/proyecto-final-grupo/sesion-03/" className="font-semibold underline underline-offset-2">
+            Sesión 3 · Kickoff
+          </Link>{" "}
+          lo ordena todo en un kit de arranque (con el acuerdo de equipo, el recorrido del cliente, la arquitectura y
+          el AGENTS.md) y explica cómo entregarlo en el campus.
+        </p>
         <ol className="space-y-2 text-sm">
           <li><b>1 · Repo completo:</b> ficha v1 como <code>README.md</code>, <code>docs/presupuesto.md</code> y <code>docs/decisiones.md</code> con lo de hoy, y el kanban con el sprint-1 asignado.</li>
           <li><b>2 · Sprint 1 terminado en local:</b> al menos una de las 3 tareas fusionada en main y funcionando.</li>
@@ -259,8 +268,8 @@ Nuestra sección del taller de hoy: [juego / SaaS de servicio / voz].
         <Link href="/programacion-ia/proyecto-final-grupo/sesion-01/" className="rounded-xl border border-zinc-300 dark:border-white/15 bg-white dark:bg-slate-900 px-5 py-2.5 text-sm font-semibold text-slate-700 dark:text-zinc-200 transition hover:bg-zinc-50 dark:hover:bg-white/5">
           ← Sesión 1 · Día 0
         </Link>
-        <Link href="/programacion-ia/aula/#/equipos" className="rounded-xl bg-blue-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-500">
-          🧩 Mi equipo en el aula →
+        <Link href="/programacion-ia/proyecto-final-grupo/sesion-03/" className="rounded-xl bg-blue-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-500">
+          Sesión 3 · Kickoff →
         </Link>
         <Link href="/programacion-ia/proyecto-final-grupo/" className="rounded-xl border border-zinc-300 dark:border-white/15 bg-white dark:bg-slate-900 px-5 py-2.5 text-sm font-semibold text-slate-700 dark:text-zinc-200 transition hover:bg-zinc-50 dark:hover:bg-white/5">
           El proyecto en grupo →

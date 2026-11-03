@@ -108,7 +108,7 @@ export default function StartupSesion1() {
         <span className={meta}>💬 Chat del centro</span>
         <span className={meta}>🎤 Pitch de 3 min por equipo</span>
         <span className={meta}>💶 Modelo de ingresos obligatorio</span>
-        <span className={meta}>📤 Para el 26 oct: repo + ficha v1 + 5 entrevistas</span>
+        <span className={meta}>📤 Se entrega el martes 3 nov: repo + ficha v1 + 5 entrevistas</span>
       </div>
 
       <h2 className="mt-8 text-xl font-extrabold tracking-tight">La sesión de hoy</h2>
@@ -407,8 +407,16 @@ Esperamos unos [número] usuarios el primer año.
         vuestros clientes. Lo que decide es lo que os digan los clientes de verdad esta semana.
       </p>
 
-      <h2 className="mt-10 text-xl font-extrabold tracking-tight">Para el lunes 26 de octubre</h2>
+      <h2 className="mt-10 text-xl font-extrabold tracking-tight">Lo que se entrega (martes 3 de noviembre)</h2>
       <div className="mt-3 rounded-2xl border border-red-200 dark:border-red-500/30 bg-red-50 dark:bg-red-500/10 p-5 text-[15px] text-red-900 dark:text-red-200">
+        <p className="mb-3 text-sm">
+          <b>Fecha nueva:</b> estaba prevista para el lunes 26 de octubre y se entrega el <b>martes 3 de noviembre</b>,
+          dentro del kit de arranque de la{" "}
+          <Link href="/programacion-ia/proyecto-final-grupo/sesion-03/" className="font-semibold underline underline-offset-2">
+            Sesión 3 · Kickoff
+          </Link>
+          , con la entrega en el campus.
+        </p>
         <ol className="space-y-2 text-sm">
           <li>
             <b>1 · El repo del equipo.</b> Una organización de GitHub para la startup y un repositorio dentro, con

@@ -184,13 +184,26 @@ export default function CursoIAFinalGrupo() {
 
       <Link
         href="/programacion-ia/proyecto-final-grupo/sesion-02/"
-        className="mt-3 block rounded-2xl border border-emerald-200 dark:border-emerald-500/30 bg-emerald-50 dark:bg-emerald-500/10 p-5 transition hover:-translate-y-0.5 hover:shadow-lg"
+        className="mt-3 block rounded-2xl border border-blue-200 dark:border-blue-500/30 bg-blue-50 dark:bg-blue-500/10 p-5 transition hover:-translate-y-0.5 hover:shadow-lg"
       >
-        <span className="text-[11px] font-extrabold uppercase tracking-wider text-emerald-700 dark:text-emerald-300">Sesión 2 · martes 20 oct 2026 · HOY</span>
+        <span className="text-[11px] font-extrabold uppercase tracking-wider text-blue-700 dark:text-blue-300">Sesión 2 · martes 20 oct 2026</span>
         <h3 className="mt-1 text-lg font-bold">La caja, la arquitectura y el sprint 1 →</h3>
         <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
           Tres horas: repartir el dinero de ayer con consecuencias, decidir arquitectura según el tipo de
           producto (juego, SaaS de servicio, control por voz) y arrancar el sprint 1 con commits de verdad.
+        </p>
+      </Link>
+
+      <Link
+        href="/programacion-ia/proyecto-final-grupo/sesion-03/"
+        className="mt-3 block rounded-2xl border border-emerald-200 dark:border-emerald-500/30 bg-emerald-50 dark:bg-emerald-500/10 p-5 transition hover:-translate-y-0.5 hover:shadow-lg"
+      >
+        <span className="text-[11px] font-extrabold uppercase tracking-wider text-emerald-700 dark:text-emerald-300">Sesión 3 · martes 3 nov 2026 · HOY · se entrega hoy</span>
+        <h3 className="mt-1 text-lg font-bold">Kickoff: el repo que arranca la startup →</h3>
+        <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+          El kit de arranque de un equipo profesional: ficha v1 con números, entrevistas, acuerdo de equipo,
+          recorrido del cliente, decisiones, arquitectura, AGENTS.md y el tablero del sprint 1, cada pieza con su
+          rama y su PR. Entrega en el campus, hoy.
         </p>
       </Link>
 

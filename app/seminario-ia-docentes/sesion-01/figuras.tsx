@@ -12,13 +12,16 @@ import { Caja, Figura, Flecha, T, TINTA, fuerte, linea, suave, type TonoSvg } fr
 /* Candidatas a x = 680 (texto ≤ 12 car. ≈ 114 → 794), barra desde 812 */
 /* (92 % → 129 px), porcentaje tras la barra (≤ 987). Líneas base a    */
 /* y = 72, 104, 136. Fila 2 (y 190..266): 20..350, 400..620, 680..980; */
-/* flechas a y = 228.                                                  */
+/* flechas a y = 228. La tercera candidata es un error real de la IA    */
+/* que preparó la página (Edu, 03-11-2026): «mitocondrios» no existe.   */
+/* Va tachada (negrita 16 ≈ 9,5 px/car. → 680..794) y, debajo, la      */
+/* corrección a y = 166 (semi 16, 31 car. ≈ 295 → 975).                 */
 /* ------------------------------------------------------------------ */
 
-const CANDIDATAS: { palabra: string; pct: number }[] = [
+const CANDIDATAS: { palabra: string; pct: number; error?: boolean }[] = [
   { palabra: "cloroplastos", pct: 92 },
-  { palabra: "hojas", pct: 6 },
-  { palabra: "mitocondrios", pct: 1 },
+  { palabra: "tallos", pct: 6 },
+  { palabra: "mitocondrios", pct: 1, error: true },
 ];
 
 export function SiguientePalabra() {
@@ -28,7 +31,7 @@ export function SiguientePalabra() {
       uid={u}
       ancho={1000}
       alto={290}
-      etiqueta="Cómo escribe un modelo de lenguaje: recibe el principio de una frase, calcula qué palabra suele venir detrás y elige la más probable (cloroplastos, 92 %). Si le pides una cita, hace el mismo cálculo sin consultar nada y puede devolver un número creíble que no existe."
+      etiqueta="Cómo escribe un modelo de lenguaje: recibe el principio de una frase, calcula qué palabra suele venir detrás y elige la más probable (cloroplastos, 92 %). La tercera candidata, «mitocondrios», está tachada: no existe, es «mitocondrias», y fue un error real de la IA al preparar esta página. Si le pides una cita, hace el mismo cálculo sin consultar nada y puede devolver un número creíble que no existe."
       pie="Escribe lo más probable, no lo comprobado: por eso redacta tan bien… y a veces inventa."
     >
       <Caja x={20} y={40} w={330} h={100} tono="gris" titulo="Lo que escribes" lineas={["«Las plantas fabrican", "su alimento en los…»"]} />
@@ -44,14 +47,19 @@ export function SiguientePalabra() {
         const w = Math.max(4, Math.round(c.pct * 1.4));
         return (
           <g key={c.palabra}>
-            <T x={680} y={y} peso={700} color={TINTA}>
+            <T x={680} y={y} peso={700} color={c.error ? fuerte("rosa") : TINTA}>
               {c.palabra}
             </T>
+            {c.error && <line x1={678} y1={y - 5} x2={794} y2={y - 5} stroke={fuerte("rosa")} strokeWidth={2.5} strokeLinecap="round" />}
             <rect x={812} y={y - 14} width={w} height={18} rx={4} fill={i === 0 ? fuerte("verde") : linea("gris")} />
             <T x={812 + w + 8} y={y}>{`${c.pct} %`}</T>
           </g>
         );
       })}
+
+      <T x={680} y={166} peso={600} color={fuerte("rosa")}>
+        ↑ no existe: es «mitocondrias»
+      </T>
 
       <Caja x={20} y={190} w={330} h={76} tono="gris" titulo="Si le pides una cita" lineas={["«Según el decreto…»"]} />
       <Flecha uid={u} d="M350 228 H394" tono="azul" />

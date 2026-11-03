@@ -106,6 +106,13 @@ export default function Sesion1() {
           La regla práctica: <b>todo lo que vaya a una programación, a una familia o a un documento oficial lo compruebas
           tú</b>. La IA te ahorra el borrador, no la revisión.
         </p>
+        <p className={`mt-4 ${cls.texto}`}>
+          <b>Un ejemplo real, en esta misma página.</b> En el gráfico de arriba, la tercera palabra era «mitocondrios», que
+          no existe: es <b>las mitocondrias</b>. Se le coló a la IA que nos ayudó a preparar la página (seguramente porque la
+          frase acaba en «en los…» y salió una palabra que encaja en la frase pero no es correcta), y la hemos dejado tachada
+          a propósito. Aquí no pasa nada; en un examen, en un informe o en una nota a una familia, sí. Cada vez se equivoca
+          menos, pero la revisión siempre es tuya.
+        </p>
       </Bloque>
 
       <Bloque

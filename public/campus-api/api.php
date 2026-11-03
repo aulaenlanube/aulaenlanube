@@ -32,6 +32,7 @@ const ACCIONES = [
 
   'alumno.panel' => 'accion_alumno_panel',
   'alumno.entregar' => 'accion_alumno_entregar',
+  'alumno.unirse_equipo' => 'accion_alumno_unirse_equipo',
 
   'equipos.estado' => 'accion_equipos_estado',
   'equipos.crear' => 'accion_equipos_crear',

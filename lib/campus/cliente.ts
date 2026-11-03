@@ -50,6 +50,8 @@ export type Entrega = {
   fecha_limite: string | null;
   abierta: boolean;
   visible: boolean;
+  /** Por equipos: lo que entrega un miembro vale para todo su equipo (el comentario es de cada uno). */
+  en_equipo: boolean;
   orden: number;
 };
 
@@ -62,6 +64,8 @@ export type Envio = {
   comentario: string | null;
   version: number;
   fuera_plazo: boolean;
+  /** Quién subió repo/web/texto (en las entregas por equipos puede ser un compañero). */
+  entregado_por: number | null;
   created_at: string;
   updated_at: string;
 };
@@ -94,7 +98,27 @@ export type Nota = {
 
 export type NotaProfesor = Nota & { origen: "profesor" | "ia" | "doble"; nota_privada: string | null };
 
-export type EntregaAlumno = Entrega & { envio: Envio | null; nota: Nota | null };
+/** En una entrega por equipos: el equipo del alumno y cómo va cada miembro. */
+export type EquipoEntrega = {
+  nombre: string;
+  repo: string | null;
+  web: string | null;
+  /** comentario: el de cada miembro (su rol y su aportación), visible para su equipo. */
+  miembros: { id: number; nombre: string; yo: boolean; entregado: boolean; comentario: string | null }[];
+};
+
+export type EquipoParaElegir = { id: number; nombre: string; miembros: number; lleno: boolean };
+
+/**
+ * `equipo` solo viene en las entregas por equipos (null si el alumno aún no tiene
+ * equipo; entonces llega `equipos_clase` para que elija el suyo).
+ */
+export type EntregaAlumno = Entrega & {
+  envio: Envio | null;
+  nota: Nota | null;
+  equipo?: EquipoEntrega | null;
+  equipos_clase?: EquipoParaElegir[];
+};
 
 export type Alumno = {
   id: number;

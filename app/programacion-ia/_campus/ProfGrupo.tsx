@@ -65,6 +65,10 @@ export default function ProfGrupo({ grupoId, ruta, grupos, onCambio }: Props) {
         entrega={entrega}
         alumno={alumno}
         envio={datos.envios.find((e) => e.entrega_id === entrega.id && e.alumno_id === alumno.id) ?? null}
+        nombreDe={(id) => {
+          const a = alumnos.find((x) => x.id === id);
+          return a ? `${a.nombre} ${a.apellidos}`.trim() : null;
+        }}
         nota={datos.notas.find((n) => n.entrega_id === entrega.id && n.alumno_id === alumno.id) ?? null}
         anterior={alumnos[idx - 1] ?? null}
         siguiente={alumnos[idx + 1] ?? null}

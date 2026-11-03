@@ -267,21 +267,22 @@ function accion_prof_entrega_guardar(array $in): never
   $limite = fecha_de($in, 'fecha_limite');
   $abierta = bool_de($in, 'abierta', true) ? 1 : 0;
   $visible = bool_de($in, 'visible', true) ? 1 : 0;
+  $enEquipo = bool_de($in, 'en_equipo') ? 1 : 0;
   $orden = isset($in['orden']) && $in['orden'] !== '' ? max(-9999, min(9999, (int)$in['orden'])) : 0;
-  $vals = [$curso, $proyecto, $sesion !== '' ? $sesion : null, $titulo, $instr, $tipo, $rubrica !== '' ? $rubrica : null, $limite, $abierta, $visible, $orden];
+  $vals = [$curso, $proyecto, $sesion !== '' ? $sesion : null, $titulo, $instr, $tipo, $rubrica !== '' ? $rubrica : null, $limite, $abierta, $visible, $enEquipo, $orden];
 
   if (!empty($in['id'])) {
     $id = ent($in, 'id');
     if (!fila('SELECT 1 FROM app_campus_entregas WHERE id = ?', [$id])) fallo(404, 'Esa entrega no existe.');
     q(
       'UPDATE app_campus_entregas SET curso = ?, proyecto = ?, sesion = ?, titulo = ?, instrucciones = ?, tipo = ?,
-         rubrica = ?, fecha_limite = ?, abierta = ?, visible = ?, orden = ? WHERE id = ?',
+         rubrica = ?, fecha_limite = ?, abierta = ?, visible = ?, en_equipo = ?, orden = ? WHERE id = ?',
       [...$vals, $id]
     );
   } else {
     q(
-      'INSERT INTO app_campus_entregas (curso, proyecto, sesion, titulo, instrucciones, tipo, rubrica, fecha_limite, abierta, visible, orden, created_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      'INSERT INTO app_campus_entregas (curso, proyecto, sesion, titulo, instrucciones, tipo, rubrica, fecha_limite, abierta, visible, en_equipo, orden, created_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
       [...$vals, ahora()]
     );
     $id = (int)db()->lastInsertId();

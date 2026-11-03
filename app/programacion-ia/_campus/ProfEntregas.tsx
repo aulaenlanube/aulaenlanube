@@ -56,6 +56,7 @@ export default function ProfEntregas({ entregas, onCambio }: { entregas: Entrega
                           {e.abierta ? <Pildora tono="verde">Abierta</Pildora> : <Pildora>Cerrada</Pildora>}
                           {!e.visible && <Pildora tono="ambar">Oculta</Pildora>}
                           {e.rubrica && <Pildora tono="azul">Rúbrica</Pildora>}
+                          {e.en_equipo && <Pildora tono="verde">Por equipos</Pildora>}
                         </div>
                         <p className="mt-1 text-[15px] font-bold">{e.titulo}</p>
                         <p className={`text-xs ${cls.tenue}`}>
@@ -107,6 +108,7 @@ function ModalEntrega({ entrega, onCerrar, onGuardado }: { entrega: EntregaResum
   const [limite, setLimite] = useState(entrega?.fecha_limite ? entrega.fecha_limite.slice(0, 16).replace(" ", "T") : "");
   const [abierta, setAbierta] = useState(entrega?.abierta ?? true);
   const [visible, setVisible] = useState(entrega?.visible ?? true);
+  const [enEquipo, setEnEquipo] = useState(entrega?.en_equipo ?? false);
   const [orden, setOrden] = useState(String(entrega?.orden ?? 10));
   const [error, setError] = useState("");
   const [ocupado, setOcupado] = useState(false);
@@ -115,7 +117,7 @@ function ModalEntrega({ entrega, onCerrar, onGuardado }: { entrega: EntregaResum
     e.preventDefault();
     setOcupado(true);
     setError("");
-    const datos = { proyecto, sesion, titulo, instrucciones, tipo, rubrica, fecha_limite: limite, abierta, visible, orden: Number(orden) || 0 };
+    const datos = { proyecto, sesion, titulo, instrucciones, tipo, rubrica, fecha_limite: limite, abierta, visible, en_equipo: enEquipo, orden: Number(orden) || 0 };
     try {
       await api("prof.entrega.guardar", { ...datos, id: entrega?.id, curso });
       if (!entrega && ambos) {
@@ -227,6 +229,10 @@ function ModalEntrega({ entrega, onCerrar, onGuardado }: { entrega: EntregaResum
             <label className="flex items-center gap-2">
               <input type="checkbox" checked={visible} onChange={(e) => setVisible(e.target.checked)} className="h-4 w-4 accent-blue-700" />
               Visible para el alumnado
+            </label>
+            <label className="flex items-center gap-2">
+              <input type="checkbox" checked={enEquipo} onChange={(e) => setEnEquipo(e.target.checked)} className="h-4 w-4 accent-blue-700" />
+              Por equipos (lo que entrega uno vale para su equipo; el comentario es de cada uno)
             </label>
           </div>
         </div>

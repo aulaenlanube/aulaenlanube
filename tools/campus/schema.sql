@@ -71,12 +71,15 @@ CREATE TABLE IF NOT EXISTS app_campus_entregas (
   fecha_limite  DATETIME     NULL,
   abierta       TINYINT(1)   NOT NULL DEFAULT 1,
   visible       TINYINT(1)   NOT NULL DEFAULT 1,
+  en_equipo     TINYINT(1)   NOT NULL DEFAULT 0,   -- 1 = la entrega de un miembro vale para todo su equipo
   orden         INT          NOT NULL DEFAULT 0,
   created_at    DATETIME     NOT NULL,
   KEY k_curso (curso, orden)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Lo que entrega cada alumno (una fila viva por alumno y entrega; version cuenta los reenvíos).
+-- En las entregas por equipos, repo/web/texto se copian a la fila de cada miembro
+-- (entregado_por = quién lo subió) y el comentario es siempre el de cada persona.
 CREATE TABLE IF NOT EXISTS app_campus_envios (
   id          INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   entrega_id  INT UNSIGNED NOT NULL,
@@ -87,6 +90,7 @@ CREATE TABLE IF NOT EXISTS app_campus_envios (
   comentario  TEXT         NULL,
   version     INT          NOT NULL DEFAULT 1,
   fuera_plazo TINYINT(1)   NOT NULL DEFAULT 0,
+  entregado_por INT UNSIGNED NULL,                -- en entregas por equipos: quién subió repo/web
   created_at  DATETIME     NOT NULL,
   updated_at  DATETIME     NOT NULL,
   UNIQUE KEY uq_envio (entrega_id, alumno_id),

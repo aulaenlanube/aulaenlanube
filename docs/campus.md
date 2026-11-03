@@ -74,6 +74,15 @@ Las fechas las escribe siempre PHP en hora de Madrid (nunca `NOW()`).
   y vuelve a contar como «por corregir».
 - Entregas: mientras estén **abiertas** se pueden actualizar; pasada la fecha
   límite se admiten pero marcadas «fuera de plazo»; **cerrada** = no admite cambios.
+- **Entregas por equipos** (`en_equipo`, casilla «Por equipos» del formulario;
+  desde el 3-11-2026, la de la startup): basta con que entregue un miembro. Su
+  repo/web/texto se copia a la fila de cada compañero del equipo del campus
+  (`envios.entregado_por` = quién lo subió) y cualquiera puede actualizarlo; el
+  comentario es de cada persona y no se copia. A los compañeros solo se les toca
+  la fila si cambia lo entregado (añadir un comentario no la marca como
+  reenviada). Quien no tiene equipo lo elige en la propia entrega
+  (`alumno.unirse_equipo`) y recibe lo que su equipo ya haya entregado. La nota
+  sigue siendo una por alumno.
 
 ### Seguridad
 

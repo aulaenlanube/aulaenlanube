@@ -25,9 +25,11 @@ type Props = {
   anterior: Alumno | null;
   siguiente: Alumno | null;
   onNota: (n: NotaProfesor | null) => void;
+  /** Nombre de un alumno del grupo por su id (para «lo subió…» en las entregas por equipos). */
+  nombreDe?: (id: number) => string | null;
 };
 
-export default function ProfCorregir({ grupoId, entrega, alumno, envio, nota, anterior, siguiente, onNota }: Props) {
+export default function ProfCorregir({ grupoId, entrega, alumno, envio, nota, anterior, siguiente, onNota, nombreDe }: Props) {
   const rubrica = entrega.rubrica ? RUBRICAS[entrega.rubrica] : undefined;
   const [valoraciones, setValoraciones] = useState<Valoraciones>(nota?.valoraciones ?? {});
   const [minimos, setMinimos] = useState<Minimos>(nota?.minimos ?? {});
@@ -190,11 +192,20 @@ export default function ProfCorregir({ grupoId, entrega, alumno, envio, nota, an
                   </p>
                 )}
                 {envio.texto && <div className="whitespace-pre-line rounded-xl bg-zinc-50 p-3 dark:bg-white/5">{envio.texto}</div>}
-                {envio.comentario && <Aviso tono="gris"><b>Comentario del alumno:</b> {envio.comentario}</Aviso>}
+                {entrega.en_equipo && envio.entregado_por && envio.entregado_por !== alumno.id && (
+                  <p className={`text-sm ${cls.tenue}`}>
+                    Entrega por equipos: el repositorio lo subió <b>{nombreDe?.(envio.entregado_por) ?? "otra persona del equipo"}</b>.
+                  </p>
+                )}
+                {envio.comentario ? (
+                  <Aviso tono="gris"><b>Comentario del alumno:</b> <span className="whitespace-pre-line">{envio.comentario}</span></Aviso>
+                ) : (
+                  entrega.en_equipo && <p className={`text-sm ${cls.tenue}`}>Sin comentario propio (en las entregas por equipos es opcional).</p>
+                )}
                 <p className={`text-sm ${cls.tenue}`}>
                   Entregada {haceCuanto(envio.updated_at)} ({fechaCorta(envio.updated_at)}) · versión {envio.version}
                 </p>
-                {envio.repo && <InfoRepo key={envio.repo} repo={envio.repo} completo auto equipo={entrega.proyecto === "startup"} />}
+                {envio.repo && <InfoRepo key={envio.repo} repo={envio.repo} completo auto equipo={entrega.en_equipo} />}
               </div>
             )}
           </section>

@@ -6,7 +6,7 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "@/components/Link";
 import { CURSOS, PROYECTOS, type ProyectoCatalogo } from "@/lib/campus/catalogo";
-import { api, fechaCorta, haceCuanto, plazoVencido, urlPages, type EntregaAlumno, type Envio, type Grupo, type UsuarioSesion } from "@/lib/campus/cliente";
+import { api, fechaCorta, haceCuanto, plazoVencido, urlPages, type EntregaAlumno, type Envio, type EquipoEntrega, type EquipoParaElegir, type Grupo, type UsuarioSesion } from "@/lib/campus/cliente";
 import { formatoNota, RUBRICAS } from "@/lib/campus/rubricas";
 import DobleCorreccion from "./DobleCorreccion";
 import InfoRepo from "./InfoRepo";
@@ -47,8 +47,14 @@ export default function PanelAlumno() {
   const curso = grupo ? CURSOS[grupo.curso] : null;
   const vista = ruta[0] || "curso";
 
-  const actualizarEnvio = (envio: Envio) =>
-    setPanel((p) => p && { ...p, entregas: p.entregas.map((e) => (e.id === envio.entrega_id ? { ...e, envio } : e)) });
+  const actualizarEnvio = (envio: Envio, equipo?: EquipoEntrega) =>
+    setPanel(
+      (p) =>
+        p && {
+          ...p,
+          entregas: p.entregas.map((e) => (e.id === envio.entrega_id ? { ...e, envio, ...(equipo ? { equipo } : {}) } : e)),
+        },
+    );
 
   return (
     <Marco>
@@ -93,7 +99,14 @@ export default function PanelAlumno() {
         {!grupo ? (
           <Aviso tono="ambar">Todavía no estás en ningún grupo del curso. Díselo al profesor para que te asigne.</Aviso>
         ) : vista === "entrega" ? (
-          <VistaEntrega key={ruta[1]} entrega={entregas.find((e) => String(e.id) === ruta[1])} onEnvio={actualizarEnvio} volver={() => ir("")} />
+          <VistaEntrega
+            // Al entrar en un equipo cambia el equipo de la entrega: el formulario vuelve a partir de lo del equipo.
+            key={`${ruta[1]}-${entregas.find((e) => String(e.id) === ruta[1])?.equipo?.nombre ?? ""}`}
+            entrega={entregas.find((e) => String(e.id) === ruta[1])}
+            onEnvio={actualizarEnvio}
+            recargar={cargar}
+            volver={() => ir("")}
+          />
         ) : vista === "equipos" ? (
           <EquiposAlumno />
         ) : vista === "inversion" ? (
@@ -221,9 +234,21 @@ function VistaCurso({ proyectos, entregas }: { proyectos: ProyectoCatalogo[]; en
   );
 }
 
-function VistaEntrega({ entrega: e, onEnvio, volver }: { entrega?: EntregaAlumno; onEnvio: (envio: Envio) => void; volver: () => void }) {
-  const [repo, setRepo] = useState(e?.envio?.repo ?? "");
-  const [web, setWeb] = useState(e?.envio?.web ?? "");
+function VistaEntrega({
+  entrega: e,
+  onEnvio,
+  recargar,
+  volver,
+}: {
+  entrega?: EntregaAlumno;
+  onEnvio: (envio: Envio, equipo?: EquipoEntrega) => void;
+  recargar: () => void;
+  volver: () => void;
+}) {
+  // En una entrega por equipos, si aún no has entregado tú, el formulario parte
+  // de lo que haya subido tu equipo.
+  const [repo, setRepo] = useState(e?.envio?.repo ?? e?.equipo?.repo ?? "");
+  const [web, setWeb] = useState(e?.envio?.web ?? e?.equipo?.web ?? "");
   const [texto, setTexto] = useState(e?.envio?.texto ?? "");
   const [comentario, setComentario] = useState(e?.envio?.comentario ?? "");
   const [estado, setEstado] = useState<{ t: "idle" | "enviando" | "ok" } | { t: "error"; e: string }>({ t: "idle" });
@@ -239,16 +264,20 @@ function VistaEntrega({ entrega: e, onEnvio, volver }: { entrega?: EntregaAlumno
 
   const rubrica = e.rubrica ? RUBRICAS[e.rubrica] : undefined;
   const proyecto = PROYECTOS[e.proyecto];
-  // Proyecto en grupo: el repo es del equipo (el mismo para todos) y puede ser privado.
-  const equipo = e.proyecto === "startup";
+  // Entrega por equipos: el repo es del equipo (el mismo para todos) y puede ser privado.
+  const deEquipo = e.en_equipo;
+  const subidoPor =
+    deEquipo && e.envio?.entregado_por && e.envio.entregado_por !== e.envio.alumno_id
+      ? e.equipo?.miembros.find((m) => m.id === e.envio!.entregado_por)?.nombre ?? "otra persona de tu equipo"
+      : null;
   const sugerencia = urlPages(e.envio?.repo ?? null);
 
   async function entregar(ev: React.FormEvent) {
     ev.preventDefault();
     setEstado({ t: "enviando" });
     try {
-      const r = await api<{ envio: Envio }>("alumno.entregar", { entrega_id: e!.id, repo, web, texto, comentario });
-      onEnvio(r.envio);
+      const r = await api<{ envio: Envio; equipo?: EquipoEntrega }>("alumno.entregar", { entrega_id: e!.id, repo, web, texto, comentario });
+      onEnvio(r.envio, r.equipo);
       setRepo(r.envio.repo ?? "");
       setWeb(r.envio.web ?? "");
       setEstado({ t: "ok" });
@@ -299,6 +328,8 @@ function VistaEntrega({ entrega: e, onEnvio, volver }: { entrega?: EntregaAlumno
         </section>
       )}
 
+      {deEquipo && <CajaEquipo equipo={e.equipo ?? null} equipos={e.equipos_clase ?? []} subidoPor={subidoPor} onUnido={recargar} />}
+
       {/* Formulario de entrega */}
       <section className={cls.tarjeta}>
         <h3 className={cls.h2}>{e.envio ? "Tu entrega" : "Entregar"}</h3>
@@ -309,40 +340,42 @@ function VistaEntrega({ entrega: e, onEnvio, volver }: { entrega?: EntregaAlumno
             {e.envio.fuera_plazo && " · fuera de plazo"}
           </p>
         )}
-        {e.abierta ? (
+        {deEquipo && !e.equipo ? (
+          <p className={`mt-3 ${cls.suave}`}>Elige tu equipo arriba y podrás entregar (o ver lo que ya ha entregado tu equipo).</p>
+        ) : e.abierta ? (
           <form onSubmit={entregar} className="mt-4 space-y-4">
             {e.tipo === "github" && (
               <>
                 <div>
-                  <label htmlFor="ent-repo" className={cls.label}>{equipo ? "El repositorio de tu equipo" : "Tu repositorio de GitHub"}</label>
+                  <label htmlFor="ent-repo" className={cls.label}>{deEquipo ? "El repositorio de tu equipo" : "Tu repositorio de GitHub"}</label>
                   <input
                     id="ent-repo"
                     className={cls.input}
                     required
                     value={repo}
                     onChange={(x) => setRepo(x.target.value)}
-                    placeholder={equipo ? "https://github.com/vuestra-organizacion/vuestro-repo" : "https://github.com/tu-usuario/tu-repositorio"}
+                    placeholder={deEquipo ? "https://github.com/vuestra-organizacion/vuestro-repo" : "https://github.com/tu-usuario/tu-repositorio"}
                     autoCapitalize="none"
                     spellCheck={false}
                   />
                   <p className={`mt-1 text-xs ${cls.tenue}`}>
-                    {equipo
-                      ? "El mismo para todo el equipo. Puede ser privado: entonces invita antes a aulaenlanube (Settings → Collaborators and teams → Add people, rol Read)."
+                    {deEquipo
+                      ? "El mismo para todo el equipo: lo que entregue cualquiera vale para todos. Puede ser privado: entonces invita antes a aulaenlanube (Settings → Collaborators and teams → Add people, rol Read)."
                       : "Vale la dirección completa o solo «usuario/repositorio». Tiene que ser público."}
                   </p>
                 </div>
                 <div>
-                  <label htmlFor="ent-web" className={cls.label}>{equipo ? "Prototipo o web publicada" : "Tu web publicada (GitHub Pages)"} <span className="font-normal text-zinc-400">· opcional</span></label>
+                  <label htmlFor="ent-web" className={cls.label}>{deEquipo ? "Prototipo o web publicada" : "Tu web publicada (GitHub Pages)"} <span className="font-normal text-zinc-400">· opcional</span></label>
                   <input
                     id="ent-web"
                     className={cls.input}
                     value={web}
                     onChange={(x) => setWeb(x.target.value)}
-                    placeholder={equipo ? "https://… (si ya tenéis algo publicado)" : "https://tu-usuario.github.io/tu-repositorio/"}
+                    placeholder={deEquipo ? "https://… (si ya tenéis algo publicado)" : "https://tu-usuario.github.io/tu-repositorio/"}
                     autoCapitalize="none"
                     spellCheck={false}
                   />
-                  {sugerencia && !web && !equipo && (
+                  {sugerencia && !web && !deEquipo && (
                     <button type="button" onClick={() => setWeb(sugerencia)} className={`mt-1 text-xs ${cls.enlace}`}>
                       Usar {sugerencia}
                     </button>
@@ -364,19 +397,23 @@ function VistaEntrega({ entrega: e, onEnvio, volver }: { entrega?: EntregaAlumno
             )}
             <div>
               <label htmlFor="ent-com" className={cls.label}>
-                {equipo ? "Tu rol y tu aportación" : "Comentario para el profesor"} <span className="font-normal text-zinc-400">· {equipo ? "tres líneas" : "opcional"}</span>
+                {deEquipo ? "Tu rol y tu aportación" : "Comentario para el profesor"} <span className="font-normal text-zinc-400">· {deEquipo ? "opcional, es solo tuyo" : "opcional"}</span>
               </label>
               <textarea
                 id="ent-com"
                 className={cls.input}
-                rows={equipo ? 3 : 2}
+                rows={deEquipo ? 3 : 2}
                 value={comentario}
                 onChange={(x) => setComentario(x.target.value)}
-                placeholder={equipo ? "Rol: lead técnico\nMi PR: https://github.com/…/pull/3\nHe revisado: #4" : "Algo que quieras destacar o que no funcione todavía…"}
+                placeholder={deEquipo ? "Rol: lead técnico\nHoy he hecho: docs/decisiones.md\nEnlace: https://github.com/…/commit/…" : "Algo que quieras destacar o que no funcione todavía…"}
               />
             </div>
             {estado.t === "error" && <p role="alert" className="text-sm font-semibold text-red-700 dark:text-red-300">{estado.e}</p>}
-            {estado.t === "ok" && <p role="status" className="text-sm font-semibold text-emerald-700 dark:text-emerald-300">✓ Entrega guardada. Puedes actualizarla mientras siga abierta.</p>}
+            {estado.t === "ok" && (
+              <p role="status" className="text-sm font-semibold text-emerald-700 dark:text-emerald-300">
+                ✓ Entrega guardada{deEquipo ? " para todo tu equipo" : ""}. Puedes actualizarla mientras siga abierta.
+              </p>
+            )}
             <button type="submit" className={cls.btnAzul} disabled={estado.t === "enviando"}>
               {estado.t === "enviando" ? "Guardando…" : e.envio ? "Actualizar entrega" : "Entregar"}
             </button>
@@ -392,7 +429,7 @@ function VistaEntrega({ entrega: e, onEnvio, volver }: { entrega?: EntregaAlumno
         )}
         {e.tipo === "github" && e.envio?.repo && (
           <div className="mt-4">
-            <InfoRepo key={e.envio.repo} repo={e.envio.repo} auto={estado.t === "ok"} equipo={equipo} />
+            <InfoRepo key={e.envio.repo} repo={e.envio.repo} auto={estado.t === "ok"} equipo={deEquipo} />
           </div>
         )}
       </section>
@@ -409,6 +446,103 @@ function VistaEntrega({ entrega: e, onEnvio, volver }: { entrega?: EntregaAlumno
         </details>
       )}
     </div>
+  );
+}
+
+/**
+ * Entrega por equipos: de qué equipo es, quién lo ha entregado y el comentario
+ * de cada miembro. Sin equipo, el alumno elige el suyo aquí mismo.
+ */
+function CajaEquipo({
+  equipo,
+  equipos,
+  subidoPor,
+  onUnido,
+}: {
+  equipo: EquipoEntrega | null;
+  equipos: EquipoParaElegir[];
+  subidoPor: string | null;
+  onUnido: () => void;
+}) {
+  const [elegido, setElegido] = useState("");
+  const [estado, setEstado] = useState<{ t: "idle" | "enviando" } | { t: "error"; e: string }>({ t: "idle" });
+
+  async function unirse(ev: React.FormEvent) {
+    ev.preventDefault();
+    if (!elegido) return;
+    setEstado({ t: "enviando" });
+    try {
+      await api("alumno.unirse_equipo", { equipo_id: Number(elegido) });
+      onUnido();
+    } catch (err) {
+      setEstado({ t: "error", e: mensajeError(err) });
+    }
+  }
+
+  if (!equipo) {
+    return (
+      <section className={`${cls.tarjeta} space-y-3`}>
+        <h3 className={cls.h2}>¿De qué equipo eres?</h3>
+        <p className={`text-sm ${cls.suave}`}>
+          Esta entrega es <b>por equipos</b>: basta con que la entregue una persona y queda guardada para todo el equipo. Indica el tuyo y
+          verás lo que ya habéis entregado.
+        </p>
+        {equipos.length ? (
+          <form onSubmit={unirse} className="flex flex-wrap items-end gap-3">
+            <div className="min-w-[16rem] flex-1">
+              <label htmlFor="ent-equipo" className={cls.label}>Mi equipo</label>
+              <select id="ent-equipo" className={cls.input} value={elegido} onChange={(x) => setElegido(x.target.value)} required>
+                <option value="">Elige tu equipo…</option>
+                {equipos.map((q) => (
+                  <option key={q.id} value={q.id} disabled={q.lleno}>
+                    {q.nombre} · {q.miembros} {q.miembros === 1 ? "persona" : "personas"}{q.lleno ? " (completo)" : ""}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <button type="submit" className={cls.btnAzul} disabled={!elegido || estado.t === "enviando"}>
+              {estado.t === "enviando" ? "Guardando…" : "Este es mi equipo"}
+            </button>
+          </form>
+        ) : (
+          <Aviso tono="ambar">Todavía no hay equipos en tu clase. Formad el vuestro en <a href="#/equipos" className="font-semibold underline underline-offset-2">Mi equipo</a>.</Aviso>
+        )}
+        {estado.t === "error" && <p role="alert" className="text-sm font-semibold text-red-700 dark:text-red-300">{estado.e}</p>}
+        <p className={`text-xs ${cls.tenue}`}>Si te equivocas de equipo, díselo al profesor para que te cambie.</p>
+      </section>
+    );
+  }
+  const entregado = equipo.miembros.some((m) => m.entregado);
+  return (
+    <section className={`${cls.tarjeta} space-y-3`}>
+      <h3 className={cls.h2}>Entrega del equipo «{equipo.nombre}»</h3>
+      <p className={`text-sm ${cls.suave}`}>
+        Basta con que entregue <b>una persona</b>: queda guardada para todo el equipo y cualquiera de vosotros puede actualizarla. El
+        comentario con tu rol y tu aportación es opcional y solo tuyo; lo ve tu equipo.
+      </p>
+      {subidoPor ? (
+        <Aviso tono="azul">
+          <b>{subidoPor}</b> ya ha entregado por el equipo. Si quieres, añade tu comentario y pulsa «Actualizar entrega».
+        </Aviso>
+      ) : !entregado ? (
+        <Aviso tono="ambar">Vuestro equipo todavía no ha entregado.</Aviso>
+      ) : null}
+      <ul className="space-y-1.5">
+        {equipo.miembros.map((m) => (
+          <li key={m.id} className="rounded-xl border border-zinc-200 px-3 py-2 text-sm dark:border-white/10">
+            <span className="font-semibold">
+              {m.nombre}
+              {m.yo ? " (tú)" : ""}
+            </span>
+            {m.comentario ? (
+              <span className={`mt-0.5 block whitespace-pre-line ${cls.suave}`}>{m.comentario}</span>
+            ) : (
+              <span className={`block ${cls.tenue}`}>Sin comentario propio</span>
+            )}
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }
 

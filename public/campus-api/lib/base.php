@@ -232,6 +232,7 @@ function entrega_publica(array $e): array
     'fecha_limite' => $e['fecha_limite'],
     'abierta' => (bool)$e['abierta'],
     'visible' => (bool)$e['visible'],
+    'en_equipo' => (bool)($e['en_equipo'] ?? false),
     'orden' => (int)$e['orden'],
   ];
 }
@@ -247,6 +248,7 @@ function envio_publico(array $e): array
     'comentario' => $e['comentario'],
     'version' => (int)$e['version'],
     'fuera_plazo' => (bool)$e['fuera_plazo'],
+    'entregado_por' => isset($e['entregado_por']) ? (int)$e['entregado_por'] : null,
     'created_at' => $e['created_at'],
     'updated_at' => $e['updated_at'],
   ];

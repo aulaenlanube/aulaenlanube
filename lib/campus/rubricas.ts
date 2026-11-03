@@ -208,7 +208,7 @@ export const RUBRICA_CLI: Rubrica = {
 // persona: la nota es individual dentro del grupo.
 export const RUBRICA_STARTUP_ARRANQUE: Rubrica = {
   id: "startup-arranque",
-  titulo: "Rúbrica · Kit de arranque de la startup",
+  titulo: "Rúbrica · Startup: kit de arranque",
   niveles: NIVELES,
   minimos: [
     { id: "acceso", texto: "El profesor puede ver el repositorio del equipo: es público o la cuenta aulaenlanube tiene acceso." },

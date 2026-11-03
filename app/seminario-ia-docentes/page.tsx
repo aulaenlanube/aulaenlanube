@@ -3,7 +3,7 @@ import Link from "@/components/Link";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { Aviso, Bloque, Checklist, Chip, DosColumnas, TONO, Tarjeta, cls } from "@/app/programacion-ia/_video/piezas";
 import { HiloSeminario } from "./_hilo";
-import { RAIZ, RECURSOS, SESIONES } from "./_datos";
+import { RAIZ, RECURSOS, SESIONES, videoPublicado } from "./_datos";
 
 export const metadata: Metadata = {
   title: "Seminario de IA para docentes · 5 sesiones para FP y Secundaria – Aula en la nube",
@@ -232,10 +232,10 @@ export default function SeminarioPortada() {
         <ul className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
           {SESIONES.map((s) => (
             <li key={s.n}>
-              <Link href={s.video ? `https://www.youtube.com/watch?v=${s.video}` : `${s.ruta}#video-s${s.n}`} {...(s.video ? { target: "_blank", rel: "noopener noreferrer" } : {})} className={`block h-full rounded-xl border p-4 ${TONO[s.tono].caja}`}>
+              <Link href={videoPublicado(s) ? `https://www.youtube.com/watch?v=${videoPublicado(s)}` : `${s.ruta}#video-s${s.n}`} {...(videoPublicado(s) ? { target: "_blank", rel: "noopener noreferrer" } : {})} className={`block h-full rounded-xl border p-4 ${TONO[s.tono].caja}`}>
                 <span className={`block text-base font-bold ${TONO[s.tono].texto}`}>{`Sesión ${s.n}`}</span>
                 <span className={`mt-1 block text-base font-semibold ${TONO[s.tono].tinta}`}>{s.corto}</span>
-                <span className="mt-2 block text-base text-zinc-600 dark:text-zinc-400">{s.video ? "Ver el vídeo →" : "En preparación"}</span>
+                <span className="mt-2 block text-base text-zinc-600 dark:text-zinc-400">{videoPublicado(s) ? "Ver el vídeo →" : "En preparación"}</span>
               </Link>
             </li>
           ))}

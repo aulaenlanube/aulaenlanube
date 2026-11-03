@@ -29,6 +29,9 @@ export type Sesion = {
   piezaDetalle: string;
   /** Id de YouTube del vídeo resumen cuando esté publicado. */
   video: string | null;
+  /** Hora de estreno (ISO con zona): hasta entonces el vídeo es privado en YouTube y la web no lo enseña. Se mira al
+   *  compilar, así que hay que desplegar después de esa hora (videoPublicado). */
+  estreno?: string;
 };
 
 export const SESIONES: Sesion[] = [
@@ -43,7 +46,8 @@ export const SESIONES: Sesion[] = [
       "Qué es (y qué no es) una IA generativa, qué te da Copilot con la cuenta del centro sin pagar nada, el semáforo de datos de la guía oficial del CEFIRE y cómo se escribe un encargo que rinde a la primera.",
     pieza: "La ficha de tu materia",
     piezaDetalle: "El contexto que pegarás en cada prompt: etapa, materia o módulo, criterios y grupo, sin un solo nombre.",
-    video: null,
+    video: "Aqsq-HzrWWE",
+    estreno: "2026-11-03T18:00:00+01:00",
   },
   {
     n: 2,
@@ -109,6 +113,11 @@ export function vecinas(n: number) {
       ? { titulo: `Sesión ${SESIONES[i + 1].n} · ${SESIONES[i + 1].corto}`, ruta: SESIONES[i + 1].ruta }
       : { titulo: "Tu herramienta, paso a paso", ruta: `${RAIZ}tu-herramienta/` };
   return { atras, adelante };
+}
+
+/** El vídeo de la sesión si ya es público (el estreno ha pasado al compilar); si no, null. */
+export function videoPublicado(s: Sesion): string | null {
+  return s.video && (!s.estreno || Date.now() >= Date.parse(s.estreno)) ? s.video : null;
 }
 
 export function sesion(n: number): Sesion {

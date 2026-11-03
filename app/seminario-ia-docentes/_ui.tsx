@@ -3,7 +3,7 @@ import Link from "@/components/Link";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import YouTubeLite from "@/components/YouTubeLite";
 import { Bloque, Checklist, Chip, TONO, cls } from "@/app/programacion-ia/_video/piezas";
-import { FUENTES, RAIZ, SESIONES, VIDEOS, sesion, urlVideo, vecinas } from "./_datos";
+import { FUENTES, RAIZ, SESIONES, VIDEOS, sesion, urlVideo, vecinas, videoPublicado } from "./_datos";
 import { HiloSeminario } from "./_hilo";
 
 // ════════════════════════════════════════════════════════════════════════════
@@ -47,6 +47,7 @@ export function CabeceraSesion({ n, children }: { n: number; children?: ReactNod
  */
 export function VideoResumen({ n }: { n: number }) {
   const s = sesion(n);
+  const video = videoPublicado(s);
   return (
     <section className="sem-solo-web mt-12 max-w-[1100px]" aria-labelledby={`video-s${n}`}>
       <div className={`grid grid-cols-1 gap-6 rounded-2xl border p-5 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] ${TONO[s.tono].caja}`}>
@@ -56,7 +57,7 @@ export function VideoResumen({ n }: { n: number }) {
             {`La sesión ${n}, en un vídeo`}
           </h2>
           <p className={`mt-2 ${cls.texto}`}>
-            {s.video
+            {video
               ? "Lo esencial de esta página, recorrido en pantalla y con calma. Ideal si te perdiste la sesión o quieres repasarla antes de hacer la tarea."
               : "Estamos preparando el recorrido en vídeo de esta sesión. Aparecerá aquí y en el canal IA para docentes; mientras tanto, todo lo que se ve en la sesión está en esta página."}
           </p>
@@ -70,8 +71,8 @@ export function VideoResumen({ n }: { n: number }) {
           </a>
         </div>
         <div className="min-w-0">
-          {s.video ? (
-            <YouTubeLite id={s.video} title={`Seminario de IA para docentes · Sesión ${n}: ${s.titulo}`} />
+          {video ? (
+            <YouTubeLite id={video} title={`Seminario de IA para docentes · Sesión ${n}: ${s.titulo}`} />
           ) : (
             <div className="flex aspect-video w-full items-center justify-center rounded-xl border-2 border-dashed border-zinc-300 bg-white/60 p-6 text-center dark:border-white/15 dark:bg-slate-900/60">
               <p className="text-lg font-semibold text-zinc-600 dark:text-zinc-300">Vídeo en preparación</p>

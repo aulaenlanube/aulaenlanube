@@ -11,8 +11,8 @@ _Página del alumnado: [/programacion-ia/proyecto-final-grupo/sesion-03/](/progr
 
 ## Antes de clase (5 min)
 
-- La entrega 5 ya está en el campus (presencial · Startup en grupo · Sesión 3, tipo GitHub, rúbrica «punto de seguimiento 1», fecha límite hoy a las 23:59). Comprobar en **Entregas** que está abierta y visible.
-- Panel → **Equipos**: comprobar quién está en cada equipo. En un equipo de 3, alguien lleva dos piezas; en uno de 6, una pieza se hace en pareja.
+- La entrega 5 ya está en el campus (presencial · Startup en grupo · Sesión 3, tipo GitHub, **por equipos**, rúbrica «punto de seguimiento 1», fecha límite hoy a las 23:59). Comprobar en **Entregas** que está abierta, visible y con la etiqueta «Por equipos». Lo que entrega un miembro se copia a todo su equipo; el comentario es de cada uno.
+- Panel → **Equipos**: comprobar quién está en cada equipo. Quien no tenga equipo puede elegirlo en la propia entrega (o se le asigna desde el panel). En un equipo de 3, alguien lleva dos piezas; en uno de 6, una pieza se hace en pareja.
 
 ## Cómo va
 
@@ -20,7 +20,7 @@ _Página del alumnado: [/programacion-ia/proyecto-final-grupo/sesion-03/](/progr
 |---|---|---|---|
 | 0:00 | Punto de seguimiento (10') | Proyectar la figura «hoy / a partir de ahora». Mensaje: «Hoy no es entregar mucho: es dejar escritas las bases. Lo de la derecha es para el sprint 1». Recordar que el 26 oct pasa a hoy | Sentarse por equipos |
 | 0:10 | Pasos 1-6 · La entrega (~45') | Pasar por las mesas mirando dos cosas: la casilla del dinero del README y que las entrevistas no estén inventadas | Cada pieza, una persona, subida con su cuenta |
-| 0:55 | Paso 7 · Acceso y entrega (5') | Recordar: entrega cada persona, mismo repo, comentario con rol y su parte | Invitar a aulaenlanube si es privado; entregar |
+| 0:55 | Paso 7 · Acceso y entrega (5') | Recordar: basta con que entregue uno por equipo (queda guardada para todos y cualquiera la actualiza); el comentario personal es opcional. Quien no tenga equipo en el campus lo elige en la propia entrega | Invitar a aulaenlanube si es privado; entregar |
 | 1:00 | A seguir avanzando (resto) | Seguimiento de 5 minutos por equipo con su README abierto (preguntas abajo) | Sprint 1: cada uno con su issue y su agente |
 
 ## Qué mirar en cada mesa

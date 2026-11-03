@@ -354,7 +354,7 @@ export default function StartupSesion3() {
         titulo="Lo que entregáis hoy, y lo que viene después"
         entradilla={
           <>
-            Cuatro ficheros cortos en el repo, las 3 primeras tareas en GitHub y una entrega por persona en el campus. Es
+            Cuatro ficheros cortos en el repo, las 3 primeras tareas en GitHub y la entrega del equipo en el campus. Es
             lo esencial de lo que quedó pendiente de las sesiones{" "}
             <Link href="/programacion-ia/proyecto-final-grupo/sesion-01/" className={cls.enlace}>
               1
@@ -586,21 +586,24 @@ export default function StartupSesion3() {
       </Paso>
 
       <Bloque
-        titulo="Lo que escribe cada persona"
+        titulo="Una entrega por equipo"
         nivel={3}
         entradilla={
           <>
-            Entrega <b>cada persona del equipo</b>, en su{" "}
+            Basta con que entregue <b>una persona del equipo</b>, desde su{" "}
             <Link href="/programacion-ia/aula/" className={cls.enlace}>
               aula del campus
             </Link>
-            : el mismo enlace del repo para todos y, en el comentario, tres líneas tuyas. Se puede actualizar mientras la
-            entrega esté abierta.
+            : queda guardada para todos, todos veis lo entregado y cualquiera puede actualizarlo. Si en el campus aún no
+            estás en ningún equipo, lo eliges en la propia entrega.
           </>
         }
-        junto={<Codigo code={COMENTARIO_ENTREGA} kind="txt" etiqueta="Comentario de la entrega" />}
+        junto={<Codigo code={COMENTARIO_ENTREGA} kind="txt" etiqueta="Tu comentario (opcional)" />}
       >
-        <p className={cls.texto}>La nota es individual dentro del grupo: tu parte, subida con tu cuenta, es lo que la demuestra.</p>
+        <p className={cls.texto}>
+          Cada uno puede añadir, si quiere, su comentario: su rol y lo que ha hecho. La nota es individual dentro del
+          grupo, y tu parte se ve en GitHub: en los commits con tu cuenta.
+        </p>
       </Bloque>
 
       {/* ───────────── EL RESTO DE LA SESIÓN ───────────── */}

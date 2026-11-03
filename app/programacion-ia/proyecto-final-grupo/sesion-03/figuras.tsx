@@ -308,11 +308,11 @@ export function AccesoEntrega() {
       uid={u}
       ancho={1000}
       alto={132}
-      etiqueta="Acceso y entrega en tres pasos. Uno: si el repo es privado, invitáis a aulaenlanube con rol Read. Dos: el profe acepta la invitación; hasta entonces no ve nada. Tres: cada persona entrega en el campus el repo, su rol y su parte, hoy antes de las 23:59."
+      etiqueta="Acceso y entrega en tres pasos. Uno: si el repo es privado, invitáis a aulaenlanube con rol Read. Dos: el profe acepta la invitación; hasta entonces no ve nada. Tres: una persona entrega en el campus por todo el equipo y queda guardada para todos, hoy antes de las 23:59."
     >
       <Caja x={16} y={16} w={290} h={100} tono="morado" titulo="Invitar a aulaenlanube" lineas={["solo si el repo es privado", "con el rol Read"]} />
       <Caja x={353} y={16} w={290} h={100} tono="ambar" titulo="El profe acepta" lineas={["hasta entonces", "no puede ver nada"]} />
-      <Caja x={690} y={16} w={290} h={100} tono="verde" titulo="Cada persona entrega" lineas={["el repo, su rol y su parte", "en el campus del curso"]} />
+      <Caja x={690} y={16} w={290} h={100} tono="verde" titulo="Uno entrega por todos" lineas={["en el campus del curso", "y queda para el equipo"]} />
       <Flecha uid={u} d="M306 66 H347" tono="morado" />
       <Flecha uid={u} d="M643 66 H684" tono="ambar" />
     </Figura>

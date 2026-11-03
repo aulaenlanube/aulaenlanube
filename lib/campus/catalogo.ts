@@ -99,6 +99,18 @@ export const PROYECTOS: Record<string, ProyectoCatalogo> = {
         resumen: "19 oct · La meta de junio, los 4 filtros de una buena idea, el modelo de ingresos obligatorio, taller por equipos con la IA de abogado del diablo y ronda de pitch con inversores.",
         href: "/programacion-ia/proyecto-final-grupo/sesion-01/",
       },
+      {
+        id: "s02", n: 2,
+        titulo: "La caja, la arquitectura y el sprint 1",
+        resumen: "20 oct · Repartir la inversión ficticia con consecuencias, decidir la arquitectura según el tipo de producto y arrancar el sprint 1.",
+        href: "/programacion-ia/proyecto-final-grupo/sesion-02/",
+      },
+      {
+        id: "s03", n: 3,
+        titulo: "Kickoff: el repo que arranca la startup",
+        resumen: "3 nov · El kit de arranque: ficha v1, entrevistas, acuerdo de equipo, decisiones, arquitectura, AGENTS.md y tablero del sprint 1, cada pieza con su PR. Se entrega hoy.",
+        href: "/programacion-ia/proyecto-final-grupo/sesion-03/",
+      },
     ],
   },
 };

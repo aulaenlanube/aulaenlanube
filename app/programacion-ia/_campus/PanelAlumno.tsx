@@ -239,6 +239,8 @@ function VistaEntrega({ entrega: e, onEnvio, volver }: { entrega?: EntregaAlumno
 
   const rubrica = e.rubrica ? RUBRICAS[e.rubrica] : undefined;
   const proyecto = PROYECTOS[e.proyecto];
+  // Proyecto en grupo: el repo es del equipo (el mismo para todos) y puede ser privado.
+  const equipo = e.proyecto === "startup";
   const sugerencia = urlPages(e.envio?.repo ?? null);
 
   async function entregar(ev: React.FormEvent) {
@@ -312,31 +314,35 @@ function VistaEntrega({ entrega: e, onEnvio, volver }: { entrega?: EntregaAlumno
             {e.tipo === "github" && (
               <>
                 <div>
-                  <label htmlFor="ent-repo" className={cls.label}>Tu repositorio de GitHub</label>
+                  <label htmlFor="ent-repo" className={cls.label}>{equipo ? "El repositorio de tu equipo" : "Tu repositorio de GitHub"}</label>
                   <input
                     id="ent-repo"
                     className={cls.input}
                     required
                     value={repo}
                     onChange={(x) => setRepo(x.target.value)}
-                    placeholder="https://github.com/tu-usuario/tu-repositorio"
+                    placeholder={equipo ? "https://github.com/vuestra-organizacion/vuestro-repo" : "https://github.com/tu-usuario/tu-repositorio"}
                     autoCapitalize="none"
                     spellCheck={false}
                   />
-                  <p className={`mt-1 text-xs ${cls.tenue}`}>Vale la dirección completa o solo «usuario/repositorio». Tiene que ser público.</p>
+                  <p className={`mt-1 text-xs ${cls.tenue}`}>
+                    {equipo
+                      ? "El mismo para todo el equipo. Puede ser privado: entonces invita antes a aulaenlanube (Settings → Collaborators and teams → Add people, rol Read)."
+                      : "Vale la dirección completa o solo «usuario/repositorio». Tiene que ser público."}
+                  </p>
                 </div>
                 <div>
-                  <label htmlFor="ent-web" className={cls.label}>Tu web publicada (GitHub Pages) <span className="font-normal text-zinc-400">· opcional</span></label>
+                  <label htmlFor="ent-web" className={cls.label}>{equipo ? "Prototipo o web publicada" : "Tu web publicada (GitHub Pages)"} <span className="font-normal text-zinc-400">· opcional</span></label>
                   <input
                     id="ent-web"
                     className={cls.input}
                     value={web}
                     onChange={(x) => setWeb(x.target.value)}
-                    placeholder="https://tu-usuario.github.io/tu-repositorio/"
+                    placeholder={equipo ? "https://… (si ya tenéis algo publicado)" : "https://tu-usuario.github.io/tu-repositorio/"}
                     autoCapitalize="none"
                     spellCheck={false}
                   />
-                  {sugerencia && !web && (
+                  {sugerencia && !web && !equipo && (
                     <button type="button" onClick={() => setWeb(sugerencia)} className={`mt-1 text-xs ${cls.enlace}`}>
                       Usar {sugerencia}
                     </button>
@@ -357,8 +363,17 @@ function VistaEntrega({ entrega: e, onEnvio, volver }: { entrega?: EntregaAlumno
               </div>
             )}
             <div>
-              <label htmlFor="ent-com" className={cls.label}>Comentario para el profesor <span className="font-normal text-zinc-400">· opcional</span></label>
-              <textarea id="ent-com" className={cls.input} rows={2} value={comentario} onChange={(x) => setComentario(x.target.value)} placeholder="Algo que quieras destacar o que no funcione todavía…" />
+              <label htmlFor="ent-com" className={cls.label}>
+                {equipo ? "Tu rol y tu aportación" : "Comentario para el profesor"} <span className="font-normal text-zinc-400">· {equipo ? "tres líneas" : "opcional"}</span>
+              </label>
+              <textarea
+                id="ent-com"
+                className={cls.input}
+                rows={equipo ? 3 : 2}
+                value={comentario}
+                onChange={(x) => setComentario(x.target.value)}
+                placeholder={equipo ? "Rol: lead técnico\nMi PR: https://github.com/…/pull/3\nHe revisado: #4" : "Algo que quieras destacar o que no funcione todavía…"}
+              />
             </div>
             {estado.t === "error" && <p role="alert" className="text-sm font-semibold text-red-700 dark:text-red-300">{estado.e}</p>}
             {estado.t === "ok" && <p role="status" className="text-sm font-semibold text-emerald-700 dark:text-emerald-300">✓ Entrega guardada. Puedes actualizarla mientras siga abierta.</p>}
@@ -377,7 +392,7 @@ function VistaEntrega({ entrega: e, onEnvio, volver }: { entrega?: EntregaAlumno
         )}
         {e.tipo === "github" && e.envio?.repo && (
           <div className="mt-4">
-            <InfoRepo key={e.envio.repo} repo={e.envio.repo} auto={estado.t === "ok"} />
+            <InfoRepo key={e.envio.repo} repo={e.envio.repo} auto={estado.t === "ok"} equipo={equipo} />
           </div>
         )}
       </section>

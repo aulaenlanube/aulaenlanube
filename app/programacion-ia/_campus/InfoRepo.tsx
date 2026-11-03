@@ -58,8 +58,22 @@ async function consultar(dueno: string, repo: string, completo: boolean): Promis
   return info;
 }
 
-/** completo = también nº de commits y último mensaje (2 consultas). auto = consultar al montar. */
-export default function InfoRepo({ repo, completo = false, auto = false }: { repo: string | null; completo?: boolean; auto?: boolean }) {
+/**
+ * completo = también nº de commits y último mensaje (2 consultas). auto = consultar al montar.
+ * equipo = repo del proyecto en grupo: puede ser privado (la API pública lo da por inexistente)
+ * y no se publica en GitHub Pages.
+ */
+export default function InfoRepo({
+  repo,
+  completo = false,
+  auto = false,
+  equipo = false,
+}: {
+  repo: string | null;
+  completo?: boolean;
+  auto?: boolean;
+  equipo?: boolean;
+}) {
   const partes = partesRepo(repo);
   const [info, setInfo] = useState<Info | null>(null);
   const [cargando, setCargando] = useState(false);
@@ -109,8 +123,13 @@ export default function InfoRepo({ repo, completo = false, auto = false }: { rep
             {info.commits !== null && <> · <b>{info.commits}</b> commits</>}
           </p>
           {info.ultimo && <p className="truncate">Último commit: «{info.ultimo.msg}»</p>}
-          {!info.pages && <p className="text-amber-700 dark:text-amber-300">Aún no tiene GitHub Pages activado (Settings → Pages).</p>}
+          {!info.pages && !equipo && <p className="text-amber-700 dark:text-amber-300">Aún no tiene GitHub Pages activado (Settings → Pages).</p>}
         </div>
+      ) : info.t === "no-existe" && equipo ? (
+        <p className="text-amber-800 dark:text-amber-300">
+          GitHub no lo enseña sin iniciar sesión. Si el repo es <b>privado</b>, es normal: comprobad que habéis invitado a{" "}
+          <b>aulaenlanube</b> (rol Read). Si es público, revisa el nombre.
+        </p>
       ) : info.t === "no-existe" ? (
         <p className="font-semibold text-red-700 dark:text-red-300">
           ✗ GitHub no encuentra este repositorio. Revisa el nombre o hazlo <b>público</b> (Settings → General → Danger Zone → Change visibility).

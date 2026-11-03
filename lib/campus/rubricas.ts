@@ -201,9 +201,78 @@ export const RUBRICA_CLI: Rubrica = {
   ],
 };
 
+// Startup en grupo (solo presencial) · entrega de proceso del kickoff
+// (sesión 3, 3-11-2026). Es la foto del arranque: los mínimos deciden el apto
+// y la puntuación dice cómo está cada pieza del kit. Cuatro criterios miran el
+// repo del equipo (igual para todos sus miembros) y uno, la aportación de cada
+// persona: la nota es individual dentro del grupo.
+export const RUBRICA_STARTUP_ARRANQUE: Rubrica = {
+  id: "startup-arranque",
+  titulo: "Rúbrica · Kit de arranque de la startup",
+  niveles: NIVELES,
+  minimos: [
+    { id: "acceso", texto: "El profesor puede ver el repositorio del equipo: es público o la cuenta aulaenlanube tiene acceso." },
+    { id: "ficha", texto: "README.md con la ficha v1, modelo de ingresos con números incluido (coste al mes y clientes necesarios)." },
+    { id: "aportacion", texto: "Hay al menos un commit tuyo, con tu cuenta de GitHub, en el repositorio del equipo." },
+  ],
+  criterios: [
+    {
+      id: "ficha", nombre: "Ficha v1 y modelo de ingresos", peso: 25,
+      qué: "Qué problema resolvéis, para quién, y cómo se paga el producto.",
+      niveles: [
+        "No hay README o es la plantilla sin rellenar.",
+        "Ficha con casillas vacías o un modelo de ingresos sin números («ya veremos»).",
+        "Ficha completa: problema con una persona concreta, MVP de 3 funciones con lo que NO se hace, y cuentas del mantenimiento (coste al mes, lo que deja cada cliente y cuántos hacen falta).",
+        "Además recoge lo aprendido en el pitch y las entrevistas (qué cambió desde la v0 y por qué) y nombra el mayor riesgo y cómo se va a comprobar.",
+      ],
+    },
+    {
+      id: "clientes", nombre: "Clientes de verdad: entrevistas", peso: 15,
+      qué: "Lo que dicen las personas que sufren el problema, no lo que el equipo cree.",
+      niveles: [
+        "No hay entrevistas, o están inventadas.",
+        "1-2 entrevistas, o solo opiniones sobre la idea («le gustaría usarla»).",
+        "Al menos 3 entrevistas reales con a quién, qué contó de su experiencia y qué os sorprendió; al menos una a quien pagaría.",
+        "5 o más, dos de ellas a quien pagaría con lo que hoy le cuesta el problema, y una conclusión que cambia algo de la ficha.",
+      ],
+    },
+    {
+      id: "decisiones", nombre: "Decisiones y arquitectura", peso: 20,
+      qué: "Qué habéis decidido construir y con qué, y por qué.",
+      niveles: [
+        "Nada escrito sobre la idea ni sobre la tecnología.",
+        "Se nombra el stack, sin alternativas ni motivos.",
+        "Decisiones por escrito (por qué esta idea, por qué este stack) con alternativas descartadas, y el dibujo del sistema.",
+        "Además, el modelo de datos con sus entidades y relaciones, y lo que NO se construye todavía, todo coherente con el MVP de la ficha.",
+      ],
+    },
+    {
+      id: "equipo", nombre: "Forma de trabajar del equipo", peso: 20,
+      qué: "Cómo os organizáis las personas y los agentes para no pisaros.",
+      niveles: [
+        "Ni acuerdo de equipo ni tablero.",
+        "Roles repartidos, pero sin acuerdo de equipo o con el tablero vacío.",
+        "Acuerdo de equipo con definición de terminado y revisión, AGENTS.md común, y 3 tareas del sprint 1 con responsable y revisor.",
+        "Además, cada tarea con su criterio de aceptación y main protegida (o la regla «todo por PR» cumplida en el historial).",
+      ],
+    },
+    {
+      id: "aportacion", nombre: "Tu aportación de hoy", peso: 20,
+      qué: "Lo que has hecho tú, visible en GitHub con tu cuenta. Este criterio es individual.",
+      niveles: [
+        "Ningún commit ni PR tuyo.",
+        "Commits tuyos subidos directamente a main, sin PR ni revisión.",
+        "Una pieza del kit hecha por ti en su rama, con su PR revisado por otra persona y fusionado.",
+        "Además, has revisado el PR de otra persona del equipo con algún comentario útil (no solo «LGTM»).",
+      ],
+    },
+  ],
+};
+
 export const RUBRICAS: Record<string, Rubrica> = {
   [RUBRICA_WEB_MARCA.id]: RUBRICA_WEB_MARCA,
   [RUBRICA_CLI.id]: RUBRICA_CLI,
+  [RUBRICA_STARTUP_ARRANQUE.id]: RUBRICA_STARTUP_ARRANQUE,
 };
 
 /** Valoración de un criterio: nivel elegido (índice en Rubrica.niveles) y comentario opcional. */

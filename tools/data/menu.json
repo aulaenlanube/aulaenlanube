@@ -140,6 +140,10 @@
     "url": "/programacion-ia/"
    },
    {
+    "title": "Seminario de IA para docentes",
+    "url": "/seminario-ia-docentes/"
+   },
+   {
     "title": "Adaptaciones PT",
     "url": "/adaptaciones-pt/"
    },
@@ -170,44 +174,6 @@
     "title": "Semana informática 26",
     "url": "/simarro-semana-informatica-26/",
     "external": true
-   }
-  ]
- },
- {
-  "title": "Seminario IA",
-  "url": "/seminario-ia-docentes/",
-  "children": [
-   {
-    "title": "Portada del seminario",
-    "url": "/seminario-ia-docentes/"
-   },
-   {
-    "title": "Sesión 1 · La IA que ya tienes",
-    "url": "/seminario-ia-docentes/sesion-01/"
-   },
-   {
-    "title": "Sesión 2 · Preparar clases",
-    "url": "/seminario-ia-docentes/sesion-02/"
-   },
-   {
-    "title": "Sesión 3 · Evaluar y corregir",
-    "url": "/seminario-ia-docentes/sesion-03/"
-   },
-   {
-    "title": "Sesión 4 · Planificar y tu asistente",
-    "url": "/seminario-ia-docentes/sesion-04/"
-   },
-   {
-    "title": "Sesión 5 · Tu herramienta",
-    "url": "/seminario-ia-docentes/sesion-05/"
-   },
-   {
-    "title": "Tu herramienta, paso a paso",
-    "url": "/seminario-ia-docentes/tu-herramienta/"
-   },
-   {
-    "title": "Biblioteca de prompts",
-    "url": "/seminario-ia-docentes/prompts/"
    }
   ]
  },

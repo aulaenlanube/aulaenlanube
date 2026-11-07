@@ -17,14 +17,14 @@ const PIEZAS: { titulo: string; lineas: [string, string] }[] = [
   { titulo: "El cuaderno", lineas: ["tus fuentes y", "tus prompts"] },
   { titulo: "Las rúbricas", lineas: ["y un protocolo", "de corrección"] },
   { titulo: "El asistente", lineas: ["tu agente y el", "encargo de la app"] },
-  { titulo: "La herramienta", lineas: ["una web propia", "que funciona sola"] },
+  { titulo: "La herramienta", lineas: ["tu plataforma", "del módulo"] },
 ];
 
 /** `actual`: la sesión que se resalta (sin él, todas en color: la portada). */
 export function HiloSeminario({ actual, uid = "hilo" }: { actual?: number; uid?: string }) {
   const pie =
     actual === 5
-      ? "Hoy, en la sesión 5: juntas todas las piezas en tu propia herramienta."
+      ? "Hoy, en la sesión 5: juntas todas las piezas en la plataforma de tu módulo."
       : actual
         ? `Hoy, en la sesión ${actual}: ${SESIONES[actual - 1].pieza.toLowerCase()}. La sesión 5 junta todas las piezas.`
         : "Cada sesión deja una pieza; en la sesión 5 las juntas en tu propia herramienta.";
@@ -33,7 +33,7 @@ export function HiloSeminario({ actual, uid = "hilo" }: { actual?: number; uid?:
       uid={uid}
       ancho={1060}
       alto={160}
-      etiqueta="El hilo del seminario: la ficha (sesión 1), el cuaderno y los prompts (sesión 2), las rúbricas (sesión 3), el asistente y el encargo (sesión 4) y la herramienta (sesión 5), que junta todo lo anterior."
+      etiqueta="El hilo del seminario: la ficha (sesión 1), el cuaderno y los prompts (sesión 2), las rúbricas (sesión 3), el asistente y el encargo (sesión 4) y la herramienta (sesión 5): la plataforma del módulo, que junta todo lo anterior."
       pie={pie}
     >
       {PIEZAS.map((p, i) => {

@@ -3,30 +3,30 @@ import Link from "@/components/Link";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { Aviso, Bloque, Chip, Codigo, DosColumnas, Lista, Prompt, TONO, Tarjeta, cls } from "@/app/programacion-ia/_video/piezas";
 import { HERRAMIENTAS, RAIZ } from "../_datos";
-import { CarpetaMundo, UnFallo } from "../sesion-05/figuras";
+import { CarpetaMundo, CuentaA01, MapaPlataforma, UnFallo } from "../sesion-05/figuras";
 import { PROMPTS_S5 } from "../sesion-05/prompts";
-import { CADENA } from "./cadena";
-import { AGENTS_MD, ENCARGO, OPENCODE_JSON } from "./ficheros";
-import { CalculoNota, CatalogoMomentos, FpEso, SeisBloques, Versiones } from "./figuras";
+import { CADENA, REPO, VERSIONES_MM } from "./cadena";
+import { OPENCODE_JSON } from "./ficheros";
+import { AGENTS_MM, ENCARGO_MM } from "./plataforma";
+import { CatalogoMomentos } from "./figuras";
 
 export const metadata: Metadata = {
-  title: "Tu herramienta, paso a paso: el cuaderno de evaluación — Seminario de IA para docentes – Aula en la nube",
+  title: "Tu plataforma, paso a paso: Mi módulo — Seminario de IA para docentes – Aula en la nube",
   description:
-    "Ejemplo resuelto del seminario de IA para docentes: un cuaderno de evaluación por criterios (RA y CE en FP, competencias y criterios en ESO y Bachillerato) construido con OpenCode y un modelo gratuito. El encargo, AGENTS.md, opencode.json y la cadena real de ocho mensajes, con lo que falló y cómo se arregló.",
+    "Ejemplo resuelto del seminario de IA para docentes: la plataforma «Mi módulo» (currículo del BOE, unidades, calendario, rúbricas, cuaderno de evaluación, preguntas GIFT para Aules y prompts para Copilot) construida con OpenCode y un modelo gratuito. El encargo, los ficheros de la carpeta y la conversación entera, con cada fallo y cómo se arregló.",
   alternates: { canonical: `${RAIZ}tu-herramienta/` },
 };
 
-const HERRAMIENTA = `${RAIZ}herramientas/cuaderno-evaluacion/`;
+const RUTA = `${RAIZ}herramientas/mi-modulo/`;
 const P = Object.fromEntries(PROMPTS_S5.map((p) => [p.id, p]));
 
-const ADAPTAR = `Adapta el cuaderno a mi caso, sin cambiar cómo calcula:
-- Etapa y materia o módulo: [ETAPA, MATERIA O MÓDULO].
-- Mis bloques: [RA O COMPETENCIAS, CON SU PESO].
-- Mis criterios: [CRITERIOS DE CADA BLOQUE, CON SU PESO].
-- Cambia el ejemplo del botón «Cargar ejemplo» por uno de mi materia, con alumnado ficticio.
-Antes de tocar el fichero, dime en tres líneas qué vas a cambiar.`;
+const ADAPTAR = `Lee AGENTS.md y mira index.html: es una plataforma para preparar un módulo. Adáptala a mi caso, sin cambiar cómo calcula:
+- Mi módulo o materia: [NOMBRE, CURSO Y HORAS].
+- Cambia en AGENTS.md lo que es de Montaje y mantenimiento de equipos por lo mío.
+- Cambia el ejemplo del botón «Cargar ejemplo» por uno de mi módulo, con alumnado inventado.
+Antes de tocar nada, dime en tres líneas qué vas a cambiar.`;
 
-export default function TuHerramienta() {
+export default function TuPlataforma() {
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-6">
       {/* Portada */}
@@ -35,7 +35,7 @@ export default function TuHerramienta() {
           grande
           items={[
             { title: "Seminario de IA para docentes", path: RAIZ },
-            { title: "Tu herramienta", path: `${RAIZ}tu-herramienta/` },
+            { title: "Tu plataforma", path: `${RAIZ}tu-herramienta/` },
           ]}
         />
         <div className="flex flex-wrap items-center gap-2">
@@ -43,37 +43,45 @@ export default function TuHerramienta() {
           <Chip tono="gris">FP y Secundaria</Chip>
         </div>
         <h1 className="mt-3 text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-5xl">
-          Tu herramienta, <span className="text-rose-600 dark:text-rose-400">paso a paso</span>
+          Tu plataforma, <span className="text-rose-600 dark:text-rose-400">paso a paso</span>
         </h1>
         <p className="mt-4 max-w-4xl text-lg leading-relaxed text-zinc-700 dark:text-zinc-300">
-          Esta es la herramienta de ejemplo del seminario, construida de verdad con OpenCode y un modelo gratuito: un{" "}
-          <b>cuaderno de evaluación por criterios</b> que sirve para FP y para ESO y Bachillerato. Aquí tienes el encargo,
-          los dos ficheros de la carpeta y <b>la conversación entera, mensaje a mensaje</b>, con lo que falló al probarla y
-          cómo se arregló. Úsala tal cual o haz la tuya.
+          La plataforma de ejemplo del seminario, construida de verdad con OpenCode y un modelo gratuito: <b>Mi módulo</b>,
+          para preparar y llevar un módulo de FP todo el curso. Aquí tienes el encargo, los ficheros de la carpeta y{" "}
+          <b>la conversación entera, mensaje a mensaje</b>, con cada fallo que encontramos al probarla y cómo se arregló.
+          Úsala tal cual o haz la tuya.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
           <a
-            href={`${HERRAMIENTA}index.html`}
+            href={`${RUTA}index.html`}
             target="_blank"
             rel="noopener noreferrer"
             className="rounded-xl bg-rose-600 px-5 py-3 text-lg font-bold text-white transition hover:bg-rose-700 dark:bg-rose-500 dark:text-slate-950 dark:hover:bg-rose-400"
           >
-            Abrir el cuaderno de evaluación →
+            Abrir Mi módulo →
           </a>
           <a
-            href={`${HERRAMIENTA}index.html`}
-            download="cuaderno-evaluacion.html"
+            href={`${RUTA}index.html`}
+            download="mi-modulo.html"
             className="rounded-xl border border-zinc-300 bg-white px-5 py-3 text-lg font-bold text-zinc-800 transition hover:border-rose-300 dark:border-white/15 dark:bg-slate-900 dark:text-zinc-100"
           >
             Descargar el fichero
           </a>
+          <a
+            href={REPO}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-xl border border-zinc-300 bg-white px-5 py-3 text-lg font-bold text-zinc-800 transition hover:border-rose-300 dark:border-white/15 dark:bg-slate-900 dark:text-zinc-100"
+          >
+            El repositorio en GitHub
+          </a>
         </div>
         <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
           {[
-            ["8 mensajes", "del plan a la versión final"],
+            [`${CADENA.length} mensajes`, "del plan a la versión final"],
             ["Gratis", "GLM-5.3-Flash Free, sin cuenta"],
             ["0 líneas", "escritas a mano"],
-            ["1 fichero", "unos 42 KB, sin internet"],
+            ["1 fichero", "sin internet ni instalación"],
           ].map(([a, b]) => (
             <div key={a} className={`${cls.suave} !p-4`}>
               <p className="text-2xl font-extrabold text-zinc-900 dark:text-zinc-100">{a}</p>
@@ -83,12 +91,20 @@ export default function TuHerramienta() {
         </div>
       </section>
 
-      {/* Catálogo */}
+      {/* Qué hace */}
       <Bloque
-        id="catalogo"
-        etiqueta="Antes de nada"
-        titulo="Elige qué vas a construir"
-        entradilla="Seis ideas que funcionan bien como primera herramienta: resuelven algo que haces cada semana y caben en un solo fichero. La que elegiste en la sesión 4 vale más que cualquiera de estas."
+        id="que-hace"
+        etiqueta="El ejemplo"
+        titulo="Qué hace Mi módulo"
+        entradilla="Todo sale del currículo que pegas una vez. Pulsa «Cargar ejemplo» en Inicio y la verás llena con Montaje y mantenimiento de equipos (1.º de SMR), el calendario 2026-27 y alumnado inventado."
+      >
+        <MapaPlataforma uid="th-mapa" />
+      </Bloque>
+
+      <Bloque
+        titulo="Las cinco herramientas del catálogo, juntas"
+        nivel={3}
+        entradilla="En la sesión 4 elegías una de estas. La plataforma junta las cinco primeras; la de la formación en empresa queda como idea para tu versión."
       >
         <CatalogoMomentos />
       </Bloque>
@@ -96,98 +112,69 @@ export default function TuHerramienta() {
       <Bloque titulo="Las seis, una a una" nivel={3}>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {HERRAMIENTAS.map((h) => (
-            <Tarjeta key={h.id} titulo={h.titulo} tono={h.tono} antetitulo={h.ejemplo ? `${h.para} · el ejemplo` : h.para}>
+            <Tarjeta key={h.id} titulo={h.titulo} tono={h.tono} antetitulo={h.id === "empresa" ? `${h.para} · para tu versión` : `${h.para} · dentro`}>
               {h.hace}
             </Tarjeta>
           ))}
         </div>
       </Bloque>
 
-      {/* Qué hace */}
-      <Bloque
-        id="que-hace"
-        etiqueta="El ejemplo"
-        titulo="Qué hace el cuaderno de evaluación"
-        entradilla="Cinco pestañas, de izquierda a derecha: lo configuras una vez y después solo pones notas."
-      >
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-          <Tarjeta titulo="1. Configuración" tono="azul" suave>
-            Modo FP o ESO/Bachillerato. Bloques (RA o competencias) y criterios, cada uno con su peso. Avisa si no suman 100.
-          </Tarjeta>
-          <Tarjeta titulo="2. Alumnado" tono="azul" suave>
-            Por código (A01, A02…) o por nombre. Un aviso fijo recuerda que los datos solo están en este navegador.
-          </Tarjeta>
-          <Tarjeta titulo="3. Actividades" tono="azul" suave>
-            Cada actividad o instrumento, con las casillas de los criterios que evalúa: uno o varios.
-          </Tarjeta>
-          <Tarjeta titulo="4. Notas" tono="azul" suave>
-            Una tabla alumnado × actividades, de 0 a 10 con coma. Vacía significa «no evaluado», no un cero.
-          </Tarjeta>
-          <Tarjeta titulo="5. Resultados" tono="azul" suave>
-            Nota de cada criterio, de cada bloque y final, con aviso de quién tiene criterios pendientes.
-          </Tarjeta>
-          <Tarjeta titulo="Copia, CSV e imprimir" tono="verde" suave>
-            Copia de seguridad en JSON, notas finales en CSV para tu hoja de cálculo y una versión limpia para imprimir.
-          </Tarjeta>
-        </div>
-      </Bloque>
-
       <Bloque
         titulo="Cómo calcula una nota"
         nivel={3}
-        entradilla="El alumno A01 del botón «Cargar ejemplo»: un examen con un 8 y una práctica con un 6,5."
+        entradilla="Nota de cada CE = media de las actividades que lo evalúan; nota de cada RA = media ponderada de sus CE con nota; nota final = media ponderada de los RA con nota. Lo no evaluado no cuenta y se avisa."
       >
-        <CalculoNota />
+        <CuentaA01 uid="th-cuenta" />
       </Bloque>
 
       {/* El encargo */}
       <Bloque
         id="encargo"
-        etiqueta="Mensaje 1"
-        titulo="El encargo, en seis bloques"
-        entradilla="Es la plantilla de la sesión 5 rellenada. Fíjate en el contexto: dice qué falla hoy y que los datos no pueden salir del ordenador."
+        etiqueta="Antes del primer mensaje"
+        titulo="El encargo, por fases"
+        entradilla="La plantilla de la sesión 4, con una sección más: describe la plataforma entera y pide construirla por partes."
       >
-        <SeisBloques />
+        <Codigo code={ENCARGO_MM} kind="md" etiqueta="encargo.md · parte 1 de 2" rango={[1, 22]} />
       </Bloque>
 
-      <Bloque titulo="Rol, contexto y tarea" nivel={3}>
-        <Codigo code={ENCARGO} kind="md" etiqueta="Encargo real · parte 1 de 2" rango={[1, 13]} />
-      </Bloque>
-
-      <Bloque titulo="Reglas, formato y control" nivel={3}>
-        <Codigo code={ENCARGO} kind="md" etiqueta="Encargo real · parte 2 de 2" rango={[15, 25]} />
+      <Bloque titulo="Pantallas, reglas, límites y pruebas" nivel={3}>
+        <Codigo code={ENCARGO_MM} kind="md" etiqueta="encargo.md · parte 2 de 2" rango={[24, 54]} />
       </Bloque>
 
       {/* Los ficheros */}
       <Bloque
         id="ficheros"
         etiqueta="La carpeta"
-        titulo="Los dos ficheros de la carpeta"
+        titulo="Los ficheros de la carpeta"
         entradilla={
           <>
-            Antes del primer mensaje, la carpeta <code className={cls.codigo}>cuaderno-evaluacion</code> solo tenía estos dos
-            ficheros. Descárgalos y cambia lo que sea tuyo.
+            Antes del primer mensaje, la carpeta <code className={cls.codigo}>mi-modulo</code> tenía AGENTS.md, opencode.json,
+            el encargo y dos ficheros para probar: el currículo copiado del BOE y el calendario escolar del DOGV.
           </>
         }
       >
         <CarpetaMundo uid="th-carpeta" />
         <p className={`mt-4 ${cls.texto}`}>
-          <a href={`${HERRAMIENTA}AGENTS.md`} download className={cls.enlace}>
+          <a href={`${RUTA}AGENTS.md`} download className={cls.enlace}>
             Descargar AGENTS.md
           </a>{" "}
           ·{" "}
-          <a href={`${HERRAMIENTA}opencode.json`} download className={cls.enlace}>
+          <a href={`${RUTA}opencode.json`} download className={cls.enlace}>
             Descargar opencode.json
+          </a>{" "}
+          ·{" "}
+          <a href={`${RUTA}encargo.md`} download className={cls.enlace}>
+            Descargar encargo.md
           </a>
         </p>
       </Bloque>
 
       <Bloque titulo="AGENTS.md: qué es y quién la usa" nivel={3}>
-        <Codigo code={AGENTS_MD} kind="md" etiqueta="AGENTS.md · parte 1 de 2" rango={[1, 11]} />
+        <Codigo code={AGENTS_MM} kind="md" etiqueta="AGENTS.md · parte 1 de 2" rango={[1, 10]} />
       </Bloque>
 
       <Bloque titulo="AGENTS.md: lo que no se rompe" nivel={3}>
-        <Codigo code={AGENTS_MD} kind="md" etiqueta="AGENTS.md · parte 2 de 2" rango={[13, 25]} />
+        <Codigo code={AGENTS_MM} kind="md" etiqueta="AGENTS.md · parte 2 de 2" rango={[12, 24]} />
       </Bloque>
 
       <Bloque titulo="opencode.json: los permisos" nivel={3}>
@@ -199,9 +186,19 @@ export default function TuHerramienta() {
         id="cadena"
         etiqueta="La conversación"
         titulo="La cadena real, mensaje a mensaje"
-        entradilla="Ocho mensajes. Después de cada versión la probamos con datos conocidos y con las pruebas del alumno trasto; cada fallo, un mensaje."
+        entradilla={`${CADENA.length} mensajes. Después de cada versión la probamos con datos conocidos, con las pruebas del alumno trasto, con la consola abierta y con la calculadora; cada fallo, un mensaje.`}
       >
-        <Versiones />
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+          {VERSIONES_MM.map((v) => (
+            <div key={v.v} className={`${cls.suave} !p-4`}>
+              <p className="text-lg font-bold text-zinc-900 dark:text-zinc-100">
+                <span className={`mr-2 font-mono ${TONO[v.tono].texto}`}>{v.v}</span>
+                {v.que}
+              </p>
+              <p className={cls.tenue}>{v.detalle}</p>
+            </div>
+          ))}
+        </div>
       </Bloque>
 
       {CADENA.map((m) => (
@@ -219,33 +216,29 @@ export default function TuHerramienta() {
             </span>
           }
         >
-          {m.n === 1 ? (
-            <p className={cls.texto}>
-              El mensaje: una frase pidiendo el plan y, debajo, el encargo entero de arriba.
-            </p>
-          ) : (
-            <Prompt text={m.texto} etiqueta={`Mensaje ${m.n}, literal`} />
-          )}
+          <Prompt text={m.texto} etiqueta={`Mensaje ${m.n}, literal`} />
           <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
-            <Tarjeta titulo={m.version === "plan" ? "Lo que propuso el plan" : `Lo que hizo en la ${m.version}`} tono="azul" nivel={4}>
+            <Tarjeta titulo={m.version === "plan" ? "Lo que propuso el plan" : "Lo que hizo el agente"} tono="azul" nivel={4}>
               {m.paso}
             </Tarjeta>
-            <Tarjeta titulo={m.version === "plan" ? "Lo que leímos del plan" : `Lo que probamos de la ${m.version}`} tono="verde" nivel={4}>
+            <Tarjeta titulo={m.version === "plan" ? "Lo que leímos del plan" : "Lo que probamos después"} tono="verde" nivel={4}>
               {m.probamos}
             </Tarjeta>
           </div>
         </Bloque>
       ))}
 
-      <Aviso titulo="Lo que se hizo sin pantalla, contado" tono="ambar">
+      <Aviso titulo="Cómo se hizo, con total transparencia" tono="ambar">
         <p>
-          Los mensajes 1 y 2 se enviaron desde un script, sin la interfaz: con una copia de las reglas que permitía editar
-          dentro de la carpeta y prohibía las órdenes de terminal y la web. Del 3 al 8 se usó la interfaz web de OpenCode, y
-          cada cambio se aprobó con <b>Permitir una vez</b>.
+          Todo en la interfaz de OpenCode 2.2.5 (la misma de la app de escritorio), con el modelo gratuito GLM-5.3-Flash
+          Free y una carpeta aislada. Cada cambio en <code className={cls.codigo}>index.html</code> se aprobó con{" "}
+          <b>Permitir una vez</b>; las órdenes que pidió ejecutar se leyeron antes de aprobarlas (una se denegó, y lo
+          contamos en el mensaje 3).
         </p>
         <p>
-          <b>Ninguna línea de la herramienta se escribió a mano.</b> Las respuestas del agente tenían alguna errata («lo
-          arrreglo»), y una vez prometió algo que no hacía: por eso cada versión se prueba antes de pedir la siguiente.
+          <b>Ninguna línea de la plataforma se escribió a mano.</b> El agente se equivocó y lo dijo varias veces; otras dijo
+          «arreglado» y no lo estaba. Por eso cada versión se probó antes de pedir la siguiente, y cada una está guardada en
+          el repositorio.
         </p>
       </Aviso>
 
@@ -253,31 +246,27 @@ export default function TuHerramienta() {
       <Bloque
         id="adaptar"
         etiqueta="Hazla tuya"
-        titulo="Adáptala a tu materia o módulo"
-        entradilla="No hace falta tocar el código: el modo FP o ESO cambia los rótulos y tus bloques y criterios se escriben en Configuración. Si quieres que venga ya preparada, pídeselo al agente."
+        titulo="Adáptala a tu módulo o materia"
+        entradilla="No hace falta tocar el código: pegas tu currículo en Currículo y pones tus unidades y tu calendario. Si quieres que venga preparada para ti, pídeselo al agente."
       >
-        <FpEso />
-      </Bloque>
-
-      <Bloque titulo="FP o Secundaria: qué escribes" nivel={3}>
         <DosColumnas
           centro="o"
           a={{
             titulo: "En FP",
             tono: "azul",
             puntos: [
-              "Bloques = los RA de tu módulo, con el peso de tu programación.",
-              "Criterios = los CE de cada RA, con su peso dentro del RA.",
-              "Actividades = prácticas, pruebas, proyectos y la formación en empresa si la evalúas tú.",
+              "Pegas los RA y CE de tu módulo tal cual del BOE.",
+              "Pones el peso de cada RA según tu programación.",
+              "Unidades, calendario, rúbricas y preguntas, con tus horas y tus CE.",
             ],
           }}
           b={{
             titulo: "En ESO o Bachillerato",
             tono: "verde",
             puntos: [
-              "Bloques = las competencias específicas de tu materia, con su peso.",
-              "Criterios = los criterios de evaluación de cada competencia.",
-              "Actividades = situaciones de aprendizaje, pruebas, cuaderno, exposiciones…",
+              "Competencias específicas en lugar de RA; criterios en lugar de CE.",
+              "Pegas los criterios de tu materia (1.1, 1.2…) del currículo.",
+              "Situaciones de aprendizaje en lugar de unidades de trabajo.",
             ],
           }}
         />
@@ -297,21 +286,23 @@ export default function TuHerramienta() {
         <UnFallo uid="th-fallo" />
       </Bloque>
 
-      <Bloque titulo="Las dos peticiones que más usarás" nivel={3}>
+      <Bloque titulo="Las peticiones que más usarás" nivel={3}>
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
           <Prompt text={P["s5-un-fallo"].texto} etiqueta="Prompt · un fallo" />
-          <Prompt text={P["s5-mejora"].texto} etiqueta="Prompt · una mejora" />
+          <Prompt text={P["s5-consola"].texto} etiqueta="Prompt · el error de la consola" />
+          <Prompt text={P["s5-calculadora"].texto} etiqueta="Prompt · la cuenta no cuadra" />
+          <Prompt text={P["s5-mejora"].texto} etiqueta="Prompt · una pantalla nueva" />
         </div>
       </Bloque>
 
-      <Bloque titulo="Ideas para la versión 8" nivel={3}>
+      <Bloque titulo="Ideas para tu versión" nivel={3}>
         <Lista
           className={cls.texto}
           items={[
+            "La formación en empresa: empresas, alumnado, visitas y el plan formativo.",
             "Pegar la lista de clase desde una hoja de cálculo, en vez de escribirla.",
-            "Una columna de recuperación que sustituya la nota de un criterio.",
-            "Una evaluación (1.ª, 2.ª, 3.ª) por pestaña, con la nota final de curso.",
-            "Un informe por alumno para imprimir, con sus criterios pendientes.",
+            "Una columna de recuperación que sustituya la nota de un CE.",
+            "Un informe por alumno para imprimir, con sus CE pendientes.",
           ]}
         />
       </Bloque>
@@ -323,7 +314,7 @@ export default function TuHerramienta() {
           className="rounded-2xl border border-zinc-200 bg-white p-5 transition hover:border-blue-300 dark:border-white/10 dark:bg-slate-900 dark:hover:border-blue-500/50"
         >
           <span className="block text-base font-semibold text-zinc-600 dark:text-zinc-400">← Volver</span>
-          <span className="mt-1 block text-xl font-bold text-zinc-900 dark:text-zinc-100">Sesión 5 · Tu herramienta desde cero</span>
+          <span className="mt-1 block text-xl font-bold text-zinc-900 dark:text-zinc-100">Sesión 5 · Tu plataforma del módulo</span>
         </Link>
         <Link
           href={RAIZ}

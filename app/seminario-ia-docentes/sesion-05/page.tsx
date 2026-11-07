@@ -18,42 +18,64 @@ import {
 } from "@/app/programacion-ia/_video/piezas";
 import { RAIZ } from "../_datos";
 import { CabeceraSesion, EnEstaSesion, Fuente, LoQueTeLlevas, NavSesiones, ParaAmpliar, Tarea, VideoResumen } from "../_ui";
-import { AGENTS_MD, OPENCODE_JSON, P_NOTAS } from "../tu-herramienta/ficheros";
+import { OPENCODE_JSON } from "../tu-herramienta/ficheros";
+import { AGENTS_MM, ENCARGO_MM } from "../tu-herramienta/plataforma";
+import { CADENA, REPO, VERSIONES_MM } from "../tu-herramienta/cadena";
 import {
   BucleDocente,
   CarpetaMundo,
   CuandoSeLee,
+  CuentaA01,
   DondeVive,
   HerramientaViaja,
+  MapaPlataforma,
+  PiezasEnUna,
   PlanBSinInstalar,
   PlanBuild,
   TresCaminos,
+  TresComprobaciones,
   TresReglas,
   UnFallo,
 } from "./figuras";
 import { PROMPTS_S5 } from "./prompts";
 
 export const metadata: Metadata = {
-  title: "Sesión 5 · Tu herramienta desde cero con OpenCode — Seminario de IA para docentes – Aula en la nube",
+  title: "Sesión 5 · Tu plataforma del módulo con un agente de IA — Seminario de IA para docentes – Aula en la nube",
   description:
-    "Laboratorio para docentes de FP y Secundaria: instala OpenCode, un agente de IA gratuito y de código abierto, y convierte tu encargo en una herramienta web de un solo fichero que funciona sin internet. Carpeta, modelo, AGENTS.md, permisos, plan y construcción, pruebas, deshacer y compartir. Con plan B sin instalar nada.",
+    "Laboratorio para docentes de FP y Secundaria: un agente de IA gratuito (OpenCode) construye, sin que escribas código, la plataforma de tu módulo: currículo del BOE, unidades, calendario con festivos, rúbricas, cuaderno de evaluación, preguntas GIFT para Aules y prompts para Copilot. Con la conversación real, sus fallos y el repositorio público.",
   alternates: { canonical: `${RAIZ}sesion-05/` },
 };
 
 const P = Object.fromEntries(PROMPTS_S5.map((p) => [p.id, p]));
-const RUTA_HERRAMIENTA = `${RAIZ}herramientas/cuaderno-evaluacion/`;
+const RUTA = `${RAIZ}herramientas/mi-modulo/`;
+const M = Object.fromEntries(CADENA.map((m) => [m.clave, m]));
 
 const INDICE: [string, string][] = [
+  ["destino", "Lo que vas a construir"],
   ["agente", "De un chat a un agente"],
   ["instalar", "Instalar la app"],
   ["carpeta", "Tu carpeta"],
   ["modelo", "Elegir el modelo"],
   ["memoria", "AGENTS.md: la memoria"],
   ["reglas", "Las tres reglas"],
+  ["encargo", "El encargo, por fases"],
   ["plan", "Plan y construcción"],
   ["probar", "Probar y corregir"],
+  ["crecer", "Crecer pieza a pieza"],
+  ["versiones", "Versiones y repositorio"],
   ["compartir", "Compartirla"],
   ["plan-b", "Plan B sin instalar"],
+];
+
+const PANTALLAS: [string, string, keyof typeof TONO][] = [
+  ["Inicio", "El estado del módulo y los avisos de todo.", "gris"],
+  ["Currículo", "Pegas el BOE: RA y CE literales, con sus pesos.", "rosa"],
+  ["Unidades", "Horas y CE de cada una, y la cobertura.", "azul"],
+  ["Calendario", "Festivos reales y las fechas de cada unidad.", "azul"],
+  ["Rúbricas", "Un CE, cuatro niveles, para imprimir.", "verde"],
+  ["Cuaderno", "Notas, corrección con rúbrica y nota final.", "verde"],
+  ["Preguntas", "Banco por CE y fichero GIFT para Aules.", "ambar"],
+  ["Prompts", "Encargos para Copilot con tus datos dentro.", "morado"],
 ];
 
 export default function Sesion5() {
@@ -62,6 +84,58 @@ export default function Sesion5() {
       <CabeceraSesion n={5} />
       <VideoResumen n={5} />
       <EnEstaSesion items={INDICE} tono="rosa" />
+
+      {/* ═══ 0 · El destino ═══════════════════════════════════════════════ */}
+      <Bloque
+        id="destino"
+        etiqueta="Lo que vas a construir"
+        titulo="Tu plataforma del módulo"
+        entradilla={
+          <>
+            Empieza por el final: esta es la plataforma que un agente de IA construye hoy, <b>sin que escribas código</b>.
+            Un solo fichero que funciona sin internet, guarda los datos en tu navegador y junta todo lo que preparas cada
+            curso. La de ejemplo es de <b>Montaje y mantenimiento de equipos</b> (1.º de SMR); la tuya, de tu módulo.
+          </>
+        }
+      >
+        <MapaPlataforma />
+        <div className="sem-solo-web mt-6 flex flex-wrap gap-3">
+          <a
+            href={`${RUTA}index.html`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-xl bg-rose-600 px-5 py-3 text-lg font-bold text-white transition hover:bg-rose-700 dark:bg-rose-500 dark:text-slate-950 dark:hover:bg-rose-400"
+          >
+            Abrir la plataforma →
+          </a>
+          <a
+            href={REPO}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-xl border border-zinc-300 bg-white px-5 py-3 text-lg font-bold text-zinc-800 transition hover:border-rose-300 dark:border-white/15 dark:bg-slate-900 dark:text-zinc-100"
+          >
+            Ver el repositorio
+          </a>
+        </div>
+      </Bloque>
+
+      <Bloque titulo="Ocho pantallas, un solo fichero" nivel={3}>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {PANTALLAS.map(([t, d, tono]) => (
+            <Tarjeta key={t} titulo={t} tono={tono} suave>
+              {d}
+            </Tarjeta>
+          ))}
+        </div>
+      </Bloque>
+
+      <Bloque
+        titulo="Las cinco piezas, en una"
+        nivel={3}
+        entradilla="En la sesión 4 elegías una herramienta del catálogo. Hoy no eliges: el cuaderno, el planificador, las rúbricas, el banco de preguntas y los prompts van juntos. Y cada pieza del seminario encuentra su sitio."
+      >
+        <PiezasEnUna />
+      </Bloque>
 
       {/* ═══ 1 · De un chat a un agente ═══════════════════════════════════ */}
       <Bloque
@@ -113,7 +187,7 @@ export default function Sesion5() {
             Licencia MIT: cualquiera puede leer cómo funciona por dentro.
           </Tarjeta>
           <Tarjeta titulo="Tus ficheros, en casa" tono="ambar" suave>
-            La herramienta que construye vive en tu carpeta, no en la web de nadie.
+            Lo que construye vive en tu carpeta, no en la web de nadie.
           </Tarjeta>
           <Tarjeta titulo="El mismo concepto" tono="morado" suave>
             El modo agente de Copilot y otros agentes funcionan igual: lo que aprendes aquí te sirve allí.
@@ -123,9 +197,9 @@ export default function Sesion5() {
 
       <Aviso titulo="Lo que sigue siendo tuyo" tono="rosa">
         <p>
-          El agente escribe el código, pero <b>la herramienta es tuya</b>: tú decides qué hace, tú lees cada permiso antes
-          de aceptarlo y tú la pruebas antes de fiarte de un solo número. Si calcula mal una nota y no lo compruebas, el
-          error no es de la IA: es de quien la usó sin mirar.
+          El agente escribe el código, pero <b>la plataforma es tuya</b>: tú decides qué hace, tú lees cada permiso antes de
+          aceptarlo y tú la pruebas antes de fiarte de un solo número. Si calcula mal una nota y no lo compruebas, el error
+          no es de la IA: es de quien la usó sin mirar.
         </p>
       </Aviso>
 
@@ -157,12 +231,12 @@ export default function Sesion5() {
           <a href="#plan-b" className={cls.enlace}>
             plan B
           </a>{" "}
-          y harás tu herramienta con Copilot Chat, sin instalar nada.
+          y harás tu plataforma con Copilot Chat, sin instalar nada.
         </p>
         <Fuente id="opencode">Descarga oficial</Fuente>
         <p className={`mt-2 ${cls.tenue}`}>
-          Los nombres de botones de esta sesión se comprobaron en la interfaz web de OpenCode 2.2.5, en castellano. Si tu
-          app los muestra en inglés o en otro sitio, busca la misma palabra.
+          Las capturas y los nombres de botones de esta sesión son de OpenCode 2.2.5 en castellano (la interfaz de la app
+          de escritorio). Si tu versión los muestra en inglés o en otro sitio, busca la misma palabra.
         </p>
       </Paso>
 
@@ -177,19 +251,22 @@ export default function Sesion5() {
         titulo="Crea tu carpeta y ábrela"
         entradilla={
           <>
-            El agente trabaja <b>dentro de una carpeta</b>. Créala vacía, solo para tu herramienta, por ejemplo en
-            Documentos. Después, en OpenCode: <b>Añadir proyecto</b>, se abre la ventana <b>Abrir proyecto</b>, buscas tu
-            carpeta y pulsas <b>Seleccionar carpeta</b>.
+            El agente trabaja <b>dentro de una carpeta</b>. Créala solo para tu plataforma, por ejemplo en Documentos. En
+            OpenCode: <b>Añadir proyecto</b>, buscas tu carpeta en la ventana <b>Abrir proyecto</b> y pulsas{" "}
+            <b>Seleccionar carpeta</b>.
           </>
         }
         junto={
           <Arbol
             titulo="Tu carpeta, al acabar la sesión"
-            raiz="cuaderno-evaluacion"
+            raiz="mi-modulo"
             nodos={[
               { nombre: "AGENTS.md", nivel: 0, nota: "la memoria (paso 4)" },
               { nombre: "opencode.json", nivel: 0, nota: "las reglas (paso 5)" },
-              { nombre: "index.html", nivel: 0, nota: "tu herramienta: la escribe el agente", tono: "rosa" },
+              { nombre: "encargo.md", nivel: 0, nota: "tu encargo (paso 6)" },
+              { nombre: "curriculo-montaje.txt", nivel: 0, nota: "el BOE, para probar" },
+              { nombre: "calendario-2026-27.txt", nivel: 0, nota: "el DOGV, para probar" },
+              { nombre: "index.html", nivel: 0, nota: "tu plataforma: la escribe el agente", tono: "rosa" },
             ]}
             tono="verde"
           />
@@ -198,9 +275,10 @@ export default function Sesion5() {
         <Lista
           className={cls.texto}
           items={[
-            <>Un nombre corto y sin espacios ni tildes: <C>cuaderno-evaluacion</C>, <C>banco-preguntas</C>…</>,
-            <>Nada más dentro: ni apuntes, ni listas de clase, ni fotos. Lo que haya en la carpeta, el agente lo puede leer.</>,
-            <>Una carpeta por herramienta. Si mañana haces otra, otra carpeta.</>,
+            <>Un nombre corto, sin espacios ni tildes: <C>mi-modulo</C>, <C>tecnologia-3eso</C>…</>,
+            <>Tus tres ficheros: AGENTS.md, opencode.json y el encargo de la sesión 4.</>,
+            <>Y dos que valen oro: el currículo copiado del BOE y el calendario escolar oficial, para que el agente pruebe con datos reales.</>,
+            <>Nada personal dentro: ni listas de clase ni notas reales. Lo que haya en la carpeta, el agente lo puede leer.</>,
           ]}
         />
       </Paso>
@@ -224,19 +302,19 @@ export default function Sesion5() {
       >
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           <Tarjeta titulo="Elige GLM o DeepSeek" tono="verde" antetitulo="Gratis, sin cuenta">
-            <b>GLM-5.3-Flash Free</b> y <b>DeepSeek V4.1 Flash Free</b> son los únicos gratuitos que declaran no guardar
-            lo que les escribes. La herramienta de ejemplo se hizo con GLM.
+            <b>GLM-5.3-Flash</b> y <b>DeepSeek V4.1 Flash</b> son los únicos gratuitos que declaran no guardar lo que les
+            escribes ni usarlo para entrenar. La plataforma de ejemplo se hizo entera con GLM.
           </Tarjeta>
           <Tarjeta titulo="Ojo con el que viene marcado" tono="ambar" antetitulo="Letra pequeña">
-            El que sale como <b>Predeterminado</b> puede no ser el que quieres. Big Pickle, Flint y MiMo pueden usar lo que
-            escribes para mejorar su modelo, y los Nemotron registran el uso.
+            El que sale marcado de serie, <b>Big Pickle</b>, puede usar lo que escribes para mejorar su modelo, como
+            Iceman, Flint y MiMo. Beam y Crouton lo guardan 30 días, y los Nemotron registran el uso.
           </Tarjeta>
           <Tarjeta titulo="GitHub Copilot" tono="azul" antetitulo="Si eres docente verificado">
             Con GitHub Education tienes Copilot Pro gratis (1.500 créditos al mes). En OpenCode: <b>Conectar proveedor</b>{" "}
             (o <C>/connect</C>), GitHub Copilot y «Login with GitHub Copilot».
           </Tarjeta>
         </div>
-        <Fuente id="githubDocentes">GitHub para docentes</Fuente>
+        <Fuente id="opencodeZen">Privacidad de cada modelo gratuito</Fuente>
       </Paso>
 
       <Bloque titulo="Tres caminos para el modelo" nivel={3}>
@@ -260,24 +338,24 @@ export default function Sesion5() {
           className={cls.texto}
           items={[
             <>Corto y concreto: se lee siempre, así que cada línea cuenta.</>,
-            <>Las reglas que no se rompen: un solo fichero, sin internet, datos solo en el navegador.</>,
-            <>Cada vez que el agente repita un error, una línea más.</>,
+            <>Las reglas que no se rompen: un solo fichero, sin internet, datos solo en el navegador, alumnado por código.</>,
+            <>Una regla para una plataforma que crece: <b>los datos de una versión anterior se siguen leyendo</b>.</>,
           ]}
         />
         <p className={`mt-4 ${cls.texto}`}>
-          <a href={`${RUTA_HERRAMIENTA}AGENTS.md`} download className={cls.enlace}>
+          <a href={`${RUTA}AGENTS.md`} download className={cls.enlace}>
             Descarga este AGENTS.md
           </a>{" "}
           y adáptalo, o pídeselo a Copilot con tu ficha (el prompt de abajo).
         </p>
       </Paso>
 
-      <Bloque titulo="Quién la usa y qué es: AGENTS.md" nivel={3}>
-        <Codigo code={AGENTS_MD} kind="md" etiqueta="cuaderno-evaluacion/AGENTS.md · parte 1 de 2" rango={[1, 11]} />
+      <Bloque titulo="Qué es y quién la usa: AGENTS.md" nivel={3}>
+        <Codigo code={AGENTS_MM} kind="md" etiqueta="mi-modulo/AGENTS.md · parte 1 de 2" rango={[1, 10]} />
       </Bloque>
 
       <Bloque titulo="Reglas y forma de trabajar: AGENTS.md" nivel={3}>
-        <Codigo code={AGENTS_MD} kind="md" etiqueta="cuaderno-evaluacion/AGENTS.md · parte 2 de 2" rango={[13, 25]} />
+        <Codigo code={AGENTS_MM} kind="md" etiqueta="mi-modulo/AGENTS.md · parte 2 de 2" rango={[12, 24]} />
       </Bloque>
 
       <Bloque titulo="Tu AGENTS.md, a partir de tu ficha" nivel={3}>
@@ -320,7 +398,7 @@ export default function Sesion5() {
           </Regla>
         </ul>
         <p className={`mt-4 ${cls.texto}`}>
-          <a href={`${RUTA_HERRAMIENTA}opencode.json`} download className={cls.enlace}>
+          <a href={`${RUTA}opencode.json`} download className={cls.enlace}>
             Descarga este opencode.json
           </a>
           . El bloque final, <C>agents</C>, impide que el agente Plan escriba: solo piensa.
@@ -328,40 +406,107 @@ export default function Sesion5() {
       </Paso>
 
       <Bloque titulo="El opencode.json, entero" nivel={3}>
-        <Codigo code={OPENCODE_JSON} kind="json" etiqueta="cuaderno-evaluacion/opencode.json" ajustar={false} />
+        <Codigo code={OPENCODE_JSON} kind="json" etiqueta="mi-modulo/opencode.json" ajustar={false} />
       </Bloque>
 
       <Bloque titulo="Qué pasa cuando quiere actuar" nivel={3}>
         <TresReglas />
       </Bloque>
 
+      <Bloque
+        titulo="Dos ajustes antes de empezar"
+        nivel={3}
+        entradilla="En Ajustes › Preferencias, una vez y para siempre."
+      >
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <Tarjeta titulo="Mostrar agente: encendido" tono="verde">
+            Aparece el selector <b>Elegir agente</b> junto al del modelo: así puedes pasar de <b>Plan</b>, que piensa, a{" "}
+            <b>Build</b>, que construye.
+          </Tarjeta>
+          <Tarjeta titulo="Aceptar permisos automáticamente: apagado" tono="rosa">
+            Si lo enciendes, el agente cambia tus ficheros sin preguntarte. Déjalo apagado: cada permiso es tu ocasión de
+            ver qué toca.
+          </Tarjeta>
+        </div>
+      </Bloque>
+
       <Aviso titulo="Permitir una vez, no permitir siempre" tono="rosa">
         <p>
           Cuando quiera cambiar <C>index.html</C>, verás <b>Permiso requerido</b> con tres botones: <b>Denegar</b>,{" "}
-          <b>Permitir siempre</b> y <b>Permitir una vez</b>. Usa <b>Permitir una vez</b>: es tu ocasión de ver qué toca.
-          En Ajustes hay un interruptor, <b>Aceptar permisos automáticamente</b>: déjalo apagado.
+          <b>Permitir siempre</b> y <b>Permitir una vez</b>. Usa <b>Permitir una vez</b> y mira qué fichero toca.
         </p>
         <p className="text-base">
-          Con total transparencia: la primera versión del ejemplo se construyó sin pantalla, desde un script, con una copia
-          de estas reglas que permitía editar y prohibía las órdenes de terminal. Todas las mejoras posteriores se hicieron
-          en la interfaz, aprobando cada cambio con «Permitir una vez».
+          A veces pide <b>ejecutar una orden</b> (empieza por <C>node</C>, <C>sed</C>…) para comprobar su trabajo. Si no la
+          entiendes, pulsa <b>Denegar</b>: el agente se para. Pregúntale qué quería comprobar: en la plataforma de ejemplo
+          lo explicó en lenguaje llano (solo leía el fichero para buscar errores) y entonces se le dio permiso.
         </p>
       </Aviso>
 
-      {/* ═══ 7 · Plan y construcción ══════════════════════════════════════ */}
+      <Bloque titulo="Si deniegas una orden, pregunta" nivel={3}>
+        <Prompt text={P["s5-orden"].texto} etiqueta={`Prompt · ${P["s5-orden"].donde}`} />
+      </Bloque>
+
+      {/* ═══ 7 · El encargo ═══════════════════════════════════════════════ */}
       <Paso
-        id="plan"
+        id="encargo"
         n={6}
-        titulo="Pide primero el plan"
+        titulo="Escribe el encargo, por fases"
         entradilla={
           <>
-            OpenCode trae dos agentes: <b>Plan</b>, que piensa y no toca ficheros, y <b>Build</b>, que construye. Para
-            verlos, activa en <b>Ajustes</b> la opción <b>Mostrar agente</b>: aparece el selector <b>Elegir agente</b>{" "}
-            junto al del modelo. Elige Plan y pega tu encargo de la sesión 4.
+            El encargo de la sesión 4, con la misma plantilla, y una sección más al final: <b>Por fases</b>. Describes la
+            plataforma entera, para que el agente prepare los datos pensando en todo, pero le pides que construya primero la
+            base y espere a que la pruebes. Después, <b>una pantalla por mensaje</b>.
           </>
         }
       >
-        <Prompt text={P["s5-plan"].texto} etiqueta={`Prompt · ${P["s5-plan"].donde}`} />
+        <Codigo code={ENCARGO_MM} kind="md" etiqueta="mi-modulo/encargo.md · parte 1 de 2" rango={[1, 22]} />
+      </Paso>
+
+      <Bloque titulo="Pantallas, reglas y lo que no hace" nivel={3}>
+        <Codigo code={ENCARGO_MM} kind="md" etiqueta="mi-modulo/encargo.md · parte 2 de 2" rango={[24, 54]} />
+      </Bloque>
+
+      <Bloque
+        titulo="Cómo sabré que funciona"
+        nivel={3}
+        entradilla="La parte del encargo que más vale: pruebas con números que tú puedes comprobar. Las cuatro salen de fallos reales de las sesiones anteriores."
+      >
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <Tarjeta titulo="Los 8 RA, sin perder ni uno" tono="rosa" suave>
+            Pegas el currículo del BOE y salen los 8 RA con sus 60 CE. Una IA que resume se come criterios (sesión 2).
+          </Tarjeta>
+          <Tarjeta titulo="Un festivo en martes" tono="azul" suave>
+            Descuenta ese día y no la semana entera: el fallo de la temporalización de Copilot (sesión 4).
+          </Tarjeta>
+          <Tarjeta titulo="La nota, con calculadora" tono="verde" suave>
+            Dos alumnos inventados: la nota de cada CE, de cada RA y la final, igual que a mano.
+          </Tarjeta>
+          <Tarjeta titulo="El GIFT bien escrito" tono="ambar" suave>
+            El verdadero o falso, con <C>{"{T}"}</C> o <C>{"{F}"}</C>: Copilot lo escribió mal en la sesión 2.
+          </Tarjeta>
+        </div>
+        <p className={`mt-4 ${cls.texto}`}>
+          <a href={`${RUTA}encargo.md`} download className={cls.enlace}>
+            Descarga este encargo
+          </a>{" "}
+          o empieza por la plantilla:
+        </p>
+        <Prompt text={P["s5-encargo"].texto} etiqueta={`Plantilla · ${P["s5-encargo"].donde}`} />
+      </Bloque>
+
+      {/* ═══ 8 · Plan y construcción ══════════════════════════════════════ */}
+      <Paso
+        id="plan"
+        n={7}
+        titulo="Pide primero el plan"
+        entradilla={
+          <>
+            OpenCode trae dos agentes: <b>Plan</b>, que piensa y no toca ficheros, y <b>Build</b>, que construye. Elige Plan
+            en el selector <b>Elegir agente</b> y escríbele este primer mensaje, el real.
+          </>
+        }
+      >
+        <Prompt text={M.plan.texto} etiqueta="Mensaje 1 · OpenCode (Plan)" />
       </Paso>
 
       <Bloque titulo="Plan, revisas, Build, pruebas" nivel={3}>
@@ -369,62 +514,60 @@ export default function Sesion5() {
       </Bloque>
 
       <Bloque
-        titulo="Lo que hizo el plan con el cuaderno"
+        titulo="Lo que hizo el plan, en 22 segundos"
         nivel={3}
-        entradilla="El plan real del ejemplo, en 34 segundos: pantallas, cómo guardar los datos y cómo calcular. Y lo más útil: sus dudas."
+        entradilla="Leyó los tres ficheros y propuso la fase 1. Lo más útil, como siempre: sus dudas."
       >
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <Tarjeta titulo="Lo que propuso" tono="morado">
             <Lista
               items={[
-                "Cinco pestañas: Configuración, Alumnado, Actividades, Notas y Resultados.",
-                "Todo en el navegador, bajo una sola clave, y guardado a cada cambio.",
-                "Medias ponderadas que ignoran lo no evaluado, con avisos.",
+                "Tres pantallas: Inicio, Currículo y Unidades.",
+                "Un solo objeto de datos con sitio ya reservado para las fases siguientes.",
+                "Leer el BOE línea a línea: «1.» es un RA, «a)» es un CE, y fuera títulos y «Duración».",
               ]}
             />
           </Tarjeta>
           <Tarjeta titulo="Lo que preguntó" tono="ambar">
             <Lista
               items={[
-                "Si los pesos no suman 100, ¿avisar o bloquear?",
-                "Al cambiar de modo FP / ESO, ¿borrar los datos?",
-                "Una casilla vacía, ¿es un cero o «no evaluado»?",
+                "¿Pesos a cero o repartidos a partes iguales?",
+                "Si las horas no suman 224, ¿avisar o bloquear?",
+                "¿Qué avisos quieres en Inicio?",
+                "Al importar una copia, ¿enseñar antes qué trae?",
               ]}
             />
           </Tarjeta>
         </div>
         <p className={`mt-4 ${cls.texto}`}>
-          La segunda duda importaba: proponía <b>borrar todo al cambiar de modo</b>. Se lo corregimos en la respuesta. Por
-          eso el plan va antes: lo que decides ahí no hay que arreglarlo después.
+          Un detalle: en el plan contó «59…» criterios. El currículo tiene 60. Una cifra que da la IA, la compruebas tú: al
+          construir, contó bien.
         </p>
       </Bloque>
 
       <Paso
         id="construir"
-        n={7}
+        n={8}
         titulo="Da luz verde a Build"
         entradilla={
           <>
             Cambia a <b>Build</b> y contesta sus dudas en el mismo mensaje en que le das permiso para empezar. Con cada
-            cambio te pedirá permiso: <b>Permitir una vez</b>, y mira qué fichero toca.
+            cambio te pedirá permiso: <b>Permitir una vez</b>.
           </>
         }
       >
-        <Prompt text={P["s5-adelante"].texto} etiqueta={`Prompt · ${P["s5-adelante"].donde}`} />
+        <Prompt text={M.adelante.texto} etiqueta="Mensaje 2 · OpenCode (Build)" />
         <p className={`mt-4 ${cls.texto}`}>
-          En el ejemplo, este mensaje produjo la primera versión completa: un <C>index.html</C> de unos 35 KB con las cinco
-          pestañas, los cálculos, la copia en JSON, el CSV y la impresión.{" "}
-          <Link href={`${RAIZ}tu-herramienta/`} className={cls.enlace}>
-            La cadena completa, mensaje a mensaje
-          </Link>
-          .
+          Seis minutos y doce cambios después, la primera versión: un <C>index.html</C> de 35 KB con las tres pantallas y la
+          copia en JSON. Y su comprobación con el currículo real: <b>8 RA y 60 CE</b>, uno a uno, y los pesos repartidos
+          para que cada RA sume exactamente 100.
         </p>
       </Paso>
 
-      {/* ═══ 8 · Probar y corregir ════════════════════════════════════════ */}
+      {/* ═══ 9 · Probar y corregir ════════════════════════════════════════ */}
       <Paso
         id="probar"
-        n={8}
+        n={9}
         titulo="Pruébala como el alumno más trasto"
         entradilla={
           <>
@@ -435,29 +578,29 @@ export default function Sesion5() {
       >
         <Checklist
           items={[
-            { texto: "Escribe «abc» en una nota", detalle: "¿Borra la nota que había?" },
-            { texto: "Pon un 11 o un −2", detalle: "¿Lo acepta, lo cambia o avisa?" },
+            { texto: "Escribe «abc» donde va un número", detalle: "¿Borra lo que había?" },
+            { texto: "Pon un 150 o un −5", detalle: "¿Lo acepta, lo cambia o avisa?" },
             { texto: "Deja casillas vacías", detalle: "¿Cuentan como cero o como «no evaluado»?" },
             { texto: "Pesos que no suman 100", detalle: "¿Avisa? ¿Calcula igual?" },
             { texto: "Recarga la página", detalle: "¿Siguen ahí tus datos?" },
-            { texto: "Exporta el CSV y ábrelo", detalle: "¿Lo entiende tu hoja de cálculo?" },
+            { texto: "Importa un fichero que no toca", detalle: "¿Lo rechaza sin cambiar nada?" },
             { texto: "Comprueba una nota a mano", detalle: "Con calculadora, de un alumno inventado." },
-            { texto: "Úsala solo con el teclado", detalle: "Tabulador, flechas, Intro." },
+            { texto: "Abre la consola (F12)", detalle: "¿Sale algo en rojo al usarla?" },
           ]}
         />
       </Paso>
 
       <Aviso titulo="Lo que encontramos en la primera versión" tono="ambar">
         <p>
-          Los cálculos salían bien, comprobados a mano con un ejemplo inventado. Pero al escribir <b>«abc»</b> sobre un 5,{" "}
-          <b>el 5 desaparecía sin avisar</b>, y un <b>11</b> se veía como 11 pero se guardaba como 10. Además, había
-          rótulos en minúsculas: «Nota ra», «Añadir ce». Nada de eso se ve si solo pruebas lo que funciona.
+          El currículo, perfecto. Pero al escribir <b>«abc»</b> en un peso se guardaba un <b>0</b> sin avisar; un{" "}
+          <b>150</b> se guardaba como 100; y dejaba crear una unidad de <b>−20 horas</b>. Nada de eso se ve si solo pruebas
+          lo que funciona.
         </p>
       </Aviso>
 
       <Paso
         id="corregir"
-        n={9}
+        n={10}
         titulo="Corrige de uno en uno"
         entradilla={
           <>
@@ -473,17 +616,120 @@ export default function Sesion5() {
         <UnFallo />
       </Bloque>
 
-      <Bloque titulo="La petición real del fallo de las notas" nivel={3}>
-        <Prompt text={P_NOTAS} etiqueta="Prompt real · OpenCode (Build)" />
+      <Bloque titulo="La petición real de los números" nivel={3}>
+        <Prompt text={M.numeros.texto} etiqueta="Mensaje 3 · OpenCode (Build)" />
         <p className={`mt-4 ${cls.texto}`}>
-          Resultado: ahora la casilla se pone en rojo, avisa de qué está mal y, al salir, recupera la nota anterior. Se
-          volvió a probar con «abc» y con 11: las notas se conservan.
+          Resultado: la casilla se pone en rojo, dice «"abc" no es un número» y conserva el valor anterior. Igual con las
+          horas y con las unidades.
         </p>
       </Bloque>
 
       <Bloque
-        titulo="Deshacer"
+        titulo="Tres comprobaciones que no se saltan"
+        entradilla="El alumno trasto encuentra los fallos que se ven. Para los que no se ven, dos más: la consola del navegador y la calculadora."
+      >
+        <TresComprobaciones />
+      </Bloque>
+
+      <Bloque
+        titulo="La consola: los fallos que no se ven"
         nivel={3}
+        entradilla={
+          <>
+            Pulsa <b>F12</b> (en Mac, <b>Cmd + Opción + I</b>) y abre la pestaña <b>Consola</b>. Usa la plataforma: si
+            aparece algo en <b>rojo</b>, es un error. No hace falta entenderlo: lo copias entero y se lo pegas.
+          </>
+        }
+      >
+        <Prompt text={M.consola.texto} etiqueta="Mensaje 4 · OpenCode (Build)" />
+      </Bloque>
+
+      <Bloque
+        titulo="La calculadora: una nota a mano"
+        nivel={3}
+        entradilla="El agente dijo que había comprobado las cuentas. Con la calculadora, A01 daba 7,75 y la plataforma decía 7,9: el peso de un RA no se guardaba. Se arregló con los números delante."
+      >
+        <CuentaA01 />
+      </Bloque>
+
+      <Bloque titulo="La petición real de la calculadora" nivel={3}>
+        <Prompt text={M.calculadora.texto} etiqueta="Mensaje 6 · OpenCode (Build)" />
+      </Bloque>
+
+      <Aviso titulo="Si a la segunda no lo arregla" tono="ambar">
+        <p>
+          Pasó con las rúbricas: el agente dijo «arreglado» y el fallo seguía. No repitas la misma frase: dale{" "}
+          <b>el error entero de la consola, con sus líneas</b>, y pídele que no lo dé por arreglado hasta entender por qué
+          falla ahí. A la tercera lo entendió y lo arregló.
+        </p>
+      </Aviso>
+
+      {/* ═══ 10 · Crecer ══════════════════════════════════════════════════ */}
+      <Paso
+        id="crecer"
+        n={11}
+        titulo="Hazla crecer, pantalla a pantalla"
+        entradilla={
+          <>
+            Con la base probada, una pantalla nueva por mensaje, siempre con la misma forma: <b>para qué me sirve</b>, qué
+            tiene, <b>no cambies nada de lo que ya funciona</b> y una prueba con números al acabar.
+          </>
+        }
+      >
+        <Prompt text={P["s5-mejora"].texto} etiqueta={`Plantilla · ${P["s5-mejora"].donde}`} />
+      </Paso>
+
+      <Bloque titulo="La cadena, versión a versión" nivel={3}>
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+          {VERSIONES_MM.map((v) => (
+            <div key={v.v} className={`${cls.suave} !p-4`}>
+              <p className="text-lg font-bold text-zinc-900 dark:text-zinc-100">
+                <span className={`mr-2 font-mono ${TONO[v.tono].texto}`}>{v.v}</span>
+                {v.que}
+              </p>
+              <p className={cls.tenue}>{v.detalle}</p>
+            </div>
+          ))}
+        </div>
+      </Bloque>
+
+      <Bloque
+        titulo="El Calendario y el cambio de hora"
+        nivel={3}
+        entradilla="Le pedimos la prueba del encargo con el calendario oficial 2026-27: 7 horas a la semana y el festivo del martes 8 de diciembre."
+      >
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          <Tarjeta titulo="Su prueba destapó un fallo" tono="ambar" suave>
+            Por el cambio de hora de octubre, el festivo del 8/12 contaba como día de clase. Lo encontró, lo arregló y lo
+            explicó.
+          </Tarjeta>
+          <Tarjeta titulo="249 horas reales" tono="azul" suave>
+            Del 9/9/2026 al 18/6/2027, con lunes 2, martes 3 y jueves 2 horas: 249 horas para un módulo de 224.
+          </Tarjeta>
+          <Tarjeta titulo="Dos avisos con sentido" tono="rosa" suave>
+            La UT4 y la UT7 empiezan en una evaluación y acaban en otra. Copilot lo hizo sin avisar en la sesión 4.
+          </Tarjeta>
+        </div>
+        <p className={`mt-4 ${cls.texto}`}>
+          Comprobado por nuestra cuenta, día a día: las ocho unidades empiezan y acaban en las mismas fechas.
+        </p>
+      </Bloque>
+
+      {/* TODO-CRECER */}
+
+      <Bloque
+        titulo="Una conversación larga: sesión nueva"
+        nivel={3}
+        entradilla="Tras la décima petición, la conversación pasaba de 160.000 tokens y el modelo pensaba cada vez más despacio. Una sesión nueva empieza limpia y no pierde nada: AGENTS.md y el propio index.html le cuentan dónde estabas."
+      >
+        <Prompt text={P["s5-sesion-nueva"].texto} etiqueta={`Prompt · ${P["s5-sesion-nueva"].donde}`} />
+      </Bloque>
+
+      {/* ═══ 11 · Versiones ═══════════════════════════════════════════════ */}
+      <Bloque
+        id="versiones"
+        etiqueta="Tu red de seguridad"
+        titulo="Deshacer y guardar cada versión"
         entradilla="Si un cambio no te gusta, vuelve atrás antes de seguir pidiendo cosas."
       >
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -491,44 +737,62 @@ export default function Sesion5() {
             Escribe <C>/</C> en la caja y elige <b>/undo</b>: «Deshacer el último mensaje». Tu petición vuelve a la caja y
             los ficheros, a como estaban.
           </Tarjeta>
-          <Tarjeta titulo="Restablecer a este punto" tono="azul">
-            Cada mensaje tuyo tiene esta opción, para volver a ese punto de la conversación cuando quieres retroceder más de
-            un paso.
+          <Tarjeta titulo="Una copia por versión" tono="verde">
+            OpenCode solo recupera los ficheros si la carpeta es un <b>repositorio git</b>. Si no lo es, tu red eres tú:
+            cada versión que funcione, copia <C>index.html</C> como <C>index-v1.html</C>, <C>index-v2.html</C>…
           </Tarjeta>
         </div>
-        <p className={`mt-4 ${cls.texto}`}>
-          Lo comprobamos: OpenCode solo puede devolverte los ficheros si la carpeta es un <b>repositorio git</b>. Si no lo
-          es, tu red de seguridad eres tú: cada vez que una versión funcione, <b>copia index.html</b> con otro nombre (
-          <C>index-v1.html</C>, <C>index-v2.html</C>…).
-        </p>
       </Bloque>
 
-      {/* ═══ 9 · Compartir ════════════════════════════════════════════════ */}
+      <Bloque
+        titulo="El repositorio del ejemplo"
+        nivel={3}
+        entradilla={
+          <>
+            La plataforma de ejemplo está publicada en GitHub con <b>un cambio guardado por cada mensaje al agente</b>: lo
+            que pedimos, lo que cambió y cada versión, para descargarla o compararla.
+          </>
+        }
+      >
+        <a
+          href={REPO}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`block rounded-2xl border-2 p-5 transition hover:-translate-y-0.5 ${TONO.rosa.caja}`}
+        >
+          <span className={`block font-mono text-lg font-bold ${TONO.rosa.texto}`}>github.com/aulaenlanube/mi-modulo</span>
+          <span className="mt-1 block text-xl font-bold text-zinc-900 dark:text-zinc-100">
+            El código, los ficheros de la carpeta y la conversación entera →
+          </span>
+        </a>
+      </Bloque>
+
+      {/* ═══ 12 · Compartir ═══════════════════════════════════════════════ */}
       <Paso
         id="compartir"
-        n={10}
+        n={12}
         titulo="Compártela con tu departamento"
         entradilla={
           <>
-            Tu herramienta es un solo fichero: se comparte como cualquier documento. Lo que <b>no</b> viaja son los datos,
-            que se quedan en el navegador de cada uno.
+            Tu plataforma es un solo fichero: se comparte como cualquier documento. Lo que <b>no</b> viaja son los datos, que
+            se quedan en el navegador de cada uno.
           </>
         }
       >
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           <Tarjeta titulo="OneDrive del centro" tono="azul">
-            Sube <C>index.html</C> y comparte el enlace. Cada compañero lo <b>descarga</b> y lo abre con doble clic en su
-            navegador.
+            Sube <C>index.html</C> y comparte el enlace. Cada compañero lo <b>descarga</b> y lo abre con doble clic.
           </Tarjeta>
           <Tarjeta titulo="GitHub Pages" tono="gris" antetitulo="Opcional">
-            Una dirección web pública y gratis. Vale para la herramienta, nunca para datos.{" "}
+            Una dirección web pública y gratis. Vale para la plataforma, nunca para datos.{" "}
             <Link href="/programacion-ia/tutoriales/github-pages/" className={cls.enlace}>
               Tutorial
             </Link>
             .
           </Tarjeta>
           <Tarjeta titulo="Haz copia de tus datos" tono="ambar">
-            Si borras el historial del navegador, se borran. Exporta la copia en JSON cada semana y guárdala en tu OneDrive.
+            Si borras el historial del navegador, se borran. Descarga la copia en JSON cada semana y guárdala en tu
+            OneDrive.
           </Tarjeta>
         </div>
       </Paso>
@@ -544,10 +808,10 @@ export default function Sesion5() {
       >
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
           {[
-            [RUTA_HERRAMIENTA + "index.html", "El cuaderno de evaluación", "La herramienta de esta sesión, para usarla ya."],
+            [RUTA + "index.html", "Mi módulo", "La plataforma de esta sesión: pruébala con «Cargar ejemplo»."],
+            [`${RAIZ}herramientas/cuaderno-evaluacion/index.html`, "El cuaderno, solo", "Una herramienta más pequeña, hecha igual."],
             ["https://apps-educativas.com", "apps-educativas.com", "Más de cien apps de aula, gratis y sin anuncios."],
-            ["https://aulaenlanube.com/cadenas-de-prompts/", "Cadenas de prompts", "Apps reales con la conversación entera que las creó."],
-            ["/ponencia-tecnologia/app-ensayo-traccion/", "Ensayo de tracción", "Un simulador de Tecnología salido de un solo encargo."],
+            ["https://aulaenlanube.com/cadenas-de-prompts/", "Cadenas de prompts", "Apps reales con la conversación entera."],
           ].map(([href, t, d]) => (
             <a
               key={t}
@@ -562,15 +826,16 @@ export default function Sesion5() {
         </div>
       </Bloque>
 
-      {/* ═══ 10 · Plan B ══════════════════════════════════════════════════ */}
+      {/* ═══ 13 · Plan B ══════════════════════════════════════════════════ */}
       <Bloque
         id="plan-b"
         etiqueta="Si no puedes instalar nada"
-        titulo="Plan B: tu herramienta con Copilot Chat"
+        titulo="Plan B: tu plataforma con Copilot Chat"
         entradilla={
           <>
             Sin agente también se puede: Copilot Chat escribe el código y tú haces de agente, guardando el fichero. Es más
-            lento para corregir, pero funciona en cualquier ordenador con navegador.
+            lento para corregir, pero funciona en cualquier ordenador con navegador. Y puedes empezar por la nuestra:
+            descárgala y pídele a Copilot que la adapte, pantalla a pantalla.
           </>
         }
       >
@@ -580,8 +845,8 @@ export default function Sesion5() {
       <Bloque titulo="El encargo para Copilot Chat" nivel={3}>
         <Prompt text={P["s5-plan-b"].texto} etiqueta={`Prompt · ${P["s5-plan-b"].donde}`} />
         <p className={`mt-4 ${cls.texto}`}>
-          Si la respuesta se corta a la mitad, el fichero no funcionará: pídele menos pantallas y añádelas después, de una
-          en una, pidiendo siempre el fichero completo.
+          Si la respuesta se corta a la mitad, el fichero no funcionará: pídele solo la fase 1 y añade las pantallas
+          después, de una en una, pidiendo siempre el fichero completo.
         </p>
       </Bloque>
 
@@ -592,25 +857,26 @@ export default function Sesion5() {
         tiempo="entre 3 y 4 horas"
         items={[
           { texto: "Instala OpenCode y abre tu carpeta", detalle: "O prepara el plan B con Copilot Chat." },
-          { texto: "Pon AGENTS.md y opencode.json", detalle: "Descárgalos de esta página y adapta AGENTS.md a tu ficha." },
+          { texto: "Pon AGENTS.md, opencode.json y tu encargo", detalle: "Y tu currículo copiado del BOE, para que pruebe." },
           { texto: "Pasa tu encargo por Plan", detalle: "Responde sus dudas antes de construir nada." },
-          { texto: "Construye la v1 con Build", detalle: "Permitir una vez en cada cambio, mirando qué toca." },
-          { texto: "Haz las pruebas del alumno trasto", detalle: "Con el prompt de las diez pruebas, y apunta los fallos." },
-          { texto: "Tres mejoras en cadena", detalle: "Una por petición, comprobando cada una y guardando una copia." },
+          { texto: "Construye la fase 1 con Build", detalle: "Permitir una vez en cada cambio, mirando qué toca." },
+          { texto: "Las tres comprobaciones", detalle: "El alumno trasto, la consola (F12) y una nota a mano." },
+          { texto: "Una pantalla nueva por mensaje", detalle: "Probando cada una y guardando una copia de cada versión." },
           { texto: "Enséñasela a un compañero", detalle: "Apunta dónde se atasca sin que tú le expliques nada." },
-          { texto: "Escribe tu hoja de ruta", detalle: "Qué mejoras para lo que queda de curso y cuáles para el siguiente." },
+          { texto: "Escribe tu hoja de ruta", detalle: "Qué añades este curso y qué dejas para el siguiente." },
         ]}
-        resultado="Tu herramienta v1 funcionando, con tres mejoras, una copia de seguridad de cada versión y la hoja de ruta para lo que queda de curso y el siguiente."
+        resultado="Tu plataforma funcionando con tu currículo, probada con las tres comprobaciones, una copia de cada versión y la hoja de ruta para lo que queda de curso."
       />
 
       <LoQueTeLlevas n={5}>
         <p>
-          Una herramienta <b>tuya</b>, hecha desde cero sin programar: un encargo bien escrito, una carpeta con su memoria y
-          sus reglas, un plan revisado antes de construir y una cadena de peticiones cortas, cada una comprobada.
+          Una plataforma <b>tuya</b>, hecha desde cero sin programar: un encargo escrito por fases, una carpeta con su
+          memoria y sus reglas, un plan revisado antes de construir y una cadena de peticiones cortas, cada una comprobada.
         </p>
         <p>
-          Y el método, que vale para la siguiente: <b>encargar, revisar, probar como un trasto y corregir de uno en uno</b>.
-          La IA escribe el código; el criterio sigue siendo tuyo.
+          Y el método, que vale para la siguiente: <b>encargar, revisar, probar como un trasto, mirar la consola, comprobar
+          con la calculadora y corregir de uno en uno</b>. Con esta acaba el seminario: la IA te ahorra el borrador; el
+          criterio, la revisión y la firma siguen siendo tuyos.
         </p>
       </LoQueTeLlevas>
 
@@ -621,7 +887,7 @@ export default function Sesion5() {
         >
           <span className={`block text-base font-bold uppercase tracking-wider ${TONO.rosa.texto}`}>El ejemplo resuelto</span>
           <span className="mt-1 block text-xl font-bold text-zinc-900 dark:text-zinc-100">
-            Tu herramienta, paso a paso: el cuaderno de evaluación y su cadena real de prompts →
+            Tu plataforma, paso a paso: la conversación real con el agente, mensaje a mensaje →
           </span>
         </Link>
       </section>

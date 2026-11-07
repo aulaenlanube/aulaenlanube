@@ -1,4 +1,4 @@
-import { Caja, Figura, Flecha, T, Zona, fuerte } from "@/app/programacion-ia/_video/svg";
+import { Caja, Figura, Flecha, T, Zona, fuerte, type TonoSvg } from "@/app/programacion-ia/_video/svg";
 
 // Figuras de la sesión 5 (docs/paginas-para-video.md): estáticas, 1:1, texto de
 // 16 o más, cada <text> corto y único en la página. Medidas de texto para
@@ -100,18 +100,18 @@ export function CarpetaMundo({ uid = "s5-carpeta" }: { uid?: string }) {
       uid={uid}
       ancho={1000}
       alto={280}
-      etiqueta="La carpeta del proyecto es el mundo del agente: dentro están AGENTS.md, opencode.json e index.html. Fuera quedan Documentos, Escritorio y todo lo demás, y la regla external_directory en deny le impide salir."
-      pie="Abre siempre una carpeta vacía, solo para la herramienta: lo que no está ahí, el agente no lo toca."
+      etiqueta="La carpeta del proyecto es el mundo del agente: dentro están AGENTS.md, opencode.json, el encargo, el currículo y el calendario para probar, e index.html, la plataforma. Fuera quedan Documentos, Escritorio y todo lo demás, y la regla external_directory en deny le impide salir."
+      pie="Una carpeta solo para la plataforma: lo que no está ahí, el agente no lo ve ni lo toca."
     >
       <Zona x={16} y={16} w={470} h={248} tono="verde" rotulo="Lo que el agente puede tocar" />
       <Caja
         x={40}
         y={60}
         w={420}
-        h={124}
+        h={172}
         tono="verde"
-        titulo="cuaderno-evaluacion"
-        lineas={["AGENTS.md · la memoria", "opencode.json · las reglas", "index.html · tu herramienta"]}
+        titulo="mi-modulo"
+        lineas={["AGENTS.md · la memoria", "opencode.json · las reglas", "encargo.md · el encargo", "currículo y calendario", "index.html · la plataforma"]}
         mono
       />
       <Zona x={520} y={16} w={464} h={248} tono="rosa" rotulo="Fuera de la carpeta" />
@@ -346,6 +346,155 @@ export function PlanBSinInstalar({ uid = "s5-planb" }: { uid?: string }) {
       <Flecha uid={uid} d="M230 80 H264" />
       <Flecha uid={uid} d="M480 80 H514" />
       <Flecha uid={uid} d="M730 80 H764" />
+    </Figura>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Tu plataforma del módulo: todo sale del currículo                    */
+/* Currículo 20..220 × 190..290 (centro y = 240). Columna media x = 290 */
+/* (ancho 250) y derecha x = 610 (ancho 250), filas y = 20 · 140 · 260 */
+/* · 380 (alto 100; centros 70 · 190 · 310 · 430). Flechas del         */
+/* currículo: curvas desde (220, 240) hasta x = 284. Horizontales a    */
+/* x 540 → 604. Ancho 880, alto 500. Línea más larga: «encargos de     */
+/* seis bloques» (24 car. ≈ 228) en 250 − 24 = 226 → «en seis bloques».*/
+/* ------------------------------------------------------------------ */
+
+const FILAS_PLATAFORMA: { mitad: [string, string[]]; destino: [string, string[]]; fuera?: boolean; tono: TonoSvg }[] = [
+  { mitad: ["Unidades", ["horas y CE de cada una", "y la cobertura"]], destino: ["Calendario", ["festivos y evaluaciones", "fechas de cada unidad"]], tono: "azul" },
+  { mitad: ["Rúbricas", ["un CE, cuatro niveles", "se imprimen"]], destino: ["Cuaderno", ["corriges con la rúbrica", "nota de CE, RA y final"]], tono: "verde" },
+  { mitad: ["Preguntas", ["banco por CE", "test, V/F y corta"]], destino: ["Aules", ["importas el GIFT", "{T} y {F} bien escritos"]], fuera: true, tono: "ambar" },
+  { mitad: ["Prompts", ["encargos en seis bloques", "con tus datos dentro"]], destino: ["Copilot", ["los pegas en", "tu asistente"]], fuera: true, tono: "morado" },
+];
+
+export function MapaPlataforma({ uid = "s5-mapa" }: { uid?: string }) {
+  return (
+    <Figura
+      uid={uid}
+      ancho={880}
+      alto={500}
+      etiqueta="Mapa de la plataforma Mi módulo: el currículo pegado del BOE alimenta cuatro pantallas. Unidades lleva al Calendario con las fechas reales; Rúbricas lleva al Cuaderno, donde se corrige con ellas; Preguntas exporta un fichero GIFT que se importa en Aules; y Prompts prepara encargos con los datos del módulo para pegarlos en Copilot."
+      pie="Todo sale del currículo que pegas una vez. Y en Inicio, los avisos de todo junto."
+    >
+      <Caja x={20} y={190} w={200} h={100} tono="rosa" titulo="Currículo" lineas={["pegas el BOE", "RA y CE con pesos"]} grosor={3} />
+      {FILAS_PLATAFORMA.map((f, i) => {
+        const y = 20 + i * 120;
+        const cy = y + 50;
+        return (
+          <g key={f.mitad[0]}>
+            <Flecha uid={uid} d={`M220 240 C 252 240, 252 ${cy}, 284 ${cy}`} tono="rosa" />
+            <Caja x={290} y={y} w={250} h={100} tono={f.tono} titulo={f.mitad[0]} lineas={f.mitad[1]} />
+            <Flecha uid={uid} d={`M540 ${cy} H604`} tono={f.fuera ? "gris" : f.tono} discontinua={f.fuera} />
+            <Caja x={610} y={y} w={250} h={100} tono={f.fuera ? "gris" : f.tono} titulo={f.destino[0]} lineas={f.destino[1]} discontinua={f.fuera} />
+          </g>
+        );
+      })}
+    </Figura>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Las cinco piezas del seminario, dentro de la plataforma              */
+/* Izquierda x = 20 (ancho 360), derecha x = 600 (ancho 360); filas     */
+/* y = 20 + i·92 (alto 76; centros 58 + i·92). Flechas a la altura del */
+/* centro, de 382 a 594. Ancho 980, alto 476.                          */
+/* ------------------------------------------------------------------ */
+
+const PIEZAS_EN_UNA: { s: string; pieza: string; tono: TonoSvg; destino: string; linea: string }[] = [
+  { s: "sesión 1 · tu contexto", pieza: "La ficha", tono: "azul", destino: "AGENTS.md", linea: "la memoria del agente" },
+  { s: "sesión 2 · tus fuentes", pieza: "El cuaderno", tono: "verde", destino: "Currículo", linea: "el texto literal del BOE" },
+  { s: "sesión 3 · tu protocolo", pieza: "Las rúbricas", tono: "ambar", destino: "Rúbricas y Cuaderno", linea: "corriges con ellas" },
+  { s: "sesión 4 · tu agente", pieza: "El asistente", tono: "morado", destino: "Prompts", linea: "encargos listos para él" },
+  { s: "sesión 4 · tu idea", pieza: "El encargo", tono: "morado", destino: "encargo.md", linea: "la plataforma, por fases" },
+];
+
+export function PiezasEnUna({ uid = "s5-piezas" }: { uid?: string }) {
+  return (
+    <Figura
+      uid={uid}
+      ancho={980}
+      alto={476}
+      etiqueta="Cómo entra cada pieza del seminario en la plataforma: la ficha de la sesión 1 se convierte en AGENTS.md; las fuentes del cuaderno de la sesión 2, en el currículo literal; las rúbricas de la sesión 3, en la pantalla Rúbricas y en la corrección del Cuaderno; el asistente de la sesión 4 recibe los prompts; y el encargo de la sesión 4 describe la plataforma entera."
+      pie="Nada de lo que hiciste en las sesiones 1 a 4 se tira: hoy todo encaja en un solo sitio."
+    >
+      {PIEZAS_EN_UNA.map((p, i) => {
+        const y = 20 + i * 92;
+        return (
+          <g key={p.pieza}>
+            <Caja x={20} y={y} w={360} h={76} tono={p.tono} titulo={p.pieza} lineas={[p.s]} izquierda />
+            <Flecha uid={uid} d={`M382 ${y + 38} H594`} tono={p.tono} />
+            <Caja x={600} y={y} w={360} h={76} tono="rosa" titulo={p.destino} lineas={[p.linea]} izquierda />
+          </g>
+        );
+      })}
+    </Figura>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Tres comprobaciones que no se saltan                                 */
+/* Tres cajas de 300 × 124 a y = 20: x = 20 · 350 · 680. Ancho 1000,   */
+/* alto 164. Líneas ≤ 28 car. (≈ 266 px) en 300 − 24 = 276.            */
+/* ------------------------------------------------------------------ */
+
+export function TresComprobaciones({ uid = "s5-tres" }: { uid?: string }) {
+  const cajas: [string, TonoSvg, string[]][] = [
+    ["El alumno más trasto", "ambar", ["escribe lo que no toca", "«abc» en un peso: se ponía 0", "y no avisaba"]],
+    ["La consola (F12)", "azul", ["lo rojo no se ve en pantalla", "un error en cada pestaña:", "lo copias y lo pegas"]],
+    ["La calculadora", "rosa", ["una nota hecha a mano", "salía 7,9 y era 7,8:", "el peso no se guardaba"]],
+  ];
+  return (
+    <Figura
+      uid={uid}
+      ancho={1000}
+      alto={164}
+      etiqueta="Tres comprobaciones que encontraron fallos reales en la plataforma: probarla como el alumno más trasto (al escribir abc en un peso se guardaba un 0 sin avisar), mirar la consola del navegador con F12 (salía un error en rojo al cambiar de pestaña) y comprobar una nota con la calculadora (salía 7,9 en lugar de 7,8 porque el peso de un RA no se guardaba)."
+      pie="Las tres encontraron un fallo real en esta plataforma. Ninguno se veía usándola «bien»."
+    >
+      {cajas.map(([t, tono, l], i) => (
+        <Caja key={t} x={20 + i * 330} y={20} w={300} h={124} tono={tono} titulo={t} lineas={l} />
+      ))}
+    </Figura>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* La nota de A01, a mano                                               */
+/* RA a la izquierda: x = 20 (ancho 300), y = 10 + i·88 (alto 76;      */
+/* centros 48 · 136 · 224 · 312). Nota final 620..980 × 130..230       */
+/* (centro y = 180). Flechas de (320, centro) a (614, 180). Debajo de  */
+/* la final, en x = 800: lo que decía la plataforma (y = 272 y 300).   */
+/* Ancho 1000, alto 360.                                               */
+/* ------------------------------------------------------------------ */
+
+export function CuentaA01({ uid = "s5-cuenta" }: { uid?: string }) {
+  const ras: [string, string][] = [
+    ["RA1 · peso 15", "7 × 15 = 105"],
+    ["RA2 · peso 20", "7,5 × 20 = 150"],
+    ["RA3 · peso 10", "9 × 10 = 90"],
+    ["RA8 · peso 15", "8 × 15 = 120"],
+  ];
+  return (
+    <Figura
+      uid={uid}
+      ancho={1000}
+      alto={360}
+      etiqueta="La nota final de A01, a mano: RA1 con un 7 y peso 15, RA2 con un 7,5 y peso 20, RA3 con un 9 y peso 10 y RA8 con un 8 y peso 15. La suma de notas por pesos es 465; entre 60, que suman los pesos, da 7,75, es decir, 7,8. La plataforma decía 7,9 porque el peso de un RA no se guardaba y usaba 12,5 en todos."
+      pie="Una nota hecha a mano, con calculadora, encontró el fallo más peligroso de toda la plataforma."
+    >
+      {ras.map(([t, l], i) => (
+        <g key={t}>
+          <Caja x={20} y={10 + i * 88} w={300} h={76} tono="morado" titulo={t} lineas={[l]} />
+          <Flecha uid={uid} d={`M320 ${48 + i * 88} L614 180`} tono="morado" />
+        </g>
+      ))}
+      <Caja x={620} y={130} w={360} h={100} tono="verde" titulo="(105 + 150 + 90 + 120) / 60" lineas={["= 7,75 → nota final 7,8"]} grosor={4} />
+      <T x={800} y={272} ancla="middle" peso={800} color={fuerte("rosa")}>
+        La plataforma decía 7,9
+      </T>
+      <T x={800} y={300} ancla="middle">
+        usaba 12,5 en todos los RA
+      </T>
     </Figura>
   );
 }

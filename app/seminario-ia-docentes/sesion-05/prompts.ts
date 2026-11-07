@@ -1,7 +1,8 @@
 import type { PromptSeminario } from "../_datos";
 
-// Prompts de la sesión 5. Los huecos van [EN MAYÚSCULAS]; los de la cadena
-// real del cuaderno de evaluación están en tu-herramienta/cadena.ts.
+// Prompts de la sesión 5. Los huecos van [EN MAYÚSCULAS]; los mensajes reales
+// con los que OpenCode construyó la plataforma «Mi módulo» están en
+// tu-herramienta/cadena.ts (y en github.com/aulaenlanube/mi-modulo).
 
 export const PROMPTS_S5: PromptSeminario[] = [
   {
@@ -28,33 +29,46 @@ Mi encargo:
     id: "s5-encargo",
     sesion: 5,
     momento: "herramienta",
-    titulo: "El encargo de tu herramienta, en seis bloques",
-    para: "La plantilla que convierte tu idea en una petición que un agente puede construir de una vez.",
-    donde: "OpenCode (agente Plan)",
-    texto: `# Rol
-Eres desarrollador de aplicaciones web educativas y conoces [TU ETAPA: FP / ESO / BACHILLERATO] de la Comunitat Valenciana.
+    titulo: "El encargo de tu plataforma, por fases",
+    para: "La plantilla de la sesión 4 con una sección más: describes el todo y lo construyes por partes.",
+    donde: "encargo.md, en la carpeta de OpenCode",
+    texto: `# Encargo: [NOMBRE DE TU PLATAFORMA]
 
-# Contexto
-Soy docente de [MATERIA O MÓDULO]. Hoy [CÓMO LO HACES AHORA] y pierdo tiempo porque [QUÉ FALLA].
-[SI HAY DATOS DEL ALUMNADO: «Son datos de mi alumnado: no pueden salir de mi ordenador.»]
+## El problema
+[QUÉ TE HACE PERDER TIEMPO HOY, CON UN EJEMPLO REAL]
 
-# Tarea
-Crea «[NOMBRE DE LA HERRAMIENTA]» en un único index.html, con estas pantallas:
-1. [PANTALLA 1: QUÉ SE HACE EN ELLA]
-2. [PANTALLA 2]
-3. [PANTALLA 3]
+## Quién la usa y dónde
+[TÚ, TU DEPARTAMENTO…] · [ORDENADOR DEL CENTRO, EL TUYO…]
 
-# Reglas
-- [CÓMO SE CALCULA O SE DECIDE CADA COSA, CON NÚMEROS]
-- Guardar solo en localStorage. Exportar e importar una copia en JSON.
-- [LO QUE NO DEBE HACER NUNCA]
-- Sigue las reglas de AGENTS.md.
+## Qué entra
+[CURRÍCULO, PESOS, HORARIO, CALENDARIO, NOTAS POR CÓDIGO…]
 
-# Formato
-Un solo fichero index.html en esta carpeta. Al acabar, explícame en cinco líneas cómo se usa y qué has decidido tú por tu cuenta.
+## Qué sale
+[TEMPORALIZACIÓN, NOTAS, RÚBRICAS, GIFT PARA AULES, PROMPTS…]
 
-# Control
-Antes de terminar, comprueba con un ejemplo pequeño ([EJEMPLO CON DATOS INVENTADOS]) que funciona, y dime qué parte podría fallar con datos reales.`,
+## Pantallas
+1. [PRIMERA PANTALLA Y QUÉ SE HACE EN ELLA]
+2. [SEGUNDA PANTALLA]
+
+## Reglas fijas
+- Un solo fichero index.html que funciona sin internet.
+- Los datos se guardan solo en este navegador, con botones
+  para exportar e importar una copia.
+- Nada se envía a ningún servidor.
+- Letra grande, buen contraste y se maneja con el teclado.
+- Toda la interfaz en castellano.
+
+## Qué NO hace
+- [LO QUE QUEDA FUERA, PARA QUE NO CREZCA SIN CONTROL]
+
+## Cómo sabré que funciona
+1. [UNA PRUEBA CON NÚMEROS]
+2. [OTRA]
+3. [OTRA]
+
+## Por fases
+Primero la fase 1, y esperas a que la pruebe: [LAS PANTALLAS BÁSICAS].
+Después, una pantalla por mensaje.`,
   },
   {
     id: "s5-plan",
@@ -63,9 +77,7 @@ Antes de terminar, comprueba con un ejemplo pequeño ([EJEMPLO CON DATOS INVENTA
     titulo: "Plan primero, sin tocar nada",
     para: "Que el agente te cuente qué va a hacer y qué dudas tiene antes de escribir una línea.",
     donde: "OpenCode (agente Plan)",
-    texto: `Lee AGENTS.md. Te paso el encargo de mi herramienta. Todavía no escribas nada: dame tu plan en pocas líneas (pantallas, cómo guardarás los datos y cómo harás los cálculos) y las dudas que tengas.
-
-[PEGA AQUÍ TU ENCARGO EN SEIS BLOQUES]`,
+    texto: `Lee AGENTS.md y encargo.md. Todavía no escribas nada: dame tu plan para la fase 1 en pocas líneas (pantallas, cómo guardarás los datos para que quepan las fases siguientes y cómo leerás [LO QUE PEGARÁS: EL CURRÍCULO, UNA LISTA…]) y las dudas que tengas. En [FICHERO DE EJEMPLO] tienes [DATOS REALES] para probar.`,
   },
   {
     id: "s5-adelante",
@@ -106,12 +118,14 @@ Arregla solo esto y dime qué has cambiado.`,
     id: "s5-mejora",
     sesion: 5,
     momento: "herramienta",
-    titulo: "Una mejora cada vez",
-    para: "Añadir una función nueva sin que el agente toque lo que ya funciona.",
+    titulo: "Una pantalla nueva cada vez",
+    para: "Hacer crecer la plataforma sin que el agente toque lo que ya funciona.",
     donde: "OpenCode (agente Build)",
-    texto: `Quiero añadir una sola cosa: [LA MEJORA, EN UNA FRASE].
-Para qué me sirve: [EL MOMENTO DE CLASE EN QUE LA USARÉ].
-No cambies nada de lo que ya funciona. Antes de tocar el fichero, dime en tres líneas cómo lo vas a hacer.`,
+    texto: `Ahora una sola pantalla nueva: [NOMBRE]. Para qué me sirve: [EL MOMENTO DEL CURSO EN QUE LA USARÉ].
+- [LO QUE ENTRA EN ELLA]
+- [LO QUE CALCULA O DECIDE, CON NÚMEROS]
+- [LO QUE SALE: IMPRIMIR, EXPORTAR…]
+No cambies nada de lo que ya funciona. Antes de tocar el fichero, dime en tres líneas cómo lo vas a hacer. Al acabar, comprueba [UNA PRUEBA CON NÚMEROS] y enséñamelo.`,
   },
   {
     id: "s5-explicame",
@@ -122,6 +136,48 @@ No cambies nada de lo que ya funciona. Antes de tocar el fichero, dime en tres l
     donde: "OpenCode (agente Plan)",
     texto: `Explícame, como a un docente que no programa y sin enseñarme código, cómo calcula [LA NOTA FINAL / LO QUE SEA] la herramienta.
 Hazlo con un ejemplo con números inventados y dime en qué casos el resultado podría sorprenderme.`,
+  },
+  {
+    id: "s5-consola",
+    sesion: 5,
+    momento: "herramienta",
+    titulo: "El error rojo de la consola",
+    para: "Los fallos que no se ven en pantalla: los copias de la consola (F12) y se los pegas al agente.",
+    donde: "OpenCode (agente Build)",
+    texto: `Otro fallo, este no se ve a simple vista: he abierto la consola del navegador (F12, pestaña Consola) y al [LO QUE HACES] sale en rojo:
+[PEGA AQUÍ EL TEXTO ROJO ENTERO, CON SUS LÍNEAS]
+Arregla solo esto y dime qué has cambiado.`,
+  },
+  {
+    id: "s5-calculadora",
+    sesion: 5,
+    momento: "herramienta",
+    titulo: "La cuenta no cuadra con la calculadora",
+    para: "Cuando una nota o una suma no sale como a mano: los números delante, para que el agente encuentre la causa.",
+    donde: "OpenCode (agente Build)",
+    texto: `He comprobado [UNA NOTA O UNA CUENTA] con la calculadora y no cuadra:
+- Hago esto: [LOS DATOS QUE PONGO].
+- Pasa esto: [LO QUE SALE].
+- Esperaba esto: [TU CUENTA, CON LOS NÚMEROS].
+Arregla solo esto y dime qué has cambiado.`,
+  },
+  {
+    id: "s5-orden",
+    sesion: 5,
+    momento: "herramienta",
+    titulo: "Si no entiendes una orden, pregunta",
+    para: "Cuando pide ejecutar algo que no entiendes: Denegar, y que te lo explique antes de seguir.",
+    donde: "OpenCode (agente Build)",
+    texto: `He denegado la orden porque no la entendía. ¿Qué querías comprobar con ella? Si solo lee [EL FICHERO] para revisar que no hay errores, adelante. Y al acabar, dime qué has cambiado.`,
+  },
+  {
+    id: "s5-sesion-nueva",
+    sesion: 5,
+    momento: "herramienta",
+    titulo: "Seguir otro día, en una sesión nueva",
+    para: "Cuando la conversación se hace larga: una sesión nueva que retoma la plataforma gracias a AGENTS.md.",
+    donde: "OpenCode (agente Plan)",
+    texto: `Lee AGENTS.md y mira index.html: es mi plataforma y ya tiene [LAS PANTALLAS QUE TIENE]. Vamos a seguir donde lo dejamos. No cambies nada todavía: dime en cinco líneas qué tiene, cómo guarda los datos y qué tendrás en cuenta para no romper nada.`,
   },
   {
     id: "s5-plan-b",

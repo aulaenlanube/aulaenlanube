@@ -92,13 +92,13 @@ export const SESIONES: Sesion[] = [
     n: 5,
     ruta: `${RAIZ}sesion-05/`,
     tono: "rosa",
-    titulo: "Tu herramienta desde cero con OpenCode",
-    corto: "Tu herramienta",
-    breve: "Un agente que programa por ti: de tu encargo a una web que funciona sola.",
+    titulo: "Tu plataforma del módulo con un agente de IA",
+    corto: "Tu plataforma",
+    breve: "Un agente que programa por ti: de tu encargo a la plataforma de tu módulo, sin escribir código.",
     resumen:
-      "El laboratorio: OpenCode, un agente que escribe los ficheros por ti, convierte el encargo de la sesión 4 en una herramienta web de un solo fichero que funciona sin internet y guarda los datos en tu navegador. Plan, construir, probar, corregir y compartir.",
-    pieza: "Tu herramienta",
-    piezaDetalle: "Una web propia, de un solo fichero, que te ahorra tiempo de verdad el resto del curso.",
+      "El laboratorio final: OpenCode, un agente de IA gratuito, convierte tu encargo en la plataforma de tu módulo —currículo del BOE, unidades, calendario con festivos, rúbricas, cuaderno de evaluación, preguntas para Aules y prompts para Copilot— en un solo fichero que funciona sin internet. Plan, construir, probar hasta romperla, corregir y crecer pantalla a pantalla.",
+    pieza: "Tu plataforma",
+    piezaDetalle: "La plataforma de tu módulo, de un solo fichero, que junta todo lo del seminario y te ahorra horas cada semana.",
     video: null,
   },
 ];
@@ -111,7 +111,7 @@ export function vecinas(n: number) {
   const adelante =
     i < SESIONES.length - 1
       ? { titulo: `Sesión ${SESIONES[i + 1].n} · ${SESIONES[i + 1].corto}`, ruta: SESIONES[i + 1].ruta }
-      : { titulo: "Tu herramienta, paso a paso", ruta: `${RAIZ}tu-herramienta/` };
+      : { titulo: "Tu plataforma, paso a paso", ruta: `${RAIZ}tu-herramienta/` };
   return { atras, adelante };
 }
 
@@ -282,6 +282,11 @@ export const FUENTES = {
     t: "OpenCode: descarga de la app de escritorio",
     u: "https://opencode.ai/download",
     f: "versión 2.2.5, 30 de octubre de 2026",
+  },
+  opencodeZen: {
+    t: "OpenCode: modelos gratuitos y qué hace cada proveedor con tus datos",
+    u: "https://opencode.ai/docs/zen/",
+    f: "consultada el 7 de noviembre de 2026",
   },
   githubDocentes: {
     t: "GitHub Copilot Pro gratis para docentes verificados",

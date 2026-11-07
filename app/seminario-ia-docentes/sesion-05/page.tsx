@@ -739,7 +739,70 @@ export default function Sesion5() {
         </p>
       </Bloque>
 
-      {/* TODO-CRECER */}
+      <Bloque
+        titulo="Preguntas y el analizador de GIFT"
+        nivel={3}
+        entradilla="La pantalla que más costó: se cortó por el límite gratuito y, ya terminada, el agente aseguró que el GIFT salía «como lo corta Moodle». Lo comprobamos con un analizador de GIFT: no."
+      >
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          <Tarjeta titulo="El banco no enseñaba nada" tono="ambar" suave>
+            La pregunta se guardaba, pero la consola daba un error y no salía ninguna tarjeta. El Qwen del instituto
+            encontró la causa leyendo el fichero.
+          </Tarjeta>
+          <Tarjeta titulo="No pasaba el analizador" tono="rosa" suave>
+            Faltaba una línea en blanco tras cada <C>$CATEGORY</C> y entre preguntas: Aules habría juntado la categoría
+            con la primera pregunta. Un mensaje, y arreglado.
+          </Tarjeta>
+          <Tarjeta titulo="Importa lo de Copilot" tono="verde" suave>
+            Pegas el GIFT que te da Copilot: lo que entiende va al banco y avisa del resto, como el{" "}
+            <C>{"{=TRUE ~FALSE}"}</C> que en realidad es de opción múltiple.
+          </Tarjeta>
+        </div>
+        <p className={`mt-4 ${cls.texto}`}>
+          Tu analizador más fiable es Aules: importa el fichero en un curso de pruebas antes de usarlo con tu grupo.
+        </p>
+      </Bloque>
+
+      <Bloque
+        titulo="Prompts, ejemplo, avisos e impresión"
+        nivel={3}
+        entradilla="Las últimas piezas, una por mensaje y cada una probada."
+      >
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <Tarjeta titulo="Prompts con tus datos dentro" tono="morado" suave>
+            Cinco plantillas para tu asistente de Copilot, en seis bloques, con el RA y el CE literales y las horas de la
+            unidad. Nunca piden datos del alumnado.
+          </Tarjeta>
+          <Tarjeta titulo="Cargar ejemplo" tono="verde" suave>
+            Un clic y la plataforma se llena con Montaje y mantenimiento de equipos: currículo, calendario 2026-27, ocho
+            unidades, rúbrica, notas de muestra y preguntas.
+          </Tarjeta>
+          <Tarjeta titulo="Los avisos de todo, en Inicio" tono="ambar" suave>
+            Con el ejemplo cargado, Inicio decía «Todo en orden» aunque dos unidades cruzaban de evaluación. Ahora recoge
+            los avisos de todas las pantallas, cada uno con su botón.
+          </Tarjeta>
+          <Tarjeta titulo="Imprimir la programación" tono="azul" suave>
+            El anexo de tu programación didáctica: cada unidad con sus horas, fechas, evaluación, CE literales y
+            actividades, y la tabla de RA por unidad.
+          </Tarjeta>
+        </div>
+      </Bloque>
+
+      <Bloque
+        titulo="También para ESO y Bachillerato"
+        nivel={3}
+        entradilla="Una tarjeta «Etapa» en Currículo: FP (RA y CE) o ESO y Bachillerato (competencias específicas y criterios). Los rótulos de todas las pantallas cambian con ella."
+      >
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <Tarjeta titulo="Probado con Tecnología y Digitalización" tono="verde" suave>
+            Los criterios copiados del BOE (RD 217/2022): 7 competencias específicas y 15 criterios, con sus pesos
+            repartidos.
+          </Tarjeta>
+          <Tarjeta titulo="En FP, ni una letra distinta" tono="gris" suave>
+            Repetimos todas las pruebas anteriores: las mismas notas, las mismas fechas, la misma rúbrica y el mismo GIFT.
+          </Tarjeta>
+        </div>
+      </Bloque>
 
       <Bloque
         titulo="Sesión nueva, con el modelo del instituto"

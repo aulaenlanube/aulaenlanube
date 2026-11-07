@@ -79,7 +79,7 @@ export default function TuPlataforma() {
         <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
           {[
             [`${CADENA.length} mensajes`, "del plan a la versión final"],
-            ["Gratis", "GLM-5.3-Flash Free, sin cuenta"],
+            ["2 modelos", "GLM gratis y el Qwen del instituto"],
             ["0 líneas", "escritas a mano"],
             ["1 fichero", "sin internet ni instalación"],
           ].map(([a, b]) => (
@@ -230,10 +230,11 @@ export default function TuPlataforma() {
 
       <Aviso titulo="Cómo se hizo, con total transparencia" tono="ambar">
         <p>
-          Todo en la interfaz de OpenCode 2.2.5 (la misma de la app de escritorio), con el modelo gratuito GLM-5.3-Flash
-          Free y una carpeta aislada. Cada cambio en <code className={cls.codigo}>index.html</code> se aprobó con{" "}
+          Todo en la interfaz de OpenCode 2.2.5 (la misma de la app de escritorio) y una carpeta aislada: los mensajes 1 a
+          13 con el modelo gratuito GLM-5.3-Flash Free y, cuando se agotó el uso gratuito del día, del 14 en adelante con
+          Qwen 3.8 Flash-Next en el servidor de IA del instituto. Cada cambio en <code className={cls.codigo}>index.html</code> se aprobó con{" "}
           <b>Permitir una vez</b>; las órdenes que pidió ejecutar se leyeron antes de aprobarlas (una se denegó, y lo
-          contamos en el mensaje 3).
+          contamos en el mensaje 3; otras tres, por precaución, en el mensaje 15).
         </p>
         <p>
           <b>Ninguna línea de la plataforma se escribió a mano.</b> El agente se equivocó y lo dijo varias veces; otras dijo

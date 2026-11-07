@@ -223,6 +223,155 @@ No cambies nada de lo que ya funciona. Antes de tocar el fichero, dime en tres l
     tiempo: "9 min 50 s",
     permisos: 18,
   },
+  {
+    n: 14,
+    clave: "sesion-nueva",
+    titulo: "Sesión nueva, con el modelo del instituto",
+    agente: "Plan",
+    version: "v11",
+    texto: `Lee AGENTS.md y mira index.html: es mi plataforma y ya tiene Inicio, Currículo, Unidades, Calendario, Rúbricas y Cuaderno. La pantalla Preguntas se quedó a medias: al modelo gratuito se le acabó el uso del día mientras la construía. No cambies nada todavía: dime en cinco líneas qué tiene la plataforma, cómo guarda los datos y qué parte de Preguntas está hecha y cuál falta.`,
+    paso: "Con el Qwen 3.8 del servidor del instituto, el agente Plan leyó AGENTS.md y el fichero en 92 segundos: qué tiene la plataforma, cómo guarda los datos y por qué falla Preguntas: los distractores se guardan con un nombre y se buscan con otro, y las preguntas importadas sin CE desaparecen del banco.",
+    probamos: "Su diagnóstico explicaba el error rojo que habíamos visto en la consola al añadir una pregunta. Sin repetirle nada: AGENTS.md y el fichero le bastaron.",
+    tiempo: "1 min 31 s",
+    permisos: 0,
+  },
+  {
+    n: 15,
+    clave: "preguntas-fallo",
+    titulo: "Preguntas: el banco no enseña nada",
+    agente: "Build",
+    version: "v12",
+    texto: `De acuerdo con tu diagnóstico. Yo, al probarla, veo esto:
+- Añado una pregunta de test y pulso «Añadir pregunta al banco»: se guarda, pero el banco no la enseña. La consola dice:
+Uncaught TypeError: Cannot set properties of null (setting 'value')
+    at rellenarCamposRespuesta (index.html:3175:65)
+    at renderTarjetaPregunta (index.html:3294:3)
+    at renderPreguntas (index.html:3160:22)
+- Como no salen las tarjetas, no puedo marcar ninguna, y «Generar el GIFT de las marcadas» dice que no hay ninguna marcada.
+Arregla esto y lo que has encontrado, y termina la pantalla tal como la pedí: exportar a GIFT con una categoría por RA, escapando ~ = # { } :, el verdadero o falso con {T} o {F}, e importar un GIFT pegado avisando de lo que no entienda, como un {=TRUE ~FALSE}. Al acabar, exporta tres preguntas de ejemplo, una de cada tipo, y enséñame el GIFT.`,
+    paso: "Arregló las tarjetas del banco (buscaba sus campos antes de que estuvieran en la página) y los distractores que no se guardaban; hizo visibles las preguntas importadas sin CE, limpió el código muerto del corte y probó el GIFT con el código real del fichero. Por el camino le denegamos tres órdenes inofensivas por precaución: se paró cada vez y siguió al decirle que estaban bien.",
+    probamos: "El banco ya enseña las tarjetas y se pueden marcar. Pero el GIFT exportado no pasaba un analizador de GIFT: faltaba la línea en blanco tras cada $CATEGORY y entre preguntas. Y el agente había asegurado que lo hacía «como Moodle».",
+    tiempo: "7 min 09 s",
+    permisos: 11,
+  },
+  {
+    n: 16,
+    clave: "gift-blancos",
+    titulo: "El GIFT no pasa el analizador",
+    agente: "Build",
+    version: "v13",
+    texto: `He comprobado el GIFT con un analizador de GIFT como el de Moodle, y no lo acepta:
+- Hago esto: exporto tres preguntas de RA distintos.
+- Pasa esto: después de cada línea $CATEGORY la pregunta va pegada, sin línea en blanco. Moodle separa por líneas en blanco, así que toma la pregunta como parte del nombre de la categoría. Y en tu ejemplo, dos preguntas del RA1 iban seguidas sin línea en blanco entre ellas.
+- Esperaba esto: una línea en blanco después de cada $CATEGORY y entre pregunta y pregunta, como pide Moodle. Y al importar, lo mismo: separar por líneas en blanco.
+Arregla solo esto y dime qué has cambiado.`,
+    paso: "Añadió la línea en blanco tras cada categoría y entre pregunta y pregunta, al exportar y al importar, y lo comprobó exportando e importando de vuelta.",
+    probamos: "El analizador lee las tres categorías y las tres preguntas (test, respuesta corta y verdadero o falso con {T}). Los caracteres «: = { } # ~» salen escapados y se recuperan tal cual. Al importar el GIFT de Copilot, avisa del {=TRUE ~FALSE} y rechaza el bloque sin llaves sin tocar el banco.",
+    tiempo: "1 min 27 s",
+    permisos: 3,
+  },
+  {
+    n: 17,
+    clave: "prompts",
+    titulo: "Pantalla nueva: Prompts",
+    agente: "Build",
+    version: "v14",
+    texto: `Ahora una sola pantalla nueva: Prompts. Para qué me sirve: pedirle cosas a mi asistente de Copilot sin volver a escribir mi contexto cada vez.
+- Elijo una plantilla y una unidad o un CE, y me da el prompt en seis bloques (rol, contexto, tarea, reglas, formato y control) con los datos del módulo ya dentro: módulo y curso, el RA y el CE literales y las horas de la unidad.
+- Plantillas: actividad en tres niveles, práctica de taller, rúbrica de un CE, diez preguntas GIFT de un CE (en el formato que entiende la pantalla Preguntas) y comentario de mejora para una actividad.
+- Un botón «Copiar». Y nunca mete datos del alumnado.
+No cambies nada de lo que ya funciona. Antes de tocar el fichero, dime en tres líneas cómo lo vas a hacer. Al acabar, enséñame el prompt de la rúbrica del CE RA2.h.`,
+    paso: "Cinco plantillas (actividad en tres niveles, práctica de taller, rúbrica de un CE, diez preguntas GIFT y comentario de mejora) que se rellenan con el módulo, el RA y el CE literales y las horas de la unidad, con un botón Copiar. Y nunca piden datos del alumnado.",
+    probamos: "El prompt de la rúbrica del RA2.h sale en seis bloques, con el texto literal del currículo, los cuatro niveles del seminario y la regla de no inventar datos.",
+    tiempo: "5 min 17 s",
+    permisos: 12,
+  },
+  {
+    n: 18,
+    clave: "ejemplo",
+    titulo: "El botón Cargar ejemplo",
+    agente: "Build",
+    version: "v15",
+    texto: `Quiero añadir una sola cosa: un botón «Cargar ejemplo» en Inicio, para que un compañero pruebe la plataforma en un minuto. El ejemplo es mi módulo:
+- El currículo de curriculo-montaje.txt, con los RA a 15, 20, 10, 15, 10, 5, 10 y 15.
+- El calendario de calendario-2026-27.txt: lunes 2 horas, martes 3 y jueves 2, y las evaluaciones el 18/12/2026, el 24/03/2027 y el 18/06/2027.
+- Las ocho unidades de ejemplo-unidades.txt, con sus horas y sus CE.
+- Tres alumnos inventados (A01, A02 y A03), tres actividades con sus notas, la rúbrica del CE RA2.h y cinco preguntas.
+Si ya hay datos, pide confirmación antes de sustituirlos y recuerda que exporte una copia. No cambies nada de lo que ya funciona.`,
+    paso: "Un botón en Inicio que monta el módulo de ejemplo leyendo el currículo y el calendario reales de la carpeta, con las ocho unidades, tres alumnos de muestra con notas, la rúbrica del RA2.h y cinco preguntas, y que avisa antes de sustituir lo guardado.",
+    probamos: "Con un clic: 8 RA con sus pesos, 60 CE, 8 unidades, el calendario oficial y las evaluaciones. Y destapó un hueco: Inicio decía «Todo en orden» aunque el Calendario avisaba de dos unidades que cruzan de evaluación.",
+    tiempo: "5 min 15 s",
+    permisos: 3,
+  },
+  {
+    n: 19,
+    clave: "avisos",
+    titulo: "Inicio, con los avisos de todas las pantallas",
+    agente: "Build",
+    version: "v16",
+    texto: `En Inicio faltan los avisos de las pantallas nuevas: con el ejemplo cargado dice «Todo en orden de momento», pero el Calendario avisa de que la UT4 y la UT7 empiezan en una evaluación y acaban en otra. Quiero que Inicio recoja los avisos de todas las pantallas (Currículo, Unidades, Calendario, Rúbricas, Cuaderno y Preguntas), cada uno con su botón para ir a arreglarlo. Arregla solo esto y dime qué has cambiado.`,
+    paso: "Inicio recoge los avisos de Currículo, Unidades, Calendario, Rúbricas, Cuaderno y Preguntas, cada uno con su botón para ir a arreglarlo.",
+    probamos: "Con el ejemplo: las dos unidades que cruzan de evaluación y la casilla de nota que falta, cada una con su botón.",
+    tiempo: "4 min 59 s",
+    permisos: 3,
+  },
+  {
+    n: 20,
+    clave: "detalles",
+    titulo: "Cuatro detalles de presentación",
+    agente: "Build",
+    version: "v17",
+    texto: `Cuatro detalles que se ven raros:
+- Los desplegables salen con una letra diminuta, y AGENTS.md pide letra grande: que tengan el mismo tamaño que el resto.
+- Las unidades salen como «U1 · UT1. El ordenador por dentro», con el código repetido, y en los avisos como «U4, U7»: que el código sea UT1 y no se repita si el nombre ya lo trae.
+- En Inicio, el nombre del módulo se sale de su tarjeta.
+- En Inicio dice «Quedan 1 casilla de nota sin poner»: con una, «Queda 1 casilla».
+Arregla solo esto y dime qué has cambiado.`,
+    paso: "Desplegables con la letra del resto, el código de unidad UT1 sin repetirse, el nombre del módulo dentro de su tarjeta y el «Queda 1 casilla».",
+    probamos: "Los cuatro, arreglados, y nada más tocado.",
+    tiempo: "2 min 46 s",
+    permisos: 14,
+  },
+  {
+    n: 21,
+    clave: "imprimir",
+    titulo: "Imprimir la programación",
+    agente: "Build",
+    version: "v18",
+    texto: `Quiero añadir una sola cosa: un botón «Imprimir la programación» en Unidades. Para qué me sirve: el anexo de mi programación didáctica. Por cada unidad: horas, fechas de inicio y fin, evaluación, los CE que trabaja (con su texto) y las actividades que la evalúan. Al final, una tabla de qué RA se trabaja en cada unidad y el peso de cada RA. Que se imprima limpio, en blanco y negro. No cambies nada de lo que ya funciona.`,
+    paso: "Un botón en Unidades que imprime el anexo de la programación didáctica: cada unidad con sus horas, fechas, evaluación, CE literales y actividades, y al final la tabla de RA por unidad con sus pesos, en blanco y negro.",
+    probamos: "Con el ejemplo cargado, las ocho unidades con sus fechas reales y sus criterios literales, listo para la programación.",
+    tiempo: "2 min 39 s",
+    permisos: 5,
+  },
+  {
+    n: 22,
+    clave: "eso",
+    titulo: "También para ESO y Bachillerato",
+    agente: "Build",
+    version: "v19",
+    texto: `Ahora una sola cosa nueva: que sirva también en ESO y Bachillerato. Para qué me sirve: mis compañeros de ESO y Bachillerato también la quieren.
+- En Currículo, elegir la etapa: FP (RA y CE) o ESO y Bachillerato (competencias específicas y criterios de evaluación). Los rótulos de todas las pantallas cambian según la etapa.
+- Al pegar un currículo de ESO, las líneas «Competencia específica 1.» son las competencias y las líneas «1.1 …» sus criterios. En curriculo-tecnologia-eso.txt tienes el de Tecnología y Digitalización, copiado del BOE.
+- En FP todo sigue igual: no cambies nada de lo que ya funciona.
+Antes de tocar el fichero, dime en tres líneas cómo lo vas a hacer. Al acabar, pega el de Tecnología y Digitalización y dime cuántas competencias y criterios salen.`,
+    paso: "Una tarjeta «Etapa» en Currículo: FP (RA y CE) o ESO y Bachillerato (competencias específicas y criterios). Los rótulos de todas las pantallas cambian con ella, y el lector entiende «Competencia específica 1.» y «1.1». En FP, ni una letra distinta: lo comprobó con sus propias pruebas.",
+    probamos: "Con Tecnología y Digitalización copiada del BOE: 7 competencias y 15 criterios, con los pesos repartidos. Y en FP, las mismas notas, fechas, rúbrica y GIFT que antes.",
+    tiempo: "20 min 14 s",
+    permisos: 63,
+  },
+  {
+    n: 23,
+    clave: "pie",
+    titulo: "Un pie con el enlace a cómo se hizo",
+    agente: "Build",
+    version: "v20",
+    texto: `Última cosa: añade al final de la página un pie discreto que diga «Hecho con OpenCode y modelos de IA abiertos en el Seminario de IA para docentes · Cómo se hizo», y que «Cómo se hizo» enlace a https://aulaenlanube.com/seminario-ia-docentes/tu-herramienta/ abriéndose en otra pestaña. Que el pie no salga al imprimir. No cambies nada más.`,
+    paso: "Un pie discreto que no sale al imprimir. Quiso abrir la web del enlace para comprobarlo; se lo denegamos (no hace falta salir a internet) y lo dejó puesto.",
+    probamos: "El pie, en su sitio y fuera de la impresión. La consola, limpia.",
+    tiempo: "40 s",
+    permisos: 3,
+  },
 ];
 
 export const VERSIONES_MM: { v: string; que: string; detalle: string; tono: Tono }[] = [
@@ -235,5 +384,12 @@ export const VERSIONES_MM: { v: string; que: string; detalle: string; tono: Tono
   { v: "v6", que: "Pantalla Calendario", detalle: "festivos reales y el cambio de hora", tono: "verde" },
   { v: "v7", que: "Pantalla Rúbricas", detalle: "y corregir con rúbrica en el Cuaderno", tono: "verde" },
   { v: "v8 a v10", que: "El editor de la rúbrica", detalle: "dos errores de consola; a la tercera, con el error entero", tono: "rosa" },
-  { v: "v11", que: "Pantalla Preguntas", detalle: "cortada por el límite gratuito del día", tono: "ambar" },
+  { v: "v11", que: "Pantalla Preguntas, a medias", detalle: "el límite gratuito del día · sigue con el Qwen del instituto", tono: "ambar" },
+  { v: "v12 y v13", que: "Preguntas y el GIFT para Aules", detalle: "el analizador de GIFT encontró las líneas en blanco", tono: "rosa" },
+  { v: "v14", que: "Pantalla Prompts", detalle: "encargos para Copilot con tus datos dentro", tono: "verde" },
+  { v: "v15", que: "Cargar ejemplo", detalle: "el módulo entero, en un clic", tono: "verde" },
+  { v: "v16 y v17", que: "Avisos en Inicio y detalles", detalle: "lo que falla, a la vista y con su botón", tono: "rosa" },
+  { v: "v18", que: "Imprimir la programación", detalle: "el anexo de tu programación didáctica", tono: "verde" },
+  { v: "v19", que: "ESO y Bachillerato", detalle: "competencias y criterios, en toda la plataforma", tono: "verde" },
+  { v: "v20", que: "El pie, y terminada", detalle: "21 mensajes, un solo fichero de 208 KB", tono: "morado" },
 ];

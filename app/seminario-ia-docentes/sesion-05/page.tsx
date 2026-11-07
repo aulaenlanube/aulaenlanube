@@ -303,7 +303,7 @@ export default function Sesion5() {
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           <Tarjeta titulo="Elige GLM o DeepSeek" tono="verde" antetitulo="Gratis, sin cuenta">
             <b>GLM-5.3-Flash</b> y <b>DeepSeek V4.1 Flash</b> son los únicos gratuitos que declaran no guardar lo que les
-            escribes ni usarlo para entrenar. La plataforma de ejemplo se hizo entera con GLM.
+            escribes ni usarlo para entrenar. La plataforma de ejemplo empezó con GLM.
           </Tarjeta>
           <Tarjeta titulo="Ojo con el que viene marcado" tono="ambar" antetitulo="Letra pequeña">
             El que sale marcado de serie, <b>Big Pickle</b>, puede usar lo que escribes para mejorar su modelo, como
@@ -319,6 +319,30 @@ export default function Sesion5() {
 
       <Bloque titulo="Tres caminos para el modelo" nivel={3}>
         <TresCaminos />
+      </Bloque>
+
+      <Bloque
+        titulo="Si se acaba el uso gratuito"
+        nivel={3}
+        entradilla="Nos pasó a mitad de la plataforma: «Límite gratuito alcanzado». El uso gratis es diario y común a todos los modelos gratuitos (DeepSeek tampoco respondía). Tres salidas:"
+      >
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          <Tarjeta titulo="Espera a que se renueve" tono="gris" antetitulo="Gratis">
+            Se renueva cada día: el aviso dice a qué hora. AGENTS.md y el propio fichero le cuentan al agente dónde
+            estabas.
+          </Tarjeta>
+          <Tarjeta titulo="GitHub Copilot" tono="azul" antetitulo="Docentes verificados">
+            <b>Conectar proveedor</b>, GitHub Copilot, y sigues con tus créditos mensuales de GitHub Education.
+          </Tarjeta>
+          <Tarjeta titulo="El servidor de tu centro" tono="verde" antetitulo="Si tu centro tiene uno">
+            OpenCode se conecta a cualquier servidor compatible. Nosotros seguimos con el <b>Qwen 3.8</b> del servidor
+            del instituto: gratis y sin que los datos salgan del centro.{" "}
+            <Link href="/pp1-simarro/infraestructura-ia/" className={cls.enlace}>
+              Cómo es ese servidor
+            </Link>
+            .
+          </Tarjeta>
+        </div>
       </Bloque>
 
       {/* ═══ 5 · AGENTS.md ════════════════════════════════════════════════ */}
@@ -718,9 +742,9 @@ export default function Sesion5() {
       {/* TODO-CRECER */}
 
       <Bloque
-        titulo="Una conversación larga: sesión nueva"
+        titulo="Sesión nueva, con el modelo del instituto"
         nivel={3}
-        entradilla="Tras la décima petición, la conversación pasaba de 160.000 tokens y el modelo pensaba cada vez más despacio. Una sesión nueva empieza limpia y no pierde nada: AGENTS.md y el propio index.html le cuentan dónde estabas."
+        entradilla="Tras el límite gratuito, seguimos en una sesión nueva con el Qwen del servidor del instituto. Empieza limpia y no pierde nada: AGENTS.md y el propio index.html le cuentan dónde estabas. En noventa segundos encontró por qué fallaba Preguntas."
       >
         <Prompt text={P["s5-sesion-nueva"].texto} etiqueta={`Prompt · ${P["s5-sesion-nueva"].donde}`} />
       </Bloque>

@@ -14,6 +14,11 @@
 //   · nada fijo o pegajoso a la vista, nada invisible que dependa del ratón;
 //   · nada escondido en un desplazamiento horizontal a 1280 ni desbordes en móvil.
 //
+// Las figuras animadas ([data-anim]) se miden TERMINADAS: el revisor pide
+// «reducir movimiento», igual que la captura quieta del motor de vídeo anula
+// las animaciones. Para mirar la animación fotograma a fotograma está
+// tools/video/fotos-animacion.mjs.
+//
 // Uso:
 //   node tools/video/revisar-pagina.mjs /programacion-ia/opencode/ [--base http://localhost:3000]
 //        [--capturas <carpeta>] [--claro]
@@ -303,6 +308,7 @@ for (const movil of [false, true]) {
     colorScheme: tema,
     isMobile: movil,
     hasTouch: movil,
+    reducedMotion: "reduce",
   });
   const pagina = await ctx.newPage();
   const errores = [];

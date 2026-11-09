@@ -71,7 +71,7 @@ apaga el desplazamiento suave, para que la cámara mande sobre el movimiento.
 | `Checklist` | Lista de comprobación con casillas dibujadas (sin pulsar). |
 | `CriterioRubrica` | Un criterio de la rúbrica casilla a casilla: los cuatro niveles con su porcentaje y su descriptor literal; `resaltar` marca la casilla a la que apunta la semana. |
 | `bucle.tsx` | El bucle del agente en SVG, sin interacción. |
-| `svg.tsx` | Primitivas de los diagramas: `Figura` (marco 1:1 con sus flechas), `Caja`, `Flecha`, `Zona`, `T`. Cada caja es un `<g data-caja>` para que el revisor compruebe que sus textos no se salen. |
+| `svg.tsx` | Primitivas de los diagramas: `Figura` (marco 1:1 con sus flechas), `Caja`, `Flecha`, `Zona`, `T`, y para animar `Halo`, `Barra`, `Disco` y `an()` (ver «Figuras animadas»). Cada caja es un `<g data-caja>` para que el revisor compruebe que sus textos no se salen. |
 
 **Al menos un diagrama por sección**: un bloque de texto se entiende, pero en
 vídeo se *ve* un dibujo (el camino de una petición, el recorrido de un permiso,
@@ -89,6 +89,52 @@ Reglas de dibujo de los SVG: las de los diagramas del curso (paleta en tokens
 `overflow-x-auto`, flechas con `<marker>` en `userSpaceOnUse` y `refX = 10`,
 geometría calculada y apuntada en el comentario de cabecera). Clases de Tailwind
 siempre literales: cada tono de `TONO` lleva sus cadenas enteras.
+
+## Figuras animadas (desde las sesiones 3 y 4 de la CLI)
+
+Las figuras pueden **construirse pieza a pieza** al entrar en pantalla: cajas que
+aparecen en orden, flechas que se dibujan, un destello que recorre la flecha (el
+dato que viaja), barras que crecen, código que se teclea, un halo que late sobre
+lo importante. Se ve en la web y en una **toma grabada** del motor (`"grabar": true`
+en `tomas.json`, con su reloj virtual, a 1280×720 y `"movil": false`), al ritmo de
+la voz. En la **captura quieta** (teselas) el motor pone las duraciones a 0, así
+que la figura sale **terminada**: nada a medias ni escondido.
+
+Regla de oro: **el estado final es el dibujo completo**. Sin JavaScript, al
+imprimir, con «reducir movimiento» o en la captura quieta, la figura se ve entera;
+lo que solo existe en movimiento (el destello, el halo) está apagado en una foto
+fija y nunca tapa nada.
+
+- **Cómo se marca.** `<Figura animada>` (en `_video/svg.tsx`) y, en cada pieza,
+  `an={segundos}`: cuándo entra, contando desde que la figura se ve. `Caja`,
+  `Flecha` (se dibuja y luego aparece la punta; con `pulso`, el destello en bucle),
+  `T` (se funde, o `tipo="teclea"`), `Zona`, y las nuevas `Halo`, `Barra` y
+  `Disco`. Para un elemento suelto, `{...an("aparece" | "surge" | "funde" |
+  "desliza" | "traza" | "teclea" | "barra", d, dur)}`; un `<path>` que se dibuja
+  necesita `pathLength={1}`. Sin `an`, la pieza está quieta: las figuras de antes
+  no cambian.
+- **Piezas HTML.** `Terminal animada` teclea cada orden (un paso por carácter) y
+  hace aparecer su salida línea a línea; `Anatomia animada` saca las partes de una
+  en una.
+- **Cómo funciona.** Los `@keyframes an-*` viven en `app/globals.css`, bajo
+  `html[data-anima]`; `_video/Animaciones.tsx` (montado en el layout del curso)
+  solo decide **cuándo**: si el navegador anima, pone `data-anima` en `<html>` y un
+  `IntersectionObserver` arranca cada figura cuando se ve al 35 %. Las que ya
+  están a la vista al cargar se quedan quietas (`data-anim-quieta`). En la web hay
+  un botón «Repetir animación»; con `?video` no sale.
+- **Tiempos.** Una figura dura entre 3 y 5 s; las piezas entran en el orden en
+  que las va a nombrar la voz (de izquierda a derecha, de la causa al efecto). En
+  la toma grabada, la cámara debe **llegar** a la figura antes de que la voz la
+  explique: la animación empieza al verla.
+- **Revisión.** `revisar-pagina.mjs` mide las figuras terminadas (pide «reducir
+  movimiento»). Para ver la animación:
+
+```bash
+node tools/video/fotos-animacion.mjs /programacion-ia/cli/sesion-03/ --base http://localhost:3123 \
+     --salida <carpeta> [--tiempos 0.6,1.6,2.8,6] [--solo 5]
+```
+
+  Deja una hoja por figura con sus fotogramas en esos segundos: hay que mirarlas.
 
 ## Cómo encajar un bloque que no cabe
 

@@ -3,6 +3,7 @@ import Link from "@/components/Link";
 import PromptBlock from "@/components/PromptBlock";
 import BotonCopiar from "./copiar";
 import { pintar, type Kind } from "./resaltado";
+import { BotonRepetir, an } from "./svg";
 
 // ════════════════════════════════════════════════════════════════════════════
 // Piezas de las páginas que se graban para los vídeos del curso (serie
@@ -452,10 +453,27 @@ export type LineaTerminal = { o: string; c?: string } | { s: string; tono?: "ok"
 
 const SALIDA = { ok: "text-emerald-300", error: "text-rose-300", aviso: "text-amber-300" } as const;
 
-export function Terminal({ titulo = "Terminal", lineas }: { titulo?: string; lineas: LineaTerminal[] }) {
+/**
+ * Cuándo entra cada línea de una terminal animada: cada orden se teclea (un
+ * paso por carácter) y su salida aparece línea a línea justo después.
+ */
+function tiemposTerminal(lineas: LineaTerminal[]) {
+  return lineas.reduce<{ d: number; dur: number; pasos?: number }[]>((acc, l) => {
+    const prev = acc[acc.length - 1];
+    const inicio = prev ? prev.d + prev.dur + ("pasos" in prev && prev.pasos ? 0.35 : 0.05) : 0.3;
+    if ("o" in l) {
+      const pasos = l.o.length + (l.c ? l.c.length + 2 : 0);
+      return [...acc, { d: inicio, dur: Math.min(2.2, 0.035 * pasos + 0.25), pasos }];
+    }
+    return [...acc, { d: inicio, dur: 0.3 }];
+  }, []);
+}
+
+export function Terminal({ titulo = "Terminal", lineas, animada = false }: { titulo?: string; lineas: LineaTerminal[]; animada?: boolean }) {
   const ordenes = lineas.flatMap((l) => ("o" in l ? [l.o] : [])).join("\n");
+  const t = animada ? tiemposTerminal(lineas) : [];
   return (
-    <figure className="min-w-0 overflow-hidden rounded-xl bg-[#0b1120] ring-1 ring-slate-700/60">
+    <figure className="min-w-0 overflow-hidden rounded-xl bg-[#0b1120] ring-1 ring-slate-700/60" {...(animada ? { "data-anim": "" } : {})}>
       <figcaption className="flex items-center justify-between gap-3 border-b border-slate-700/60 bg-[#111c33] px-4 py-1.5">
         <span className="flex min-w-0 items-center gap-2">
           <span className="h-3 w-3 flex-none rounded-full bg-[#ff5f56]" aria-hidden />
@@ -463,12 +481,15 @@ export function Terminal({ titulo = "Terminal", lineas }: { titulo?: string; lin
           <span className="h-3 w-3 flex-none rounded-full bg-[#27c93f]" aria-hidden />
           <span className="ml-2 min-w-0 truncate font-mono text-base font-semibold text-slate-300">{titulo}</span>
         </span>
-        {ordenes ? <BotonCopiar texto={ordenes} etiqueta={titulo} /> : null}
+        <span className="flex items-center gap-2">
+          {animada ? <BotonRepetir /> : null}
+          {ordenes ? <BotonCopiar texto={ordenes} etiqueta={titulo} /> : null}
+        </span>
       </figcaption>
       <div className="px-4 py-3 font-mono text-base leading-[1.45]">
         {lineas.map((l, i) =>
           "o" in l ? (
-            <div key={i} className="flex gap-[1ch]">
+            <div key={i} className="flex gap-[1ch]" {...(animada ? an("teclea", t[i].d, t[i].dur, t[i].pasos) : {})}>
               <span aria-hidden className="select-none text-emerald-400">
                 $
               </span>
@@ -482,6 +503,7 @@ export function Terminal({ titulo = "Terminal", lineas }: { titulo?: string; lin
               key={i}
               data-linea={i + 1}
               className={`block whitespace-pre-wrap break-words ${l.tono ? SALIDA[l.tono] : "text-slate-300"}`}
+              {...(animada ? an("funde", t[i].d, t[i].dur) : {})}
             >
               {l.s || "​"}
             </span>
@@ -521,12 +543,12 @@ export function Teclas({ combo }: { combo: string }) {
 export type Parte = { texto: string; nombre: string; tono: Tono };
 
 /** La orden entera arriba, troceada; debajo de cada trozo, qué es. */
-export function Anatomia({ partes, etiqueta }: { partes: Parte[]; etiqueta: string }) {
+export function Anatomia({ partes, etiqueta, animada = false }: { partes: Parte[]; etiqueta: string; animada?: boolean }) {
   return (
-    <figure aria-label={etiqueta} className={cls.tarjeta}>
+    <figure aria-label={etiqueta} className={cls.tarjeta} {...(animada ? { "data-anim": "" } : {})}>
       <div className="flex flex-wrap items-start gap-3">
         {partes.map((p, i) => (
-          <div key={i} className="flex min-w-0 max-w-full flex-col items-center gap-2">
+          <div key={i} className="flex min-w-0 max-w-full flex-col items-center gap-2" {...(animada ? an("aparece", 0.2 + i * 0.45, 0.55) : {})}>
             <code
               className={`max-w-full rounded-lg border-2 px-3 py-2 font-mono text-[22px] font-bold [overflow-wrap:anywhere] ${TONO[p.tono].linea} ${TONO[p.tono].tinta}`}
             >

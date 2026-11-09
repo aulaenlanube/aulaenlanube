@@ -330,3 +330,118 @@ img[src*="s.w.org/images/core/emoji"] {
 
 .print-head{display:none}
 @media print{.print-head{display:block;margin-bottom:1rem;border-bottom:2px solid #334155;padding-bottom:.4rem}}
+
+/* ── Figuras animadas del curso de IA (docs/paginas-para-video.md) ─────────
+   Una figura con [data-anim] se anima la primera vez que entra en pantalla.
+   Por defecto (sin JavaScript, al imprimir, con «reducir movimiento», en la
+   captura quieta del motor de vídeo, que pone las duraciones a 0) se ve
+   TERMINADA: las animaciones solo existen bajo html[data-anima], que pone
+   _video/Animaciones.tsx cuando el navegador las permite. Así el revisor y la
+   cámara encuentran cada pieza en su sitio, y una toma `grabar` las ve moverse.
+   Cada pieza dice qué hace (data-a) y cuándo (--an-d, segundos desde que la
+   figura se ve) y cuánto dura (--an-dur). Lo que solo existe en movimiento
+   (el pulso que viaja por una flecha, el halo que late) está apagado fuera de
+   la animación: nunca tapa nada en una foto fija. */
+@keyframes an-aparece {
+  from { opacity: 0; transform: translateY(12px) scale(0.97); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes an-surge {
+  0% { opacity: 0; transform: scale(0.55); }
+  65% { opacity: 1; transform: scale(1.06); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes an-funde {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes an-desliza {
+  from { opacity: 0; transform: translateX(-18px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes an-traza {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+@keyframes an-teclea {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+@keyframes an-barra {
+  from { transform: scaleX(0); }
+  to { transform: none; }
+}
+@keyframes an-pulso {
+  0% { stroke-dashoffset: 0.12; opacity: 0; }
+  12% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { stroke-dashoffset: -1; opacity: 0; }
+}
+@keyframes an-latido {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 0.85; }
+}
+[data-a="pulso"],
+[data-a="latido"] {
+  opacity: 0;
+}
+.an-sonda {
+  animation: an-funde 1s;
+}
+@media (prefers-reduced-motion: no-preference) {
+  html[data-anima] [data-anim] [data-a] {
+    animation-duration: var(--an-dur, 0.7s);
+    animation-delay: var(--an-d, 0s);
+    animation-fill-mode: both;
+    animation-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1);
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  html[data-anima] [data-anim]:not([data-anim-listo]) [data-a] {
+    animation-play-state: paused;
+  }
+  html[data-anima] [data-anim] [data-a="aparece"] { animation-name: an-aparece; }
+  html[data-anima] [data-anim] [data-a="surge"] { animation-name: an-surge; }
+  html[data-anima] [data-anim] [data-a="funde"] { animation-name: an-funde; }
+  html[data-anima] [data-anim] [data-a="desliza"] { animation-name: an-desliza; }
+  html[data-anima] [data-anim] [data-a="traza"] {
+    animation-name: an-traza;
+    stroke-dasharray: 1;
+    animation-timing-function: cubic-bezier(0.45, 0, 0.25, 1);
+  }
+  html[data-anima] [data-anim] [data-a="teclea"] {
+    animation-name: an-teclea;
+    animation-timing-function: steps(var(--an-pasos, 24), end);
+  }
+  html[data-anima] [data-anim] [data-a="barra"] {
+    animation-name: an-barra;
+    transform-origin: left center;
+  }
+  html[data-anima] [data-anim] [data-a="pulso"] {
+    animation-name: an-pulso;
+    animation-duration: var(--an-dur, 2.4s);
+    animation-iteration-count: infinite;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.6, 1);
+    animation-fill-mode: none;
+  }
+  html[data-anima] [data-anim] [data-a="latido"] {
+    animation-name: an-latido;
+    animation-duration: var(--an-dur, 2.2s);
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: none;
+  }
+  /* Ya vista al cargar o pedida de nuevo: sin animación (el botón la quita y la vuelve a poner). */
+  html[data-anima] [data-anim][data-anim-quieta] [data-a] {
+    animation: none !important;
+  }
+}
+/* El botón «Repetir animación» es de la web: en la grabación, la cámara manda. */
+html:not([data-anima]) [data-anim-repetir],
+html[data-video] [data-anim-repetir] {
+  display: none !important;
+}
+@media print {
+  html[data-anima] [data-anim] [data-a] { animation: none !important; }
+  [data-anim-repetir] { display: none !important; }
+}

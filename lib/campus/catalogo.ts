@@ -84,6 +84,18 @@ export const PROYECTOS: Record<string, ProyectoCatalogo> = {
         resumen: "Diseñas tu esquema de acciones y se lo enseñas al agente con una skill; comando /nueva-accion, subagente revisor, motor con simulación y tu primer ADR.",
         href: "/programacion-ia/cli/sesion-02/",
       },
+      {
+        id: "s03", n: 3,
+        titulo: "La capa IA: tu CLI pregunta a los modelos del centro",
+        resumen: "La clave fuera del repo, context7 por MCP, un proveedor de IA detrás de una interfaz, acciones que resumen, renombran y clasifican, y un modo sin red.",
+        href: "/programacion-ia/cli/sesion-03/",
+      },
+      {
+        id: "s04", n: 4,
+        titulo: "Pruebas y release v1.0",
+        resumen: "pytest con casos feos y la IA probada sin red, GitHub Actions en tres sistemas, opencode run en un script, la release v1.0 y el día de instalación cruzada.",
+        href: "/programacion-ia/cli/sesion-04/",
+      },
     ],
   },
   startup: {

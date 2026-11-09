@@ -63,7 +63,7 @@ const INDICE = [
   ["multiplataforma", "Multiplataforma"],
   ["instalar", "Instalarla"],
   ["proyecto", "El proyecto"],
-  ["planificacion", "Semanas 1 y 2"],
+  ["planificacion", "Las cuatro semanas"],
   ["evaluacion", "Cómo se evalúa"],
 ] as const;
 
@@ -444,28 +444,62 @@ const SEMANAS = [
     ],
     producto: "3 acciones propias funcionando con --simular, tareas validar con mensajes claros, ADR escrito, skill + comando + revisor en .opencode/ y commits pequeños.",
   },
+  {
+    n: "Semana 3",
+    fechas: "9-13 nov",
+    sesion: "Sesión 3 · La capa IA: tu CLI pregunta a los modelos del centro",
+    href: "/programacion-ia/cli/sesion-03/",
+    objetivo: "Que tu herramienta lea: resuma, ponga nombre y clasifique con los modelos del centro, sin filtrar la clave y sin dejar a nadie tirado sin red.",
+    hace: [
+      "Secretos primero: .env ignorado, .env.example documentado y el historial comprobado.",
+      "ProveedorIA detrás de una interfaz y ProveedorCentro con httpx; orden comprobar-ia.",
+      "Al menos 2 acciones con IA tuyas (resumir, renombrar-ia, clasificar…); --simular no gasta.",
+      "La respuesta del modelo se limpia o se valida antes de usarla.",
+      "Modo sin red: sale con 4, lo explica y las acciones sin IA siguen funcionando.",
+    ],
+    opencode: [
+      "MCP: context7 en opencode.json, apagado, y encendido con /mcps solo para consultar la documentación de httpx.",
+      "Lo que trae el MCP también se audita: la forma obsoleta de httpx 0.28.",
+      "Skill acciones-json al día con los tipos de IA.",
+    ],
+    producto: "2 acciones con IA tuyas, comprobar-ia, modo sin red, ninguna clave en el historial, la skill y el README al día y el ADR-0002.",
+  },
+  {
+    n: "Semana 4",
+    fechas: "16-20 nov",
+    sesion: "Sesión 4 · Pruebas y release v1.0",
+    href: "/programacion-ia/cli/sesion-04/",
+    objetivo: "Demostrar que funciona, que sigue funcionando y que otra persona la instala con una orden.",
+    hace: [
+      "pytest con una caja de arena: ninguna prueba toca tus carpetas ni el servidor.",
+      "Casos feos con parametrize, y el código roto a propósito para ver la prueba en rojo.",
+      "La IA probada con un ProveedorFalso; los códigos de salida, con CliRunner.",
+      "GitHub Actions en Linux, Windows y macOS en cada push.",
+      "Release v1.0.0: rama, PR, CHANGELOG, README, tag e instalación cruzada.",
+    ],
+    opencode: [
+      "El agente escribe las pruebas; tú auditas cada assert.",
+      "opencode run sin pantalla: el revisor en un script (scripts/revisar.sh).",
+      "Un borrador de CHANGELOG desde git log… que hay que corregir.",
+    ],
+    producto: "28 pruebas o más en verde en tres sistemas, la etiqueta v1.0.0 con su release y su CHANGELOG, y la instalación de un compañero.",
+  },
 ];
 
 const RUTA: Hito[] = [
-  { titulo: "Semana 1", fecha: "26-30 oct", enlace: { texto: SEMANAS[0].sesion, href: SEMANAS[0].href }, puntos: SEMANAS[0].hace },
-  { titulo: "Semana 2", fecha: "2-6 nov", enlace: { texto: SEMANAS[1].sesion, href: SEMANAS[1].href }, puntos: SEMANAS[1].hace },
+  { titulo: "Semana 1", fecha: "26-30 oct", enlace: { texto: "Sesión 1 · Arranque", href: SEMANAS[0].href }, puntos: SEMANAS[0].hace },
+  { titulo: "Semana 2", fecha: "2-6 nov", enlace: { texto: "Sesión 2 · acciones.json", href: SEMANAS[1].href }, puntos: SEMANAS[1].hace },
   {
     titulo: "Semana 3",
-    fecha: "después",
-    futuro: true,
-    puntos: [
-      "OpenCode: MCP (servidor context7 para documentación de librerías, activado solo cuando hace falta).",
-      "Tu CLI: capa IA que llama a los mismos modelos del centro desde Python, .env y modo sin red.",
-    ],
+    fecha: "9-13 nov",
+    enlace: { texto: "Sesión 3 · Capa IA", href: SEMANAS[2].href },
+    puntos: ["2 acciones con IA tuyas, la clave fuera del repo y un modo sin red.", "context7 por MCP, solo cuando hace falta."],
   },
   {
     titulo: "Semana 4",
-    fecha: "después",
-    futuro: true,
-    puntos: [
-      "Pruebas que escribe el agente y auditas tú (pytest + GitHub Actions).",
-      "opencode run no interactivo en scripts, README, release v1.0 y día de instalación cruzada.",
-    ],
+    fecha: "16-20 nov",
+    enlace: { texto: "Sesión 4 · Release", href: SEMANAS[3].href },
+    puntos: ["pytest y Actions en 3 sistemas, opencode run en un script y la release v1.0."],
   },
 ];
 
@@ -1249,7 +1283,7 @@ export default function CursoIACliTareas() {
         <RecorridoOrden />
       </Bloque>
 
-      <Bloque titulo="Avance: la capa de IA y el modo sin red" nivel={3}>
+      <Bloque titulo="La capa de IA y el modo sin red" nivel={3}>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <Tarjeta titulo="La capa de IA" nivel={4} antetitulo="Semana 3" tono="morado">
             <p>
@@ -1265,6 +1299,13 @@ export default function CursoIACliTareas() {
             </p>
           </Tarjeta>
         </div>
+        <p className={`mt-4 ${cls.texto}`}>
+          Paso a paso, en la{" "}
+          <Link href="/programacion-ia/cli/sesion-03/" className={cls.enlace}>
+            Sesión 3 · La capa IA
+          </Link>
+          .
+        </p>
       </Bloque>
 
       <Aviso titulo="Seguridad desde el día 1" tono="rosa">
@@ -1278,7 +1319,7 @@ export default function CursoIACliTareas() {
       </Aviso>
 
       {/* 11 · Planificación */}
-      <Bloque id="planificacion" titulo="Planificación: las dos primeras semanas">
+      <Bloque id="planificacion" titulo="Planificación: las cuatro semanas">
         <LineaTiempo hitos={RUTA} />
       </Bloque>
 

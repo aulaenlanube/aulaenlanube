@@ -818,6 +818,7 @@ const DESPUES: Hito[] = [
   {
     titulo: "Semana 3 · MCP y capa IA",
     fecha: "9-13 nov",
+    enlace: { texto: "Sesión 3 · La capa IA", href: "/programacion-ia/cli/sesion-03/" },
     puntos: [
       "OpenCode con MCP: el servidor context7 para consultar documentación de librerías, activado solo cuando hace falta.",
       "La capa IA de tu CLI: acciones que deciden con los mismos modelos del centro, llamados desde Python.",
@@ -828,6 +829,7 @@ const DESPUES: Hito[] = [
   {
     titulo: "Semana 4 · Pruebas y release",
     fecha: "16-20 nov",
+    enlace: { texto: "Sesión 4 · Pruebas y release v1.0", href: "/programacion-ia/cli/sesion-04/" },
     puntos: [
       "Pruebas con pytest que escribe el agente y auditas tú.",
       "opencode run sin interfaz (por ejemplo, en scripts).",
@@ -2100,7 +2102,7 @@ export default function CliSesion2() {
         {[
           ["/programacion-ia/cli/sesion-01/", "← Sesión 1 · Arranque: la terminal y tu primera orden"],
           ["/programacion-ia/opencode/", "Guía de OpenCode"],
-          ["/programacion-ia/cli/", "Portada del proyecto CLI tareas con IA →"],
+          ["/programacion-ia/cli/sesion-03/", "Sesión 3 · La capa IA →"],
         ].map(([href, t]) => (
           <Link
             key={href}

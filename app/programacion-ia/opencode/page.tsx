@@ -222,8 +222,8 @@ const RUTA: Hito[] = [
   },
   {
     titulo: "Semana 3",
-    fecha: "avance",
-    futuro: true,
+    fecha: "9-13 nov",
+    enlace: { texto: "Sesión 3 · Capa IA", href: "/programacion-ia/cli/sesion-03/" },
     puntos: [
       "MCP: context7 para documentación de librerías, apagado por defecto y encendido solo cuando hace falta.",
       "La capa IA de TU CLI llamando desde Python a los mismos modelos del centro (CENTRO_IA_URL / CENTRO_IA_KEY, modo sin red).",
@@ -231,9 +231,13 @@ const RUTA: Hito[] = [
   },
   {
     titulo: "Semana 4",
-    fecha: "avance",
-    futuro: true,
-    puntos: ["El agente escribe pruebas que tú auditas.", "opencode run no interactivo (por ejemplo, en scripts).", "Release v1.0."],
+    fecha: "16-20 nov",
+    enlace: { texto: "Sesión 4 · Release", href: "/programacion-ia/cli/sesion-04/" },
+    puntos: [
+      "El agente escribe pruebas que tú auditas.",
+      "opencode run en un script: sin nadie delante, «ask» es «deny».",
+      "Release v1.0.",
+    ],
   },
 ];
 

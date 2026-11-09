@@ -361,19 +361,19 @@ export function RecorridoOrden() {
 /* ------------------------------------------------------------------ */
 
 export function Calendario() {
-  const semanas = ["Semana 1 · 26-30 oct", "Semana 2 · 2-6 nov", "Semana 3", "Semana 4"];
+  const semanas = ["Semana 1 · 26-30 oct", "Semana 2 · 2-6 nov", "Semana 3 · 9-13 nov", "Semana 4 · 16-20 nov"];
   const sesiones: [string, string, TonoSvg][] = [
     ["Sesión 1", "arranque", "azul"],
     ["Sesión 2", "acciones y motor", "azul"],
-    ["IA y MCP", "capa IA y .env", "morado"],
-    ["Release", "pruebas y v1.0", "verde"],
+    ["Sesión 3", "capa IA y MCP", "morado"],
+    ["Sesión 4", "pruebas y v1.0", "verde"],
   ];
   return (
     <Figura
       uid="calendario"
       ancho={1000}
       alto={264}
-      etiqueta="El calendario de los dos grupos. Presencial: sesión 1 (arranque) la semana del 26 al 30 de octubre, sesión 2 (acciones y motor) la del 2 al 6 de noviembre, la semana 3 capa IA y MCP, y la semana 4 pruebas y release v1.0. Semipresencial: quincena 3 del 26 de octubre al 6 de noviembre, con comprobación de proceso el 6 de noviembre, y quincena 4 del 9 al 20 de noviembre, con la entrega el 20 de noviembre."
+      etiqueta="El calendario de los dos grupos. Presencial: sesión 1 (arranque) la semana del 26 al 30 de octubre, sesión 2 (acciones y motor) la del 2 al 6 de noviembre, sesión 3 (capa IA y MCP) la del 9 al 13 y sesión 4 (pruebas y release v1.0) la del 16 al 20. Semipresencial: quincena 3 del 26 de octubre al 6 de noviembre, con comprobación de proceso el 6 de noviembre, y quincena 4 del 9 al 20 de noviembre, con la entrega el 20 de noviembre."
     >
       {semanas.map((s, i) => (
         <g key={s}>

@@ -145,9 +145,20 @@ export default function CursoIASemipresencial() {
             <li>pytest + GitHub Actions en Linux, Windows y macOS.</li>
             <li>Tutoría final de <b>instalación cruzada</b>: instalas la CLI de un compañero siguiendo solo su README.</li>
           </ul>
+          <ol className="mt-3 list-decimal space-y-1.5 pl-5 text-[15px] text-zinc-800 dark:text-zinc-200">
+            <li>
+              <b>Semana 3:</b>{" "}
+              <Link href="/programacion-ia/cli/sesion-03/" className="text-amber-700 underline dark:text-amber-400">Sesión 3 — la capa IA</Link>:
+              la clave fuera del repo, context7 por MCP, tus acciones con IA y el modo sin red.
+            </li>
+            <li>
+              <b>Semana 4:</b>{" "}
+              <Link href="/programacion-ia/cli/sesion-04/" className="text-amber-700 underline dark:text-amber-400">Sesión 4 — pruebas y release v1.0</Link>:
+              pytest, GitHub Actions en tres sistemas, la etiqueta v1.0.0 y la instalación cruzada.
+            </li>
+          </ol>
           <p className="mt-4 rounded-xl bg-zinc-100 p-3 text-sm text-zinc-700 dark:bg-white/5 dark:text-zinc-300">
-            Las páginas de las sesiones 3 y 4 se publican aquí antes de que empiece la quincena. La rúbrica
-            completa ya está en la{" "}
+            La rúbrica completa está en la{" "}
             <Link href="/programacion-ia/cli/" className="font-semibold underline">portada del proyecto</Link>.
           </p>
         </section>

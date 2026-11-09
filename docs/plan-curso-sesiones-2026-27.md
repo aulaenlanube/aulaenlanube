@@ -33,7 +33,7 @@ _Equipos de 4-5 formados en el campus (15 oct). Producto real: servidor + usuari
 ## P2 · CLI «tareas con IA» — S6-S9 (19 oct → 13 nov)
 _Mi proyecto del curso: una app de terminal que gestiona MIS ficheros con acciones predefinidas que yo configuro, combinando sistema operativo e IA. Nombre provisional: `simarro-tareas`._
 
-> **Arranque real: 26 oct 2026** (presencial, en paralelo a la startup; semipresencial, quincenas 3 y 4). Páginas públicas: [portada](/programacion-ia/cli/) · [Sesión 1 · terminal y primera orden (26-30 oct)](/programacion-ia/cli/sesion-01/) · [Sesión 2 · acciones.json y el motor (2-6 nov)](/programacion-ia/cli/sesion-02/). Stack: Python 3.12 + Typer + uv; comando de ejemplo `tareas`. Rúbrica `RUBRICA_CLI` (lib/campus/rubricas.ts, id `cli-tareas`) ya disponible para crear entregas en el campus.
+> **Arranque real: 26 oct 2026** (presencial, en paralelo a la startup; semipresencial, quincenas 3 y 4). Páginas públicas: [portada](/programacion-ia/cli/) · [Sesión 1 · terminal y primera orden (26-30 oct)](/programacion-ia/cli/sesion-01/) · [Sesión 2 · acciones.json y el motor (2-6 nov)](/programacion-ia/cli/sesion-02/) · [Sesión 3 · la capa IA (9-13 nov)](/programacion-ia/cli/sesion-03/) · [Sesión 4 · pruebas y release v1.0 (16-20 nov)](/programacion-ia/cli/sesion-04/). Las sesiones 3 y 4 traen figuras animadas (docs/paginas-para-video.md) y salidas reales de una CLI de referencia ejecutada contra el servidor del centro. Stack: Python 3.12 + Typer + uv; comando de ejemplo `tareas`. Rúbrica `RUBRICA_CLI` (lib/campus/rubricas.ts, id `cli-tareas`) ya disponible para crear entregas en el campus.
 
 | S | Semana | Qué se hace | Entregable |
 |---|--------|-------------|------------|

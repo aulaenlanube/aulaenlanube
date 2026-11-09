@@ -187,3 +187,32 @@ CREATE TABLE IF NOT EXISTS app_campus_notas (
   CONSTRAINT fk_campus_nota_alumno FOREIGN KEY (alumno_id)
     REFERENCES app_campus_usuarios (id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Permisos para vídeos (creado 09-11-2026): antes de publicar en YouTube (canal
+-- Aula en la Nube) un vídeo con webs del alumnado, el profesor pide permiso a
+-- cada alumno elegido; el alumno contesta en su aula y puede cambiarlo después.
+-- Una fila por vídeo y alumno (titulo/descripcion se repiten en cada fila del
+-- mismo vídeo). acepta NULL = pendiente, 1 = sí, 0 = no. Con sí, lo que puede
+-- salir: su nombre (como él diga), su repositorio (nombre, enlace e historial),
+-- lo que su web cuenta de él, o solo la web (excluye lo demás). La nota nunca.
+CREATE TABLE IF NOT EXISTS app_campus_permisos_video (
+  id             INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  clave_video    VARCHAR(60)  NOT NULL,              -- identificador corto del vídeo: a-z, 0-9 y guiones
+  titulo         VARCHAR(200) NOT NULL,
+  descripcion    TEXT         NOT NULL,
+  alumno_id      INT UNSIGNED NOT NULL,
+  acepta         TINYINT(1)   NULL,                  -- NULL = pendiente · 1 = sí · 0 = no
+  mostrar_nombre TINYINT(1)   NOT NULL DEFAULT 0,
+  nombre_mostrar VARCHAR(120) NULL,                  -- cómo quiere que salga su nombre
+  mostrar_repo   TINYINT(1)   NOT NULL DEFAULT 0,    -- nombre y enlace del repo (y su historial)
+  mostrar_info   TINYINT(1)   NOT NULL DEFAULT 0,    -- lo que cuenta su web sobre él/ella
+  solo_web       TINYINT(1)   NOT NULL DEFAULT 0,    -- solo la web, sin nombre, repo ni datos suyos
+  observaciones  TEXT         NULL,                  -- lo que prefiere que no salga
+  respondido_at  DATETIME     NULL,
+  created_at     DATETIME     NOT NULL,
+  updated_at     DATETIME     NOT NULL,
+  UNIQUE KEY uq_permiso_video (clave_video, alumno_id),
+  KEY k_alumno (alumno_id),
+  CONSTRAINT fk_permiso_video_alumno FOREIGN KEY (alumno_id)
+    REFERENCES app_campus_usuarios (id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

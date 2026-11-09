@@ -145,6 +145,60 @@ export type Seguimiento = {
   notas: NotaProfesor[];
 };
 
+/** Permiso para que la web del alumno salga en un vídeo del canal de YouTube. */
+export type EstadoPermiso = "pendiente" | "si" | "no";
+
+export type PermisoVideo = {
+  id: number;
+  clave_video: string;
+  titulo: string;
+  descripcion: string;
+  estado: EstadoPermiso;
+  /** Lo que puede salir si ha dicho que sí (solo_web excluye lo demás). */
+  mostrar_nombre: boolean;
+  nombre_mostrar: string | null;
+  mostrar_repo: boolean;
+  mostrar_info: boolean;
+  solo_web: boolean;
+  /** Lo que prefiere que no salga (su foto, una sección…). */
+  observaciones: string | null;
+  respondido_at: string | null;
+  created_at: string;
+};
+
+/** Lo que manda el alumno al contestar (acción alumno.permiso_video.responder). */
+export type RespuestaPermiso = {
+  acepta: boolean;
+  mostrar_nombre: boolean;
+  nombre_mostrar: string;
+  mostrar_repo: boolean;
+  mostrar_info: boolean;
+  solo_web: boolean;
+  observaciones: string;
+};
+
+export type PermisoVideoProfesor = PermisoVideo & {
+  alumno_id: number;
+  usuario: string;
+  nombre: string;
+  apellidos: string;
+  activo: boolean;
+  grupo_id: number | null;
+  grupo: string | null;
+  updated_at: string;
+};
+
+export type VideoPermisos = {
+  clave_video: string;
+  titulo: string;
+  descripcion: string;
+  total: number;
+  si: number;
+  no: number;
+  pendientes: number;
+  created_at: string;
+};
+
 export class ErrorCampus extends Error {
   constructor(public estado: number, mensaje: string) {
     super(mensaje);

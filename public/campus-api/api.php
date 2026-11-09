@@ -23,6 +23,7 @@ require __DIR__ . '/lib/alumno.php';
 require __DIR__ . '/lib/profesor.php';
 require __DIR__ . '/lib/equipos.php';
 require __DIR__ . '/lib/inversion.php';
+require __DIR__ . '/lib/permisos_video.php';
 
 const ACCIONES = [
   'login' => 'accion_login',
@@ -54,6 +55,12 @@ const ACCIONES = [
   'prof.inversion' => 'accion_prof_inversion',
   'prof.inversion.abrir' => 'accion_prof_inversion_abrir',
   'prof.inversion.reset' => 'accion_prof_inversion_reset',
+
+  'alumno.permisos_video' => 'accion_alumno_permisos_video',
+  'alumno.permiso_video.responder' => 'accion_alumno_permiso_video_responder',
+  'prof.permisos_video' => 'accion_prof_permisos_video',
+  'prof.permisos_video.crear' => 'accion_prof_permisos_video_crear',
+  'prof.permiso_video.quitar' => 'accion_prof_permiso_video_quitar',
 
   'prof.resumen' => 'accion_prof_resumen',
   'prof.grupo' => 'accion_prof_grupo',

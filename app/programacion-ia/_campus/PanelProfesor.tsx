@@ -1,13 +1,15 @@
 "use client";
 
 // Panel del profesor: los dos cursos (presencial y semipresencial) con sus
-// grupos, las entregas, el seguimiento por grupo y la corrección.
+// grupos, las entregas, el seguimiento por grupo y la corrección, y los
+// permisos del alumnado para salir en los vídeos del canal.
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "@/components/Link";
 import { CURSOS, CURSO_IDS, type CursoId } from "@/lib/campus/catalogo";
 import { api, RUTAS, type EntregaResumen, type GrupoResumen } from "@/lib/campus/cliente";
 import { ModalGrupo } from "./ProfGrupo";
+import PermisosVideoProf from "./PermisosVideoProf";
 import ProfEntregas from "./ProfEntregas";
 import ProfGrupo from "./ProfGrupo";
 import { Aviso, CabeceraPanel, CajaError, CambiarPassword, Cargando, cerrarSesion, cls, mensajeError, Pildora, useHashRuta, useSesion } from "./ui";
@@ -43,6 +45,7 @@ export default function PanelProfesor() {
   const pestañas: [string, string, string][] = [
     ["inicio", "Grupos", "#/"],
     ["entregas", "Entregas", "#/entregas"],
+    ["videos", "Vídeos", "#/videos"],
     ["cuenta", "Cuenta", "#/cuenta"],
   ];
 
@@ -94,6 +97,8 @@ export default function PanelProfesor() {
           <ProfGrupo key={ruta[1]} grupoId={Number(ruta[1])} ruta={ruta} grupos={resumen.grupos} onCambio={cargar} />
         ) : vista === "entregas" ? (
           <ProfEntregas entregas={resumen.entregas} onCambio={cargar} />
+        ) : vista === "videos" ? (
+          <PermisosVideoProf grupos={resumen.grupos} />
         ) : (
           <Inicio resumen={resumen} onCambio={cargar} />
         )}

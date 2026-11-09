@@ -6,12 +6,13 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "@/components/Link";
 import { CURSOS, PROYECTOS, type ProyectoCatalogo } from "@/lib/campus/catalogo";
-import { api, fechaCorta, haceCuanto, plazoVencido, urlPages, type EntregaAlumno, type Envio, type EquipoEntrega, type EquipoParaElegir, type Grupo, type UsuarioSesion } from "@/lib/campus/cliente";
+import { api, fechaCorta, haceCuanto, nombreCompleto, plazoVencido, urlPages, type EntregaAlumno, type Envio, type EquipoEntrega, type EquipoParaElegir, type Grupo, type PermisoVideo, type UsuarioSesion } from "@/lib/campus/cliente";
 import { formatoNota, RUBRICAS } from "@/lib/campus/rubricas";
 import DobleCorreccion from "./DobleCorreccion";
 import InfoRepo from "./InfoRepo";
 import EquiposAlumno from "./EquiposAlumno";
 import InversionAlumno from "./InversionAlumno";
+import { ModalPermisoVideo, TarjetaPermisosVideo, usePermisosVideo } from "./PermisosVideoAlumno";
 import RubricaVista, { NotaGrande } from "./Rubrica";
 import { Aviso, CabeceraPanel, CajaError, CambiarPassword, Cargando, cerrarSesion, cls, mensajeError, Pildora, useHashRuta, useSesion } from "./ui";
 
@@ -27,6 +28,8 @@ export default function PanelAlumno() {
     setError("");
     setVuelta((v) => v + 1);
   }, []);
+  // Permisos para vídeos: van aparte del panel para que, si fallan, el aula siga funcionando.
+  const permisosVideo = usePermisosVideo(sesion.estado === "ok");
 
   useEffect(() => {
     if (sesion.estado !== "ok") return;
@@ -46,6 +49,7 @@ export default function PanelAlumno() {
   const { usuario, grupo, entregas } = panel;
   const curso = grupo ? CURSOS[grupo.curso] : null;
   const vista = ruta[0] || "curso";
+  const permisosPendientes = (permisosVideo.permisos ?? []).filter((p) => p.estado === "pendiente");
 
   const actualizarEnvio = (envio: Envio, equipo?: EquipoEntrega) =>
     setPanel(
@@ -114,11 +118,20 @@ export default function PanelAlumno() {
         ) : vista === "notas" ? (
           <VistaNotas entregas={entregas} />
         ) : vista === "cuenta" ? (
-          <VistaCuenta usuario={usuario} grupo={grupo} />
+          <VistaCuenta usuario={usuario} grupo={grupo} permisosVideo={permisosVideo} />
         ) : (
           <VistaCurso proyectos={curso!.proyectos.map((id) => PROYECTOS[id]).filter(Boolean)} entregas={entregas} />
         )}
       </div>
+
+      {permisosPendientes.length > 0 && (
+        <ModalPermisoVideo
+          permiso={permisosPendientes[0]}
+          pendientes={permisosPendientes.length}
+          nombreCompleto={nombreCompleto(usuario)}
+          onRespondido={permisosVideo.actualizar}
+        />
+      )}
     </Marco>
   );
 }
@@ -575,21 +588,38 @@ function VistaNotas({ entregas }: { entregas: EntregaAlumno[] }) {
   );
 }
 
-function VistaCuenta({ usuario, grupo }: { usuario: UsuarioSesion; grupo: Grupo }) {
+function VistaCuenta({
+  usuario,
+  grupo,
+  permisosVideo,
+}: {
+  usuario: UsuarioSesion;
+  grupo: Grupo;
+  permisosVideo: { permisos: PermisoVideo[] | null; error: string; recargar: () => void; actualizar: (p: PermisoVideo) => void };
+}) {
   return (
-    <div className="grid gap-6 lg:grid-cols-2">
-      <div className={cls.tarjeta}>
-        <h2 className={cls.h2}>Tus datos</h2>
-        <dl className="mt-3 space-y-2 text-[15px]">
-          <div><dt className={`text-xs font-bold uppercase tracking-wider ${cls.tenue}`}>Nombre</dt><dd>{usuario.nombre} {usuario.apellidos}</dd></div>
-          <div><dt className={`text-xs font-bold uppercase tracking-wider ${cls.tenue}`}>Usuario</dt><dd><code className="font-mono">{usuario.usuario}</code></dd></div>
-          <div><dt className={`text-xs font-bold uppercase tracking-wider ${cls.tenue}`}>Grupo</dt><dd>{grupo.nombre} · {CURSOS[grupo.curso].nombre} · {grupo.anyo}</dd></div>
-        </dl>
-        <p className={`mt-4 text-sm ${cls.tenue}`}>¿Algún dato mal? Díselo al profesor.</p>
-      </div>
-      <div>
-        <h2 className={`${cls.h2} mb-3`}>Cambiar contraseña</h2>
-        <CambiarPassword />
+    <div className="space-y-6">
+      <TarjetaPermisosVideo
+        permisos={permisosVideo.permisos}
+        error={permisosVideo.error}
+        recargar={permisosVideo.recargar}
+        nombreCompleto={nombreCompleto(usuario)}
+        onRespondido={permisosVideo.actualizar}
+      />
+      <div className="grid gap-6 lg:grid-cols-2">
+        <div className={cls.tarjeta}>
+          <h2 className={cls.h2}>Tus datos</h2>
+          <dl className="mt-3 space-y-2 text-[15px]">
+            <div><dt className={`text-xs font-bold uppercase tracking-wider ${cls.tenue}`}>Nombre</dt><dd>{usuario.nombre} {usuario.apellidos}</dd></div>
+            <div><dt className={`text-xs font-bold uppercase tracking-wider ${cls.tenue}`}>Usuario</dt><dd><code className="font-mono">{usuario.usuario}</code></dd></div>
+            <div><dt className={`text-xs font-bold uppercase tracking-wider ${cls.tenue}`}>Grupo</dt><dd>{grupo.nombre} · {CURSOS[grupo.curso].nombre} · {grupo.anyo}</dd></div>
+          </dl>
+          <p className={`mt-4 text-sm ${cls.tenue}`}>¿Algún dato mal? Díselo al profesor.</p>
+        </div>
+        <div>
+          <h2 className={`${cls.h2} mb-3`}>Cambiar contraseña</h2>
+          <CambiarPassword />
+        </div>
       </div>
     </div>
   );

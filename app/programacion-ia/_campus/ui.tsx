@@ -142,10 +142,14 @@ export async function cerrarSesion() {
   }
 }
 
-/** Ventana modal sencilla (Escape o clic fuera para cerrar). */
-export function Modal({ titulo, onCerrar, children, ancho = "max-w-2xl" }: { titulo: string; onCerrar: () => void; children: ReactNode; ancho?: string }) {
+/**
+ * Ventana modal sencilla (Escape o clic fuera para cerrar), por encima del aviso
+ * de cookies. Sin `onCerrar`, solo se cierra con los botones de dentro (una
+ * pregunta que hay que contestar).
+ */
+export function Modal({ titulo, onCerrar, children, ancho = "max-w-2xl" }: { titulo: string; onCerrar?: () => void; children: ReactNode; ancho?: string }) {
   useEffect(() => {
-    const tecla = (e: KeyboardEvent) => e.key === "Escape" && onCerrar();
+    const tecla = (e: KeyboardEvent) => e.key === "Escape" && onCerrar?.();
     document.addEventListener("keydown", tecla);
     const previo = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -155,15 +159,17 @@ export function Modal({ titulo, onCerrar, children, ancho = "max-w-2xl" }: { tit
     };
   }, [onCerrar]);
   return (
-    <div className="fixed inset-0 z-[60] flex items-start justify-center overflow-y-auto bg-slate-950/60 p-4 backdrop-blur-sm sm:p-8" onMouseDown={(e) => e.target === e.currentTarget && onCerrar()}>
+    <div className="fixed inset-0 z-[65] flex items-start justify-center overflow-y-auto bg-slate-950/60 p-4 backdrop-blur-sm sm:p-8" onMouseDown={(e) => e.target === e.currentTarget && onCerrar?.()}>
       <div role="dialog" aria-modal="true" aria-label={titulo} className={`w-full ${ancho} rounded-2xl border border-zinc-200 bg-white p-5 shadow-2xl dark:border-white/10 dark:bg-slate-900 sm:p-6`}>
         <div className="mb-4 flex items-start justify-between gap-4">
           <h2 className="text-lg font-extrabold tracking-tight">{titulo}</h2>
-          <button type="button" onClick={onCerrar} className="rounded-lg p-1 text-zinc-500 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-white/10" aria-label="Cerrar">
-            <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current stroke-2" aria-hidden>
-              <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
-            </svg>
-          </button>
+          {onCerrar && (
+            <button type="button" onClick={onCerrar} className="rounded-lg p-1 text-zinc-500 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-white/10" aria-label="Cerrar">
+              <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current stroke-2" aria-hidden>
+                <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
+              </svg>
+            </button>
+          )}
         </div>
         {children}
       </div>

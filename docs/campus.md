@@ -9,8 +9,8 @@ criterio a criterio. Dos cursos independientes: **presencial** y
 | URL | Quién | Qué |
 |-----|-------|-----|
 | `/programacion-ia/acceso/` | todos | Login (común; redirige al panel de cada rol) |
-| `/programacion-ia/aula/` | alumno | Mi curso (proyectos → sesiones → entregas) · Mis notas · Cuenta |
-| `/programacion-ia/profesor/` | profesor | Grupos por curso · Seguimiento y corrección · Entregas · Cuenta |
+| `/programacion-ia/aula/` | alumno | Mi curso (proyectos → sesiones → entregas) · Mis notas · Cuenta (y los permisos para vídeos) |
+| `/programacion-ia/profesor/` | profesor | Grupos por curso · Seguimiento y corrección · Entregas · Vídeos (permisos) · Cuenta |
 | `/programacion-ia/plan/` | profesor | Planificación privada (plan general + mapa de sesiones), con la misma sesión |
 | `/campus-api/api.php` | — | API JSON (PHP) |
 
@@ -60,6 +60,7 @@ están en el repo, que es público.
 | `entregas` | por curso: proyecto/sesión del catálogo, tipo (`github`/`url`/`texto`), rúbrica, fecha límite, abierta, visible |
 | `envios` | lo entregado (una fila viva por alumno y entrega; `version` cuenta reenvíos) |
 | `notas` | valoraciones por criterio (JSON), mínimos, nota, NE, comentario, nota privada, `origen` (`profesor`/`ia`), publicada |
+| `permisos_video` | permiso de cada alumno para salir en un vídeo del canal (ver «Permisos para vídeos») |
 
 Las fechas las escribe siempre PHP en hora de Madrid (nunca `NOW()`).
 
@@ -94,6 +95,58 @@ Las fechas las escribe siempre PHP en hora de Madrid (nunca `NOW()`).
   `Origin`). Límite de login: 8 fallos/15 min por usuario, 60 por IP (el aula
   sale por una sola IP).
 - Cambiar la contraseña, regenerarla o desactivar al alumno cierra sus sesiones.
+
+## Permisos para vídeos
+
+Antes de publicar en el canal de YouTube **Aula en la Nube** un vídeo con webs
+del alumnado (p. ej., las mejores del proyecto 1), el profesor pide permiso a
+cada alumno elegido. El alumno lo ve como una ventana al entrar en su aula
+mientras tenga alguna petición sin contestar (no se cierra sin contestar, pero
+son dos botones: «Sí, puede salir» / «No, prefiero que no salga»). Si dice que
+sí, marca lo que puede salir además de la web, todo opcional y combinable: su
+**nombre** (escribe cómo: completo, de pila, un apodo…; por defecto viene marcado
+con su nombre completo), su **repositorio** (nombre, enlace e historial), **lo que
+cuenta su web** de él, o **solo la web** (excluye lo demás; si no marca nada,
+también es solo la web), y un campo libre con lo que prefiere que no salga. La
+nota no sale nunca. Puede cambiar la respuesta cuando quiera en **Cuenta ›
+Permisos para vídeos**.
+
+- **Tabla** `app_campus_permisos_video`: una fila por vídeo y alumno (`UNIQUE
+  (clave_video, alumno_id)`); `titulo` y `descripcion` (lo que lee el alumno) se
+  repiten en cada fila del vídeo. `acepta` NULL = sin contestar, 1 = sí, 0 = no;
+  `mostrar_nombre` + `nombre_mostrar`, `mostrar_repo`, `mostrar_info`,
+  `solo_web`, `observaciones`, `respondido_at`. La crea `migrar.mjs`.
+- **API**: `alumno.permisos_video` (solo las suyas; si la tabla aún no existe
+  devuelve una lista vacía y el aula sigue funcionando) y
+  `alumno.permiso_video.responder` (`id`, `acepta` booleano, opciones y
+  `observaciones`; con «no» se vacían las opciones). Profesor:
+  `prof.permisos_video` (todas, agrupadas por vídeo), `prof.permisos_video.crear`
+  (`clave_video`, `titulo`, `descripcion`, `alumno_ids`; idempotente) y
+  `prof.permiso_video.quitar` (solo si aún no ha contestado).
+- **Panel del profesor › Vídeos**: por vídeo, alumno, grupo, estado, nombre que
+  quiere, repo, info, solo web, lo que no quiere que salga y fecha; «+ Pedir
+  permiso» (título, descripción, clave y alumnos de uno o varios grupos),
+  «Añadir alumnos o cambiar el texto» y «Exportar CSV».
+- **Terminal** (contra producción salvo `--local`, como el resto):
+
+```bash
+node tools/campus/permisos-video.mjs crear --video mejores-webs-p1 \
+  --titulo "Las mejores webs del proyecto 1" --descripcion "…" \
+  --usuarios usuario1,usuario2@alu.edu.gva.es [--simular]
+node tools/campus/permisos-video.mjs exportar --video mejores-webs-p1 [--salida ruta] [--entrega 1]
+```
+
+`crear` acepta el usuario del campus con o sin `@alu.edu.gva.es` (o su correo);
+si alguno no existe, no crea nada. Es idempotente: a quien ya tiene la petición
+no se le toca la respuesta, y si cambian el título o la descripción se
+actualizan en todo el vídeo (con el vídeo ya creado, `--titulo` y
+`--descripcion` son opcionales). `exportar` escribe
+`.campus-trabajo/permisos-video-<clave>.json` (gitignored) con, por alumno,
+`usuario`, `nombre_completo`, `grupo`, `estado`, `acepta`, `mostrar_nombre`,
+`nombre_mostrar`, `mostrar_repo`, `mostrar_info`, `solo_web`, `observaciones`
+y `respondido` (sin contestar = todo `null`: no hay permiso). Con `--entrega
+<id>` añade la `web` entregada (si ha dicho que sí) y el `repo` (solo si deja
+que salga). Sin `--video`, lista los vídeos que hay.
 
 ## Uso diario (profesor)
 

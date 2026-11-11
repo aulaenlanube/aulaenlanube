@@ -60,7 +60,7 @@ export const SESIONES: Sesion[] = [
       "Cómo se convierte el currículo en una unidad de trabajo o una situación de aprendizaje completa: un cuaderno que solo responde con tus fuentes, Teach para planes y cuestionarios, láminas y presentaciones, y bancos de preguntas que se importan en Aules.",
     pieza: "Tu cuaderno y tus prompts",
     piezaDetalle: "Un cuaderno con tu currículo y tu programación, y una biblioteca de prompts que ya funcionan.",
-    video: null,
+    video: "yY6tJpvwDEo",
   },
   {
     n: 3,

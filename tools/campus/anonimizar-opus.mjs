@@ -91,9 +91,12 @@ for (const ev of datos.envios) {
     })(clon, "");
   }
 
-  // 2) evidencias sin identidad
+  // 2) evidencias sin identidad (PERO conservando la MEDICIÓN de la web: HTTP,
+  //    consola, móvil, contacto — sin URL; si no, Opus no ve la prueba de producción)
   const evj = JSON.parse(fs.readFileSync(evFile, "utf8"));
-  for (const k of ["alumno_id", "usuario", "nombre", "correo", "repo", "web", "captura", "capturas", "entregado_por"]) delete evj[k];
+  for (const k of ["alumno_id", "usuario", "nombre", "correo", "repo", "captura", "capturas", "entregado_por"]) delete evj[k];
+  if (evj.web?.url) delete evj.web.url;
+  if (evj.web?.title) evj.web.title = "[WEB]";
   const evTxt = limpiar(JSON.stringify(evj, null, 1), sus);
   fs.writeFileSync(path.join(base, "evidencias.json"), evTxt);
 

@@ -85,13 +85,27 @@ export default function CursoIAInicio() {
         </Link>
       </div>
 
-      <div className="mt-6 rounded-2xl border border-zinc-200 dark:border-white/10 bg-white p-5 text-[15px] text-zinc-700 dark:bg-slate-900 dark:text-zinc-300">
-        <b>El curso, en vídeo:</b> cada semana un vídeo corto contando el curso real —método, proyectos y
-        clase aumentada—.{" "}
-        <Link href="/programacion-ia/video-semana/" className="font-semibold text-blue-700 dark:text-blue-300">
+      <Link
+        href="/programacion-ia/video-semana/"
+        className="group mt-6 flex items-center gap-4 rounded-2xl border border-red-200 dark:border-red-500/25 bg-gradient-to-r from-red-50 to-orange-50 dark:from-red-500/10 dark:to-orange-500/10 p-5 transition hover:-translate-y-0.5 hover:shadow-lg"
+      >
+        <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-[#FF0000] shadow-md">
+          <svg viewBox="0 0 24 24" className="h-8 w-8" fill="#fff" aria-hidden="true">
+            <path d="M8.7 15.4V8.6c0-.5.5-.8.9-.5l5.5 3.4c.4.2.4.8 0 1l-5.5 3.4c-.4.3-.9 0-.9-.5z" />
+          </svg>
+        </span>
+        <span className="flex-1">
+          <span className="block text-lg font-extrabold leading-tight text-zinc-900 dark:text-white">
+            El curso, en vídeo: los 9 episodios de la serie
+          </span>
+          <span className="mt-0.5 block text-sm text-zinc-600 dark:text-zinc-400">
+            Cada semana un vídeo del curso real —método, proyectos y clase aumentada— con guion y capítulos.
+          </span>
+        </span>
+        <span className="shrink-0 rounded-xl bg-[#FF0000] px-5 py-2.5 text-sm font-bold text-white shadow-md transition group-hover:bg-[#cc0000]">
           Ver la serie →
-        </Link>
-      </div>
+        </span>
+      </Link>
     </div>
   );
 }

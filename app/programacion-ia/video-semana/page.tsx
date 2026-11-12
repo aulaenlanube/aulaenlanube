@@ -78,8 +78,11 @@ export default function CursoIAVideos() {
         <Link href="/programacion-ia/" className="rounded-xl border border-zinc-300 dark:border-white/15 bg-white dark:bg-slate-900 px-5 py-2.5 text-sm font-semibold text-slate-700 dark:text-slate-200 transition hover:bg-zinc-50 dark:hover:bg-white/5">
           ← Volver al curso
         </Link>
-        <Link href="https://www.youtube.com/@aulaenlanube" className="rounded-xl bg-slate-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800 dark:hover:bg-slate-600">
-          Canal en YouTube →
+        <Link href="https://www.youtube.com/playlist?list=PLXILT0HSGCjM" className="flex items-center gap-2 rounded-xl bg-[#FF0000] px-5 py-2.5 text-sm font-bold text-white shadow-md transition hover:bg-[#cc0000]">
+          <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor" aria-hidden="true">
+            <path d="M8.7 15.4V8.6c0-.5.5-.8.9-.5l5.5 3.4c.4.2.4.8 0 1l-5.5 3.4c-.4.3-.9 0-.9-.5z" />
+          </svg>
+          Ver la playlist en YouTube →
         </Link>
       </div>
     </div>

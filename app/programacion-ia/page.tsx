@@ -35,9 +35,9 @@ export default function CursoIAInicio() {
           </span>
           <h2 className="mt-3 text-2xl font-extrabold">Curso presencial</h2>
           <p className="mt-2 flex-1 text-[15px] text-zinc-600 dark:text-zinc-400">
-            Ritmo semanal en el aula: kickoff, build y demo. Ahora: proyecto 2, la <b>CLI «tareas con
-            IA»</b> construida con el agente <b>OpenCode</b>, en paralelo al proyecto final <b>en grupo</b>
-            (una startup de 4-5 publicada de verdad). Todos los proyectos, sesiones y rúbricas.
+            Ritmo semanal en el aula: kickoff, build y demo. Ahora: proyecto 3, <b>Chispa</b>, un
+            videojuego 3D multijugador, en paralelo al proyecto final <b>en grupo</b> (una startup de 4-5
+            publicada de verdad). Todos los proyectos, sesiones y rúbricas.
           </p>
           <p className="mt-4 text-sm font-bold text-blue-700 group-hover:underline dark:text-blue-300">
             Entrar al curso presencial →
@@ -54,11 +54,48 @@ export default function CursoIAInicio() {
           <h2 className="mt-3 text-2xl font-extrabold">Curso semipresencial</h2>
           <p className="mt-2 flex-1 text-[15px] text-zinc-600 dark:text-zinc-400">
             Mismo método, otro formato: <b>planificado por quincenas</b> y <b>solo con proyectos
-            individuales</b> — no hay proyecto en grupo. Ahora: quincenas 3 y 4, la <b>CLI «tareas con
-            IA»</b>, tu herramienta de terminal construida con el agente OpenCode.
+            individuales</b> — no hay proyecto en grupo. Ahora: proyecto 3, <b>Chispa</b>, un videojuego
+            3D multijugador, construido con un agente sesión a sesión.
           </p>
           <p className="mt-4 text-sm font-bold text-amber-700 group-hover:underline dark:text-amber-400">
             Entrar al curso semipresencial →
+          </p>
+        </Link>
+      </div>
+
+      {/* Proyectos: el que está en marcha y el anterior, ya terminado */}
+      <div className="mt-6 grid grid-cols-1 gap-5 md:grid-cols-2">
+        <Link
+          href="/programacion-ia/juego-3d/"
+          className="group flex flex-col rounded-3xl border-2 border-emerald-300 dark:border-emerald-500/40 bg-white dark:bg-slate-900 p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg"
+        >
+          <span className="inline-block w-fit rounded-full bg-emerald-700 px-3 py-1 text-[11px] font-extrabold uppercase tracking-wider text-white">
+            Proyecto 3 · Ahora
+          </span>
+          <h2 className="mt-3 text-2xl font-extrabold">Chispa, un videojuego 3D multijugador</h2>
+          <p className="mt-2 flex-1 text-[15px] text-zinc-600 dark:text-zinc-400">
+            De 2 a 8 robots se disputan una chispa, en red con salas o contra el ordenador. Three.js,
+            Rapier y Supabase Realtime. Las 8 sesiones, el laboratorio 3D y el juego publicado (v3.1).
+          </p>
+          <p className="mt-4 text-sm font-bold text-emerald-700 group-hover:underline dark:text-emerald-400">
+            Entrar al proyecto 3 →
+          </p>
+        </Link>
+
+        <Link
+          href="/programacion-ia/cli/"
+          className="group flex flex-col rounded-3xl border-2 border-zinc-200 dark:border-white/10 bg-white dark:bg-slate-900 p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg"
+        >
+          <span className="inline-block w-fit rounded-full bg-zinc-600 px-3 py-1 text-[11px] font-extrabold uppercase tracking-wider text-white dark:bg-zinc-500">
+            Proyecto 2 · Terminado
+          </span>
+          <h2 className="mt-3 text-2xl font-extrabold">CLI «tareas con IA»</h2>
+          <p className="mt-2 flex-1 text-[15px] text-zinc-600 dark:text-zinc-400">
+            Tu herramienta de terminal en Python, construida con el agente OpenCode: sus 4 sesiones,
+            de la primera orden a la release v1.0.
+          </p>
+          <p className="mt-4 text-sm font-bold text-zinc-700 group-hover:underline dark:text-zinc-300">
+            Ver el proyecto 2 →
           </p>
         </Link>
       </div>

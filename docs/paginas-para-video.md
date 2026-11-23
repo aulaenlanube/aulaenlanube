@@ -71,6 +71,7 @@ apaga el desplazamiento suave, para que la cámara mande sobre el movimiento.
 | `Checklist` | Lista de comprobación con casillas dibujadas (sin pulsar). |
 | `CriterioRubrica` | Un criterio de la rúbrica casilla a casilla: los cuatro niveles con su porcentaje y su descriptor literal; `resaltar` marca la casilla a la que apunta la semana. |
 | `bucle.tsx` | El bucle del agente en SVG, sin interacción. |
+| `../_3d/Visor3D.tsx` | Una escena 3D en vivo que recorre sola los pasos de su guion (ver «Visores 3D»). |
 | `svg.tsx` | Primitivas de los diagramas: `Figura` (marco 1:1 con sus flechas), `Caja`, `Flecha`, `Zona`, `T`, y para animar `Halo`, `Barra`, `Disco` y `an()` (ver «Figuras animadas»). Cada caja es un `<g data-caja>` para que el revisor compruebe que sus textos no se salen. |
 
 **Al menos un diagrama por sección**: un bloque de texto se entiende, pero en
@@ -135,6 +136,52 @@ node tools/video/fotos-animacion.mjs /programacion-ia/cli/sesion-03/ --base http
 ```
 
   Deja una hoja por figura con sus fotogramas en esos segundos: hay que mirarlas.
+
+## Visores 3D (desde el proyecto 3 · juego 3D multijugador)
+
+Una **escena real de Three.js** dentro de la página, que se explica sola: recorre
+los pasos de su guion y marca en la lista de al lado por cuál va. Se estrenaron en
+el laboratorio (`/programacion-ia/juego-3d/laboratorio/`) y las sesiones del
+proyecto los reutilizan. Todo vive en `app/programacion-ia/_3d/`.
+
+- **Cómo se usa.** `<Visor3D escena="malla" />` dentro de un `Bloque`: un visor
+  por bloque (título + entradilla de una frase + visor caben en 1100×620).
+- **El guion.** `pasos.ts` (sin three, lo lee también el HTML): cada escena, sus
+  pasos con `nombre`, `detalle` y `dur`. El nombre de un paso es **único en toda la
+  página** (es un `<li>`: la cámara lo busca por su texto) y el detalle, una frase.
+  Entre 12 y 24 s por escena.
+- **Sin tocar nada.** El guion avanza solo y vuelve a empezar; todos los pasos
+  están escritos a la vista. En la web, además, se gira arrastrando y se salta de
+  paso pulsándolo; esa fila de ayuda no sale con `?video`.
+- **La escena.** `escenas/*.ts`, una fábrica por escena (`Fabrica` de `motor.ts`):
+  recibe el entorno (escena, cámara, luces, suelo, rótulos, el robot) y devuelve
+  `actualizar(fotograma)` y, si quiere, `dato()` (el valor en vivo que sale abajo a
+  la izquierda), `pintar()` (vistas partidas) o `camaraPropia`. Se apunta en
+  `escenas/indice.ts`. Nada de `Math.random` ni de `Date.now`: el tiempo llega en
+  el fotograma (sale de la marca de `requestAnimationFrame`, así que el reloj
+  virtual de una toma `grabar` manda) y el «azar» es una función del índice.
+- **Un solo WebGL.** `motor.ts` tiene un único renderer para toda la página y lo
+  copia a un `<canvas>` 2D por visor; los que no están a la vista no se pintan.
+  three, las escenas y Rapier se cargan con `import()` al acercarse el visor: una
+  página sin visores no descarga nada.
+- **Cuándo grabar.** La figura es `figure[data-visor3d="<escena>"]` y lleva
+  `data-estado="lista"` cuando la escena ya se ve: el motor debe esperar a eso
+  antes de la toma (el robot es un GLB de 450 kB). Con «reducir movimiento» el
+  visor arranca detenido a mitad del primer paso.
+- **Revisión.** Además del revisor de siempre:
+
+```bash
+node tools/video/fotos-visor3d.mjs /programacion-ia/juego-3d/laboratorio/ --base http://localhost:3123 \
+     --salida <carpeta> [--espera 2.5] [--solo malla,red] [--claro]
+```
+
+  Deja una hoja por visor con una foto en cada paso (y avisa de errores de consola
+  o de escenas que no cargan): hay que mirarlas.
+- **Trampas ya pisadas.** La caja de un modelo con esqueleto hay que medirla con
+  los huesos aplicados (`SkinnedMesh.computeBoundingBox`), o sale 100 veces más
+  grande; cambiar `transparent` en un material pide `needsUpdate`; el `autostep`
+  del controlador de personaje de Rapier no sube escalones si en el mismo
+  movimiento se le pide caer mucho (basta −0,01 por paso con `snapToGround`).
 
 ## Cómo encajar un bloque que no cabe
 

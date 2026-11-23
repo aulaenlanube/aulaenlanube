@@ -40,9 +40,10 @@ Una página por sesión (N=1..4) generada fielmente desde `docs/sesiones/sesion-
 del repo del juego (ese md es la fuente de verdad; no inventes pasos ni prompts).
 Formato de página de sesión del curso (como `cli/sesion-01/`): encabezado con
 etiqueta de git (`sesion-0N`), «Qué se ha hecho» como pasos `h2` «Paso N · …»
-cumpliendo las 7 reglas de `docs/paginas-para-video.md`, los prompts de «Cómo se
-pidió» en `PromptBlock`, y un pie «Sesión completa: 8 sesiones documentadas —
-5 a 8, en preparación». **Incluye en cada página un `<Visor3D>` del laboratorio
+cumpliendo las 7 reglas de `docs/paginas-para-video.md` (títulos `h2` únicos, sin
+URL ni números de commit visibles), los prompts de «Cómo se
+pidió» en `PromptBlock`, y un pie «8 sesiones documentadas — las 5 a 8, en
+preparación para vídeo». **Incluye en cada página un `<Visor3D>` del laboratorio
 cuando la sesión trate un concepto que una escena del laboratorio cubra** (p. ej.
 sesión 1 → escena `escena`, sesión 4 físicas → grupo `fisicas`): mira cómo lo usa
 `laboratorio/page.tsx` y `pasos.ts`; si no hay escena natural, no lo fuerces.

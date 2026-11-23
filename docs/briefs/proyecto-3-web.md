@@ -79,3 +79,21 @@ Sesiones 5-8: sin página todavía; la portada (T1) las menciona como documentad
   `--solo-comprobar` que solo compila. Nada de push ni deploy.
 - Añade al final de este fichero un bloque `## Registro proyecto-3-web` con la
   tabla paso → estado → qué se comprobó.
+
+## Registro proyecto-3-web
+
+Hecho el 2026-11-23. Sin commits, push ni despliegue: los commits, con
+`bash docs/briefs/proyecto-3-web-commits.sh` (antes, `--solo-comprobar`).
+
+| Paso | Estado | Qué se comprobó |
+|---|---|---|
+| Lectura | ✔ | `docs/chispa/` (README, diseño, decisiones 001-010, postmortem, sesiones 1-8), `paginas-para-video.md`, `laboratorio/page.tsx`, `_3d/pasos.ts`, `_video/piezas.tsx`, `cli/page.tsx` y `cli/sesion-0N/`. `docs/chispa/` no se ha tocado. |
+| T1 · portada | ✔ escrita | `app/programacion-ia/juego-3d/page.tsx`: qué es Chispa, hilo del proyecto (filtro de alcance → hito 1 → 1.0), v3.1.0 con enlace a `https://titan/juegos/chispa/` y aviso de red del instituto, tarjeta grande del Laboratorio 3D, robots/escenarios/objetos, el multijugador en cuatro líneas, las 8 sesiones (1-4 enlazadas; 5-8 «documentada · en preparación para vídeo») y las 4 reglas del proyecto + «si se empezara otra vez» (postmortem). |
+| T1 · común | ✔ escrito | `app/programacion-ia/juego-3d/sesiones.tsx`: títulos y «se ve» de las 8 sesiones (copiados de cada `sesion-0N.md`), cabecera con `git tag sesion-0N`, índice de pasos, decisiones, conceptos del laboratorio, tropiezos y el pie «8 sesiones documentadas · las 5 a 8, en preparación para vídeo». |
+| T2 · sesiones 1-4 | ✔ escritas | Un `Paso` por cada punto de «Qué se ha hecho» (7, 7, 6 y 8 pasos), `h2` «Paso N · …» seguidos y de 48 caracteres como mucho; prompts de «Cómo se pidió» literales en `Prompt` (PromptBlock), dos por bloque; sin URL ni números de commit visibles (se quitó el comentario `localhost` de «Para comprobarlo»). Visores: S1 `camara` y `ejes`; S2 `texturas`, `instancias` y `luces`; S3 `esqueleto`, `clips` y `seguimiento`; S4 `cuerpos`, `colliders`, `capsula` y `sensor` (grupo Físicas). Las escenas `escena` y el grupo `fisicas` del brief no existen en `pasos.ts`: se usaron las equivalentes. Títulos de bloque elegidos para no empezar igual que los pasos de los visores (`li`). |
+| T3 · portada del curso | ✔ | `app/programacion-ia/page.tsx`: las dos tarjetas de grupo dicen «Ahora: proyecto 3, Chispa, un videojuego 3D multijugador»; nueva fila con dos tarjetas del mismo estilo: Proyecto 3 · Ahora → `/programacion-ia/juego-3d/` y Proyecto 2 · Terminado → `/programacion-ia/cli/`. |
+| T3 · plan | ✔ | `docs/plan-curso-programacion-ia-2026-27.md`: fila P3 (de «juego web 2D… GitHub Pages» a videojuego 3D multijugador en navegador, Chispa: Three.js + Rapier + Supabase Realtime, publicado v3.1, con enlaces) y la frase del hilo P1→P2→P3. Estado y semanas de P3, sin tocar. |
+| Enlaces internos | ✔ | Todos los `href` internos de los ficheros nuevos y de la portada del curso apuntan a rutas que existen (`juego-3d/`, `juego-3d/laboratorio/`, `juego-3d/sesion-01..04/`, `cli/`, `opencode/`, `presencial/`, `semipresencial/`, `acceso/`, `video-semana/`); las anclas del laboratorio (`#espacio`, `#objetos`, `#luz`, `#rendimiento`, `#animacion`, `#fisicas`) existen. Las sesiones 5-8 no enlazan a ninguna parte. |
+| tsc | ⚠ sin ejecutar | En esta sesión no se pudo lanzar `npx tsc` (pedía permiso). Tipos revisados a mano contra `piezas.tsx`, `Visor3D.tsx` (`NombreEscena`) y `tsconfig.json`. **Lanza `--solo-comprobar` antes de los commits.** |
+| Revisor de vídeo | ⬜ pendiente | No se ha pasado `tools/video/revisar-pagina.mjs` ni `fotos-visor3d.mjs` (necesitan `pnpm dev`): queda comprobar que cada bloque cabe en 1100×620, sobre todo los de cuatro tropiezos y la portada de cada sesión. |
+| Script de commits | ✔ escrito, sin ejecutar | `docs/briefs/proyecto-3-web-commits.sh`: `set -euo pipefail`, tsc, se para si no está en `main`, 4 commits (T1, T2, T3 y este registro), cada uno solo con sus ficheros (`git commit -- rutas`); `--solo-comprobar` solo compila. |

@@ -2,15 +2,19 @@
 
 Trabajas en `~/aulaenlanube` (rama `main`, recién fusionado el branch `juego-3d`).
 Objetivo: que el Curso de Programación con IA refleje el **Proyecto 3 — Chispa,
-videojuego 3D multijugador** ya construido y publicado. El código fuente del
-juego está en `~/alumno-dam/chispa` (SOLO LECTURA: no toques NADA de ese repo;
-léelo como documentación).
+videojuego 3D multijugador** ya construido y publicado. La documentación del
+juego está copiada dentro de este repo en `docs/chispa/` (no accedas a ninguna
+ruta fuera de `~/aulaenlanube`).
 
 ## Contexto que debes leer antes de escribir nada
-- `~/alumno-dam/chispa/README.md` — qué es Chispa, reglas, robots, escenarios, objetos.
-- `~/alumno-dam/chispa/docs/sesiones/sesion-01.md` … `sesion-08.md` — las 8 sesiones
+- Los documentos del juego están COPIADOS en este repo bajo `docs/chispa/`
+  (fuente de verdad, solo lectura: `README.md`, `diseno.md`, `decisiones.md`,
+  `postmortem.md` y `sesiones/sesion-01.md` … `sesion-08.md`). Nada fuera de
+  `~/aulaenlanube`.
+- `docs/chispa/README.md` — qué es Chispa, reglas, robots, escenarios, objetos.
+- `docs/chispa/sesiones/sesion-01.md` … `sesion-08.md` — las 8 sesiones
   reales: qué se hizo, cómo se pidió al agente (prompts resumidos), qué se aprendió.
-- `~/alumno-dam/chispa/docs/diseno.md` y `docs/decisiones.md` — el diseño y las 57 decisiones.
+- `docs/chispa/diseno.md` y `docs/chispa/decisiones.md` — el diseño y las 57 decisiones.
 - `docs/paginas-para-video.md` y `docs/estilos-de-pagina.md` en ESTE repo — las reglas
   de maquetación para grabación (bloque 1100×620, h2 «Paso N · …» únicos, PromptBlock,
   modo `?video`). La página `app/programacion-ia/juego-3d/laboratorio/page.tsx` (recién
@@ -36,8 +40,8 @@ Página-índice del Proyecto 3 al estilo de `cli/page.tsx`:
   el balance.
 
 ### T2 — Sesiones 1 a 4 publicadas: `app/programacion-ia/juego-3d/sesion-0N/page.tsx`
-Una página por sesión (N=1..4) generada fielmente desde `docs/sesiones/sesion-0N.md`
-del repo del juego (ese md es la fuente de verdad; no inventes pasos ni prompts).
+Una página por sesión (N=1..4) generada fielmente desde `docs/chispa/sesiones/sesion-0N.md`
+(fuente de verdad; no inventes pasos ni prompts).
 Formato de página de sesión del curso (como `cli/sesion-01/`): encabezado con
 etiqueta de git (`sesion-0N`), «Qué se ha hecho» como pasos `h2` «Paso N · …»
 cumpliendo las 7 reglas de `docs/paginas-para-video.md` (títulos `h2` únicos, sin
@@ -62,8 +66,9 @@ Sesiones 5-8: sin página todavía; la portada (T1) las menciona como documentad
 ## Reglas duras
 - No hagas `git commit`, `git push`, despliegue, `ssh`, `rsync` ni nada fuera del
   árbol: escribes ficheros y punto (yo cierro los commits).
-- No toques `~/alumno-dam/chispa` (lectura), ni `node_modules`, ni `pnpm-lock.yaml`
-  (no añades dependencias: three y rapier ya están).
+- `docs/chispa/` es documentación de solo lectura: no la edites ni la borres.
+- No toques `node_modules` ni `pnpm-lock.yaml` (no añades dependencias: three y
+  rapier ya están).
 - Español de España en todo texto visible. Sin comillas raras de IA: el tono es el
   del resto del sitio (frases directas, sin adjetivos de marketing).
 - Verifica tu trabajo: `npx tsc -p tsconfig.json --noEmit` al final (debe dar 0) y

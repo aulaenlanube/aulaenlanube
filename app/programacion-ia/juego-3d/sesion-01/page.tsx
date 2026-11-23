@@ -83,7 +83,7 @@ export default function ChispaSesion1() {
         }
       >
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-          <Tarjeta titulo="Three.js" nivel={3} antetitulo="El dibujo en 3D">
+          <Tarjeta titulo="Dibujar en 3D" nivel={3} antetitulo="El motor">
             Es lo más documentado que hay, así que el agente acierta más.
           </Tarjeta>
           <Tarjeta titulo="Vite" nivel={3} antetitulo="Desarrollar y compilar">

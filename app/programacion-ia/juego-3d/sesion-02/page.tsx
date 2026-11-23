@@ -69,7 +69,7 @@ export default function ChispaSesion2() {
             "pilares",
             "cajas",
             "muretes",
-            "muelles",
+            "los muelles",
             "decorado",
           ].map((t) => (
             <li key={t} className={`rounded-full border px-3 py-1 text-base font-semibold ${TONO.azul.chip}`}>
@@ -118,7 +118,7 @@ export default function ChispaSesion2() {
         }
       >
         <ul className="grid grid-cols-2 gap-3 md:grid-cols-5">
-          {["apariciones", "chispa", "turbos", "muelles", "ascensor"].map((t) => (
+          {["apariciones", "chispa", "turbos", "muelles (objeto)", "ascensor"].map((t) => (
             <li key={t} className={`${cls.suave} !p-4 text-center text-lg font-bold text-zinc-900 dark:text-zinc-100`}>
               {t}
             </li>

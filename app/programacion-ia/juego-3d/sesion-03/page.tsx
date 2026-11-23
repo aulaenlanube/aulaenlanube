@@ -67,7 +67,7 @@ export default function ChispaSesion3() {
         }
       >
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-          <Tarjeta titulo="Clona" nivel={3} tono="azul" antetitulo="Cada robot, el suyo">
+          <Tarjeta titulo="Clón propio" nivel={3} tono="azul" antetitulo="Cada robot, el suyo">
             Su propio esqueleto y sus propios materiales.
           </Tarjeta>
           <Tarjeta titulo="Le pone color" nivel={3} tono="ambar" antetitulo="El material Main">

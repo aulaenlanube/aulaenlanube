@@ -63,7 +63,7 @@ export default function ChispaSesion4() {
           <Tarjeta titulo="El escenario" nivel={3} tono="gris" antetitulo="Un collider trimesh">
             UN collider de malla de triángulos hecho con las mallas marcadas con <C>colision</C> en Blender.
           </Tarjeta>
-          <Tarjeta titulo="El ascensor" nivel={3} tono="ambar" antetitulo="Cuerpo cinemático">
+          <Tarjeta titulo="Ascensor cinemático" nivel={3} tono="ambar" antetitulo="Cuerpo que no empuja">
             Lo mueve el código y empuja lo que tiene encima.
           </Tarjeta>
           <Tarjeta titulo="Cada robot" nivel={3} tono="azul" antetitulo="Una cápsula">

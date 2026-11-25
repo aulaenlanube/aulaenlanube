@@ -133,7 +133,7 @@ export default function CursoIAInicio() {
         </span>
         <span className="flex-1">
           <span className="block text-lg font-extrabold leading-tight text-zinc-900 dark:text-white">
-            El curso, en vídeo: los 9 episodios de la serie
+            El curso, en vídeo: los 15 episodios de la serie
           </span>
           <span className="mt-0.5 block text-sm text-zinc-600 dark:text-zinc-400">
             Cada semana un vídeo del curso real —método, proyectos y clase aumentada— con guion y capítulos.

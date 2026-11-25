@@ -73,7 +73,7 @@ export const SESIONES: Sesion[] = [
       "Dónde ayuda la IA en la evaluación y dónde no puede entrar: rúbricas a partir de los criterios de evaluación, feedback a una clase entera sin datos personales, exámenes corregidos con rúbrica y revisión humana, y tareas que la IA no resuelve sola.",
     pieza: "Tus rúbricas y tu protocolo",
     piezaDetalle: "Una rúbrica probada y la forma de corregir con IA que puedes defender ante cualquiera.",
-    video: null,
+    video: "WIH9vumzWiE",
   },
   {
     n: 4,
@@ -86,7 +86,7 @@ export const SESIONES: Sesion[] = [
       "La planificación que más tiempo come —temporalización, programación didáctica, reuniones y correos— con IA, y tu propio asistente de Copilot construido con tu ficha. Al final, eliges qué herramienta te vas a construir y la dejas descrita en una página.",
     pieza: "Tu asistente y tu encargo",
     piezaDetalle: "Un agente de Copilot que ya te conoce y el encargo escrito de la herramienta que construirás.",
-    video: null,
+    video: "v8hWNhWHLXg",
   },
   {
     n: 5,
